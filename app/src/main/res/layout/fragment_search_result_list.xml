@@ -1,0 +1,18 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FF0000FF"
+    tools:context="com.example.tacademy.bikee.SearchResultListFragment">
+
+    <!-- TODO : DELME -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="검색 결과 목록 프래그먼트"/>
+
+    <ListView
+        android:id="@+id/view_search_result_item_list_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</FrameLayout>

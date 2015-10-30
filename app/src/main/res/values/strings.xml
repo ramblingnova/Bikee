@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Bikee</string>
+
+    <!-- activity_main.xml -->
+    <string name="main_temp">메인액티비티</string>
+
+    <!-- activity_sign_in.xml -->
+    <string name="user_email">이메일</string>
+    <string name="user_password">비밀번호</string>
+    <string name="remember_sign_in_information">로그인정보기억</string>
+    <string name="find_id_password">아이디/비밀번호찾기</string>
+    <string name="sign_in_button">로그인</string>
+    <string name="facebook_button">페이스북</string>
+    <string name="naver_button">네이버</string>
+    <string name="kakaotalk_button">카카오톡</string>
+    <string name="sign_up">개인 회원가입하기</string>
+
+    <!-- activity_sign_up.xml -->
+    <string name="sign_up_name">이름</string>
+    <string name="sign_up_mail_address">메일주소</string>
+    <string name="sign_up_cellphone">핸드폰</string>
+    <string name="sign_up_authentication">인증번호받기</string>
+    <string name="sign_up_authentication_button">인증확인</string>
+    <string name="sign_up_password">비밀번호</string>
+    <string name="sign_up_receive_information_agreement">정보수신동의</string>
+    <string name="sign_up_mail_information_agreement">메일정보 수신 동의</string>
+    <string name="sign_up_sms_information_agreement">SMS 수신 동의</string>
+    <string name="sign_up_terms_agreement">약관동의</string>
+    <string name="sign_up_terms_bikee_agreement">바이키 이용약관에 동의합니다.</string>
+    <string name="sign_up_terms_location_information_agreement">위치정보 이용약관에 동의합니다.</string>
+    <string name="sign_up_terms_information_gathering_agreement">개인정보 수집 이용에 동의합니다.</string>
+    <string name="sign_up_button">가입하기</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
