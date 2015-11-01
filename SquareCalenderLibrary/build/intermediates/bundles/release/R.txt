@@ -33,9 +33,9 @@ int id calendar_grid 0x7f080001
 int id title 0x7f080000
 int layout month 0x7f030000
 int layout week 0x7f030001
-int string day_name_format 0x7f040002
+int string day_name_format 0x7f040001
 int string invalid_date 0x7f040000
-int string month_name_format 0x7f040001
+int string month_name_format 0x7f040002
 int style CalendarCell 0x7f070000
 int style CalendarCell_CalendarDate 0x7f070001
 int style CalendarCell_DayHeader 0x7f070002

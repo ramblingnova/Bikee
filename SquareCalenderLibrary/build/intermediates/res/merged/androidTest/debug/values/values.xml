@@ -22,7 +22,7 @@
     <dimen name="calendar_text_small">14sp</dimen>
     <string name="day_name_format">EEE</string>
     <string name="invalid_date">Date must be between %1$s and %2$s.</string>
-    <string name="month_name_format">MMMM yyyy</string>
+    <string name="month_name_format">yyyy MMMM</string>
     <style name="CalendarCell">
     <item name="android:layout_width">0dp</item>
     <item name="android:layout_weight">1</item>

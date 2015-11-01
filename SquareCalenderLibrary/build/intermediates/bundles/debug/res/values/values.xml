@@ -26,7 +26,7 @@
     <eat-comment/>
     <string name="day_name_format">EEE</string>
     <string name="invalid_date">Date must be between %1$s and %2$s.</string>
-    <string name="month_name_format">MMMM yyyy</string>
+    <string name="month_name_format">yyyy MMMM</string>
     <!-- From: file:/C:/Users/User/AndroidStudioProjects/Bikee/SquareCalenderLibrary/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="CalendarCell">

@@ -38,6 +38,7 @@ public class FilterActivity extends AppCompatActivity {
         calendarPickerView.init(start,end) //
                 .inMode(CalendarPickerView.SelectionMode.RANGE) //
                 .withSelectedDate(new Date());
+
     }
 
     @Override
