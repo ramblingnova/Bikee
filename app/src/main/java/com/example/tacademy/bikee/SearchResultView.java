@@ -1,6 +1,7 @@
 package com.example.tacademy.bikee;
 
 import android.content.Context;
+import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,7 +21,7 @@ public class SearchResultView extends FrameLayout {
     private void init() {
         inflate(getContext(), R.layout.view_search_result_item, this);
         iv = (ImageView)findViewById(R.id.view_search_result_item_image_view);
-        tv1 = (TextView)findViewById(R.id.view_renter_reservation_bicycle_item_bicycle_name);
+        tv1 = (TextView)findViewById(R.id.view_search_result_item_bicycle_name);
         tv2 = (TextView)findViewById(R.id.view_search_result_item_payment_type_height);
         tv3 = (TextView)findViewById(R.id.view_search_result_item_distance);
     }

@@ -7,116 +7,74 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
-public class SearchResultFragment extends Fragment {
+public class SearchResultFragment extends Fragment implements View.OnClickListener {
 
     private static final String SEARCH_RESULT_LIST_FRAGMENT_TAG = "search_result_list_fragment";
     private static final String SEARCH_RESULT_MAP_FRAGMENT_TAG = "search_result_map_fragment";
-    Fragment searchResultMapFragmnet, searchResultListFragmnet, current;
+
+    Fragment current;
     Switch sw;
 
     public SearchResultFragment() {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_search_result, container, false);
-        searchResultMapFragmnet = new SearchResultMapFragment();
-        searchResultListFragmnet = new SearchResultListFragment();
-        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        ft.add(R.id.container, searchResultMapFragmnet, SEARCH_RESULT_MAP_FRAGMENT_TAG);
-        ft.commit();
-        current = searchResultMapFragmnet;
         sw = (Switch) v.findViewById(R.id.search_bar_switch);
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Toast.makeText(getContext().getApplicationContext(), "isChecked : " + isChecked, Toast.LENGTH_SHORT).show();
-                if (!isChecked) {
-                    Fragment old = getChildFragmentManager().findFragmentByTag(SEARCH_RESULT_MAP_FRAGMENT_TAG);
-                    if (old == null) {
-                        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-                        if (current != null) {
-                            ft.detach(current);
-                        }
-                        ft.add(R.id.container, searchResultMapFragmnet, SEARCH_RESULT_MAP_FRAGMENT_TAG);
-                        ft.commit();
-                        current = searchResultMapFragmnet;
-                    } else if (current != searchResultMapFragmnet) {
-                        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-                        ft.detach(current);
-                        ft.attach(searchResultMapFragmnet);
-                        ft.commit();
-                        current = searchResultMapFragmnet;
-                    }
-                } else {
-                    Fragment old = getChildFragmentManager().findFragmentByTag(SEARCH_RESULT_LIST_FRAGMENT_TAG);
-                    if (old == null) {
-                        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-                        if (current != null) {
-                            ft.detach(current);
-                        }
-                        ft.add(R.id.container, searchResultListFragmnet, SEARCH_RESULT_LIST_FRAGMENT_TAG);
-                        ft.commit();
-                        current = searchResultListFragmnet;
-                    } else if (current != searchResultListFragmnet) {
-                        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-                        ft.detach(current);
-                        ft.attach(searchResultListFragmnet);
-                        ft.commit();
-                        current = searchResultListFragmnet;
-                    }
-                }
+                fragmentChange(isChecked);
             }
         });
-//        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                Toast.makeText(getContext().getApplicationContext(), "isChecked : " + isChecked, Toast.LENGTH_SHORT).show();
-//                if (!isChecked) {
-//                    Fragment old = getChildFragmentManager().findFragmentByTag(SEARCH_RESULT_MAP_FRAGMENT_TAG);
-//                    if (old == null) {
-//                        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-//                        if (current != null) {
-//                            ft.detach(current);
-//                        }
-//                        ft.add(R.id.container, searchResultMapFragmnet, SEARCH_RESULT_MAP_FRAGMENT_TAG);
-//                        ft.commit();
-//                        current = searchResultMapFragmnet;
-//                    } else if (old != current) {
-//                        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-//                        ft.detach(current);
-//                        ft.attach(searchResultMapFragmnet);
-//                        ft.commit();
-//                        current = searchResultMapFragmnet;
-//                    }
-//                } else {
-//                    Fragment old = getChildFragmentManager().findFragmentByTag(SEARCH_RESULT_LIST_FRAGMENT_TAG);
-//                    if (old == null) {
-//                        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-//                        if (current != null) {
-//                            ft.detach(current);
-//                        }
-//                        ft.add(R.id.container, searchResultListFragmnet, SEARCH_RESULT_LIST_FRAGMENT_TAG);
-//                        ft.commit();
-//                        current = searchResultListFragmnet;
-//                    } else if (current != searchResultListFragmnet) {
-//                        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-//                        ft.detach(current);
-//                        ft.attach(searchResultListFragmnet);
-//                        ft.commit();
-//                        current = searchResultListFragmnet;
-//                    }
-//                }
-//            }
-//        });
+        Button btn = (Button)v.findViewById(R.id.fragment_search_result_filter_button);
+        btn.setOnClickListener(this);
+
         return v;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fragment_search_result_filter_button:
+                Intent intent = new Intent(getActivity(), FilterActivity.class);
+                getActivity().startActivity(intent);
+                break;
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!sw.isChecked())
+            fragmentChange(false);
+    }
+
+    public void fragmentChange(boolean isChecked) {
+        Toast.makeText(getContext().getApplicationContext(), "isChecked : " + isChecked, Toast.LENGTH_SHORT).show();
+        String CURRENT_TAG = (isChecked) ? SEARCH_RESULT_LIST_FRAGMENT_TAG : SEARCH_RESULT_MAP_FRAGMENT_TAG;
+        Fragment old = getChildFragmentManager().findFragmentByTag(CURRENT_TAG);
+        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+
+        if (current != null && current != old) {
+            ft.detach(current);
+        }
+
+        if (old == null) {
+            current = (isChecked) ? new SearchResultListFragment() : new SearchResultMapFragment();
+            ft.add(R.id.container, current, CURRENT_TAG);
+        } else if (current != old) {
+            ft.attach(current = old);
+        }
+
+        ft.commit();
     }
 
     @Override

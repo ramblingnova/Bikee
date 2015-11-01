@@ -1,10 +1,12 @@
 package com.example.tacademy.bikee;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,9 +24,18 @@ public class MainActivity extends AppCompatActivity {
         tabHost = (FragmentTabHost)findViewById(R.id.tabHost);
         tabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
 
-        tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("TAB1"), SearchResultFragment.class, null);
-        tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator("TAB2"), RenterReservationBicycleListFragment.class, null);
-        tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator("TAB3"), ChattingRoomListFragment.class, null);
-        tabHost.addTab(tabHost.newTabSpec("tab4").setIndicator("TAB4"), SmartKeyFragment.class, null);
+        tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("검색"), SearchResultFragment.class, null);
+        tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator("예약"), RenterReservationBicycleListFragment.class, null);
+        tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator("메세지"), ChattingRoomListFragment.class, null);
+        tabHost.addTab(tabHost.newTabSpec("tab4").setIndicator("스마트락"), SmartKeyFragment.class, null);
+
+//        Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+//        startActivity(intent);
     }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return super.onCreateOptionsMenu(menu);
+//    }
 }
