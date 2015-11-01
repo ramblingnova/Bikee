@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/C:/Users/User/AndroidStudioProjects/Bikee/SquareCalenderLibrary/src/main/res/values-ja/strings.xml -->
+    <eat-comment/>
+    <string name="invalid_date">日付は%1$s～%2$sの間で設定してください。</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/C:/Users/User/AndroidStudioProjects/Bikee/SquareCalenderLibrary/src/main/res/values-fr/strings.xml -->
+    <eat-comment/>
+    <string name="invalid_date">La date doit être comprise entre %1$s et %2$s.</string>
+</resources>
