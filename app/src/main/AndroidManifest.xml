@@ -47,6 +47,8 @@
         </activity>
         <activity android:name=".FinallyRegisterBicycleActivity" >
         </activity>
+        <activity android:name=".RenterReservationBicycleDetailInformationActivity" >
+        </activity>
     </application>
 
 </manifest>

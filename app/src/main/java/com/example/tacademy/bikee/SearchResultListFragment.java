@@ -6,7 +6,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class SearchResultListFragment extends Fragment {
 
@@ -26,6 +28,18 @@ public class SearchResultListFragment extends Fragment {
         adapter = new SearchResultAdapter();
         lv.setAdapter(adapter);
         initData();
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                SearchResultItem item = (SearchResultItem) lv.getItemAtPosition(position);
+                Toast.makeText(getContext().getApplicationContext(), "position : " + position, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), FilteredBicyleDetailInformationActivity.class);
+                // TODO
+                getActivity().startActivity(intent);
+            }
+        });
+
         return v;
     }
 

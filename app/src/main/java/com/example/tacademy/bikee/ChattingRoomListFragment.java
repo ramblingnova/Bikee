@@ -13,7 +13,7 @@ import android.widget.Toast;
 public class ChattingRoomListFragment extends Fragment {
 
     ListView lv;
-    SearchResultAdapter adapter;
+    ChattingRoomAdapter adapter;
 
     public ChattingRoomListFragment() {
     }
@@ -23,14 +23,14 @@ public class ChattingRoomListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_chatting_room_list, container, false);
         lv = (ListView)v.findViewById(R.id.view_chatting_room_item_list_view);
-        adapter = new SearchResultAdapter();
+        adapter = new ChattingRoomAdapter();
         lv.setAdapter(adapter);
         initData();
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SearchResultItem item = (SearchResultItem)lv.getItemAtPosition(position);
+                ChattingRoomItem item = (ChattingRoomItem)lv.getItemAtPosition(position);
                 Toast.makeText(getContext().getApplicationContext(), "position : " + position, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), ChattingRoomActivity.class);
                 // TODO

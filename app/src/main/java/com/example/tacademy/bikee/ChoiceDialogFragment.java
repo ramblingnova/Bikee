@@ -49,7 +49,7 @@ public class ChoiceDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 if (i == 0) {
-                    // TODO 예 -> SearchResultListFragment로
+                    // TODO 예 -> 예약 프래그먼트로
 
                     NoChoiceDialogFragment dialog = new NoChoiceDialogFragment();
                     dialog.setMessage("예약요청 되었습니다..");
@@ -60,7 +60,7 @@ public class ChoiceDialogFragment extends DialogFragment {
                     dismiss();
                     getActivity().finish();
                 } else if (i == 1) {
-                    // TODO 예 -> SearchResultMapFragment로
+                    // TODO 예 -> SearchResultMapFragment로, 예약 프래그먼트로
                     NoChoiceDialogFragment dialog = new NoChoiceDialogFragment();
                     dialog.setMessage("예약이 취소되었습니다.");
                     dialog.show(getActivity().getSupportFragmentManager(), "custom");

@@ -36,6 +36,7 @@
         android:layout_height="wrap_content"/>
 
     <Button
+        android:id="@+id/activity_input_bicycle_post_script_input_button"
         android:layout_width="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"

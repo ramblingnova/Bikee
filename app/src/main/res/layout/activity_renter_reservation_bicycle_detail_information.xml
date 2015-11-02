@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.tacademy.bikee.RenterReservationBicycleDetailInformationActivity">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <include
+            android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_picture"
+            layout="@layout/bicycle_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true" />
+
+        <include
+            android:id="@+id/activity_renter_reservation_bicycle_detail_information_lister_information"
+            layout="@layout/lister_information"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_picture"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_lister_information"
+            android:text="여성이 타기 좋은 픽시 자전거" />
+
+        <include
+            android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_type"
+            layout="@layout/bicycle_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_title"
+            android:layout_centerHorizontal="true" />
+
+        <include
+            android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_recommendation_height"
+            layout="@layout/bicycle_recommendation_height"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_type"
+            android:layout_centerHorizontal="true" />
+
+        <include
+            android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_description"
+            layout="@layout/bicycle_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_recommendation_height"
+            android:layout_centerHorizontal="true" />
+
+        <include
+            android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_additory_component"
+            layout="@layout/bicycle_additory_component"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_description"
+            android:layout_centerHorizontal="true" />
+
+        <include
+            android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_rental_place"
+            layout="@layout/bicycle_rental_place"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_additory_component"
+            android:layout_centerHorizontal="true" />
+
+        <include
+            android:id="@+id/activity_renter_reservation_bicycle_detail_information_small_map"
+            layout="@layout/small_map"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_rental_place"
+            android:layout_centerHorizontal="true" />
+
+        <include
+            android:id="@+id/activity_renter_reservation_bicycle_detail_information_reservation_period"
+            layout="@layout/reservation_period"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_small_map"
+            android:layout_centerHorizontal="true" />
+
+        <include
+            android:id="@+id/activity_renter_reservation_bicycle_detail_information_payment"
+            layout="@layout/payment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_reservation_period"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:id="@+id/activity_renter_reservation_bicycle_detail_information_cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_payment"
+            android:text="취소하기"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/activity_renter_reservation_bicycle_detail_information_pay_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_payment"
+            android:layout_toRightOf="@id/activity_renter_reservation_bicycle_detail_information_cancel_button"
+            android:text="결제하기"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/activity_renter_reservation_bicycle_detail_information_cancel_button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_payment"
+            android:text="취소하기"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/activity_renter_reservation_bicycle_detail_information_input_post_scription_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_payment"
+            android:text="후기입력"
+            android:visibility="gone" />
+    </RelativeLayout>
+</ScrollView>

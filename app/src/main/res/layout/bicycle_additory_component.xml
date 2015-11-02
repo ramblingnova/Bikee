@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/bicycle_additory_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="추가구성품" />
+
+    <ImageView
+        android:id="@+id/bicycle_additory_component_item1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bicycle_additory_text_view"
+        android:src="@drawable/temp_icon" />
+
+    <ImageView
+        android:id="@+id/bicycle_additory_component_item2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bicycle_additory_text_view"
+        android:layout_toRightOf="@+id/bicycle_additory_component_item1"
+        android:src="@drawable/temp_icon" />
+
+    <ImageView
+        android:id="@+id/bicycle_additory_component_item3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bicycle_additory_text_view"
+        android:layout_toRightOf="@+id/bicycle_additory_component_item2"
+        android:src="@drawable/temp_icon" />
+</RelativeLayout>

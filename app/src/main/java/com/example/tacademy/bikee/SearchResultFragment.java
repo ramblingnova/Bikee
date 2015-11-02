@@ -46,6 +46,7 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fragment_search_result_search_button: {
+                break;
             }
             case R.id.fragment_search_result_filter_button: {
                 Intent intent = new Intent(getActivity(), FilterActivity.class);
