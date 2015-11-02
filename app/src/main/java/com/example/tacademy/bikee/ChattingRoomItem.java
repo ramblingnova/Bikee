@@ -1,5 +1,7 @@
 package com.example.tacademy.bikee;
 
+import java.io.Serializable;
+
 /**
  * Created by User on 2015-10-31.
  */

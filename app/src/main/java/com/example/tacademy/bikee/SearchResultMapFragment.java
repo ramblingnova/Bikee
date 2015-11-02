@@ -1,18 +1,31 @@
 package com.example.tacademy.bikee;
 
-import android.app.ExpandableListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SearchResultMapFragment extends Fragment implements OnMapReadyCallback {
+
+    final Map<POI, Marker> mMarkerResolver = new HashMap<POI, Marker>();
+    final Map<Marker, POI> mPOIResolver = new HashMap<Marker, POI>();
+    GoogleMap gm;
 
     public SearchResultMapFragment() {
 
@@ -37,6 +50,32 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
         } catch(Exception e) {
 
         }
+
+        Button btn = (Button)v.findViewById(R.id.temp_marker);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MarkerOptions options = new MarkerOptions();
+                CameraPosition position = gm.getCameraPosition();
+                options.position(position.target);
+                options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                options.anchor(0.5f, 1);
+                POI poi = new POI();
+
+                poi.name = "자전거 제목";
+                poi.upperAddrName = "가격|종류|신장";
+
+                options.title(poi.name);
+                options.snippet(poi.getAddress());
+
+                options.draggable(true);
+
+                Marker m = gm.addMarker(options);
+
+                mMarkerResolver.put(poi, m);
+                mPOIResolver.put(m, poi);
+            }
+        });
         return v;
     }
 
@@ -47,11 +86,30 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        googleMap.setMyLocationEnabled(true);
+        gm = googleMap;
+        gm.setMyLocationEnabled(true);
 
-        googleMap.setIndoorEnabled(true);
-        googleMap.setTrafficEnabled(true);
-        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        googleMap.getUiSettings().setZoomControlsEnabled(true);
+        gm.setIndoorEnabled(true);
+        gm.setTrafficEnabled(true);
+        gm.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        gm.getUiSettings().setZoomControlsEnabled(true);
+
+        gm.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+
+            }
+        });
+        gm.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                POI poi = mPOIResolver.get(marker);
+                Toast.makeText(getContext().getApplicationContext(), "title : " + poi.name, Toast.LENGTH_SHORT).show();
+                marker.showInfoWindow();
+                Intent intent = new Intent(getActivity(), FilteredBicyleDetailInformationActivity.class);
+                getActivity().startActivity(intent);
+                return false;
+            }
+        });
     }
 }

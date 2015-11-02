@@ -18,159 +18,69 @@
             android:layout_height="wrap_content"
             android:text="예약날짜" />
 
-        <RelativeLayout
-            android:id="@+id/calender_layout"
+        <include
+            android:id="@+id/activity_filter_calendar"
+            layout="@layout/calendar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/activity_filter_reservation_date_text_view">
-            <com.squareup.timessquare.CalendarPickerView
-                android:id="@+id/calender"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <Button
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="PREV"/>
-            <Button
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="POST"/>
-        </RelativeLayout>
+            android:layout_below="@+id/activity_filter_reservation_date_text_view" />
 
         <TextView
             android:id="@+id/activity_filter_bicycle_component_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/calender_layout"
+            android:layout_below="@id/activity_filter_calendar"
             android:text="자전거 물품" />
 
-        <GridLayout
-            android:id="@+id/bicycle_component_layout"
+        <include
+            android:id="@+id/activity_filter_bicycle_type"
+            layout="@layout/bicycle_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/activity_filter_bicycle_component_text_view"
-            android:columnCount="4"
-            android:orientation="horizontal">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="산악용" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="로드" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="하이브리드" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="픽시" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="폴딩" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="미밈벨로" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="씨티형" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="전기자전거" />
-        </GridLayout>
+            android:layout_below="@id/activity_filter_bicycle_component_text_view" />
 
         <TextView
             android:id="@+id/activity_filter_recommendation_height_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/bicycle_component_layout"
+            android:layout_below="@id/activity_filter_bicycle_type"
             android:text="권장 신장 중복선택가능" />
 
-        <GridLayout
-            android:id="@+id/activity_filter_recommendation_height_layout"
+        <include
+            android:id="@+id/activity_filter_bicycle_recommendation_height"
+            layout="@layout/bicycle_recommendation_height"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/activity_filter_recommendation_height_text_view"
-            android:columnCount="3"
-            android:orientation="horizontal">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="155cm이하" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="155~160cm" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="160~165cm" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="165~170cm" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="170~175cm" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="175cm이상" />
-        </GridLayout>
+            android:layout_below="@+id/activity_filter_recommendation_height_text_view" />
 
         <CheckBox
             android:id="@+id/smart_lock_interlock_check_box"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/activity_filter_recommendation_height_layout"
+            android:layout_below="@id/activity_filter_bicycle_recommendation_height"
             android:text="스마트 좌물쇠 연동" />
 
-        <RadioButton
-            android:id="@+id/price_order_check_box"
+        <CheckBox
+            android:id="@+id/activity_filter_price_order_check_box"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/smart_lock_interlock_check_box"
             android:text="가격순" />
 
-        <RadioButton
-            android:id="@+id/distance_order_check_box"
+        <CheckBox
+            android:id="@+id/activity_filter_distance_order_check_box"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/price_order_check_box"
+            android:layout_below="@+id/activity_filter_price_order_check_box"
             android:text="가까운 거리순" />
 
         <Button
             android:id="@+id/activity_filter_search_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/distance_order_check_box"
+            android:layout_below="@+id/activity_filter_distance_order_check_box"
             android:layout_centerHorizontal="true"
-            android:text="search" />
+            android:text="적용하기" />
     </RelativeLayout>
 
 </ScrollView>

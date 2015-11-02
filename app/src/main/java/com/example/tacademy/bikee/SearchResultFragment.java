@@ -36,6 +36,8 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
         });
         Button btn = (Button)v.findViewById(R.id.fragment_search_result_filter_button);
         btn.setOnClickListener(this);
+        btn = (Button)v.findViewById(R.id.fragment_search_result_search_button);
+        btn.setOnClickListener(this);
 
         return v;
     }
@@ -43,10 +45,13 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.fragment_search_result_filter_button:
+            case R.id.fragment_search_result_search_button: {
+            }
+            case R.id.fragment_search_result_filter_button: {
                 Intent intent = new Intent(getActivity(), FilterActivity.class);
-                getActivity().startActivity(intent);
+                getActivity().startActivityForResult(intent, 0);
                 break;
+            }
         }
     }
 
@@ -77,8 +82,17 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
         ft.commit();
     }
 
+    boolean b = false;
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        super.onActivityResult(requestCode,resultCode,data);
+        switch (resultCode){
+            case FilterActivity.RESULT_OK:
+                b = true;
+                break;
+            case FilterActivity.RESULT_CANCEL:
+                break;
+        }
     }
 }

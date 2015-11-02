@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/reservation_period_start_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2015년 11월 2일"/>
+    <Button
+        android:id="@+id/reservation_period_end_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/reservation_period_start_date"
+        android:text="2015년 12월 4일"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/reservation_period_start_date"
+        android:layout_alignRight="@+id/reservation_period_end_date"
+        android:text="한달"/>
+</RelativeLayout>

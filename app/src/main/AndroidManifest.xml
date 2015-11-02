@@ -37,6 +37,16 @@
             android:name=".FilterActivity"
             android:label="@string/title_activity_filter" >
         </activity>
+        <activity android:name=".ChattingRoomActivity" >
+        </activity>
+        <activity android:name=".FilteredBicyleDetailInformationActivity" >
+        </activity>
+        <activity android:name=".BicylePostScriptListActivity" >
+        </activity>
+        <activity android:name=".InputBicyclePostScriptActivity" >
+        </activity>
+        <activity android:name=".FinallyRegisterBicycleActivity" >
+        </activity>
     </application>
 
 </manifest>
