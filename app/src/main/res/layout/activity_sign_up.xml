@@ -204,6 +204,7 @@
         </RelativeLayout>
 
         <Button
+            android:id="@+id/activity_sign_up_signt_up_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/receive_information_agreement_layout"

@@ -31,10 +31,14 @@
     <string name="sign_up_terms_information_gathering_agreement">개인정보 수집 이용에 동의합니다.</string>
     <string name="sign_up_button">가입하기</string>
 
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_filter">FilterActivity</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
     <string name="action_settings">Settings</string>
+
+    <string name="desc_list_item_icon">Item Icon</string>
 </resources>

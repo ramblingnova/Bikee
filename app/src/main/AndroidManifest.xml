@@ -17,7 +17,8 @@
 
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait" >
@@ -35,19 +36,18 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".FilterActivity"
-            android:label="@string/title_activity_filter" >
-        </activity>
-        <activity android:name=".ChattingRoomActivity" >
-        </activity>
-        <activity android:name=".FilteredBicyleDetailInformationActivity" >
-        </activity>
-        <activity android:name=".BicylePostScriptListActivity" >
-        </activity>
-        <activity android:name=".InputBicyclePostScriptActivity" >
-        </activity>
-        <activity android:name=".FinallyRegisterBicycleActivity" >
-        </activity>
-        <activity android:name=".RenterReservationBicycleDetailInformationActivity" >
+            android:label="@string/title_activity_filter" />
+        <activity android:name=".ChattingRoomActivity" />
+        <activity android:name=".FilteredBicyleDetailInformationActivity" />
+        <activity android:name=".BicylePostScriptListActivity" />
+        <activity android:name=".InputBicyclePostScriptActivity" />
+        <activity android:name=".FinallyRegisterBicycleActivity" />
+        <activity android:name=".RenterReservationBicycleDetailInformationActivity" />
+        <activity android:name=".CardManagementActivity" />
+        <activity android:name=".EvaluatingBicyclePostScriptListActivity" />
+        <activity android:name=".AuthenticationInformationActivity" />
+        <activity android:name=".InputInquiryActivity" />
+        <activity android:name=".RegisterCardActivity" >
         </activity>
     </application>
 

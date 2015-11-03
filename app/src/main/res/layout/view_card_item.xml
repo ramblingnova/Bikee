@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/view_card_item_image_view"
+        android:src="@drawable/temp_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/view_card_item_card_number_text_view"
+        android:layout_toRightOf="@+id/view_card_item_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="카드번호"/>
+
+    <Button
+        android:id="@+id/view_card_item_button"
+        android:layout_toRightOf="@+id/view_card_item_card_number_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="삭제하기"/>
+</RelativeLayout>

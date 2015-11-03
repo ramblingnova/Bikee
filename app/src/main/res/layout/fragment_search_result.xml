@@ -52,6 +52,6 @@
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/fragment_search_result_temp_layout"></FrameLayout>
+            android:layout_below="@id/fragment_search_result_temp_layout"/>
     </RelativeLayout>
 </FrameLayout>

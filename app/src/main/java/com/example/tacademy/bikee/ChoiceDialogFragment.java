@@ -79,7 +79,7 @@ public class ChoiceDialogFragment extends DialogFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Dialog d = getDialog();
-        d.getWindow().setLayout(R.dimen.dialog_width, R.dimen.dialog_height);//view.getWidth(), view.getHeight());
+        d.getWindow().setLayout(R.dimen.dialog_width, R.dimen.dialog_height);
         WindowManager.LayoutParams params = d.getWindow().getAttributes();
         params.gravity = Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL;
         DisplayMetrics metrics = new DisplayMetrics();
