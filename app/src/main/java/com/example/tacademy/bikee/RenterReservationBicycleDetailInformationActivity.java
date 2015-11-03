@@ -20,7 +20,7 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
         int i = intent.getIntExtra("STATE", -1);
         Toast.makeText(RenterReservationBicycleDetailInformationActivity.this, "STATE : " + i, Toast.LENGTH_SHORT).show();
         if(i == 0) {
-            btn = (Button)findViewById(R.id.activity_renter_reservation_bicycle_detail_information_cancel_button);                  btn.setVisibility(View.VISIBLE);
+            btn = (Button)findViewById(R.id.activity_lister_requested_bicycle_detail_information_cancel_button);                  btn.setVisibility(View.VISIBLE);
             btn = (Button)findViewById(R.id.activity_renter_reservation_bicycle_detail_information_pay_button);                     btn.setVisibility(View.VISIBLE);
             btn = (Button)findViewById(R.id.activity_renter_reservation_bicycle_detail_information_cancel_button2);                 btn.setVisibility(View.GONE);
             btn = (Button)findViewById(R.id.activity_renter_reservation_bicycle_detail_information_input_post_scription_button);    btn.setVisibility(View.GONE);

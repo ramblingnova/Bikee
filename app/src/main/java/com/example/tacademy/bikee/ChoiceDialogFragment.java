@@ -12,8 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
 
 /**
@@ -50,11 +48,10 @@ public class ChoiceDialogFragment extends DialogFragment {
             public void onClick(View v) {
                 if (i == 0) {
                     // TODO 예 -> 예약 프래그먼트로
-
                     NoChoiceDialogFragment dialog = new NoChoiceDialogFragment();
                     dialog.setMessage("예약요청 되었습니다..");
                     dialog.show(getActivity().getSupportFragmentManager(), "custom");
-                    Intent intent = new Intent(getContext().getApplicationContext(), MainActivity.class);
+                    Intent intent = new Intent(getContext().getApplicationContext(), RenterMainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     dismiss();
@@ -64,7 +61,7 @@ public class ChoiceDialogFragment extends DialogFragment {
                     NoChoiceDialogFragment dialog = new NoChoiceDialogFragment();
                     dialog.setMessage("예약이 취소되었습니다.");
                     dialog.show(getActivity().getSupportFragmentManager(), "custom");
-                    Intent intent = new Intent(getContext().getApplicationContext(), MainActivity.class);
+                    Intent intent = new Intent(getContext().getApplicationContext(), RenterMainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     dismiss();

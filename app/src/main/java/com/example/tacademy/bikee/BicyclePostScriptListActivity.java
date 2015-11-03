@@ -7,7 +7,7 @@ import android.widget.ListView;
 /**
  * Created by Tacademy on 2015-11-02.
  */
-public class BicylePostScriptListActivity extends AppCompatActivity {
+public class BicyclePostScriptListActivity extends AppCompatActivity {
 
     ListView lv;
     BicyclePostScriptAdapter adapter;

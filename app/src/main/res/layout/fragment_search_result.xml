@@ -15,12 +15,12 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/fragment_search_result_search_button"
+            <ImageView
+                android:src="@drawable/temp_icon"
+                android:id="@+id/fragment_search_result_search_image_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.1"
-                android:text="S" />
+                android:layout_weight="0.1" />
 
             <EditText
                 android:layout_width="0dp"

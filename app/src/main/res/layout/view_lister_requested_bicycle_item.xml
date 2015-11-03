@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/view_lister_requested_bicycle_item_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/temp_icon" />
+
+    <TextView
+        android:id="@+id/view_lister_requested_bicycle_item_renter_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="신청자이름"
+        android:layout_toRightOf="@id/view_lister_requested_bicycle_item_image_view" />
+
+    <TextView
+        android:id="@+id/view_lister_requested_bicycle_item_start_date"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/view_lister_requested_bicycle_item_renter_name"
+        android:layout_height="wrap_content"
+        android:text="시작 날짜"
+        android:layout_toRightOf="@id/view_lister_requested_bicycle_item_image_view" />
+
+    <TextView
+        android:id="@+id/view_lister_requested_bicycle_item_end_date"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/view_lister_requested_bicycle_item_start_date"
+        android:layout_height="wrap_content"
+        android:text="종료 날짜"
+        android:layout_toRightOf="@id/view_lister_requested_bicycle_item_image_view" />
+
+    <TextView
+        android:id="@+id/view_lister_requested_bicycle_item_bicycle_name"
+        android:layout_below="@id/view_lister_requested_bicycle_item_end_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="자전거 이름"
+        android:layout_toRightOf="@id/view_lister_requested_bicycle_item_image_view" />
+
+    <TextView
+        android:id="@+id/view_lister_requested_bicycle_item_price"
+        android:layout_below="@id/view_lister_requested_bicycle_item_end_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="가격"
+        android:layout_toRightOf="@id/view_lister_requested_bicycle_item_bicycle_name" />
+
+    <ImageView
+        android:src="@drawable/temp_icon"
+        android:id="@+id/view_lister_requested_bicycle_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="예약신청" />
+</RelativeLayout>

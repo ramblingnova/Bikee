@@ -5,12 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/app_bar_main">
+    tools:context=".ListerMainActivity"
+    tools:showIn="@layout/activity_lister_main">
 
-    <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
-    <!-- TODO : DELME -->
     <TextView
         android:id="@+id/temp"
         android:layout_width="wrap_content"
@@ -44,7 +42,6 @@
 
             <TabWidget
                 android:id="@android:id/tabs"
-                android:background="@drawable/temp_icon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>

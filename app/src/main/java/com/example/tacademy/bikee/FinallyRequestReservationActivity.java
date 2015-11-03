@@ -5,21 +5,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class FinallyRegisterBicycleActivity extends AppCompatActivity {
+public class FinallyRequestReservationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_finally_register_bicycle);
+        setContentView(R.layout.activity_finally_request_reservation);
 
-        Button btn = (Button) findViewById(R.id.activity_finally_register_bicycle_cancel_button);
+        Button btn = (Button) findViewById(R.id.activity_finally_request_reservation_cancel_button);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onCustomDialog2(v);
             }
         });
-        btn = (Button) findViewById(R.id.activity_finally_register_bicycle_confirm_button);
+        btn = (Button) findViewById(R.id.activity_finally_request_reservation_confirm_button);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

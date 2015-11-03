@@ -16,7 +16,7 @@
             android:value="AIzaSyAu8afjq-HRqTqYUvovbcs4-o3XPGWzrfQ" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".RenterMainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -38,16 +38,31 @@
             android:name=".FilterActivity"
             android:label="@string/title_activity_filter" />
         <activity android:name=".ChattingRoomActivity" />
-        <activity android:name=".FilteredBicyleDetailInformationActivity" />
-        <activity android:name=".BicylePostScriptListActivity" />
+        <activity android:name=".FilteredBicycleDetailInformationActivity" />
+        <activity android:name=".BicyclePostScriptListActivity" />
         <activity android:name=".InputBicyclePostScriptActivity" />
-        <activity android:name=".FinallyRegisterBicycleActivity" />
+        <activity android:name=".FinallyRequestReservationActivity" />
         <activity android:name=".RenterReservationBicycleDetailInformationActivity" />
         <activity android:name=".CardManagementActivity" />
         <activity android:name=".EvaluatingBicyclePostScriptListActivity" />
         <activity android:name=".AuthenticationInformationActivity" />
         <activity android:name=".InputInquiryActivity" />
         <activity android:name=".RegisterCardActivity" >
+        </activity>
+        <activity
+            android:name=".ListerMainActivity"
+            android:label="@string/title_activity_lister_main"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity android:name=".ListerRequestedBicycleDetailInformationActivity" >
+        </activity>
+        <activity android:name=".EvaluatedBicyclePostScriptListActivity" >
+        </activity>
+        <activity android:name=".OwningBicycleDetailInformationActivity" >
+        </activity>
+        <activity android:name=".OwningBicycleListActivity" >
+        </activity>
+        <activity android:name=".RegisterBicycleActivity" >
         </activity>
     </application>
 

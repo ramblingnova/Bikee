@@ -106,7 +106,7 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
                 POI poi = mPOIResolver.get(marker);
                 Toast.makeText(getContext().getApplicationContext(), "title : " + poi.name, Toast.LENGTH_SHORT).show();
                 marker.showInfoWindow();
-                Intent intent = new Intent(getActivity(), FilteredBicyleDetailInformationActivity.class);
+                Intent intent = new Intent(getActivity(), FilteredBicycleDetailInformationActivity.class);
                 getActivity().startActivity(intent);
                 return false;
             }
