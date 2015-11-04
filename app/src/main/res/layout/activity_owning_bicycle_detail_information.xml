@@ -29,7 +29,7 @@
             android:layout_centerHorizontal="true" />
 
         <include
-            android:id="@+id/activity_lister_requested_bicycle_detail_information_bicycle_recommendation_height"
+            android:id="@+id/activity_owning_bicycle_detail_information_bicycle_recommendation_height"
             android:layout_below="@id/activity_owning_bicycle_detail_information_bicycle_type"
             layout="@layout/bicycle_additory_component"
             android:layout_width="wrap_content"
@@ -38,42 +38,41 @@
 
         <include
             android:id="@+id/activity_owning_bicycle_detail_information_bicycle_rental_place"
-            android:layout_below="@id/activity_lister_requested_bicycle_detail_information_bicycle_recommendation_height"
+            android:layout_below="@id/activity_owning_bicycle_detail_information_bicycle_recommendation_height"
             layout="@layout/bicycle_rental_place"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true" />
 
-        <include
-            android:id="@+id/activity_lister_requested_bicycle_detail_information_small_map"
-            android:layout_below="@id/activity_owning_bicycle_detail_information_bicycle_rental_place"
-            layout="@layout/small_map"
+        <Button
+            android:id="@+id/activity_owning_bicycle_detail_information_small_map_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true" />
+            android:layout_below="@+id/activity_owning_bicycle_detail_information_bicycle_rental_place"
+            android:text="지도보기"/>
 
         <Button
-            android:id="@+id/activity_lister_requested_bicycle_detail_information_deactivate_button"
+            android:id="@+id/activity_owning_bicycle_detail_information_deactivate_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/activity_lister_requested_bicycle_detail_information_small_map"
+            android:layout_below="@id/activity_owning_bicycle_detail_information_small_map_button"
             android:text="비활성화"
             android:visibility="gone" />
 
         <Button
-            android:id="@+id/activity_lister_requested_bicycle_detail_information_back_button"
+            android:id="@+id/activity_owning_bicycle_detail_information_back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/activity_lister_requested_bicycle_detail_information_small_map"
+            android:layout_below="@id/activity_owning_bicycle_detail_information_small_map_button"
             android:text="뒤로"
             android:visibility="gone" />
 
         <Button
-            android:id="@+id/activity_lister_requested_bicycle_detail_information_approval_button"
+            android:id="@+id/activity_owning_bicycle_detail_information_approval_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/activity_lister_requested_bicycle_detail_information_small_map"
-            android:layout_toRightOf="@id/activity_lister_requested_bicycle_detail_information_back_button"
+            android:layout_below="@id/activity_lister_requested_bicycle_detail_information_small_map_button"
+            android:layout_toRightOf="@id/activity_owning_bicycle_detail_information_back_button"
             android:text="확인"
             android:visibility="gone" />
     </RelativeLayout>

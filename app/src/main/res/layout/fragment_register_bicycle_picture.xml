@@ -1,10 +1,40 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.tacademy.bikee.RegisterBicyclePictureFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="사진 등록" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/fragment_register_bicycle_picture_input_image_view_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="자전거의 멋진 모습을 담아주세요!" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/temp_icon"
+            android:layout_below="@id/fragment_register_bicycle_picture_input_image_view_text_view"
+            android:id="@+id/fragment_register_bicycle_picture_input_image_view"/>
+
+        <TextView
+            android:id="@+id/fragment_register_bicycle_picture_description_text_view"
+            android:layout_below="@id/fragment_register_bicycle_picture_input_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="다양하게 여러 각도로 찍어주세요!" />
+
+        <TextView
+            android:id="@+id/fragment_register_bicycle_picture_description2_text_view"
+            android:layout_below="@id/fragment_register_bicycle_picture_description_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="옆면 / 측면 / 배달 / 바퀴" />
+    </RelativeLayout>
 
 </FrameLayout>

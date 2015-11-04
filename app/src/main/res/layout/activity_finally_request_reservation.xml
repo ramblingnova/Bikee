@@ -47,19 +47,19 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/activity_finally_request_reservation_recommendation_height" />
 
-        <include
-            android:id="@+id/activity_finally_request_reservation_small_map"
-            layout="@layout/small_map"
+        <Button
+            android:id="@+id/activity_finally_request_reservation_small_map_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/activity_finally_request_reservation_bicycle_rental_place" />
+            android:layout_below="@+id/activity_finally_request_reservation_bicycle_rental_place"
+            android:text="지도보기"/>
 
         <include
             android:id="@+id/activity_finally_request_reservation_reservation_period"
             layout="@layout/reservation_period"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/activity_finally_request_reservation_small_map" />
+            android:layout_below="@id/activity_finally_request_reservation_small_map_button" />
 
         <include
             android:id="@+id/activity_finally_request_reservation_payment"

@@ -55,6 +55,14 @@ public class ListerRequestedBicycleDetailInformationActivity extends AppCompatAc
         btn.setOnClickListener(this);
         btn = (Button) findViewById(R.id.activity_lister_requested_bicycle_detail_information_input_post_back_button);
         btn.setOnClickListener(this);
+        btn = (Button) findViewById(R.id.activity_lister_requested_bicycle_detail_information_small_map_button);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ListerRequestedBicycleDetailInformationActivity.this, SmallMapActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

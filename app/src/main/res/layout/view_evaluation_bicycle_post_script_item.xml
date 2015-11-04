@@ -26,6 +26,7 @@
     <RatingBar
         android:id="@+id/view_evaluation_bicycle_post_script_item_rating_bar"
         android:layout_below="@+id/view_evaluation_bicycle_post_script_item_mail_address"
+        style="?android:attr/ratingBarStyleSmall"
         android:layout_toRightOf="@+id/view_evaluation_bicycle_post_script_item_bicycle_piture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

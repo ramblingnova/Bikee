@@ -1,10 +1,37 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.tacademy.bikee.RegisterBicycleIntroductionFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="소개 등록" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/fragment_register_bicycle_introduction_bicycle_name_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="자전거에 별명을 지어주세요!" />
+
+        <EditText
+            android:id="@+id/fragment_register_bicycle_introduction_bicycle_name"
+            android:layout_below="@id/fragment_register_bicycle_introduction_bicycle_name_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="별명 ex)근영이의 멋진 자전거" />
+
+        <TextView
+            android:id="@+id/fragment_register_bicycle_introduction_bicycle_introduction_text_view"
+            android:layout_below="@id/fragment_register_bicycle_introduction_bicycle_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="자전거 소개를 해주세요!" />
+
+        <EditText
+            android:id="@+id/fragment_register_bicycle_introduction_bicycle_introduction"
+            android:layout_below="@id/fragment_register_bicycle_introduction_bicycle_introduction_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
 </FrameLayout>

@@ -44,20 +44,19 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true" />
 
-        <include
-            android:id="@+id/activity_filtered_bicycle_detail_information_small_map"
-            layout="@layout/small_map"
+        <Button
+            android:id="@+id/activity_filtered_bicycle_detail_information_small_map_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/activity_filtered_bicycle_detail_information_bicycle_rental_place"
-            android:layout_centerHorizontal="true" />
+            android:text="지도보기"/>
 
         <include
             android:id="@+id/activity_filtered_bicycle_detail_information_reservation_period"
             layout="@layout/reservation_period"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/activity_filtered_bicycle_detail_information_small_map"
+            android:layout_below="@+id/activity_filtered_bicycle_detail_information_small_map_button"
             android:layout_centerHorizontal="true" />
 
         <include

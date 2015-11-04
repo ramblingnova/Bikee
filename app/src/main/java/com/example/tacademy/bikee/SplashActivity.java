@@ -11,9 +11,14 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        Intent intent = new Intent(SplashActivity.this, RenterMainActivity.class);
+//        Intent intent = new Intent(SplashActivity.this, RenterMainActivity.class);
+//        startActivity(intent);
+//        finish();
+
+        Intent intent = new Intent(SplashActivity.this, PracticeActivity.class);
         startActivity(intent);
         finish();
+
         // TODO : 일정 시간이 흐른 뒤에 종료해야 한다.
     }
 }

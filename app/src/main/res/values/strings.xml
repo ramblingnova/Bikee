@@ -42,4 +42,5 @@
 
     <string name="desc_list_item_icon">Item Icon</string>
     <string name="title_activity_lister_main">ListerMainActivity</string>
+    <string name="title_activity_practice">PracticeActivity</string>
 </resources>

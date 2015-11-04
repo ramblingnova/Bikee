@@ -39,6 +39,15 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
         btn = (Button)findViewById(R.id.activity_renter_reservation_bicycle_detail_information_pay_button);                     btn.setOnClickListener(this);
         btn = (Button)findViewById(R.id.activity_renter_reservation_bicycle_detail_information_cancel_button2);                 btn.setOnClickListener(this);
         btn = (Button)findViewById(R.id.activity_renter_reservation_bicycle_detail_information_input_post_scription_button);    btn.setOnClickListener(this);
+
+        btn = (Button)findViewById(R.id.activity_renter_reservation_bicycle_detail_information_small_map_button);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RenterReservationBicycleDetailInformationActivity.this, SmallMapActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

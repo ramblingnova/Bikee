@@ -1,10 +1,47 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.tacademy.bikee.RegisterBicycleLocationFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="위치등록" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/fragment_register_bicycle_location_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="자전거가 있는 곳을 알려주세요!" />
+
+        <EditText
+            android:id="@+id/fragment_register_bicycle_location_location_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fragment_register_bicycle_location_text_view"
+            android:hint="서울" />
+
+        <EditText
+            android:id="@+id/fragment_register_bicycle_location_detail_location_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fragment_register_bicycle_location_location_edit_text"
+            android:hint="상세주소" />
+
+        <ImageView
+            android:id="@+id/fragment_register_bicycle_location_small_map"
+            android:src="@drawable/temp_icon"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_below="@id/fragment_register_bicycle_location_detail_location_edit_text"
+            android:layout_centerHorizontal="true" />
+
+        <!--<include
+            android:id="@+id/fragment_register_bicycle_location_small_map"
+            layout="@layout/small_map"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_below="@id/fragment_register_bicycle_location_detail_location_edit_text"
+            android:layout_centerHorizontal="true" />-->
+    </RelativeLayout>
 </FrameLayout>

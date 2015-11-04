@@ -1,10 +1,55 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.tacademy.bikee.RegisterBicycleInformationFragment">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="정보등록" />
+        <TextView
+            android:id="@+id/fragment_register_bicycle_information_bicycle_type_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="자전거 종류를 선택해주세요." />
 
+        <include
+            android:id="@+id/fragment_register_bicycle_information_bicycle_type"
+            android:layout_below="@id/fragment_register_bicycle_information_bicycle_type_text_view"
+            layout="@layout/bicycle_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/fragment_register_bicycle_information_bicycle_additory_component_text_view"
+            android:layout_below="@id/fragment_register_bicycle_information_bicycle_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="추가할 구성품을 선택해주세요." />
+
+        <include
+            android:id="@+id/fragment_register_bicycle_information_bicycle_additory_component"
+            android:layout_below="@id/fragment_register_bicycle_information_bicycle_additory_component_text_view"
+            layout="@layout/bicycle_additory_component"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/fragment_register_bicycle_information_bicycle_recommendation_height_text_view"
+            android:layout_below="@id/fragment_register_bicycle_information_bicycle_additory_component"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="권장 신장을 선택해주세요." />
+
+        <include
+            android:id="@+id/fragment_register_bicycle_information_bicycle_recommendation_height"
+            android:layout_below="@id/fragment_register_bicycle_information_bicycle_recommendation_height_text_view"
+            layout="@layout/bicycle_recommendation_height"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
 </FrameLayout>

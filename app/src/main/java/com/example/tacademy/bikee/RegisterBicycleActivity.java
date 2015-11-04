@@ -35,7 +35,12 @@ public class RegisterBicycleActivity extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_register_bicycle_information_container, list[count]).addToBackStack(null).commit();
                 } else {
 //                    getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                    Intent intent = new Intent();
+                    Intent intent = new Intent(RegisterBicycleActivity.this, FinallyRegisterBicycleActivity.class);
+                    startActivity(intent);
+//                    intent = getIntent();
+//                    if(intent.getBooleanExtra("close", true)) {
+//                        finish();
+//                    }
                 }
             }
         });

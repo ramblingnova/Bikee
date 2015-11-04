@@ -20,27 +20,35 @@ public class OwningBicycleDetailInformationActivity extends AppCompatActivity im
         int i = intent.getIntExtra("STATE", -1);
         Toast.makeText(OwningBicycleDetailInformationActivity.this, "STATE : " + i, Toast.LENGTH_SHORT).show();
         if(i == 0) {
-            btn = (Button)findViewById(R.id.activity_lister_requested_bicycle_detail_information_cancel_button);                  btn.setVisibility(View.VISIBLE);
-            btn = (Button)findViewById(R.id.activity_renter_reservation_bicycle_detail_information_pay_button);                     btn.setVisibility(View.GONE);
-            btn = (Button)findViewById(R.id.activity_renter_reservation_bicycle_detail_information_cancel_button2);                 btn.setVisibility(View.GONE);
+            btn = (Button)findViewById(R.id.activity_owning_bicycle_detail_information_deactivate_button);                  btn.setVisibility(View.VISIBLE);
+            btn = (Button)findViewById(R.id.activity_owning_bicycle_detail_information_back_button);                     btn.setVisibility(View.GONE);
+            btn = (Button)findViewById(R.id.activity_owning_bicycle_detail_information_approval_button);                 btn.setVisibility(View.GONE);
         } else if(i == 1) {
-            btn = (Button)findViewById(R.id.activity_renter_reservation_bicycle_detail_information_cancel_button);                  btn.setVisibility(View.GONE);
-            btn = (Button)findViewById(R.id.activity_renter_reservation_bicycle_detail_information_pay_button);                     btn.setVisibility(View.VISIBLE);
-            btn = (Button)findViewById(R.id.activity_renter_reservation_bicycle_detail_information_cancel_button2);                 btn.setVisibility(View.VISIBLE);
+            btn = (Button)findViewById(R.id.activity_owning_bicycle_detail_information_deactivate_button);                  btn.setVisibility(View.GONE);
+            btn = (Button)findViewById(R.id.activity_owning_bicycle_detail_information_back_button);                     btn.setVisibility(View.VISIBLE);
+            btn = (Button)findViewById(R.id.activity_owning_bicycle_detail_information_approval_button);                 btn.setVisibility(View.VISIBLE);
         }
+        btn = (Button)findViewById(R.id.activity_owning_bicycle_detail_information_small_map_button);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(OwningBicycleDetailInformationActivity.this, SmallMapActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.activity_lister_requested_bicycle_detail_information_cancel_button:
+            case R.id.activity_owning_bicycle_detail_information_deactivate_button:
                 // TODO
                 finish();
                 break;
-            case R.id.activity_renter_reservation_bicycle_detail_information_pay_button:
+            case R.id.activity_owning_bicycle_detail_information_back_button:
                 finish();
                 break;
-            case R.id.activity_renter_reservation_bicycle_detail_information_cancel_button2:
+            case R.id.activity_owning_bicycle_detail_information_approval_button:
                 ChoiceDialogFragment dialog = new ChoiceDialogFragment();
                 dialog.setMessage("예약을 정말 취소하시겠습니까?", 1);
                 dialog.show(getSupportFragmentManager(), "custom");
