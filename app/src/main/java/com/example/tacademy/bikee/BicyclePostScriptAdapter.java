@@ -1,5 +1,6 @@
 package com.example.tacademy.bikee;
 
+import android.graphics.drawable.BitmapDrawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -13,8 +14,8 @@ import java.util.List;
 public class BicyclePostScriptAdapter extends BaseAdapter {
     List<BicyclePostScriptItem> items = new ArrayList<BicyclePostScriptItem>();
 
-    public void add(String text1, String text2, String text3) {
-        BicyclePostScriptItem item = new BicyclePostScriptItem(text1, text2, text3);
+    public void add(String image_url, String name, float star, String desc, String date) {
+        BicyclePostScriptItem item = new BicyclePostScriptItem(image_url, name, star, desc, date);
         items.add(item);
         notifyDataSetChanged();
     }

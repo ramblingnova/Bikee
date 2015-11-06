@@ -16,6 +16,13 @@
         android:layout_toRightOf="@+id/view_bicycle_post_script_item_user_image1"
         android:text="문근영" />
 
+    <RatingBar
+        android:id="@+id/view_bicycle_post_script_item_rating_bar"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/view_bicycle_post_script_item_user_name1" />
+
     <TextView
         android:id="@+id/view_bicycle_post_script_item_user_post_script1"
         android:layout_width="wrap_content"

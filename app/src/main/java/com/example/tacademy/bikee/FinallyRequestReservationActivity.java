@@ -38,6 +38,7 @@ public class FinallyRequestReservationActivity extends AppCompatActivity {
     }
 
     public void onCustomDialog1(View view) {
+        // TODO 싱글탑? 아무튼 한 번에 꺼지는게 맞는 듯...
         ChoiceDialogFragment dialog = new ChoiceDialogFragment();
         dialog.setMessage("주인장에게 예약요청을 하시겠습니까?", 0);
         dialog.show(getSupportFragmentManager(), "custom");

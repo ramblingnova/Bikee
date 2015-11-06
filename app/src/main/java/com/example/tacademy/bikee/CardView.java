@@ -1,6 +1,7 @@
 package com.example.tacademy.bikee;
 
 import android.content.Context;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -8,19 +9,27 @@ import android.widget.TextView;
  * Created by Tacademy on 2015-11-03.
  */
 public class CardView extends FrameLayout {
+
     public CardView(Context context) {
         super(context);
         init();
     }
 
-    TextView cardNum;
+    TextView card_number;
+    Button delete_button;
 
     private void init() {
         inflate(getContext(), R.layout.view_card_item, this);
-        cardNum = (TextView) findViewById(R.id.view_card_item_card_number_text_view);
+        card_number = (TextView) findViewById(R.id.view_card_item_card_number_text_view);
+        delete_button = (Button)findViewById(R.id.view_card_item_delete_button);
     }
 
-    public void setText(CardItem item) {
-        cardNum.setText("" + item.tv1);
+    public void setCardView(CardItem item) {
+        card_number.setText(item.card_number);
     }
+
+//    public void setOnBtnClickListener(OnClickListener clickListener){
+//        if(btn != null)
+//            btn.setOnClickListener(clickListener);
+//    }
 }

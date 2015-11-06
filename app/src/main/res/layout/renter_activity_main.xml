@@ -15,8 +15,8 @@
     <include
         android:id="@+id/renter_activity_main_renter_side_menu"
         layout="@layout/renter_side_menu"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
         android:layout_gravity="start"
         android:choiceMode="singleChoice" />
 </android.support.v4.widget.DrawerLayout>

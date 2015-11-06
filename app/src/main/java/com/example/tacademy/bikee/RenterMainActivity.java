@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -24,7 +25,7 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
     ImageView iv;
     TextView tv;
     Button btn;
-    Switch sw;
+    CheckBox cb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +63,8 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
         tv.setOnClickListener(this);
         tv = (TextView) findViewById(R.id.renter_side_menu_push_alarm);
         tv.setOnClickListener(this);
-        sw = (Switch) findViewById(R.id.renter_side_menu_push_alarm_switch);
-        sw.setOnCheckedChangeListener(this);
+        cb = (CheckBox) findViewById(R.id.renter_side_menu_push_alarm_switch);
+        cb.setOnCheckedChangeListener(this);
         tv = (TextView) findViewById(R.id.renter_side_menu_input_inquiry);
         tv.setOnClickListener(this);
         tv = (TextView) findViewById(R.id.renter_side_menu_version_information);
@@ -77,6 +78,8 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
         Intent intent;
         switch (v.getId()) {
             case R.id.renter_side_menu_renter_image:
+            case R.id.renter_side_menu_member_name_text_view:
+            case R.id.renter_side_menu_mail_address_text_view:
                 intent = new Intent(RenterMainActivity.this, SignInActivity.class);
                 startActivity(intent);
                 break;

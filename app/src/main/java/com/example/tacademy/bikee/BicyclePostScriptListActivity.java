@@ -1,5 +1,8 @@
 package com.example.tacademy.bikee;
 
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
@@ -25,7 +28,7 @@ public class BicyclePostScriptListActivity extends AppCompatActivity {
 
     private void initData() {
         for(int i = 0; i < 10; i++) {
-            adapter.add("" + i, "" + i, "" + i);
+            adapter.add("image url" + i, "렌터 이름" + i, (float)i/(float)2, "자전거에 대한 후기" + i, "15.11.04 " + i);
         }
     }
 }

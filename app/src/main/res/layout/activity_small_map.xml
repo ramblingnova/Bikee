@@ -12,5 +12,5 @@
         android:layout_height="match_parent"
         android:id="@+id/small_map"
         android:name="com.google.android.gms.maps.SupportMapFragment"/>
-
+<!-- TODO 해야한다 나는 구글맵을 이미지로 스냅샷 콜백으로 비트맵 -->
 </RelativeLayout>
