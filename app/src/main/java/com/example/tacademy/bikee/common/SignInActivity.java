@@ -17,17 +17,14 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        tv = (TextView) findViewById(R.id.sign_up);
+        tv = (TextView) findViewById(R.id.activity_sign_in_sign_up_string);
         tv.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.find_id_password:
-                Toast.makeText(this, "준비중입니다.", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.sign_up:
+            case R.id.activity_sign_in_sign_up_string:
                 Intent intent = new Intent(this, SignUpActivity.class);
                 startActivity(intent);
                 break;

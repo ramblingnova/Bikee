@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.tacademy.bikee.R;
+
 import com.example.tacademy.bikee.common.POI;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -64,10 +65,10 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
                 options.anchor(0.5f, 1);
                 POI poi = new POI();
 
-                poi.name = "자전거 제목";
-                poi.upperAddrName = "가격|종류|신장";
+                poi.setName("자전거 제목");
+                poi.setUpperAddrName("가격|종류|신장");
 
-                options.title(poi.name);
+                options.title(poi.getName());
                 options.snippet(poi.getAddress());
 
                 options.draggable(true);
@@ -106,7 +107,7 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
             @Override
             public boolean onMarkerClick(Marker marker) {
                 POI poi = mPOIResolver.get(marker);
-                Toast.makeText(getContext().getApplicationContext(), "title : " + poi.name, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext().getApplicationContext(), "title : " + poi.getName(), Toast.LENGTH_SHORT).show();
                 marker.showInfoWindow();
                 Intent intent = new Intent(getActivity(), FilteredBicycleDetailInformationActivity.class);
                 getActivity().startActivity(intent);

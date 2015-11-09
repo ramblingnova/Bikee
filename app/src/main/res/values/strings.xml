@@ -1,19 +1,29 @@
 <resources>
     <string name="app_name">Bikee</string>
 
-    <!-- renter_activity_main.xml -->
-    <string name="main_temp">메인액티비티</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_filter">FilterActivity</string>
 
-    <!-- renter_activity_sign_in.xml -->
-    <string name="user_email">이메일</string>
-    <string name="user_password">비밀번호</string>
-    <string name="remember_sign_in_information">로그인정보기억</string>
-    <string name="find_id_password">아이디/비밀번호찾기</string>
-    <string name="sign_in_button">로그인</string>
-    <string name="facebook_button">페이스북</string>
-    <string name="naver_button">네이버</string>
-    <string name="kakaotalk_button">카카오톡</string>
-    <string name="sign_up">개인 회원가입하기</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="desc_list_item_icon">Item Icon</string>
+    <string name="title_activity_lister_main">ListerMainActivity</string>
+    <string name="title_activity_practice">PracticeActivity</string>
+
+    <!-- activity_sign_in.xml -->
+    <string name="activity_sign_in_user_email_edit_text_string">이메일</string>
+    <string name="activity_sign_in_user_password_edit_text">비밀번호</string>
+    <string name="activity_sign_in_remember_sign_in_information_check_box_string">로그인정보기억</string>
+    <string name="activity_sign_in_find_id_password_text_view_string">아이디/비밀번호찾기</string>
+    <string name="activity_sign_in_sign_in_button_string">로그인</string>
+    <string name="activity_sign_in_facebook_button_string">페이스북</string>
+    <string name="activity_sign_in_naver_button_string">네이버</string>
+    <string name="activity_sign_in_kakaotalk_button_string">카카오톡</string>
+    <string name="activity_sign_in_sign_up_string">개인 회원가입하기</string>
 
     <!-- activity_sign_up.xml -->
     <string name="sign_up_name">이름</string>
@@ -31,16 +41,15 @@
     <string name="sign_up_terms_information_gathering_agreement">개인정보 수집 이용에 동의합니다.</string>
     <string name="sign_up_button">가입하기</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_filter">FilterActivity</string>
+    <!-- renter_side_menu.xml -->
+    <string name="renter_side_menu_member_name_text_view_string">Bruno Mars</string>
+    <string name="renter_side_menu_mail_address_text_view_string">bikee@email.com</string>
+    <string name="renter_side_menu_fragment_register_card_string">결제관리</string>
+    <string name="renter_side_menu_evaluation_bicycle_script_string">내평가보기</string>
+    <string name="renter_side_menu_authentication_information_string">인증</string>
+    <string name="renter_side_menu_push_alarm_string">푸시알림</string>
+    <string name="renter_side_menu_input_inquiry_string">고객센터</string>
+    <string name="renter_side_menu_version_information_string">버전정보</string>
+    <string name="renter_side_menu_change_mode_string">Lister모드 전환</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="action_settings">Settings</string>
-
-    <string name="desc_list_item_icon">Item Icon</string>
-    <string name="title_activity_lister_main">ListerMainActivity</string>
-    <string name="title_activity_practice">PracticeActivity</string>
 </resources>

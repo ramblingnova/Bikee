@@ -9,14 +9,6 @@
     tools:context=".MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
-    <!-- TODO : DELME -->
-    <TextView
-        android:id="@+id/temp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="메인액티비티" />
-
     <android.support.v4.app.FragmentTabHost
         android:id="@+id/tabHost"
         android:layout_width="match_parent"

@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/renter_side_menu_renter_image"
             android:layout_centerHorizontal="true"
-            android:text="Bruno Mars" />
+            android:text="@string/renter_side_menu_member_name_text_view_string" />
 
         <TextView
             android:id="@+id/renter_side_menu_mail_address_text_view"
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/renter_side_menu_member_name_text_view"
             android:layout_centerHorizontal="true"
-            android:text="bikee@email.com" />
+            android:text="@string/renter_side_menu_mail_address_text_view_string" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -50,7 +50,7 @@
             android:layout_alignParentLeft="true"
             android:layout_margin="3dp"
             android:src="@drawable/temp_icon"
-            android:text="결제관리" />
+            android:text="@string/renter_side_menu_fragment_register_card_string" />
 
         <TextView
             android:id="@+id/renter_side_menu_evaluation_bicycle_script"
@@ -60,7 +60,7 @@
             android:layout_below="@id/renter_side_menu_fragment_register_card"
             android:layout_margin="3dp"
             android:src="@drawable/temp_icon"
-            android:text="내평가보기" />
+            android:text="@string/renter_side_menu_evaluation_bicycle_script_string" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -83,7 +83,7 @@
                 android:layout_centerVertical="true"
                 android:layout_margin="3dp"
                 android:src="@drawable/temp_icon"
-                android:text="인증" />
+                android:text="@string/renter_side_menu_authentication_information_string" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -101,7 +101,7 @@
                 android:layout_centerVertical="true"
                 android:layout_margin="3dp"
                 android:src="@drawable/temp_icon"
-                android:text="푸시알림" />
+                android:text="@string/renter_side_menu_push_alarm_string" />
 
             <CheckBox
                 android:id="@+id/renter_side_menu_push_alarm_switch"
@@ -126,7 +126,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_margin="3dp"
                 android:src="@drawable/temp_icon"
-                android:text="고객센터" />
+                android:text="@string/renter_side_menu_input_inquiry_string" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -144,7 +144,7 @@
                 android:layout_centerVertical="true"
                 android:layout_margin="3dp"
                 android:src="@drawable/temp_icon"
-                android:text="버전정보" />
+                android:text="@string/renter_side_menu_version_information_string" />
         </RelativeLayout>
     </RelativeLayout>
 
@@ -154,5 +154,5 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_weight="0.07"
-        android:text="Lister모드 전환" />
+        android:text="@string/renter_side_menu_change_mode_string" />
 </LinearLayout>

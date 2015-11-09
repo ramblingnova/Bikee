@@ -138,15 +138,6 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
                 intent = new Intent(RenterMainActivity.this, ListerMainActivity.class);
                 startActivity(intent);
                 finish();
-//                tabHost.setCurrentTab(0);
-//                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//                ft.detach(getSupportFragmentManager().findFragmentByTag("tab1"));
-//                ft.commit();
-//                tabHost.clearAllTabs();
-//                tabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
-//                tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("예약"), SmartKeyFragment.class, null);
-//                tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator("검색"), SearchResultFragment.class, null);
-//                tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator("메세지"), ChattingRoomListFragment.class, null);
                 break;
         }
     }
@@ -159,12 +150,6 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
                 break;
         }
     }
-
-    //    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return super.onCreateOptionsMenu(menu);
-//    }
 
     @Override
     public void onBackPressed() {
