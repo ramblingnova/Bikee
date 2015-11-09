@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF00"
-    tools:context="com.example.tacademy.bikee.RenterReservationBicycleListFragment">
+    tools:context="com.example.tacademy.bikee.renter.reservationbicycle.RenterReservationBicycleListFragment">
 
     <!-- TODO : DELME -->
     <TextView

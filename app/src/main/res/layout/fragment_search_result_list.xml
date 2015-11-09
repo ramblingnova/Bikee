@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FF0000FF"
-    tools:context="com.example.tacademy.bikee.SearchResultListFragment">
+    tools:context="com.example.tacademy.bikee.renter.searchresult.SearchResultListFragment">
 
     <ListView
         android:id="@+id/view_search_result_item_list_view"
