@@ -1,6 +1,8 @@
 package com.example.tacademy.bikee;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -19,10 +21,12 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 public class RenterMainActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     FragmentTabHost tabHost;
-    ImageView iv;
+    ImageView iv, btt_iv1, btt_iv2, btt_iv3, btt_iv4;
     TextView tv;
     Button btn;
     CheckBox cb;
@@ -39,13 +43,28 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
 //
 //        }
 
+        btt_iv1 = new ImageView(this);
+        btt_iv2 = new ImageView(this);
+        btt_iv3 = new ImageView(this);
+        btt_iv4 = new ImageView(this);
+        if(Build.VERSION.SDK_INT < 23) {
+            btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon1));
+            btt_iv2.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon2));
+            btt_iv3.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon3));
+            btt_iv4.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon5));
+        } else {
+            btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon1, getTheme()));
+            btt_iv2.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon2, getTheme()));
+            btt_iv3.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon3, getTheme()));
+            btt_iv4.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon5, getTheme()));
+        }
+//        imageView.setBackgroundColor(Color.TRANSPARENT);
         tabHost = (FragmentTabHost) findViewById(R.id.tabHost);
         tabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
-
-        tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("검색"), SearchResultFragment.class, null);
-        tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator("예약"), RenterReservationBicycleListFragment.class, null);
-        tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator("메세지"), ChattingRoomListFragment.class, null);
-        tabHost.addTab(tabHost.newTabSpec("tab4").setIndicator("스마트락"), SmartKeyFragment.class, null);
+        tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator(btt_iv1), SearchResultFragment.class, null);
+        tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator(btt_iv2), RenterReservationBicycleListFragment.class, null);
+        tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator(btt_iv3), ChattingRoomListFragment.class, null);
+        tabHost.addTab(tabHost.newTabSpec("tab4").setIndicator(btt_iv4), SmartKeyFragment.class, null);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.renter_activity_main_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -54,6 +73,9 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
         toggle.syncState();
 
         iv = (ImageView) findViewById(R.id.renter_side_menu_renter_image);
+        ImageLoader loader;
+        loader = ImageLoader.getInstance();
+        loader.displayImage("http://bikee.s3.amazonaws.com/detail_1446776196619.jpg", iv);
         iv.setOnClickListener(this);
         tv = (TextView) findViewById(R.id.renter_side_menu_fragment_register_card);
         tv.setOnClickListener(this);

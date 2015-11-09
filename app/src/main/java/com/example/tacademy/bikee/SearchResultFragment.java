@@ -25,7 +25,6 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View v = inflater.inflate(R.layout.fragment_search_result, container, false);
         sw = (Switch) v.findViewById(R.id.search_bar_switch);
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
