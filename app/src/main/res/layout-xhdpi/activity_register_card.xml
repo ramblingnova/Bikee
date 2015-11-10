@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.tacademy.bikee.renter.sidemenu.cardmanagement.RegisterCardActivity">
+
+    <RelativeLayout
+        android:id="@+id/activity_register_card_card_sort_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/activity_register_card_card_sort_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="activity_register_card_card_sort_text_view_string" />
+
+        <EditText
+            android:id="@+id/activity_register_card_card_sort_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/activity_register_card_card_sort_text_view" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/activity_register_card_card_number_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/activity_register_card_card_sort_layout">
+
+        <TextView
+            android:id="@+id/activity_register_card_card_number_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/activity_register_card_card_number_text_view_string" />
+
+        <EditText
+            android:id="@+id/activity_register_card_card_number_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/activity_register_card_card_number_text_view" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/activity_register_card_valid_date_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/activity_register_card_card_number_layout">
+
+        <TextView
+            android:id="@+id/activity_register_card_valid_date_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/activity_register_card_valid_date_text_view_string" />
+
+        <EditText
+            android:id="@+id/activity_register_card_valid_date_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/activity_register_card_valid_date_text_view" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/activity_register_card_birth_date_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/activity_register_card_valid_date_layout">
+
+        <TextView
+            android:id="@+id/activity_register_card_birth_date_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/activity_register_card_birth_date_text_view_string" />
+
+        <EditText
+            android:id="@+id/activity_register_card_birth_date_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/activity_register_card_birth_date_text_view" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/activity_register_card_password_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/activity_register_card_birth_date_layout">
+
+        <TextView
+            android:id="@+id/activity_register_card_password_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/activity_register_card_password_text_view_string" />
+
+        <EditText
+            android:id="@+id/activity_register_card_password_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/activity_register_card_password_text_view" />
+    </RelativeLayout>
+
+    <CheckBox
+        android:id="@+id/activity_register_check_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/activity_register_card_password_layout"
+        android:layout_centerHorizontal="true"
+        android:text="@string/activity_register_check_box_string" />
+
+    <Button
+        android:id="@+id/activity_register_card_register_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/activity_register_check_box"
+        android:layout_centerHorizontal="true"
+        android:text="@string/activity_register_card_register_button" />
+</RelativeLayout>

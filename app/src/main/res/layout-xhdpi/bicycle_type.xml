@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:columnCount="4"
+    android:orientation="horizontal">
+
+    <Button
+        android:id="@+id/bicycle_type_button1"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bicycle_type_button1_string" />
+
+    <Button
+        android:id="@+id/bicycle_type_button2"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bicycle_type_button2_string" />
+
+    <Button
+        android:id="@+id/bicycle_type_button3"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bicycle_type_button3_string" />
+
+    <Button
+        android:id="@+id/bicycle_type_button4"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bicycle_type_button4_string" />
+
+    <Button
+        android:id="@+id/bicycle_type_button5"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bicycle_type_button5_string" />
+
+    <Button
+        android:id="@+id/bicycle_type_button6"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bicycle_type_button6_string" />
+
+    <Button
+        android:id="@+id/bicycle_type_button7"
+        android:layout_width="wrap_content"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_height="wrap_content"
+        android:text="@string/bicycle_type_button7_string" />
+
+    <Button
+        android:id="@+id/bicycle_type_button8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:text="@string/bicycle_type_button8_string" />
+</GridLayout>

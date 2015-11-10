@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:columnCount="3"
+    android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/bicycle_recommendation_height_button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bicycle_recommendation_height_button1_string" />
+
+        <Button
+            android:id="@+id/bicycle_recommendation_height_button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bicycle_recommendation_height_button2_string" />
+
+        <Button
+            android:id="@+id/bicycle_recommendation_height_button3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bicycle_recommendation_height_button3_string" />
+
+        <Button
+            android:id="@+id/bicycle_recommendation_height_button4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bicycle_recommendation_height_button4_string" />
+
+        <Button
+            android:id="@+id/bicycle_recommendation_height_button5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bicycle_recommendation_height_button5_string" />
+
+        <Button
+            android:id="@+id/bicycle_recommendation_height_button6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bicycle_recommendation_height_button6_string" />
+</GridLayout>

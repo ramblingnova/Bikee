@@ -81,26 +81,30 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        iv = (ImageView) findViewById(R.id.renter_side_menu_renter_image);
+        iv = (ImageView) findViewById(R.id.renter_side_menu_renter_image_image_view);
         ImageLoader loader;
         loader = ImageLoader.getInstance();
         loader.displayImage("http://bikee.s3.amazonaws.com/detail_1446776196619.jpg", iv);
         iv.setOnClickListener(this);
-        tv = (TextView) findViewById(R.id.renter_side_menu_fragment_register_card);
+        tv = (TextView) findViewById(R.id.renter_side_menu_member_name_text_view);
         tv.setOnClickListener(this);
-        tv = (TextView) findViewById(R.id.renter_side_menu_evaluation_bicycle_script);
+        tv = (TextView) findViewById(R.id.renter_side_menu_mail_address_text_view);
         tv.setOnClickListener(this);
-        tv = (TextView) findViewById(R.id.renter_side_menu_authentication_information);
+        tv = (TextView) findViewById(R.id.renter_side_menu_fragment_register_card_text_view);
         tv.setOnClickListener(this);
-        tv = (TextView) findViewById(R.id.renter_side_menu_push_alarm);
+        tv = (TextView) findViewById(R.id.renter_side_menu_evaluation_bicycle_script_text_view);
+        tv.setOnClickListener(this);
+        tv = (TextView) findViewById(R.id.renter_side_menu_authentication_information_text_view);
+        tv.setOnClickListener(this);
+        tv = (TextView) findViewById(R.id.renter_side_menu_push_alarm_text_view);
         tv.setOnClickListener(this);
         cb = (CheckBox) findViewById(R.id.renter_side_menu_push_alarm_switch);
         cb.setOnCheckedChangeListener(this);
-        tv = (TextView) findViewById(R.id.renter_side_menu_input_inquiry);
+        tv = (TextView) findViewById(R.id.renter_side_menu_input_inquiry_text_view);
         tv.setOnClickListener(this);
-        tv = (TextView) findViewById(R.id.renter_side_menu_version_information);
+        tv = (TextView) findViewById(R.id.renter_side_menu_version_information_text_view);
         tv.setOnClickListener(this);
-        btn = (Button) findViewById(R.id.renter_side_menu_change_mode);
+        btn = (Button) findViewById(R.id.renter_side_menu_change_mode_button);
         btn.setOnClickListener(this);
     }
 
@@ -108,33 +112,33 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         Intent intent;
         switch (v.getId()) {
-            case R.id.renter_side_menu_renter_image:
+            case R.id.renter_side_menu_renter_image_image_view:
             case R.id.renter_side_menu_member_name_text_view:
             case R.id.renter_side_menu_mail_address_text_view:
                 intent = new Intent(RenterMainActivity.this, SignInActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.renter_side_menu_fragment_register_card:
+            case R.id.renter_side_menu_fragment_register_card_text_view:
                 intent = new Intent(RenterMainActivity.this, CardManagementActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.renter_side_menu_evaluation_bicycle_script:
+            case R.id.renter_side_menu_evaluation_bicycle_script_text_view:
                 intent = new Intent(RenterMainActivity.this, EvaluatingBicyclePostScriptListActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.renter_side_menu_authentication_information:
+            case R.id.renter_side_menu_authentication_information_text_view:
                 intent = new Intent(RenterMainActivity.this, AuthenticationInformationActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.renter_side_menu_push_alarm:
+            case R.id.renter_side_menu_push_alarm_text_view:
                 break;
-            case R.id.renter_side_menu_input_inquiry:
+            case R.id.renter_side_menu_input_inquiry_text_view:
                 intent = new Intent(RenterMainActivity.this, InputInquiryActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.renter_side_menu_version_information:
+            case R.id.renter_side_menu_version_information_text_view:
                 break;
-            case R.id.renter_side_menu_change_mode:
+            case R.id.renter_side_menu_change_mode_button:
                 intent = new Intent(RenterMainActivity.this, ListerMainActivity.class);
                 startActivity(intent);
                 finish();

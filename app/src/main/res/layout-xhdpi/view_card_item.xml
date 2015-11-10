@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/view_card_item_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:src="@drawable/temp_icon" />
+
+    <Button
+        android:id="@+id/view_card_item_delete_button"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/view_card_item_delete_button_string"/>
+
+    <TextView
+        android:id="@+id/view_card_item_card_number_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/view_card_item_image_view"
+        android:layout_toLeftOf="@id/view_card_item_delete_button"
+        android:layout_toRightOf="@id/view_card_item_image_view"
+        android:layout_toStartOf="@id/view_card_item_delete_button"
+        android:paddingLeft="20dp"
+        android:text="@string/view_card_item_card_number_text_view_string" />
+</RelativeLayout>

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFFFF"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.337">
+
+        <ImageView
+            android:id="@+id/lister_side_menu_lister_image_image_view"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:src="@drawable/temp_icon" />
+
+        <TextView
+            android:id="@+id/lister_side_menu_member_name_text_view"
+            style="?attr/textAppearanceListItemSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lister_side_menu_lister_image_image_view"
+            android:layout_centerHorizontal="true"
+            android:text="@string/lister_side_menu_member_name_text_view_string" />
+
+        <TextView
+            android:id="@+id/lister_side_menu_mail_address_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lister_side_menu_member_name_text_view"
+            android:layout_centerHorizontal="true"
+            android:text="@string/lister_side_menu_mail_address_text_view_string" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.245"
+        android:paddingLeft="30dp"
+        android:paddingTop="15dp">
+
+        <TextView
+            android:id="@+id/lister_side_menu_see_my_bicycle_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="3dp"
+            android:text="@string/lister_side_menu_see_my_bicycle_text_view_string" />
+
+        <TextView
+            android:id="@+id/lister_side_menu_register_smart_lock_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/lister_side_menu_see_my_bicycle_text_view"
+            android:layout_margin="3dp"
+            android:text="@string/lister_side_menu_register_smart_lock_text_view_string" />
+
+        <TextView
+            android:id="@+id/lister_side_menu_receive_payment_information_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/lister_side_menu_register_smart_lock_text_view"
+            android:layout_margin="3dp"
+            android:src="@drawable/temp_icon"
+            android:text="@string/lister_side_menu_receive_payment_information_text_view_string" />
+
+        <TextView
+            android:id="@+id/lister_side_menu_evaluated_bicycle_script_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/lister_side_menu_receive_payment_information_text_view"
+            android:layout_margin="3dp"
+            android:src="@drawable/temp_icon"
+            android:text="@string/lister_side_menu_evaluated_bicycle_script_text_view_string" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.348"
+        android:paddingLeft="30dp"
+        android:paddingTop="15dp">
+
+        <RelativeLayout
+            android:id="@+id/lister_side_menu_authentication_information_text_view_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/lister_side_menu_authentication_information_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="3dp"
+                android:src="@drawable/temp_icon"
+                android:text="@string/lister_side_menu_authentication_information_text_view_string" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/lister_side_menu_push_alarm_text_view_check_box_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lister_side_menu_authentication_information_text_view_layout">
+
+            <TextView
+                android:id="@+id/lister_side_menu_push_alarm_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="3dp"
+                android:src="@drawable/temp_icon"
+                android:text="@string/lister_side_menu_push_alarm_text_view_string" />
+
+            <Switch
+                android:id="@+id/lister_side_menu_push_alarm_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="3dp"
+                android:layout_toRightOf="@id/lister_side_menu_push_alarm_text_view" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/lister_side_menu_input_inquiry_text_view_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lister_side_menu_push_alarm_text_view_check_box_layout">
+
+            <TextView
+                android:id="@+id/lister_side_menu_input_inquiry_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="3dp"
+                android:src="@drawable/temp_icon"
+                android:text="@string/lister_side_menu_input_inquiry_text_view_string" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/lister_side_menu_version_information_text_view_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lister_side_menu_input_inquiry_text_view_layout">
+
+            <TextView
+                android:id="@+id/lister_side_menu_version_information_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="3dp"
+                android:src="@drawable/temp_icon"
+                android:text="@string/lister_side_menu_version_information_text_view_string" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/lister_side_menu_change_mode_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_weight="0.07"
+        android:text="@string/lister_side_menu_change_mode_button_string" />
+</LinearLayout>

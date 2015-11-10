@@ -14,6 +14,17 @@
     <string name="title_activity_lister_main">ListerMainActivity</string>
     <string name="title_activity_practice">PracticeActivity</string>
 
+    <!-- renter_side_menu.xml -->
+    <string name="renter_side_menu_member_name_text_view_string">Bruno Mars</string>
+    <string name="renter_side_menu_mail_address_text_view_string">bikee@email.com</string>
+    <string name="renter_side_menu_register_card_text_view_string">결제관리</string>
+    <string name="renter_side_menu_evaluation_bicycle_script_text_view_string">내평가보기</string>
+    <string name="renter_side_menu_authentication_information_text_view_string">인증</string>
+    <string name="renter_side_menu_push_alarm_text_view_string">푸시알림</string>
+    <string name="renter_side_menu_input_inquiry_text_view_string">고객센터</string>
+    <string name="renter_side_menu_version_information_text_view_string">버전정보</string>
+    <string name="renter_side_menu_change_mode_button_string">Lister모드 전환</string>
+
     <!-- activity_sign_in.xml -->
     <string name="activity_sign_in_user_email_edit_text_string">이메일</string>
     <string name="activity_sign_in_user_password_edit_text">비밀번호</string>
@@ -26,30 +37,92 @@
     <string name="activity_sign_in_sign_up_string">개인 회원가입하기</string>
 
     <!-- activity_sign_up.xml -->
-    <string name="sign_up_name">이름</string>
-    <string name="sign_up_mail_address">메일주소</string>
-    <string name="sign_up_cellphone">핸드폰</string>
-    <string name="sign_up_authentication">인증번호받기</string>
-    <string name="sign_up_authentication_button">인증확인</string>
-    <string name="sign_up_password">비밀번호</string>
-    <string name="sign_up_receive_information_agreement">정보수신동의</string>
-    <string name="sign_up_mail_information_agreement">메일정보 수신 동의</string>
-    <string name="sign_up_sms_information_agreement">SMS 수신 동의</string>
-    <string name="sign_up_terms_agreement">약관동의</string>
-    <string name="sign_up_terms_bikee_agreement">바이키 이용약관에 동의합니다.</string>
-    <string name="sign_up_terms_location_information_agreement">위치정보 이용약관에 동의합니다.</string>
-    <string name="sign_up_terms_information_gathering_agreement">개인정보 수집 이용에 동의합니다.</string>
-    <string name="sign_up_button">가입하기</string>
+    <string name="activity_sign_up_name_string">이름</string>
+    <string name="activity_sign_up_mail_address_text_view_string">메일주소</string>
+    <string name="activity_sign_up_cellphone_text_view_string">핸드폰</string>
+    <string name="activity_sign_up_authentication_button_string">인증번호받기</string>
+    <string name="activity_sign_up_confirm_authentication_button_string">인증확인</string>
+    <string name="activity_sign_up_password_text_view_string">비밀번호</string>
+    <string name="activity_sign_up_receive_information_agreement_text_view_string">정보수신동의</string>
+    <string name="activity_sign_up_mail_information_agreement_check_box_string">메일정보 수신 동의</string>
+    <string name="activity_sign_up_sms_information_agreement_check_box_string">SMS 수신 동의</string>
+    <string name="activity_sign_up_terms_agreement_text_view_string">약관동의</string>
+    <string name="activity_sign_up_terms_bikee_agreement_check_box_string">바이키 이용약관에 동의합니다.</string>
+    <string name="activity_sign_up_terms_location_information_agreement_check_box_string">위치정보 이용약관에 동의합니다.</string>
+    <string name="activity_sign_up_terms_information_gathering_agreement_check_box_string">개인정보 수집 이용에 동의합니다.</string>
+    <string name="activity_sign_up_sign_up_button_string">가입하기</string>
 
-    <!-- renter_side_menu.xml -->
-    <string name="renter_side_menu_member_name_text_view_string">Bruno Mars</string>
-    <string name="renter_side_menu_mail_address_text_view_string">bikee@email.com</string>
-    <string name="renter_side_menu_fragment_register_card_string">결제관리</string>
-    <string name="renter_side_menu_evaluation_bicycle_script_string">내평가보기</string>
-    <string name="renter_side_menu_authentication_information_string">인증</string>
-    <string name="renter_side_menu_push_alarm_string">푸시알림</string>
-    <string name="renter_side_menu_input_inquiry_string">고객센터</string>
-    <string name="renter_side_menu_version_information_string">버전정보</string>
-    <string name="renter_side_menu_change_mode_string">Lister모드 전환</string>
+    <!-- activity_card_management.xml -->
+    <string name="activity_card_management_add_button_string">+</string>
+
+    <!-- view_card_item.xml -->
+    <string name="view_card_item_delete_button_string">삭제하기</string>
+    <string name="view_card_item_card_number_text_view_string">카드번호</string>
+
+    <!-- activity_register_card.xml -->
+    <string name="activity_register_card_card_sort_text_view_string">카드종류</string>
+    <string name="activity_register_card_card_number_text_view_string">카드번호</string>
+    <string name="activity_register_card_valid_date_text_view_string">유효기간</string>
+    <string name="activity_register_card_birth_date_text_view_string">생년월일</string>
+    <string name="activity_register_card_password_text_view_string">비밀번호</string>
+    <string name="activity_register_check_box_string">아래 약관 내용에 모두 동의합니다.</string>
+    <string name="activity_register_card_register_button">등록하기</string>
+
+    <!-- view_evaluating_bicycle_post_script_item.xml -->
+    <string name="view_evaluating_bicycle_post_script_item_bicycle_name_text_view_string">자전거이름</string>
+    <string name="view_evaluating_bicycle_post_script_item_mail_address_text_view_string">메일주소</string>
+    <string name="view_evaluating_bicycle_post_script_item_post_script_text_view_string">멋진 자전거에요. 다음에 또 이용하겠습니다.</string>
+    <string name="view_evaluating_bicycle_post_script_item_date_time_text_view_string">11.03 00:05</string>
+
+    <!-- activity_input_inquiry.xml -->
+    <string name="activity_input_inquiry_text_view_string">문의입력</string>
+    <string name="activity_input_inquiry_button_string">문의하기</string>
+    <string name="activity_input_inquiry_edit_text_string">200자 이내</string>
+
+    <!-- view_search_result_item -->
+    <string name="view_search_result_item_bicycle_name_text_view_string">자전거 이름</string>
+    <string name="view_search_result_item_payment_type_height_text_view_string">3000원 / 종류 / 신장</string>
+    <string name="view_search_result_item_distance_text_view_string">0.5km</string>
+
+    <!-- activity_filter.xml -->
+    <string name="activity_filter_reservation_date_text_view_string">예약날짜</string>
+    <string name="activity_filter_bicycle_component_text_view_string">자전거 물품</string>
+    <string name="activity_filter_recommendation_height_text_view_string">권장 신장 중복선택가능</string>
+    <string name="activity_filter_smart_lock_interlock_check_box_string">0.5km</string>
+    <string name="activity_filter_price_order_check_box_string">가격순</string>
+    <string name="activity_filter_distance_order_check_box_string">가까운 거리순</string>
+    <string name="activity_filter_search_button_string">적용하기</string>
+
+    <!-- bicycle_type.xml -->
+    <string name="bicycle_type_button1_string">산악용</string>
+    <string name="bicycle_type_button2_string">로드</string>
+    <string name="bicycle_type_button3_string">하이브리드</string>
+    <string name="bicycle_type_button4_string">픽시</string>
+    <string name="bicycle_type_button5_string">폴딩</string>
+    <string name="bicycle_type_button6_string">미밈벨로</string>
+    <string name="bicycle_type_button7_string">씨티형</string>
+    <string name="bicycle_type_button8_string">전기자전거</string>
+
+    <!-- bicycle_recommendation_height.xml -->
+    <string name="bicycle_recommendation_height_button1_string">155cm이하</string>
+    <string name="bicycle_recommendation_height_button2_string">155~160cm</string>
+    <string name="bicycle_recommendation_height_button3_string">160~165cm</string>
+    <string name="bicycle_recommendation_height_button4_string">165~170cm</string>
+    <string name="bicycle_recommendation_height_button5_string">170~175cm</string>
+    <string name="bicycle_recommendation_height_button6_string">175cm이상</string>
+
+    <!-- lister_side_menu.xml -->
+    <string name="lister_side_menu_member_name_text_view_string">Bruno Mars</string>
+    <string name="lister_side_menu_mail_address_text_view_string">bikee@email.com</string>
+    <string name="lister_side_menu_see_my_bicycle_text_view_string">내 자전거 보기</string>
+    <string name="lister_side_menu_register_smart_lock_text_view_string">내 스마트락 등록</string>
+    <string name="lister_side_menu_receive_payment_information_text_view_string">대금수령정보</string>
+    <string name="lister_side_menu_evaluated_bicycle_script_text_view_string">내평가보기</string>
+    <string name="lister_side_menu_authentication_information_text_view_string">인증</string>
+    <string name="lister_side_menu_push_alarm_text_view_string">푸시알림</string>
+    <string name="lister_side_menu_input_inquiry_text_view_string">고객센터</string>
+    <string name="lister_side_menu_version_information_text_view_string">버전정보</string>
+    <string name="lister_side_menu_change_mode_button_string">Renter모드 전환</string>
+
 
 </resources>

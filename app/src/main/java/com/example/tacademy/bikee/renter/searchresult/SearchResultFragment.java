@@ -9,10 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.renter.searchresult.filter.FilterActivity;
+import com.example.tacademy.bikee.renter.searchresult.list.SearchResultListFragment;
+import com.example.tacademy.bikee.renter.searchresult.map.SearchResultMapFragment;
 
 public class SearchResultFragment extends Fragment implements View.OnClickListener {
 
@@ -35,8 +39,8 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
                 fragmentChange(isChecked);
             }
         });
-        Button btn = (Button)v.findViewById(R.id.fragment_search_result_filter_button);
-        btn.setOnClickListener(this);
+        ImageView iv = (ImageView) v.findViewById(R.id.fragment_search_result_filter_image_view);
+        iv.setOnClickListener(this);
 
         return v;
     }
@@ -44,7 +48,7 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.fragment_search_result_filter_button: {
+            case R.id.fragment_search_result_filter_image_view: {
                 Intent intent = new Intent(getActivity(), FilterActivity.class);
                 getActivity().startActivityForResult(intent, 0);
                 break;
@@ -83,8 +87,8 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode,resultCode,data);
-        switch (resultCode){
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode) {
             case FilterActivity.RESULT_OK:
                 b = true;
                 break;
