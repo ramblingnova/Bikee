@@ -1,86 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:fitsSystemWindows="true"
     tools:context="com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.finallyrequestreservation.FinallyRequestReservationActivity">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <include
-            android:id="@+id/activity_finally_request_reservation_bicycle_picture"
-            layout="@layout/bicycle_picture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/activity_finally_request_reservation_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-        <include
-            android:id="@+id/activity_finally_request_reservation_lister_information"
-            layout="@layout/lister_information"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/activity_finally_request_reservation_bicycle_picture" />
+    </android.support.design.widget.AppBarLayout>
 
-        <include
-            android:id="@+id/activity_finally_request_reservation_bicycle_type"
-            layout="@layout/bicycle_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/activity_finally_request_reservation_lister_information" />
+    <ScrollView
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <include
-            android:id="@+id/activity_finally_request_reservation_recommendation_height"
-            layout="@layout/bicycle_recommendation_height"
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/activity_finally_request_reservation_bicycle_type" />
+            android:layout_height="wrap_content">
 
-        <include
-            android:id="@+id/activity_finally_request_reservation_bicycle_rental_place"
-            layout="@layout/bicycle_rental_place"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/activity_finally_request_reservation_recommendation_height" />
+            <include
+                android:id="@+id/activity_finally_request_reservation_bicycle_picture"
+                layout="@layout/bicycle_picture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/activity_finally_request_reservation_small_map_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/activity_finally_request_reservation_bicycle_rental_place"
-            android:text="지도보기"/>
+            <include
+                android:id="@+id/activity_finally_request_reservation_lister_information"
+                layout="@layout/lister_information"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_finally_request_reservation_bicycle_picture" />
 
-        <include
-            android:id="@+id/activity_finally_request_reservation_reservation_period"
-            layout="@layout/reservation_period"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/activity_finally_request_reservation_small_map_button" />
+            <include
+                android:id="@+id/activity_finally_request_reservation_bicycle_type"
+                layout="@layout/bicycle_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_finally_request_reservation_lister_information" />
 
-        <include
-            android:id="@+id/activity_finally_request_reservation_payment"
-            layout="@layout/payment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/activity_finally_request_reservation_reservation_period" />
+            <include
+                android:id="@+id/activity_finally_request_reservation_recommendation_height"
+                layout="@layout/bicycle_recommendation_height"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_finally_request_reservation_bicycle_type" />
 
-        <Button
-            android:id="@+id/activity_finally_request_reservation_cancel_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/activity_finally_request_reservation_payment"
-            android:text="예약취소" />
+            <include
+                android:id="@+id/activity_finally_request_reservation_bicycle_rental_place"
+                layout="@layout/bicycle_rental_place"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_finally_request_reservation_recommendation_height" />
 
-        <Button
-            android:id="@+id/activity_finally_request_reservation_confirm_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/activity_finally_request_reservation_payment"
-            android:layout_toRightOf="@id/activity_finally_request_reservation_cancel_button"
-            android:text="예약확인" />
-    </RelativeLayout>
-</ScrollView>
+            <Button
+                android:id="@+id/activity_finally_request_reservation_small_map_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/activity_finally_request_reservation_bicycle_rental_place"
+                android:text="지도보기" />
+
+            <include
+                android:id="@+id/activity_finally_request_reservation_reservation_period"
+                layout="@layout/reservation_period"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_finally_request_reservation_small_map_button" />
+
+            <include
+                android:id="@+id/activity_finally_request_reservation_payment"
+                layout="@layout/payment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_finally_request_reservation_reservation_period" />
+
+            <Button
+                android:id="@+id/activity_finally_request_reservation_cancel_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_finally_request_reservation_payment"
+                android:text="예약취소" />
+
+            <Button
+                android:id="@+id/activity_finally_request_reservation_confirm_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_finally_request_reservation_payment"
+                android:layout_toRightOf="@id/activity_finally_request_reservation_cancel_button"
+                android:text="예약확인" />
+        </RelativeLayout>
+    </ScrollView>
+</android.support.design.widget.CoordinatorLayout>

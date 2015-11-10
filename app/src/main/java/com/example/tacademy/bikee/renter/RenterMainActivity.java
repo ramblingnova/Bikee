@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tacademy.bikee.common.Util;
 import com.example.tacademy.bikee.common.chatting.ChattingRoomListFragment;
 import com.example.tacademy.bikee.lister.ListerMainActivity;
 import com.example.tacademy.bikee.R;
@@ -82,10 +83,8 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
         toggle.syncState();
 
         iv = (ImageView) findViewById(R.id.renter_side_menu_renter_image_image_view);
-        ImageLoader loader;
-        loader = ImageLoader.getInstance();
-        loader.displayImage("http://bikee.s3.amazonaws.com/detail_1446776196619.jpg", iv);
         iv.setOnClickListener(this);
+        Util.setCircleImageFromURL(this, "http://bikee.s3.amazonaws.com/detail_1446776196619.jpg", 0, iv);
         tv = (TextView) findViewById(R.id.renter_side_menu_member_name_text_view);
         tv.setOnClickListener(this);
         tv = (TextView) findViewById(R.id.renter_side_menu_mail_address_text_view);

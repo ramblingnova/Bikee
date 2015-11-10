@@ -2,14 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.tacademy.bikee.common.chatting.ChattingRoomListFragment"
-    android:background="#FFBB341B">
-
-    <!-- TODO : DELME -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="채팅 방 목록 프래그먼트" />
+    tools:context="com.example.tacademy.bikee.common.chatting.ChattingRoomListFragment" >
 
     <ListView
         android:id="@+id/view_chatting_room_item_list_view"

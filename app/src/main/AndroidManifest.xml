@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.tacademy.bikee" >
+    package="com.example.tacademy.bikee">
 
-    <uses-permission android:name="com.google.android.providers.gfs.permission.READ_GSERVICES"/>
+    <uses-permission android:name="com.google.android.providers.gfs.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -13,7 +13,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAu8afjq-HRqTqYUvovbcs4-o3XPGWzrfQ" />
@@ -24,7 +24,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".common.SplashActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,44 +34,60 @@
         </activity>
         <activity
             android:name=".common.SignInActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".common.SignUpActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".renter.searchresult.filter.FilterActivity"
-            android:label="@string/title_activity_filter" />
-        <activity android:name=".common.chatting.ChattingRoomActivity" />
-        <activity android:name=".renter.searchresult.bicycledetailinformation.FilteredBicycleDetailInformationActivity" />
-        <activity android:name=".renter.searchresult.bicycledetailinformation.postscription.BicyclePostScriptListActivity" />
-        <activity android:name=".renter.reservationbicycle.InputBicyclePostScriptActivity" />
-        <activity android:name=".renter.searchresult.bicycledetailinformation.finallyrequestreservation.FinallyRequestReservationActivity" />
-        <activity android:name=".renter.reservationbicycle.RenterReservationBicycleDetailInformationActivity" />
-        <activity android:name=".renter.sidemenu.cardmanagement.CardManagementActivity" />
-        <activity android:name=".renter.sidemenu.evaluatingbicycle.EvaluatingBicyclePostScriptListActivity" />
-        <activity android:name=".common.sidemenu.AuthenticationInformationActivity" />
-        <activity android:name=".common.sidemenu.InputInquiryActivity" />
-        <activity android:name=".renter.sidemenu.cardmanagement.RegisterCardActivity" >
-        </activity>
+            android:label="@string/title_activity_filter"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".common.chatting.ChattingRoomActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".renter.searchresult.bicycledetailinformation.FilteredBicycleDetailInformationActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".renter.searchresult.bicycledetailinformation.postscription.BicyclePostScriptListActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".renter.reservationbicycle.InputBicyclePostScriptActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".renter.searchresult.bicycledetailinformation.finallyrequestreservation.FinallyRequestReservationActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".renter.reservationbicycle.RenterReservationBicycleDetailInformationActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".renter.sidemenu.cardmanagement.CardManagementActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".renter.sidemenu.evaluatingbicycle.EvaluatingBicyclePostScriptListActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".common.sidemenu.AuthenticationInformationActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".common.sidemenu.InputInquiryActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".renter.sidemenu.cardmanagement.RegisterCardActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".lister.ListerMainActivity"
             android:label="@string/title_activity_lister_main"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
-        <activity android:name=".lister.requestedbicycle.ListerRequestedBicycleDetailInformationActivity" >
-        </activity>
-        <activity android:name=".lister.sidemenu.evaluatedbicycle.EvaluatedBicyclePostScriptListActivity" >
-        </activity>
-        <activity android:name=".lister.sidemenu.owningbicycle.OwningBicycleDetailInformationActivity" >
-        </activity>
-        <activity android:name=".lister.sidemenu.owningbicycle.OwningBicycleListActivity" >
-        </activity>
-        <activity android:name=".lister.sidemenu.owningbicycle.registerbicycle.RegisterBicycleActivity" >
-        </activity>
-        <activity android:name=".lister.sidemenu.owningbicycle.registerbicycle.FinallyRegisterBicycleActivity" >
-        </activity>
-        <activity android:name=".common.SmallMapActivity" >
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".lister.requestedbicycle.ListerRequestedBicycleDetailInformationActivity" />
+        <activity android:name=".lister.sidemenu.evaluatedbicycle.EvaluatedBicyclePostScriptListActivity" />
+        <activity android:name=".lister.sidemenu.owningbicycle.OwningBicycleDetailInformationActivity" />
+        <activity android:name=".lister.sidemenu.owningbicycle.OwningBicycleListActivity" />
+        <activity android:name=".lister.sidemenu.owningbicycle.registerbicycle.RegisterBicycleActivity" />
+        <activity android:name=".lister.sidemenu.owningbicycle.registerbicycle.FinallyRegisterBicycleActivity" />
+        <activity android:name=".common.SmallMapActivity" />
     </application>
 
 </manifest>

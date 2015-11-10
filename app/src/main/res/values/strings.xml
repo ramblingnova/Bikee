@@ -111,6 +111,33 @@
     <string name="bicycle_recommendation_height_button5_string">170~175cm</string>
     <string name="bicycle_recommendation_height_button6_string">175cm이상</string>
 
+    <!-- view_renter_reservation_bicycle_item.xml -->
+    <string name="view_renter_reservation_bicycle_item_bicycle_name_text_view_string">자전거 이름</string>
+    <string name="view_renter_reservation_bicycle_item_payment_type_height_text_view_string">3000원 / 종류 / 신장</string>
+    <string name="view_renter_reservation_bicycle_item_distance_tex_view_string">0.5km</string>
+
+    <!-- activity_renter_reservation_bicycle_detail_information.xml -->
+    <string name="activity_renter_reservation_bicycle_detail_information_bicycle_title_text_view_string">여성이 타기 좋은 픽시 자전거</string>
+    <string name="activity_renter_reservation_bicycle_detail_information_small_map_button_string">지도보기</string>
+    <string name="activity_renter_reservation_bicycle_detail_information_cancel_button_string">취소하기</string>
+    <string name="activity_renter_reservation_bicycle_detail_information_pay_button_string">결제하기</string>
+    <string name="activity_renter_reservation_bicycle_detail_information_cancel_button2_string">취소하기</string>
+    <string name="activity_renter_reservation_bicycle_detail_information_input_post_scription_button_string">후기입력</string>
+
+    <!-- activity_input_bicycle_post_script.xml -->
+    <string name="activity_input_bicycle_post_script_rating_bar_text_view_string">별점</string>
+    <string name="activity_input_bicycle_post_script_input_post_script_text_view_string">후기입력</string>
+    <string name="activity_input_bicycle_post_script_input_button_string">입력하기</string>
+
+    <!-- activity_chatting_room.xml -->
+    <string name="activity_chatting_room_chatting_input_bar_transfer_button_string">전송</string>
+    <string name="activity_chatting_room_chatting_input_bar_add_button_string">+</string>
+
+    <!-- view_chatting_room_item.xml -->
+    <string name="view_chatting_room_item_bicycle_name_text_view_string">자전거 이름</string>
+    <string name="view_chatting_room_item_payment_type_height_text_view_string">3000원 / 종류 / 신장</string>
+    <string name="view_chatting_room_item_distance_text_view_string">0.5km</string>
+
     <!-- lister_side_menu.xml -->
     <string name="lister_side_menu_member_name_text_view_string">Bruno Mars</string>
     <string name="lister_side_menu_mail_address_text_view_string">bikee@email.com</string>
@@ -123,6 +150,4 @@
     <string name="lister_side_menu_input_inquiry_text_view_string">고객센터</string>
     <string name="lister_side_menu_version_information_text_view_string">버전정보</string>
     <string name="lister_side_menu_change_mode_button_string">Renter모드 전환</string>
-
-
 </resources>

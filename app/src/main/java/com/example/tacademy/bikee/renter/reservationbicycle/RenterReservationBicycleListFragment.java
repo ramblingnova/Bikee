@@ -10,6 +10,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.MemoryCategory;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.renter.searchresult.list.SearchResultAdapter;
 import com.example.tacademy.bikee.renter.searchresult.list.SearchResultItem;
@@ -17,7 +19,7 @@ import com.example.tacademy.bikee.renter.searchresult.list.SearchResultItem;
 public class RenterReservationBicycleListFragment extends Fragment {
 
     ListView lv;
-    SearchResultAdapter adapter;
+    RenterReservationBicycleAdapter adapter;
 
     public RenterReservationBicycleListFragment() {
     }
@@ -27,14 +29,14 @@ public class RenterReservationBicycleListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_renter_reservation_bicycle_list, container, false);
         lv = (ListView)v.findViewById(R.id.view_renter_reservation_bicycle_item_list_view);
-        adapter = new SearchResultAdapter();
+        adapter = new RenterReservationBicycleAdapter();
         lv.setAdapter(adapter);
         initData();
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SearchResultItem item = (SearchResultItem) lv.getItemAtPosition(position);
+                RenterReservationBicycleItem item = (RenterReservationBicycleItem) lv.getItemAtPosition(position);
                 Toast.makeText(getContext().getApplicationContext(), "position : " + position, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), RenterReservationBicycleDetailInformationActivity.class);
                 // TODO
@@ -51,7 +53,7 @@ public class RenterReservationBicycleListFragment extends Fragment {
     }
 
     private void initData() {
-        for(int i = 0; i < 10; i++) {
+        for(int i = 0; i < 30; i++) {
             adapter.add("" + i, "" + i, "" + i);
         }
     }

@@ -5,31 +5,31 @@
 
 
     <ImageView
-        android:id="@+id/view_renter_reservation_bicycle_item_image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/view_renter_reservation_bicycle_item_bicycle_picture_image_view"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:src="@drawable/temp_icon" />
 
     <TextView
-        android:id="@+id/view_renter_reservation_bicycle_item_bicycle_name"
+        android:id="@+id/view_renter_reservation_bicycle_item_bicycle_name_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/view_renter_reservation_bicycle_item_image_view"
-        android:text="자전거 이름" />
+        android:layout_toRightOf="@id/view_renter_reservation_bicycle_item_bicycle_picture_image_view"
+        android:text="@string/view_renter_reservation_bicycle_item_bicycle_name_text_view_string" />
 
     <TextView
-        android:id="@+id/view_renter_reservation_bicycle_item_payment_type_height"
+        android:id="@+id/view_renter_reservation_bicycle_item_payment_type_height_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/view_renter_reservation_bicycle_item_bicycle_name"
-        android:layout_toRightOf="@id/view_renter_reservation_bicycle_item_image_view"
-        android:text="3000원 / 종류 / 신장" />
+        android:layout_below="@id/view_renter_reservation_bicycle_item_bicycle_name_text_view"
+        android:layout_toRightOf="@id/view_renter_reservation_bicycle_item_bicycle_picture_image_view"
+        android:text="@string/view_renter_reservation_bicycle_item_payment_type_height_text_view_string" />
 
     <TextView
-        android:id="@+id/view_renter_reservation_bicycle_item_distance"
+        android:id="@+id/view_renter_reservation_bicycle_item_distance_tex_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:text="0.5km" />
+        android:text="@string/view_renter_reservation_bicycle_item_distance_tex_view_string" />
 </RelativeLayout>

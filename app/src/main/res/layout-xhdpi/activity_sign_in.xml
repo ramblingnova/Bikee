@@ -1,90 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:fitsSystemWindows="true"
     tools:context="com.example.tacademy.bikee.common.SignInActivity">
 
-    <EditText
-        android:id="@+id/activity_sign_in_user_email_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:hint="@string/activity_sign_in_user_email_edit_text_string" />
-
-    <EditText
-        android:id="@+id/activity_sign_in_user_password_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_below="@id/activity_sign_in_user_email_edit_text"
-        android:hint="@string/activity_sign_in_user_password_edit_text"
-        android:password="true" />
-
-    <LinearLayout
-        android:id="@+id/activity_sign_in_remember_sign_in_information_find_id_password_layout"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/activity_sign_in_user_password_edit_text"
-        android:orientation="horizontal">
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <CheckBox
-            android:id="@+id/activity_sign_in_remember_sign_in_information_check_box"
-            android:layout_width="wrap_content"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/activity_sign_in_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <EditText
+            android:id="@+id/activity_sign_in_user_email_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="@string/activity_sign_in_user_email_edit_text_string" />
+
+        <EditText
+            android:id="@+id/activity_sign_in_user_password_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@id/activity_sign_in_user_email_edit_text"
+            android:hint="@string/activity_sign_in_user_password_edit_text"
+            android:password="true" />
+
+        <LinearLayout
+            android:id="@+id/activity_sign_in_remember_sign_in_information_find_id_password_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/activity_sign_in_remember_sign_in_information_check_box_string" />
+            android:layout_below="@id/activity_sign_in_user_password_edit_text"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/activity_sign_in_remember_sign_in_information_check_box"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_sign_in_remember_sign_in_information_check_box_string" />
+
+            <TextView
+                android:id="@+id/activity_sign_in_find_id_password_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/activity_sign_in_remember_sign_in_information_check_box"
+                android:text="@string/activity_sign_in_find_id_password_text_view_string" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/activity_sign_in_sign_in_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/activity_sign_in_remember_sign_in_information_find_id_password_layout"
+            android:text="@string/activity_sign_in_sign_in_button_string" />
+
+        <LinearLayout
+            android:id="@+id/activity_sign_in_interlock_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/activity_sign_in_sign_in_button"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/activity_sign_in_facebook_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/activity_sign_in_facebook_button_string" />
+
+            <Button
+                android:id="@+id/activity_sign_in_naver_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/activity_sign_in_naver_button_string" />
+
+            <Button
+                android:id="@+id/activity_sign_in_kakaotalk_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/activity_sign_in_kakaotalk_button_string" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/activity_sign_in_find_id_password_text_view"
+            android:id="@+id/activity_sign_in_sign_up_string"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/activity_sign_in_remember_sign_in_information_check_box"
-            android:text="@string/activity_sign_in_find_id_password_text_view_string" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/activity_sign_in_sign_in_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/activity_sign_in_remember_sign_in_information_find_id_password_layout"
-        android:text="@string/activity_sign_in_sign_in_button_string" />
-
-    <LinearLayout
-        android:id="@+id/activity_sign_in_interlock_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/activity_sign_in_sign_in_button"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/activity_sign_in_facebook_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/activity_sign_in_facebook_button_string" />
-
-        <Button
-            android:id="@+id/activity_sign_in_naver_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/activity_sign_in_naver_button_string" />
-
-        <Button
-            android:id="@+id/activity_sign_in_kakaotalk_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/activity_sign_in_kakaotalk_button_string" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/activity_sign_in_sign_up_string"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/activity_sign_in_interlock_layout"
-        android:layout_centerHorizontal="true"
-        android:text="@string/activity_sign_in_sign_up_string" />
-</RelativeLayout>
+            android:layout_below="@id/activity_sign_in_interlock_layout"
+            android:layout_centerHorizontal="true"
+            android:text="@string/activity_sign_in_sign_up_string" />
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

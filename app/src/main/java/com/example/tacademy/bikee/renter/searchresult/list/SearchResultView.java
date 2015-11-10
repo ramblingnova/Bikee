@@ -21,7 +21,7 @@ public class SearchResultView extends FrameLayout {
 
     private void init() {
         inflate(getContext(), R.layout.view_search_result_item, this);
-        iv = (ImageView)findViewById(R.id.view_search_result_item_image_view);
+        iv = (ImageView)findViewById(R.id.view_search_result_item_bicycle_picture_image_view);
         tv1 = (TextView)findViewById(R.id.view_search_result_item_bicycle_name_text_view);
         tv2 = (TextView)findViewById(R.id.view_search_result_item_payment_type_height_text_view);
         tv3 = (TextView)findViewById(R.id.view_search_result_item_distance_text_view);

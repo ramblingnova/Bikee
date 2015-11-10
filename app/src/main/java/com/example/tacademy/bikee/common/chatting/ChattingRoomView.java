@@ -21,10 +21,10 @@ public class ChattingRoomView extends FrameLayout {
 
     private void init() {
         inflate(getContext(), R.layout.view_chatting_room_item, this);
-        iv = (ImageView)findViewById(R.id.view_chatting_room_item_image_view);
-        tv1 = (TextView)findViewById(R.id.view_chatting_room_item_bicycle_name);
-        tv2 = (TextView)findViewById(R.id.view_chatting_room_item_payment_type_height);
-        tv3 = (TextView)findViewById(R.id.view_chatting_room_item_distance);
+        iv = (ImageView)findViewById(R.id.view_chatting_room_item_bicycle_picture_image_view);
+        tv1 = (TextView)findViewById(R.id.view_chatting_room_item_bicycle_name_text_view);
+        tv2 = (TextView)findViewById(R.id.view_chatting_room_item_payment_type_height_text_view);
+        tv3 = (TextView)findViewById(R.id.view_chatting_room_item_distance_text_view);
     }
 
     public void setText(ChattingRoomItem item) {

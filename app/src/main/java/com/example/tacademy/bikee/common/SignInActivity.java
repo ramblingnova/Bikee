@@ -3,6 +3,8 @@ package com.example.tacademy.bikee.common;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +18,9 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.activity_sign_in_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         tv = (TextView) findViewById(R.id.activity_sign_in_sign_up_string);
         tv.setOnClickListener(this);
@@ -29,5 +34,14 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 startActivity(intent);
                 break;
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -3,6 +3,8 @@ package com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -16,6 +18,9 @@ public class FinallyRequestReservationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finally_request_reservation);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.activity_finally_request_reservation_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Button btn = (Button) findViewById(R.id.activity_finally_request_reservation_cancel_button);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -52,5 +57,14 @@ public class FinallyRequestReservationActivity extends AppCompatActivity {
         ChoiceDialogFragment dialog = new ChoiceDialogFragment();
         dialog.setMessage("예약을 정말 취소하시겠습니까?", 1);
         dialog.show(getSupportFragmentManager(), "custom");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
