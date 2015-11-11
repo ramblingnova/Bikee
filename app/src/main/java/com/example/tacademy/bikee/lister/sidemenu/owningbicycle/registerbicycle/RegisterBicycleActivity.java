@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.tacademy.bikee.R;
 
@@ -21,6 +24,9 @@ public class RegisterBicycleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_bicycle);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.activity_register_bicycle_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_register_bicycle_information_container, RegisterBicycleInformationFragment.newInstance("base")).commit();
@@ -32,6 +38,7 @@ public class RegisterBicycleActivity extends AppCompatActivity {
             public void onClick(View v) {
                 int count = getSupportFragmentManager().getBackStackEntryCount();
                 if (count < list.length) {
+                    Toast.makeText(RegisterBicycleActivity.this, "count : " + count, Toast.LENGTH_SHORT).show();
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_register_bicycle_information_container, list[count]).addToBackStack(null).commit();
                 } else {
 //                    getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -44,5 +51,24 @@ public class RegisterBicycleActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            int count;
+            switch (count = getSupportFragmentManager().getBackStackEntryCount()) {
+                case 0:
+                    Toast.makeText(RegisterBicycleActivity.this, "case : " + count, Toast.LENGTH_SHORT).show();
+                    finish();
+                    break;
+                case 1: case 2: case 3: case 4:
+                    Toast.makeText(RegisterBicycleActivity.this, "case : " + count, Toast.LENGTH_SHORT).show();
+                    getSupportFragmentManager().popBackStack();
+                    break;
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

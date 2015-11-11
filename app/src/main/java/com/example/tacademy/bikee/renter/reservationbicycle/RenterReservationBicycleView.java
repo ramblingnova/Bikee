@@ -5,10 +5,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.tacademy.bikee.R;
-import com.example.tacademy.bikee.common.Util;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.example.tacademy.bikee.etc.Util;
 
 /**
  * Created by User on 2015-10-31.

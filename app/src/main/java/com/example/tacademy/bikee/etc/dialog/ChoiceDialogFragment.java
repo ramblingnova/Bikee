@@ -3,6 +3,7 @@ package com.example.tacademy.bikee.etc.dialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.util.DisplayMetrics;
@@ -17,61 +18,60 @@ import android.widget.TextView;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.renter.RenterMainActivity;
 
+import org.w3c.dom.Text;
+
 /**
  * Created by Tacademy on 2015-11-02.
  */
-public class ChoiceDialogFragment extends DialogFragment {
+public class ChoiceDialogFragment extends DialogFragment implements View.OnClickListener {
 
-    String s;
-    int i;
+    private NoChoiceDialogFragment dialog;
+    private TextView tv;
+    private Button btn;
+    private static final String ARG_PARAM = "MESSAGE";
+    private String message;
+    private String button1Text;
+    private String button2Text;
+    public static final int RENTER_CANCEL_RESERVATION = 1;
+    public static final int RENTER_REQUEST_RESERVATION = 2;
+    public static final int RENTER_PAY_RESERVATION = 3;
+    public static final int RENTER_CANCEL_ALREADY_RESERVATION = 4;
+    public static final int LISTER_CANCEL_RESERVATION = 5;
+
+    public static ChoiceDialogFragment newInstance(int param) {
+        ChoiceDialogFragment fragment = new ChoiceDialogFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_PARAM, param);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NO_TITLE, R.style.AppTheme);
+
+        if (getArguments() != null) {
+            message = getMessageById(getArguments().getInt(ARG_PARAM));
+            button1Text = getButton1TextById(getArguments().getInt(ARG_PARAM));
+            button2Text = getButton2TextById(getArguments().getInt(ARG_PARAM));
+        }
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_choice_dialog, container, false);
-        TextView tv = (TextView) view.findViewById(R.id.fragment_choice_dialog_text_view);
-        tv.setText(s);
-        Button btn = (Button) view.findViewById(R.id.fragment_choice_dialog_cancel_button);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO 아니오 -> FinallyRegisterBicycleActivity로
-                dismiss();
-            }
-        });
-        btn = (Button) view.findViewById(R.id.fragment_choice_dialog_confirm_button);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (i == 0) {
-                    // TODO 예 -> 예약 프래그먼트로
-                    NoChoiceDialogFragment dialog = new NoChoiceDialogFragment();
-                    dialog.setMessage("예약요청 되었습니다..");
-                    dialog.show(getActivity().getSupportFragmentManager(), "custom");
-                    Intent intent = new Intent(getContext().getApplicationContext(), RenterMainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    dismiss();
-                    getActivity().finish();
-                } else if (i == 1) {
-                    // TODO 예 -> SearchResultMapFragment로, 예약 프래그먼트로
-                    NoChoiceDialogFragment dialog = new NoChoiceDialogFragment();
-                    dialog.setMessage("예약이 취소되었습니다.");
-                    dialog.show(getActivity().getSupportFragmentManager(), "custom");
-                    Intent intent = new Intent(getContext().getApplicationContext(), RenterMainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    dismiss();
-                    getActivity().finish();
-                }
-            }
-        });
+
+        tv = (TextView) view.findViewById(R.id.fragment_choice_dialog_message_text_view);
+        tv.setText(message);
+        btn = (Button) view.findViewById(R.id.fragment_choice_dialog_button1);
+        btn.setText(button1Text);
+        btn.setOnClickListener(this);
+        btn = (Button) view.findViewById(R.id.fragment_choice_dialog_button2);
+        btn.setText(button2Text);
+        btn.setOnClickListener(this);
+
         return view;
     }
 
@@ -79,7 +79,7 @@ public class ChoiceDialogFragment extends DialogFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Dialog d = getDialog();
-        d.getWindow().setLayout(R.dimen.dialog_width, R.dimen.dialog_height);
+        d.getWindow().setLayout(400, 400);
         WindowManager.LayoutParams params = d.getWindow().getAttributes();
         params.gravity = Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL;
         DisplayMetrics metrics = new DisplayMetrics();
@@ -89,9 +89,128 @@ public class ChoiceDialogFragment extends DialogFragment {
         d.getWindow().setAttributes(params);
     }
 
-    public void setMessage(String s, int i) {
-        this.s = s;
-        this.i = i;
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fragment_choice_dialog_button1:
+                switch (getArguments().getInt(ARG_PARAM)) {
+                    case RENTER_CANCEL_RESERVATION:
+                        dialog = new NoChoiceDialogFragment().newInstance(NoChoiceDialogFragment.RENTER_COMPLETE_CANCEL_ALREADY_RESERVATION, NoChoiceDialogFragment.RENTER_MOVE_TO_SEARCH_RESULT);
+                        dialog.show(getActivity().getSupportFragmentManager(), "custom");
+                        break;
+                    case RENTER_REQUEST_RESERVATION:
+                        dialog = new NoChoiceDialogFragment().newInstance(NoChoiceDialogFragment.RENTER_COMPLETE_RESERVATION, NoChoiceDialogFragment.RENTER_MOVE_TO_RENTER_RESERVATION);
+                        dialog.show(getActivity().getSupportFragmentManager(), "custom");
+                        break;
+                    case RENTER_CANCEL_ALREADY_RESERVATION:
+                        dialog = new NoChoiceDialogFragment().newInstance(NoChoiceDialogFragment.RENTER_COMPLETE_CANCEL_ALREADY_RESERVATION, NoChoiceDialogFragment.RENTER_MOVE_TO_RENTER_RESERVATION);
+                        dialog.show(getActivity().getSupportFragmentManager(), "custom");
+                        break;
+                    case RENTER_PAY_RESERVATION:
+                        dismiss();
+                        break;
+                    case LISTER_CANCEL_RESERVATION:
+                        dialog = new NoChoiceDialogFragment().newInstance(NoChoiceDialogFragment.LISTER_CANCEL_RESERVATION, NoChoiceDialogFragment.LISTER_MOVE_TO_LISTER_REQUESTED);
+                        dialog.show(getActivity().getSupportFragmentManager(), "custom");
+                        break;
+                }
+                break;
+            case R.id.fragment_choice_dialog_button2:
+                switch (getArguments().getInt(ARG_PARAM)) {
+                    case RENTER_CANCEL_RESERVATION:
+                        dismiss();
+                        break;
+                    case RENTER_REQUEST_RESERVATION:
+                        dismiss();
+                        break;
+                    case RENTER_CANCEL_ALREADY_RESERVATION:
+                        dismiss();
+                        break;
+                    case RENTER_PAY_RESERVATION:
+                        dialog = new NoChoiceDialogFragment().newInstance(NoChoiceDialogFragment.RENTER_COMPLETE_PAYMENT, NoChoiceDialogFragment.RENTER_MOVE_TO_RENTER_RESERVATION);
+                        dialog.show(getActivity().getSupportFragmentManager(), "custom");
+                        break;
+                    case LISTER_CANCEL_RESERVATION:
+                        dismiss();
+                        break;
+                }
+//                    Intent intent = new Intent(getContext().getApplicationContext(), RenterMainActivity.class);
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    startActivity(intent);
+//                    dismiss();
+//                    getActivity().finish(); 뭘까?
+//                else if (i == 1) {
+//                    NoChoiceDialogFragment dialog = new NoChoiceDialogFragment().newInstance(NoChoiceDialogFragment.RENTER_COMPLETE_RESERVATION);
+//                    dialog.show(getActivity().getSupportFragmentManager(), "custom");
+//                    Intent intent = new Intent(getContext().getApplicationContext(), RenterMainActivity.class);
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    startActivity(intent);
+//                    dismiss();
+//                    getActivity().finish();
+                break;
+        }
     }
 
+    private String getMessageById(int id) {
+        switch (id) {
+            case RENTER_CANCEL_RESERVATION:
+                message = "예약요청을 정말 취소하시겠습니까?";
+                break;
+            case RENTER_REQUEST_RESERVATION:
+                message = "주인장에게 예약요청을 하시겠습니까?";
+                break;
+            case RENTER_PAY_RESERVATION:
+                message = "자동결제하시겠습니까?";
+                break;
+            case RENTER_CANCEL_ALREADY_RESERVATION:
+                message = "예약을 정말 취소하시겠습니까?";
+                break;
+            case LISTER_CANCEL_RESERVATION:
+                message = "님에 대한 예약을 정말 취소하시겠습니까?";
+                break;
+        }
+        return message;
+    }
+
+    private String getButton1TextById(int id) {
+        switch (id) {
+            case RENTER_CANCEL_RESERVATION:
+                button1Text = "네";
+                break;
+            case RENTER_REQUEST_RESERVATION:
+                button1Text = "네";
+                break;
+            case RENTER_PAY_RESERVATION:
+                button1Text = "아니요";
+                break;
+            case RENTER_CANCEL_ALREADY_RESERVATION:
+                button1Text = "네";
+                break;
+            case LISTER_CANCEL_RESERVATION:
+                button1Text = "네";
+                break;
+        }
+        return button1Text;
+    }
+
+    private String getButton2TextById(int id) {
+        switch (id) {
+            case RENTER_CANCEL_RESERVATION:
+                button2Text = "아니요";
+                break;
+            case RENTER_REQUEST_RESERVATION:
+                button2Text = "아니요";
+                break;
+            case RENTER_PAY_RESERVATION:
+                button2Text = "네";
+                break;
+            case RENTER_CANCEL_ALREADY_RESERVATION:
+                button2Text = "아니요";
+                break;
+            case LISTER_CANCEL_RESERVATION:
+                button2Text = "아니요";
+                break;
+        }
+        return button2Text;
+    }
 }

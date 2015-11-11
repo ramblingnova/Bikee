@@ -40,7 +40,7 @@ public class RenterReservationBicycleListFragment extends Fragment {
                 Toast.makeText(getContext().getApplicationContext(), "position : " + position, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), RenterReservationBicycleDetailInformationActivity.class);
                 // TODO
-                intent.putExtra("STATE", 2);
+                intent.putExtra("STATE", 1);
                 getActivity().startActivity(intent);
             }
         });
@@ -54,7 +54,7 @@ public class RenterReservationBicycleListFragment extends Fragment {
 
     private void initData() {
         for(int i = 0; i < 30; i++) {
-            adapter.add("" + i, "" + i, "" + i);
+            adapter.add("" + i, "" + i, "" + i, (i%3));
         }
     }
 }

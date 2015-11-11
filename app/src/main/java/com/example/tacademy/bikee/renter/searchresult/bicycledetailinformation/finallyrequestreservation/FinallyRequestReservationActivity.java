@@ -12,51 +12,43 @@ import com.example.tacademy.bikee.etc.dialog.ChoiceDialogFragment;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.SmallMapActivity;
 
-public class FinallyRequestReservationActivity extends AppCompatActivity {
+public class FinallyRequestReservationActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private ChoiceDialogFragment dialog;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finally_request_reservation);
-        Toolbar toolbar = (Toolbar)findViewById(R.id.activity_finally_request_reservation_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_finally_request_reservation_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Button btn = (Button) findViewById(R.id.activity_finally_request_reservation_cancel_button);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onCustomDialog2(v);
-            }
-        });
+        btn.setOnClickListener(FinallyRequestReservationActivity.this);
         btn = (Button) findViewById(R.id.activity_finally_request_reservation_confirm_button);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onCustomDialog1(v);
-            }
-        });
+        btn.setOnClickListener(FinallyRequestReservationActivity.this);
         btn = (Button) findViewById(R.id.activity_finally_request_reservation_small_map_button);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(FinallyRequestReservationActivity.this, SmallMapActivity.class);
+        btn.setOnClickListener(FinallyRequestReservationActivity.this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.activity_finally_request_reservation_cancel_button:
+                dialog = new ChoiceDialogFragment().newInstance(ChoiceDialogFragment.RENTER_CANCEL_RESERVATION);
+                dialog.show(getSupportFragmentManager(), "custom");
+                break;
+            case R.id.activity_finally_request_reservation_confirm_button:
+                dialog = new ChoiceDialogFragment().newInstance(ChoiceDialogFragment.RENTER_REQUEST_RESERVATION);
+                dialog.show(getSupportFragmentManager(), "custom");
+                break;
+            case R.id.activity_finally_request_reservation_small_map_button:
+                intent = new Intent(FinallyRequestReservationActivity.this, SmallMapActivity.class);
                 startActivity(intent);
-            }
-        });
-    }
-
-    public void onCustomDialog1(View view) {
-        // TODO 싱글탑? 아무튼 한 번에 꺼지는게 맞는 듯...
-        ChoiceDialogFragment dialog = new ChoiceDialogFragment();
-        dialog.setMessage("주인장에게 예약요청을 하시겠습니까?", 0);
-        dialog.show(getSupportFragmentManager(), "custom");
-    }
-
-    public void onCustomDialog2(View view) {
-        ChoiceDialogFragment dialog = new ChoiceDialogFragment();
-        dialog.setMessage("예약을 정말 취소하시겠습니까?", 1);
-        dialog.show(getSupportFragmentManager(), "custom");
+                break;
+        }
     }
 
     @Override

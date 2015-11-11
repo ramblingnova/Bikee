@@ -4,8 +4,18 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/fragment_no_choice_dialog_text_view"
-        android:layout_centerInParent="true"
+        android:id="@+id/fragment_no_choice_dialog_message_text_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="메시지"/>
+
+    <TextView
+        android:id="@+id/fragment_no_choice_dialog_submessage_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_below="@id/fragment_no_choice_dialog_message_text_view"
+        android:visibility="gone"
+        android:text="서브메시지" />
 </RelativeLayout>

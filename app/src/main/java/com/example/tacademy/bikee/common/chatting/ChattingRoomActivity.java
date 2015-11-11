@@ -24,7 +24,7 @@ public class ChattingRoomActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        lv = (ListView)findViewById(R.id.view_chatting_room_item_list_view);
+        lv = (ListView)findViewById(R.id.view_chatting_room_item_conversation_list_view);
         adapter = new TalkAdapter();
         lv.setAdapter(adapter);
         initData();

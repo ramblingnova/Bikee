@@ -12,11 +12,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.renter.reservationbicycle.RenterReservationBicycleDetailInformationActivity;
 
 public class ListerRequestedBicycleListFragment extends Fragment {
 
-    ListView lv;
-    ListerRequestedBicycleAdapter adapter;
+    private Intent intent;
+    private ListView lv;
+    private ListerRequestedBicycleAdapter adapter;
 
     public ListerRequestedBicycleListFragment() {
         // Required empty public constructor
@@ -38,8 +40,9 @@ public class ListerRequestedBicycleListFragment extends Fragment {
                 ListerRequestedBicycleItem item = (ListerRequestedBicycleItem) lv.getItemAtPosition(position);
                 Toast.makeText(getContext().getApplicationContext(), "position : " + position, Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(getActivity(), ListerRequestedBicycleDetailInformationActivity.class);
-                startActivity(intent);
+                intent = new Intent(getActivity(), ListerRequestedBicycleDetailInformationActivity.class);
+                intent.putExtra("STATE", 2);
+                getActivity().startActivity(intent);
             }
         });
 

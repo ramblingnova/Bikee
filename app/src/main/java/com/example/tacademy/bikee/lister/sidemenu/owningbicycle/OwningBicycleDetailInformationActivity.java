@@ -3,6 +3,8 @@ package com.example.tacademy.bikee.lister.sidemenu.owningbicycle;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -19,6 +21,9 @@ public class OwningBicycleDetailInformationActivity extends AppCompatActivity im
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owning_bicycle_detail_information);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.activity_owning_bicycle_detail_information_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
         int i = intent.getIntExtra("STATE", -1);
@@ -53,11 +58,20 @@ public class OwningBicycleDetailInformationActivity extends AppCompatActivity im
                 finish();
                 break;
             case R.id.activity_owning_bicycle_detail_information_approval_button:
-                ChoiceDialogFragment dialog = new ChoiceDialogFragment();
-                dialog.setMessage("예약을 정말 취소하시겠습니까?", 1);
-                dialog.show(getSupportFragmentManager(), "custom");
+//                ChoiceDialogFragment dialog = new ChoiceDialogFragment();
+//                dialog.setMessage("예약을 정말 취소하시겠습니까?", 1);
+//                dialog.show(getSupportFragmentManager(), "custom");
                 finish();
                 break;
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -1,4 +1,4 @@
-package com.example.tacademy.bikee.common;
+package com.example.tacademy.bikee.etc;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,6 +9,9 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.tacademy.bikee.R;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by User on 2015-11-10.
@@ -34,7 +37,6 @@ public class Util {
     // imageVIew Scaltype
     // matrix, center, centerCrop, centerInside,
     // fitStart, fitCenter, fitEnd, fitXY
-
 //        ImageLoader loader;
 //        loader = ImageLoader.getInstance();
 //        loader.displayImage("http://www.hdwallpapers.in/walls/avengers_age_of_ultron_2015_movie-wide.jpg", iv);

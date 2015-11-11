@@ -19,7 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.tacademy.bikee.common.Util;
+import com.example.tacademy.bikee.etc.Util;
 import com.example.tacademy.bikee.common.chatting.ChattingRoomListFragment;
 import com.example.tacademy.bikee.lister.ListerMainActivity;
 import com.example.tacademy.bikee.R;
@@ -31,7 +31,6 @@ import com.example.tacademy.bikee.common.sidemenu.AuthenticationInformationActiv
 import com.example.tacademy.bikee.renter.sidemenu.cardmanagement.CardManagementActivity;
 import com.example.tacademy.bikee.renter.sidemenu.evaluatingbicycle.EvaluatingBicyclePostScriptListActivity;
 import com.example.tacademy.bikee.common.sidemenu.InputInquiryActivity;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class RenterMainActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 

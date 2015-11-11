@@ -3,6 +3,8 @@ package com.example.tacademy.bikee.lister.sidemenu.owningbicycle;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -21,6 +23,9 @@ public class OwningBicycleListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owning_bicycle_list);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.activity_owning_bicycle_list_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         lv = (ListView)findViewById(R.id.activity_owning_bicycle_list_list_view);
         adapter = new OwningBicycleAdapter();
@@ -52,5 +57,14 @@ public class OwningBicycleListActivity extends AppCompatActivity {
         for(int i = 0; i < 10; i++) {
             adapter.add("" + i, "" + i);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

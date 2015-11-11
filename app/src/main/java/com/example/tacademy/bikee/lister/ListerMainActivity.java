@@ -51,7 +51,7 @@ public class ListerMainActivity extends AppCompatActivity implements View.OnClic
         btt_iv1 = new ImageView(this);
         btt_iv2 = new ImageView(this);
         btt_iv3 = new ImageView(this);
-        if(Build.VERSION.SDK_INT < 23) {
+        if (Build.VERSION.SDK_INT < 23) {
             btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon1));
             btt_iv2.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon2));
             btt_iv3.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon3));
