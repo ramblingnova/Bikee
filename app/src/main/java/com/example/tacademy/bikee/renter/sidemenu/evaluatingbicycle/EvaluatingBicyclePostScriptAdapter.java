@@ -13,8 +13,8 @@ import java.util.List;
 public class EvaluatingBicyclePostScriptAdapter extends BaseAdapter {
     List<EvaluatingBicyclePostScriptItem> items = new ArrayList<EvaluatingBicyclePostScriptItem>();
 
-    public void add(String text1, String text2, String text3, String text4) {
-        EvaluatingBicyclePostScriptItem item = new EvaluatingBicyclePostScriptItem(text1, text2, text3, text4);
+    public void add(String text1, String text2, int point, String text3, String text4) {
+        EvaluatingBicyclePostScriptItem item = new EvaluatingBicyclePostScriptItem(text1, text2, point, text3, text4);
         items.add(item);
         notifyDataSetChanged();
     }
@@ -42,7 +42,9 @@ public class EvaluatingBicyclePostScriptAdapter extends BaseAdapter {
         } else {
             v = new EvaluatingBicyclePostScriptView(parent.getContext());
         }
-        v.setText(items.get(position));
+        v.EvaluatingBicyclePostScriptView(items.get(position));
         return v;
     }
+
+
 }

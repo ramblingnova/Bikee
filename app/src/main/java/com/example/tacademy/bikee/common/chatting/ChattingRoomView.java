@@ -17,19 +17,27 @@ public class ChattingRoomView extends FrameLayout {
     }
 
     ImageView iv;
-    TextView tv1, tv2, tv3;
+    private TextView bicycle_name;
+    private TextView payment;
+    private TextView type;
+    private TextView height;
+    private TextView distance;
 
     private void init() {
         inflate(getContext(), R.layout.view_chatting_room_item, this);
         iv = (ImageView)findViewById(R.id.view_chatting_room_item_bicycle_picture_image_view);
-        tv1 = (TextView)findViewById(R.id.view_chatting_room_item_bicycle_name_text_view);
-        tv2 = (TextView)findViewById(R.id.view_chatting_room_item_payment_type_height_text_view);
-        tv3 = (TextView)findViewById(R.id.view_chatting_room_item_distance_text_view);
+        bicycle_name = (TextView)findViewById(R.id.view_chatting_room_item_bicycle_name_text_view);
+        payment = (TextView)findViewById(R.id.view_chatting_room_item_payment_text_view);
+        type = (TextView)findViewById(R.id.view_chatting_room_item_type_text_view);
+        height = (TextView)findViewById(R.id.view_chatting_room_item_height_text_view);
+        distance = (TextView)findViewById(R.id.view_chatting_room_item_distance_text_view);
     }
 
     public void setText(ChattingRoomItem item) {
-        tv1.setText("" + item.tv1);
-        tv2.setText("" + item.tv2);
-        tv3.setText("" + item.tv3);
+        bicycle_name.setText("" + item.getBicycle_name());
+        payment.setText("" + item.getPayment());
+        type.setText("" + item.getType());
+        height.setText("" + item.getHeight());
+        distance.setText("" + item.getDistance());
     }
 }

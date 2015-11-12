@@ -52,7 +52,7 @@ public class SearchResultListFragment extends Fragment {
 
     private void initData() {
         for(int i = 0; i < 10; i++) {
-            adapter.add("" + i, "" + i, "" + i);
+            adapter.add("" + i, "" + i, "" + i, "" + i, "" + i);
         }
     }
 }

@@ -81,7 +81,9 @@
 
     <!-- view_search_result_item -->
     <string name="view_search_result_item_bicycle_name_text_view_string">자전거 이름</string>
-    <string name="view_search_result_item_payment_type_height_text_view_string">3000원 / 종류 / 신장</string>
+    <string name="view_search_result_item_payment_text_view_string">3000원</string>
+    <string name="view_search_result_item_type_ext_view_string">종류</string>
+    <string name="view_search_result_item_height_text_view_string">신장</string>
     <string name="view_search_result_item_distance_text_view_string">0.5km</string>
 
     <!-- activity_filter.xml -->
@@ -135,7 +137,9 @@
 
     <!-- view_chatting_room_item.xml -->
     <string name="view_chatting_room_item_bicycle_name_text_view_string">자전거 이름</string>
-    <string name="view_chatting_room_item_payment_type_height_text_view_string">3000원 / 종류 / 신장</string>
+    <string name="view_chatting_room_item_payment_text_view_string">3000원</string>
+    <string name="view_chatting_room_item_type_text_view_string">종류</string>
+    <string name="view_chatting_room_item_height_text_view_string">신장</string>
     <string name="view_chatting_room_item_distance_text_view_string">0.5km</string>
 
     <!-- lister_side_menu.xml -->

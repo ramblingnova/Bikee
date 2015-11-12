@@ -6,13 +6,19 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.tacademy.bikee.R;
 
+import org.w3c.dom.Text;
+
 public class ChattingRoomActivity extends AppCompatActivity {
 
-    ListView lv;
-    TalkAdapter adapter;
+    private Intent intent;
+    private ChattingRoomItem item;
+    private ListView lv;
+    private TextView tv;
+    private TalkAdapter adapter;
 
     public ChattingRoomActivity() {}
 
@@ -27,6 +33,19 @@ public class ChattingRoomActivity extends AppCompatActivity {
         lv = (ListView)findViewById(R.id.view_chatting_room_item_conversation_list_view);
         adapter = new TalkAdapter();
         lv.setAdapter(adapter);
+        intent = getIntent();
+        item = (ChattingRoomItem)intent.getSerializableExtra("bicycle");
+        tv = (TextView)findViewById(R.id.view_search_result_item_bicycle_name_text_view);
+        tv.setText(item.getBicycle_name());
+        tv = (TextView)findViewById(R.id.view_search_result_item_payment_text_view);
+        tv.setText(item.getPayment());
+        tv = (TextView)findViewById(R.id.view_search_result_item_type_text_view);
+        tv.setText(item.getType());
+        tv = (TextView)findViewById(R.id.view_search_result_item_height_text_view);
+        tv.setText(item.getHeight());
+        tv = (TextView)findViewById(R.id.view_search_result_item_distance_text_view);
+        tv.setText(item.getDistance());
+
         initData();
     }
 

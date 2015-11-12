@@ -13,8 +13,8 @@ import java.util.List;
 public class SearchResultAdapter extends BaseAdapter {
     List<SearchResultItem> items = new ArrayList<SearchResultItem>();
 
-    public void add(String text1, String text2, String text3) {
-        SearchResultItem item = new SearchResultItem(text1, text2, text3);
+    public void add(String bicycle_name, String payment, String type, String height, String distance) {
+        SearchResultItem item = new SearchResultItem(bicycle_name, payment, type, height, distance);
         items.add(item);
         notifyDataSetChanged();
     }
@@ -42,7 +42,7 @@ public class SearchResultAdapter extends BaseAdapter {
         } else {
             v = new SearchResultView(parent.getContext());
         }
-        v.setText(items.get(position));
+        v.setSearchResultView(items.get(position));
         return v;
     }
 }

@@ -10,8 +10,8 @@ import com.example.tacademy.bikee.R;
 
 public class EvaluatingBicyclePostScriptListActivity extends AppCompatActivity {
 
-    ListView lv;
-    EvaluatingBicyclePostScriptAdapter adapter;
+    private ListView lv;
+    private EvaluatingBicyclePostScriptAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class EvaluatingBicyclePostScriptListActivity extends AppCompatActivity {
 
     private void initData() {
         for(int i = 0; i < 10; i++) {
-            adapter.add("" + i, "" + i, "" + i, "" + i);
+            adapter.add("" + i, "" + i, i, "" + i, "" + i);
         }
     }
 

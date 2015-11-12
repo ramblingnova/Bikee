@@ -14,8 +14,8 @@ import com.example.tacademy.bikee.R;
 
 public class ChattingRoomListFragment extends Fragment {
 
-    ListView lv;
-    ChattingRoomAdapter adapter;
+    private ListView lv;
+    private ChattingRoomAdapter adapter;
 
     public ChattingRoomListFragment() {
     }
@@ -35,7 +35,7 @@ public class ChattingRoomListFragment extends Fragment {
                 ChattingRoomItem item = (ChattingRoomItem)lv.getItemAtPosition(position);
                 Toast.makeText(getContext().getApplicationContext(), "position : " + position, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), ChattingRoomActivity.class);
-                // TODO
+                intent.putExtra("bicycle", item);
                 getActivity().startActivity(intent);
             }
         });
@@ -49,7 +49,7 @@ public class ChattingRoomListFragment extends Fragment {
 
     private void initData() {
         for(int i = 0; i < 10; i++) {
-            adapter.add("" + i, "" + i, "" + i);
+            adapter.add("b" + i, "b" + i, "b" + i, "b" + i, "" + i);
         }
     }
 }

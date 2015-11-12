@@ -29,9 +29,4 @@ public class CardView extends FrameLayout {
     public void setCardView(CardItem item) {
         card_number.setText(item.card_number);
     }
-
-//    public void setOnBtnClickListener(OnClickListener clickListener){
-//        if(btn != null)
-//            btn.setOnClickListener(clickListener);
-//    }
 }

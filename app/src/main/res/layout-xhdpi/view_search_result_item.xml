@@ -18,12 +18,28 @@
         android:text="@string/view_search_result_item_bicycle_name_text_view_string" />
 
     <TextView
-        android:id="@+id/view_search_result_item_payment_type_height_text_view"
+        android:id="@+id/view_search_result_item_payment_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/view_search_result_item_bicycle_name_text_view"
         android:layout_toRightOf="@id/view_search_result_item_bicycle_picture_image_view"
-        android:text="@string/view_search_result_item_payment_type_height_text_view_string" />
+        android:text="@string/view_search_result_item_payment_text_view_string" />
+
+    <TextView
+        android:id="@+id/view_search_result_item_type_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_search_result_item_bicycle_name_text_view"
+        android:layout_toRightOf="@id/view_search_result_item_payment_text_view"
+        android:text="@string/view_search_result_item_type_ext_view_string" />
+
+    <TextView
+        android:id="@+id/view_search_result_item_height_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_search_result_item_bicycle_name_text_view"
+        android:layout_toRightOf="@id/view_search_result_item_type_text_view"
+        android:text="@string/view_search_result_item_height_text_view_string" />
 
     <TextView
         android:id="@+id/view_search_result_item_distance_text_view"

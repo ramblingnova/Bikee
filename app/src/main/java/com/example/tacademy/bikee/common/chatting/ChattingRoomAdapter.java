@@ -13,8 +13,8 @@ import java.util.List;
 public class ChattingRoomAdapter extends BaseAdapter {
     List<ChattingRoomItem> items = new ArrayList<ChattingRoomItem>();
 
-    public void add(String text1, String text2, String text3) {
-        ChattingRoomItem item = new ChattingRoomItem(text1, text2, text3);
+    public void add(String bicycle_name, String payment, String type, String height, String distance) {
+        ChattingRoomItem item = new ChattingRoomItem(bicycle_name, payment, type, height, distance);
         items.add(item);
         notifyDataSetChanged();
     }
