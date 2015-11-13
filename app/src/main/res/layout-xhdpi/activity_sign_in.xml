@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.tacademy.bikee.common.SignInActivity">
+    tools:context="com.example.tacademy.bikee.common.sidemenu.SignInActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -30,25 +30,44 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <EditText
-            android:id="@+id/activity_sign_in_user_email_edit_text"
+        <RelativeLayout
+            android:id="@+id/activity_sign_in_user_email_user_password_layout"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:hint="@string/activity_sign_in_user_email_edit_text_string" />
+            android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/activity_sign_in_user_password_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@id/activity_sign_in_user_email_edit_text"
-            android:hint="@string/activity_sign_in_user_password_edit_text"
-            android:password="true" />
+            <EditText
+                android:id="@+id/activity_sign_in_user_email_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="@string/activity_sign_in_user_email_edit_text_string" />
+
+            <TextView
+                android:id="@+id/activity_sign_in_user_email_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/activity_sign_in_user_password_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@id/activity_sign_in_user_email_edit_text"
+                android:hint="@string/activity_sign_in_user_password_edit_text"
+                android:password="true" />
+
+            <TextView
+                android:id="@+id/activity_sign_in_user_password_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@id/activity_sign_in_user_email_edit_text"
+                android:visibility="gone" />
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/activity_sign_in_remember_sign_in_information_find_id_password_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/activity_sign_in_user_password_edit_text"
+            android:layout_below="@id/activity_sign_in_user_email_user_password_layout"
             android:orientation="horizontal">
 
             <CheckBox

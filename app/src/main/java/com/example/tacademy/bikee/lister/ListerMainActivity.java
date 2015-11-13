@@ -19,7 +19,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.tacademy.bikee.common.SignInActivity;
+import com.example.tacademy.bikee.common.sidemenu.SignInActivity;
 import com.example.tacademy.bikee.common.chatting.ChattingRoomListFragment;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.sidemenu.InputInquiryActivity;

@@ -1,5 +1,6 @@
 package com.example.tacademy.bikee.renter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.FragmentTabHost;
@@ -9,11 +10,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,7 +28,7 @@ import com.example.tacademy.bikee.etc.Util;
 import com.example.tacademy.bikee.common.chatting.ChattingRoomListFragment;
 import com.example.tacademy.bikee.lister.ListerMainActivity;
 import com.example.tacademy.bikee.R;
-import com.example.tacademy.bikee.common.SignInActivity;
+import com.example.tacademy.bikee.common.sidemenu.SignInActivity;
 import com.example.tacademy.bikee.common.smartkey.SmartKeyFragment;
 import com.example.tacademy.bikee.renter.reservationbicycle.RenterReservationBicycleListFragment;
 import com.example.tacademy.bikee.renter.searchresult.SearchResultFragment;
@@ -32,7 +37,7 @@ import com.example.tacademy.bikee.renter.sidemenu.cardmanagement.CardManagementA
 import com.example.tacademy.bikee.renter.sidemenu.evaluatingbicycle.EvaluatingBicyclePostScriptListActivity;
 import com.example.tacademy.bikee.common.sidemenu.InputInquiryActivity;
 
-public class RenterMainActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+public class RenterMainActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, DrawerLayout.DrawerListener {
 
     FragmentTabHost tabHost;
     ImageView iv, btt_iv1, btt_iv2, btt_iv3, btt_iv4;
@@ -49,25 +54,9 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
 
 //        Intent intent = getIntent();
 //        if(intent.getBooleanExtra("switch_onoff",false)){
-//
 //        }
 
-        btt_iv1 = new ImageView(this);
-        btt_iv2 = new ImageView(this);
-        btt_iv3 = new ImageView(this);
-        btt_iv4 = new ImageView(this);
-        if(Build.VERSION.SDK_INT < 23) {
-            btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon1));
-            btt_iv2.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon2));
-            btt_iv3.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon3));
-            btt_iv4.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon5));
-        } else {
-            btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon1, getTheme()));
-            btt_iv2.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon2, getTheme()));
-            btt_iv3.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon3, getTheme()));
-            btt_iv4.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon5, getTheme()));
-        }
-//        imageView.setBackgroundColor(Color.TRANSPARENT);
+        setBottomTabImage();
         tabHost = (FragmentTabHost) findViewById(R.id.tabHost);
         tabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
         tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator(btt_iv1), SearchResultFragment.class, null);
@@ -76,10 +65,10 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
         tabHost.addTab(tabHost.newTabSpec("tab4").setIndicator(btt_iv4), SmartKeyFragment.class, null);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.renter_activity_main_drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+        drawer.setDrawerListener(this);
 
         iv = (ImageView) findViewById(R.id.renter_side_menu_renter_image_image_view);
         iv.setOnClickListener(this);
@@ -154,6 +143,28 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
     }
 
     @Override
+    public void onDrawerSlide(View drawerView, float slideOffset) {
+
+    }
+
+    @Override
+    public void onDrawerOpened(View drawerView) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null)
+            imm.hideSoftInputFromWindow(RenterMainActivity.this.getCurrentFocus().getWindowToken(), 0);
+    }
+
+    @Override
+    public void onDrawerClosed(View drawerView) {
+
+    }
+
+    @Override
+    public void onDrawerStateChanged(int newState) {
+
+    }
+
+    @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.renter_activity_main_drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -163,13 +174,21 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-    private class SlideMenuClickListener implements
-            ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position,
-                                long id) {
-            // display view for selected nav drawer item
-            //displayView(position);
+    private void setBottomTabImage() {
+        btt_iv1 = new ImageView(this);
+        btt_iv2 = new ImageView(this);
+        btt_iv3 = new ImageView(this);
+        btt_iv4 = new ImageView(this);
+        if (Build.VERSION.SDK_INT < 23) {
+            btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon1));
+            btt_iv2.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon2));
+            btt_iv3.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon3));
+            btt_iv4.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon5));
+        } else {
+            btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon1, getTheme()));
+            btt_iv2.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon2, getTheme()));
+            btt_iv3.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon3, getTheme()));
+            btt_iv4.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon5, getTheme()));
         }
     }
 }

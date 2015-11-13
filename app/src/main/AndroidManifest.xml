@@ -33,11 +33,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".common.SignInActivity"
+            android:name=".common.sidemenu.SignInActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".common.SignUpActivity"
+            android:name=".common.sidemenu.SignUpActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
