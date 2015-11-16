@@ -25,11 +25,11 @@ public class EvaluatingBicyclePostScriptView extends FrameLayout {
 
     private void init() {
         inflate(getContext(), R.layout.view_evaluating_bicycle_post_script_item, this);
-        name = (TextView) findViewById(R.id.view_evaluating_bicycle_post_script_item_bicycle_name_text_view);
-        email = (TextView) findViewById(R.id.view_evaluating_bicycle_post_script_item_mail_address_text_view);
-        bar = (RatingBar) findViewById(R.id.view_evaluating_bicycle_post_script_item_rating_bar);
-        desc = (TextView) findViewById(R.id.view_evaluating_bicycle_post_script_item_post_script_text_view);
-        time = (TextView) findViewById(R.id.view_evaluating_bicycle_post_script_item_date_time_text_view);
+        name = (TextView) findViewById(R.id.view_evaluation_bicycle_post_script_item_bicycle_name_text_view);
+        email = (TextView) findViewById(R.id.view_evaluation_bicycle_post_script_item_mail_address_text_view);
+        bar = (RatingBar) findViewById(R.id.view_evaluation_bicycle_post_script_item_rating_bar);
+        desc = (TextView) findViewById(R.id.view_evaluation_bicycle_post_script_item_post_script_text_view);
+        time = (TextView) findViewById(R.id.view_evaluation_bicycle_post_script_item_date_time_text_view);
     }
 
     public void EvaluatingBicyclePostScriptView(EvaluatingBicyclePostScriptItem item) {

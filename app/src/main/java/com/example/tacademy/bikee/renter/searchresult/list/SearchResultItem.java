@@ -4,18 +4,18 @@ package com.example.tacademy.bikee.renter.searchresult.list;
  * Created by Tacademy on 2015-10-30.
  */
 public class SearchResultItem {
-    public SearchResultItem(String bicycle_name, String payment, String type, String height, String distance) {
+    public SearchResultItem(String bicycle_name, String height, String type, String payment, String distance) {
         this.bicycle_name = bicycle_name;
-        this.payment = payment;
-        this.type = type;
         this.height = height;
+        this.type = type;
+        this.payment = payment;
         this.distance = distance;
     }
 
     private String bicycle_name;
-    private String payment;
-    private String type;
     private String height;
+    private String type;
+    private String payment;
     private String distance;
 
     public String getBicycle_name() {
@@ -26,12 +26,12 @@ public class SearchResultItem {
         this.bicycle_name = bicycle_name;
     }
 
-    public String getPayment() {
-        return payment;
+    public String getHeight() {
+        return height;
     }
 
-    public void setPayment(String payment) {
-        this.payment = payment;
+    public void setHeight(String height) {
+        this.height = height;
     }
 
     public String getType() {
@@ -42,12 +42,12 @@ public class SearchResultItem {
         this.type = type;
     }
 
-    public String getHeight() {
-        return height;
+    public String getPayment() {
+        return payment;
     }
 
-    public void setHeight(String height) {
-        this.height = height;
+    public void setPayment(String payment) {
+        this.payment = payment;
     }
 
     public String getDistance() {

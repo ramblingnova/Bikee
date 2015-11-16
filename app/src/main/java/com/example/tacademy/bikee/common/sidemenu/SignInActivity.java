@@ -1,6 +1,8 @@
 package com.example.tacademy.bikee.common.sidemenu;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -14,7 +16,10 @@ import android.widget.TextView;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
+import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.example.tacademy.bikee.renter.sidemenu.cardmanagement.RegisterCardActivity;
+
+import java.util.PropertyPermission;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -22,6 +27,9 @@ import retrofit.client.Response;
 
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener {
     final private static int SIGN_UP_ACTIVITY = 1;
+
+    SharedPreferences mPrefs;
+    SharedPreferences.Editor mEditor;
 
     private EditText email_edit_text;
     private EditText password_edit_text;
@@ -33,6 +41,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private String email_edit_text_string;
     private String password_edit_text_string;
 
+    public static final String PREF_NAME = "prefs";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,15 +52,28 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         email_edit_text = (EditText) findViewById(R.id.activity_sign_in_user_email_edit_text);
-        email_edit_text.setText("admin@admin.com");
         email_text_view = (TextView) findViewById(R.id.activity_sign_in_user_email_text_view);
         password_edit_text = (EditText) findViewById(R.id.activity_sign_in_user_password_edit_text);
-        password_edit_text.setText("dltjdrb");
         password_text_view = (TextView) findViewById(R.id.activity_sign_in_user_password_text_view);
         sign_in = (Button) findViewById(R.id.activity_sign_in_sign_in_button);
         sign_in.setOnClickListener(SignInActivity.this);
         sign_up = (TextView) findViewById(R.id.activity_sign_in_sign_up_string);
         sign_up.setOnClickListener(SignInActivity.this);
+
+        mPrefs = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        mEditor = mPrefs.edit();
+
+        if (!PropertyManager.getInstance().getEmail().equals("") || !PropertyManager.getInstance().getPassword().equals("") ) {
+            email_text_view.setVisibility(View.VISIBLE);
+            email_text_view.setText(PropertyManager.getInstance().getEmail());
+            password_text_view.setVisibility(View.VISIBLE);
+            password_text_view.setText(PropertyManager.getInstance().getPassword());
+            email_edit_text.setVisibility(View.INVISIBLE);
+            password_edit_text.setVisibility(View.INVISIBLE);
+            sign_in.setText("로그인 완료");
+            sign_in.setClickable(false);
+            sign_up.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -72,6 +95,9 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                         sign_in.setText("로그인 완료");
                         sign_in.setClickable(false);
                         sign_up.setVisibility(View.INVISIBLE);
+
+                        PropertyManager.getInstance().setEmail(email_edit_text_string);
+                        PropertyManager.getInstance().setPassword(password_edit_text_string);
                     }
 
                     @Override
@@ -106,6 +132,9 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                     sign_in.setText("로그인 완료");
                     sign_in.setClickable(false);
                     sign_up.setVisibility(View.INVISIBLE);
+
+                    PropertyManager.getInstance().setEmail(email_edit_text_string);
+                    PropertyManager.getInstance().setPassword(password_edit_text_string);
                 }
 
                 @Override

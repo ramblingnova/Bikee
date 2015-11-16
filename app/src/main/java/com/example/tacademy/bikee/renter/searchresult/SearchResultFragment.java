@@ -7,10 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.tacademy.bikee.R;
@@ -24,7 +21,7 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
     private static final String SEARCH_RESULT_MAP_FRAGMENT_TAG = "search_result_map_fragment";
 
     Fragment current;
-    Switch sw;
+    SearchSwitchView searchSwitchView;
 
     public SearchResultFragment() {
     }
@@ -32,10 +29,11 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_search_result, container, false);
-        sw = (Switch) v.findViewById(R.id.search_bar_switch);
-        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+        searchSwitchView = (SearchSwitchView)v.findViewById(R.id.search_bar_switch);
+        searchSwitchView.setOnCheckedListener(new SearchSwitchView.OnCheckedListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onChecked(boolean isChecked) {
                 fragmentChange(isChecked);
             }
         });
@@ -59,7 +57,7 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
     @Override
     public void onResume() {
         super.onResume();
-        if (!sw.isChecked())
+        if (!searchSwitchView.isChecked())
             fragmentChange(false);
     }
 

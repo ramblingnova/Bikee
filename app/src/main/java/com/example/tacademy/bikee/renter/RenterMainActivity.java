@@ -3,6 +3,7 @@ package com.example.tacademy.bikee.renter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -10,17 +11,18 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TabHost;
+import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,13 +39,13 @@ import com.example.tacademy.bikee.renter.sidemenu.cardmanagement.CardManagementA
 import com.example.tacademy.bikee.renter.sidemenu.evaluatingbicycle.EvaluatingBicyclePostScriptListActivity;
 import com.example.tacademy.bikee.common.sidemenu.InputInquiryActivity;
 
-public class RenterMainActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, DrawerLayout.DrawerListener {
-
-    FragmentTabHost tabHost;
-    ImageView iv, btt_iv1, btt_iv2, btt_iv3, btt_iv4;
-    TextView tv;
-    Button btn;
-    CheckBox cb;
+public class RenterMainActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, DrawerLayout.DrawerListener, TabHost.OnTabChangeListener{
+    private FragmentTabHost tabHost;
+    private ImageView iv;
+    private ImageView btt_iv1, btt_iv2, btt_iv3, btt_iv4;
+    private TextView tv;
+    private Button btn;
+    private CheckBox cb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +53,9 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.renter_activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.renter_toolbar);
         setSupportActionBar(toolbar);
-
-//        Intent intent = getIntent();
-//        if(intent.getBooleanExtra("switch_onoff",false)){
-//        }
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setCustomView(R.layout.renter_main_tool_bar);
 
         setBottomTabImage();
         tabHost = (FragmentTabHost) findViewById(R.id.tabHost);
@@ -63,6 +64,7 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
         tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator(btt_iv2), RenterReservationBicycleListFragment.class, null);
         tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator(btt_iv3), ChattingRoomListFragment.class, null);
         tabHost.addTab(tabHost.newTabSpec("tab4").setIndicator(btt_iv4), SmartKeyFragment.class, null);
+        tabHost.setOnTabChangedListener(this);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.renter_activity_main_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -179,16 +181,33 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
         btt_iv2 = new ImageView(this);
         btt_iv3 = new ImageView(this);
         btt_iv4 = new ImageView(this);
+
         if (Build.VERSION.SDK_INT < 23) {
-            btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon1));
-            btt_iv2.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon2));
-            btt_iv3.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon3));
-            btt_iv4.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon5));
+            btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon1));
+            btt_iv2.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon2));
+            btt_iv3.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon3));
+            btt_iv4.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon4));
+            btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon1_in));
         } else {
-            btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon1, getTheme()));
-            btt_iv2.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon2, getTheme()));
-            btt_iv3.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon3, getTheme()));
-            btt_iv4.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon5, getTheme()));
+            btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon1, getTheme()));
+            btt_iv2.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon2, getTheme()));
+            btt_iv3.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon3, getTheme()));
+            btt_iv4.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon4, getTheme()));
+            btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon1_in, getTheme()));
+        }
+    }
+
+    @Override
+         public void onTabChanged(String tabId) {
+        btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon1));
+        btt_iv2.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon2));
+        btt_iv3.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon3));
+        btt_iv4.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon4));
+        switch (tabId){
+            case "tab1": btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon1_in)); break;
+            case "tab2": btt_iv2.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon2_in)); break;
+            case "tab3": btt_iv3.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon3_in)); break;
+            case "tab4": btt_iv4.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon4_in)); break;
         }
     }
 }

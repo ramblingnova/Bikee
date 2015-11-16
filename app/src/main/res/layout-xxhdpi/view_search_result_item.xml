@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+    <ImageView
+        android:id="@+id/view_search_result_item_bicycle_picture_image_view"
+        android:layout_width="120dp"
+        android:layout_height="82dp"
+        android:layout_marginBottom="25dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/temp_icon" />
+
+    <TextView
+        android:id="@+id/view_search_result_item_bicycle_name_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/view_search_result_item_bicycle_picture_image_view"
+        android:layout_marginLeft="16dp"
+        android:layout_toRightOf="@id/view_search_result_item_bicycle_picture_image_view"
+        android:text="@string/view_search_result_item_bicycle_name_text_view_string"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/view_search_result_item_height_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_search_result_item_bicycle_name_text_view"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@id/view_search_result_item_bicycle_picture_image_view"
+        android:text="@string/view_search_result_item_height_text_view_string"
+        android:textColor="#757575"
+        android:textSize="11sp" />
+
+    <ImageView
+        android:id="@+id/view_search_result_item_division"
+        android:layout_width="wrap_content"
+        android:layout_alignTop="@id/view_search_result_item_height_text_view"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="9dp"
+        android:layout_toRightOf="@id/view_search_result_item_height_text_view"
+        android:src="@drawable/icon_division" />
+
+    <TextView
+        android:id="@+id/view_search_result_item_type_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/view_search_result_item_height_text_view"
+        android:layout_marginLeft="9dp"
+        android:layout_toRightOf="@id/view_search_result_item_division"
+        android:text="@string/view_search_result_item_type_ext_view_string"
+        android:textColor="#757575"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/view_search_result_item_payment_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_search_result_item_type_text_view"
+        android:layout_marginLeft="16dp"
+        android:textSize="11sp"
+        android:layout_marginTop="31dp"
+        android:layout_toRightOf="@id/view_search_result_item_bicycle_picture_image_view"
+        android:text="@string/view_search_result_item_payment_text_view_string" />
+
+    <TextView
+        android:id="@+id/view_search_result_item_distance_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/view_search_result_item_type_text_view"
+        android:layout_marginTop="31dp"
+        android:textSize="11sp"
+        android:text="@string/view_search_result_item_distance_text_view_string" />
+</RelativeLayout>

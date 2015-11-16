@@ -124,7 +124,7 @@
                 android:src="@drawable/temp_icon"
                 android:text="@string/lister_side_menu_push_alarm_text_view_string" />
 
-            <Switch
+            <CheckBox
                 android:id="@+id/lister_side_menu_push_alarm_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -1,5 +1,6 @@
 package com.example.tacademy.bikee.lister;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,12 +11,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Switch;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,19 +28,18 @@ import com.example.tacademy.bikee.common.chatting.ChattingRoomListFragment;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.sidemenu.InputInquiryActivity;
 import com.example.tacademy.bikee.common.smartkey.SmartKeyFragment;
+import com.example.tacademy.bikee.etc.Util;
 import com.example.tacademy.bikee.lister.requestedbicycle.ListerRequestedBicycleListFragment;
 import com.example.tacademy.bikee.lister.sidemenu.evaluatedbicycle.EvaluatedBicyclePostScriptListActivity;
 import com.example.tacademy.bikee.lister.sidemenu.owningbicycle.OwningBicycleListActivity;
 import com.example.tacademy.bikee.renter.RenterMainActivity;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
-public class ListerMainActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
-
-    FragmentTabHost tabHost;
-    ImageView iv, btt_iv1, btt_iv2, btt_iv3;
-    TextView tv;
-    Button btn;
-    Switch sw;
+public class ListerMainActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, TabHost.OnTabChangeListener {
+    private FragmentTabHost tabHost;
+    private ImageView iv, btt_iv1, btt_iv2, btt_iv3;
+    private TextView tv;
+    private Button btn;
+    private CheckBox cb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,25 +47,17 @@ public class ListerMainActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.lister_activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.lister_toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setCustomView(R.layout.lister_main_tool_bar);
 
+        setBottomTabImage();
         tabHost = (FragmentTabHost) findViewById(R.id.tabHost);
         tabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
-
-        btt_iv1 = new ImageView(this);
-        btt_iv2 = new ImageView(this);
-        btt_iv3 = new ImageView(this);
-        if (Build.VERSION.SDK_INT < 23) {
-            btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon1));
-            btt_iv2.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon2));
-            btt_iv3.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon3));
-        } else {
-            btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon1, getTheme()));
-            btt_iv2.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon2, getTheme()));
-            btt_iv3.setImageDrawable(getResources().getDrawable(R.drawable.temp_icon3, getTheme()));
-        }
-        tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator(btt_iv1), ListerRequestedBicycleListFragment.class, null);
-        tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator(btt_iv2), ChattingRoomListFragment.class, null);
-        tabHost.addTab(tabHost.newTabSpec("tab4").setIndicator(btt_iv3), SmartKeyFragment.class, null);
+        tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator(btt_iv1), ListerRequestedBicycleListFragment.class, null);
+        tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator(btt_iv2), ChattingRoomListFragment.class, null);
+        tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator(btt_iv3), SmartKeyFragment.class, null);
+        tabHost.setOnTabChangedListener(ListerMainActivity.this);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.lister_activity_main_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -71,9 +66,8 @@ public class ListerMainActivity extends AppCompatActivity implements View.OnClic
         toggle.syncState();
 
         iv = (ImageView) findViewById(R.id.lister_side_menu_lister_image_image_view);
-        ImageLoader loader;
-        loader = ImageLoader.getInstance();
-        loader.displayImage("http://bikee.s3.amazonaws.com/detail_1446776196619.jpg", iv);
+        iv.setOnClickListener(this);
+        Util.setCircleImageFromURL(this, "http://bikee.s3.amazonaws.com/detail_1446776196619.jpg", 0, iv);
         iv.setOnClickListener(this);
         tv = (TextView) findViewById(R.id.lister_side_menu_member_name_text_view);
         tv.setOnClickListener(this);
@@ -91,8 +85,8 @@ public class ListerMainActivity extends AppCompatActivity implements View.OnClic
         tv.setOnClickListener(this);
         tv = (TextView) findViewById(R.id.lister_side_menu_push_alarm_text_view);
         tv.setOnClickListener(this);
-        sw = (Switch) findViewById(R.id.lister_side_menu_push_alarm_switch);
-        sw.setOnCheckedChangeListener(this);
+        cb = (CheckBox) findViewById(R.id.lister_side_menu_push_alarm_switch);
+        cb.setOnCheckedChangeListener(this);
         tv = (TextView) findViewById(R.id.lister_side_menu_input_inquiry_text_view);
         tv.setOnClickListener(this);
         tv = (TextView) findViewById(R.id.lister_side_menu_version_information_text_view);
@@ -129,8 +123,6 @@ public class ListerMainActivity extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.lister_side_menu_push_alarm_text_view:
                 break;
-            case R.id.lister_side_menu_push_alarm_switch:
-                break;
             case R.id.lister_side_menu_input_inquiry_text_view:
                 intent = new Intent(ListerMainActivity.this, InputInquiryActivity.class);
                 startActivity(intent);
@@ -149,7 +141,11 @@ public class ListerMainActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+        switch (buttonView.getId()) {
+            case R.id.lister_side_menu_push_alarm_switch:
+                Toast.makeText(ListerMainActivity.this, "asdfasdf", Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 
     @Override
@@ -162,13 +158,39 @@ public class ListerMainActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-    private class SlideMenuClickListener implements
-            ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position,
-                                long id) {
-            // display view for selected nav drawer item
-            //displayView(position);
+    private void setBottomTabImage() {
+        btt_iv1 = new ImageView(this);
+        btt_iv2 = new ImageView(this);
+        btt_iv3 = new ImageView(this);
+
+        if (Build.VERSION.SDK_INT < 23) {
+            btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.lister_main_menu_icon1));
+            btt_iv2.setImageDrawable(getResources().getDrawable(R.drawable.lister_main_menu_icon2));
+            btt_iv3.setImageDrawable(getResources().getDrawable(R.drawable.lister_main_menu_icon3));
+            btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.lister_main_menu_icon3_1));
+        } else {
+            btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.lister_main_menu_icon1, getTheme()));
+            btt_iv2.setImageDrawable(getResources().getDrawable(R.drawable.lister_main_menu_icon2, getTheme()));
+            btt_iv3.setImageDrawable(getResources().getDrawable(R.drawable.lister_main_menu_icon3, getTheme()));
+            btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.lister_main_menu_icon3_1, getTheme()));
+        }
+    }
+
+    @Override
+    public void onTabChanged(String tabId) {
+        btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.lister_main_menu_icon1));
+        btt_iv2.setImageDrawable(getResources().getDrawable(R.drawable.lister_main_menu_icon2));
+        btt_iv3.setImageDrawable(getResources().getDrawable(R.drawable.lister_main_menu_icon3));
+        switch (tabId) {
+            case "tab1":
+                btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.lister_main_menu_icon3_1));
+                break;
+            case "tab2":
+                btt_iv2.setImageDrawable(getResources().getDrawable(R.drawable.lister_main_menu_icon2_1));
+                break;
+            case "tab3":
+                btt_iv3.setImageDrawable(getResources().getDrawable(R.drawable.lister_main_menu_icon3_1));
+                break;
         }
     }
 }
