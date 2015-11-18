@@ -78,7 +78,7 @@
         android:layout_alignLeft="@id/view_bicycle_info_window_bicycle_name_text_view"
         android:layout_below="@id/view_bicycle_info_window_bicycle_type_text_view"
         android:layout_marginTop="9dp"
-        android:layout_toRightOf="@+id/view_bicycle_info_window_bicycle_picture_image_view"
+        android:layout_toRightOf="@id/view_bicycle_info_window_bicycle_picture_image_view"
         android:text="@string/view_bicycle_info_window_bicycle_payment_text_view1_string"
         android:textColor="#1993f7"
         android:textSize="11sp" />

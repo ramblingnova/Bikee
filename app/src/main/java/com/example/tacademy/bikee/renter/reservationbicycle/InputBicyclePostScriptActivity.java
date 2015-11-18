@@ -18,6 +18,9 @@ public class InputBicyclePostScriptActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar)findViewById(R.id.activity_input_bicycle_post_script_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setCustomView(R.layout.renter_main_tool_bar);
 
         Button btn = (Button)findViewById(R.id.activity_input_bicycle_post_script_input_button);
         btn.setOnClickListener(new View.OnClickListener() {

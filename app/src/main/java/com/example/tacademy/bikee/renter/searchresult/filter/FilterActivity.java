@@ -32,6 +32,9 @@ public class FilterActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar)findViewById(R.id.activity_filter_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setCustomView(R.layout.renter_main_tool_bar);
 
         Button btn = (Button)findViewById(R.id.activity_filter_search_button);
         btn.setOnClickListener(new View.OnClickListener() {

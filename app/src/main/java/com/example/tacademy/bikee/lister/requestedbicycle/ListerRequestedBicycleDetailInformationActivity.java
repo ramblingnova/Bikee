@@ -28,6 +28,9 @@ public class ListerRequestedBicycleDetailInformationActivity extends AppCompatAc
         Toolbar toolbar = (Toolbar)findViewById(R.id.activity_lister_requested_bicycle_detail_information_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setCustomView(R.layout.lister_main_tool_bar);
 
         intent = getIntent();
         int i = intent.getIntExtra("STATE", -1);

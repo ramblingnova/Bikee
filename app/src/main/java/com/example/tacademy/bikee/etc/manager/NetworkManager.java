@@ -70,7 +70,7 @@ public class NetworkManager {
         //        String baseUrl = "http://192.168.211.18:3000";
         String baseUrl = "http://bikee.kr.pe";
 
-        // 본인정보조회 app.get('/users/:userId',users.profile)
+        // 본인정보조회 app.get('/users/:userId',users.profile) TODO id 없이 "본인정보조회"하기
         @GET("/users/{userId}")
         void selectUser(@Path("userId") String user_id, Callback<ReceiveObject> callback);
 

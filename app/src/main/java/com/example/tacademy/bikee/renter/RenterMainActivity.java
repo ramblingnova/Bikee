@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.example.tacademy.bikee.etc.Util;
 import com.example.tacademy.bikee.common.chatting.ChattingRoomListFragment;
+import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.example.tacademy.bikee.lister.ListerMainActivity;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.sidemenu.SignInActivity;
@@ -41,11 +42,15 @@ import com.example.tacademy.bikee.common.sidemenu.InputInquiryActivity;
 
 public class RenterMainActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, DrawerLayout.DrawerListener, TabHost.OnTabChangeListener{
     private FragmentTabHost tabHost;
+    private DrawerLayout drawer;
     private ImageView iv;
     private ImageView btt_iv1, btt_iv2, btt_iv3, btt_iv4;
     private TextView tv;
+    private TextView name;
+    private TextView email;
     private Button btn;
     private CheckBox cb;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +71,7 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
         tabHost.addTab(tabHost.newTabSpec("tab4").setIndicator(btt_iv4), SmartKeyFragment.class, null);
         tabHost.setOnTabChangedListener(this);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.renter_activity_main_drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.renter_activity_main_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
@@ -75,10 +80,14 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
         iv = (ImageView) findViewById(R.id.renter_side_menu_renter_image_image_view);
         iv.setOnClickListener(this);
         Util.setCircleImageFromURL(this, "http://bikee.s3.amazonaws.com/detail_1446776196619.jpg", 0, iv);
-        tv = (TextView) findViewById(R.id.renter_side_menu_member_name_text_view);
-        tv.setOnClickListener(this);
-        tv = (TextView) findViewById(R.id.renter_side_menu_mail_address_text_view);
-        tv.setOnClickListener(this);
+        name = (TextView) findViewById(R.id.renter_side_menu_member_name_text_view);
+        name.setOnClickListener(this);
+        email = (TextView) findViewById(R.id.renter_side_menu_mail_address_text_view);
+        email.setOnClickListener(this);
+        if (!PropertyManager.getInstance().getEmail().equals("") || !PropertyManager.getInstance().getPassword().equals("") ) {
+            // TODO 이름 띄우기
+            email.setText(PropertyManager.getInstance().getEmail());
+        }
         tv = (TextView) findViewById(R.id.renter_side_menu_fragment_register_card_text_view);
         tv.setOnClickListener(this);
         tv = (TextView) findViewById(R.id.renter_side_menu_evaluation_bicycle_script_text_view);
@@ -99,7 +108,6 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        Intent intent;
         switch (v.getId()) {
             case R.id.renter_side_menu_renter_image_image_view:
             case R.id.renter_side_menu_member_name_text_view:
@@ -168,7 +176,7 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.renter_activity_main_drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.renter_activity_main_drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {

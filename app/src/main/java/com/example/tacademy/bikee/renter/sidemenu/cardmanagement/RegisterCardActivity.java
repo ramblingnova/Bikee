@@ -27,6 +27,9 @@ public class RegisterCardActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar)findViewById(R.id.activity_register_card_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setCustomView(R.layout.renter_main_tool_bar);
 
         Button btn = (Button)findViewById(R.id.activity_register_card_register_button);
         btn.setOnClickListener(new View.OnClickListener() {

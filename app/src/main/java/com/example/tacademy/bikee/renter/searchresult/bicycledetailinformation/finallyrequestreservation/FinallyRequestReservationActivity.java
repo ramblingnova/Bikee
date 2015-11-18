@@ -24,6 +24,9 @@ public class FinallyRequestReservationActivity extends AppCompatActivity impleme
         Toolbar toolbar = (Toolbar) findViewById(R.id.activity_finally_request_reservation_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setCustomView(R.layout.renter_main_tool_bar);
 
         Button btn = (Button) findViewById(R.id.activity_finally_request_reservation_cancel_button);
         btn.setOnClickListener(FinallyRequestReservationActivity.this);

@@ -16,6 +16,9 @@ public class AuthenticationInformationActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar)findViewById(R.id.activity_authentication_information_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setCustomView(R.layout.renter_main_tool_bar);
     }
 
     @Override

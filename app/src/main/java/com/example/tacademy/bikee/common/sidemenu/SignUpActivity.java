@@ -38,6 +38,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         Toolbar toolbar = (Toolbar)findViewById(R.id.activity_sign_up_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setCustomView(R.layout.renter_main_tool_bar);
 
         name = (EditText) findViewById(R.id.activity_sign_up_input_name_edit_text);
         email = (EditText) findViewById(R.id.activity_sign_up_input_mail_address_edit_text);

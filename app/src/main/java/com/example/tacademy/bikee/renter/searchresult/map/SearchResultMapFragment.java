@@ -152,7 +152,7 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
         gm.getUiSettings().setZoomControlsEnabled(true);
 
         gm.setOnInfoWindowClickListener(this);
-        gm.setInfoWindowAdapter(new BicycleInfoWindowView(MyApplication.getmContext()));
+        gm.setInfoWindowAdapter(new BicycleInfoWindowView(MyApplication.getmContext(), mPOIResolver));
 
         gm.setOnMapClickListener(this);
         gm.setOnMarkerClickListener(this);
@@ -181,7 +181,7 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
             if (location != null) {
                 if (gm != null) {
                     moveMap(location.getLatitude(), location.getLongitude());
-                    Toast.makeText(getActivity(), "lat:" + location.getLatitude() + ", lng:" + location.getLongitude(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getActivity(), "lat:" + location.getLatitude() + ", lng:" + location.getLongitude(), Toast.LENGTH_SHORT).show();
                 } else {
                     cacheLocation = location;
                 }
@@ -230,6 +230,7 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     public boolean onMarkerClick(Marker marker) {
         POI poi = mPOIResolver.get(marker);
         Toast.makeText(getContext().getApplicationContext(), "title : " + poi.getName(), Toast.LENGTH_SHORT).show();
+
         marker.showInfoWindow();
         return true;
     }
@@ -258,7 +259,16 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
                     options.position(new LatLng(searchResultItem.getLatitude(), searchResultItem.getLongitude()));
                     options.icon(BitmapDescriptorFactory.fromResource(R.drawable.rider_main_bike_b_icon));
                     options.anchor(0.5f, 1);
+
                     POI poi = new POI();
+                    poi.setItem(
+                            new SearchResultItem(
+                                    searchResultItem.getBicycle_name(),
+                                    searchResultItem.getHeight(),
+                                    searchResultItem.getType(),
+                                    ""
+                            )
+                    );
 
                     poi.setName("자전거 제목");
                     poi.setUpperAddrName("가격|종류|신장");
@@ -326,7 +336,16 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
                                 options.position(new LatLng(result.getLoc().getCoordinates().get(1), result.getLoc().getCoordinates().get(0)));
                                 options.icon(BitmapDescriptorFactory.fromResource(R.drawable.rider_main_bike_b_icon));
                                 options.anchor(0.5f, 1);
+
                                 POI poi = new POI();
+                                poi.setItem(
+                                        new SearchResultItem(
+                                                result.getTitle(),
+                                                result.getHeight(),
+                                                result.getType(),
+                                                ""
+                                        )
+                                );
 
                                 poi.setName("자전거 제목");
                                 poi.setUpperAddrName("가격|종류|신장");

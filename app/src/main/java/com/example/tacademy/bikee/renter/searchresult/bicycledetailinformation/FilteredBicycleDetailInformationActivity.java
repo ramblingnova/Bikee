@@ -22,6 +22,9 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
         Toolbar toolbar = (Toolbar)findViewById(R.id.activity_filtered_bicycle_detail_information_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setCustomView(R.layout.renter_main_tool_bar);
 
         Button btn = (Button)findViewById(R.id.bicycle_post_script_see_more_post_script);
         btn.setOnClickListener(new View.OnClickListener() {

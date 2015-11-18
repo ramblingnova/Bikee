@@ -29,6 +29,7 @@ import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.sidemenu.InputInquiryActivity;
 import com.example.tacademy.bikee.common.smartkey.SmartKeyFragment;
 import com.example.tacademy.bikee.etc.Util;
+import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.example.tacademy.bikee.lister.requestedbicycle.ListerRequestedBicycleListFragment;
 import com.example.tacademy.bikee.lister.sidemenu.evaluatedbicycle.EvaluatedBicyclePostScriptListActivity;
 import com.example.tacademy.bikee.lister.sidemenu.owningbicycle.OwningBicycleListActivity;
@@ -38,6 +39,8 @@ public class ListerMainActivity extends AppCompatActivity implements View.OnClic
     private FragmentTabHost tabHost;
     private ImageView iv, btt_iv1, btt_iv2, btt_iv3;
     private TextView tv;
+    private TextView name;
+    private TextView email;
     private Button btn;
     private CheckBox cb;
 
@@ -69,10 +72,14 @@ public class ListerMainActivity extends AppCompatActivity implements View.OnClic
         iv.setOnClickListener(this);
         Util.setCircleImageFromURL(this, "http://bikee.s3.amazonaws.com/detail_1446776196619.jpg", 0, iv);
         iv.setOnClickListener(this);
-        tv = (TextView) findViewById(R.id.lister_side_menu_member_name_text_view);
-        tv.setOnClickListener(this);
-        tv = (TextView) findViewById(R.id.lister_side_menu_mail_address_text_view);
-        tv.setOnClickListener(this);
+        name = (TextView) findViewById(R.id.lister_side_menu_member_name_text_view);
+        name.setOnClickListener(this);
+        email = (TextView) findViewById(R.id.lister_side_menu_mail_address_text_view);
+        email.setOnClickListener(this);
+        if (!PropertyManager.getInstance().getEmail().equals("") || !PropertyManager.getInstance().getPassword().equals("") ) {
+            // TODO 이름 띄우기
+            email.setText(PropertyManager.getInstance().getEmail());
+        }
         tv = (TextView) findViewById(R.id.lister_side_menu_see_my_bicycle_text_view);
         tv.setOnClickListener(this);
         tv = (TextView) findViewById(R.id.lister_side_menu_register_smart_lock_text_view);

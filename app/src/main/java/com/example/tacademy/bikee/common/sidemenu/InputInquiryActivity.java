@@ -31,6 +31,9 @@ public class InputInquiryActivity extends AppCompatActivity implements View.OnCl
         Toolbar toolbar = (Toolbar)findViewById(R.id.activity_input_inquiry_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setCustomView(R.layout.renter_main_tool_bar);
 
         title_edit_text = (EditText)findViewById(R.id.activity_input_inquiry_title_edit_text);
         description_edit_text = (EditText)findViewById(R.id.activity_input_inquiry_description_edit_text);

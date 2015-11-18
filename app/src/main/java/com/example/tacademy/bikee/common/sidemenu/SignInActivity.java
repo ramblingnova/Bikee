@@ -38,6 +38,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private Button sign_in;
     private TextView sign_up;
 
+    private String name_string;
     private String email_edit_text_string;
     private String password_edit_text_string;
 
@@ -50,6 +51,9 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         Toolbar toolbar = (Toolbar) findViewById(R.id.activity_sign_in_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setCustomView(R.layout.renter_main_tool_bar);
 
         email_edit_text = (EditText) findViewById(R.id.activity_sign_in_user_email_edit_text);
         email_text_view = (TextView) findViewById(R.id.activity_sign_in_user_email_text_view);
@@ -96,6 +100,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                         sign_in.setClickable(false);
                         sign_up.setVisibility(View.INVISIBLE);
 
+                        // TODO 로그인 버튼 -> 사용자의 이름 가져오기... id 없이
                         PropertyManager.getInstance().setEmail(email_edit_text_string);
                         PropertyManager.getInstance().setPassword(password_edit_text_string);
                     }
@@ -117,6 +122,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == SIGN_UP_ACTIVITY) {
+            name_string = data.getStringExtra(SignUpActivity.ACTIVITY_SIGN_UP_INPUT_NAME_EDIT_TEXT);
             email_edit_text_string = data.getStringExtra(SignUpActivity.ACTIVITY_SIGN_UP_INPUT_MAIL_ADDRESS_EDIT_TEXT);
             password_edit_text_string = data.getStringExtra(SignUpActivity.ACTIVITY_SIGN_UP_INPUT_PASSWROD_EDIT_TEXT);
             NetworkManager.getInstance().login(email_edit_text_string, password_edit_text_string, new Callback<ReceiveObject>() {
@@ -133,6 +139,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                     sign_in.setClickable(false);
                     sign_up.setVisibility(View.INVISIBLE);
 
+                    PropertyManager.getInstance().setName(name_string);
                     PropertyManager.getInstance().setEmail(email_edit_text_string);
                     PropertyManager.getInstance().setPassword(password_edit_text_string);
                 }

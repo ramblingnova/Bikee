@@ -24,6 +24,9 @@ public class OwningBicycleDetailInformationActivity extends AppCompatActivity im
         Toolbar toolbar = (Toolbar)findViewById(R.id.activity_owning_bicycle_detail_information_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setCustomView(R.layout.lister_main_tool_bar);
 
         Intent intent = getIntent();
         int i = intent.getIntExtra("STATE", -1);

@@ -1,19 +1,22 @@
 package com.example.tacademy.bikee.common;
 
+import com.example.tacademy.bikee.renter.searchresult.SearchResultItem;
+
 /**
  * Created by Tacademy on 2015-11-02.
  */
 public class POI {
-    String id;
-    String name;
-    String frontLat;
-    String frontLon;
-    String noorLat;
-    String noorLon;
-    String upperAddrName;
-    String middleAddrName;
-    String lowerAddrName;
-    String detailAddrName;
+    private String id;
+    private String name;
+    private String frontLat;
+    private String frontLon;
+    private String noorLat;
+    private String noorLon;
+    private String upperAddrName;
+    private String middleAddrName;
+    private String lowerAddrName;
+    private String detailAddrName;
+    private SearchResultItem item;
 
     public String getId() {
         return id;
@@ -114,5 +117,13 @@ public class POI {
 
     public double getLatitudeL1() {
         return 0;
+    }
+
+    public SearchResultItem getItem() {
+        return item;
+    }
+
+    public void setItem(SearchResultItem item) {
+        this.item = item;
     }
 }

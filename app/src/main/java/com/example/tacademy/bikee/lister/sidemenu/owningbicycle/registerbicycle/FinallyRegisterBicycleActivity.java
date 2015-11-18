@@ -23,6 +23,9 @@ public class FinallyRegisterBicycleActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar)findViewById(R.id.activity_finally_register_bicycle_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setCustomView(R.layout.lister_main_tool_bar);
 
         Button btn = (Button) findViewById(R.id.activity_finally_register_bicycle_back_button);
         btn.setOnClickListener(new View.OnClickListener() {

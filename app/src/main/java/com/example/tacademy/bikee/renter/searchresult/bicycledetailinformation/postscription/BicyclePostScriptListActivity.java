@@ -23,6 +23,9 @@ public class BicyclePostScriptListActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar)findViewById(R.id.activity_bicycle_post_script_list_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setCustomView(R.layout.renter_main_tool_bar);
 
         lv = (ListView)findViewById(R.id.activity_bicycle_post_script_list_list_view);
         adapter = new BicyclePostScriptAdapter();

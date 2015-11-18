@@ -29,6 +29,9 @@ public class ChattingRoomActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar)findViewById(R.id.activity_chatting_room_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setCustomView(R.layout.lister_main_tool_bar);
 
         lv = (ListView)findViewById(R.id.view_chatting_room_item_conversation_list_view);
         adapter = new TalkAdapter();

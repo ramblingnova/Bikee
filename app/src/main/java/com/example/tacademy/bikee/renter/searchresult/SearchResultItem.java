@@ -14,6 +14,13 @@ public class SearchResultItem {
         this.longitude = longitude;
     }
 
+    public SearchResultItem(String bicycle_name, String height, String type, String payment) {
+        this.bicycle_name = bicycle_name;
+        this.height = height;
+        this.type = type;
+        this.payment = payment;
+    }
+
     private String bicycle_name;
     private String height;
     private String type;
