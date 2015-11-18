@@ -2,6 +2,9 @@ package com.example.tacademy.bikee.etc.manager;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.widget.TextView;
+
+import com.example.tacademy.bikee.etc.MyApplication;
 
 /**
  * Created by User on 2015-11-16.
@@ -36,5 +39,11 @@ public class FontManager {
             return noto;
         }
         return null;
+    }
+
+    public void setTextViewFont(String fontName, TextView... textViews) {
+        Typeface typeface = getTypeface(MyApplication.getmContext(), fontName);
+        for (TextView textView : textViews)
+            textView.setTypeface(typeface);
     }
 }

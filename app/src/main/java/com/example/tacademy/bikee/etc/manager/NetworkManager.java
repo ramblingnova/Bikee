@@ -128,6 +128,10 @@ public class NetworkManager {
         @POST("/users/session")
         void login(@Field("email") String email, @Field("password") String password, Callback<ReceiveObject> callback);
 
+        // 세션클리어
+        @GET("/first")
+        void sessionClear(Callback<ReceiveObject> callback);
+
         // 내평가보기 app.get('/comments',auth.requiresLogin,comments.show);
         @GET("/comments")
         void selectUserComment(Callback<ReceiveObject> callback);
@@ -234,6 +238,11 @@ public class NetworkManager {
     // 로그인 정규식 체크 http://www.java2go.net/java/java_regex.html, http://wintness.tistory.com/225
     public void login(String email, String password, Callback<ReceiveObject> callback) {
         serverUrl.login(email, password, callback);
+    }
+
+    // 세션클리어
+    public void sessionClear(Callback<ReceiveObject> callback) {
+        serverUrl.sessionClear(callback);
     }
 
     // 내평가보기

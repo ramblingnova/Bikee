@@ -37,11 +37,11 @@ public class ChattingRoomActivity extends AppCompatActivity {
         item = (ChattingRoomItem)intent.getSerializableExtra("bicycle");
         tv = (TextView)findViewById(R.id.view_search_result_item_bicycle_name_text_view);
         tv.setText(item.getBicycle_name());
-        tv = (TextView)findViewById(R.id.view_search_result_item_payment_text_view);
+        tv = (TextView)findViewById(R.id.view_search_result_item_payment_real_text_view);
         tv.setText(item.getPayment());
-        tv = (TextView)findViewById(R.id.view_search_result_item_type_text_view);
+        tv = (TextView)findViewById(R.id.view_search_result_item_type_real_text_view);
         tv.setText(item.getType());
-        tv = (TextView)findViewById(R.id.view_search_result_item_height_text_view);
+        tv = (TextView)findViewById(R.id.view_search_result_item_height_real_text_view);
         tv.setText(item.getHeight());
         tv = (TextView)findViewById(R.id.view_search_result_item_distance_text_view);
         tv.setText(item.getDistance());

@@ -4,17 +4,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.example.tacademy.bikee.renter.searchresult.SearchResultFragment;
+import com.example.tacademy.bikee.renter.searchresult.SearchResultItem;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Tacademy on 2015-10-30.
  */
-public class SearchResultAdapter extends BaseAdapter {
-    List<SearchResultItem> items = new ArrayList<SearchResultItem>();
+public class SearchResultListAdapter extends BaseAdapter {
+    List<SearchResultItem> items;
 
-    public void add(String bicycle_name, String payment, String type, String height, String distance) {
-        SearchResultItem item = new SearchResultItem(bicycle_name, payment, type, height, distance);
+    public SearchResultListAdapter() {
+        items = new ArrayList<>();
+    }
+
+    public void add(String bicycle_name, String payment, String type, String height, String distance, double latitude, double longitude) {
+        SearchResultItem item = new SearchResultItem(bicycle_name, payment, type, height, distance, latitude, longitude);
         items.add(item);
         notifyDataSetChanged();
     }

@@ -17,6 +17,8 @@ import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
+import com.example.tacademy.bikee.renter.searchresult.SearchResultINF;
+import com.example.tacademy.bikee.renter.searchresult.SearchResultItem;
 import com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.FilteredBicycleDetailInformationActivity;
 
 import java.util.List;
@@ -26,28 +28,34 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class SearchResultListFragment extends Fragment implements AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener {
-
     private SwipeRefreshLayout refreshLayout;
     private ListView lv;
-    private SearchResultAdapter adapter;
+    private SearchResultListAdapter adapter;
+    private SearchResultINF searchResultINF;
     private boolean isLastItem = false;
+
+    public void setSearchResultINF(SearchResultINF searchResultINF) {
+        this.searchResultINF = searchResultINF;
+    }
 
     public SearchResultListFragment() {
 
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_result_list, container, false);
+
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.view_search_result_item_refresh_list_view);
         refreshLayout.setOnRefreshListener(SearchResultListFragment.this);
+
         lv = (ListView) view.findViewById(R.id.view_search_result_item_list_view);
         lv.setOnScrollListener(SearchResultListFragment.this);
         lv.setOnItemClickListener(SearchResultListFragment.this);
-        adapter = new SearchResultAdapter();
+        adapter = new SearchResultListAdapter();
         lv.setAdapter(adapter);
-        initData();
+
+        getData();
 
         return view;
     }
@@ -55,13 +63,13 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
     @Override
     public void onRefresh() {
         // 세션클리어안에서 리스트클리어, 다시 요청
-        // initData();
+        requestData();
     }
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
         if (isLastItem && scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
-            initData();
+            requestData();
         }
     }
 
@@ -87,7 +95,26 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
         getActivity().startActivity(intent);
     }
 
-    private void initData() {
+    private void getData() {
+        if (searchResultINF != null) {
+            if (searchResultINF.getData().size() != 0) {
+                for (SearchResultItem searchResultItem : searchResultINF.getData()) {
+                    adapter.add(searchResultItem.getBicycle_name(),
+                            searchResultItem.getHeight(),
+                            searchResultItem.getType(),
+                            "",
+                            "",
+                            searchResultItem.getLatitude(),
+                            searchResultItem.getLongitude()
+                    );
+                }
+            } else {
+                requestData();
+            }
+        }
+    }
+
+    private void requestData() {
         // 전체자전거조회
         String lat = "37.468501";
         String lon = "126.957913";
@@ -103,16 +130,45 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
                 component, smartlock, new Callback<ReceiveObject>() {
                     @Override
                     public void success(ReceiveObject receiveObject, Response response) {
-                        Log.i("result", "onResponse Code : " + receiveObject.getCode() + ", Success : " + receiveObject.isSuccess() + ", Msg : " + receiveObject.getMsg() + ", Error : ");
+                        Log.i("result", "onResponse Code : " + receiveObject.getCode()
+                                        + ", Success : " + receiveObject.isSuccess()
+                                        + ", Msg : " + receiveObject.getMsg()
+                                        + ", Error : "
+                        );
                         List<Result> results = receiveObject.getResult();
+                        List<SearchResultItem> list = searchResultINF.getData();
                         for (Result result : results) {
                             Log.i("result", "onResponse Id : " + result.get_id()
                                             + ", Type : " + result.getType()
                                             + ", Height : " + result.getHeight()
                                             + ", Price.month : " + result.getPrice().getMonth()
+                                            + ", lat : " + result.getLoc().getCoordinates().get(1)
+                                            + ", lon : " + result.getLoc().getCoordinates().get(0)
                             );
-                            adapter.add(result.getTitle(), result.getHeight(), result.getType(), "", "");
+                            if (searchResultINF != null) {
+                                list.add(
+                                        new SearchResultItem(
+                                                result.getTitle(),
+                                                result.getHeight(),
+                                                result.getType(),
+                                                "",
+                                                "",
+                                                result.getLoc().getCoordinates().get(1),
+                                                result.getLoc().getCoordinates().get(0)
+                                        )
+                                );
+                                adapter.add(
+                                        result.getTitle(),
+                                        result.getHeight(),
+                                        result.getType(),
+                                        "",
+                                        "",
+                                        result.getLoc().getCoordinates().get(1),
+                                        result.getLoc().getCoordinates().get(0)
+                                );
+                            }
                         }
+                        adapter.notifyDataSetChanged();
                         refreshLayout.postDelayed(new Runnable() {
                             @Override
                             public void run() {

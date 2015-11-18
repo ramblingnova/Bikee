@@ -6,8 +6,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tacademy.bikee.R;
-import com.example.tacademy.bikee.etc.MyApplication;
 import com.example.tacademy.bikee.etc.manager.FontManager;
+import com.example.tacademy.bikee.renter.searchresult.SearchResultItem;
 
 /**
  * Created by Tacademy on 2015-10-30.
@@ -20,24 +20,26 @@ public class SearchResultView extends FrameLayout {
 
     private ImageView bicycle_picture;
     private TextView bicycle_name;
+    private TextView height_text;
     private TextView height;
+    private TextView type_text;
     private TextView type;
     private TextView payment;
+    private TextView perDuration;
     private TextView distance;
 
     private void init() {
         inflate(getContext(), R.layout.view_search_result_item, this);
-        bicycle_picture = (ImageView)findViewById(R.id.view_search_result_item_bicycle_picture_image_view);
-        bicycle_name = (TextView)findViewById(R.id.view_search_result_item_bicycle_name_text_view);
-        bicycle_name.setTypeface(FontManager.getInstance().getTypeface(MyApplication.getmContext(), FontManager.NOTO));
-        height = (TextView)findViewById(R.id.view_search_result_item_height_text_view);
-        height.setTypeface(FontManager.getInstance().getTypeface(MyApplication.getmContext(), FontManager.NOTO));
-        type = (TextView)findViewById(R.id.view_search_result_item_type_text_view);
-        type.setTypeface(FontManager.getInstance().getTypeface(MyApplication.getmContext(), FontManager.NOTO));
-        payment = (TextView)findViewById(R.id.view_search_result_item_payment_text_view);
-        payment.setTypeface(FontManager.getInstance().getTypeface(MyApplication.getmContext(), FontManager.NOTO));
-        distance = (TextView)findViewById(R.id.view_search_result_item_distance_text_view);
-        distance.setTypeface(FontManager.getInstance().getTypeface(MyApplication.getmContext(), FontManager.NOTO));
+        bicycle_picture = (ImageView) findViewById(R.id.view_search_result_item_bicycle_picture_image_view);
+        bicycle_name = (TextView) findViewById(R.id.view_search_result_item_bicycle_name_text_view);
+        height_text = (TextView) findViewById(R.id.view_search_result_item_height_text_view);
+        height = (TextView) findViewById(R.id.view_search_result_item_height_real_text_view);
+        type_text = (TextView) findViewById(R.id.view_search_result_item_type_text_view);
+        type = (TextView) findViewById(R.id.view_search_result_item_type_real_text_view);
+        payment = (TextView) findViewById(R.id.view_search_result_item_payment_real_text_view);
+        perDuration = (TextView) findViewById(R.id.view_search_result_item_per_duration_text_view);
+        distance = (TextView) findViewById(R.id.view_search_result_item_distance_text_view);
+        FontManager.getInstance().setTextViewFont(FontManager.NOTO, bicycle_name, height_text, height, type_text, type, payment, perDuration, distance);
     }
 
     public void setSearchResultView(SearchResultItem item) {

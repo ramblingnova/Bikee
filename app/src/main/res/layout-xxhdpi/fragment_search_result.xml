@@ -14,7 +14,7 @@
             android:layout_height="54dp"
             android:orientation="horizontal"
             android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+            android:paddingRight="16dp" >
 
             <RelativeLayout
                 android:id="@+id/fragment_search_result_search_bar_layout"

@@ -10,11 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.MemoryCategory;
 import com.example.tacademy.bikee.R;
-import com.example.tacademy.bikee.renter.searchresult.list.SearchResultAdapter;
-import com.example.tacademy.bikee.renter.searchresult.list.SearchResultItem;
 
 public class RenterReservationBicycleListFragment extends Fragment {
 
