@@ -9,7 +9,7 @@ import java.util.List;
 public class Result {
     public String _id = null;
     public Bike bike = null;
-    public Lister lister = null;
+    public String lister = null;
     public List<Comment> comments = null;
     public Date updatedAt = null;
     public Date createdAt = null;
@@ -47,11 +47,19 @@ public class Result {
         this.bike = bike;
     }
 
-    public Lister getLister() {
+//    public Lister getLister() {
+//        return lister;
+//    }
+//
+//    public void setLister(Lister lister) {
+//        this.lister = lister;
+//    }
+
+    public String getLister() {
         return lister;
     }
 
-    public void setLister(Lister lister) {
+    public void setLister(String lister) {
         this.lister = lister;
     }
 

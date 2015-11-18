@@ -5,7 +5,7 @@ package com.example.tacademy.bikee.etc.dao;
  */
 public class Writer {
     public String _id = null;
-    public Images images = null;
+    public Image image = null;
     public String email = null;
     public String name = null;
 
@@ -17,12 +17,12 @@ public class Writer {
         this._id = _id;
     }
 
-    public Images getImages() {
-        return images;
+    public Image getImage() {
+        return image;
     }
 
-    public void setImages(Images images) {
-        this.images = images;
+    public void setImage(Image image) {
+        this.image = image;
     }
 
     public String getEmail() {

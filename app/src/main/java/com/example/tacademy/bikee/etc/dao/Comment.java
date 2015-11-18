@@ -7,7 +7,7 @@ import java.util.Date;
  */
 public class Comment {
     public Integer point = null;
-    public Writer writer = null;
+    public String writer = null;
     public String _id = null;
     public Date createdAt = null;
     public String body = null;
@@ -20,11 +20,11 @@ public class Comment {
         this.point = point;
     }
 
-    public Writer getWriter() {
+    public String getWriter() {
         return writer;
     }
 
-    public void setWriter(Writer writer) {
+    public void setWriter(String writer) {
         this.writer = writer;
     }
 

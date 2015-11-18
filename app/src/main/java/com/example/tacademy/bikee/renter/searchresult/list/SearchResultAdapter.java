@@ -19,6 +19,10 @@ public class SearchResultAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public void clear(){
+        items.clear();
+    }
+
     @Override
     public int getCount() {
         return items.size();

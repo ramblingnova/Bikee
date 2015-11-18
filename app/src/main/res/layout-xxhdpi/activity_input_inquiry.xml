@@ -31,11 +31,32 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <TextView
-            android:id="@+id/activity_input_inquiry_text_view"
+            android:id="@+id/activity_input_inquiry_title_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:text="@string/activity_input_inquiry_text_view_string" />
+            android:text="@string/activity_input_inquiry_title_text_view_string" />
+
+        <EditText
+            android:id="@+id/activity_input_inquiry_title_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/activity_input_inquiry_title_text_view"
+            android:hint="@string/activity_input_inquiry_title_edit_text_string" />
+
+        <TextView
+            android:id="@+id/activity_input_inquiry_description_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/activity_input_inquiry_title_edit_text"
+            android:text="@string/activity_input_inquiry_description_text_view_string" />
+
+        <EditText
+            android:id="@+id/activity_input_inquiry_description_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/activity_input_inquiry_description_text_view"
+            android:hint="@string/activity_input_inquiry_description_edit_text_string" />
 
         <Button
             android:id="@+id/activity_input_inquiry_button"
@@ -43,12 +64,5 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:text="@string/activity_input_inquiry_button_string" />
-
-        <EditText
-            android:id="@+id/activity_input_inquiry_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/activity_input_inquiry_text_view"
-            android:hint="@string/activity_input_inquiry_edit_text_string" />
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

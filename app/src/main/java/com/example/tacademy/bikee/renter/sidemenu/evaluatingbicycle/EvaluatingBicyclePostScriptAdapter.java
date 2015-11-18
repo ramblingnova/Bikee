@@ -1,10 +1,13 @@
 package com.example.tacademy.bikee.renter.sidemenu.evaluatingbicycle;
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -13,8 +16,8 @@ import java.util.List;
 public class EvaluatingBicyclePostScriptAdapter extends BaseAdapter {
     List<EvaluatingBicyclePostScriptItem> items = new ArrayList<EvaluatingBicyclePostScriptItem>();
 
-    public void add(String text1, String text2, int point, String text3, String text4) {
-        EvaluatingBicyclePostScriptItem item = new EvaluatingBicyclePostScriptItem(text1, text2, point, text3, text4);
+    public void add(String name, String date, String desc, int point) {
+        EvaluatingBicyclePostScriptItem item = new EvaluatingBicyclePostScriptItem(name, date, desc, point);
         items.add(item);
         notifyDataSetChanged();
     }
@@ -45,6 +48,4 @@ public class EvaluatingBicyclePostScriptAdapter extends BaseAdapter {
         v.EvaluatingBicyclePostScriptView(items.get(position));
         return v;
     }
-
-
 }

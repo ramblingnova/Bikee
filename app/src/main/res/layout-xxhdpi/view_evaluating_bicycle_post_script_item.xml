@@ -17,34 +17,26 @@
         android:text="@string/view_evaluating_bicycle_post_script_item_bicycle_name_text_view_string" />
 
     <TextView
-        android:id="@+id/view_evaluation_bicycle_post_script_item_mail_address_text_view"
+        android:id="@+id/view_evaluation_bicycle_post_script_item_date_time_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/view_evaluation_bicycle_post_script_item_bicycle_name_text_view"
-        android:layout_toRightOf="@+id/view_evaluation_bicycle_post_script_item_bicycle_picture_image_view"
-        android:text="@string/view_evaluating_bicycle_post_script_item_mail_address_text_view_string" />
+        android:layout_toRightOf="@id/view_evaluation_bicycle_post_script_item_bicycle_picture_image_view"
+        android:text="@string/view_evaluating_bicycle_post_script_item_date_time_text_view_string" />
+
+    <TextView
+        android:id="@+id/view_evaluation_bicycle_post_script_item_post_script_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_evaluation_bicycle_post_script_item_date_time_text_view"
+        android:layout_toRightOf="@id/view_evaluation_bicycle_post_script_item_bicycle_picture_image_view"
+        android:text="@string/view_evaluating_bicycle_post_script_item_post_script_text_view_string" />
 
     <RatingBar
         android:id="@+id/view_evaluation_bicycle_post_script_item_rating_bar"
         style="?android:attr/ratingBarStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/view_evaluation_bicycle_post_script_item_mail_address_text_view"
-        android:layout_toRightOf="@id/view_evaluation_bicycle_post_script_item_bicycle_picture_image_view" />
-
-    <TextView
-        android:id="@+id/view_evaluation_bicycle_post_script_item_post_script_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/view_evaluation_bicycle_post_script_item_rating_bar"
-        android:layout_toRightOf="@id/view_evaluation_bicycle_post_script_item_bicycle_picture_image_view"
-        android:text="@string/view_evaluating_bicycle_post_script_item_post_script_text_view_string" />
-
-    <TextView
-        android:id="@+id/view_evaluation_bicycle_post_script_item_date_time_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_below="@id/view_evaluation_bicycle_post_script_item_post_script_text_view"
-        android:layout_toRightOf="@id/view_evaluation_bicycle_post_script_item_bicycle_picture_image_view"
-        android:text="@string/view_evaluating_bicycle_post_script_item_date_time_text_view_string" />
+        android:layout_toRightOf="@id/view_evaluation_bicycle_post_script_item_bicycle_picture_image_view" />
 </RelativeLayout>

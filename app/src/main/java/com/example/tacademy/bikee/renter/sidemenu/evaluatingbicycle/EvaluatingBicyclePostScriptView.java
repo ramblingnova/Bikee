@@ -18,26 +18,23 @@ public class EvaluatingBicyclePostScriptView extends FrameLayout {
     }
 
     private TextView name;
-    private TextView email;
-    private RatingBar bar;
+    private TextView date;
     private TextView desc;
-    private TextView time;
+    private RatingBar point;
 
     private void init() {
         inflate(getContext(), R.layout.view_evaluating_bicycle_post_script_item, this);
         name = (TextView) findViewById(R.id.view_evaluation_bicycle_post_script_item_bicycle_name_text_view);
-        email = (TextView) findViewById(R.id.view_evaluation_bicycle_post_script_item_mail_address_text_view);
-        bar = (RatingBar) findViewById(R.id.view_evaluation_bicycle_post_script_item_rating_bar);
+        date = (TextView) findViewById(R.id.view_evaluation_bicycle_post_script_item_date_time_text_view);
         desc = (TextView) findViewById(R.id.view_evaluation_bicycle_post_script_item_post_script_text_view);
-        time = (TextView) findViewById(R.id.view_evaluation_bicycle_post_script_item_date_time_text_view);
+        point = (RatingBar) findViewById(R.id.view_evaluation_bicycle_post_script_item_rating_bar);
     }
 
     public void EvaluatingBicyclePostScriptView(EvaluatingBicyclePostScriptItem item) {
-        name.setText("" + item.name);
-        email.setText("" + item.email);
-        bar.setRating(item.point);
-        bar.setClickable(false);
-        desc.setText("" + item.desc);
-        time.setText("" + item.time);
+        name.setText("" + item.getName());
+        date.setText("" + item.getDate());
+        desc.setText("" + item.getDesc());
+        point.setRating(item.getPoint());
+        point.setClickable(false);
     }
 }

@@ -3,13 +3,26 @@ package com.example.tacademy.bikee.common.sidemenu;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.etc.dao.Inquires;
+import com.example.tacademy.bikee.etc.dao.ReceiveObject;
+import com.example.tacademy.bikee.etc.manager.NetworkManager;
 
-public class InputInquiryActivity extends AppCompatActivity {
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
+public class InputInquiryActivity extends AppCompatActivity implements View.OnClickListener {
+    private EditText title_edit_text;
+    private EditText description_edit_text;
+    private Button btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,13 +32,34 @@ public class InputInquiryActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Button btn = (Button)findViewById(R.id.activity_input_inquiry_button);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        title_edit_text = (EditText)findViewById(R.id.activity_input_inquiry_title_edit_text);
+        description_edit_text = (EditText)findViewById(R.id.activity_input_inquiry_description_edit_text);
+        btn = (Button)findViewById(R.id.activity_input_inquiry_button);
+        btn.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.activity_input_inquiry_button:
+                Inquires inquires = new Inquires();
+                inquires.setTitle(title_edit_text.getText().toString());
+                inquires.setBody(description_edit_text.getText().toString());
+                NetworkManager.getInstance().insertInquiry(inquires, new Callback<ReceiveObject>() {
+                    @Override
+                    public void success(ReceiveObject receiveObject, Response response) {
+                        Log.i("result", "onResponse Code : " + receiveObject.getCode() + ", Success : " + receiveObject.isSuccess() + ", Msg : " + receiveObject.getMsg() + ", Error : ");
+                        finish();
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.e("error", "onFailure Error : " + error.toString());
+                        finish();
+                    }
+                });
+                break;
+        }
     }
 
     @Override

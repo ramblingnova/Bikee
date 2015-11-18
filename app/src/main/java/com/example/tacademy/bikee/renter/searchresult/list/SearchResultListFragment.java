@@ -3,10 +3,12 @@ package com.example.tacademy.bikee.renter.searchresult.list;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -23,10 +25,12 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class SearchResultListFragment extends Fragment {
+public class SearchResultListFragment extends Fragment implements AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener {
 
-    ListView lv;
-    SearchResultAdapter adapter;
+    private SwipeRefreshLayout refreshLayout;
+    private ListView lv;
+    private SearchResultAdapter adapter;
+    private boolean isLastItem = false;
 
     public SearchResultListFragment() {
 
@@ -35,29 +39,52 @@ public class SearchResultListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_search_result_list, container, false);
-        lv = (ListView) v.findViewById(R.id.view_search_result_item_list_view);
+        View view = inflater.inflate(R.layout.fragment_search_result_list, container, false);
+        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.view_search_result_item_refresh_list_view);
+        refreshLayout.setOnRefreshListener(SearchResultListFragment.this);
+        lv = (ListView) view.findViewById(R.id.view_search_result_item_list_view);
+        lv.setOnScrollListener(SearchResultListFragment.this);
+        lv.setOnItemClickListener(SearchResultListFragment.this);
         adapter = new SearchResultAdapter();
         lv.setAdapter(adapter);
         initData();
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SearchResultItem item = (SearchResultItem) lv.getItemAtPosition(position);
-                Toast.makeText(getContext().getApplicationContext(), "position : " + position, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getActivity(), FilteredBicycleDetailInformationActivity.class);
-                // TODO
-                getActivity().startActivity(intent);
-            }
-        });
+        return view;
+    }
 
-        return v;
+    @Override
+    public void onRefresh() {
+        // 세션클리어안에서 리스트클리어, 다시 요청
+        // initData();
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+        if (isLastItem && scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+            initData();
+        }
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        if (totalItemCount > 0 && (firstVisibleItem + visibleItemCount >= totalItemCount - 1)) {
+            isLastItem = true;
+        } else {
+            isLastItem = false;
+        }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        SearchResultItem item = (SearchResultItem) lv.getItemAtPosition(position);
+        Toast.makeText(getContext().getApplicationContext(), "position : " + position, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getActivity(), FilteredBicycleDetailInformationActivity.class);
+        getActivity().startActivity(intent);
     }
 
     private void initData() {
@@ -71,23 +98,27 @@ public class SearchResultListFragment extends Fragment {
         String component = "01,02,03,04";
         Boolean smartlock = new Boolean(true);
         NetworkManager.getInstance().selectAllBicycle(
-                lat,
-                lon,
-                start,
-                end,
-                type,
-                height,
-                component,
-                smartlock,
-                new Callback<ReceiveObject>() {
+                lat, lon, start,
+                end, type, height,
+                component, smartlock, new Callback<ReceiveObject>() {
                     @Override
                     public void success(ReceiveObject receiveObject, Response response) {
                         Log.i("result", "onResponse Code : " + receiveObject.getCode() + ", Success : " + receiveObject.isSuccess() + ", Msg : " + receiveObject.getMsg() + ", Error : ");
                         List<Result> results = receiveObject.getResult();
                         for (Result result : results) {
-                            Log.i("result", "onResponse Id : " + result.get_id() + ", Type : " + result.getType() + ", Height : " + result.getHeight() + ", Price.month : " + result.getPrice().getMonth());
+                            Log.i("result", "onResponse Id : " + result.get_id()
+                                            + ", Type : " + result.getType()
+                                            + ", Height : " + result.getHeight()
+                                            + ", Price.month : " + result.getPrice().getMonth()
+                            );
                             adapter.add(result.getTitle(), result.getHeight(), result.getType(), "", "");
                         }
+                        refreshLayout.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                refreshLayout.setRefreshing(false);
+                            }
+                        }, 2000);
                     }
 
                     @Override

@@ -22,6 +22,8 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
 
     Fragment current;
     SearchSwitchView searchSwitchView;
+    SearchResultListFragment searchResultListFragment;
+    SearchResultMapFragment searchResultMapFragment;
 
     public SearchResultFragment() {
     }
@@ -29,6 +31,9 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_search_result, container, false);
+
+        searchResultListFragment = new SearchResultListFragment();
+        searchResultMapFragment = new SearchResultMapFragment();
 
         searchSwitchView = (SearchSwitchView)v.findViewById(R.id.search_bar_switch);
         searchSwitchView.setOnCheckedListener(new SearchSwitchView.OnCheckedListener() {
@@ -72,7 +77,7 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
         }
 
         if (old == null) {
-            current = (isChecked) ? new SearchResultListFragment() : new SearchResultMapFragment();
+            current = (isChecked) ? searchResultListFragment : searchResultMapFragment;
             ft.add(R.id.container, current, CURRENT_TAG);
         } else if (current != old) {
             ft.attach(current = old);
