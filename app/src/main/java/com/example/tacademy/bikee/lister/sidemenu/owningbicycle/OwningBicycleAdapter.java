@@ -13,8 +13,8 @@ import java.util.List;
 public class OwningBicycleAdapter extends BaseAdapter {
     List<OwningBicycleItem> items = new ArrayList<OwningBicycleItem>();
 
-    public void add(String text1, String text2) {
-        OwningBicycleItem item = new OwningBicycleItem(text1, text2);
+    public void add(String id, String name, String date) {
+        OwningBicycleItem item = new OwningBicycleItem(id, name, date);
         items.add(item);
         notifyDataSetChanged();
     }
@@ -45,5 +45,4 @@ public class OwningBicycleAdapter extends BaseAdapter {
         v.setText(items.get(position));
         return v;
     }
-
 }

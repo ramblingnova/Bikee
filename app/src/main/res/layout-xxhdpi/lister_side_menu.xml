@@ -131,7 +131,7 @@
                 android:layout_centerVertical="true"
                 android:layout_margin="3dp"
                 android:layout_toRightOf="@id/lister_side_menu_push_alarm_text_view"
-                android:background="@drawable/check_selector" />
+                android:background="@drawable/push_alarm_check_selector" />
         </RelativeLayout>
 
         <RelativeLayout

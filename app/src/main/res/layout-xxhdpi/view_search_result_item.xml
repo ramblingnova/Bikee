@@ -6,6 +6,7 @@
     android:paddingRight="16dp"
     android:paddingTop="24dp"
     android:paddingBottom="24dp"
+    android:layout_marginBottom="5dp"
     android:background="@drawable/renter_list_contents_box">
 
     <ImageView

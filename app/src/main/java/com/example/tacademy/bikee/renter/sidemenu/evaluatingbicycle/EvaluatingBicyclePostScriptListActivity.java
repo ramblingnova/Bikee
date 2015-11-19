@@ -48,6 +48,7 @@ public class EvaluatingBicyclePostScriptListActivity extends AppCompatActivity {
             @Override
             public void success(ReceiveObject receiveObject, Response response) {
                 Log.i("result", "onResponse Success");
+                // TODO 내평가보기 -> 서버와 연결은 성공하지만 데이터를 못받아올 때가 있음,
                 List<Result> results = receiveObject.getResult();
                 for (Result result : results)
                     for (Comment comment : result.getComments()) {
@@ -58,7 +59,11 @@ public class EvaluatingBicyclePostScriptListActivity extends AppCompatActivity {
                                 + ", Body : " + comment.getBody()
                                 + ", Point : " + comment.getPoint()
                         );
-                        adapter.add(result.getBike().getTitle(), simpleDateFormat.format(comment.getCreatedAt()), comment.getBody(), comment.getPoint());
+                        adapter.add(result.getBike().getTitle(),
+                                simpleDateFormat.format(comment.getCreatedAt()),
+                                comment.getBody(),
+                                comment.getPoint()
+                        );
                     }
             }
 

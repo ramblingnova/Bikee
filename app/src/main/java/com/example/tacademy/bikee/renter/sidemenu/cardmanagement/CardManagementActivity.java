@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -14,11 +15,10 @@ import com.example.tacademy.bikee.R;
 /**
  * Created by Tacademy on 2015-11-03.
  */
-public class CardManagementActivity extends AppCompatActivity {
-
-    Button btn;
-    ListView lv;
-    CardAdapter adapter;
+public class CardManagementActivity extends AppCompatActivity implements CardAdapter.OnItemClickListener, View.OnClickListener {
+    private ListView lv;
+    private CardAdapter adapter;
+    private Button btn;
     final private static int REGISTER_CARD_ACTIVITY = 1;
 
     @Override
@@ -37,24 +37,10 @@ public class CardManagementActivity extends AppCompatActivity {
         lv.setAdapter(adapter);
         initData();
 
+        adapter.setOnItemClickListener(CardManagementActivity.this);
+
         btn = (Button) findViewById(R.id.activity_card_management_add_button);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CardManagementActivity.this, RegisterCardActivity.class);
-                startActivityForResult(intent, REGISTER_CARD_ACTIVITY);
-            }
-        });
-
-        adapter.setOnItemClickListener(new CardAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(CardItem item) {
-//                Intent intent = new Intent(CardManagementActivity.this,.class);
-//                intent.putExtra("item",item);
-//                startActivity(intent);
-            }
-        });
-
+        btn.setOnClickListener(CardManagementActivity.this);
     }
 
     private void initData() {
@@ -62,6 +48,19 @@ public class CardManagementActivity extends AppCompatActivity {
         for (int i = 0; i < 10; i++) {
             adapter.add("카드종류" + i, "카드번호" + i, "유효기간" + i, "생년월일" + i, "비밀번호" + i);
         }
+    }
+
+    @Override
+    public void onItemClick(CardItem item) {
+//                Intent intent = new Intent(CardManagementActivity.this,.class);
+//                intent.putExtra("item",item);
+//                startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(CardManagementActivity.this, RegisterCardActivity.class);
+        startActivityForResult(intent, REGISTER_CARD_ACTIVITY);
     }
 
     @Override

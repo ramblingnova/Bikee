@@ -187,6 +187,8 @@ public class NetworkManager {
         serverUrl.insertUser(user, callback);
     }
 
+
+
     // 회원수정
     public void updateUser(User user, Callback<ReceiveObject> callback) {
         serverUrl.updateUser(user, callback);

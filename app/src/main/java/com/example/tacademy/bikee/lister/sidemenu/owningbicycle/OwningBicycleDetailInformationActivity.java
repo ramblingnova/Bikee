@@ -4,18 +4,28 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.tacademy.bikee.etc.dao.ReceiveObject;
+import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.dialog.ChoiceDialogFragment;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.SmallMapActivity;
+import com.example.tacademy.bikee.etc.manager.NetworkManager;
+
+import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class OwningBicycleDetailInformationActivity extends AppCompatActivity implements View.OnClickListener {
-
-    Button btn;
+    private Intent intent;
+    private Button btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,26 +38,23 @@ public class OwningBicycleDetailInformationActivity extends AppCompatActivity im
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setCustomView(R.layout.lister_main_tool_bar);
 
-        Intent intent = getIntent();
+        intent = getIntent();
         int i = intent.getIntExtra("STATE", -1);
         Toast.makeText(OwningBicycleDetailInformationActivity.this, "STATE : " + i, Toast.LENGTH_SHORT).show();
         if(i == 0) {
-            btn = (Button)findViewById(R.id.activity_owning_bicycle_detail_information_deactivate_button);                  btn.setVisibility(View.VISIBLE);
+            btn = (Button)findViewById(R.id.activity_owning_bicycle_detail_information_deactivate_button);               btn.setVisibility(View.VISIBLE);
             btn = (Button)findViewById(R.id.activity_owning_bicycle_detail_information_back_button);                     btn.setVisibility(View.GONE);
             btn = (Button)findViewById(R.id.activity_owning_bicycle_detail_information_approval_button);                 btn.setVisibility(View.GONE);
         } else if(i == 1) {
-            btn = (Button)findViewById(R.id.activity_owning_bicycle_detail_information_deactivate_button);                  btn.setVisibility(View.GONE);
+            btn = (Button)findViewById(R.id.activity_owning_bicycle_detail_information_deactivate_button);               btn.setVisibility(View.GONE);
             btn = (Button)findViewById(R.id.activity_owning_bicycle_detail_information_back_button);                     btn.setVisibility(View.VISIBLE);
             btn = (Button)findViewById(R.id.activity_owning_bicycle_detail_information_approval_button);                 btn.setVisibility(View.VISIBLE);
         }
         btn = (Button)findViewById(R.id.activity_owning_bicycle_detail_information_small_map_button);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(OwningBicycleDetailInformationActivity.this, SmallMapActivity.class);
-                startActivity(intent);
-            }
-        });
+        btn.setOnClickListener(OwningBicycleDetailInformationActivity.this);
+
+        String id = intent.getStringExtra("id");
+        initData(id);
     }
 
     @Override
@@ -66,6 +73,10 @@ public class OwningBicycleDetailInformationActivity extends AppCompatActivity im
 //                dialog.show(getSupportFragmentManager(), "custom");
                 finish();
                 break;
+            case R.id.activity_owning_bicycle_detail_information_small_map_button:
+                Intent intent = new Intent(OwningBicycleDetailInformationActivity.this, SmallMapActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 
@@ -76,5 +87,35 @@ public class OwningBicycleDetailInformationActivity extends AppCompatActivity im
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void initData(String bike_id) {
+        // 자전거상세조회
+        NetworkManager.getInstance().selectBicycleDetail(bike_id, new Callback<ReceiveObject>() {
+            @Override
+            public void success(ReceiveObject receiveObject, Response response) {
+                Log.i("result", "onResponse Code : " + receiveObject.getCode()
+                        + ", Success : " + receiveObject.isSuccess()
+                        + ", Msg : " + receiveObject.getMsg()
+                        + ", Error : "
+                );
+                List<Result> results = receiveObject.getResult();
+                for (Result result : results) {
+                    Log.i("result", "onResponse Title : " + result.getTitle()
+                                    + ", Price : " + result.getPrice().getDay()
+                                    + ", Type : " + result.getType()
+                                    + ", Height : " + result.getHeight()
+                                    + ", Description : " + result.getIntro()
+                                    + ", Latitude : " + result.getLoc().getCoordinates().get(1)
+                                    + ", Longitude : " + result.getLoc().getCoordinates().get(0)
+                    );
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e("error", "onFailure Error : " + error.toString());
+            }
+        });
     }
 }

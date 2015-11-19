@@ -24,79 +24,57 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:paddingTop="@dimen/activity_vertical_margin">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/activity_filter_reservation_date_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/activity_filter_reservation_date_text_view_string" />
-
             <include
                 android:id="@+id/activity_filter_calendar"
                 layout="@layout/calendar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/activity_filter_reservation_date_text_view" />
-
-            <TextView
-                android:id="@+id/activity_filter_bicycle_component_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/activity_filter_calendar"
-                android:text="@string/activity_filter_bicycle_component_text_view_string" />
+                android:layout_marginBottom="5dp"/>
 
             <include
                 android:id="@+id/activity_filter_bicycle_type"
                 layout="@layout/bicycle_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/activity_filter_bicycle_component_text_view" />
-
-            <TextView
-                android:id="@+id/activity_filter_recommendation_height_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/activity_filter_bicycle_type"
-                android:text="@string/activity_filter_recommendation_height_text_view_string" />
+                android:layout_below="@id/activity_filter_calendar"
+                android:layout_marginBottom="5dp" />
 
             <include
                 android:id="@+id/activity_filter_bicycle_recommendation_height"
                 layout="@layout/bicycle_recommendation_height"
                 android:layout_width="wrap_content"
+                android:layout_marginBottom="5dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/activity_filter_recommendation_height_text_view" />
+                android:layout_below="@+id/activity_filter_bicycle_type" />
 
-            <CheckBox
-                android:id="@+id/activity_filter_smart_lock_interlock_check_box"
+            <include
+                android:id="@+id/activity_filter_bicycle_smart_lock"
+                layout="@layout/bicycle_smart_lock"
+                android:layout_marginBottom="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/activity_filter_bicycle_recommendation_height"
-                android:text="@string/activity_filter_smart_lock_interlock_check_box_string" />
+                android:layout_below="@+id/activity_filter_bicycle_recommendation_height" />
 
-            <CheckBox
-                android:id="@+id/activity_filter_price_order_check_box"
+            <include
+                android:id="@+id/activity_filter_bicycle_order"
+                layout="@layout/bicycle_order"
+                android:layout_marginBottom="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/activity_filter_smart_lock_interlock_check_box"
-                android:text="@string/activity_filter_price_order_check_box_string" />
-
-            <CheckBox
-                android:id="@+id/activity_filter_distance_order_check_box"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/activity_filter_price_order_check_box"
-                android:text="@string/activity_filter_distance_order_check_box_string" />
+                android:layout_below="@+id/activity_filter_bicycle_smart_lock" />
 
             <Button
                 android:id="@+id/activity_filter_search_button"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/activity_filter_distance_order_check_box"
+                android:layout_below="@+id/activity_filter_bicycle_order"
                 android:layout_centerHorizontal="true"
                 android:text="@string/activity_filter_search_button_string" />
         </RelativeLayout>

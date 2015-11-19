@@ -18,12 +18,12 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class FilterActivity extends AppCompatActivity {
+    private CalendarPickerView calendarPickerView;
+    private Calendar calendar;
+    private Date start, end;
+
     public final static int RESULT_OK = 1;
     public final static int RESULT_CANCEL = 2;
-
-    CalendarPickerView calendarPickerView;
-    Calendar calendar;
-    Date start, end;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

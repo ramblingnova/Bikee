@@ -104,7 +104,6 @@
     <!-- activity_filter.xml -->
     <string name="activity_filter_reservation_date_text_view_string">예약날짜</string>
     <string name="activity_filter_bicycle_component_text_view_string">자전거 물품</string>
-    <string name="activity_filter_recommendation_height_text_view_string">권장 신장 중복선택가능</string>
     <string name="activity_filter_smart_lock_interlock_check_box_string">0.5km</string>
     <string name="activity_filter_price_order_check_box_string">가격순</string>
     <string name="activity_filter_distance_order_check_box_string">가까운 거리순</string>
@@ -121,12 +120,11 @@
     <string name="bicycle_type_button8_string">전기자전거</string>
 
     <!-- bicycle_recommendation_height.xml -->
-    <string name="bicycle_recommendation_height_button1_string">155cm이하</string>
-    <string name="bicycle_recommendation_height_button2_string">155~160cm</string>
-    <string name="bicycle_recommendation_height_button3_string">160~165cm</string>
-    <string name="bicycle_recommendation_height_button4_string">165~170cm</string>
-    <string name="bicycle_recommendation_height_button5_string">170~175cm</string>
-    <string name="bicycle_recommendation_height_button6_string">175cm이상</string>
+    <string name="bicycle_recommendation_height_text_view1_string">~145cm</string>
+    <string name="bicycle_recommendation_height_text_view2_string">~155cm</string>
+    <string name="bicycle_recommendation_height_text_view3_string">~165cm</string>
+    <string name="bicycle_recommendation_height_text_view4_string">~175cm</string>
+    <string name="bicycle_recommendation_height_text_view5_string">~185cm</string>
 
     <!-- view_renter_reservation_bicycle_item.xml -->
     <string name="view_renter_reservation_bicycle_item_bicycle_name_text_view_string">자전거 이름</string>

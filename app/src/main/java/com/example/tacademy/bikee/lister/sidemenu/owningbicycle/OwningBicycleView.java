@@ -25,7 +25,7 @@ public class OwningBicycleView extends FrameLayout {
     }
 
     public void setText(OwningBicycleItem item) {
-        name.setText("" + item.tv1);
-        date.setText("" + item.tv2);
+        name.setText("" + item.getName());
+        date.setText("" + item.getDate());
     }
 }

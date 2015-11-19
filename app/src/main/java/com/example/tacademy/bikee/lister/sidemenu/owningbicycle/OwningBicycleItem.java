@@ -1,15 +1,45 @@
 package com.example.tacademy.bikee.lister.sidemenu.owningbicycle;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
 /**
  * Created by Tacademy on 2015-11-04.
  */
 public class OwningBicycleItem {
+    private String id;
+    private String name;
+    private String date;
 
-    public OwningBicycleItem(String tv1, String tv2) {
-        this.tv1 = tv1;
-        this.tv2 = tv2;
+    public OwningBicycleItem(String id, String name, String date) {
+        this.id = id;
+        this.name = name;
+        this.date = date;
     }
 
-    String tv1;
-    String tv2;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 }

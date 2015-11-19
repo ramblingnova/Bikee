@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/renter_list_contents_box"
+    android:paddingBottom="26dp"
+    android:paddingTop="24dp">
+
+    <ImageView
+        android:id="@+id/bicycle_order_icon_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:src="@drawable/icon_filtering_6" />
+
+    <TextView
+        android:id="@+id/bicycle_order_icon_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/bicycle_order_icon_image_view"
+        android:layout_marginLeft="14dp"
+        android:layout_toRightOf="@id/bicycle_order_icon_image_view"
+        android:text="정렬"
+        android:textColor="#1993f7"
+        android:textSize="17sp" />
+
+    <ImageView
+        android:id="@+id/bicycle_order_price_order_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/bicycle_order_icon_text_view"
+        android:layout_below="@id/bicycle_order_icon_text_view"
+        android:layout_marginTop="19dp"
+        android:src="@drawable/bicycle_order_price_order_image_view_selector" />
+
+    <TextView
+        android:id="@+id/bicycle_order_price_order_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/bicycle_order_price_order_image_view"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/bicycle_order_price_order_image_view"
+        android:text="@string/activity_filter_price_order_check_box_string" />
+
+    <CheckBox
+        android:id="@+id/bicycle_order_price_order_check_box"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_alignBottom="@id/bicycle_order_price_order_image_view"
+        android:layout_marginLeft="22dp"
+        android:layout_toRightOf="@id/bicycle_order_price_order_text_view"
+        android:background="@drawable/filter_check_selector"
+        android:button="@null" />
+
+    <ImageView
+        android:id="@+id/bicycle_order_distance_order_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/bicycle_order_icon_text_view"
+        android:layout_below="@id/bicycle_order_price_order_image_view"
+        android:layout_marginTop="19dp"
+        android:src="@drawable/bicycle_order_distance_order_image_view_selector" />
+
+    <TextView
+        android:id="@+id/bicycle_order_distance_order_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/bicycle_order_distance_order_image_view"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/bicycle_order_distance_order_image_view"
+        android:text="@string/activity_filter_distance_order_check_box_string" />
+
+    <CheckBox
+        android:id="@+id/bicycle_order_distance_order_check_box"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_alignBottom="@id/bicycle_order_distance_order_image_view"
+        android:layout_marginLeft="22dp"
+        android:layout_toRightOf="@id/bicycle_order_distance_order_text_view"
+        android:background="@drawable/filter_check_selector"
+        android:button="@null" />
+</RelativeLayout>

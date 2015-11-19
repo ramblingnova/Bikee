@@ -32,7 +32,7 @@ public class EvaluatedBicyclePostScriptListActivity extends AppCompatActivity {
 
     private void initData() {
         for (int i = 0; i < 10; i++) {
-            adapter.add("" + i, "" + i, "" + i, "" + i);
+            adapter.add("" + i, "" + i, i, "" + i, "" + i);
         }
     }
 
