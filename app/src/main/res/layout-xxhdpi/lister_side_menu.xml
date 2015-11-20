@@ -126,8 +126,8 @@
 
             <CheckBox
                 android:id="@+id/lister_side_menu_push_alarm_switch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:layout_centerVertical="true"
                 android:layout_margin="3dp"
                 android:layout_toRightOf="@id/lister_side_menu_push_alarm_text_view"

@@ -5,38 +5,40 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.example.tacademy.bikee.R;
 
 public class RegisterBicycleFeeFragment extends Fragment {
-    private static final String ARG_PARAM1 = "param1";
-    private String mParam1;
+    EditText hour;
+    EditText day;
+    EditText month;
 
-    public static RegisterBicycleFeeFragment newInstance(String param1) {
-        RegisterBicycleFeeFragment fragment = new RegisterBicycleFeeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        fragment.setArguments(args);
-        return fragment;
+    public static RegisterBicycleFeeFragment newInstance() {
+        return new RegisterBicycleFeeFragment();
     }
-
-    public RegisterBicycleFeeFragment() {
-        // Required empty public constructor
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_register_bicycle_fee, container, false);
+        View view = inflater.inflate(R.layout.fragment_register_bicycle_fee, container, false);
+
+        hour = (EditText)view.findViewById(R.id.fragment_register_bicycle_fee_per_hour_edit_text);
+        day = (EditText)view.findViewById(R.id.fragment_register_bicycle_fee_per_day_edit_text);
+        month = (EditText)view.findViewById(R.id.fragment_register_bicycle_fee_per_month_edit_text);
+
+        return view;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-        }
+    public int getHour() {
+        return Integer.parseInt(hour.getText().toString());
+    }
+
+    public int getDay() {
+        return Integer.parseInt(day.getText().toString());
+    }
+
+    public int getMonth() {
+        return Integer.parseInt(month.getText().toString());
     }
 }

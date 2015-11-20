@@ -9,9 +9,8 @@ import android.widget.ListView;
 import com.example.tacademy.bikee.R;
 
 public class EvaluatedBicyclePostScriptListActivity extends AppCompatActivity {
-
-    ListView lv;
-    EvaluatedBicyclePostScriptAdapter adapter;
+    private ListView lv;
+    private EvaluatedBicyclePostScriptAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -11,10 +12,25 @@ import android.widget.Button;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.SmallMapActivity;
 import com.example.tacademy.bikee.etc.MyApplication;
+import com.example.tacademy.bikee.etc.dao.Bike;
+import com.example.tacademy.bikee.etc.dao.Price;
+import com.example.tacademy.bikee.etc.dao.ReceiveObject;
+import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.lister.sidemenu.owningbicycle.OwningBicycleListActivity;
 import com.example.tacademy.bikee.renter.RenterMainActivity;
 
-public class FinallyRegisterBicycleActivity extends AppCompatActivity {
+import java.io.File;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import retrofit.mime.TypedFile;
+
+public class FinallyRegisterBicycleActivity extends AppCompatActivity implements View.OnClickListener {
+    private Button btn;
+    private Intent intent;
+    private RegisterBicycleItem tempItem;
+    public static final String ITEM_TAG = "ITEM";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,35 +43,58 @@ public class FinallyRegisterBicycleActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setCustomView(R.layout.lister_main_tool_bar);
 
-        Button btn = (Button) findViewById(R.id.activity_finally_register_bicycle_back_button);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
+        btn = (Button) findViewById(R.id.activity_finally_register_bicycle_back_button);
+        btn.setOnClickListener(this);
+        btn = (Button) findViewById(R.id.activity_finally_register_bicycle_ok_button);
+        btn.setOnClickListener(this);
+        btn = (Button) findViewById(R.id.activity_finally_register_bicycle_small_map_button);
+        btn.setOnClickListener(this);
+
+        intent = getIntent();
+        tempItem = (RegisterBicycleItem)intent.getSerializableExtra(RegisterBicycleActivity.ITEM_TAG);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.activity_finally_register_bicycle_back_button:
+                intent = new Intent();
                 intent.putExtra("close", false);
                 finish();
-            }
-        });
-        btn = (Button) findViewById(R.id.activity_finally_register_bicycle_ok_button);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Intent intent = new Intent();
-//                intent.putExtra("close", true);
-//                finish();
-                Intent intent = new Intent(MyApplication.getmContext(), OwningBicycleListActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                break;
+            case R.id.activity_finally_register_bicycle_ok_button:
+                TypedFile typedFile1 = new TypedFile("image/png", tempItem.getFile1());
+                TypedFile typedFile2 = new TypedFile("image/png", tempItem.getFile2());
+                Bike bike = new Bike();
+                bike.setType(tempItem.getType());
+                bike.setHeight(tempItem.getHeight());
+                bike.setTitle(tempItem.getName());
+                Price price = new Price();
+                price.setHour(tempItem.getHour());
+                price.setDay(tempItem.getDay());
+                price.setMonth(tempItem.getMonth());
+                bike.setPrice(price);
+                NetworkManager.getInstance().insertBicycle(typedFile1, typedFile2, bike, new Callback<ReceiveObject>() {
+                    @Override
+                    public void success(ReceiveObject receiveObject, Response response) {
+                        Log.i("result", "onResponse Code : " + receiveObject.getCode() + ", Success : " + receiveObject.isSuccess() + ", Msg : " + receiveObject.getMsg() + ", Error : ");
+                        intent = getIntent();
+                        intent.putExtra(ITEM_TAG, tempItem);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.e("error", "onFailure Error : " + error.toString());
+                    }
+                });
+                break;
+            case R.id.activity_finally_register_bicycle_small_map_button:
+                intent = new Intent(FinallyRegisterBicycleActivity.this, SmallMapActivity.class);
                 startActivity(intent);
-            }
-        });
-        btn = (Button) findViewById(R.id.activity_finally_register_bicycle_small_map_button);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(FinallyRegisterBicycleActivity.this, SmallMapActivity.class);
-                startActivity(intent);
-            }
-        });
+                break;
+        }
     }
 
     @Override

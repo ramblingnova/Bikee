@@ -29,8 +29,8 @@ public class OwningBicycleListActivity extends AppCompatActivity implements Adap
     private ListView lv;
     private OwningBicycleAdapter adapter;
     private Button btn;
-    final private static int FINALLY_REGISTER_BICYCLE_ACTIVITY = 1;
-    final public static String ID_TAG = "id";
+    final private static int REGISTER_BICYCLE_ACTIVITY = 1;
+    final public static String ID_TAG = "ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +95,7 @@ public class OwningBicycleListActivity extends AppCompatActivity implements Adap
         switch (v.getId()) {
             case R.id.activity_owning_bicycle_list_button:
                 Intent intent = new Intent(OwningBicycleListActivity.this, RegisterBicycleActivity.class);
-                startActivityForResult(intent, FINALLY_REGISTER_BICYCLE_ACTIVITY);
+                startActivityForResult(intent, REGISTER_BICYCLE_ACTIVITY);
                 break;
         }
     }
@@ -103,9 +103,11 @@ public class OwningBicycleListActivity extends AppCompatActivity implements Adap
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == FINALLY_REGISTER_BICYCLE_ACTIVITY) {
+        if (resultCode == RESULT_OK && requestCode == REGISTER_BICYCLE_ACTIVITY) {
             // TODO 자전거 등록을 완료했을 때를 구현해야 한다.
             // 데이터를 받아온다. -> 어댑터에 심는다.
+            adapter.clear();
+            initData();
         }
     }
 

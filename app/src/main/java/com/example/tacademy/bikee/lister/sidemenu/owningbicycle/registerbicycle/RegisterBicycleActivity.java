@@ -11,17 +11,19 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.tacademy.bikee.R;
-import com.example.tacademy.bikee.lister.sidemenu.owningbicycle.OwningBicycleItem;
 
 public class RegisterBicycleActivity extends AppCompatActivity implements View.OnClickListener {
+    private Intent intent;
     private Fragment[] list = {
-            RegisterBicycleInformationFragment.newInstance("page1"),
-            RegisterBicycleLocationFragment.newInstance("page2"),
-            RegisterBicycleIntroductionFragment.newInstance("page3"),
-            RegisterBicyclePictureFragment.newInstance("page4"),
-            RegisterBicycleFeeFragment.newInstance("page5")
+            RegisterBicycleInformationFragment.newInstance(),
+            RegisterBicycleLocationFragment.newInstance(),
+            RegisterBicycleIntroductionFragment.newInstance(),
+            RegisterBicyclePictureFragment.newInstance(),
+            RegisterBicycleFeeFragment.newInstance()
     };
-    private OwningBicycleItem item;
+    private RegisterBicycleItem item;
+    public static final String ITEM_TAG = "ITEM";
+    final private static int FINALLY_REGISTER_BICYCLE_ACTIVITY = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +52,19 @@ public class RegisterBicycleActivity extends AppCompatActivity implements View.O
                     Toast.makeText(RegisterBicycleActivity.this, "page : " + (page + 1) + " -> page : " + (page + 2), Toast.LENGTH_SHORT).show();
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_register_bicycle_information_container, list[page + 1]).addToBackStack(null).commit();
                 } else {
-                    Intent intent = new Intent(RegisterBicycleActivity.this, FinallyRegisterBicycleActivity.class);
-                    startActivity(intent);
+                    item = new RegisterBicycleItem();
+                    item.setType(((RegisterBicycleInformationFragment) list[0]).getType());
+                    item.setHeight(((RegisterBicycleInformationFragment) list[0]).getHeight());
+                    item.setName(((RegisterBicycleIntroductionFragment) list[2]).getName());
+                    item.setFile1(((RegisterBicyclePictureFragment) list[3]).getFile1());
+                    item.setFile2(((RegisterBicyclePictureFragment) list[3]).getFile2());
+                    item.setHour(((RegisterBicycleFeeFragment) list[4]).getHour());
+                    item.setDay(((RegisterBicycleFeeFragment) list[4]).getDay());
+                    item.setMonth(((RegisterBicycleFeeFragment) list[4]).getMonth());
+
+                    intent = new Intent(RegisterBicycleActivity.this, FinallyRegisterBicycleActivity.class);
+                    intent.putExtra(ITEM_TAG, item);
+                    startActivityForResult(intent, FINALLY_REGISTER_BICYCLE_ACTIVITY);
                 }
                 break;
         }
@@ -71,5 +84,14 @@ public class RegisterBicycleActivity extends AppCompatActivity implements View.O
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == FINALLY_REGISTER_BICYCLE_ACTIVITY) {
+            setResult(RESULT_OK, data);
+            finish();
+        }
     }
 }

@@ -1,42 +1,33 @@
 package com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle;
 
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 
 import com.example.tacademy.bikee.R;
 
 public class RegisterBicycleIntroductionFragment extends Fragment {
-    private static final String ARG_PARAM1 = "param1";
-    private String mParam1;
+    private EditText editText;
 
-    public static RegisterBicycleIntroductionFragment newInstance(String param1) {
-        RegisterBicycleIntroductionFragment fragment = new RegisterBicycleIntroductionFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public RegisterBicycleIntroductionFragment() {
-        // Required empty public constructor
+    public static RegisterBicycleIntroductionFragment newInstance() {
+        return new RegisterBicycleIntroductionFragment();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_register_bicycle_introduction, container, false);
+        View view = inflater.inflate(R.layout.fragment_register_bicycle_introduction, container, false);
+
+        editText = (EditText)view.findViewById(R.id.fragment_register_bicycle_introduction_bicycle_name);
+
+        return view;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-        }
+    public String getName() {
+        return editText.getText().toString();
     }
 }

@@ -19,6 +19,11 @@ public class OwningBicycleAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public void clear() {
+        items = new ArrayList<OwningBicycleItem>();
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         return items.size();
