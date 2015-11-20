@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
@@ -30,7 +29,8 @@ public class OwningBicycleListActivity extends AppCompatActivity implements Adap
     private ListView lv;
     private OwningBicycleAdapter adapter;
     private Button btn;
-    final private static int OWNING_BICYCLE_DETAIL_INFORMATION_ACTIVITY = 1;
+    final private static int FINALLY_REGISTER_BICYCLE_ACTIVITY = 1;
+    final public static String ID_TAG = "id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,6 @@ public class OwningBicycleListActivity extends AppCompatActivity implements Adap
         adapter = new OwningBicycleAdapter();
         lv.setAdapter(adapter);
         initData();
-
         lv.setOnItemClickListener(OwningBicycleListActivity.this);
 
         btn = (Button) findViewById(R.id.activity_owning_bicycle_list_button);
@@ -59,7 +58,9 @@ public class OwningBicycleListActivity extends AppCompatActivity implements Adap
         NetworkManager.getInstance().selectBicycle(new Callback<ReceiveObject>() {
             @Override
             public void success(ReceiveObject receiveObject, Response response) {
-                Log.i("result", "onResponse Code : " + receiveObject.getCode() + ", Success : " + receiveObject.isSuccess());
+                Log.i("result", "onResponse Code : " + receiveObject.getCode()
+                        + ", Success : " + receiveObject.isSuccess()
+                );
                 List<Result> results = receiveObject.getResult();
                 for (Result result : results) {
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM.dd HH:mm");
@@ -84,10 +85,9 @@ public class OwningBicycleListActivity extends AppCompatActivity implements Adap
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         OwningBicycleItem item = (OwningBicycleItem) lv.getItemAtPosition(position);
-        Toast.makeText(OwningBicycleListActivity.this, "position : " + position, Toast.LENGTH_SHORT).show();
         intent = new Intent(OwningBicycleListActivity.this, OwningBicycleDetailInformationActivity.class);
-        intent.putExtra("id", item.getId());
-        startActivityForResult(intent, OWNING_BICYCLE_DETAIL_INFORMATION_ACTIVITY);
+        intent.putExtra(ID_TAG, item.getId());
+        startActivity(intent);
     }
 
     @Override
@@ -95,8 +95,17 @@ public class OwningBicycleListActivity extends AppCompatActivity implements Adap
         switch (v.getId()) {
             case R.id.activity_owning_bicycle_list_button:
                 Intent intent = new Intent(OwningBicycleListActivity.this, RegisterBicycleActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, FINALLY_REGISTER_BICYCLE_ACTIVITY);
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == FINALLY_REGISTER_BICYCLE_ACTIVITY) {
+            // TODO 자전거 등록을 완료했을 때를 구현해야 한다.
+            // 데이터를 받아온다. -> 어댑터에 심는다.
         }
     }
 

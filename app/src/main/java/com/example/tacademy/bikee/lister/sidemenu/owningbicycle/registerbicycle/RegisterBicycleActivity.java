@@ -11,20 +11,23 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.lister.sidemenu.owningbicycle.OwningBicycleItem;
 
-public class RegisterBicycleActivity extends AppCompatActivity {
-
-    Fragment[] list = {
-            RegisterBicycleLocationFragment.newInstance("two"),
-            RegisterBicycleIntroductionFragment.newInstance("three"),
-            RegisterBicyclePictureFragment.newInstance("four"),
-            RegisterBicycleFeeFragment.newInstance("five")};
+public class RegisterBicycleActivity extends AppCompatActivity implements View.OnClickListener {
+    private Fragment[] list = {
+            RegisterBicycleInformationFragment.newInstance("page1"),
+            RegisterBicycleLocationFragment.newInstance("page2"),
+            RegisterBicycleIntroductionFragment.newInstance("page3"),
+            RegisterBicyclePictureFragment.newInstance("page4"),
+            RegisterBicycleFeeFragment.newInstance("page5")
+    };
+    private OwningBicycleItem item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_bicycle);
-        Toolbar toolbar = (Toolbar)findViewById(R.id.activity_register_bicycle_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_register_bicycle_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
@@ -32,43 +35,38 @@ public class RegisterBicycleActivity extends AppCompatActivity {
         getSupportActionBar().setCustomView(R.layout.lister_main_tool_bar);
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_register_bicycle_information_container, RegisterBicycleInformationFragment.newInstance("base")).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_register_bicycle_information_container, list[0]).commit();
         }
-
         Button btn = (Button) findViewById(R.id.fragment_register_bicycle_next_button);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int count = getSupportFragmentManager().getBackStackEntryCount();
-                if (count < list.length) {
-                    Toast.makeText(RegisterBicycleActivity.this, "count : " + count, Toast.LENGTH_SHORT).show();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_register_bicycle_information_container, list[count]).addToBackStack(null).commit();
+        btn.setOnClickListener(RegisterBicycleActivity.this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fragment_register_bicycle_next_button:
+                int page = getSupportFragmentManager().getBackStackEntryCount();
+                if (page < list.length - 1) {
+                    Toast.makeText(RegisterBicycleActivity.this, "page : " + (page + 1) + " -> page : " + (page + 2), Toast.LENGTH_SHORT).show();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_register_bicycle_information_container, list[page + 1]).addToBackStack(null).commit();
                 } else {
-//                    getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     Intent intent = new Intent(RegisterBicycleActivity.this, FinallyRegisterBicycleActivity.class);
                     startActivity(intent);
-//                    intent = getIntent();
-//                    if(intent.getBooleanExtra("close", true)) {
-//                        finish();
-//                    }
                 }
-            }
-        });
+                break;
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            int count;
-            switch (count = getSupportFragmentManager().getBackStackEntryCount()) {
-                case 0:
-                    Toast.makeText(RegisterBicycleActivity.this, "case : " + count, Toast.LENGTH_SHORT).show();
-                    finish();
-                    break;
-                case 1: case 2: case 3: case 4:
-                    Toast.makeText(RegisterBicycleActivity.this, "case : " + count, Toast.LENGTH_SHORT).show();
-                    getSupportFragmentManager().popBackStack();
-                    break;
+            int page = getSupportFragmentManager().getBackStackEntryCount();
+            if (page == 0) {
+                Toast.makeText(RegisterBicycleActivity.this, "page : " + (page + 1) + " -> finish()", Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                Toast.makeText(RegisterBicycleActivity.this, "page : " + (page + 1) + " -> page : " + page, Toast.LENGTH_SHORT).show();
+                getSupportFragmentManager().popBackStack();
             }
             return true;
         }

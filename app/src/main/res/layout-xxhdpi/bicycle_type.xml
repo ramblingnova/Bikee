@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/renter_list_contents_box"
+    android:background="@drawable/filtering_contentsbox"
     android:paddingBottom="26dp"
     android:paddingTop="24dp">
 
@@ -20,119 +20,75 @@
         android:layout_alignBottom="@id/bicycle_type_icon_image_view"
         android:layout_marginLeft="14dp"
         android:layout_toRightOf="@id/bicycle_type_icon_image_view"
-        android:text="자전거 종류"
-        android:textColor="#1993f7"
+        android:text="@string/bicycle_type_icon_text_view_string"
+        android:textColor="@color/bikeeBlue"
         android:textSize="17sp" />
 
     <CheckBox
-        android:id="@+id/bicycle_type_button1"
-        android:layout_width="60dp"
+        android:id="@+id/bicycle_type_check_box1"
+        android:layout_width="wrap_content"
         android:layout_height="26dp"
         android:layout_below="@id/bicycle_type_icon_text_view"
         android:layout_marginLeft="36dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/bicycle_type_check_selector"
-        android:button="@null"
-        android:gravity="center"
-        android:text="@string/bicycle_type_button1_string"
-        android:textColor="#bdbdbd"
-        android:textSize="14sp" />
+        android:background="@drawable/bicycle_type_check_selector1"
+        android:button="@null" />
 
     <CheckBox
-        android:id="@+id/bicycle_type_button2"
-        android:layout_width="45dp"
+        android:id="@+id/bicycle_type_check_box2"
+        android:layout_width="wrap_content"
         android:layout_height="26dp"
-        android:layout_alignTop="@id/bicycle_type_button1"
+        android:layout_alignTop="@id/bicycle_type_check_box1"
         android:layout_marginLeft="17dp"
-        android:layout_toRightOf="@id/bicycle_type_button1"
-        android:background="@drawable/bicycle_type_check_selector"
-        android:button="@null"
-        android:gravity="center"
-        android:text="@string/bicycle_type_button2_string"
-        android:textColor="#bdbdbd"
-        android:textSize="14sp" />
+        android:layout_toRightOf="@id/bicycle_type_check_box1"
+        android:background="@drawable/bicycle_type_check_selector2"
+        android:button="@null" />
 
     <CheckBox
-        android:id="@+id/bicycle_type_button3"
-        android:layout_width="90dp"
+        android:id="@+id/bicycle_type_check_box3"
+        android:layout_width="wrap_content"
         android:layout_height="26dp"
-        android:layout_alignTop="@id/bicycle_type_button1"
+        android:layout_alignTop="@id/bicycle_type_check_box1"
         android:layout_marginLeft="17dp"
-        android:layout_toRightOf="@id/bicycle_type_button2"
-        android:background="@drawable/bicycle_type_check_selector"
-        android:button="@null"
-        android:gravity="center"
-        android:text="@string/bicycle_type_button3_string"
-        android:textColor="#bdbdbd"
-        android:textSize="14sp" />
+        android:layout_toRightOf="@id/bicycle_type_check_box2"
+        android:background="@drawable/bicycle_type_check_selector3"
+        android:button="@null" />
 
     <CheckBox
-        android:id="@+id/bicycle_type_button4"
-        android:layout_width="45dp"
+        android:id="@+id/bicycle_type_check_box4"
+        android:layout_width="wrap_content"
         android:layout_height="26dp"
-        android:layout_alignTop="@id/bicycle_type_button1"
+        android:layout_alignTop="@id/bicycle_type_check_box1"
         android:layout_marginLeft="17dp"
-        android:layout_toRightOf="@id/bicycle_type_button3"
-        android:background="@drawable/bicycle_type_check_selector"
-        android:button="@null"
-        android:gravity="center"
-        android:text="@string/bicycle_type_button4_string"
-        android:textColor="#bdbdbd"
-        android:textSize="14sp" />
+        android:layout_toRightOf="@id/bicycle_type_check_box3"
+        android:background="@drawable/bicycle_type_check_selector4"
+        android:button="@null" />
 
     <CheckBox
-        android:id="@+id/bicycle_type_button5"
-        android:layout_width="45dp"
+        android:id="@+id/bicycle_type_check_box5"
+        android:layout_width="wrap_content"
         android:layout_height="26dp"
-        android:layout_alignLeft="@id/bicycle_type_button1"
-        android:layout_below="@id/bicycle_type_button1"
+        android:layout_alignLeft="@id/bicycle_type_check_box1"
+        android:layout_below="@id/bicycle_type_check_box1"
         android:layout_marginTop="12dp"
-        android:background="@drawable/bicycle_type_check_selector"
-        android:button="@null"
-        android:gravity="center"
-        android:text="@string/bicycle_type_button5_string"
-        android:textColor="#bdbdbd"
-        android:textSize="14sp" />
+        android:background="@drawable/bicycle_type_check_selector5"
+        android:button="@null" />
 
     <CheckBox
-        android:id="@+id/bicycle_type_button6"
-        android:layout_width="75dp"
+        android:id="@+id/bicycle_type_check_box6"
+        android:layout_width="wrap_content"
         android:layout_height="26dp"
-        android:layout_alignTop="@id/bicycle_type_button5"
-        android:layout_marginLeft="17dp"
-        android:layout_toRightOf="@id/bicycle_type_button5"
-        android:background="@drawable/bicycle_type_check_selector"
-        android:button="@null"
-        android:gravity="center"
-        android:text="@string/bicycle_type_button6_string"
-        android:textColor="#bdbdbd"
-        android:textSize="14sp" />
+        android:layout_alignTop="@id/bicycle_type_check_box5"
+        android:layout_alignRight="@id/bicycle_type_check_box2"
+        android:background="@drawable/bicycle_type_check_selector6"
+        android:button="@null" />
 
     <CheckBox
-        android:id="@+id/bicycle_type_button7"
-        android:layout_width="60dp"
+        android:id="@+id/bicycle_type_check_box7"
+        android:layout_width="wrap_content"
         android:layout_height="26dp"
-        android:layout_alignTop="@id/bicycle_type_button5"
-        android:layout_marginLeft="17dp"
-        android:layout_toRightOf="@id/bicycle_type_button6"
-        android:background="@drawable/bicycle_type_check_selector"
-        android:button="@null"
-        android:gravity="center"
-        android:text="@string/bicycle_type_button7_string"
-        android:textColor="#bdbdbd"
-        android:textSize="14sp" />
-
-    <CheckBox
-        android:id="@+id/bicycle_type_button8"
-        android:layout_width="75dp"
-        android:layout_height="26dp"
-        android:layout_alignTop="@id/bicycle_type_button5"
-        android:layout_marginLeft="17dp"
-        android:layout_toRightOf="@id/bicycle_type_button7"
-        android:background="@drawable/bicycle_type_check_selector"
-        android:button="@null"
-        android:gravity="center"
-        android:text="@string/bicycle_type_button8_string"
-        android:textColor="#bdbdbd"
-        android:textSize="14sp" />
+        android:layout_alignTop="@id/bicycle_type_check_box5"
+        android:layout_alignLeft="@id/bicycle_type_check_box3"
+        android:background="@drawable/bicycle_type_check_selector7"
+        android:button="@null" />
 </RelativeLayout>

@@ -16,7 +16,7 @@
             android:id="@+id/activity_finally_request_reservation_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/mainColor"
+            android:background="@color/bikeeBlue"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>

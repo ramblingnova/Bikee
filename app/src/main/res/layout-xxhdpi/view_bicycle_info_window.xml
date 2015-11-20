@@ -24,7 +24,7 @@
         android:layout_toRightOf="@id/view_bicycle_info_window_bicycle_picture_image_view"
         android:text="@string/view_bicycle_info_window_bicycle_name_text_view_string"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/bikeeWhite"
         android:textSize="13sp" />
 
     <TextView
@@ -36,7 +36,7 @@
         android:layout_marginTop="26dp"
         android:layout_toRightOf="@id/view_bicycle_info_window_bicycle_picture_image_view"
         android:text="@string/view_bicycle_info_window_bicycle_type_text_view_string"
-        android:textColor="#1993f7"
+        android:textColor="@color/bikeeBlue"
         android:textSize="11sp" />
 
     <TextView
@@ -45,9 +45,10 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/view_bicycle_info_window_bicycle_type_text_view"
         android:layout_below="@id/view_bicycle_info_window_bicycle_name_text_view"
+        android:layout_marginLeft="4dp"
         android:layout_toRightOf="@id/view_bicycle_info_window_bicycle_type_text_view"
         android:text="@string/view_bicycle_info_window_bicycle_type_real_text_view_string"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/bikeeWhite"
         android:textSize="11sp" />
 
     <TextView
@@ -55,9 +56,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/view_bicycle_info_window_bicycle_type_text_view"
+        android:layout_marginLeft="11dp"
         android:layout_toRightOf="@id/view_bicycle_info_window_bicycle_type_real_text_view"
         android:text="@string/view_bicycle_info_window_bicycle_height_text_view_string"
-        android:textColor="#1993f7"
+        android:textColor="@color/bikeeBlue"
         android:textSize="11sp" />
 
     <TextView
@@ -66,21 +68,21 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/view_bicycle_info_window_bicycle_type_text_view"
         android:layout_below="@id/view_bicycle_info_window_bicycle_name_text_view"
+        android:layout_marginLeft="4dp"
         android:layout_toRightOf="@id/view_bicycle_info_window_bicycle_height_text_view"
         android:text="@string/view_bicycle_info_window_bicycle_height_real_text_view_string"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/bikeeWhite"
         android:textSize="11sp" />
 
     <TextView
         android:id="@+id/view_bicycle_info_window_bicycle_payment_text_view1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/view_bicycle_info_window_bicycle_picture_image_view"
         android:layout_alignLeft="@id/view_bicycle_info_window_bicycle_name_text_view"
-        android:layout_below="@id/view_bicycle_info_window_bicycle_type_text_view"
-        android:layout_marginTop="9dp"
         android:layout_toRightOf="@id/view_bicycle_info_window_bicycle_picture_image_view"
         android:text="@string/view_bicycle_info_window_bicycle_payment_text_view1_string"
-        android:textColor="#1993f7"
+        android:textColor="@color/bikeeBlue"
         android:textSize="11sp" />
 
     <TextView
@@ -88,9 +90,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/view_bicycle_info_window_bicycle_payment_text_view1"
+        android:layout_marginLeft="4dp"
         android:layout_toRightOf="@id/view_bicycle_info_window_bicycle_payment_text_view1"
         android:text="@string/view_bicycle_info_window_bicycle_payment_real_text_view_string"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/bikeeWhite"
         android:textSize="11sp" />
 
     <TextView
@@ -98,8 +101,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/view_bicycle_info_window_bicycle_payment_text_view1"
+        android:layout_marginLeft="2dp"
         android:layout_toRightOf="@id/view_bicycle_info_window_bicycle_payment_real_text_view"
         android:text="@string/view_bicycle_info_window_bicycle_payment_text_view2_string"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/bikeeWhite"
         android:textSize="8sp" />
 </RelativeLayout>

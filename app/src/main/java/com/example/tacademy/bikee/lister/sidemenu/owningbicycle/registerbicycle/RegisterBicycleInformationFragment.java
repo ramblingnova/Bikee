@@ -9,13 +9,13 @@ import android.view.ViewGroup;
 import com.example.tacademy.bikee.R;
 
 public class RegisterBicycleInformationFragment extends Fragment {
-    private static final String ARG_PARAM1 = "param1";
+    private static final String REGISTER_BICYCLE_INFORMATION_FRAGMENT = "REGISTER_BICYCLE_INFORMATION_FRAGMENT";
     private String mParam1;
 
-    public static RegisterBicycleInformationFragment newInstance(String param1) {
+    public static RegisterBicycleInformationFragment newInstance(String page) {
         RegisterBicycleInformationFragment fragment = new RegisterBicycleInformationFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+        args.putString(REGISTER_BICYCLE_INFORMATION_FRAGMENT, page);
         fragment.setArguments(args);
         return fragment;
     }
@@ -28,7 +28,7 @@ public class RegisterBicycleInformationFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam1 = getArguments().getString(REGISTER_BICYCLE_INFORMATION_FRAGMENT);
         }
     }
 

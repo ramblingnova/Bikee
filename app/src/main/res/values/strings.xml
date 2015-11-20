@@ -107,17 +107,10 @@
     <string name="activity_filter_smart_lock_interlock_check_box_string">0.5km</string>
     <string name="activity_filter_price_order_check_box_string">가격순</string>
     <string name="activity_filter_distance_order_check_box_string">가까운 거리순</string>
-    <string name="activity_filter_search_button_string">적용하기</string>
+    <string name="activity_filter_search_button_string">상세검색</string>
 
     <!-- bicycle_type.xml -->
-    <string name="bicycle_type_button1_string">산악용</string>
-    <string name="bicycle_type_button2_string">로드</string>
-    <string name="bicycle_type_button3_string">하이브리드</string>
-    <string name="bicycle_type_button4_string">픽시</string>
-    <string name="bicycle_type_button5_string">폴딩</string>
-    <string name="bicycle_type_button6_string">미밈벨로</string>
-    <string name="bicycle_type_button7_string">씨티형</string>
-    <string name="bicycle_type_button8_string">전기자전거</string>
+    <string name="bicycle_type_icon_text_view_string">자전거 종류</string>
 
     <!-- bicycle_recommendation_height.xml -->
     <string name="bicycle_recommendation_height_text_view1_string">~145cm</string>

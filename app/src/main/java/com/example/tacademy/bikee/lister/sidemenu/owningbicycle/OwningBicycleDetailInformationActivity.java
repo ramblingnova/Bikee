@@ -26,6 +26,7 @@ import retrofit.client.Response;
 public class OwningBicycleDetailInformationActivity extends AppCompatActivity implements View.OnClickListener {
     private Intent intent;
     private Button btn;
+    private String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class OwningBicycleDetailInformationActivity extends AppCompatActivity im
         btn = (Button)findViewById(R.id.activity_owning_bicycle_detail_information_small_map_button);
         btn.setOnClickListener(OwningBicycleDetailInformationActivity.this);
 
-        String id = intent.getStringExtra("id");
+        id = intent.getStringExtra(OwningBicycleListActivity.ID_TAG);
         initData(id);
     }
 
@@ -109,6 +110,7 @@ public class OwningBicycleDetailInformationActivity extends AppCompatActivity im
                                     + ", Latitude : " + result.getLoc().getCoordinates().get(1)
                                     + ", Longitude : " + result.getLoc().getCoordinates().get(0)
                     );
+                    // TODO 데이터를 뿌려주어야 한다.
                 }
             }
 

@@ -3,9 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFFFF"
-    android:orientation="vertical"
+    android:clickable="true"
     android:focusable="true"
-    android:clickable="true">
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -112,7 +112,8 @@
                 android:layout_centerVertical="true"
                 android:layout_margin="3dp"
                 android:layout_toRightOf="@id/renter_side_menu_push_alarm_text_view"
-                android:background="@drawable/push_alarm_check_selector"/>
+                android:background="@drawable/push_alarm_check_selector"
+                android:button="@null" />
         </RelativeLayout>
 
         <RelativeLayout

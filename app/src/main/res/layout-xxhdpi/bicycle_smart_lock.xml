@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="72dp"
-    android:background="@drawable/renter_list_contents_box"
+    android:background="@drawable/filtering_contentsbox"
     android:paddingBottom="26dp"
     android:paddingTop="24dp">
 
@@ -25,7 +25,7 @@
             android:layout_marginLeft="14dp"
             android:layout_toRightOf="@id/bicycle_smart_lock_icon_image_view"
             android:text="스마트키 자물쇠 연동"
-            android:textColor="#1993f7"
+            android:textColor="@color/bikeeBlue"
             android:textSize="17sp" />
 
         <CheckBox

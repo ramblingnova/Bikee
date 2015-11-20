@@ -174,12 +174,12 @@ public class ListerMainActivity extends AppCompatActivity implements View.OnClic
             btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.lister_main_menu_icon1));
             btt_iv2.setImageDrawable(getResources().getDrawable(R.drawable.lister_main_menu_icon2));
             btt_iv3.setImageDrawable(getResources().getDrawable(R.drawable.lister_main_menu_icon3));
-            btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.lister_main_menu_icon3_1));
+            btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.lister_main_menu_icon1_1));
         } else {
             btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.lister_main_menu_icon1, getTheme()));
             btt_iv2.setImageDrawable(getResources().getDrawable(R.drawable.lister_main_menu_icon2, getTheme()));
             btt_iv3.setImageDrawable(getResources().getDrawable(R.drawable.lister_main_menu_icon3, getTheme()));
-            btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.lister_main_menu_icon3_1, getTheme()));
+            btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.lister_main_menu_icon1_1, getTheme()));
         }
     }
 
@@ -190,7 +190,7 @@ public class ListerMainActivity extends AppCompatActivity implements View.OnClic
         btt_iv3.setImageDrawable(getResources().getDrawable(R.drawable.lister_main_menu_icon3));
         switch (tabId) {
             case "tab1":
-                btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.lister_main_menu_icon3_1));
+                btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.lister_main_menu_icon1_1));
                 break;
             case "tab2":
                 btt_iv2.setImageDrawable(getResources().getDrawable(R.drawable.lister_main_menu_icon2_1));

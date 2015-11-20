@@ -17,7 +17,7 @@ import com.squareup.timessquare.CalendarPickerView;
 import java.util.Calendar;
 import java.util.Date;
 
-public class FilterActivity extends AppCompatActivity {
+public class FilterActivity extends AppCompatActivity implements View.OnClickListener {
     private CalendarPickerView calendarPickerView;
     private Calendar calendar;
     private Date start, end;
@@ -37,15 +37,7 @@ public class FilterActivity extends AppCompatActivity {
         getSupportActionBar().setCustomView(R.layout.renter_main_tool_bar);
 
         Button btn = (Button)findViewById(R.id.activity_filter_search_button);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Intent intent = new Intent();
-                //intent.putExtra(KEY_FILTER,true);
-                setResult(RESULT_OK);
-                finish();
-            }
-        });
+        btn.setOnClickListener(FilterActivity.this);
 
         Toast.makeText(this, "onCreate...", Toast.LENGTH_SHORT).show();
         calendarPickerView = (CalendarPickerView)findViewById(R.id.calendar_picker_view);
@@ -55,24 +47,30 @@ public class FilterActivity extends AppCompatActivity {
         calendar.add(Calendar.MONTH,1);
         calendar.add(Calendar.DATE, -1);
         end = calendar.getTime();
-        calendarPickerView.init(start,end) //
-                .inMode(CalendarPickerView.SelectionMode.RANGE) //
+        calendarPickerView.init(start,end)
+                .inMode(CalendarPickerView.SelectionMode.RANGE)
                 .withSelectedDate(new Date());
 
         btn = (Button)findViewById(R.id.activity_filter_prev_button);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO
-            }
-        });
+        btn.setOnClickListener(FilterActivity.this);
         btn = (Button)findViewById(R.id.activity_filter_next_button);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO
-            }
-        });
+        btn.setOnClickListener(FilterActivity.this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.activity_filter_search_button:
+                setResult(RESULT_OK);
+                finish();
+                break;
+            case R.id.activity_filter_prev_button:
+                // TODO 저번달
+                break;
+            case R.id.activity_filter_next_button:
+                // TODO 다음달
+                break;
+        }
     }
 
     @Override

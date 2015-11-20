@@ -4,5 +4,12 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#00DDDDDD</color>
 
-    <color name="mainColor">#1993f7</color>
+    <color name="bikeeBlue">#1993F7</color>
+    <color name="bikeeRed">#FF1F1F</color>
+    <color name="bikeeWhite">#FFFFFF</color>
+    <color name="bikeeLightGray">#BDBDBD</color>
+    <color name="bikeeGray">#757575</color>
+    <color name="bikeeDarkGray">#424242</color>
+    <color name="bikeeBlack">#212121</color>
+    <color name="bikeeBackground">#F2F2F2</color>
 </resources>
