@@ -17,19 +17,31 @@ import java.util.regex.Pattern;
  * Created by User on 2015-11-10.
  */
 public class Util {
-    public static void setRectangleImageFromImageURL(Context context, String image_url, ImageView target) {
-       Glide.with(context).load(image_url).thumbnail(0.0001f).centerCrop().into(target);
-       // Glide.with(context).load(image_url).sizeMultiplier(0.5f).into(target);
+    public static void setRectangleImageFromImageURL(Context context, String imageURL, ImageView targetView) {
+       Glide.with(context).load(imageURL).thumbnail(0.0001f).centerCrop().into(targetView);
+       // Glide.with(context).load(imageURL).sizeMultiplier(0.5f).into(targetView);
     }
 
-    public static void setCircleImageFromURL(final Context context, String img_url, int img_size, final ImageView imageView) {
-        Glide.with(context).load(img_url).asBitmap().placeholder(R.drawable.temp_icon).fitCenter().thumbnail(0.001f).into(new BitmapImageViewTarget(imageView) {
+    public static void setCircleImageFromURL(final Context context, String imageURL, int imageSize, final ImageView targetVIew) {
+        Glide.with(context).load(imageURL).asBitmap().placeholder(R.drawable.temp_icon).fitCenter().thumbnail(0.001f).into(new BitmapImageViewTarget(targetVIew) {
             @Override
             protected void setResource(Bitmap resource) {
                 RoundedBitmapDrawable circularBitmapDrawable =
                         RoundedBitmapDrawableFactory.create(context.getResources(), resource);
                 circularBitmapDrawable.setCircular(true);
-                imageView.setImageDrawable(circularBitmapDrawable);
+                targetVIew.setImageDrawable(circularBitmapDrawable);
+            }
+        });
+    }
+
+    public static void setRoundRectangleImageFromURL(final Context context, String imageURL, final float radius, final ImageView targetView) {
+        Glide.with(context).load(imageURL).asBitmap().placeholder(R.drawable.temp_icon).fitCenter().thumbnail(0.001f).into(new BitmapImageViewTarget(targetView) {
+            @Override
+            protected void setResource(Bitmap resource) {
+                RoundedBitmapDrawable circularBitmapDrawable =
+                        RoundedBitmapDrawableFactory.create(context.getResources(), resource);
+                circularBitmapDrawable.setCornerRadius(radius);
+                targetView.setImageDrawable(circularBitmapDrawable);
             }
         });
     }

@@ -23,12 +23,15 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <ListView
             android:id="@+id/activity_bicycle_post_script_list_list_view"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@color/bikeeBackground"
+            android:divider="@null"
+            android:dividerHeight="0dp" />
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

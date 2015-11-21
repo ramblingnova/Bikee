@@ -99,7 +99,8 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
         if (searchResultINF != null) {
             if (searchResultINF.getData().size() != 0) {
                 for (SearchResultItem searchResultItem : searchResultINF.getData()) {
-                    adapter.add(searchResultItem.getBicycle_name(),
+                    adapter.add(searchResultItem.getImageURL(),
+                            searchResultItem.getBicycle_name(),
                             searchResultItem.getHeight(),
                             searchResultItem.getType(),
                             "",
@@ -139,6 +140,8 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
                         List<SearchResultItem> list = searchResultINF.getData();
                         for (Result result : results) {
                             Log.i("result", "onResponse Id : " + result.get_id()
+//                                            + ", ImageURL : " + result.getImage().getCdnUri()
+                                            + ", Name : " + result.getTitle()
                                             + ", Type : " + result.getType()
                                             + ", Height : " + result.getHeight()
                                             + ", Price.month : " + result.getPrice().getMonth()
@@ -148,6 +151,8 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
                             if (searchResultINF != null) {
                                 list.add(
                                         new SearchResultItem(
+//                                                result.getImage().getCdnUri(),
+                                                "http://bikee.s3.amazonaws.com/detail_1446776196619.jpg",
                                                 result.getTitle(),
                                                 result.getHeight(),
                                                 result.getType(),
@@ -158,6 +163,8 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
                                         )
                                 );
                                 adapter.add(
+//                                        result.getImage().getCdnUri(),
+                                        "http://bikee.s3.amazonaws.com/detail_1446776196619.jpg",
                                         result.getTitle(),
                                         result.getHeight(),
                                         result.getType(),

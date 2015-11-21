@@ -2,12 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/contents_box_margin_bottom_5dp"
+    android:background="@drawable/renter_list_contents_box"
+    android:paddingBottom="24dp"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    android:paddingTop="24dp"
-    android:paddingBottom="24dp"
-    android:layout_marginBottom="5dp"
-    android:background="@drawable/renter_list_contents_box">
+    android:paddingTop="24dp">
 
     <ImageView
         android:id="@+id/view_search_result_item_bicycle_picture_image_view"
@@ -90,8 +90,8 @@
         android:id="@+id/view_search_result_item_payment_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
         android:layout_alignBottom="@id/view_search_result_item_bicycle_picture_image_view"
+        android:layout_marginLeft="16dp"
         android:layout_toRightOf="@id/view_search_result_item_bicycle_picture_image_view">
 
         <ImageView

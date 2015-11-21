@@ -4,7 +4,8 @@ package com.example.tacademy.bikee.renter.searchresult;
  * Created by Tacademy on 2015-10-30.
  */
 public class SearchResultItem {
-    public SearchResultItem(String bicycle_name, String height, String type, String payment, String distance, double latitude, double longitude) {
+    public SearchResultItem(String imageURL, String bicycle_name, String height, String type, String payment, String distance, double latitude, double longitude) {
+        this.imageURL = imageURL;
         this.bicycle_name = bicycle_name;
         this.height = height;
         this.type = type;
@@ -21,6 +22,7 @@ public class SearchResultItem {
         this.payment = payment;
     }
 
+    private String imageURL;
     private String bicycle_name;
     private String height;
     private String type;
@@ -28,6 +30,14 @@ public class SearchResultItem {
     private String distance;
     private double latitude;
     private double longitude;
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
 
     public String getBicycle_name() {
         return bicycle_name;

@@ -30,6 +30,8 @@
             android:id="@+id/activity_evaluating_bicycle_post_script_list_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="false" />
+            android:background="@color/bikeeLine"
+            android:divider="@null"
+            android:dividerHeight="0dp" />
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

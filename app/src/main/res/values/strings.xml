@@ -160,4 +160,20 @@
     <string name="lister_side_menu_input_inquiry_text_view_string">고객센터</string>
     <string name="lister_side_menu_version_information_text_view_string">버전정보</string>
     <string name="lister_side_menu_change_mode_button_string">Renter모드 전환</string>
+
+    <!-- view_evaluated_bicycle_post_script_item.xml -->
+    <string name="view_evaluated_bicycle_post_script_item_email_text_view_string">bike@naver.com</string>
+    <string name="view_evaluated_bicycle_post_script_item_bicycle_name_text_view_string">자전거이름</string>
+    <string name="view_evaluated_bicycle_post_script_item_mail_address_text_view_string">메일주소</string>
+    <string name="view_evaluated_bicycle_post_script_item_post_script_text_view_string">멋진 자전거에요. 다음에 또 이용하겠습니다.</string>
+    <string name="view_evaluated_bicycle_post_script_item_date_time_text_view_string">11.03 00:05</string>
+
+    <!-- view_lister_requested_bicycle_item.xml -->
+    <string name="view_lister_requested_bicycle_item_renter_name_text_view_string">Bruno Mars</string>
+    <string name="view_lister_requested_bicycle_item_create_date_text_view_string">10.24 am07:30</string>
+    <string name="view_lister_requested_bicycle_item_bicycle_name_text_view_string">2015 아메리칸이글 브라이튼 픽시 자전거</string>
+    <string name="view_lister_requested_bicycle_item_start_date_text_view_string">10.25 am10:30</string>
+    <string name="view_lister_requested_bicycle_item_end_date_text_view_string">10.26 am11:30</string>
+    <string name="view_lister_requested_bicycle_item_time_text_view_string">1일 1시간</string>
+    <string name="view_lister_requested_bicycle_item_price_text_view_string">13,000원</string>
 </resources>

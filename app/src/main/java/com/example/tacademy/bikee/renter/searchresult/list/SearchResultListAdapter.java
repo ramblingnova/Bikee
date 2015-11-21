@@ -20,8 +20,8 @@ public class SearchResultListAdapter extends BaseAdapter {
         items = new ArrayList<>();
     }
 
-    public void add(String bicycle_name, String payment, String type, String height, String distance, double latitude, double longitude) {
-        SearchResultItem item = new SearchResultItem(bicycle_name, payment, type, height, distance, latitude, longitude);
+    public void add(String imageURL, String bicycle_name, String payment, String type, String height, String distance, double latitude, double longitude) {
+        SearchResultItem item = new SearchResultItem(imageURL, bicycle_name, payment, type, height, distance, latitude, longitude);
         items.add(item);
         notifyDataSetChanged();
     }

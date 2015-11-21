@@ -1,7 +1,6 @@
 package com.example.tacademy.bikee.renter.sidemenu.evaluatingbicycle;
 
 import android.content.Context;
-import android.media.Rating;
 import android.widget.FrameLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -24,10 +23,10 @@ public class EvaluatingBicyclePostScriptView extends FrameLayout {
 
     private void init() {
         inflate(getContext(), R.layout.view_evaluating_bicycle_post_script_item, this);
-        name = (TextView) findViewById(R.id.view_evaluation_bicycle_post_script_item_bicycle_name_text_view);
-        date = (TextView) findViewById(R.id.view_evaluation_bicycle_post_script_item_date_time_text_view);
-        desc = (TextView) findViewById(R.id.view_evaluation_bicycle_post_script_item_post_script_text_view);
-        point = (RatingBar) findViewById(R.id.view_evaluation_bicycle_post_script_item_rating_bar);
+        name = (TextView) findViewById(R.id.view_evaluating_bicycle_post_script_item_bicycle_name_text_view);
+        date = (TextView) findViewById(R.id.view_evaluating_bicycle_post_script_item_date_time_text_view);
+        desc = (TextView) findViewById(R.id.view_evaluating_bicycle_post_script_item_post_script_text_view);
+        point = (RatingBar) findViewById(R.id.view_evaluating_bicycle_post_script_item_rating_bar);
     }
 
     public void EvaluatingBicyclePostScriptView(EvaluatingBicyclePostScriptItem item) {

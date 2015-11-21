@@ -12,4 +12,5 @@
     <color name="bikeeDarkGray">#424242</color>
     <color name="bikeeBlack">#212121</color>
     <color name="bikeeBackground">#F2F2F2</color>
+    <color name="bikeeLine">#E0E0E0</color>
 </resources>

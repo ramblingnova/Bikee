@@ -6,13 +6,11 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.tacademy.bikee.R;
@@ -312,16 +310,20 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
                         List<SearchResultItem> list = searchResultINF.getData();
                         for (Result result : results) {
                             Log.i("result", "onResponse Id : " + result.get_id()
+                                            + ", Name : " + result.getTitle()
                                             + ", Type : " + result.getType()
                                             + ", Height : " + result.getHeight()
                                             + ", Price.month : " + result.getPrice().getMonth()
                                             + ", lat : " + result.getLoc().getCoordinates().get(1)
                                             + ", lon : " + result.getLoc().getCoordinates().get(0)
+//                                            + ", ImageURL : " + result.getImage().getCdnUri()
                             );
 
                             if (searchResultINF != null) {
                                 list.add(
                                         new SearchResultItem(
+//                                                result.getImage().getCdnUri(),
+                                                "http://bikee.s3.amazonaws.com/detail_1446776196619.jpg",
                                                 result.getTitle(),
                                                 result.getHeight(),
                                                 result.getType(),

@@ -6,6 +6,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.etc.MyApplication;
+import com.example.tacademy.bikee.etc.Util;
 import com.example.tacademy.bikee.etc.manager.FontManager;
 import com.example.tacademy.bikee.renter.searchresult.SearchResultItem;
 
@@ -43,6 +45,8 @@ public class SearchResultView extends FrameLayout {
     }
 
     public void setSearchResultView(SearchResultItem item) {
+//        Util.setRoundRectangleImageFromURL(MyApplication.getmContext(), "http://bikee.s3.amazonaws.com/detail_1446776196619.jpg", 6, bicycle_picture);
+        Util.setRoundRectangleImageFromURL(MyApplication.getmContext(), item.getImageURL(), 6, bicycle_picture);
         bicycle_name.setText(item.getBicycle_name().toString());
         height.setText(item.getHeight().toString());
         type.setText(item.getType().toString());

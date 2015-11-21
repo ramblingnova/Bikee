@@ -2,6 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/contents_box_margin_bottom_5dp"
+    android:background="@drawable/filtering_contentsbox"
     android:padding="16dp">
 
     <ImageView

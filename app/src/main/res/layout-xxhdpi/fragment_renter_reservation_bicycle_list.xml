@@ -7,5 +7,8 @@
     <ListView
         android:id="@+id/view_renter_reservation_bicycle_item_list_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="@color/bikeeBackground"
+        android:divider="@null"
+        android:dividerHeight="0dp" />
 </FrameLayout>

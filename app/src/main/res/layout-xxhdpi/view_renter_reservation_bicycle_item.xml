@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/contents_box_margin_bottom_5dp"
+    android:background="@drawable/filtering_contentsbox">
 
     <ImageView
         android:id="@+id/view_renter_reservation_bicycle_item_bicycle_picture_image_view"

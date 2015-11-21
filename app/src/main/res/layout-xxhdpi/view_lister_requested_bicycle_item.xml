@@ -1,59 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/contents_box_margin_bottom_14dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:background="@drawable/filtering_contentsbox"
+    android:paddingBottom="14dp">
 
     <ImageView
         android:id="@+id/view_lister_requested_bicycle_item_image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
+        android:layout_marginLeft="19dp"
+        android:layout_marginTop="21dp"
         android:src="@drawable/temp_icon" />
 
     <TextView
-        android:id="@+id/view_lister_requested_bicycle_item_renter_name"
+        android:id="@+id/view_lister_requested_bicycle_item_renter_name_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="신청자이름"
-        android:layout_toRightOf="@id/view_lister_requested_bicycle_item_image_view" />
+        android:layout_alignTop="@id/view_lister_requested_bicycle_item_image_view"
+        android:layout_marginLeft="19dp"
+        android:layout_toRightOf="@id/view_lister_requested_bicycle_item_image_view"
+        android:text="@string/view_lister_requested_bicycle_item_renter_name_text_view_string"
+        android:textColor="@color/bikeeBlack"
+        android:textSize="14sp" />
 
     <TextView
-        android:id="@+id/view_lister_requested_bicycle_item_start_date"
+        android:id="@+id/view_lister_requested_bicycle_item_create_date_text_view"
         android:layout_width="wrap_content"
-        android:layout_below="@id/view_lister_requested_bicycle_item_renter_name"
         android:layout_height="wrap_content"
-        android:text="시작 날짜"
-        android:layout_toRightOf="@id/view_lister_requested_bicycle_item_image_view" />
+        android:layout_alignBottom="@id/view_lister_requested_bicycle_item_renter_name_text_view"
+        android:layout_marginLeft="14dp"
+        android:layout_toRightOf="@id/view_lister_requested_bicycle_item_renter_name_text_view"
+        android:text="@string/view_lister_requested_bicycle_item_create_date_text_view_string"
+        android:textColor="@color/bikeeLightGray"
+        android:textSize="10sp" />
 
     <TextView
-        android:id="@+id/view_lister_requested_bicycle_item_end_date"
+        android:id="@+id/view_lister_requested_bicycle_item_bicycle_name_text_view"
         android:layout_width="wrap_content"
-        android:layout_below="@id/view_lister_requested_bicycle_item_start_date"
         android:layout_height="wrap_content"
-        android:text="종료 날짜"
-        android:layout_toRightOf="@id/view_lister_requested_bicycle_item_image_view" />
+        android:layout_alignLeft="@id/view_lister_requested_bicycle_item_renter_name_text_view"
+        android:layout_below="@id/view_lister_requested_bicycle_item_renter_name_text_view"
+        android:text="@string/view_lister_requested_bicycle_item_bicycle_name_text_view_string"
+        android:textColor="#616161"
+        android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/view_lister_requested_bicycle_item_bicycle_name"
-        android:layout_below="@id/view_lister_requested_bicycle_item_end_date"
+        android:id="@+id/view_lister_requested_bicycle_item_start_date_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="자전거 이름"
-        android:layout_toRightOf="@id/view_lister_requested_bicycle_item_image_view" />
+        android:layout_alignLeft="@id/view_lister_requested_bicycle_item_renter_name_text_view"
+        android:layout_below="@id/view_lister_requested_bicycle_item_bicycle_name_text_view"
+        android:text="@string/view_lister_requested_bicycle_item_start_date_text_view_string"
+        android:textColor="#616161"
+        android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/view_lister_requested_bicycle_item_price"
-        android:layout_below="@id/view_lister_requested_bicycle_item_end_date"
+        android:id="@+id/view_lister_requested_bicycle_item_date_wave_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="가격"
-        android:layout_toRightOf="@id/view_lister_requested_bicycle_item_bicycle_name" />
+        android:layout_alignBottom="@id/view_lister_requested_bicycle_item_start_date_text_view"
+        android:layout_toRightOf="@id/view_lister_requested_bicycle_item_start_date_text_view"
+        android:text=" ~ "
+        android:textColor="#616161"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/view_lister_requested_bicycle_item_end_date_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/view_lister_requested_bicycle_item_start_date_text_view"
+        android:layout_toRightOf="@id/view_lister_requested_bicycle_item_date_wave_text_view"
+        android:text="@string/view_lister_requested_bicycle_item_end_date_text_view_string"
+        android:textColor="#616161"
+        android:textSize="12sp" />
 
     <ImageView
-        android:src="@drawable/temp_icon"
-        android:id="@+id/view_lister_requested_bicycle_button"
+        android:id="@+id/view_lister_requested_bicycle_item_line_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/view_lister_requested_bicycle_item_image_view"
+        android:layout_marginTop="14dp"
+        android:background="@color/bikeeLine" />
+
+    <ImageView
+        android:id="@+id/view_lister_requested_bicycle_item_clock_image_view"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_alignLeft="@id/view_lister_requested_bicycle_item_image_view"
+        android:layout_below="@id/view_lister_requested_bicycle_item_line_image_view"
+        android:layout_marginTop="17dp"
+        android:src="@drawable/temp_icon" />
+
+    <TextView
+        android:id="@+id/view_lister_requested_bicycle_item_time_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/view_lister_requested_bicycle_item_clock_image_view"
+        android:layout_marginLeft="6dp"
+        android:layout_toRightOf="@id/view_lister_requested_bicycle_item_clock_image_view"
+        android:text="@string/view_lister_requested_bicycle_item_time_text_view_string"
+        android:textColor="#616161"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/view_lister_requested_bicycle_item_price_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:text="예약신청" />
+        android:layout_below="@id/view_lister_requested_bicycle_item_line_image_view"
+        android:layout_marginRight="19dp"
+        android:layout_marginTop="17dp"
+        android:text="@string/view_lister_requested_bicycle_item_price_text_view_string"
+        android:textColor="@color/bikeeRed"
+        android:textSize="16sp" />
 </RelativeLayout>
