@@ -67,7 +67,6 @@ public class NetworkManager {
     }
 
     public interface ServerUrl {
-        //        String baseUrl = "http://192.168.211.18:3000";
         String baseUrl = "http://bikee.kr.pe";
 
         // 본인정보조회 app.get('/users/:userId',users.profile) TODO id 없이 "본인정보조회"하기
@@ -140,7 +139,7 @@ public class NetworkManager {
         @POST("/comments/{bikeId}")
         void insertBicycleComment(@Path("bikeId") String bike_id, @Body Comment comments, Callback<ReceiveObject> callback);
 
-        // 자전거후기보기 app.get('/comments/:bikeId',comments.bike);
+        // 상세보기 -> 자전거후기보기 app.get('/comments/:bikeId',comments.bike);
         @GET("/comments/{bikeId}")
         void selectBicycleComment(@Path("bikeId") String bike_id, Callback<ReceiveObject> callback);
 
@@ -148,10 +147,10 @@ public class NetworkManager {
         @POST("/inquiry")
         void insertInquiry(@Body Inquires inquires, Callback<ReceiveObject> callback);
 
-//        @Multipart
-//        @POST("/test")
-//        void test(@Part("image") TypedFile file1, @Part("image") TypedFile file2, @Part("description") String description, Callback<String> cb);
-//
+        // 평가된자전거후기보기
+        @GET("/comments/me")
+        void selectMyBicycleComment(Callback<ReceiveObject> callback);
+
 //        @POST("/register/")
 //        void registerGCM(@Field("token") String registerationID,
 //                         @Field("deviceID") String deviceID,
@@ -267,7 +266,8 @@ public class NetworkManager {
         serverUrl.insertInquiry(inquires, callback);
     }
 
-//    public void test(TypedFile file1, TypedFile file2, Callback<String> cb) {
-//        serverUrl.test(file1, file2, "desc", cb);
-//    }
+    // 평가된자전거후기보기
+    public void selectMyBicycleComment(Callback<ReceiveObject> callback) {
+        serverUrl.selectMyBicycleComment(callback);
+    }
 }

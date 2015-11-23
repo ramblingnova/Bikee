@@ -17,9 +17,7 @@ import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
-import com.example.tacademy.bikee.renter.sidemenu.cardmanagement.RegisterCardActivity;
-
-import java.util.PropertyPermission;
+import com.tsengvn.typekit.TypekitContextWrapper;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -161,5 +159,10 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 }

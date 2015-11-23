@@ -20,20 +20,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/fragment_register_bicycle_fee_text_view"
-            android:hint="시간당 권장 값 3,000원" />
+            android:hint="시간당 권장 값 3,000원"
+            android:inputType="number" />
 
         <EditText
             android:id="@+id/fragment_register_bicycle_fee_per_day_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/fragment_register_bicycle_fee_per_hour_edit_text"
-            android:hint="일별 권장 값 5,000원" />
+            android:hint="일별 권장 값 5,000원"
+            android:inputType="number" />
 
         <EditText
             android:id="@+id/fragment_register_bicycle_fee_per_month_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/fragment_register_bicycle_fee_per_day_edit_text"
-            android:hint="월달 권장 값 50,000원" />
+            android:hint="월달 권장 값 50,000원"
+            android:inputType="number" />
     </RelativeLayout>
 </FrameLayout>

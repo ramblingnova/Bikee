@@ -9,6 +9,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.etc.manager.FontManager;
 
 public class RegisterBicycleIntroductionFragment extends Fragment {
     private EditText editText;

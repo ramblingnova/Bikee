@@ -1,5 +1,6 @@
 package com.example.tacademy.bikee.renter.searchresult.filter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import com.example.tacademy.bikee.R;
 import com.squareup.timessquare.CalendarGridView;
 import com.squareup.timessquare.CalendarPickerView;
+import com.tsengvn.typekit.TypekitContextWrapper;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -86,5 +88,10 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+        @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 }

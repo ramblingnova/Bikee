@@ -1,12 +1,26 @@
 package com.example.tacademy.bikee.lister.sidemenu.evaluatedbicycle;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.etc.dao.Comment;
+import com.example.tacademy.bikee.etc.dao.ReceiveObject;
+import com.example.tacademy.bikee.etc.dao.Result;
+import com.example.tacademy.bikee.etc.manager.NetworkManager;
+import com.tsengvn.typekit.TypekitContextWrapper;
+
+import java.text.SimpleDateFormat;
+import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class EvaluatedBicyclePostScriptListActivity extends AppCompatActivity {
     private ListView lv;
@@ -30,6 +44,31 @@ public class EvaluatedBicyclePostScriptListActivity extends AppCompatActivity {
     }
 
     private void initData() {
+        NetworkManager.getInstance().selectMyBicycleComment(new Callback<ReceiveObject>() {
+            @Override
+            public void success(ReceiveObject receiveObject, Response response) {
+                Log.i("result", "onResponse Success");
+                List<Result> results = receiveObject.getResult();
+                for (Result result : results) {
+                    for (Comment comment : result.getComments()) {
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM.dd HH:mm");
+                        Log.i("result", "onResponse Writer Image : " + comment.getWriter().getImage().getCdnUri() + "/mini_" + comment.getWriter().getImage().getFiles().get(0)
+                                        + ", Writer Name : " + comment.getWriter().getName()
+                                        + ", Bicycle Name : " + result.getBike().getTitle()
+                                        + ", CreateAt : " + simpleDateFormat.format(comment.getCreatedAt())
+                                        + ", Body : " + comment.getBody()
+                                        + ", Point : " + comment.getPoint()
+                        );
+
+                    }
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e("error", "onFailure Error : " + error.toString());
+            }
+        });
         for (int i = 0; i < 10; i++) {
             adapter.add("" + i, "" + i, i, "" + i, "" + i);
         }
@@ -42,5 +81,10 @@ public class EvaluatedBicyclePostScriptListActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 }

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.etc.manager.FontManager;
 
 public class RegisterBicycleFeeFragment extends Fragment {
     EditText hour;
@@ -26,6 +27,11 @@ public class RegisterBicycleFeeFragment extends Fragment {
         hour = (EditText)view.findViewById(R.id.fragment_register_bicycle_fee_per_hour_edit_text);
         day = (EditText)view.findViewById(R.id.fragment_register_bicycle_fee_per_day_edit_text);
         month = (EditText)view.findViewById(R.id.fragment_register_bicycle_fee_per_month_edit_text);
+        FontManager.getInstance().setTextViewFont(FontManager.NOTO,
+                hour,
+                day,
+                month
+        );
 
         return view;
     }

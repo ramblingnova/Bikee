@@ -7,6 +7,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.etc.manager.FontManager;
 
 /**
  * Created by Tacademy on 2015-11-04.

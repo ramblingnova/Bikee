@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.etc.manager.FontManager;
 import com.example.tacademy.bikee.lister.ListerMainActivity;
 import com.example.tacademy.bikee.renter.RenterMainActivity;
 

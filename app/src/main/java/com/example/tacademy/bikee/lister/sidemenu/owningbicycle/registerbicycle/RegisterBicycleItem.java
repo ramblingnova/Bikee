@@ -12,17 +12,6 @@ public class RegisterBicycleItem implements Serializable {
     private int hour;
     private int Day;
     private int month;
-//    TypedFile typedFile2 = new TypedFile("image/png", file2);
-//    Bike bike = new Bike();
-//    bike.setType("03");
-//    bike.setHeight("A");
-//    bike.setTitle("자전거 제목2");
-//    Price price = new Price();
-//    price.setMonth(10000);
-//    price.setDay(1000);
-//    price.setHour(200);
-//    bike.setPrice(price);
-//    NetworkManager.getInstance().insertBicycle(typedFile1, typedFile2, bike, new Callback<ReceiveObject>() {
 
     public String getType() {
         return type;

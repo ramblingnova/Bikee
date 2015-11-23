@@ -9,6 +9,7 @@ import com.example.tacademy.bikee.etc.MyApplication;
 /**
  * Created by User on 2015-11-16.
  */
+// DELME
 public class FontManager {
     private static FontManager instance;
 

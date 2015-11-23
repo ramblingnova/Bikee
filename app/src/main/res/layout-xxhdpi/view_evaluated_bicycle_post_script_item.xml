@@ -42,7 +42,7 @@
         android:layout_below="@id/view_evaluated_bicycle_post_script_item_email_text_view"
         android:text="@string/view_evaluated_bicycle_post_script_item_bicycle_name_text_view_string"
         android:textColor="@color/bikeeBlack"
-        android:textSize="14sp" />
+        android:textSize="13sp" />
 
     <TextView
         android:id="@+id/view_evaluated_bicycle_post_script_item_date_time_text_view"

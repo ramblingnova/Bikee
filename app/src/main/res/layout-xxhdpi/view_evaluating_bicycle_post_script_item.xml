@@ -11,8 +11,9 @@
 
     <ImageView
         android:id="@+id/view_evaluating_bicycle_post_script_item_bicycle_picture_image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="74dp"
+        android:layout_height="51dp"
+        android:scaleType="fitXY"
         android:src="@drawable/temp_icon" />
 
     <TextView

@@ -11,14 +11,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.Switch;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,20 +24,30 @@ import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.sidemenu.InputInquiryActivity;
 import com.example.tacademy.bikee.common.smartkey.SmartKeyFragment;
 import com.example.tacademy.bikee.etc.Util;
+import com.example.tacademy.bikee.etc.manager.FontManager;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.example.tacademy.bikee.lister.requestedbicycle.ListerRequestedBicycleListFragment;
 import com.example.tacademy.bikee.lister.sidemenu.evaluatedbicycle.EvaluatedBicyclePostScriptListActivity;
 import com.example.tacademy.bikee.lister.sidemenu.owningbicycle.OwningBicycleListActivity;
 import com.example.tacademy.bikee.renter.RenterMainActivity;
+import com.tsengvn.typekit.TypekitContextWrapper;
 
 public class ListerMainActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, TabHost.OnTabChangeListener {
     private FragmentTabHost tabHost;
     private ImageView iv, btt_iv1, btt_iv2, btt_iv3;
-    private TextView tv;
-    private TextView name;
-    private TextView email;
-    private Button btn;
+    private TextView seeMyBicycleTextView;
+    private TextView smartLockTextView;
+    private TextView paymentInformationTextView;
+    private TextView bicycleScriptTextView;
+    private TextView authenticationInformationTextView;
+    private TextView alarmTextView;
+    private TextView inputInquiryTextView;
+    private TextView versionInformationTextView;
+    private TextView nameTextView;
+    private TextView emailTextView;
+    private ImageView btn;
     private CheckBox cb;
+    private View layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,33 +77,35 @@ public class ListerMainActivity extends AppCompatActivity implements View.OnClic
         iv.setOnClickListener(this);
         Util.setCircleImageFromURL(this, "http://bikee.s3.amazonaws.com/detail_1446776196619.jpg", 0, iv);
         iv.setOnClickListener(this);
-        name = (TextView) findViewById(R.id.lister_side_menu_member_name_text_view);
-        name.setOnClickListener(this);
-        email = (TextView) findViewById(R.id.lister_side_menu_mail_address_text_view);
-        email.setOnClickListener(this);
+        nameTextView = (TextView) findViewById(R.id.lister_side_menu_member_name_text_view);
+        nameTextView.setOnClickListener(this);
+        emailTextView = (TextView) findViewById(R.id.lister_side_menu_mail_address_text_view);
+        emailTextView.setOnClickListener(this);
         if (!PropertyManager.getInstance().getEmail().equals("") || !PropertyManager.getInstance().getPassword().equals("") ) {
             // TODO 이름 띄우기
-            email.setText(PropertyManager.getInstance().getEmail());
+            emailTextView.setText(PropertyManager.getInstance().getEmail());
         }
-        tv = (TextView) findViewById(R.id.lister_side_menu_see_my_bicycle_text_view);
-        tv.setOnClickListener(this);
-        tv = (TextView) findViewById(R.id.lister_side_menu_register_smart_lock_text_view);
-        tv.setOnClickListener(this);
-        tv = (TextView) findViewById(R.id.lister_side_menu_receive_payment_information_text_view);
-        tv.setOnClickListener(this);
-        tv = (TextView) findViewById(R.id.lister_side_menu_evaluated_bicycle_script_text_view);
-        tv.setOnClickListener(this);
-        tv = (TextView) findViewById(R.id.lister_side_menu_authentication_information_text_view);
-        tv.setOnClickListener(this);
-        tv = (TextView) findViewById(R.id.lister_side_menu_push_alarm_text_view);
-        tv.setOnClickListener(this);
+        seeMyBicycleTextView = (TextView) findViewById(R.id.lister_side_menu_see_my_bicycle_text_view);
+        seeMyBicycleTextView.setOnClickListener(this);
+        smartLockTextView = (TextView) findViewById(R.id.lister_side_menu_register_smart_lock_text_view);
+        smartLockTextView.setOnClickListener(this);
+        paymentInformationTextView = (TextView) findViewById(R.id.lister_side_menu_receive_payment_information_text_view);
+        paymentInformationTextView.setOnClickListener(this);
+        bicycleScriptTextView = (TextView) findViewById(R.id.lister_side_menu_evaluated_bicycle_script_text_view);
+        bicycleScriptTextView.setOnClickListener(this);
+        authenticationInformationTextView = (TextView) findViewById(R.id.lister_side_menu_authentication_information_text_view);
+        authenticationInformationTextView.setOnClickListener(this);
+        alarmTextView = (TextView) findViewById(R.id.lister_side_menu_push_alarm_text_view);
+        alarmTextView.setOnClickListener(this);
         cb = (CheckBox) findViewById(R.id.lister_side_menu_push_alarm_switch);
         cb.setOnCheckedChangeListener(this);
-        tv = (TextView) findViewById(R.id.lister_side_menu_input_inquiry_text_view);
-        tv.setOnClickListener(this);
-        tv = (TextView) findViewById(R.id.lister_side_menu_version_information_text_view);
-        tv.setOnClickListener(this);
-        btn = (Button) findViewById(R.id.lister_side_menu_change_mode_button);
+        inputInquiryTextView = (TextView) findViewById(R.id.lister_side_menu_input_inquiry_text_view);
+        inputInquiryTextView.setOnClickListener(this);
+        versionInformationTextView = (TextView) findViewById(R.id.lister_side_menu_version_information_text_view);
+        versionInformationTextView.setOnClickListener(this);
+        layout = findViewById(R.id.lister_side_menu_change_mode_layout);
+        layout.setOnClickListener(ListerMainActivity.this);
+        btn = (ImageView) findViewById(R.id.lister_side_menu_change_mode_button);
         btn.setOnClickListener(ListerMainActivity.this);
     }
 
@@ -136,6 +143,7 @@ public class ListerMainActivity extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.lister_side_menu_version_information_text_view:
                 break;
+            case R.id.lister_side_menu_change_mode_layout:
             case R.id.lister_side_menu_change_mode_button: {
                 Toast.makeText(this, "renter_side_menu_change_mode", Toast.LENGTH_SHORT).show();
                 intent = new Intent(ListerMainActivity.this, RenterMainActivity.class);
@@ -199,5 +207,10 @@ public class ListerMainActivity extends AppCompatActivity implements View.OnClic
                 btt_iv3.setImageDrawable(getResources().getDrawable(R.drawable.lister_main_menu_icon3_1));
                 break;
         }
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 }

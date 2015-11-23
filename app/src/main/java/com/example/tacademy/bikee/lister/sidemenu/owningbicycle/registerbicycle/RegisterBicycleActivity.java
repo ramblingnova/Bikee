@@ -1,5 +1,6 @@
 package com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.tacademy.bikee.R;
+import com.tsengvn.typekit.TypekitContextWrapper;
 
 public class RegisterBicycleActivity extends AppCompatActivity implements View.OnClickListener {
     private Intent intent;
@@ -93,5 +95,10 @@ public class RegisterBicycleActivity extends AppCompatActivity implements View.O
             setResult(RESULT_OK, data);
             finish();
         }
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 }

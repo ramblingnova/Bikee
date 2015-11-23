@@ -1,162 +1,247 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
     android:layout_height="match_parent"
-    android:background="#FFFFFFFF"
+    android:background="@drawable/pannel_background"
     android:clickable="true"
-    android:focusable="true"
-    android:orientation="vertical">
+    android:focusable="true">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.337">
+        android:id="@+id/renter_side_menu_white_area_layout"
+        android:layout_width="288dp"
+        android:layout_height="wrap_content"
+        android:background="@color/bikeeWhite">
+
+        <RelativeLayout
+            android:id="@+id/renter_side_menu_renter_information_layout"
+            android:layout_width="288dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rider_pannel_background_top"
+            android:paddingBottom="18dp"
+            android:paddingTop="54dp">
+
+            <ImageView
+                android:id="@+id/renter_side_menu_renter_image_image_view"
+                android:layout_width="86dp"
+                android:layout_height="86dp"
+                android:layout_centerHorizontal="true"
+                android:scaleType="fitXY"
+                android:src="@mipmap/ic_launcher" />
+
+            <TextView
+                android:id="@+id/renter_side_menu_member_name_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/renter_side_menu_renter_image_image_view"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="19dp"
+                android:text="@string/renter_side_menu_member_name_text_view_string"
+                android:textColor="@color/bikeeWhite"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/renter_side_menu_mail_address_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/renter_side_menu_member_name_text_view"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="11dp"
+                android:text="@string/renter_side_menu_mail_address_text_view_string"
+                android:textColor="@color/bikeeBlack"
+                android:textSize="13sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/renter_side_menu_renter_function_layout"
+            android:layout_width="288dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/renter_side_menu_renter_information_layout"
+            android:background="@color/bikeeWhite"
+            android:paddingBottom="24dp"
+            android:paddingLeft="16dp"
+            android:paddingTop="24dp">
+
+            <ImageView
+                android:id="@+id/renter_side_menu_fragment_register_card_image_view"
+                android:layout_width="27dp"
+                android:layout_height="19dp"
+                android:src="@drawable/rider_pannel_icon1" />
+
+            <TextView
+                android:id="@+id/renter_side_menu_fragment_register_card_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/renter_side_menu_fragment_register_card_image_view"
+                android:layout_marginLeft="17dp"
+                android:layout_toRightOf="@id/renter_side_menu_fragment_register_card_image_view"
+                android:text="@string/renter_side_menu_register_card_text_view_string"
+                android:textColor="@color/bikeeBlack"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/renter_side_menu_evaluation_bicycle_script_image_view"
+                android:layout_width="27dp"
+                android:layout_height="19dp"
+                android:layout_below="@id/renter_side_menu_fragment_register_card_image_view"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/rider_pannel_icon2" />
+
+            <TextView
+                android:id="@+id/renter_side_menu_evaluation_bicycle_script_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/renter_side_menu_evaluation_bicycle_script_image_view"
+                android:layout_marginLeft="17dp"
+                android:layout_toRightOf="@id/renter_side_menu_evaluation_bicycle_script_image_view"
+                android:text="@string/renter_side_menu_evaluation_bicycle_script_text_view_string"
+                android:textColor="@color/bikeeBlack"
+                android:textSize="16sp" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/renter_side_menu_line_layout"
+        android:layout_width="288dp"
+        android:layout_height="1dp"
+        android:layout_below="@id/renter_side_menu_white_area_layout"
+        android:background="@color/bikeeGray" />
+
+    <RelativeLayout
+        android:id="@+id/renter_side_menu_common_function_layout"
+        android:layout_width="288dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/renter_side_menu_line_layout"
+        android:paddingLeft="16dp"
+        android:paddingTop="22dp">
 
         <ImageView
-            android:id="@+id/renter_side_menu_renter_image_image_view"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerInParent="true"
-            android:src="@mipmap/ic_launcher" />
-
-        <TextView
-            android:id="@+id/renter_side_menu_member_name_text_view"
-            style="?attr/textAppearanceListItemSmall"
+            android:id="@+id/renter_side_menu_authentication_information_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/renter_side_menu_renter_image_image_view"
-            android:layout_centerHorizontal="true"
-            android:text="@string/renter_side_menu_member_name_text_view_string" />
+            android:src="@drawable/rider_pannel_icon3" />
 
         <TextView
-            android:id="@+id/renter_side_menu_mail_address_text_view"
+            android:id="@+id/renter_side_menu_authentication_information_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/renter_side_menu_member_name_text_view"
-            android:layout_centerHorizontal="true"
-            android:text="@string/renter_side_menu_mail_address_text_view_string" />
+            android:layout_alignBottom="@id/renter_side_menu_authentication_information_image_view"
+            android:layout_marginLeft="17dp"
+            android:layout_toRightOf="@id/renter_side_menu_authentication_information_image_view"
+            android:text="@string/renter_side_menu_authentication_information_text_view_string"
+            android:textColor="@color/bikeePanelGrayText"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/renter_side_menu_push_alarm_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/renter_side_menu_authentication_information_image_view"
+            android:layout_marginTop="18dp"
+            android:src="@drawable/rider_pannel_icon4" />
+
+        <TextView
+            android:id="@+id/renter_side_menu_push_alarm_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/renter_side_menu_push_alarm_image_view"
+            android:layout_marginLeft="17dp"
+            android:layout_toRightOf="@id/renter_side_menu_push_alarm_image_view"
+            android:text="@string/renter_side_menu_push_alarm_text_view_string"
+            android:textColor="@color/bikeePanelGrayText"
+            android:textSize="16sp" />
+
+        <CheckBox
+            android:id="@+id/renter_side_menu_push_alarm_switch"
+            android:layout_width="27dp"
+            android:layout_height="15dp"
+            android:layout_alignBottom="@id/renter_side_menu_push_alarm_text_view"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@id/renter_side_menu_push_alarm_text_view"
+            android:background="@drawable/push_alarm_check_selector"
+            android:button="@null" />
+
+        <ImageView
+            android:id="@+id/renter_side_menu_input_inquiry_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/renter_side_menu_push_alarm_image_view"
+            android:layout_marginTop="18dp"
+            android:src="@drawable/rider_pannel_icon5" />
+
+        <TextView
+            android:id="@+id/renter_side_menu_input_inquiry_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/renter_side_menu_input_inquiry_image_view"
+            android:layout_marginLeft="17dp"
+            android:layout_toRightOf="@id/renter_side_menu_input_inquiry_image_view"
+            android:text="@string/renter_side_menu_input_inquiry_text_view_string"
+            android:textColor="@color/bikeePanelGrayText"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/renter_side_menu_version_information_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/renter_side_menu_input_inquiry_image_view"
+            android:layout_marginTop="18dp"
+            android:src="@drawable/rider_pannel_icon6" />
+
+        <TextView
+            android:id="@+id/renter_side_menu_version_information_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/renter_side_menu_version_information_image_view"
+            android:layout_marginLeft="17dp"
+            android:layout_toRightOf="@id/renter_side_menu_version_information_image_view"
+            android:text="@string/renter_side_menu_version_information_text_view_string"
+            android:textColor="@color/bikeePanelGrayText"
+            android:textSize="16sp" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.163"
-        android:paddingLeft="30dp"
-        android:paddingTop="15dp">
-
-        <TextView
-            android:id="@+id/renter_side_menu_fragment_register_card_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_margin="3dp"
-            android:src="@drawable/temp_icon"
-            android:text="@string/renter_side_menu_register_card_text_view_string" />
-
-        <TextView
-            android:id="@+id/renter_side_menu_evaluation_bicycle_script_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/renter_side_menu_fragment_register_card_text_view"
-            android:layout_margin="3dp"
-            android:src="@drawable/temp_icon"
-            android:text="@string/renter_side_menu_evaluation_bicycle_script_text_view_string" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.43"
-        android:paddingLeft="30dp"
-        android:paddingTop="15dp">
-
-        <RelativeLayout
-            android:id="@+id/renter_side_menu_authentication_information_text_view_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/renter_side_menu_authentication_information_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="3dp"
-                android:src="@drawable/temp_icon"
-                android:text="@string/renter_side_menu_authentication_information_text_view_string" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/renter_side_menu_push_alarm_text_view_check_box_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/renter_side_menu_authentication_information_text_view_layout">
-
-            <TextView
-                android:id="@+id/renter_side_menu_push_alarm_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="3dp"
-                android:src="@drawable/temp_icon"
-                android:text="@string/renter_side_menu_push_alarm_text_view_string" />
-
-            <CheckBox
-                android:id="@+id/renter_side_menu_push_alarm_switch"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_centerVertical="true"
-                android:layout_margin="3dp"
-                android:layout_toRightOf="@id/renter_side_menu_push_alarm_text_view"
-                android:background="@drawable/push_alarm_check_selector"
-                android:button="@null" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/renter_side_menu_input_inquiry_text_view_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/renter_side_menu_push_alarm_text_view_check_box_layout">
-
-            <TextView
-                android:id="@+id/renter_side_menu_input_inquiry_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="3dp"
-                android:src="@drawable/temp_icon"
-                android:text="@string/renter_side_menu_input_inquiry_text_view_string" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/renter_side_menu_version_information_text_view_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/renter_side_menu_input_inquiry_text_view_layout">
-
-            <TextView
-                android:id="@+id/renter_side_menu_version_information_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="3dp"
-                android:src="@drawable/temp_icon"
-                android:text="@string/renter_side_menu_version_information_text_view_string" />
-        </RelativeLayout>
-    </RelativeLayout>
-
-    <Button
-        android:id="@+id/renter_side_menu_change_mode_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <FrameLayout
+        android:layout_width="288dp"
+        android:layout_height="71dp"
         android:layout_alignParentBottom="true"
-        android:layout_weight="0.07"
-        android:text="@string/renter_side_menu_change_mode_button_string" />
-</LinearLayout>
+        android:layout_below="@id/renter_side_menu_common_function_layout">
+
+        <RelativeLayout
+            android:id="@+id/renter_side_menu_change_mode_layout"
+            android:layout_width="288dp"
+            android:layout_height="48dp"
+            android:layout_gravity="left|bottom"
+            android:layout_marginBottom="-8dp"
+            android:background="@color/bikeeBlue"
+            android:paddingBottom="17dp"
+            android:paddingLeft="16dp">
+
+            <TextView
+                android:id="@+id/renter_side_menu_change_mode_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="자전거 주인장으로 전환하기"
+                android:textColor="@color/bikeeWhite"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/renter_side_menu_change_mode_arrow_image_view"
+                android:layout_width="14dp"
+                android:layout_height="9dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="6dp"
+                android:layout_toRightOf="@id/renter_side_menu_change_mode_text_view"
+                android:src="@drawable/arrow_icon" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/renter_side_menu_change_mode_button"
+            android:layout_width="90dp"
+            android:layout_height="71dp"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="-8dp"
+            android:layout_marginRight="12dp"
+            android:src="@drawable/rider_pannel_illust" />
+    </FrameLayout>
+</RelativeLayout>

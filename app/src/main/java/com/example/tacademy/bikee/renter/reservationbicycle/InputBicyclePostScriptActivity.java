@@ -1,5 +1,6 @@
 package com.example.tacademy.bikee.renter.reservationbicycle;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.tacademy.bikee.R;
+import com.tsengvn.typekit.TypekitContextWrapper;
 
 public class InputBicyclePostScriptActivity extends AppCompatActivity {
 
@@ -38,5 +40,10 @@ public class InputBicyclePostScriptActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 }

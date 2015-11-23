@@ -1,5 +1,6 @@
 package com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,10 +17,7 @@ import com.example.tacademy.bikee.etc.dao.Bike;
 import com.example.tacademy.bikee.etc.dao.Price;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
-import com.example.tacademy.bikee.lister.sidemenu.owningbicycle.OwningBicycleListActivity;
-import com.example.tacademy.bikee.renter.RenterMainActivity;
-
-import java.io.File;
+import com.tsengvn.typekit.TypekitContextWrapper;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -104,5 +102,10 @@ public class FinallyRegisterBicycleActivity extends AppCompatActivity implements
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 }

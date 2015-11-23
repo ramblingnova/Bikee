@@ -1,5 +1,6 @@
 package com.example.tacademy.bikee.common.chatting;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.tacademy.bikee.R;
+import com.tsengvn.typekit.TypekitContextWrapper;
 
 import org.w3c.dom.Text;
 
@@ -70,5 +72,10 @@ public class ChattingRoomActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 }

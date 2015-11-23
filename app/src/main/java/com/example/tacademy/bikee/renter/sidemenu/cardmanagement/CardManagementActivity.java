@@ -1,5 +1,6 @@
 package com.example.tacademy.bikee.renter.sidemenu.cardmanagement;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.tacademy.bikee.R;
+import com.tsengvn.typekit.TypekitContextWrapper;
 
 /**
  * Created by Tacademy on 2015-11-03.
@@ -82,5 +84,10 @@ public class CardManagementActivity extends AppCompatActivity implements CardAda
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 }

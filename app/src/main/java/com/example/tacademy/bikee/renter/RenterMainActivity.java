@@ -3,7 +3,6 @@ package com.example.tacademy.bikee.renter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -11,18 +10,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TabHost;
-import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,18 +32,25 @@ import com.example.tacademy.bikee.common.sidemenu.AuthenticationInformationActiv
 import com.example.tacademy.bikee.renter.sidemenu.cardmanagement.CardManagementActivity;
 import com.example.tacademy.bikee.renter.sidemenu.evaluatingbicycle.EvaluatingBicyclePostScriptListActivity;
 import com.example.tacademy.bikee.common.sidemenu.InputInquiryActivity;
+import com.tsengvn.typekit.TypekitContextWrapper;
 
-public class RenterMainActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, DrawerLayout.DrawerListener, TabHost.OnTabChangeListener{
+public class RenterMainActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, DrawerLayout.DrawerListener, TabHost.OnTabChangeListener {
     private FragmentTabHost tabHost;
     private DrawerLayout drawer;
     private ImageView iv;
     private ImageView btt_iv1, btt_iv2, btt_iv3, btt_iv4;
-    private TextView tv;
-    private TextView name;
-    private TextView email;
-    private Button btn;
+    private TextView registerCardTextView;
+    private TextView bicycleScriptTextView;
+    private TextView authenticationInformationTextView;
+    private TextView pushAlarmTextView;
+    private TextView inputInquiryTextView;
+    private TextView versionInformationTextView;
+    private TextView nameTextView;
+    private TextView emailTextView;
+    private ImageView btn;
     private CheckBox cb;
     private Intent intent;
+    private View layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,29 +80,31 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
         iv = (ImageView) findViewById(R.id.renter_side_menu_renter_image_image_view);
         iv.setOnClickListener(this);
         Util.setCircleImageFromURL(this, "http://bikee.s3.amazonaws.com/detail_1446776196619.jpg", 0, iv);
-        name = (TextView) findViewById(R.id.renter_side_menu_member_name_text_view);
-        name.setOnClickListener(this);
-        email = (TextView) findViewById(R.id.renter_side_menu_mail_address_text_view);
-        email.setOnClickListener(this);
+        nameTextView = (TextView) findViewById(R.id.renter_side_menu_member_name_text_view);
+        nameTextView.setOnClickListener(this);
+        emailTextView = (TextView) findViewById(R.id.renter_side_menu_mail_address_text_view);
+        emailTextView.setOnClickListener(this);
         if (!PropertyManager.getInstance().getEmail().equals("") || !PropertyManager.getInstance().getPassword().equals("") ) {
             // TODO 이름 띄우기
-            email.setText(PropertyManager.getInstance().getEmail());
+            emailTextView.setText(PropertyManager.getInstance().getEmail());
         }
-        tv = (TextView) findViewById(R.id.renter_side_menu_fragment_register_card_text_view);
-        tv.setOnClickListener(this);
-        tv = (TextView) findViewById(R.id.renter_side_menu_evaluation_bicycle_script_text_view);
-        tv.setOnClickListener(this);
-        tv = (TextView) findViewById(R.id.renter_side_menu_authentication_information_text_view);
-        tv.setOnClickListener(this);
-        tv = (TextView) findViewById(R.id.renter_side_menu_push_alarm_text_view);
-        tv.setOnClickListener(this);
+        registerCardTextView = (TextView) findViewById(R.id.renter_side_menu_fragment_register_card_text_view);
+        registerCardTextView.setOnClickListener(this);
+        bicycleScriptTextView = (TextView) findViewById(R.id.renter_side_menu_evaluation_bicycle_script_text_view);
+        bicycleScriptTextView.setOnClickListener(this);
+        authenticationInformationTextView = (TextView) findViewById(R.id.renter_side_menu_authentication_information_text_view);
+        authenticationInformationTextView.setOnClickListener(this);
+        pushAlarmTextView = (TextView) findViewById(R.id.renter_side_menu_push_alarm_text_view);
+        pushAlarmTextView.setOnClickListener(this);
         cb = (CheckBox) findViewById(R.id.renter_side_menu_push_alarm_switch);
         cb.setOnCheckedChangeListener(this);
-        tv = (TextView) findViewById(R.id.renter_side_menu_input_inquiry_text_view);
-        tv.setOnClickListener(this);
-        tv = (TextView) findViewById(R.id.renter_side_menu_version_information_text_view);
-        tv.setOnClickListener(this);
-        btn = (Button) findViewById(R.id.renter_side_menu_change_mode_button);
+        inputInquiryTextView = (TextView) findViewById(R.id.renter_side_menu_input_inquiry_text_view);
+        inputInquiryTextView.setOnClickListener(this);
+        versionInformationTextView = (TextView) findViewById(R.id.renter_side_menu_version_information_text_view);
+        versionInformationTextView.setOnClickListener(this);
+        layout = findViewById(R.id.renter_side_menu_change_mode_layout);
+        layout.setOnClickListener(RenterMainActivity.this);
+        btn = (ImageView) findViewById(R.id.renter_side_menu_change_mode_button);
         btn.setOnClickListener(this);
     }
 
@@ -135,6 +137,7 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.renter_side_menu_version_information_text_view:
                 break;
+            case R.id.renter_side_menu_change_mode_layout:
             case R.id.renter_side_menu_change_mode_button:
                 intent = new Intent(RenterMainActivity.this, ListerMainActivity.class);
                 startActivity(intent);
@@ -217,5 +220,10 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
             case "tab3": btt_iv3.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon3_in)); break;
             case "tab4": btt_iv4.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon4_in)); break;
         }
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 }

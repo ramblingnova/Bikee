@@ -1,5 +1,6 @@
 package com.example.tacademy.bikee.lister.requestedbicycle;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import com.example.tacademy.bikee.etc.dialog.ChoiceDialogFragment;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.SmallMapActivity;
 import com.example.tacademy.bikee.etc.dialog.NoChoiceDialogFragment;
+import com.tsengvn.typekit.TypekitContextWrapper;
 
 public class ListerRequestedBicycleDetailInformationActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -90,5 +92,10 @@ public class ListerRequestedBicycleDetailInformationActivity extends AppCompatAc
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 }

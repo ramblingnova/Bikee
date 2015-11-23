@@ -1,5 +1,6 @@
 package com.example.tacademy.bikee.common.sidemenu;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.User;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
+import com.tsengvn.typekit.TypekitContextWrapper;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -88,5 +90,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 }

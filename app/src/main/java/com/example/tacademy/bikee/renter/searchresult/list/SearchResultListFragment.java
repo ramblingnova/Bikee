@@ -138,9 +138,15 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
                         );
                         List<Result> results = receiveObject.getResult();
                         List<SearchResultItem> list = searchResultINF.getData();
+                        String imageURL;
                         for (Result result : results) {
+                            if ((null == result.getImage().getCdnUri()) || (null == result.getImage().getFiles())) {
+                                imageURL = "";
+                            } else {
+                                imageURL = result.getImage().getCdnUri() + "/mini_" + result.getImage().getFiles().get(0);
+                            }
                             Log.i("result", "onResponse Id : " + result.get_id()
-//                                            + ", ImageURL : " + result.getImage().getCdnUri()
+                                            + ", ImageURL : " + imageURL
                                             + ", Name : " + result.getTitle()
                                             + ", Type : " + result.getType()
                                             + ", Height : " + result.getHeight()
@@ -151,24 +157,22 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
                             if (searchResultINF != null) {
                                 list.add(
                                         new SearchResultItem(
-//                                                result.getImage().getCdnUri(),
-                                                "http://bikee.s3.amazonaws.com/detail_1446776196619.jpg",
+                                                imageURL,
                                                 result.getTitle(),
                                                 result.getHeight(),
                                                 result.getType(),
-                                                "",
+                                                "" + result.getPrice().getMonth(),
                                                 "",
                                                 result.getLoc().getCoordinates().get(1),
                                                 result.getLoc().getCoordinates().get(0)
                                         )
                                 );
                                 adapter.add(
-//                                        result.getImage().getCdnUri(),
-                                        "http://bikee.s3.amazonaws.com/detail_1446776196619.jpg",
+                                        imageURL,
                                         result.getTitle(),
                                         result.getHeight(),
                                         result.getType(),
-                                        "",
+                                        "" + result.getPrice().getMonth(),
                                         "",
                                         result.getLoc().getCoordinates().get(1),
                                         result.getLoc().getCoordinates().get(0)

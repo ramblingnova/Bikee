@@ -41,11 +41,9 @@ public class SearchResultView extends FrameLayout {
         payment = (TextView) findViewById(R.id.view_search_result_item_payment_real_text_view);
         perDuration = (TextView) findViewById(R.id.view_search_result_item_per_duration_text_view);
         distance = (TextView) findViewById(R.id.view_search_result_item_distance_text_view);
-        FontManager.getInstance().setTextViewFont(FontManager.NOTO, bicycle_name, height_text, height, type_text, type, payment, perDuration, distance);
     }
 
     public void setSearchResultView(SearchResultItem item) {
-//        Util.setRoundRectangleImageFromURL(MyApplication.getmContext(), "http://bikee.s3.amazonaws.com/detail_1446776196619.jpg", 6, bicycle_picture);
         Util.setRoundRectangleImageFromURL(MyApplication.getmContext(), item.getImageURL(), 6, bicycle_picture);
         bicycle_name.setText(item.getBicycle_name().toString());
         height.setText(item.getHeight().toString());

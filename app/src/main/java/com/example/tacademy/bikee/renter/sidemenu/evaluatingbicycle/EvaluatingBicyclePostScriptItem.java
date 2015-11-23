@@ -9,16 +9,26 @@ import java.util.Date;
  * Created by Tacademy on 2015-11-03.
  */
 public class EvaluatingBicyclePostScriptItem {
+    private String imageURL;
     private String name;
     private String date;
     private String desc;
     private int point;
 
-    public EvaluatingBicyclePostScriptItem(String name, String date, String desc, int point) {
+    public EvaluatingBicyclePostScriptItem(String imageURL, String name, String date, String desc, int point) {
+        this.imageURL = imageURL;
         this.name = name;
         this.date = date;
         this.desc = desc;
         this.point = point;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     public String getName() {

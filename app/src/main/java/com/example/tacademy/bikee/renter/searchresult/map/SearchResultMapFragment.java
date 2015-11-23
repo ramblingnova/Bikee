@@ -261,10 +261,11 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
                     POI poi = new POI();
                     poi.setItem(
                             new SearchResultItem(
+                                    searchResultItem.getImageURL(),
                                     searchResultItem.getBicycle_name(),
-                                    searchResultItem.getHeight(),
                                     searchResultItem.getType(),
-                                    ""
+                                    searchResultItem.getHeight(),
+                                    searchResultItem.getPayment()
                             )
                     );
 
@@ -308,26 +309,31 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
                         );
                         List<Result> results = receiveObject.getResult();
                         List<SearchResultItem> list = searchResultINF.getData();
+                        String imageURL;
                         for (Result result : results) {
+                            if ((null == result.getImage().getCdnUri()) || (null == result.getImage().getFiles())) {
+                                imageURL = "";
+                            } else {
+                                imageURL = result.getImage().getCdnUri() + "/mini_" + result.getImage().getFiles().get(0);
+                            }
                             Log.i("result", "onResponse Id : " + result.get_id()
+                                            + ", ImageURL : " + imageURL
                                             + ", Name : " + result.getTitle()
                                             + ", Type : " + result.getType()
                                             + ", Height : " + result.getHeight()
                                             + ", Price.month : " + result.getPrice().getMonth()
                                             + ", lat : " + result.getLoc().getCoordinates().get(1)
                                             + ", lon : " + result.getLoc().getCoordinates().get(0)
-//                                            + ", ImageURL : " + result.getImage().getCdnUri()
                             );
 
                             if (searchResultINF != null) {
                                 list.add(
                                         new SearchResultItem(
-//                                                result.getImage().getCdnUri(),
-                                                "http://bikee.s3.amazonaws.com/detail_1446776196619.jpg",
+                                                imageURL,
                                                 result.getTitle(),
                                                 result.getHeight(),
                                                 result.getType(),
-                                                "",
+                                                "" + result.getPrice().getMonth(),
                                                 "",
                                                 result.getLoc().getCoordinates().get(1),
                                                 result.getLoc().getCoordinates().get(0)
@@ -342,10 +348,11 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
                                 POI poi = new POI();
                                 poi.setItem(
                                         new SearchResultItem(
+                                                imageURL,
                                                 result.getTitle(),
-                                                result.getHeight(),
                                                 result.getType(),
-                                                ""
+                                                result.getHeight(),
+                                                "" + result.getPrice().getMonth()
                                         )
                                 );
 

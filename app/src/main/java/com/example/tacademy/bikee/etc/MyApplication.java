@@ -7,11 +7,13 @@ import android.graphics.Color;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.MemoryCategory;
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.etc.manager.FontManager;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.tsengvn.typekit.Typekit;
 
 /**
  * Created by User on 2015-11-09.
@@ -24,6 +26,8 @@ public class MyApplication extends Application {
         mContext = this;
         Glide.get(mContext).setMemoryCategory(MemoryCategory.HIGH);
         initImageLoader(this);
+        Typekit.getInstance()
+                .addNormal(Typekit.createFromAsset(this, "NotoSansKR-Regular.otf"));
     }
 
     public static Context getmContext() {
@@ -32,15 +36,13 @@ public class MyApplication extends Application {
 
     public static void initImageLoader(Context context) {
         DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.drawable.temp_icon1)
-                .showImageForEmptyUri(R.drawable.temp_icon2)
-                .showImageOnFail(R.drawable.temp_icon3)
+                .showImageOnLoading(R.drawable.temp_icon)
+                .showImageForEmptyUri(R.drawable.temp_icon)
+                .showImageOnFail(R.drawable.temp_icon)
                 .cacheInMemory(true)
                 .considerExifParams(true)
                 .displayer(new CircleBitmapDisplayer(Color.WHITE, 5))
                 .build();
-
-//        .displayer(new RoundedBitmapDisplayer(Color.WHITE, 5))
 
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
                 .denyCacheImageMultipleSizesInMemory()

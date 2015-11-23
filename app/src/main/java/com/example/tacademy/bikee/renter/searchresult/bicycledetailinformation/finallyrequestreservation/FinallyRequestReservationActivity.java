@@ -1,5 +1,6 @@
 package com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.finallyrequestreservation;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import com.example.tacademy.bikee.etc.dialog.ChoiceDialogFragment;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.SmallMapActivity;
+import com.tsengvn.typekit.TypekitContextWrapper;
 
 public class FinallyRequestReservationActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -61,5 +63,10 @@ public class FinallyRequestReservationActivity extends AppCompatActivity impleme
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 }

@@ -1,5 +1,6 @@
 package com.example.tacademy.bikee.lister.sidemenu.owningbicycle;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import com.example.tacademy.bikee.etc.dialog.ChoiceDialogFragment;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.SmallMapActivity;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
+import com.tsengvn.typekit.TypekitContextWrapper;
 
 import java.util.List;
 
@@ -119,5 +121,10 @@ public class OwningBicycleDetailInformationActivity extends AppCompatActivity im
                 Log.e("error", "onFailure Error : " + error.toString());
             }
         });
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 }

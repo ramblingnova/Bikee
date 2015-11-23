@@ -1,5 +1,6 @@
 package com.example.tacademy.bikee.renter.sidemenu.evaluatingbicycle;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +13,7 @@ import com.example.tacademy.bikee.etc.dao.Comment;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
+import com.tsengvn.typekit.TypekitContextWrapper;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -48,18 +50,18 @@ public class EvaluatingBicyclePostScriptListActivity extends AppCompatActivity {
             @Override
             public void success(ReceiveObject receiveObject, Response response) {
                 Log.i("result", "onResponse Success");
-                // TODO 내평가보기 -> 서버와 연결은 성공하지만 데이터를 못받아올 때가 있음,
                 List<Result> results = receiveObject.getResult();
                 for (Result result : results)
                     for (Comment comment : result.getComments()) {
                         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM.dd HH:mm");
-                        Log.i("result", "onResponse Id : " + comment.get_id()
-                                + ", Writer Name : " + result.getBike().getTitle()
-                                + ", CreateAt : " + simpleDateFormat.format(comment.getCreatedAt())
-                                + ", Body : " + comment.getBody()
-                                + ", Point : " + comment.getPoint()
+                        Log.i("result", "onResponse Bike Image : " + result.getBike().getImage().getCdnUri() + "/mini_" + result.getBike().getImage().getFiles().get(0)
+                                        + ", Bike Name : " + result.getBike().getTitle()
+                                        + ", CreateAt : " + simpleDateFormat.format(comment.getCreatedAt())
+                                        + ", Body : " + comment.getBody()
+                                        + ", Point : " + comment.getPoint()
                         );
-                        adapter.add(result.getBike().getTitle(),
+                        adapter.add(result.getBike().getImage().getCdnUri() + "/mini_" + result.getBike().getImage().getFiles().get(0),
+                                result.getBike().getTitle(),
                                 simpleDateFormat.format(comment.getCreatedAt()),
                                 comment.getBody(),
                                 comment.getPoint()
@@ -81,5 +83,10 @@ public class EvaluatingBicyclePostScriptListActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 }
