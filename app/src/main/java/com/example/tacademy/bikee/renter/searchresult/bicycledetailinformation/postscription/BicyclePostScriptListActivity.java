@@ -8,7 +8,7 @@ import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.example.tacademy.bikee.R;
-import com.tsengvn.typekit.TypekitContextWrapper;
+//import com.tsengvn.typekit.TypekitContextWrapper;
 
 /**
  * Created by Tacademy on 2015-11-02.
@@ -50,8 +50,8 @@ public class BicyclePostScriptListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
-    }
+//    @Override
+//    protected void attachBaseContext(Context newBase) {
+//        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+//    }
 }

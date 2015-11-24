@@ -13,7 +13,7 @@ public class Lister {
     public String salt = null;
     public String hashed_password = null;
     public String provider = null;
-    public Images images = null;
+    public Image image= null;
     public String email = null;
     public String name = null;
 
@@ -73,12 +73,12 @@ public class Lister {
         this.provider = provider;
     }
 
-    public Images getImages() {
-        return images;
+    public Image getImage() {
+        return image;
     }
 
-    public void setImages(Images images) {
-        this.images = images;
+    public void setImage(Image image) {
+        this.image = image;
     }
 
     public String getEmail() {

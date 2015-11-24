@@ -10,9 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.tacademy.bikee.R;
-import com.tsengvn.typekit.TypekitContextWrapper;
-
-import org.w3c.dom.Text;
+//import com.tsengvn.typekit.TypekitContextWrapper;
 
 public class ChattingRoomActivity extends AppCompatActivity {
 
@@ -74,8 +72,8 @@ public class ChattingRoomActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
-    }
+//    @Override
+//    protected void attachBaseContext(Context newBase) {
+//        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+//    }
 }

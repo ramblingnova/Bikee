@@ -13,11 +13,10 @@ import android.widget.Toast;
 
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Result;
-import com.example.tacademy.bikee.etc.dialog.ChoiceDialogFragment;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.SmallMapActivity;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
-import com.tsengvn.typekit.TypekitContextWrapper;
+//import com.tsengvn.typekit.TypekitContextWrapper;
 
 import java.util.List;
 
@@ -123,8 +122,8 @@ public class OwningBicycleDetailInformationActivity extends AppCompatActivity im
         });
     }
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
-    }
+//    @Override
+//    protected void attachBaseContext(Context newBase) {
+//        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+//    }
 }

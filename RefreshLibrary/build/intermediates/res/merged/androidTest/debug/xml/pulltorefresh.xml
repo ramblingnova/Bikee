@@ -13,4 +13,4 @@
     <GoogleStyleProgressLayouts>
        <layout name="default">com.handmark.pulltorefresh.library.internal.DefaultGoogleStyleProgressLayout</layout> 
     </GoogleStyleProgressLayouts>    
-</PullToRefresh><!-- From: file:/C:/Users/User/AndroidStudioProjects/Bikee/RefreshLibrary/src/main/res/xml/pulltorefresh.xml --><!-- From: file:/C:/Users/User/AndroidStudioProjects/Bikee/RefreshLibrary/build/intermediates/bundles/debug/res/xml/pulltorefresh.xml -->
+</PullToRefresh><!-- From: file:/C:/Users/Tacademy/AndroidStudioProjects/Bikee/RefreshLibrary/src/main/res/xml/pulltorefresh.xml --><!-- From: file:/C:/Users/Tacademy/AndroidStudioProjects/Bikee/RefreshLibrary/build/intermediates/bundles/debug/res/xml/pulltorefresh.xml -->

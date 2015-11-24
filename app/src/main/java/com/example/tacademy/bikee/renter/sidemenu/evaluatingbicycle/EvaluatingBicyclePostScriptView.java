@@ -14,16 +14,16 @@ import com.example.tacademy.bikee.etc.Util;
  * Created by Tacademy on 2015-11-03.
  */
 public class EvaluatingBicyclePostScriptView extends FrameLayout {
-    public EvaluatingBicyclePostScriptView(Context context) {
-        super(context);
-        init();
-    }
-
     private ImageView image;
     private TextView name;
     private TextView date;
     private TextView desc;
     private RatingBar point;
+
+    public EvaluatingBicyclePostScriptView(Context context) {
+        super(context);
+        init();
+    }
 
     private void init() {
         inflate(getContext(), R.layout.view_evaluating_bicycle_post_script_item, this);

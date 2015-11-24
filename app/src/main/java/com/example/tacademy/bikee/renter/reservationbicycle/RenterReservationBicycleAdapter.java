@@ -13,8 +13,8 @@ import java.util.List;
 public class RenterReservationBicycleAdapter extends BaseAdapter {
     List<RenterReservationBicycleItem> items = new ArrayList<RenterReservationBicycleItem>();
 
-    public void add(String text1, String text2, String text3, int temp) {
-        RenterReservationBicycleItem item = new RenterReservationBicycleItem(text1, text2, text3, temp);
+    public void add(String imageURL, String bicycleName, String status, String startDate, String endDate, int payment) {
+        RenterReservationBicycleItem item = new RenterReservationBicycleItem(imageURL, bicycleName, status, startDate, endDate, payment);
         items.add(item);
         notifyDataSetChanged();
     }
@@ -38,7 +38,7 @@ public class RenterReservationBicycleAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         RenterReservationBicycleView v;
         if (convertView != null) {
-            v = (RenterReservationBicycleView)convertView;
+            v = (RenterReservationBicycleView) convertView;
         } else {
             v = new RenterReservationBicycleView(parent.getContext());
         }

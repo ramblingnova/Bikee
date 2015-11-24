@@ -13,7 +13,7 @@ import com.example.tacademy.bikee.etc.dao.Comment;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
-import com.tsengvn.typekit.TypekitContextWrapper;
+//import com.tsengvn.typekit.TypekitContextWrapper;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -52,14 +52,26 @@ public class EvaluatedBicyclePostScriptListActivity extends AppCompatActivity {
                 for (Result result : results) {
                     for (Comment comment : result.getComments()) {
                         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM.dd HH:mm");
-                        Log.i("result", "onResponse Writer Image : " + comment.getWriter().getImage().getCdnUri() + "/mini_" + comment.getWriter().getImage().getFiles().get(0)
+                        String imageURL;
+                        if ((null == comment.getWriter().getImage().getCdnUri()) || (null == comment.getWriter().getImage().getFiles().get(0))) {
+                            imageURL = "";
+                        } else {
+                            imageURL = comment.getWriter().getImage().getCdnUri() + "/mini_" + comment.getWriter().getImage().getFiles().get(0);
+                        }
+                        Log.i("result", "onResponse Writer Image : " + imageURL
                                         + ", Writer Name : " + comment.getWriter().getName()
                                         + ", Bicycle Name : " + result.getBike().getTitle()
                                         + ", CreateAt : " + simpleDateFormat.format(comment.getCreatedAt())
                                         + ", Body : " + comment.getBody()
                                         + ", Point : " + comment.getPoint()
                         );
-
+                        adapter.add(imageURL,
+                                comment.getWriter().getName(),
+                                result.getBike().getTitle(),
+                                simpleDateFormat.format(comment.getCreatedAt()),
+                                comment.getBody(),
+                                comment.getPoint()
+                        );
                     }
                 }
             }
@@ -69,9 +81,6 @@ public class EvaluatedBicyclePostScriptListActivity extends AppCompatActivity {
                 Log.e("error", "onFailure Error : " + error.toString());
             }
         });
-        for (int i = 0; i < 10; i++) {
-            adapter.add("" + i, "" + i, i, "" + i, "" + i);
-        }
     }
 
     @Override
@@ -83,8 +92,8 @@ public class EvaluatedBicyclePostScriptListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
-    }
+//    @Override
+//    protected void attachBaseContext(Context newBase) {
+//        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+//    }
 }

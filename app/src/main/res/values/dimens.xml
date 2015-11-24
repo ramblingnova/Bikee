@@ -9,6 +9,7 @@
 
     <dimen name="contents_box_margin_bottom_1dp">1dp</dimen>
     <dimen name="contents_box_margin_bottom_5dp">5dp</dimen>
+    <dimen name="contents_box_margin_bottom_12dp">12dp</dimen>
     <dimen name="contents_box_margin_bottom_14dp">14dp</dimen>
 
     <dimen name="post_script_top_bottom_padding">27dp</dimen>

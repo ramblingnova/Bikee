@@ -8,11 +8,19 @@ import java.util.Date;
 public class Reserve {
     public Date rentStart = null;
     public Date rentEnd = null;
-    public String renter = null;
     public String _id = null;
+    public Renter renter = null;
     public Date updatedAt = null;
     public Date createdAt = null;
     public String status = null;
+
+    public Renter getRenter() {
+        return renter;
+    }
+
+    public void setRenter(Renter renter) {
+        this.renter = renter;
+    }
 
     public Date getRentStart() {
         return rentStart;
@@ -28,14 +36,6 @@ public class Reserve {
 
     public void setRentEnd(Date rentEnd) {
         this.rentEnd = rentEnd;
-    }
-
-    public String getRenter() {
-        return renter;
-    }
-
-    public void setRenter(String renter) {
-        this.renter = renter;
     }
 
     public String get_id() {

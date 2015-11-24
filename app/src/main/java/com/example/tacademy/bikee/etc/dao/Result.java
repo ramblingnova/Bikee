@@ -7,29 +7,29 @@ import java.util.List;
  * Created by Tacademy on 2015-11-12.
  */
 public class Result {
-    public String _id = null;
-    public Bike bike = null;
-    public String lister = null;
-    public List<Comment> comments = null;
-    public Date updatedAt = null;
-    public Date createdAt = null;
-    public List<Reserve> reserve = null;
-    public User user = null;
-//    public String user = null;
-    public String type = null;
-    public String height = null;
-    public String title = null;
-    public Boolean delflag = null;
-    public Price price = null;
-    public Image image = null;
-    public String intro = null;
-    public Loc loc = null;
-    public Boolean smartlock = null;
-    public List<String> components = null;
-    public Facebook facebook = null;
-    public String provider = null;
-    public String email = null;
-    public String name = null;
+    private String _id = null;
+    private Bike bike = null;
+    private Lister lister = null;
+    private Renter renter = null;
+    private List<Comment> comments = null;
+    private Date updatedAt = null;
+    private Date createdAt = null;
+    private List<Reserve> reserve = null;
+    private User user = null;
+    private String type = null;
+    private String height = null;
+    private String title = null;
+    private Boolean delflag = null;
+    private Price price = null;
+    private Image image = null;
+    private String intro = null;
+    private Loc loc = null;
+    private Boolean smartlock = null;
+    private List<String> components = null;
+    private Facebook facebook = null;
+    private String provider = null;
+    private String email = null;
+    private String name = null;
 
     public String get_id() {
         return _id;
@@ -47,20 +47,20 @@ public class Result {
         this.bike = bike;
     }
 
-//    public Lister getLister() {
-//        return lister;
-//    }
-//
-//    public void setLister(Lister lister) {
-//        this.lister = lister;
-//    }
-
-    public String getLister() {
+    public Lister getLister() {
         return lister;
     }
 
-    public void setLister(String lister) {
+    public void setLister(Lister lister) {
         this.lister = lister;
+    }
+
+    public Renter getRenter() {
+        return renter;
+    }
+
+    public void setRenter(Renter renter) {
+        this.renter = renter;
     }
 
     public List<Comment> getComments() {
@@ -102,14 +102,6 @@ public class Result {
     public void setUser(User user) {
         this.user = user;
     }
-
-//    public String getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(String user) {
-//        this.user = user;
-//    }
 
     public String getType() {
         return type;

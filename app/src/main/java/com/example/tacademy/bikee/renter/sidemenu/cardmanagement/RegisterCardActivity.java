@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.tacademy.bikee.R;
-import com.tsengvn.typekit.TypekitContextWrapper;
+//import com.tsengvn.typekit.TypekitContextWrapper;
 
 public class RegisterCardActivity extends AppCompatActivity {
     private EditText cardSortEditText;
@@ -66,8 +66,8 @@ public class RegisterCardActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
-    }
+//    @Override
+//    protected void attachBaseContext(Context newBase) {
+//        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+//    }
 }

@@ -13,8 +13,8 @@ import java.util.List;
 public class EvaluatedBicyclePostScriptAdapter extends BaseAdapter {
     List<EvaluatedBicyclePostScriptItem> items = new ArrayList<EvaluatedBicyclePostScriptItem>();
 
-    public void add(String name, String mail, int point, String body, String date) {
-        EvaluatedBicyclePostScriptItem item = new EvaluatedBicyclePostScriptItem(name, mail, point, body, date);
+    public void add(String imageURL, String renterName, String bicycleName, String createDate, String description, int point) {
+        EvaluatedBicyclePostScriptItem item = new EvaluatedBicyclePostScriptItem(imageURL, renterName, bicycleName, createDate, description, point);
         items.add(item);
         notifyDataSetChanged();
     }

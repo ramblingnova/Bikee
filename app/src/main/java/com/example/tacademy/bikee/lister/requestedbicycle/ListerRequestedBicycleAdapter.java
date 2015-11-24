@@ -13,8 +13,8 @@ import java.util.List;
 public class ListerRequestedBicycleAdapter extends BaseAdapter {
     List<ListerRequestedBicycleItem> items = new ArrayList<ListerRequestedBicycleItem>();
 
-    public void add(String text1, String text2, String text3, String text4, String text5) {
-        ListerRequestedBicycleItem item = new ListerRequestedBicycleItem(text1, text2, text3, text4, text5);
+    public void add(String imageURL, String status, String renterName, String bicycleName, String startDate, String endDate, String price) {
+        ListerRequestedBicycleItem item = new ListerRequestedBicycleItem(imageURL, status, renterName, bicycleName, startDate, endDate, price);
         items.add(item);
         notifyDataSetChanged();
     }

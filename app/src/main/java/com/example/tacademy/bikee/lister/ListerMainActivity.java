@@ -1,6 +1,5 @@
 package com.example.tacademy.bikee.lister;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,13 +23,12 @@ import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.sidemenu.InputInquiryActivity;
 import com.example.tacademy.bikee.common.smartkey.SmartKeyFragment;
 import com.example.tacademy.bikee.etc.Util;
-import com.example.tacademy.bikee.etc.manager.FontManager;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.example.tacademy.bikee.lister.requestedbicycle.ListerRequestedBicycleListFragment;
 import com.example.tacademy.bikee.lister.sidemenu.evaluatedbicycle.EvaluatedBicyclePostScriptListActivity;
 import com.example.tacademy.bikee.lister.sidemenu.owningbicycle.OwningBicycleListActivity;
 import com.example.tacademy.bikee.renter.RenterMainActivity;
-import com.tsengvn.typekit.TypekitContextWrapper;
+//import com.tsengvn.typekit.TypekitContextWrapper;
 
 public class ListerMainActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, TabHost.OnTabChangeListener {
     private FragmentTabHost tabHost;
@@ -209,8 +207,8 @@ public class ListerMainActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
-    }
+//    @Override
+//    protected void attachBaseContext(Context newBase) {
+//        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+//    }
 }

@@ -1,6 +1,5 @@
 package com.example.tacademy.bikee.lister.requestedbicycle;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,20 +13,23 @@ import com.example.tacademy.bikee.etc.dialog.ChoiceDialogFragment;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.SmallMapActivity;
 import com.example.tacademy.bikee.etc.dialog.NoChoiceDialogFragment;
-import com.tsengvn.typekit.TypekitContextWrapper;
+//import com.tsengvn.typekit.TypekitContextWrapper;
 
 public class ListerRequestedBicycleDetailInformationActivity extends AppCompatActivity implements View.OnClickListener {
-
     private ChoiceDialogFragment dialog1;
     private NoChoiceDialogFragment dialog2;
     private Intent intent;
-    private Button btn;
+    private Button cancelButton;
+    private Button approvalButton;
+    private Button cancelButton2;
+    private Button inputPostBackButton;
+    private Button smallMapButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lister_requested_bicycle_detail_information);
-        Toolbar toolbar = (Toolbar)findViewById(R.id.activity_lister_requested_bicycle_detail_information_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_lister_requested_bicycle_detail_information_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
@@ -37,27 +39,36 @@ public class ListerRequestedBicycleDetailInformationActivity extends AppCompatAc
         intent = getIntent();
         int i = intent.getIntExtra("STATE", -1);
         Toast.makeText(ListerRequestedBicycleDetailInformationActivity.this, "STATE : " + i, Toast.LENGTH_SHORT).show();
-        if (i == 0) {
-            btn = (Button) findViewById(R.id.activity_lister_requested_bicycle_detail_information_cancel_button);           btn.setVisibility(View.VISIBLE);
-            btn = (Button) findViewById(R.id.activity_lister_requested_bicycle_detail_information_approval_button);         btn.setVisibility(View.VISIBLE);
-            btn = (Button) findViewById(R.id.activity_lister_requested_bicycle_detail_information_cancel_button2);          btn.setVisibility(View.GONE);
-            btn = (Button) findViewById(R.id.activity_lister_requested_bicycle_detail_information_input_post_back_button);  btn.setVisibility(View.GONE);
-        } else if (i == 1) {
-            btn = (Button) findViewById(R.id.activity_lister_requested_bicycle_detail_information_cancel_button);           btn.setVisibility(View.GONE);
-            btn = (Button) findViewById(R.id.activity_lister_requested_bicycle_detail_information_approval_button);         btn.setVisibility(View.GONE);
-            btn = (Button) findViewById(R.id.activity_lister_requested_bicycle_detail_information_cancel_button2);          btn.setVisibility(View.VISIBLE);
-            btn = (Button) findViewById(R.id.activity_lister_requested_bicycle_detail_information_input_post_back_button);  btn.setVisibility(View.GONE);
-        } else if (i == 2) {
-            btn = (Button) findViewById(R.id.activity_lister_requested_bicycle_detail_information_cancel_button);           btn.setVisibility(View.GONE);
-            btn = (Button) findViewById(R.id.activity_lister_requested_bicycle_detail_information_approval_button);         btn.setVisibility(View.GONE);
-            btn = (Button) findViewById(R.id.activity_lister_requested_bicycle_detail_information_cancel_button2);          btn.setVisibility(View.GONE);
-            btn = (Button) findViewById(R.id.activity_lister_requested_bicycle_detail_information_input_post_back_button);  btn.setVisibility(View.VISIBLE);
+        cancelButton = (Button) findViewById(R.id.activity_lister_requested_bicycle_detail_information_cancel_button);
+        cancelButton.setOnClickListener(this);
+        approvalButton = (Button) findViewById(R.id.activity_lister_requested_bicycle_detail_information_approval_button);
+        approvalButton.setOnClickListener(this);
+        cancelButton2 = (Button) findViewById(R.id.activity_lister_requested_bicycle_detail_information_cancel_button2);
+        cancelButton2.setOnClickListener(this);
+        inputPostBackButton = (Button) findViewById(R.id.activity_lister_requested_bicycle_detail_information_input_post_back_button);
+        inputPostBackButton.setOnClickListener(this);
+        smallMapButton = (Button) findViewById(R.id.activity_lister_requested_bicycle_detail_information_small_map_button);
+        smallMapButton.setOnClickListener(this);
+        switch (i) {
+            case 0:
+                cancelButton.setVisibility(View.VISIBLE);
+                approvalButton.setVisibility(View.VISIBLE);
+                cancelButton2.setVisibility(View.GONE);
+                inputPostBackButton.setVisibility(View.GONE);
+                break;
+            case 1:
+                cancelButton.setVisibility(View.GONE);
+                approvalButton.setVisibility(View.GONE);
+                cancelButton2.setVisibility(View.VISIBLE);
+                inputPostBackButton.setVisibility(View.GONE);
+                break;
+            case 2:
+                cancelButton.setVisibility(View.GONE);
+                approvalButton.setVisibility(View.GONE);
+                cancelButton2.setVisibility(View.GONE);
+                inputPostBackButton.setVisibility(View.VISIBLE);
+                break;
         }
-        btn = (Button) findViewById(R.id.activity_lister_requested_bicycle_detail_information_cancel_button);               btn.setOnClickListener(this);
-        btn = (Button) findViewById(R.id.activity_lister_requested_bicycle_detail_information_approval_button);             btn.setOnClickListener(this);
-        btn = (Button) findViewById(R.id.activity_lister_requested_bicycle_detail_information_cancel_button2);              btn.setOnClickListener(this);
-        btn = (Button) findViewById(R.id.activity_lister_requested_bicycle_detail_information_input_post_back_button);      btn.setOnClickListener(this);
-        btn = (Button) findViewById(R.id.activity_lister_requested_bicycle_detail_information_small_map_button);            btn.setOnClickListener(this);
     }
 
     @Override
@@ -92,10 +103,5 @@ public class ListerRequestedBicycleDetailInformationActivity extends AppCompatAc
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 }

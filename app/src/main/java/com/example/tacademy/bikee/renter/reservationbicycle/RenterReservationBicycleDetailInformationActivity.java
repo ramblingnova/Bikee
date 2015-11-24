@@ -1,6 +1,5 @@
 package com.example.tacademy.bikee.renter.reservationbicycle;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,49 +12,62 @@ import android.widget.Toast;
 import com.example.tacademy.bikee.etc.dialog.ChoiceDialogFragment;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.SmallMapActivity;
-import com.tsengvn.typekit.TypekitContextWrapper;
+//import com.tsengvn.typekit.TypekitContextWrapper;
 
 public class RenterReservationBicycleDetailInformationActivity extends AppCompatActivity implements View.OnClickListener {
-
     private Intent intent;
     private ChoiceDialogFragment dialog;
-    private Button btn;
+    private Button smallMapButton;
+    private Button cancelButton;
+    private Button payButton;
+    private Button cancelButton2;
+    private Button inputPpostScriptionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_renter_reservation_bicycle_detail_information);
-        Toolbar toolbar = (Toolbar)findViewById(R.id.activity_renter_reservation_bicycle_detail_information_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_renter_reservation_bicycle_detail_information_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setCustomView(R.layout.renter_main_tool_bar);
 
-        Intent intent = getIntent();
-        int i = intent.getIntExtra("STATE", -1);
-        Toast.makeText(RenterReservationBicycleDetailInformationActivity.this, "STATE : " + i, Toast.LENGTH_SHORT).show();
-        if(i == 0) {
-            btn = (Button)findViewById(R.id.activity_renter_reservation_bicycle_detail_information_cancel_button);                  btn.setVisibility(View.VISIBLE);
-            btn = (Button)findViewById(R.id.activity_renter_reservation_bicycle_detail_information_pay_button);                     btn.setVisibility(View.VISIBLE);
-            btn = (Button)findViewById(R.id.activity_renter_reservation_bicycle_detail_information_cancel_button2);                 btn.setVisibility(View.GONE);
-            btn = (Button)findViewById(R.id.activity_renter_reservation_bicycle_detail_information_input_post_scription_button);    btn.setVisibility(View.GONE);
-        } else if(i == 1) {
-            btn = (Button)findViewById(R.id.activity_renter_reservation_bicycle_detail_information_cancel_button);                  btn.setVisibility(View.GONE);
-            btn = (Button)findViewById(R.id.activity_renter_reservation_bicycle_detail_information_pay_button);                     btn.setVisibility(View.GONE);
-            btn = (Button)findViewById(R.id.activity_renter_reservation_bicycle_detail_information_cancel_button2);                 btn.setVisibility(View.VISIBLE);
-            btn = (Button)findViewById(R.id.activity_renter_reservation_bicycle_detail_information_input_post_scription_button);    btn.setVisibility(View.GONE);
-        } else if(i == 2) {
-            btn = (Button)findViewById(R.id.activity_renter_reservation_bicycle_detail_information_cancel_button);                  btn.setVisibility(View.GONE);
-            btn = (Button)findViewById(R.id.activity_renter_reservation_bicycle_detail_information_pay_button);                     btn.setVisibility(View.GONE);
-            btn = (Button)findViewById(R.id.activity_renter_reservation_bicycle_detail_information_cancel_button2);                 btn.setVisibility(View.GONE);
-            btn = (Button)findViewById(R.id.activity_renter_reservation_bicycle_detail_information_input_post_scription_button);    btn.setVisibility(View.VISIBLE);
+        intent = getIntent();
+        String status = intent.getStringExtra("STATE");
+        Toast.makeText(RenterReservationBicycleDetailInformationActivity.this, "STATE : " + status, Toast.LENGTH_SHORT).show();
+
+        cancelButton = (Button) findViewById(R.id.activity_renter_reservation_bicycle_detail_information_cancel_button);
+        cancelButton.setOnClickListener(this);
+        payButton = (Button) findViewById(R.id.activity_renter_reservation_bicycle_detail_information_pay_button);
+        payButton.setOnClickListener(this);
+        cancelButton2 = (Button) findViewById(R.id.activity_renter_reservation_bicycle_detail_information_cancel_button2);
+        cancelButton2.setOnClickListener(this);
+        inputPpostScriptionButton = (Button) findViewById(R.id.activity_renter_reservation_bicycle_detail_information_input_post_scription_button);
+        inputPpostScriptionButton.setOnClickListener(this);
+        smallMapButton = (Button) findViewById(R.id.activity_renter_reservation_bicycle_detail_information_small_map_button);
+        smallMapButton.setOnClickListener(this);
+        switch (status) {
+            case "RR":
+                cancelButton.setVisibility(View.VISIBLE);
+                payButton.setVisibility(View.VISIBLE);
+                cancelButton2.setVisibility(View.GONE);
+                inputPpostScriptionButton.setVisibility(View.GONE);
+                break;
+            case "RS":
+                cancelButton.setVisibility(View.GONE);
+                payButton.setVisibility(View.GONE);
+                cancelButton2.setVisibility(View.VISIBLE);
+                inputPpostScriptionButton.setVisibility(View.GONE);
+                break;
+            case "RC":
+                cancelButton.setVisibility(View.GONE);
+                payButton.setVisibility(View.GONE);
+                cancelButton2.setVisibility(View.GONE);
+                inputPpostScriptionButton.setVisibility(View.VISIBLE);
+                break;
         }
-        btn = (Button)findViewById(R.id.activity_renter_reservation_bicycle_detail_information_cancel_button);                      btn.setOnClickListener(this);
-        btn = (Button)findViewById(R.id.activity_renter_reservation_bicycle_detail_information_pay_button);                         btn.setOnClickListener(this);
-        btn = (Button)findViewById(R.id.activity_renter_reservation_bicycle_detail_information_cancel_button2);                     btn.setOnClickListener(this);
-        btn = (Button)findViewById(R.id.activity_renter_reservation_bicycle_detail_information_input_post_scription_button);        btn.setOnClickListener(this);
-        btn = (Button)findViewById(R.id.activity_renter_reservation_bicycle_detail_information_small_map_button);                   btn.setOnClickListener(this);
     }
 
     @Override
@@ -93,8 +105,8 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
-    }
+//    @Override
+//    protected void attachBaseContext(Context newBase) {
+//        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+//    }
 }

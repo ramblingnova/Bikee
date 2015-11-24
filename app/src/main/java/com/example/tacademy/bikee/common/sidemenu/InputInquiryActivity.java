@@ -9,14 +9,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.dao.Inquires;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
-import com.example.tacademy.bikee.etc.manager.FontManager;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
-import com.tsengvn.typekit.TypekitContextWrapper;
+//import com.tsengvn.typekit.TypekitContextWrapper;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -77,8 +75,8 @@ public class InputInquiryActivity extends AppCompatActivity implements View.OnCl
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
-    }
+//    @Override
+//    protected void attachBaseContext(Context newBase) {
+//        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+//    }
 }

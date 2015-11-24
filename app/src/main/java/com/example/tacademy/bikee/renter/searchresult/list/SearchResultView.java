@@ -8,7 +8,6 @@ import android.widget.TextView;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.MyApplication;
 import com.example.tacademy.bikee.etc.Util;
-import com.example.tacademy.bikee.etc.manager.FontManager;
 import com.example.tacademy.bikee.renter.searchresult.SearchResultItem;
 
 /**

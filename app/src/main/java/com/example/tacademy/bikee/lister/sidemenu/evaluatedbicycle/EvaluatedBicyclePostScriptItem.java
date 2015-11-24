@@ -4,34 +4,60 @@ package com.example.tacademy.bikee.lister.sidemenu.evaluatedbicycle;
  * Created by Tacademy on 2015-11-04.
  */
 public class EvaluatedBicyclePostScriptItem {
-    private String mail;
-    private String name;
+    private String imageURL;
+    private String renterName;
+    private String bicycleName;
+    private String createDate;
+    private String description;
     private int point;
-    private String body;
-    private String date;
 
-    public EvaluatedBicyclePostScriptItem(String mail, String name, int point, String body, String date) {
-        this.mail = mail;
-        this.name = name;
+    public EvaluatedBicyclePostScriptItem(String imageURL, String renterName, String bicycleName, String createDate, String description, int point) {
+        this.imageURL = imageURL;
+        this.renterName = renterName;
+        this.bicycleName = bicycleName;
+        this.createDate = createDate;
+        this.description = description;
         this.point = point;
-        this.body = body;
-        this.date = date;
     }
 
-    public String getMail() {
-        return mail;
+    public String getImageURL() {
+        return imageURL;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
-    public String getName() {
-        return name;
+    public String getRenterName() {
+        return renterName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRenterName(String renterName) {
+        this.renterName = renterName;
+    }
+
+    public String getBicycleName() {
+        return bicycleName;
+    }
+
+    public void setBicycleName(String bicycleName) {
+        this.bicycleName = bicycleName;
+    }
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getPoint() {
@@ -40,21 +66,5 @@ public class EvaluatedBicyclePostScriptItem {
 
     public void setPoint(int point) {
         this.point = point;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
     }
 }

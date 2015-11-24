@@ -15,25 +15,46 @@
             android:layout_height="wrap_content"
             android:text="자전거의 멋진 모습을 담아주세요!" />
 
-        <ImageView
+        <Button
+            android:id="@+id/fragment_register_bicycle_picture_input_image_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/temp_icon"
             android:layout_below="@id/fragment_register_bicycle_picture_input_image_view_text_view"
-            android:id="@+id/fragment_register_bicycle_picture_input_image_view"/>
+            android:src="@drawable/temp_icon"
+            android:text="첫번째 이미지" />
+
+        <ImageView
+            android:id="@+id/fragment_register_bicycle_picture_input_image_image_view"
+            android:layout_width="200dp"
+            android:layout_height="150dp"
+            android:layout_below="@id/fragment_register_bicycle_picture_input_image_button" />
+
+        <Button
+            android:id="@+id/fragment_register_bicycle_picture_input_image_button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fragment_register_bicycle_picture_input_image_view_text_view"
+            android:layout_toRightOf="@id/fragment_register_bicycle_picture_input_image_button"
+            android:text="두번째 이미지" />
+
+        <ImageView
+            android:id="@+id/fragment_register_bicycle_picture_input_image_image_view2"
+            android:layout_width="200dp"
+            android:layout_height="150dp"
+            android:layout_below="@id/fragment_register_bicycle_picture_input_image_image_view" />
 
         <TextView
             android:id="@+id/fragment_register_bicycle_picture_description_text_view"
-            android:layout_below="@id/fragment_register_bicycle_picture_input_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/fragment_register_bicycle_picture_input_image_image_view"
             android:text="다양하게 여러 각도로 찍어주세요!" />
 
         <TextView
             android:id="@+id/fragment_register_bicycle_picture_description2_text_view"
-            android:layout_below="@id/fragment_register_bicycle_picture_description_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/fragment_register_bicycle_picture_description_text_view"
             android:text="옆면 / 측면 / 배달 / 바퀴" />
     </RelativeLayout>
 

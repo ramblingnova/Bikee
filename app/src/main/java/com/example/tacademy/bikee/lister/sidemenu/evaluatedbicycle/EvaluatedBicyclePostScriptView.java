@@ -13,34 +13,34 @@ import com.example.tacademy.bikee.etc.manager.FontManager;
  * Created by Tacademy on 2015-11-04.
  */
 public class EvaluatedBicyclePostScriptView extends FrameLayout {
+    private ImageView renterImage;
+    private TextView renterName;
+    private TextView bicycleName;
+    private TextView createDate;
+    private TextView description;
+    private RatingBar point;
+
     public EvaluatedBicyclePostScriptView(Context context) {
         super(context);
         init();
     }
 
-    private ImageView iv;
-    private TextView mail;
-    private TextView name;
-    private RatingBar rb;
-    private TextView body;
-    private TextView date;
-
     private void init() {
         inflate(getContext(), R.layout.view_evaluated_bicycle_post_script_item, this);
-        iv = (ImageView)findViewById(R.id.view_evaluated_bicycle_post_script_item_renter_image);
-        mail = (TextView)findViewById(R.id.view_evaluated_bicycle_post_script_item_email_text_view);
-        name = (TextView)findViewById(R.id.view_evaluated_bicycle_post_script_item_bicycle_name_text_view);
-        rb = (RatingBar)findViewById(R.id.view_evaluated_bicycle_post_script_item_rating_bar);
-        body = (TextView)findViewById(R.id.view_evaluated_bicycle_post_script_item_post_script_text_view);
-        date = (TextView)findViewById(R.id.view_evaluated_bicycle_post_script_item_date_time_text_view);
+        renterImage = (ImageView)findViewById(R.id.view_evaluated_bicycle_post_script_item_renter_image);
+        renterName = (TextView)findViewById(R.id.view_evaluated_bicycle_post_script_item_renter_name_text_view);
+        bicycleName = (TextView)findViewById(R.id.view_evaluated_bicycle_post_script_item_bicycle_name_text_view);
+        createDate = (TextView)findViewById(R.id.view_evaluated_bicycle_post_script_item_date_time_text_view);
+        description = (TextView)findViewById(R.id.view_evaluated_bicycle_post_script_item_post_script_text_view);
+        point = (RatingBar)findViewById(R.id.view_evaluated_bicycle_post_script_item_rating_bar);
     }
 
     public void setText(EvaluatedBicyclePostScriptItem item) {
-        mail.setText(item.getMail());
-        name.setText(item.getName());
-        rb.setRating(item.getPoint());
-        rb.setClickable(false);
-        body.setText(item.getBody());
-        date.setText(item.getDate());
+        renterName.setText(item.getRenterName());
+        bicycleName.setText(item.getBicycleName());
+        createDate.setText(item.getCreateDate());
+        description.setText(item.getDescription());
+        point.setRating(item.getPoint());
+        point.setClickable(false);
     }
 }

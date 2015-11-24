@@ -55,9 +55,9 @@ public final class R {
 		public static final int week = 0x7f030001;
 	}
 	public static final class string {
-		public static final int day_name_format = 0x7f040002;
+		public static final int day_name_format = 0x7f040001;
 		public static final int invalid_date = 0x7f040000;
-		public static final int month_name_format = 0x7f040001;
+		public static final int month_name_format = 0x7f040002;
 	}
 	public static final class style {
 		public static final int CalendarCell = 0x7f070000;

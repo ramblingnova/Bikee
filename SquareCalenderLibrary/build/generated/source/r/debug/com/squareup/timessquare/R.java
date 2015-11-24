@@ -147,9 +147,9 @@ containing a value of this type.
         public static int week=0x7f030001;
     }
     public static final class string {
-        public static int day_name_format=0x7f040002;
+        public static int day_name_format=0x7f040001;
         public static int invalid_date=0x7f040000;
-        public static int month_name_format=0x7f040001;
+        public static int month_name_format=0x7f040002;
     }
     public static final class style {
         public static int CalendarCell=0x7f070000;

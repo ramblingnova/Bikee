@@ -131,7 +131,7 @@ public class NetworkManager {
         @GET("/first")
         void sessionClear(Callback<ReceiveObject> callback);
 
-        // 내평가보기 app.get('/comments',auth.requiresLogin,comments.show);
+        // 내가평가한자전거후기보기 app.get('/comments',auth.requiresLogin,comments.show);
         @GET("/comments")
         void selectUserComment(Callback<ReceiveObject> callback);
 
@@ -150,6 +150,14 @@ public class NetworkManager {
         // 평가된자전거후기보기
         @GET("/comments/me")
         void selectMyBicycleComment(Callback<ReceiveObject> callback);
+
+        // 렌터가예약한자전거목록보기
+        @GET("/reserves/me")
+        void selectReservationBicycle(Callback<ReceiveObject> callback);
+
+        // 리스터 -> 예약신청된자전거목록보기
+        @GET("/reserves")
+        void selectRequestedBicycle(Callback<ReceiveObject> callback);
 
 //        @POST("/register/")
 //        void registerGCM(@Field("token") String registerationID,
@@ -185,8 +193,6 @@ public class NetworkManager {
     public void insertUser(User user, Callback<ReceiveObject> callback) {
         serverUrl.insertUser(user, callback);
     }
-
-
 
     // 회원수정
     public void updateUser(User user, Callback<ReceiveObject> callback) {
@@ -269,5 +275,15 @@ public class NetworkManager {
     // 평가된자전거후기보기
     public void selectMyBicycleComment(Callback<ReceiveObject> callback) {
         serverUrl.selectMyBicycleComment(callback);
+    }
+
+    // 렌터가예약한자전거목록보기
+    public void selectReservationBicycle(Callback<ReceiveObject> callback) {
+        serverUrl.selectReservationBicycle(callback);
+    }
+
+    // 리스터 -> 예약신청된자전거목록보기
+    public void selectRequestedBicycle(Callback<ReceiveObject> callback) {
+        serverUrl.selectRequestedBicycle(callback);
     }
 }

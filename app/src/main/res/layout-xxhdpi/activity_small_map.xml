@@ -8,8 +8,8 @@
     tools:context="com.example.tacademy.bikee.common.SmallMapActivity">
 
     <fragment
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:id="@+id/small_map"
         android:name="com.google.android.gms.maps.SupportMapFragment"/>
 <!-- TODO 해야한다 나는 구글맵을 이미지로 스냅샷 콜백으로 비트맵 -->

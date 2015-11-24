@@ -7,6 +7,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +19,15 @@ import com.example.tacademy.bikee.R;
 
 import com.example.tacademy.bikee.common.POI;
 import com.example.tacademy.bikee.etc.MyApplication;
+import com.example.tacademy.bikee.etc.dao.Loc;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.renter.searchresult.SearchResultINF;
 import com.example.tacademy.bikee.renter.searchresult.SearchResultItem;
 import com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.FilteredBicycleDetailInformationActivity;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -46,7 +51,8 @@ import retrofit.client.Response;
 
 public class SearchResultMapFragment extends Fragment implements OnMapReadyCallback,
         GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMapClickListener,
-        GoogleMap.OnMarkerDragListener, GoogleMap.OnCameraChangeListener {
+        GoogleMap.OnMarkerDragListener, GoogleMap.OnCameraChangeListener, GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
     final private Map<POI, Marker> mMarkerResolver = new HashMap<POI, Marker>();
     final private Map<Marker, POI> mPOIResolver = new HashMap<Marker, POI>();
     private GoogleMap gm;
@@ -56,6 +62,7 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     private TimerTask timerTask;
     private Timer timer;
     private boolean battery;
+    GoogleApiClient mGoogleApiClient;
 
     public void setSearchResultINF(SearchResultINF searchResultINF) {
         this.searchResultINF = searchResultINF;
@@ -83,8 +90,13 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
             SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
             mapFragment.getMapAsync(this);
         } catch (Exception e) {
-            e.printStackTrace();
+            // e.printStackTrace();
         }
+
+//        mGoogleApiClient = new GoogleApiClient.Builder(MyApplication.getmContext())
+//                .addApi(LocationServices.API)
+//                .addConnectionCallbacks(this)
+//                .addOnConnectionFailedListener(this).build();
 
         getData();
         timerTask = new TimerTask() {
@@ -118,6 +130,7 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
 
     @Override
     public void onStop() {
+        Log.i("MAP", "STOP!!");
         timer.cancel();
         super.onStop();
     }
@@ -141,6 +154,7 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Log.i("MAP", "INIT!!");
         gm = googleMap;
         gm.setMyLocationEnabled(true);
 
@@ -291,7 +305,7 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
         String lat = "37.468501";
         String lon = "126.957913";
         String start = "2015/11/08 20:14:43";
-        String end = "2015/11/12 20:14";
+        String end = "2015/11/24 00:00";
         String type = "03";
         String height = "A";
         String component = "01,02,03,04";
@@ -377,5 +391,20 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
                         Log.e("error", "onFailure Error : " + error.toString());
                     }
                 });
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
     }
 }
