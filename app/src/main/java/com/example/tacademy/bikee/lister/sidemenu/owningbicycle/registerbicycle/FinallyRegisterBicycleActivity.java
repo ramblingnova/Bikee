@@ -67,7 +67,6 @@ public class FinallyRegisterBicycleActivity extends AppCompatActivity implements
                 finish();
                 break;
             case R.id.activity_finally_register_bicycle_ok_button:
-
 //                List<TypedFile> typedFile1 = new ArrayList<>();
 //                typedFile1.add(new TypedFile("image/png", tempItem.getFile1()));
 //                TypedFile typedFile2 = new TypedFile("image/png", tempItem.getFile2());
@@ -75,7 +74,7 @@ public class FinallyRegisterBicycleActivity extends AppCompatActivity implements
 
                  Map<String,TypedFile> map = new HashMap<String,TypedFile>();
                  for(int i =0;i<4;i++){
-                     map.put("imgage"+i,new TypedFile("image/png", tempItem.getFile1()));
+                     map.put("image"+i,new TypedFile("image/png", tempItem.getFile1()));
                  }
 
                 Bike bike = new Bike();
@@ -87,17 +86,13 @@ public class FinallyRegisterBicycleActivity extends AppCompatActivity implements
                 price.setDay(tempItem.getDay());
                 price.setMonth(tempItem.getMonth());
                 bike.setPrice(price);
-                bike.setSize(4);
                 MultipartTypedOutput m = new MultipartTypedOutput();
                 for(int i = 0 ; i < 5;i++){
                     m.addPart("image", new TypedFile("image/png", tempItem.getFile1()));
                 }
-//                bike.setMultipartTypedOutput(m);
-//                    m.addPart("bike.type",new TypedString(bike.getType()));
-//                m.addPart("bike.height",new TypedString(bike.getHeight()));
-//                m.addPart("bike.title",new TypedString(bike.getTitle()));
+                int size = 4;
 
-                NetworkManager.getInstance().insertBicycle(map, bike, new Callback<ReceiveObject>() {
+                NetworkManager.getInstance().insertBicycle(map, bike, size, new Callback<ReceiveObject>() {
                     @Override
                     public void success(ReceiveObject receiveObject, Response response) {
                         Log.i("result", "onResponse Code : " + receiveObject.getCode() + ", Success : " + receiveObject.isSuccess() + ", Msg : " + receiveObject.getMsg() + ", Error : ");

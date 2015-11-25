@@ -101,14 +101,8 @@ public class NetworkManager {
         @POST("/bikes/users")
         void insertBicycle(@PartMap Map<String, TypedFile> files,
                            @Part("bike") Bike bike,
+                           @Part("size") int size,
                            Callback<ReceiveObject> callback);
-
-            // 보유자전거등록 app.post('/bikes/users',auth.requiresLogin,bikes.create);
-//        /*@Multipart*/
-//        @POST("/bikes/users")
-//        void insertBicycle(/*@Field("image") MultipartTypedOutput attachments,*/
-//                           @Body Bike bike,
-//                           Callback<ReceiveObject> callback);
 
         // 보유자전거조회 app.get('/bikes/users',auth.requiresLogin,bikes.myList); 유저아이디는?
         @GET("/bikes/users")
@@ -229,8 +223,8 @@ public class NetworkManager {
 //    }
 
     // 보유자전거등록
-    public void insertBicycle(Map<String, TypedFile> file, Bike bike, Callback<ReceiveObject> callback) {
-        serverUrl.insertBicycle(file, bike, callback);
+    public void insertBicycle(Map<String, TypedFile> file, Bike bike, int size, Callback<ReceiveObject> callback) {
+        serverUrl.insertBicycle(file, bike, size, callback);
     }
 
 //    public void insertBicycle( Bike bike,  Callback<ReceiveObject> callback) {
