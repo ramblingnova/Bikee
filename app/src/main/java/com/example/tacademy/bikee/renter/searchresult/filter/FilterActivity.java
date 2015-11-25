@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.example.tacademy.bikee.R;
 import com.squareup.timessquare.CalendarPickerView;
-//import com.tsengvn.typekit.TypekitContextWrapper;
+import com.tsengvn.typekit.TypekitContextWrapper;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -87,8 +87,8 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
         return super.onOptionsItemSelected(item);
     }
 
-//    @Override
-//    protected void attachBaseContext(Context newBase) {
-//        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
-//    }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+    }
 }

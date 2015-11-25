@@ -13,13 +13,23 @@ import java.io.Serializable;
  */
 public class OwningBicycleItem {
     private String id;
+    private String imageURL;
     private String name;
     private String date;
 
-    public OwningBicycleItem(String id, String name, String date) {
+    public OwningBicycleItem(String id, String imageURL, String name, String date) {
+        this.imageURL = imageURL;
         this.id = id;
         this.name = name;
         this.date = date;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     public String getId() {

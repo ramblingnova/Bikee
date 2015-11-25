@@ -4,6 +4,8 @@ import com.example.tacademy.bikee.etc.dao.Bike;
 import com.example.tacademy.bikee.etc.dao.Comment;
 import com.example.tacademy.bikee.etc.dao.Inquires;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
+import com.example.tacademy.bikee.etc.dao.ReceiveObject1;
+import com.example.tacademy.bikee.etc.dao.Reserve;
 import com.example.tacademy.bikee.etc.dao.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -18,6 +20,8 @@ import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -33,8 +37,10 @@ import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.PUT;
 import retrofit.http.Part;
+import retrofit.http.PartMap;
 import retrofit.http.Path;
 import retrofit.http.Query;
+import retrofit.mime.MultipartTypedOutput;
 import retrofit.mime.TypedFile;
 
 /**
@@ -67,7 +73,8 @@ public class NetworkManager {
     }
 
     public interface ServerUrl {
-        String baseUrl = "http://bikee.kr.pe";
+//        String baseUrl = "http://bikee.kr.pe";
+        String baseUrl = "http://192.168.210.220";
 
         // 본인정보조회 app.get('/users/:userId',users.profile) TODO id 없이 "본인정보조회"하기
         @GET("/users/{userId}")
@@ -81,13 +88,27 @@ public class NetworkManager {
         @PUT("/users")
         void updateUser(@Body User user, Callback<ReceiveObject> callback);
 
+//        // 보유자전거등록 app.post('/bikes/users',auth.requiresLogin,bikes.create);
+//        @Multipart
+//        @POST("/bikes/users")
+//        void insertBicycle(@Part("image") List<TypedFile> file1,
+//                           @Part("image") TypedFile file2,
+//                           @Part("bike") Bike bike,
+//                           Callback<ReceiveObject> callback);
+
         // 보유자전거등록 app.post('/bikes/users',auth.requiresLogin,bikes.create);
         @Multipart
         @POST("/bikes/users")
-        void insertBicycle(@Part("image") TypedFile file1,
-                           @Part("image") TypedFile file2,
+        void insertBicycle(@PartMap Map<String, TypedFile> files,
                            @Part("bike") Bike bike,
                            Callback<ReceiveObject> callback);
+
+            // 보유자전거등록 app.post('/bikes/users',auth.requiresLogin,bikes.create);
+//        /*@Multipart*/
+//        @POST("/bikes/users")
+//        void insertBicycle(/*@Field("image") MultipartTypedOutput attachments,*/
+//                           @Body Bike bike,
+//                           Callback<ReceiveObject> callback);
 
         // 보유자전거조회 app.get('/bikes/users',auth.requiresLogin,bikes.myList); 유저아이디는?
         @GET("/bikes/users")
@@ -153,11 +174,14 @@ public class NetworkManager {
 
         // 렌터가예약한자전거목록보기
         @GET("/reserves/me")
-        void selectReservationBicycle(Callback<ReceiveObject> callback);
+        void selectReservationBicycle(Callback<ReceiveObject1> callback);
 
         // 리스터 -> 예약신청된자전거목록보기
         @GET("/reserves")
         void selectRequestedBicycle(Callback<ReceiveObject> callback);
+
+        @POST("/reserves/{bikeId}")
+        void insertReservation(@Path("bikeId") String bike_id, @Body Reserve reserve, Callback<ReceiveObject> callback);
 
 //        @POST("/register/")
 //        void registerGCM(@Field("token") String registerationID,
@@ -199,10 +223,19 @@ public class NetworkManager {
         serverUrl.updateUser(user, callback);
     }
 
+//    // 보유자전거등록
+//    public void insertBicycle(List<TypedFile> file1, TypedFile file2, Bike bike, Callback<ReceiveObject> callback) {
+//        serverUrl.insertBicycle(file1, file2, bike, callback);
+//    }
+
     // 보유자전거등록
-    public void insertBicycle(TypedFile file1, TypedFile file2, Bike bike, Callback<ReceiveObject> callback) {
-        serverUrl.insertBicycle(file1, file2, bike, callback);
+    public void insertBicycle(Map<String, TypedFile> file, Bike bike, Callback<ReceiveObject> callback) {
+        serverUrl.insertBicycle(file, bike, callback);
     }
+
+//    public void insertBicycle( Bike bike,  Callback<ReceiveObject> callback) {
+//        serverUrl.insertBicycle(bike, callback);
+//    }
 
     // 보유자전거조회
     public void selectBicycle(Callback<ReceiveObject> callback) {
@@ -278,12 +311,17 @@ public class NetworkManager {
     }
 
     // 렌터가예약한자전거목록보기
-    public void selectReservationBicycle(Callback<ReceiveObject> callback) {
+    public void selectReservationBicycle(Callback<ReceiveObject1> callback) {
         serverUrl.selectReservationBicycle(callback);
     }
 
     // 리스터 -> 예약신청된자전거목록보기
     public void selectRequestedBicycle(Callback<ReceiveObject> callback) {
         serverUrl.selectRequestedBicycle(callback);
+    }
+
+    // 렌터가자전거예약요청
+    public void insertReservation(String bike_id, Reserve reserve, Callback<ReceiveObject> callback) {
+        serverUrl.insertReservation(bike_id, reserve, callback);
     }
 }

@@ -32,7 +32,7 @@ import com.example.tacademy.bikee.common.sidemenu.AuthenticationInformationActiv
 import com.example.tacademy.bikee.renter.sidemenu.cardmanagement.CardManagementActivity;
 import com.example.tacademy.bikee.renter.sidemenu.evaluatingbicycle.EvaluatingBicyclePostScriptListActivity;
 import com.example.tacademy.bikee.common.sidemenu.InputInquiryActivity;
-//import com.tsengvn.typekit.TypekitContextWrapper;
+import com.tsengvn.typekit.TypekitContextWrapper;
 
 public class RenterMainActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, DrawerLayout.DrawerListener, TabHost.OnTabChangeListener {
     private FragmentTabHost tabHost;
@@ -222,8 +222,8 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-//    @Override
-//    protected void attachBaseContext(Context newBase) {
-//        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
-//    }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+    }
 }

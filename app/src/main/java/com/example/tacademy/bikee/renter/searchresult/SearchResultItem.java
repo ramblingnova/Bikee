@@ -4,7 +4,18 @@ package com.example.tacademy.bikee.renter.searchresult;
  * Created by Tacademy on 2015-10-30.
  */
 public class SearchResultItem {
-    public SearchResultItem(String imageURL, String bicycle_name, String height, String type, String payment, String distance, double latitude, double longitude) {
+    private String bicycleId;
+    private String imageURL;
+    private String bicycle_name;
+    private String height;
+    private String type;
+    private String payment;
+    private String distance;
+    private double latitude;
+    private double longitude;
+
+    public SearchResultItem(String bicycleId, String imageURL, String bicycle_name, String height, String type, String payment, String distance, double latitude, double longitude) {
+        this.bicycleId = bicycleId;
         this.imageURL = imageURL;
         this.bicycle_name = bicycle_name;
         this.height = height;
@@ -15,7 +26,8 @@ public class SearchResultItem {
         this.longitude = longitude;
     }
 
-    public SearchResultItem(String imageURL, String bicycle_name, String type, String height, String payment) {
+    public SearchResultItem(String bicycleId, String imageURL, String bicycle_name, String type, String height, String payment) {
+        this.bicycleId = bicycleId;
         this.imageURL = imageURL;
         this.bicycle_name = bicycle_name;
         this.height = height;
@@ -23,14 +35,13 @@ public class SearchResultItem {
         this.payment = payment;
     }
 
-    private String imageURL;
-    private String bicycle_name;
-    private String height;
-    private String type;
-    private String payment;
-    private String distance;
-    private double latitude;
-    private double longitude;
+    public String getBicycleId() {
+        return bicycleId;
+    }
+
+    public void setBicycleId(String bicycleId) {
+        this.bicycleId = bicycleId;
+    }
 
     public String getImageURL() {
         return imageURL;

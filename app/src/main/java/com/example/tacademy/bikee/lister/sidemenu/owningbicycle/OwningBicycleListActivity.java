@@ -17,7 +17,7 @@ import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle.RegisterBicycleActivity;
-//import com.tsengvn.typekit.TypekitContextWrapper;
+import com.tsengvn.typekit.TypekitContextWrapper;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -66,11 +66,21 @@ public class OwningBicycleListActivity extends AppCompatActivity implements Adap
                 List<Result> results = receiveObject.getResult();
                 for (Result result : results) {
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM.dd HH:mm");
+                    String imageURL;
+                    if((null == result.getImage().getCdnUri())
+                            || (null == result.getImage().getCdnUri())
+                            || (null == result.getImage().getFiles().get(0))) {
+                        imageURL = "";
+                    } else {
+                        imageURL = result.getImage().getCdnUri() + "/mini_" + result.getImage().getFiles().get(0);
+                    }
                     Log.i("result", "onResponse Id : " + result.get_id()
+                                    + ", ImageURL : " + imageURL
                                     + ", Title : " + result.getTitle()
                                     + ", CreateAt : " + simpleDateFormat.format(result.getCreatedAt())
                     );
                     adapter.add(result.get_id(),
+                            imageURL,
                             result.getTitle(),
                             simpleDateFormat.format(result.getCreatedAt())
                     );
@@ -122,8 +132,8 @@ public class OwningBicycleListActivity extends AppCompatActivity implements Adap
         return super.onOptionsItemSelected(item);
     }
 
-//    @Override
-//    protected void attachBaseContext(Context newBase) {
-//        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
-//    }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+    }
 }

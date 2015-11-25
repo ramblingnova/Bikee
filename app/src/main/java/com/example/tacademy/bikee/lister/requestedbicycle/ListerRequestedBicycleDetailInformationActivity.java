@@ -1,9 +1,11 @@
 package com.example.tacademy.bikee.lister.requestedbicycle;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -13,7 +15,11 @@ import com.example.tacademy.bikee.etc.dialog.ChoiceDialogFragment;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.SmallMapActivity;
 import com.example.tacademy.bikee.etc.dialog.NoChoiceDialogFragment;
-//import com.tsengvn.typekit.TypekitContextWrapper;
+import com.tsengvn.typekit.TypekitContextWrapper;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ListerRequestedBicycleDetailInformationActivity extends AppCompatActivity implements View.OnClickListener {
     private ChoiceDialogFragment dialog1;
@@ -24,6 +30,15 @@ public class ListerRequestedBicycleDetailInformationActivity extends AppCompatAc
     private Button cancelButton2;
     private Button inputPostBackButton;
     private Button smallMapButton;
+    private String imageURL;
+    private String type;
+    private String height;
+    private double latitude;
+    private double longitude;
+    private String startDate;
+    private String endDate;
+    private int price;
+    private String status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +52,25 @@ public class ListerRequestedBicycleDetailInformationActivity extends AppCompatAc
         getSupportActionBar().setCustomView(R.layout.lister_main_tool_bar);
 
         intent = getIntent();
-        int i = intent.getIntExtra("STATE", -1);
-        Toast.makeText(ListerRequestedBicycleDetailInformationActivity.this, "STATE : " + i, Toast.LENGTH_SHORT).show();
+        imageURL = intent.getStringExtra("BICYCLEURL");
+        type = intent.getStringExtra("TYPE");
+        height = intent.getStringExtra("HEIGHT");
+        latitude = intent.getDoubleExtra("LATITUDE", -1.0);
+        longitude = intent.getDoubleExtra("LONGITUDE", -1.0);
+        startDate = intent.getStringExtra("STARTDATE");
+        endDate = intent.getStringExtra("ENDDATE");
+        price = intent.getIntExtra("PRICE", -1);
+        status = intent.getStringExtra("STATUS");
+        Log.i("result", "BICYCLEURL : " + imageURL
+                        + ", TYPE : " + type
+                        + ", HEIGHT : " + height
+                        + ", LATITUDE : " + latitude
+                        + ", LONGITUDE : " + longitude
+                        + ", STARTDATE : " + startDate
+                        + ", ENDDATE : " + endDate
+                        + ", PRICE : " + price
+                        + ", STATUS : " + status
+        );
         cancelButton = (Button) findViewById(R.id.activity_lister_requested_bicycle_detail_information_cancel_button);
         cancelButton.setOnClickListener(this);
         approvalButton = (Button) findViewById(R.id.activity_lister_requested_bicycle_detail_information_approval_button);
@@ -49,25 +81,37 @@ public class ListerRequestedBicycleDetailInformationActivity extends AppCompatAc
         inputPostBackButton.setOnClickListener(this);
         smallMapButton = (Button) findViewById(R.id.activity_lister_requested_bicycle_detail_information_small_map_button);
         smallMapButton.setOnClickListener(this);
-        switch (i) {
-            case 0:
-                cancelButton.setVisibility(View.VISIBLE);
-                approvalButton.setVisibility(View.VISIBLE);
-                cancelButton2.setVisibility(View.GONE);
-                inputPostBackButton.setVisibility(View.GONE);
-                break;
-            case 1:
-                cancelButton.setVisibility(View.GONE);
-                approvalButton.setVisibility(View.GONE);
-                cancelButton2.setVisibility(View.VISIBLE);
-                inputPostBackButton.setVisibility(View.GONE);
-                break;
-            case 2:
-                cancelButton.setVisibility(View.GONE);
-                approvalButton.setVisibility(View.GONE);
-                cancelButton2.setVisibility(View.GONE);
-                inputPostBackButton.setVisibility(View.VISIBLE);
-                break;
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM.dd HH:mm", java.util.Locale.getDefault());
+        Date currentDate = new Date(System.currentTimeMillis());
+        Date endTime = null;
+        try {
+            endTime = dateFormat.parse(endDate);
+        } catch (ParseException pe) {
+            // pe.printStackTrace();
+        }
+
+        if (currentDate.after(endTime) == false) {
+            switch (status) {
+                case "RR":
+                    cancelButton.setVisibility(View.VISIBLE);
+                    approvalButton.setVisibility(View.VISIBLE);
+                    cancelButton2.setVisibility(View.GONE);
+                    inputPostBackButton.setVisibility(View.GONE);
+                    break;
+                case "RS":
+                case "RC":
+                    cancelButton.setVisibility(View.GONE);
+                    approvalButton.setVisibility(View.GONE);
+                    cancelButton2.setVisibility(View.VISIBLE);
+                    inputPostBackButton.setVisibility(View.GONE);
+                    break;
+            }
+        } else {
+            cancelButton.setVisibility(View.GONE);
+            approvalButton.setVisibility(View.GONE);
+            cancelButton2.setVisibility(View.GONE);
+            inputPostBackButton.setVisibility(View.VISIBLE);
         }
     }
 
@@ -103,5 +147,10 @@ public class ListerRequestedBicycleDetailInformationActivity extends AppCompatAc
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 }

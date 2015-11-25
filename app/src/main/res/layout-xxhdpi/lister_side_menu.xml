@@ -156,7 +156,7 @@
             android:id="@+id/lister_side_menu_authentication_information_image_view"
             android:layout_width="27dp"
             android:layout_height="19dp"
-            android:src="@drawable/lister_pannel_icon5" />
+            android:src="@drawable/common_pannel_icon1" />
 
         <TextView
             android:id="@+id/lister_side_menu_authentication_information_text_view"
@@ -175,7 +175,7 @@
             android:layout_height="19dp"
             android:layout_below="@id/lister_side_menu_authentication_information_image_view"
             android:layout_marginTop="16dp"
-            android:src="@drawable/lister_pannel_icon6" />
+            android:src="@drawable/common_pannel_icon2" />
 
         <TextView
             android:id="@+id/lister_side_menu_push_alarm_text_view"
@@ -204,7 +204,7 @@
             android:layout_height="19dp"
             android:layout_below="@id/lister_side_menu_push_alarm_image_view"
             android:layout_marginTop="16dp"
-            android:src="@drawable/lister_pannel_icon7" />
+            android:src="@drawable/common_pannel_icon3" />
 
         <TextView
             android:id="@+id/lister_side_menu_input_inquiry_text_view"
@@ -223,7 +223,7 @@
             android:layout_height="19dp"
             android:layout_below="@id/lister_side_menu_input_inquiry_image_view"
             android:layout_marginTop="16dp"
-            android:src="@drawable/lister_pannel_icon8" />
+            android:src="@drawable/common_pannel_icon4" />
 
         <TextView
             android:id="@+id/lister_side_menu_version_information_text_view"

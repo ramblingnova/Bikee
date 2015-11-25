@@ -92,6 +92,7 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
         SearchResultItem item = (SearchResultItem) lv.getItemAtPosition(position);
         Toast.makeText(getContext().getApplicationContext(), "position : " + position, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getActivity(), FilteredBicycleDetailInformationActivity.class);
+        intent.putExtra("ID", item.getBicycleId());
         getActivity().startActivity(intent);
     }
 
@@ -99,7 +100,8 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
         if (searchResultINF != null) {
             if (searchResultINF.getData().size() != 0) {
                 for (SearchResultItem searchResultItem : searchResultINF.getData()) {
-                    adapter.add(searchResultItem.getImageURL(),
+                    adapter.add(searchResultItem.getBicycleId(),
+                            searchResultItem.getImageURL(),
                             searchResultItem.getBicycle_name(),
                             searchResultItem.getHeight(),
                             searchResultItem.getType(),
@@ -157,6 +159,7 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
                             if (searchResultINF != null) {
                                 list.add(
                                         new SearchResultItem(
+                                                result.get_id(),
                                                 imageURL,
                                                 result.getTitle(),
                                                 result.getHeight(),
@@ -168,6 +171,7 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
                                         )
                                 );
                                 adapter.add(
+                                        result.get_id(),
                                         imageURL,
                                         result.getTitle(),
                                         result.getHeight(),

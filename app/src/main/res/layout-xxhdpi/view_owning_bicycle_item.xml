@@ -1,29 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginBottom="@dimen/contents_box_margin_bottom_5dp"
-    android:background="@drawable/filtering_contentsbox"
-    android:padding="16dp">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="15dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:background="@drawable/bike_listbox">
 
     <ImageView
-        android:id="@+id/view_owning_bicycle_item_bicycle_picture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/view_owning_bicycle_item_bicycle_picture_image_view"
+        android:layout_width="157dp"
+        android:layout_height="107dp"
         android:src="@drawable/temp_icon" />
 
     <TextView
-        android:id="@+id/view_owning_bicycle_item_bicycle_name"
+        android:id="@+id/view_owning_bicycle_item_bicycle_name_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/view_owning_bicycle_item_bicycle_picture"
-        android:text="나의 멋진 자전거" />
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@id/view_owning_bicycle_item_bicycle_picture_image_view"
+        android:text="픽시자전거 2015 아메리칸 이글 브라이튼 CY 블랙"
+        android:textColor="@color/bikeePanelGrayText"
+        android:textSize="13sp" />
 
     <TextView
-        android:id="@+id/view_owning_bicycle_item_register_date"
+        android:id="@+id/view_owning_bicycle_item_register_date_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/view_owning_bicycle_item_bicycle_name"
-        android:layout_toRightOf="@id/view_owning_bicycle_item_bicycle_picture"
-        android:text="등록일: 2015/11/04" />
+        android:layout_alignLeft="@id/view_owning_bicycle_item_bicycle_name_text_view"
+        android:layout_below="@id/view_owning_bicycle_item_bicycle_name_text_view"
+        android:layout_marginTop="15dp"
+        android:text="2015.11.04"
+        android:textColor="@color/bikeeLightGray"
+        android:textSize="10sp" />
 </RelativeLayout>

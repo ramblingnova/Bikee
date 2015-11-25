@@ -16,12 +16,19 @@ import com.example.tacademy.bikee.etc.dao.Bike;
 import com.example.tacademy.bikee.etc.dao.Price;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
-//import com.tsengvn.typekit.TypekitContextWrapper;
+import com.tsengvn.typekit.TypekitContextWrapper;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import retrofit.mime.MultipartTypedOutput;
 import retrofit.mime.TypedFile;
+import retrofit.mime.TypedString;
 
 public class FinallyRegisterBicycleActivity extends AppCompatActivity implements View.OnClickListener {
     private Button btn;
@@ -60,8 +67,17 @@ public class FinallyRegisterBicycleActivity extends AppCompatActivity implements
                 finish();
                 break;
             case R.id.activity_finally_register_bicycle_ok_button:
-                TypedFile typedFile1 = new TypedFile("image/png", tempItem.getFile1());
-                TypedFile typedFile2 = new TypedFile("image/png", tempItem.getFile2());
+
+//                List<TypedFile> typedFile1 = new ArrayList<>();
+//                typedFile1.add(new TypedFile("image/png", tempItem.getFile1()));
+//                TypedFile typedFile2 = new TypedFile("image/png", tempItem.getFile2());
+//                typedFile1.add(typedFile2);
+
+                 Map<String,TypedFile> map = new HashMap<String,TypedFile>();
+                 for(int i =0;i<4;i++){
+                     map.put("imgage"+i,new TypedFile("image/png", tempItem.getFile1()));
+                 }
+
                 Bike bike = new Bike();
                 bike.setType(tempItem.getType());
                 bike.setHeight(tempItem.getHeight());
@@ -71,7 +87,17 @@ public class FinallyRegisterBicycleActivity extends AppCompatActivity implements
                 price.setDay(tempItem.getDay());
                 price.setMonth(tempItem.getMonth());
                 bike.setPrice(price);
-                NetworkManager.getInstance().insertBicycle(typedFile1, typedFile2, bike, new Callback<ReceiveObject>() {
+                bike.setSize(4);
+                MultipartTypedOutput m = new MultipartTypedOutput();
+                for(int i = 0 ; i < 5;i++){
+                    m.addPart("image", new TypedFile("image/png", tempItem.getFile1()));
+                }
+//                bike.setMultipartTypedOutput(m);
+//                    m.addPart("bike.type",new TypedString(bike.getType()));
+//                m.addPart("bike.height",new TypedString(bike.getHeight()));
+//                m.addPart("bike.title",new TypedString(bike.getTitle()));
+
+                NetworkManager.getInstance().insertBicycle(map, bike, new Callback<ReceiveObject>() {
                     @Override
                     public void success(ReceiveObject receiveObject, Response response) {
                         Log.i("result", "onResponse Code : " + receiveObject.getCode() + ", Success : " + receiveObject.isSuccess() + ", Msg : " + receiveObject.getMsg() + ", Error : ");
@@ -103,8 +129,8 @@ public class FinallyRegisterBicycleActivity extends AppCompatActivity implements
         return super.onOptionsItemSelected(item);
     }
 
-//    @Override
-//    protected void attachBaseContext(Context newBase) {
-//        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
-//    }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+    }
 }

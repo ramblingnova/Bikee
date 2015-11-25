@@ -13,7 +13,7 @@ import com.example.tacademy.bikee.etc.dao.Comment;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
-//import com.tsengvn.typekit.TypekitContextWrapper;
+import com.tsengvn.typekit.TypekitContextWrapper;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -53,7 +53,10 @@ public class EvaluatedBicyclePostScriptListActivity extends AppCompatActivity {
                     for (Comment comment : result.getComments()) {
                         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM.dd HH:mm");
                         String imageURL;
-                        if ((null == comment.getWriter().getImage().getCdnUri()) || (null == comment.getWriter().getImage().getFiles().get(0))) {
+                        if ((null == comment.getWriter().getImage())
+                                || (null == comment.getWriter().getImage().getCdnUri())
+                                || (null == comment.getWriter().getImage().getFiles())
+                                || (null == comment.getWriter().getImage().getFiles().get(0))) {
                             imageURL = "";
                         } else {
                             imageURL = comment.getWriter().getImage().getCdnUri() + "/mini_" + comment.getWriter().getImage().getFiles().get(0);
@@ -92,8 +95,8 @@ public class EvaluatedBicyclePostScriptListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-//    @Override
-//    protected void attachBaseContext(Context newBase) {
-//        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
-//    }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+    }
 }

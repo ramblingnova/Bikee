@@ -9,6 +9,10 @@ import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.MyApplication;
 import com.example.tacademy.bikee.etc.Util;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by User on 2015-10-31.
  */
@@ -41,23 +45,36 @@ public class RenterReservationBicycleView extends FrameLayout {
 
     public void setText(RenterReservationBicycleItem item) {
         Util.setRoundRectangleImageFromURL(MyApplication.getmContext(), item.getImageURL(), 6, bicycleImageView);
-        switch (item.getStatus()) {
-            case "RR":
-                approvedReservationImageView.setVisibility(VISIBLE);
-                completedReservationImageView.setVisibility(INVISIBLE);
-                completedRentalImageView.setVisibility(INVISIBLE);
-                break;
-            case "RS":
-                approvedReservationImageView.setVisibility(INVISIBLE);
-                completedReservationImageView.setVisibility(VISIBLE);
-                completedRentalImageView.setVisibility(INVISIBLE);
-                break;
-            case "RC":
-                approvedReservationImageView.setVisibility(INVISIBLE);
-                completedReservationImageView.setVisibility(INVISIBLE);
-                completedRentalImageView.setVisibility(VISIBLE);
-                break;
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM.dd HH:mm", java.util.Locale.getDefault());
+        Date currentDate = new Date(System.currentTimeMillis());
+        Date endDate = null;
+        try {
+            endDate = dateFormat.parse((item.getEndDate()).toString());
+        } catch (ParseException pe) {
+            // pe.printStackTrace();
         }
+
+        if (currentDate.after(endDate) == false) {
+            switch (item.getStatus()) {
+                case "RR":
+                    approvedReservationImageView.setVisibility(VISIBLE);
+                    completedReservationImageView.setVisibility(INVISIBLE);
+                    completedRentalImageView.setVisibility(INVISIBLE);
+                    break;
+                case "RS":
+                case "RC":
+                    approvedReservationImageView.setVisibility(INVISIBLE);
+                    completedReservationImageView.setVisibility(VISIBLE);
+                    completedRentalImageView.setVisibility(INVISIBLE);
+                    break;
+            }
+        } else {
+            approvedReservationImageView.setVisibility(INVISIBLE);
+            completedReservationImageView.setVisibility(INVISIBLE);
+            completedRentalImageView.setVisibility(VISIBLE);
+        }
+
         bicycleNameTextView.setText(item.getBicycleName());
         startDateTextView.setText(item.getStartDate());
         endDateTextView.setText(item.getEndDate());

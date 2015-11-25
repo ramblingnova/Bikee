@@ -3,6 +3,8 @@ package com.example.tacademy.bikee.etc.dao;
 import java.util.Date;
 import java.util.List;
 
+import retrofit.mime.MultipartTypedOutput;
+
 /**
  * Created by Tacademy on 2015-11-12.
  */
@@ -21,6 +23,15 @@ public class Bike {
     public Loc loc = null;
     public Boolean smartlock = false;
     public List<String> components = null;
+    int size = -1;
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
 
     public String get_id() {
         return _id;

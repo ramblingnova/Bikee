@@ -24,7 +24,7 @@
         android:layout_alignTop="@id/view_renter_reservation_bicycle_item_bicycle_picture_image_view"
         android:layout_marginLeft="12dp"
         android:layout_toRightOf="@id/view_renter_reservation_bicycle_item_bicycle_picture_image_view"
-        android:src="@drawable/contents_point_r"
+        android:src="@drawable/rider_contents_point_r"
         android:visibility="invisible" />
 
     <ImageView
@@ -33,7 +33,7 @@
         android:layout_height="13dp"
         android:layout_alignTop="@id/view_renter_reservation_bicycle_item_bicycle_picture_image_view"
         android:layout_toRightOf="@id/view_renter_reservation_bicycle_item_approved_reservation"
-        android:src="@drawable/contents_point_b"
+        android:src="@drawable/rider_contents_point_b"
         android:visibility="invisible" />
 
     <ImageView
@@ -42,7 +42,7 @@
         android:layout_height="13dp"
         android:layout_alignTop="@id/view_renter_reservation_bicycle_item_bicycle_picture_image_view"
         android:layout_toRightOf="@id/view_renter_reservation_bicycle_item_completed_reservation"
-        android:src="@drawable/contents_point_g"
+        android:src="@drawable/rider_contents_point_g"
         android:visibility="invisible" />
 
     <TextView

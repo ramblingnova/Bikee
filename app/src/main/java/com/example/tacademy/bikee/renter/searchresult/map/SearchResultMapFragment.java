@@ -62,7 +62,6 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     private TimerTask timerTask;
     private Timer timer;
     private boolean battery;
-    GoogleApiClient mGoogleApiClient;
 
     public void setSearchResultINF(SearchResultINF searchResultINF) {
         this.searchResultINF = searchResultINF;
@@ -230,6 +229,7 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     public void onInfoWindowClick(Marker marker) {
         marker.hideInfoWindow();
         Intent intent = new Intent(getActivity(), FilteredBicycleDetailInformationActivity.class);
+        intent.putExtra("ID", mPOIResolver.get(marker).getItem().getBicycleId());
         getActivity().startActivity(intent);
     }
 
@@ -275,6 +275,7 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
                     POI poi = new POI();
                     poi.setItem(
                             new SearchResultItem(
+                                    searchResultItem.getBicycleId(),
                                     searchResultItem.getImageURL(),
                                     searchResultItem.getBicycle_name(),
                                     searchResultItem.getType(),
@@ -343,6 +344,7 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
                             if (searchResultINF != null) {
                                 list.add(
                                         new SearchResultItem(
+                                                result.get_id(),
                                                 imageURL,
                                                 result.getTitle(),
                                                 result.getHeight(),
@@ -362,6 +364,7 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
                                 POI poi = new POI();
                                 poi.setItem(
                                         new SearchResultItem(
+                                                result.get_id(),
                                                 imageURL,
                                                 result.getTitle(),
                                                 result.getType(),

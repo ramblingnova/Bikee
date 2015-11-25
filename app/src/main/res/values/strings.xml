@@ -28,7 +28,7 @@
     <!-- activity_sign_in.xml -->
     <string name="activity_sign_in_user_email_edit_text_string">이메일</string>
     <string name="activity_sign_in_user_password_edit_text">비밀번호</string>
-    <string name="activity_sign_in_remember_sign_in_information_check_box_string">로그인정보기억</string>
+    <string name="activity_sign_in_remember_sign_in_information_text_view_string">로그인정보기억</string>
     <string name="activity_sign_in_find_id_password_text_view_string">아이디/비밀번호찾기</string>
     <string name="activity_sign_in_sign_in_button_string">로그인</string>
     <string name="activity_sign_in_facebook_button_string">페이스북</string>

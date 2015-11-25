@@ -1,5 +1,6 @@
 package com.example.tacademy.bikee.renter.reservationbicycle;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,7 +13,11 @@ import android.widget.Toast;
 import com.example.tacademy.bikee.etc.dialog.ChoiceDialogFragment;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.SmallMapActivity;
-//import com.tsengvn.typekit.TypekitContextWrapper;
+import com.tsengvn.typekit.TypekitContextWrapper;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class RenterReservationBicycleDetailInformationActivity extends AppCompatActivity implements View.OnClickListener {
     private Intent intent;
@@ -35,8 +40,8 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
         getSupportActionBar().setCustomView(R.layout.renter_main_tool_bar);
 
         intent = getIntent();
-        String status = intent.getStringExtra("STATE");
-        Toast.makeText(RenterReservationBicycleDetailInformationActivity.this, "STATE : " + status, Toast.LENGTH_SHORT).show();
+        String status = intent.getStringExtra("STATUS");
+        String endDate = intent.getStringExtra("ENDDATE");
 
         cancelButton = (Button) findViewById(R.id.activity_renter_reservation_bicycle_detail_information_cancel_button);
         cancelButton.setOnClickListener(this);
@@ -48,25 +53,37 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
         inputPpostScriptionButton.setOnClickListener(this);
         smallMapButton = (Button) findViewById(R.id.activity_renter_reservation_bicycle_detail_information_small_map_button);
         smallMapButton.setOnClickListener(this);
-        switch (status) {
-            case "RR":
-                cancelButton.setVisibility(View.VISIBLE);
-                payButton.setVisibility(View.VISIBLE);
-                cancelButton2.setVisibility(View.GONE);
-                inputPpostScriptionButton.setVisibility(View.GONE);
-                break;
-            case "RS":
-                cancelButton.setVisibility(View.GONE);
-                payButton.setVisibility(View.GONE);
-                cancelButton2.setVisibility(View.VISIBLE);
-                inputPpostScriptionButton.setVisibility(View.GONE);
-                break;
-            case "RC":
-                cancelButton.setVisibility(View.GONE);
-                payButton.setVisibility(View.GONE);
-                cancelButton2.setVisibility(View.GONE);
-                inputPpostScriptionButton.setVisibility(View.VISIBLE);
-                break;
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM.dd HH:mm", java.util.Locale.getDefault());
+        Date currentDate = new Date(System.currentTimeMillis());
+        Date endTime = null;
+        try {
+            endTime = dateFormat.parse(endDate);
+        } catch (ParseException pe) {
+            // pe.printStackTrace();
+        }
+
+        if (currentDate.after(endTime) == false) {
+            switch (status) {
+                case "RR":
+                    cancelButton.setVisibility(View.VISIBLE);
+                    payButton.setVisibility(View.VISIBLE);
+                    cancelButton2.setVisibility(View.GONE);
+                    inputPpostScriptionButton.setVisibility(View.GONE);
+                    break;
+                case "RS":
+                case "RC":
+                    cancelButton.setVisibility(View.GONE);
+                    payButton.setVisibility(View.GONE);
+                    cancelButton2.setVisibility(View.VISIBLE);
+                    inputPpostScriptionButton.setVisibility(View.GONE);
+                    break;
+            }
+        } else {
+            cancelButton.setVisibility(View.GONE);
+            payButton.setVisibility(View.GONE);
+            cancelButton2.setVisibility(View.GONE);
+            inputPpostScriptionButton.setVisibility(View.VISIBLE);
         }
     }
 
@@ -105,8 +122,8 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
         return super.onOptionsItemSelected(item);
     }
 
-//    @Override
-//    protected void attachBaseContext(Context newBase) {
-//        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
-//    }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+    }
 }

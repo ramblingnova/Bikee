@@ -4,10 +4,10 @@ package com.example.tacademy.bikee.etc.dao;
  * Created by Tacademy on 2015-11-24.
  */
 public class Renter {
-    private String _id;
-    private Image image;
-    private String email;
-    private String name;
+    private String _id = null;
+    private Image image = null;
+    private String email = null;
+    private String name = null;
 
     public String get_id() {
         return _id;

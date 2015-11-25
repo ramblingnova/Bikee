@@ -9,9 +9,16 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.tacademy.bikee.R;
-//import com.tsengvn.typekit.TypekitContextWrapper;
+import com.example.tacademy.bikee.etc.dao.Comment;
+import com.example.tacademy.bikee.etc.dao.ReceiveObject;
+import com.example.tacademy.bikee.etc.manager.NetworkManager;
+import com.tsengvn.typekit.TypekitContextWrapper;
 
-public class InputBicyclePostScriptActivity extends AppCompatActivity {
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
+public class InputBicyclePostScriptActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,12 +32,27 @@ public class InputBicyclePostScriptActivity extends AppCompatActivity {
         getSupportActionBar().setCustomView(R.layout.renter_main_tool_bar);
 
         Button btn = (Button)findViewById(R.id.activity_input_bicycle_post_script_input_button);
-        btn.setOnClickListener(new View.OnClickListener() {
+        btn.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        String bike_id = null;
+        Comment comment = null;
+        NetworkManager.getInstance().insertBicycleComment(bike_id, comment, new Callback<ReceiveObject>() {
             @Override
-            public void onClick(View v) {
-                finish();
+            public void success(ReceiveObject receiveObject, Response response) {
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
             }
         });
+
+
+        finish();
     }
 
     @Override
@@ -42,8 +64,8 @@ public class InputBicyclePostScriptActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-//    @Override
-//    protected void attachBaseContext(Context newBase) {
-//        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
-//    }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+    }
 }
