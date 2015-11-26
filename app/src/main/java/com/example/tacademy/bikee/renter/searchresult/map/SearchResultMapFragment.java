@@ -7,8 +7,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,10 +17,10 @@ import com.example.tacademy.bikee.R;
 
 import com.example.tacademy.bikee.common.POI;
 import com.example.tacademy.bikee.etc.MyApplication;
-import com.example.tacademy.bikee.etc.dao.Loc;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
+import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.example.tacademy.bikee.renter.searchresult.SearchResultINF;
 import com.example.tacademy.bikee.renter.searchresult.SearchResultItem;
 import com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.FilteredBicycleDetailInformationActivity;
@@ -62,6 +60,8 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     private TimerTask timerTask;
     private Timer timer;
     private boolean battery;
+    private String latitude = null;
+    private String longitude = null;
 
     public void setSearchResultINF(SearchResultINF searchResultINF) {
         this.searchResultINF = searchResultINF;
@@ -168,15 +168,20 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
         gm.setOnMapClickListener(this);
         gm.setOnMarkerClickListener(this);
 
-        if (cacheLocation != null) {
-            moveMap(cacheLocation.getLatitude(), cacheLocation.getLongitude());
+//        if (cacheLocation != null) {
+//            moveMap(cacheLocation.getLatitude(), cacheLocation.getLongitude());
+//        }
+        if ((null == latitude) || (null == longitude)) {
+            latitude = PropertyManager.getInstance().getLatitude();
+            longitude = PropertyManager.getInstance().getLongitude();
         }
+        moveMap(Double.parseDouble(latitude), Double.parseDouble(longitude));
     }
 
     private void moveMap(double lat, double lng) {
         CameraPosition.Builder builder = new CameraPosition.Builder();
         builder.target(new LatLng(lat, lng));
-        builder.zoom(16);
+        builder.zoom(13);
 //        builder.bearing(30);
 //        builder.tilt(30);
         CameraPosition position = builder.build();
@@ -185,16 +190,30 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
         gm.animateCamera(update);
     }
 
-    private Location cacheLocation;
+//    private Location cacheLocation;
     private LocationListener mListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
             if (location != null) {
                 if (gm != null) {
-                    moveMap(location.getLatitude(), location.getLongitude());
+                    if ((null == latitude) || (null == longitude)) {
+                        latitude = PropertyManager.getInstance().getLatitude();
+                        longitude = PropertyManager.getInstance().getLongitude();
+                    } else {
+                        latitude = "" + location.getLatitude();
+                        longitude = "" + location.getLongitude();
+                    }
+                    moveMap(Double.parseDouble(latitude), Double.parseDouble(longitude));
 //                    Toast.makeText(getActivity(), "lat:" + location.getLatitude() + ", lng:" + location.getLongitude(), Toast.LENGTH_SHORT).show();
                 } else {
-                    cacheLocation = location;
+//                    cacheLocation = location;
+                    if ((null == latitude) || (null == longitude)) {
+                        latitude = PropertyManager.getInstance().getLatitude();
+                        longitude = PropertyManager.getInstance().getLongitude();
+                    } else {
+                        latitude = "" + location.getLatitude();
+                        longitude = "" + location.getLongitude();
+                    }
                 }
                 try {
                     locationManager.removeUpdates(mListener);
@@ -262,6 +281,11 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
 
     }
 
+    public void onResponseLocation(String latitude, String longitude){
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
     private void getData() {
         if (searchResultINF != null) {
             if (searchResultINF.getData().size() != 0) {
@@ -302,9 +326,12 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     }
 
     private void requestData() {
-        // 전체자전거조회
-        String lat = "37.468501";
-        String lon = "126.957913";
+        if ((null == latitude) || (null == longitude)) {
+            latitude = PropertyManager.getInstance().getLatitude();
+            longitude = PropertyManager.getInstance().getLongitude();
+        }
+        String lat = latitude;
+        String lon = longitude;
         String start = "2015/11/08 20:14:43";
         String end = "2015/11/24 00:00";
         String type = "03";

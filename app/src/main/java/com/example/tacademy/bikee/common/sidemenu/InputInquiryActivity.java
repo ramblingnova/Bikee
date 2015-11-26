@@ -52,7 +52,11 @@ public class InputInquiryActivity extends AppCompatActivity implements View.OnCl
                 NetworkManager.getInstance().insertInquiry(inquires, new Callback<ReceiveObject>() {
                     @Override
                     public void success(ReceiveObject receiveObject, Response response) {
-                        Log.i("result", "onResponse Code : " + receiveObject.getCode() + ", Success : " + receiveObject.isSuccess() + ", Msg : " + receiveObject.getMsg() + ", Error : ");
+                        Log.i("result", "onResponse Code : " + receiveObject.getCode()
+                                + ", Success : " + receiveObject.isSuccess()
+                                + ", Msg : " + receiveObject.getMsg()
+                                + ", Error : "
+                        );
                         finish();
                     }
 

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:paddingLeft="35dp"
     android:paddingRight="35dp"
-    android:paddingTop="109dp"
+    android:paddingTop="85dp"
     tools:context="com.example.tacademy.bikee.common.sidemenu.SignInActivity">
 
     <ImageView
@@ -13,7 +13,7 @@
         android:layout_width="80dp"
         android:layout_height="128dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/temp_icon" />
+        android:src="@drawable/login_logo" />
 
     <RelativeLayout
         android:id="@+id/activity_sign_in_user_email_layout"
@@ -24,17 +24,44 @@
         android:layout_marginTop="81dp"
         android:background="@drawable/login_input_box">
 
-        <EditText
-            android:id="@+id/activity_sign_in_user_email_edit_text"
+        <ImageView
+            android:id="@+id/activity_sign_in_user_email_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/activity_sign_in_user_email_edit_text_string" />
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="23dp"
+            android:src="@drawable/login_email_icon_after" />
+
+        <ImageView
+            android:id="@+id/activity_sign_in_user_email_check_image_view"
+            android:layout_width="22dp"
+            android:layout_height="18dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="18dp"
+            android:src="@drawable/login_input_finish_icon" />
+
+        <EditText
+            android:id="@+id/activity_sign_in_user_email_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="19dp"
+            android:layout_marginRight="19dp"
+            android:layout_toLeftOf="@id/activity_sign_in_user_email_check_image_view"
+            android:layout_toRightOf="@id/activity_sign_in_user_email_image_view"
+            android:hint="@string/activity_sign_in_user_email_edit_text_string"
+            android:textColor="@color/bikeeBlue"
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/activity_sign_in_user_email_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="19dp"
+            android:layout_toRightOf="@id/activity_sign_in_user_email_image_view"
+            android:textSize="14dp"
             android:visibility="gone" />
     </RelativeLayout>
 
@@ -47,17 +74,46 @@
         android:layout_marginTop="9dp"
         android:background="@drawable/login_input_box">
 
-        <EditText
-            android:id="@+id/activity_sign_in_user_password_edit_text"
+        <ImageView
+            android:id="@+id/activity_sign_in_user_password_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="23dp"
+            android:src="@drawable/login_password_icon" />
+
+        <ImageView
+            android:id="@+id/activity_sign_in_user_password_check_image_view"
+            android:layout_width="22dp"
+            android:layout_height="18dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="18dp"
+            android:src="@drawable/login_input_finish_icon"
+            android:visibility="invisible" />
+
+        <EditText
+            android:id="@+id/activity_sign_in_user_password_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="19dp"
+            android:layout_marginRight="19dp"
+            android:layout_toLeftOf="@id/activity_sign_in_user_password_check_image_view"
+            android:layout_toRightOf="@id/activity_sign_in_user_password_image_view"
             android:hint="@string/activity_sign_in_user_password_edit_text"
-            android:password="true" />
+            android:password="true"
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/activity_sign_in_user_password_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="19dp"
+            android:layout_toRightOf="@id/activity_sign_in_user_password_image_view"
+            android:textColor="@color/bikeeLightGray"
+            android:textSize="14dp"
             android:visibility="gone" />
     </RelativeLayout>
 
@@ -69,14 +125,17 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="9dp"
         android:background="@drawable/login_login_button"
-        android:text="@string/activity_sign_in_sign_in_button_string" />
+        android:text="@string/activity_sign_in_sign_in_button_string"
+        android:textColor="@color/bikeeWhite"
+        android:textSize="16sp" />
 
     <CheckBox
         android:id="@+id/activity_sign_in_remember_sign_in_information_check_box"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
         android:layout_alignLeft="@id/activity_sign_in_sign_in_button"
         android:layout_below="@id/activity_sign_in_sign_in_button"
+        android:layout_marginTop="10dp"
         android:background="@drawable/login_check_selector"
         android:button="@null" />
 
@@ -86,24 +145,49 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/activity_sign_in_remember_sign_in_information_check_box"
         android:layout_toRightOf="@id/activity_sign_in_remember_sign_in_information_check_box"
-        android:text="@string/activity_sign_in_remember_sign_in_information_text_view_string" />
+        android:text="@string/activity_sign_in_remember_sign_in_information_text_view_string"
+        android:textColor="@color/bikeeBlue"
+        android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/activity_sign_in_find_id_password_text_view"
+        android:id="@+id/activity_sign_in_find_password_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/activity_sign_in_remember_sign_in_information_check_box"
         android:layout_alignRight="@id/activity_sign_in_sign_in_button"
-        android:layout_below="@id/activity_sign_in_sign_in_button"
-        android:text="@string/activity_sign_in_find_id_password_text_view_string" />
+        android:text="@string/activity_sign_in_find_password_text_view_string"
+        android:textColor="@color/bikeeGray"
+        android:textSize="12sp" />
+
+    <ImageView
+        android:id="@+id/activity_sign_in_find_id_password_view"
+        android:layout_width="1dp"
+        android:layout_height="14dp"
+        android:layout_alignBottom="@id/activity_sign_in_remember_sign_in_information_check_box"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_toLeftOf="@id/activity_sign_in_find_password_text_view"
+        android:background="@color/bikeeGray" />
+
+    <TextView
+        android:id="@+id/activity_sign_in_find_id_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/activity_sign_in_remember_sign_in_information_check_box"
+        android:layout_toLeftOf="@id/activity_sign_in_find_id_password_view"
+        android:text="@string/activity_sign_in_find_id_text_view_string"
+        android:textColor="@color/bikeeGray"
+        android:textSize="12sp" />
 
     <RelativeLayout
         android:id="@+id/activity_sign_in_other_id_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/activity_sign_in_remember_sign_in_information_check_box">
+        android:layout_below="@id/activity_sign_in_remember_sign_in_information_check_box"
+        android:layout_marginTop="30dp">
 
-        <ImageView
-            android:id="@+id/activity_sign_in_left_line_image_view"
+        <View
+            android:id="@+id/activity_sign_in_left_line_view"
             android:layout_width="92dp"
             android:layout_height="1dp"
             android:layout_centerVertical="true"
@@ -113,10 +197,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="다른 아이디로 연동" />
+            android:text="다른 아이디로 연동"
+            android:textColor="@color/bikeeBlue"
+            android:textSize="11sp" />
 
-        <ImageView
-            android:id="@+id/activity_sign_in_right_line_image_view"
+        <View
+            android:id="@+id/activity_sign_in_right_line_view"
             android:layout_width="92dp"
             android:layout_height="1dp"
             android:layout_alignParentRight="true"
@@ -130,6 +216,7 @@
         android:layout_height="30dp"
         android:layout_alignLeft="@id/activity_sign_in_sign_in_button"
         android:layout_below="@id/activity_sign_in_other_id_layout"
+        android:layout_marginTop="11dp"
         android:background="@drawable/login_another_id_button1" />
 
     <Button
@@ -154,6 +241,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/activity_sign_in_naver_button"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="22dp"
-        android:text="@string/activity_sign_in_sign_up_string" />
+        android:layout_marginTop="20dp"
+        android:text="@string/activity_sign_in_sign_up_string"
+        android:textColor="@color/bikeeBlue"
+        android:textSize="14sp" />
 </RelativeLayout>

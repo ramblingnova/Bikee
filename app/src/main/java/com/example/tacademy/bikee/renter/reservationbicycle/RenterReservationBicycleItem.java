@@ -4,6 +4,7 @@ package com.example.tacademy.bikee.renter.reservationbicycle;
  * Created by User on 2015-10-31.
  */
 public class RenterReservationBicycleItem {
+    private String bicycleId;
     private String imageURL;
     private String bicycleName;
     private String status;
@@ -11,13 +12,22 @@ public class RenterReservationBicycleItem {
     private String endDate;
     private int payment;
 
-    public RenterReservationBicycleItem(String imageURL, String bicycleName, String status, String startDate, String endDate, int payment) {
+    public RenterReservationBicycleItem(String bicycleId, String imageURL, String bicycleName, String status, String startDate, String endDate, int payment) {
+        this.bicycleId = bicycleId;
         this.imageURL = imageURL;
         this.bicycleName = bicycleName;
         this.status = status;
         this.startDate = startDate;
         this.endDate = endDate;
         this.payment = payment;
+    }
+
+    public String getBicycleId() {
+        return bicycleId;
+    }
+
+    public void setBicycleId(String bicycleId) {
+        this.bicycleId = bicycleId;
     }
 
     public String getImageURL() {

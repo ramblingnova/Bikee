@@ -27,6 +27,9 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
     private Button payButton;
     private Button cancelButton2;
     private Button inputPpostScriptionButton;
+    private String bicycleId;
+    private String status;
+    private String endDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +43,9 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
         getSupportActionBar().setCustomView(R.layout.renter_main_tool_bar);
 
         intent = getIntent();
-        String status = intent.getStringExtra("STATUS");
-        String endDate = intent.getStringExtra("ENDDATE");
+        bicycleId = intent.getStringExtra("ID");
+        status = intent.getStringExtra("STATUS");
+        endDate = intent.getStringExtra("ENDDATE");
 
         cancelButton = (Button) findViewById(R.id.activity_renter_reservation_bicycle_detail_information_cancel_button);
         cancelButton.setOnClickListener(this);
@@ -104,6 +108,7 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
                 break;
             case R.id.activity_renter_reservation_bicycle_detail_information_input_post_scription_button:
                 intent = new Intent(RenterReservationBicycleDetailInformationActivity.this, InputBicyclePostScriptActivity.class);
+                intent.putExtra("ID", bicycleId);
                 startActivity(intent);
                 break;
             case R.id.activity_renter_reservation_bicycle_detail_information_small_map_button:

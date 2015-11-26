@@ -60,6 +60,7 @@ public class EvaluatingBicyclePostScriptListActivity extends AppCompatActivity {
                                         + ", Body : " + comment.getBody()
                                         + ", Point : " + comment.getPoint()
                         );
+                        //
                         adapter.add(result.getBike().getImage().getCdnUri() + "/mini_" + result.getBike().getImage().getFiles().get(0),
                                 result.getBike().getTitle(),
                                 simpleDateFormat.format(comment.getCreatedAt()),

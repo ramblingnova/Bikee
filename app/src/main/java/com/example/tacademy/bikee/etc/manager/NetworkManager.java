@@ -1,5 +1,7 @@
 package com.example.tacademy.bikee.etc.manager;
 
+import android.util.Log;
+
 import com.example.tacademy.bikee.etc.dao.Bike;
 import com.example.tacademy.bikee.etc.dao.Comment;
 import com.example.tacademy.bikee.etc.dao.Inquires;
@@ -20,13 +22,14 @@ import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
+import retrofit.RetrofitError;
 import retrofit.client.Client;
 import retrofit.client.OkClient;
+import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
 import retrofit.http.Body;
 import retrofit.http.DELETE;
@@ -40,7 +43,6 @@ import retrofit.http.Part;
 import retrofit.http.PartMap;
 import retrofit.http.Path;
 import retrofit.http.Query;
-import retrofit.mime.MultipartTypedOutput;
 import retrofit.mime.TypedFile;
 
 /**
@@ -73,8 +75,8 @@ public class NetworkManager {
     }
 
     public interface ServerUrl {
-//        String baseUrl = "http://bikee.kr.pe";
-        String baseUrl = "http://192.168.210.220";
+        String baseUrl = "http://bikee.kr.pe";
+//        String baseUrl = "http://192.168.211.3";
 
         // 본인정보조회 app.get('/users/:userId',users.profile) TODO id 없이 "본인정보조회"하기
         @GET("/users/{userId}")
@@ -152,7 +154,7 @@ public class NetworkManager {
 
         // 자전거후기작성 app.post('/comments/:bikeId',commentAuth,comments.create);
         @POST("/comments/{bikeId}")
-        void insertBicycleComment(@Path("bikeId") String bike_id, @Body Comment comments, Callback<ReceiveObject> callback);
+        void insertBicycleComment(@Path("bikeId") String bike_id, @Body Comment comment, Callback<ReceiveObject> callback);
 
         // 상세보기 -> 자전거후기보기 app.get('/comments/:bikeId',comments.bike);
         @GET("/comments/{bikeId}")
@@ -174,6 +176,7 @@ public class NetworkManager {
         @GET("/reserves")
         void selectRequestedBicycle(Callback<ReceiveObject> callback);
 
+        // 렌터가자전거예약요청
         @POST("/reserves/{bikeId}")
         void insertReservation(@Path("bikeId") String bike_id, @Body Reserve reserve, Callback<ReceiveObject> callback);
 
@@ -185,6 +188,11 @@ public class NetworkManager {
 //
 //        @POST("/message/{userID}")
 //        void sendMessage(@Path("userID") String user_id, @Field("message") String message);
+
+
+//        // FIXME 테스트용
+//        @POST("/comments/{bikeId}")
+//        void insertBicycleComment2(@Path("bikeId") Object bike_id, @Body Comment comment, Callback<Object> callback);
     }
 
     // 모든 날짜 형식을 변환하는 메소드
@@ -226,10 +234,6 @@ public class NetworkManager {
     public void insertBicycle(Map<String, TypedFile> file, Bike bike, int size, Callback<ReceiveObject> callback) {
         serverUrl.insertBicycle(file, bike, size, callback);
     }
-
-//    public void insertBicycle( Bike bike,  Callback<ReceiveObject> callback) {
-//        serverUrl.insertBicycle(bike, callback);
-//    }
 
     // 보유자전거조회
     public void selectBicycle(Callback<ReceiveObject> callback) {
@@ -318,4 +322,22 @@ public class NetworkManager {
     public void insertReservation(String bike_id, Reserve reserve, Callback<ReceiveObject> callback) {
         serverUrl.insertReservation(bike_id, reserve, callback);
     }
+
+//    // FIXME 테스트용
+//    public ServerUrl getServerUrl() {
+//        return serverUrl;
+//    }
+
+//    // FIXME 테스트용
+//    NetworkManager.getInstance().getServerUrl().insertBicycleComment2(bicycleId, comment, new Callback<Object>() {
+//        @Override
+//        public void success(Object receiveObject, Response response) {
+//            Log.i("result", "onResponse receiveObject.toString() : " + receiveObject.toString() + ", response.getStatus() : " + response.getStatus());
+//        }
+//
+//        @Override
+//        public void failure(RetrofitError error) {
+//            Log.e("error", "onFailure Error : " + error.toString());
+//        }
+//    });
 }

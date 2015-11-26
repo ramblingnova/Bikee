@@ -1,6 +1,7 @@
 package com.example.tacademy.bikee.renter.searchresult.list;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -17,6 +18,7 @@ import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
+import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.example.tacademy.bikee.renter.searchresult.SearchResultINF;
 import com.example.tacademy.bikee.renter.searchresult.SearchResultItem;
 import com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.FilteredBicycleDetailInformationActivity;
@@ -33,6 +35,8 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
     private SearchResultListAdapter adapter;
     private SearchResultINF searchResultINF;
     private boolean isLastItem = false;
+    private String latitude = null;
+    private String longitude = null;
 
     public void setSearchResultINF(SearchResultINF searchResultINF) {
         this.searchResultINF = searchResultINF;
@@ -96,6 +100,11 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
         getActivity().startActivity(intent);
     }
 
+    public void onResponseLocation(String latitude, String longitude){
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
     private void getData() {
         if (searchResultINF != null) {
             if (searchResultINF.getData().size() != 0) {
@@ -119,8 +128,12 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
 
     private void requestData() {
         // 전체자전거조회
-        String lat = "37.468501";
-        String lon = "126.957913";
+        if ((null == latitude) || (null == longitude)) {
+            latitude = PropertyManager.getInstance().getLatitude();
+            longitude = PropertyManager.getInstance().getLongitude();
+        }
+        String lat = latitude;
+        String lon = longitude;
         String start = "2015/11/08 20:14:43";
         String end = "2015/11/12 20:14";
         String type = "03";

@@ -39,7 +39,8 @@
 
         <RatingBar
             android:id="@+id/activity_input_bicycle_post_script_rating_bar"
-            style="?android:attr/ratingBarStyleSmall"
+            style="@style/BikeeRatingBar"
+            android:stepSize="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true" />
@@ -53,6 +54,7 @@
             android:text="@string/activity_input_bicycle_post_script_input_post_script_text_view_string" />
 
         <EditText
+            android:id="@+id/activity_input_bicycle_post_script_input_post_script_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/activity_input_bicycle_post_script_input_post_script_text_view" />

@@ -54,6 +54,7 @@ public class RenterReservationBicycleListFragment extends Fragment implements Ad
         RenterReservationBicycleItem item = (RenterReservationBicycleItem) lv.getItemAtPosition(position);
         Toast.makeText(getContext().getApplicationContext(), "position : " + position, Toast.LENGTH_SHORT).show();
         intent = new Intent(getActivity(), RenterReservationBicycleDetailInformationActivity.class);
+        intent.putExtra("ID", item.getBicycleId());
         intent.putExtra("STATUS", item.getStatus());
         intent.putExtra("ENDDATE", item.getEndDate());
         getActivity().startActivity(intent);
@@ -68,14 +69,16 @@ public class RenterReservationBicycleListFragment extends Fragment implements Ad
                 for (Result1 result : results)
                     for (Reserve1 reserve : result.getReserve()) {
                         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM.dd HH:mm");
-                        Log.i("result", "onResponse Bike Image : " + result.getBike().getImage().getCdnUri() + "/mini_" + result.getBike().getImage().getFiles().get(0)
+                        Log.i("result", "onResponse Bike ID : " + result.getBike().get_id()
+                                        + ", Bike Image : " + result.getBike().getImage().getCdnUri() + "/mini_" + result.getBike().getImage().getFiles().get(0)
                                         + ", Status : " + reserve.getStatus()
                                         + ", Bike Name : " + result.getBike().getTitle()
                                         + ", Start Date : " + simpleDateFormat.format(reserve.getRentStart())
                                         + ", End Date : " + simpleDateFormat.format(reserve.getRentEnd())
                                         + ", Payment : " + result.getBike().getPrice().getMonth()
                         );
-                        adapter.add(result.getBike().getImage().getCdnUri() + "/mini_" + result.getBike().getImage().getFiles().get(0),
+                        adapter.add(result.getBike().get_id(),
+                                result.getBike().getImage().getCdnUri() + "/mini_" + result.getBike().getImage().getFiles().get(0),
                                 result.getBike().getTitle(),
                                 reserve.getStatus(),
                                 simpleDateFormat.format(reserve.getRentStart()),

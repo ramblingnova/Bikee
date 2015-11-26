@@ -1,5 +1,7 @@
 package com.example.tacademy.bikee.renter.searchresult;
 
+import android.location.Location;
+
 import java.util.List;
 
 /**
