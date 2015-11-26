@@ -10,16 +10,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.tacademy.bikee.R;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * Created by User on 2015-11-10.
  */
 public class Util {
     public static void setRectangleImageFromImageURL(Context context, String imageURL, ImageView targetView) {
-       Glide.with(context).load(imageURL).thumbnail(0.0001f).centerCrop().into(targetView);
-       // Glide.with(context).load(imageURL).sizeMultiplier(0.5f).into(targetView);
+        Glide.with(context).load(imageURL).thumbnail(0.0001f).centerCrop().into(targetView);
     }
 
     public static void setCircleImageFromURL(final Context context, String imageURL, int imageSize, final ImageView targetVIew) {
@@ -46,11 +42,28 @@ public class Util {
         });
     }
 
-    // imageVIew Scaltype
-    // matrix, center, centerCrop, centerInside,
-    // fitStart, fitCenter, fitEnd, fitXY
-//        ImageLoader loader;
-//        loader = ImageLoader.getInstance();
-//        loader.displayImage("http://www.hdwallpapers.in/walls/avengers_age_of_ultron_2015_movie-wide.jpg", iv);
-//        Glide.with(getContext()).load("http://www.hdwallpapers.in/walls/avengers_age_of_ultron_2015_movie-wide.jpg").thumbnail(0.0001f).centerCrop().into(iv);
+    // TODO : 이름 정규식 체크
+    public static String checkClientNameInputValidation(String name) {
+        return (null == name) ? "이름을 입력해주세요" : name;
+    }
+
+    // TODO : 이메일 정규식 체크
+    public static String checkClientEmailInputValidation(String email) {
+        return (null == email) ? "이메일 주소를 입력해주세요" : email;
+    }
+
+    // TODO : 핸드폰번호 정규식 체크
+    public static String checkClientPhoneInputValidation(String phone) {
+        return (null == phone) ? "핸드폰 번호를 입력해주세요" : phone;
+    }
+
+    // TODO : 인증번호 정규식 체크
+    public static String checkClientAuthenticationInputValidation(String authNum) {
+        return (null == authNum) ? "잘못된 인증번호 형식입니다" : authNum;
+    }
+
+    // TODO : 비밀번호 정규식 체크
+    public static String checkClientPasswordInputValidation(String password) {
+        return (null == password) ? "비밀번호를 입력해주세요" : password;
+    }
 }

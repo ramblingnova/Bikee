@@ -80,6 +80,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 });
                 break;
+            case R.id.activity_sign_up_authentication_button:
+                break;
         }
     }
 
