@@ -11,6 +11,7 @@ public class ReceiveObject {
     public List<Result> result = null;
     public Object err = null;
     public String msg = null;
+    public int lastindex = -1;
 
     public int getCode() {
         return code;
@@ -50,5 +51,13 @@ public class ReceiveObject {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public int getLastindex() {
+        return lastindex;
+    }
+
+    public void setLastindex(int lastindex) {
+        this.lastindex = lastindex;
     }
 }

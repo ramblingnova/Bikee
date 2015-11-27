@@ -91,7 +91,7 @@ public class ListerRequestedBicycleListFragment extends Fragment implements Adap
                 List<Result> results = receiveObject.getResult();
                 for (Result result : results)
                     for (Reserve reserve : result.getReserve()) {
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM.dd HH:mm");
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
                         String renterImageURL;
                         if ((null == reserve.getRenter().getImage())
                                 || (null == reserve.getRenter().getImage().getCdnUri())

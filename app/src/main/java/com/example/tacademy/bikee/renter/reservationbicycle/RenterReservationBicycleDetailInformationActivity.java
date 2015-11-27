@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -46,6 +47,10 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
         bicycleId = intent.getStringExtra("ID");
         status = intent.getStringExtra("STATUS");
         endDate = intent.getStringExtra("ENDDATE");
+        Log.i("DETAIL", "DETAIL ID : " + bicycleId
+                        + ", Status : " + status
+                        + ", endDate : " + endDate
+        );
 
         cancelButton = (Button) findViewById(R.id.activity_renter_reservation_bicycle_detail_information_cancel_button);
         cancelButton.setOnClickListener(this);
@@ -58,7 +63,7 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
         smallMapButton = (Button) findViewById(R.id.activity_renter_reservation_bicycle_detail_information_small_map_button);
         smallMapButton.setOnClickListener(this);
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM.dd HH:mm", java.util.Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm", java.util.Locale.getDefault());
         Date currentDate = new Date(System.currentTimeMillis());
         Date endTime = null;
         try {
@@ -66,7 +71,6 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
         } catch (ParseException pe) {
             // pe.printStackTrace();
         }
-
         if (currentDate.after(endTime) == false) {
             switch (status) {
                 case "RR":

@@ -48,34 +48,39 @@ public class ListerRequestedBicycleView extends FrameLayout {
     public void setText(ListerRequestedBicycleItem item) {
         Util.setCircleImageFromURL(MyApplication.getmContext(), item.getImageURL(), 0, renterImage);
 
-        SimpleDateFormat dateFormat = new  SimpleDateFormat("MM.dd HH:mm", java.util.Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm", java.util.Locale.getDefault());
         Date currentDate = new Date(System.currentTimeMillis());
+        Date startTime = null;
         Date endTime = null;
         try {
+            startTime = dateFormat.parse(item.getStartDate().toString());
             endTime = dateFormat.parse((item.getEndDate()).toString());
         } catch (ParseException pe) {
             // pe.printStackTrace();
         }
 
-        if (currentDate.after(endTime) == false) {
-            switch (item.getStatus()) {
-                case "RR":
+        switch (item.getStatus()) {
+            case "RR":
+                if (currentDate.after(startTime)) {
+                    // 요청 취소
+                } else {
+                    // 예약 요청
                     requestReservationImage.setVisibility(VISIBLE);
                     completeReservationImage.setVisibility(INVISIBLE);
                     completeRentalImage.setVisibility(INVISIBLE);
-                    break;
-                case "RS":
-                case "RC":
+                }
+                break;
+            case "RS":
                     requestReservationImage.setVisibility(INVISIBLE);
-                    completeReservationImage.setVisibility(VISIBLE);
-                    completeRentalImage.setVisibility(INVISIBLE);
-                    break;
-            }
-        } else {
-            requestReservationImage.setVisibility(INVISIBLE);
-            completeReservationImage.setVisibility(INVISIBLE);
-            completeRentalImage.setVisibility(VISIBLE);
+                    completeReservationImage.setVisibility(INVISIBLE);
+                    completeRentalImage.setVisibility(VISIBLE);
+            case "RC":
+                requestReservationImage.setVisibility(INVISIBLE);
+                completeReservationImage.setVisibility(VISIBLE);
+                completeRentalImage.setVisibility(INVISIBLE);
+                break;
         }
+
         renterName.setText("" + item.getRenterName());
         bicycleName.setText("" + item.getBicycleName());
         startDate.setText("" + item.getStartDate());

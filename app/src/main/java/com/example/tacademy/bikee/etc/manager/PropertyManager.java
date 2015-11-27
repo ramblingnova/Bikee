@@ -65,7 +65,7 @@ public class PropertyManager {
     }
 
     public String getLatitude() {
-        return mPrefs.getString(KEY_LATITUDE, "38.468501");
+        return mPrefs.getString(KEY_LATITUDE, "37.565596");
     }
 
     public void setLongitude(String longitude) {
@@ -74,7 +74,7 @@ public class PropertyManager {
     }
 
     public String getLongitude() {
-        return mPrefs.getString(KEY_LONGITUDE, "126.957913");
+        return mPrefs.getString(KEY_LONGITUDE, "126.978013");
     }
 
     public boolean isBackupSync() {

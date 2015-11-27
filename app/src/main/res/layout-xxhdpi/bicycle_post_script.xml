@@ -5,37 +5,39 @@
 
     <RatingBar
         android:id="@+id/bicycle_post_script_rating_bar"
-        style="?android:attr/ratingBarStyleSmall"
+        style="@style/BikeeRatingBar"
+        android:isIndicator="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <ImageView
         android:id="@+id/bicycle_post_script_user_image_view"
-        android:src="@drawable/temp_icon"
-        android:layout_below="@+id/bicycle_post_script_rating_bar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bicycle_post_script_rating_bar"
+        android:src="@drawable/temp_icon" />
 
     <TextView
         android:id="@+id/bicycle_post_script_user_name"
-        android:layout_toRightOf="@id/bicycle_post_script_user_image_view"
-        android:layout_below="@+id/bicycle_post_script_rating_bar"
-        android:text="문근영"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bicycle_post_script_rating_bar"
+        android:layout_toRightOf="@id/bicycle_post_script_user_image_view"
+        android:text="문근영" />
 
     <TextView
-        android:layout_toRightOf="@id/bicycle_post_script_user_image_view"
-        android:layout_below="@+id/bicycle_post_script_user_name"
-        android:text="자전거 깨끗하고 너무 좋아요"
+        android:id="@+id/bicycle_post_script_user_body"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bicycle_post_script_user_name"
+        android:layout_toRightOf="@id/bicycle_post_script_user_image_view"
+        android:text="자전거 깨끗하고 너무 좋아요" />
 
     <Button
-        android:layout_below="@+id/bicycle_post_script_user_image_view"
         android:id="@+id/bicycle_post_script_see_more_post_script"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/bicycle_post_script_user_image_view"
         android:layout_centerHorizontal="true"
-        android:text="후기 더 보기"/>
+        android:text="후기 더 보기" />
 </RelativeLayout>

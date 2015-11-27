@@ -82,36 +82,47 @@ public class ListerRequestedBicycleDetailInformationActivity extends AppCompatAc
         smallMapButton = (Button) findViewById(R.id.activity_lister_requested_bicycle_detail_information_small_map_button);
         smallMapButton.setOnClickListener(this);
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM.dd HH:mm", java.util.Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm", java.util.Locale.getDefault());
         Date currentDate = new Date(System.currentTimeMillis());
+        Date startTime = null;
         Date endTime = null;
         try {
+            startTime = dateFormat.parse(startDate);
             endTime = dateFormat.parse(endDate);
         } catch (ParseException pe) {
             // pe.printStackTrace();
         }
+//
+//        if (currentDate.after(endTime) == false) {
 
-        if (currentDate.after(endTime) == false) {
-            switch (status) {
-                case "RR":
+
+        switch (status) {
+            case "RR":
+                if (currentDate.after(startTime)) {
+                    // 요청 취소
+                } else {
+                    // 예약 요청
                     cancelButton.setVisibility(View.VISIBLE);
                     approvalButton.setVisibility(View.VISIBLE);
                     cancelButton2.setVisibility(View.GONE);
                     inputPostBackButton.setVisibility(View.GONE);
-                    break;
-                case "RS":
-                case "RC":
+                }
+                break;
+            case "RS":
+                if (currentDate.after(startTime)) {
                     cancelButton.setVisibility(View.GONE);
                     approvalButton.setVisibility(View.GONE);
-                    cancelButton2.setVisibility(View.VISIBLE);
-                    inputPostBackButton.setVisibility(View.GONE);
-                    break;
-            }
-        } else {
-            cancelButton.setVisibility(View.GONE);
-            approvalButton.setVisibility(View.GONE);
-            cancelButton2.setVisibility(View.GONE);
-            inputPostBackButton.setVisibility(View.VISIBLE);
+                    cancelButton2.setVisibility(View.GONE);
+                    inputPostBackButton.setVisibility(View.VISIBLE);
+                } else {
+                    // 예약 승인
+                }
+            case "RC":
+                cancelButton.setVisibility(View.GONE);
+                approvalButton.setVisibility(View.GONE);
+                cancelButton2.setVisibility(View.VISIBLE);
+                inputPostBackButton.setVisibility(View.GONE);
+                break;
         }
     }
 

@@ -1,5 +1,7 @@
 package com.example.tacademy.bikee.renter.reservationbicycle;
 
+import java.util.Date;
+
 /**
  * Created by User on 2015-10-31.
  */
@@ -8,11 +10,11 @@ public class RenterReservationBicycleItem {
     private String imageURL;
     private String bicycleName;
     private String status;
-    private String startDate;
-    private String endDate;
+    private Date startDate;
+    private Date endDate;
     private int payment;
 
-    public RenterReservationBicycleItem(String bicycleId, String imageURL, String bicycleName, String status, String startDate, String endDate, int payment) {
+    public RenterReservationBicycleItem(String bicycleId, String imageURL, String bicycleName, String status, Date startDate, Date endDate, int payment) {
         this.bicycleId = bicycleId;
         this.imageURL = imageURL;
         this.bicycleName = bicycleName;
@@ -20,8 +22,8 @@ public class RenterReservationBicycleItem {
         this.startDate = startDate;
         this.endDate = endDate;
         this.payment = payment;
-    }
 
+    }
     public String getBicycleId() {
         return bicycleId;
     }
@@ -54,20 +56,20 @@ public class RenterReservationBicycleItem {
         this.status = status;
     }
 
-    public String getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public String getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
+    public void setEndDate(Date endDaete) {
+        this.endDate = endDaete;
     }
 
     public int getPayment() {

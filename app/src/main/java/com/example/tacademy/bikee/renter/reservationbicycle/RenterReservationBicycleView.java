@@ -46,16 +46,8 @@ public class RenterReservationBicycleView extends FrameLayout {
     public void setText(RenterReservationBicycleItem item) {
         Util.setRoundRectangleImageFromURL(MyApplication.getmContext(), item.getImageURL(), 6, bicycleImageView);
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM.dd HH:mm", java.util.Locale.getDefault());
         Date currentDate = new Date(System.currentTimeMillis());
-        Date endDate = null;
-        try {
-            endDate = dateFormat.parse((item.getEndDate()).toString());
-        } catch (ParseException pe) {
-            // pe.printStackTrace();
-        }
-
-        if (currentDate.after(endDate) == false) {
+        if (currentDate.after(item.getEndDate()) == false) {
             switch (item.getStatus()) {
                 case "RR":
                     approvedReservationImageView.setVisibility(VISIBLE);
@@ -76,8 +68,9 @@ public class RenterReservationBicycleView extends FrameLayout {
         }
 
         bicycleNameTextView.setText(item.getBicycleName());
-        startDateTextView.setText(item.getStartDate());
-        endDateTextView.setText(item.getEndDate());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM.dd HH:mm");
+        startDateTextView.setText(simpleDateFormat.format(item.getStartDate()));
+        endDateTextView.setText(simpleDateFormat.format(item.getEndDate()));
         paymentTextView.setText("" + item.getPayment());
     }
 }

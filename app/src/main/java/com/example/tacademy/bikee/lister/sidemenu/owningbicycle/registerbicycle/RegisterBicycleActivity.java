@@ -57,9 +57,11 @@ public class RegisterBicycleActivity extends AppCompatActivity implements View.O
                     item = new RegisterBicycleItem();
                     item.setType(((RegisterBicycleInformationFragment) list[0]).getType());
                     item.setHeight(((RegisterBicycleInformationFragment) list[0]).getHeight());
+                    item.setLatitude(((RegisterBicycleLocationFragment) list[1]).getLatitude());
+                    item.setLongitude(((RegisterBicycleLocationFragment) list[1]).getLongitude());
                     item.setName(((RegisterBicycleIntroductionFragment) list[2]).getName());
-                    item.setFile1(((RegisterBicyclePictureFragment) list[3]).getFile1());
-                    item.setFile2(((RegisterBicyclePictureFragment) list[3]).getFile2());
+                    item.setIntroduction(((RegisterBicycleIntroductionFragment) list[2]).getIntroduction());
+                    item.setFiles(((RegisterBicyclePictureFragment) list[3]).getFiles());
                     item.setHour(((RegisterBicycleFeeFragment) list[4]).getHour());
                     item.setDay(((RegisterBicycleFeeFragment) list[4]).getDay());
                     item.setMonth(((RegisterBicycleFeeFragment) list[4]).getMonth());

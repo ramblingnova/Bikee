@@ -36,7 +36,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class SearchResultFragment extends Fragment implements SearchSwitchView.OnCheckedListener, View.OnClickListener, SearchResultINF,
+public class SearchResultFragment extends Fragment implements SearchSwitchView.OnCheckedListener, View.OnClickListener,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
     private static final String SEARCH_RESULT_LIST_FRAGMENT_TAG = "search_result_list_fragment";
@@ -47,7 +47,9 @@ public class SearchResultFragment extends Fragment implements SearchSwitchView.O
     private SearchResultMapFragment searchResultMapFragment;
     private SearchSwitchView searchSwitchView;
     private ImageView imageView;
-    private List<SearchResultItem> list;
+    private List<SearchResultListItem> listList;
+    private List<SearchResultMapItem> mapList;
+
     private boolean b = false;
 
     private GoogleApiClient mGoogleApiClient;
@@ -79,9 +81,7 @@ public class SearchResultFragment extends Fragment implements SearchSwitchView.O
         View v = inflater.inflate(R.layout.fragment_search_result, container, false);
 
         searchResultListFragment = new SearchResultListFragment();
-        searchResultListFragment.setSearchResultINF(this);
         searchResultMapFragment = new SearchResultMapFragment();
-        searchResultMapFragment.setSearchResultINF(this);
 
         searchSwitchView = (SearchSwitchView) v.findViewById(R.id.search_bar_switch);
         searchSwitchView.setOnCheckedListener(this);
@@ -89,7 +89,8 @@ public class SearchResultFragment extends Fragment implements SearchSwitchView.O
         imageView = (ImageView) v.findViewById(R.id.fragment_search_result_filter_image_view);
         imageView.setOnClickListener(this);
 
-        init();
+        listList = new ArrayList<>();
+        mapList = new ArrayList<>();
 
         return v;
     }
@@ -238,11 +239,6 @@ public class SearchResultFragment extends Fragment implements SearchSwitchView.O
         }
     }
 
-    @Override
-    public List<SearchResultItem> getData() {
-        return list;
-    }
-
     private void fragmentChange(boolean isChecked) {
         Toast.makeText(getContext().getApplicationContext(), "isChecked : " + isChecked, Toast.LENGTH_SHORT).show();
         String CURRENT_TAG = (isChecked) ? SEARCH_RESULT_LIST_FRAGMENT_TAG : SEARCH_RESULT_MAP_FRAGMENT_TAG;
@@ -261,26 +257,5 @@ public class SearchResultFragment extends Fragment implements SearchSwitchView.O
         }
 
         ft.commit();
-    }
-
-    private void init() {
-        Toast.makeText(MyApplication.getmContext(), "SearchResultFragment().sessionClear()", Toast.LENGTH_SHORT).show();
-        NetworkManager.getInstance().sessionClear(new Callback<ReceiveObject>() {
-            @Override
-            public void success(ReceiveObject receiveObject, Response response) {
-                Log.i("result", "onResponse Code : " + receiveObject.getCode()
-                                + ", Success : " + receiveObject.isSuccess()
-                                + ", Msg : " + receiveObject.getMsg()
-                                + ", Error : "
-                );
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                Log.e("error", "onFailure Error : " + error.toString());
-            }
-        });
-
-        list = new ArrayList<>();
     }
 }

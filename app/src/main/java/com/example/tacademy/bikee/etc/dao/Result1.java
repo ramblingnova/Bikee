@@ -7,6 +7,7 @@ import java.util.List;
  * Created by Tacademy on 2015-11-12.
  */
 public class Result1 {
+    private int lastIndex = 0;
     private String _id = null;
     private Bike bike = null;
     private Lister lister = null;
@@ -30,6 +31,14 @@ public class Result1 {
     private String provider = null;
     private String email = null;
     private String name = null;
+
+    public int getLastIndex() {
+        return lastIndex;
+    }
+
+    public void setLastIndex(int lastIndex) {
+        this.lastIndex = lastIndex;
+    }
 
     public String get_id() {
         return _id;

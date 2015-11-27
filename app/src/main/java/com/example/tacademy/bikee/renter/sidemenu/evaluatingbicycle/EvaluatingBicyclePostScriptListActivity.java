@@ -23,7 +23,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class EvaluatingBicyclePostScriptListActivity extends AppCompatActivity {
-
     private ListView lv;
     private EvaluatingBicyclePostScriptAdapter adapter;
 
@@ -60,12 +59,12 @@ public class EvaluatingBicyclePostScriptListActivity extends AppCompatActivity {
                                         + ", Body : " + comment.getBody()
                                         + ", Point : " + comment.getPoint()
                         );
-                        //
+                        int point = (null != comment.getPoint()) ? comment.getPoint() : 0;
                         adapter.add(result.getBike().getImage().getCdnUri() + "/mini_" + result.getBike().getImage().getFiles().get(0),
                                 result.getBike().getTitle(),
                                 simpleDateFormat.format(comment.getCreatedAt()),
                                 comment.getBody(),
-                                comment.getPoint()
+                                point
                         );
                     }
             }

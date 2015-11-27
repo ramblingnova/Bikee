@@ -8,8 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.etc.manager.PropertyManager;
 
 public class RegisterBicycleLocationFragment extends Fragment {
+    private double latitude;
+    private double longitude;
 
     public static RegisterBicycleLocationFragment newInstance() {
         return new RegisterBicycleLocationFragment();
@@ -20,6 +23,16 @@ public class RegisterBicycleLocationFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_register_bicycle_location, container, false);
+        latitude = Double.parseDouble(PropertyManager.getInstance().getLatitude());
+        longitude = Double.parseDouble(PropertyManager.getInstance().getLongitude());
         return v;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
     }
 }

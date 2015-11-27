@@ -10,7 +10,8 @@ import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.POI;
 import com.example.tacademy.bikee.etc.MyApplication;
 import com.example.tacademy.bikee.etc.Util;
-import com.example.tacademy.bikee.renter.searchresult.SearchResultItem;
+import com.example.tacademy.bikee.renter.searchresult.SearchResultListItem;
+import com.example.tacademy.bikee.renter.searchresult.SearchResultMapItem;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
@@ -59,7 +60,7 @@ public class BicycleInfoWindowView implements GoogleMap.InfoWindowAdapter {
         return null;
     }
 
-    public void setBicycleInfoWindowView(SearchResultItem item) {
+    public void setBicycleInfoWindowView(SearchResultMapItem item) {
         Util.setRoundRectangleImageFromURL(MyApplication.getmContext(), item.getImageURL(), 12, bicycleImage);
         bicycle_name.setText(item.getBicycle_name().toString());
         type.setText(item.getType().toString());

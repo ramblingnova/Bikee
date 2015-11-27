@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,6 +100,7 @@ public class NoChoiceDialogFragment extends DialogFragment {
                 } else if(getArguments().getInt(ARG_PARAM2, LISTER_APPROVE_RESERVATION) == LISTER_APPROVE_RESERVATION || getArguments().getInt(ARG_PARAM2, LISTER_MOVE_TO_LISTER_REQUESTED) == LISTER_MOVE_TO_LISTER_REQUESTED) {
                     intent = new Intent(getContext().getApplicationContext(), ListerMainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    Log.i("APPROVAL", "리스터 승인!!");
                     startActivity(intent);
                 }
             }

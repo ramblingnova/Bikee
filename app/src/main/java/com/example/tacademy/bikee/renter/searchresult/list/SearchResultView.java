@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.MyApplication;
 import com.example.tacademy.bikee.etc.Util;
-import com.example.tacademy.bikee.renter.searchresult.SearchResultItem;
+import com.example.tacademy.bikee.renter.searchresult.SearchResultListItem;
 
 /**
  * Created by Tacademy on 2015-10-30.
@@ -42,7 +42,7 @@ public class SearchResultView extends FrameLayout {
         distance = (TextView) findViewById(R.id.view_search_result_item_distance_text_view);
     }
 
-    public void setSearchResultView(SearchResultItem item) {
+    public void setSearchResultView(SearchResultListItem item) {
         Util.setRoundRectangleImageFromURL(MyApplication.getmContext(), item.getImageURL(), 6, bicycle_picture);
         bicycle_name.setText(item.getBicycle_name().toString());
         height.setText(item.getHeight().toString());

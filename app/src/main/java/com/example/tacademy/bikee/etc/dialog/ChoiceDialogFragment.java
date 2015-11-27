@@ -16,9 +16,18 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.etc.MyApplication;
+import com.example.tacademy.bikee.etc.dao.ReceiveObject;
+import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.renter.RenterMainActivity;
+import com.example.tacademy.bikee.renter.reservationbicycle.InputBicyclePostScriptActivity;
+import com.example.tacademy.bikee.renter.reservationbicycle.RequestPaymentActivity;
 
 import org.w3c.dom.Text;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by Tacademy on 2015-11-02.
@@ -112,6 +121,7 @@ public class ChoiceDialogFragment extends DialogFragment implements View.OnClick
                     case LISTER_CANCEL_RESERVATION:
                         dialog = new NoChoiceDialogFragment().newInstance(NoChoiceDialogFragment.LISTER_CANCEL_RESERVATION, NoChoiceDialogFragment.LISTER_MOVE_TO_LISTER_REQUESTED);
                         dialog.show(getActivity().getSupportFragmentManager(), "custom");
+                        // cancel
                         break;
                 }
                 break;
@@ -127,8 +137,11 @@ public class ChoiceDialogFragment extends DialogFragment implements View.OnClick
                         dismiss();
                         break;
                     case RENTER_PAY_RESERVATION:
-                        dialog = new NoChoiceDialogFragment().newInstance(NoChoiceDialogFragment.RENTER_COMPLETE_PAYMENT, NoChoiceDialogFragment.RENTER_MOVE_TO_RENTER_RESERVATION);
-                        dialog.show(getActivity().getSupportFragmentManager(), "custom");
+//                        dialog = new NoChoiceDialogFragment().newInstance(NoChoiceDialogFragment.RENTER_COMPLETE_PAYMENT, NoChoiceDialogFragment.RENTER_MOVE_TO_RENTER_RESERVATION);
+//                        dialog.show(getActivity().getSupportFragmentManager(), "custom");
+                        // TODO : 결제 웹뷰
+                        Intent intent = new Intent(MyApplication.getmContext(), RequestPaymentActivity.class);
+                        startActivity(intent);
                         break;
                     case LISTER_CANCEL_RESERVATION:
                         dismiss();

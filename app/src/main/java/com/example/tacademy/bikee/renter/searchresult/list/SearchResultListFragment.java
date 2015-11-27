@@ -1,7 +1,6 @@
 package com.example.tacademy.bikee.renter.searchresult.list;
 
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -20,7 +19,7 @@ import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.example.tacademy.bikee.renter.searchresult.SearchResultINF;
-import com.example.tacademy.bikee.renter.searchresult.SearchResultItem;
+import com.example.tacademy.bikee.renter.searchresult.SearchResultListItem;
 import com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.FilteredBicycleDetailInformationActivity;
 
 import java.util.List;
@@ -37,6 +36,7 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
     private boolean isLastItem = false;
     private String latitude = null;
     private String longitude = null;
+    private int index;
 
     public void setSearchResultINF(SearchResultINF searchResultINF) {
         this.searchResultINF = searchResultINF;
@@ -59,7 +59,9 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
         adapter = new SearchResultListAdapter();
         lv.setAdapter(adapter);
 
-        getData();
+        index = 0;
+
+        requestData();
 
         return view;
     }
@@ -93,37 +95,16 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        SearchResultItem item = (SearchResultItem) lv.getItemAtPosition(position);
+        SearchResultListItem item = (SearchResultListItem) lv.getItemAtPosition(position);
         Toast.makeText(getContext().getApplicationContext(), "position : " + position, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getActivity(), FilteredBicycleDetailInformationActivity.class);
         intent.putExtra("ID", item.getBicycleId());
         getActivity().startActivity(intent);
     }
 
-    public void onResponseLocation(String latitude, String longitude){
+    public void onResponseLocation(String latitude, String longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
-    }
-
-    private void getData() {
-        if (searchResultINF != null) {
-            if (searchResultINF.getData().size() != 0) {
-                for (SearchResultItem searchResultItem : searchResultINF.getData()) {
-                    adapter.add(searchResultItem.getBicycleId(),
-                            searchResultItem.getImageURL(),
-                            searchResultItem.getBicycle_name(),
-                            searchResultItem.getHeight(),
-                            searchResultItem.getType(),
-                            "",
-                            "",
-                            searchResultItem.getLatitude(),
-                            searchResultItem.getLongitude()
-                    );
-                }
-            } else {
-                requestData();
-            }
-        }
     }
 
     private void requestData() {
@@ -134,25 +115,26 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
         }
         String lat = latitude;
         String lon = longitude;
-        String start = "2015/11/08 20:14:43";
-        String end = "2015/11/12 20:14";
-        String type = "03";
-        String height = "A";
-        String component = "01,02,03,04";
+        String start = "";
+        String end = "";
+        String type = "";
+        String height = "";
+        String component = "";
         Boolean smartlock = new Boolean(true);
-        NetworkManager.getInstance().selectAllBicycle(
-                lat, lon, start,
+        NetworkManager.getInstance().selectAllListBicycle(
+                lon, lat, "" + index, start,
                 end, type, height,
                 component, smartlock, new Callback<ReceiveObject>() {
                     @Override
                     public void success(ReceiveObject receiveObject, Response response) {
-                        Log.i("result", "onResponse Code : " + receiveObject.getCode()
+                        Log.i("result", "onResponse Index : " + receiveObject.getLastindex()
+                                        + ", Code : " + receiveObject.getCode()
                                         + ", Success : " + receiveObject.isSuccess()
                                         + ", Msg : " + receiveObject.getMsg()
                                         + ", Error : "
                         );
+                        index = receiveObject.getLastindex();
                         List<Result> results = receiveObject.getResult();
-                        List<SearchResultItem> list = searchResultINF.getData();
                         String imageURL;
                         for (Result result : results) {
                             if ((null == result.getImage().getCdnUri()) || (null == result.getImage().getFiles())) {
@@ -160,7 +142,7 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
                             } else {
                                 imageURL = result.getImage().getCdnUri() + "/mini_" + result.getImage().getFiles().get(0);
                             }
-                            Log.i("result", "onResponse Id : " + result.get_id()
+                            Log.i("result", "List!! onResponse Id : " + result.get_id()
                                             + ", ImageURL : " + imageURL
                                             + ", Name : " + result.getTitle()
                                             + ", Type : " + result.getType()
@@ -169,32 +151,17 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
                                             + ", lat : " + result.getLoc().getCoordinates().get(1)
                                             + ", lon : " + result.getLoc().getCoordinates().get(0)
                             );
-                            if (searchResultINF != null) {
-                                list.add(
-                                        new SearchResultItem(
-                                                result.get_id(),
-                                                imageURL,
-                                                result.getTitle(),
-                                                result.getHeight(),
-                                                result.getType(),
-                                                "" + result.getPrice().getMonth(),
-                                                "",
-                                                result.getLoc().getCoordinates().get(1),
-                                                result.getLoc().getCoordinates().get(0)
-                                        )
-                                );
-                                adapter.add(
-                                        result.get_id(),
-                                        imageURL,
-                                        result.getTitle(),
-                                        result.getHeight(),
-                                        result.getType(),
-                                        "" + result.getPrice().getMonth(),
-                                        "",
-                                        result.getLoc().getCoordinates().get(1),
-                                        result.getLoc().getCoordinates().get(0)
-                                );
-                            }
+                            adapter.add(
+                                    result.get_id(),
+                                    imageURL,
+                                    result.getTitle(),
+                                    result.getHeight(),
+                                    result.getType(),
+                                    "" + result.getPrice().getMonth(),
+                                    "",
+                                    result.getLoc().getCoordinates().get(1),
+                                    result.getLoc().getCoordinates().get(0)
+                            );
                         }
                         adapter.notifyDataSetChanged();
                         refreshLayout.postDelayed(new Runnable() {

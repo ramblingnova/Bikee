@@ -1,6 +1,6 @@
 package com.example.tacademy.bikee.common;
 
-import com.example.tacademy.bikee.renter.searchresult.SearchResultItem;
+import com.example.tacademy.bikee.renter.searchresult.SearchResultMapItem;
 
 /**
  * Created by Tacademy on 2015-11-02.
@@ -16,7 +16,7 @@ public class POI {
     private String middleAddrName;
     private String lowerAddrName;
     private String detailAddrName;
-    private SearchResultItem item;
+    private SearchResultMapItem item;
 
     public String getId() {
         return id;
@@ -119,11 +119,11 @@ public class POI {
         return 0;
     }
 
-    public SearchResultItem getItem() {
+    public SearchResultMapItem getItem() {
         return item;
     }
 
-    public void setItem(SearchResultItem item) {
+    public void setItem(SearchResultMapItem item) {
         this.item = item;
     }
 }

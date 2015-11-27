@@ -24,12 +24,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
-public class RegisterBicyclePictureFragment extends Fragment {
-    private File file1;
-    private File file2;
+public class RegisterBicyclePictureFragment extends Fragment implements View.OnClickListener {
+    private Intent intent;
+    private List<File> files;
     final int REQ_CODE_SELECT_IMAGE = 100;
-    final int REQ_CODE_SELECT_IMAGE2 = 200;
 
     public static RegisterBicyclePictureFragment newInstance() {
         return new RegisterBicyclePictureFragment();
@@ -42,27 +43,23 @@ public class RegisterBicyclePictureFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_register_bicycle_picture, container, false);
         Button btn = (Button) view.findViewById(R.id.fragment_register_bicycle_picture_input_image_button);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
+        btn.setOnClickListener(this);
+
+        files = new ArrayList<>();
+
+        return view;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fragment_register_bicycle_picture_input_image_button:
+                intent = new Intent(Intent.ACTION_PICK);
                 intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
                 intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, REQ_CODE_SELECT_IMAGE);
-            }
-        });
-        btn = (Button) view.findViewById(R.id.fragment_register_bicycle_picture_input_image_button2);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
-                intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, REQ_CODE_SELECT_IMAGE2);
-            }
-        });
-
-        return view;
+                break;
+        }
     }
 
     @Override
@@ -79,29 +76,7 @@ public class RegisterBicyclePictureFragment extends Fragment {
                     //배치해놓은 ImageView에 set
                     image.setImageBitmap(image_bitmap);
                     //Toast.makeText(getBaseContext(), "name_Str : "+name_Str , Toast.LENGTH_SHORT).show();
-                    file1 = new File(name_Str);
-                } catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        } else if (requestCode == REQ_CODE_SELECT_IMAGE2) {
-            if (resultCode == Activity.RESULT_OK) {
-                try {
-                    //Uri에서 이미지 이름을 얻어온다.
-                    String name_Str = getRealPathFromURI(data.getData());
-                    //이미지 데이터를 비트맵으로 받아온다.
-                    Bitmap image_bitmap = MediaStore.Images.Media.getBitmap(MyApplication.getmContext().getContentResolver(), data.getData());
-                    ImageView image = (ImageView) view.findViewById(R.id.fragment_register_bicycle_picture_input_image_image_view2);
-                    //배치해놓은 ImageView에 set
-                    image.setImageBitmap(image_bitmap);
-                    //Toast.makeText(getBaseContext(), "name_Str : "+name_Str , Toast.LENGTH_SHORT).show();
-                    file2 = new File(name_Str);
+                    files.add(new File(name_Str));
                 } catch (FileNotFoundException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -127,11 +102,7 @@ public class RegisterBicyclePictureFragment extends Fragment {
         return res;
     }
 
-    public File getFile1() {
-        return file1;
-    }
-
-    public File getFile2() {
-        return file2;
+    public List<File> getFiles() {
+        return files;
     }
 }

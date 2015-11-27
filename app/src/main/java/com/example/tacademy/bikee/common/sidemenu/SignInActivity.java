@@ -46,18 +46,10 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_sign_in_toolbar);
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setDisplayShowCustomEnabled(true);
-//        getSupportActionBar().setDisplayShowTitleEnabled(false);
-//        getSupportActionBar().setCustomView(R.layout.renter_main_tool_bar);
 
         email_edit_text = (EditText) findViewById(R.id.activity_sign_in_user_email_edit_text);
-        email_edit_text.setText("admin@admin.com");
         email_text_view = (TextView) findViewById(R.id.activity_sign_in_user_email_text_view);
         password_edit_text = (EditText) findViewById(R.id.activity_sign_in_user_password_edit_text);
-        password_edit_text.setText("dltjdrb");
         password_text_view = (TextView) findViewById(R.id.activity_sign_in_user_password_text_view);
         sign_in = (Button) findViewById(R.id.activity_sign_in_sign_in_button);
         sign_in.setOnClickListener(SignInActivity.this);
@@ -68,15 +60,15 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         mEditor = mPrefs.edit();
 
         if (!PropertyManager.getInstance().getEmail().equals("") || !PropertyManager.getInstance().getPassword().equals("") ) {
-//            email_text_view.setVisibility(View.VISIBLE);
-//            email_text_view.setText(PropertyManager.getInstance().getEmail());
-//            password_text_view.setVisibility(View.VISIBLE);
-//            password_text_view.setText(PropertyManager.getInstance().getPassword());
-//            email_edit_text.setVisibility(View.INVISIBLE);
-//            password_edit_text.setVisibility(View.INVISIBLE);
-//            sign_in.setText("로그인 완료");
-//            sign_in.setClickable(false);
-//            sign_up.setVisibility(View.INVISIBLE);
+            email_text_view.setVisibility(View.VISIBLE);
+            email_text_view.setText(PropertyManager.getInstance().getEmail());
+            password_text_view.setVisibility(View.VISIBLE);
+            password_text_view.setText(PropertyManager.getInstance().getPassword());
+            email_edit_text.setVisibility(View.INVISIBLE);
+            password_edit_text.setVisibility(View.INVISIBLE);
+            sign_in.setText("로그인 완료");
+            sign_in.setClickable(false);
+            sign_up.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -101,8 +93,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                         sign_up.setVisibility(View.INVISIBLE);
 
                         // TODO 로그인 버튼 -> 사용자의 이름 가져오기... id 없이
-//                        PropertyManager.getInstance().setEmail(email_edit_text_string);
-//                        PropertyManager.getInstance().setPassword(password_edit_text_string);
+                        PropertyManager.getInstance().setEmail(email_edit_text_string);
+                        PropertyManager.getInstance().setPassword(password_edit_text_string);
                     }
 
                     @Override

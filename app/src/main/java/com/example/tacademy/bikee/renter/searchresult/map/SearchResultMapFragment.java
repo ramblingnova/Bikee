@@ -22,7 +22,7 @@ import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.example.tacademy.bikee.renter.searchresult.SearchResultINF;
-import com.example.tacademy.bikee.renter.searchresult.SearchResultItem;
+import com.example.tacademy.bikee.renter.searchresult.SearchResultMapItem;
 import com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.FilteredBicycleDetailInformationActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -56,16 +56,12 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     private GoogleMap gm;
     private LocationManager locationManager;
     private View view;
-    private SearchResultINF searchResultINF;
-    private TimerTask timerTask;
-    private Timer timer;
-    private boolean battery;
+//    private SearchResultINF searchResultINF;
+//    private TimerTask timerTask;
+//    private Timer timer;
+//    private boolean battery;
     private String latitude = null;
     private String longitude = null;
-
-    public void setSearchResultINF(SearchResultINF searchResultINF) {
-        this.searchResultINF = searchResultINF;
-    }
 
     public SearchResultMapFragment() {
     }
@@ -92,23 +88,18 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
             // e.printStackTrace();
         }
 
-//        mGoogleApiClient = new GoogleApiClient.Builder(MyApplication.getmContext())
-//                .addApi(LocationServices.API)
-//                .addConnectionCallbacks(this)
-//                .addOnConnectionFailedListener(this).build();
-
-        getData();
-        timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                if (battery) {
-                    requestData();
-                }
-            }
-        };
-        timer = new Timer();
-        battery = true;
-        timer.schedule(timerTask, 0, 5000);
+        requestData();
+//        timerTask = new TimerTask() {
+//            @Override
+//            public void run() {
+//                if (battery) {
+//                    requestData();
+//                }
+//            }
+//        };
+//        timer = new Timer();
+//        battery = true;
+//        timer.schedule(timerTask, 0, 5000);
 
         return view;
     }
@@ -130,19 +121,16 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     @Override
     public void onStop() {
         Log.i("MAP", "STOP!!");
-        timer.cancel();
         super.onStop();
     }
 
     @Override
     public void onResume() {
-        battery = true;
         super.onResume();
     }
 
     @Override
     public void onPause() {
-        battery = false;
         super.onPause();
     }
 
@@ -168,9 +156,6 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
         gm.setOnMapClickListener(this);
         gm.setOnMarkerClickListener(this);
 
-//        if (cacheLocation != null) {
-//            moveMap(cacheLocation.getLatitude(), cacheLocation.getLongitude());
-//        }
         if ((null == latitude) || (null == longitude)) {
             latitude = PropertyManager.getInstance().getLatitude();
             longitude = PropertyManager.getInstance().getLongitude();
@@ -181,16 +166,14 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     private void moveMap(double lat, double lng) {
         CameraPosition.Builder builder = new CameraPosition.Builder();
         builder.target(new LatLng(lat, lng));
-        builder.zoom(13);
+        builder.zoom(15);
 //        builder.bearing(30);
 //        builder.tilt(30);
         CameraPosition position = builder.build();
         CameraUpdate update = CameraUpdateFactory.newCameraPosition(position);
-//        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 10);
         gm.animateCamera(update);
     }
 
-//    private Location cacheLocation;
     private LocationListener mListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
@@ -202,17 +185,19 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
                     } else {
                         latitude = "" + location.getLatitude();
                         longitude = "" + location.getLongitude();
+                        PropertyManager.getInstance().setLatitude(latitude);
+                        PropertyManager.getInstance().setLongitude(longitude);
                     }
                     moveMap(Double.parseDouble(latitude), Double.parseDouble(longitude));
-//                    Toast.makeText(getActivity(), "lat:" + location.getLatitude() + ", lng:" + location.getLongitude(), Toast.LENGTH_SHORT).show();
                 } else {
-//                    cacheLocation = location;
                     if ((null == latitude) || (null == longitude)) {
                         latitude = PropertyManager.getInstance().getLatitude();
                         longitude = PropertyManager.getInstance().getLongitude();
                     } else {
                         latitude = "" + location.getLatitude();
                         longitude = "" + location.getLongitude();
+                        PropertyManager.getInstance().setLatitude(latitude);
+                        PropertyManager.getInstance().setLongitude(longitude);
                     }
                 }
                 try {
@@ -281,48 +266,9 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
 
     }
 
-    public void onResponseLocation(String latitude, String longitude){
+    public void onResponseLocation(String latitude, String longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
-    }
-
-    private void getData() {
-        if (searchResultINF != null) {
-            if (searchResultINF.getData().size() != 0) {
-                for (SearchResultItem searchResultItem : searchResultINF.getData()) {
-                    // 지도에 뿌리기
-                    MarkerOptions options = new MarkerOptions();
-                    options.position(new LatLng(searchResultItem.getLatitude(), searchResultItem.getLongitude()));
-                    options.icon(BitmapDescriptorFactory.fromResource(R.drawable.rider_main_bike_b_icon));
-                    options.anchor(0.5f, 1);
-
-                    POI poi = new POI();
-                    poi.setItem(
-                            new SearchResultItem(
-                                    searchResultItem.getBicycleId(),
-                                    searchResultItem.getImageURL(),
-                                    searchResultItem.getBicycle_name(),
-                                    searchResultItem.getType(),
-                                    searchResultItem.getHeight(),
-                                    searchResultItem.getPayment()
-                            )
-                    );
-
-                    poi.setName("자전거 제목");
-                    poi.setUpperAddrName("가격|종류|신장");
-
-                    options.title(poi.getName());
-                    options.snippet(poi.getAddress());
-
-                    options.draggable(true);
-
-                    Marker m = gm.addMarker(options);
-
-                    mMarkerResolver.put(poi, m);
-                    mPOIResolver.put(m, poi);
-                }
-            }
-        }
     }
 
     private void requestData() {
@@ -332,25 +278,16 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
         }
         String lat = latitude;
         String lon = longitude;
-        String start = "2015/11/08 20:14:43";
-        String end = "2015/11/24 00:00";
-        String type = "03";
-        String height = "A";
-        String component = "01,02,03,04";
-        Boolean smartlock = new Boolean(true);
-        NetworkManager.getInstance().selectAllBicycle(
-                lat, lon, start,
-                end, type, height,
-                component, smartlock, new Callback<ReceiveObject>() {
+        NetworkManager.getInstance().selectAllMapBicycle(
+                lon, lat, new Callback<ReceiveObject>() {
                     @Override
                     public void success(ReceiveObject receiveObject, Response response) {
-                        Log.i("result", "onResponse Code : " + receiveObject.getCode()
+                        Log.i("result", "Map!! onResponse Code : " + receiveObject.getCode()
                                         + ", Success : " + receiveObject.isSuccess()
                                         + ", Msg : " + receiveObject.getMsg()
                                         + ", Error : "
                         );
                         List<Result> results = receiveObject.getResult();
-                        List<SearchResultItem> list = searchResultINF.getData();
                         String imageURL;
                         for (Result result : results) {
                             if ((null == result.getImage().getCdnUri()) || (null == result.getImage().getFiles())) {
@@ -358,7 +295,7 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
                             } else {
                                 imageURL = result.getImage().getCdnUri() + "/mini_" + result.getImage().getFiles().get(0);
                             }
-                            Log.i("result", "onResponse Id : " + result.get_id()
+                            Log.i("result", "onResponse : " + result.get_id()
                                             + ", ImageURL : " + imageURL
                                             + ", Name : " + result.getTitle()
                                             + ", Type : " + result.getType()
@@ -368,51 +305,36 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
                                             + ", lon : " + result.getLoc().getCoordinates().get(0)
                             );
 
-                            if (searchResultINF != null) {
-                                list.add(
-                                        new SearchResultItem(
-                                                result.get_id(),
-                                                imageURL,
-                                                result.getTitle(),
-                                                result.getHeight(),
-                                                result.getType(),
-                                                "" + result.getPrice().getMonth(),
-                                                "",
-                                                result.getLoc().getCoordinates().get(1),
-                                                result.getLoc().getCoordinates().get(0)
-                                        )
-                                );
-                                // 지도에 뿌리기
-                                MarkerOptions options = new MarkerOptions();
-                                options.position(new LatLng(result.getLoc().getCoordinates().get(1), result.getLoc().getCoordinates().get(0)));
-                                options.icon(BitmapDescriptorFactory.fromResource(R.drawable.rider_main_bike_b_icon));
-                                options.anchor(0.5f, 1);
+                            // 지도에 뿌리기
+                            MarkerOptions options = new MarkerOptions();
+                            options.position(new LatLng(result.getLoc().getCoordinates().get(1), result.getLoc().getCoordinates().get(0)));
+                            options.icon(BitmapDescriptorFactory.fromResource(R.drawable.rider_main_bike_b_icon));
+                            options.anchor(0.5f, 1);
 
-                                POI poi = new POI();
-                                poi.setItem(
-                                        new SearchResultItem(
-                                                result.get_id(),
-                                                imageURL,
-                                                result.getTitle(),
-                                                result.getType(),
-                                                result.getHeight(),
-                                                "" + result.getPrice().getMonth()
-                                        )
-                                );
+                            POI poi = new POI();
+                            poi.setItem(
+                                    new SearchResultMapItem(
+                                            result.get_id(),
+                                            imageURL,
+                                            result.getTitle(),
+                                            result.getType(),
+                                            result.getHeight(),
+                                            "" + result.getPrice().getMonth()
+                                    )
+                            );
 
-                                poi.setName("자전거 제목");
-                                poi.setUpperAddrName("가격|종류|신장");
+                            poi.setName("자전거 제목");
+                            poi.setUpperAddrName("가격|종류|신장");
 
-                                options.title(poi.getName());
-                                options.snippet(poi.getAddress());
+                            options.title(poi.getName());
+                            options.snippet(poi.getAddress());
 
-                                options.draggable(true);
+                            options.draggable(true);
 
-                                Marker m = gm.addMarker(options);
+                            Marker m = gm.addMarker(options);
 
-                                mMarkerResolver.put(poi, m);
-                                mPOIResolver.put(m, poi);
-                            }
+                            mMarkerResolver.put(poi, m);
+                            mPOIResolver.put(m, poi);
                         }
                     }
 

@@ -75,8 +75,10 @@ public class NetworkManager {
     }
 
     public interface ServerUrl {
-        String baseUrl = "http://bikee.kr.pe";
-//        String baseUrl = "http://192.168.211.3";
+        //        String baseUrl = "http://bikee.kr.pe";
+        String baseUrl = "http://192.168.206.65";
+//        String baseUrl = "http://192.168.206.65:2222";
+        // test용 bikee.kr.pe:2222 이전 디비가 들어있다
 
         // 본인정보조회 app.get('/users/:userId',users.profile) TODO id 없이 "본인정보조회"하기
         @GET("/users/{userId}")
@@ -135,6 +137,25 @@ public class NetworkManager {
                               @Query("smartlock") Boolean smartlock,
                               Callback<ReceiveObject> callback);
 
+        // 전체자전거조회(리스트)
+        @GET("/bikes/list/{lon}/{lat}/{lastindex}")
+        void selectAllListBicycle(@Path("lon") String lon,
+                                  @Path("lat") String lat,
+                                  @Path("lastindex") String lastindex,
+                                  @Query("start") String start,
+                                  @Query("end") String end,
+                                  @Query("type") String type,
+                                  @Query("height") String height,
+                                  @Query("component") String component,
+                                  @Query("smartlock") Boolean smartlock,
+                                  Callback<ReceiveObject> callback);
+
+        // 전체자전거조회(지도)
+        @GET("/bikes/all/{lon}/{lat}")
+        void selectAllMapBicycle(@Path("lon") String lon,
+                                 @Path("lat") String lat,
+                                 Callback<ReceiveObject> callback);
+
         // 자전거상세조회 app.get('/bikes/:bikeId/detail',bikes.detail);
         @GET("/bikes/{bikeId}/detail")
         void selectBicycleDetail(@Path("bikeId") String bike_id, Callback<ReceiveObject> callback);
@@ -179,6 +200,14 @@ public class NetworkManager {
         // 렌터가자전거예약요청
         @POST("/reserves/{bikeId}")
         void insertReservation(@Path("bikeId") String bike_id, @Body Reserve reserve, Callback<ReceiveObject> callback);
+
+        // 리스터가...
+        @POST("/reserves/{bikeId}/{reserveId}")
+        void reserveStatus(@Path("bikeId")String bike_id, @Path("reserveId") String reserveId, @Field("status") String status, Callback<ReceiveObject> callback);
+
+        // 결제요청
+        @GET("/import")
+        void requestPayment(Callback<ReceiveObject> callback);
 
 //        @POST("/register/")
 //        void registerGCM(@Field("token") String registerationID,
@@ -268,6 +297,27 @@ public class NetworkManager {
         serverUrl.selectAllBicycle(lat, lon, start, end, type, height, component, smartlock, callback);
     }
 
+    // 전체자전거조회(리스트)
+    public void selectAllListBicycle(String lon,
+                                     String lat,
+                                     String lastindex,
+                                     String start,
+                                     String end,
+                                     String type,
+                                     String height,
+                                     String component,
+                                     Boolean smartlock,
+                                     Callback<ReceiveObject> callback) {
+        serverUrl.selectAllListBicycle(lon, lat, lastindex, start, end, type, height, component, smartlock, callback);
+    }
+
+    // 전체자전거조회(지도)
+    public void selectAllMapBicycle(String lon,
+                                    String lat,
+                                    Callback<ReceiveObject> callback) {
+        serverUrl.selectAllMapBicycle(lon, lat, callback);
+    }
+
     // 자전거상세조회
     public void selectBicycleDetail(String bike_id, Callback<ReceiveObject> callback) {
         serverUrl.selectBicycleDetail(bike_id, callback);
@@ -321,6 +371,15 @@ public class NetworkManager {
     // 렌터가자전거예약요청
     public void insertReservation(String bike_id, Reserve reserve, Callback<ReceiveObject> callback) {
         serverUrl.insertReservation(bike_id, reserve, callback);
+    }
+
+    // 렌터결제요청
+    public void requestPayment(Callback<ReceiveObject> callback) {
+        serverUrl.requestPayment(callback);
+    }
+    // RR(x), RS승인, RC취소 둘 중 하나
+    public void reserveStatus(String bike_id, String reserveId, String status, Callback<ReceiveObject> callback) {
+        serverUrl.reserveStatus(bike_id, reserveId, status, callback);
     }
 
 //    // FIXME 테스트용

@@ -4,8 +4,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.example.tacademy.bikee.renter.searchresult.SearchResultFragment;
-import com.example.tacademy.bikee.renter.searchresult.SearchResultItem;
+import com.example.tacademy.bikee.renter.searchresult.SearchResultListItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +13,14 @@ import java.util.List;
  * Created by Tacademy on 2015-10-30.
  */
 public class SearchResultListAdapter extends BaseAdapter {
-    List<SearchResultItem> items;
+    List<SearchResultListItem> items;
 
     public SearchResultListAdapter() {
         items = new ArrayList<>();
     }
 
     public void add(String bicycleID, String imageURL, String bicycle_name, String payment, String type, String height, String distance, double latitude, double longitude) {
-        SearchResultItem item = new SearchResultItem(bicycleID, imageURL, bicycle_name, payment, type, height, distance, latitude, longitude);
+        SearchResultListItem item = new SearchResultListItem(bicycleID, imageURL, bicycle_name, payment, type, height, distance, latitude, longitude);
         items.add(item);
         notifyDataSetChanged();
     }

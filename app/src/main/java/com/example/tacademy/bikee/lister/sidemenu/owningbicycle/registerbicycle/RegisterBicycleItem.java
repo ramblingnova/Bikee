@@ -2,13 +2,18 @@ package com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.List;
+
+import retrofit.http.Body;
 
 public class RegisterBicycleItem implements Serializable {
     private String type;
     private String height;
+    private double latitude;
+    private double longitude;
     private String name;
-    private File file1;
-    private File file2;
+    private String introduction;
+    private List<File> files;
     private int hour;
     private int Day;
     private int month;
@@ -29,6 +34,22 @@ public class RegisterBicycleItem implements Serializable {
         this.height = height;
     }
 
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
     public String getName() {
         return name;
     }
@@ -37,20 +58,20 @@ public class RegisterBicycleItem implements Serializable {
         this.name = name;
     }
 
-    public File getFile1() {
-        return file1;
+    public String getIntroduction() {
+        return introduction;
     }
 
-    public void setFile1(File file1) {
-        this.file1 = file1;
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
     }
 
-    public File getFile2() {
-        return file2;
+    public List<File> getFiles() {
+        return files;
     }
 
-    public void setFile2(File file2) {
-        this.file2 = file2;
+    public void setFiles(List<File> files) {
+        this.files = files;
     }
 
     public int getHour() {

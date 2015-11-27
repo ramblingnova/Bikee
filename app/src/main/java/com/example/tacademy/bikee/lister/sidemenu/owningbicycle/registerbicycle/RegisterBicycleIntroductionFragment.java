@@ -12,7 +12,8 @@ import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.manager.FontManager;
 
 public class RegisterBicycleIntroductionFragment extends Fragment {
-    private EditText editText;
+    private EditText nameEditText;
+    private EditText introductionEditText;
 
     public static RegisterBicycleIntroductionFragment newInstance() {
         return new RegisterBicycleIntroductionFragment();
@@ -23,12 +24,17 @@ public class RegisterBicycleIntroductionFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_register_bicycle_introduction, container, false);
 
-        editText = (EditText)view.findViewById(R.id.fragment_register_bicycle_introduction_bicycle_name);
+        nameEditText = (EditText)view.findViewById(R.id.fragment_register_bicycle_introduction_bicycle_name);
+        introductionEditText = (EditText)view.findViewById(R.id.fragment_register_bicycle_introduction_bicycle_introduction);
 
         return view;
     }
 
     public String getName() {
-        return editText.getText().toString();
+        return nameEditText.getText().toString();
+    }
+
+    public String getIntroduction() {
+        return introductionEditText.getText().toString();
     }
 }

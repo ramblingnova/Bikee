@@ -9,10 +9,15 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.SmallMapActivity;
+import com.example.tacademy.bikee.etc.MyApplication;
+import com.example.tacademy.bikee.etc.Util;
 import com.example.tacademy.bikee.etc.dao.Comment;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Result;
@@ -20,8 +25,6 @@ import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.finallyrequestreservation.FinallyRequestReservationActivity;
 import com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.postscription.BicyclePostScriptListActivity;
 import com.tsengvn.typekit.TypekitContextWrapper;
-
-import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -36,6 +39,26 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
     private double latitude;
     private double longitude;
     private int price;
+    private ImageView bicycleImage;
+    private CheckBox typeCheck1;
+    private CheckBox typeCheck2;
+    private CheckBox typeCheck3;
+    private CheckBox typeCheck4;
+    private CheckBox typeCheck5;
+    private CheckBox typeCheck6;
+    private CheckBox typeCheck7;
+    private CheckBox heightCheck1;
+    private CheckBox heightCheck2;
+    private CheckBox heightCheck3;
+    private CheckBox heightCheck4;
+    private CheckBox heightCheck5;
+    private CheckBox heightCheck6;
+    private TextView rentalPlaceText;
+
+    private ImageView postsciptImage;
+    private RatingBar postsciptPoint;
+    private TextView postsciptName;
+    private TextView postsciptBody;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +77,39 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
         btn.setOnClickListener(this);
         btn = (Button) findViewById(R.id.activity_filtered_bicycle_detail_information_small_map_button);
         btn.setOnClickListener(this);
+        bicycleImage = (ImageView) findViewById(R.id.activity_filtered_bicycle_detail_information_bicycle_picture);
+        typeCheck1 = (CheckBox) findViewById(R.id.bicycle_type_check_box1);
+        typeCheck1.setClickable(false);
+        typeCheck2 = (CheckBox) findViewById(R.id.bicycle_type_check_box2);
+        typeCheck2.setClickable(false);
+        typeCheck3 = (CheckBox) findViewById(R.id.bicycle_type_check_box3);
+        typeCheck3.setClickable(false);
+        typeCheck4 = (CheckBox) findViewById(R.id.bicycle_type_check_box4);
+        typeCheck4.setClickable(false);
+        typeCheck5 = (CheckBox) findViewById(R.id.bicycle_type_check_box5);
+        typeCheck5.setClickable(false);
+        typeCheck6 = (CheckBox) findViewById(R.id.bicycle_type_check_box6);
+        typeCheck6.setClickable(false);
+        typeCheck7 = (CheckBox) findViewById(R.id.bicycle_type_check_box7);
+        typeCheck7.setClickable(false);
+        heightCheck1 = (CheckBox) findViewById(R.id.bicycle_recommendation_height_check_box1);
+        heightCheck1.setClickable(false);
+        heightCheck2 = (CheckBox) findViewById(R.id.bicycle_recommendation_height_check_box2);
+        heightCheck2.setClickable(false);
+        heightCheck3 = (CheckBox) findViewById(R.id.bicycle_recommendation_height_check_box3);
+        heightCheck3.setClickable(false);
+        heightCheck4 = (CheckBox) findViewById(R.id.bicycle_recommendation_height_check_box4);
+        heightCheck4.setClickable(false);
+        heightCheck5 = (CheckBox) findViewById(R.id.bicycle_recommendation_height_check_box5);
+        heightCheck5.setClickable(false);
+        heightCheck6 = (CheckBox) findViewById(R.id.bicycle_recommendation_height_check_box6);
+        heightCheck6.setClickable(false);
+        rentalPlaceText = (TextView) findViewById(R.id.bicycle_rental_place_real_position_text_view);
+
+        postsciptImage = (ImageView) findViewById(R.id.bicycle_post_script_user_image_view);
+        postsciptPoint = (RatingBar) findViewById(R.id.bicycle_post_script_rating_bar);
+        postsciptName = (TextView) findViewById(R.id.bicycle_post_script_user_name);
+        postsciptBody = (TextView) findViewById(R.id.bicycle_post_script_user_body);
 
         initData();
     }
@@ -115,6 +171,27 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
                 latitude = result.getLoc().getCoordinates().get(1);
                 longitude = result.getLoc().getCoordinates().get(0);
                 price = result.getPrice().getMonth();
+                Util.setRoundRectangleImageFromURL(MyApplication.getmContext(), imageURL, 6, bicycleImage);
+                switch (type) {
+                    case "A": typeCheck1.setChecked(true); break;
+                    case "B": typeCheck2.setChecked(true); break;
+                    case "C": typeCheck3.setChecked(true); break;
+                    case "D": typeCheck4.setChecked(true); break;
+                    case "E": typeCheck5.setChecked(true); break;
+                    case "F": typeCheck6.setChecked(true); break;
+                    case "G": typeCheck7.setChecked(true); break;
+                    default:  typeCheck1.setChecked(true); break;
+                }
+                switch (height) {
+                    case "01": heightCheck1.setChecked(true); break;
+                    case "02": heightCheck2.setChecked(true); break;
+                    case "03": heightCheck3.setChecked(true); break;
+                    case "04": heightCheck4.setChecked(true); break;
+                    case "05": heightCheck5.setChecked(true); break;
+                    case "06": heightCheck6.setChecked(true); break;
+                    default:  heightCheck1.setChecked(true); break;
+                }
+                rentalPlaceText.setText("위도 : " + latitude + ", 경도 : " + longitude);
 
                 NetworkManager.getInstance().selectBicycleComment(bicycleId, new Callback<ReceiveObject>() {
                     @Override
@@ -137,6 +214,11 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
                                             + ", Point : " + comment.getPoint()
                                             + ", PostScript : " + comment.getBody()
                             );
+                            Util.setCircleImageFromURL(MyApplication.getmContext(), imageURL, 0, postsciptImage);
+                            int point = (null != comment.getPoint()) ? comment.getPoint() : 0;
+                            postsciptPoint.setRating(point);
+                            postsciptName.setText("" + comment.getWriter().getName());
+                            postsciptBody.setText("" + comment.getBody());
                         }
                     }
 

@@ -6,9 +6,10 @@
         android:id="@+id/bicycle_rental_place_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="대여장소"/>
+        android:text="대여장소 "/>
 
     <TextView
+        android:id="@+id/bicycle_rental_place_real_position_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="서울시 관악구 봉천동"
