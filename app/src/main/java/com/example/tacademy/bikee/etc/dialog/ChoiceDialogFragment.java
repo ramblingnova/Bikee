@@ -3,8 +3,6 @@ package com.example.tacademy.bikee.etc.dialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -17,17 +15,7 @@ import android.widget.TextView;
 
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.MyApplication;
-import com.example.tacademy.bikee.etc.dao.ReceiveObject;
-import com.example.tacademy.bikee.etc.manager.NetworkManager;
-import com.example.tacademy.bikee.renter.RenterMainActivity;
-import com.example.tacademy.bikee.renter.reservationbicycle.InputBicyclePostScriptActivity;
 import com.example.tacademy.bikee.renter.reservationbicycle.RequestPaymentActivity;
-
-import org.w3c.dom.Text;
-
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 /**
  * Created by Tacademy on 2015-11-02.
@@ -56,7 +44,7 @@ public class ChoiceDialogFragment extends DialogFragment implements View.OnClick
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NO_TITLE, R.style.AppTheme);
 
@@ -67,7 +55,6 @@ public class ChoiceDialogFragment extends DialogFragment implements View.OnClick
         }
     }
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_choice_dialog, container, false);

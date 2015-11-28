@@ -26,6 +26,8 @@ import retrofit.client.Response;
 
 public class FinallyRequestReservationActivity extends AppCompatActivity implements View.OnClickListener {
     private ChoiceDialogFragment dialog;
+    private FinallyRequestReservationConfirmDialogFragment dialog2;
+    private FinallyRequestReservationCancelDialogFragment dialog1;
     private Intent intent;
     private String id;
     private String imageURL;
@@ -60,8 +62,10 @@ public class FinallyRequestReservationActivity extends AppCompatActivity impleme
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.activity_finally_request_reservation_cancel_button:
-                dialog = new ChoiceDialogFragment().newInstance(ChoiceDialogFragment.RENTER_CANCEL_RESERVATION);
-                dialog.show(getSupportFragmentManager(), "custom");
+                dialog1 = new FinallyRequestReservationCancelDialogFragment().newInstance(1);
+                dialog1.show(getSupportFragmentManager(), "custom");
+//                dialog = new ChoiceDialogFragment().newInstance(ChoiceDialogFragment.RENTER_CANCEL_RESERVATION);
+//                dialog.show(getSupportFragmentManager(), "custom");
                 break;
             case R.id.activity_finally_request_reservation_confirm_button:
                 Reserve reserve = new Reserve();
@@ -73,7 +77,10 @@ public class FinallyRequestReservationActivity extends AppCompatActivity impleme
                 NetworkManager.getInstance().insertReservation(id, reserve, new Callback<ReceiveObject>() {
                     @Override
                     public void success(ReceiveObject receiveObject, Response response) {
-                        Log.i("result", "onResponse Success : " + receiveObject.isSuccess() + ", Code : " + receiveObject.getCode() + ", Msg : " + receiveObject.getMsg());
+                        Log.i("result", "onResponse Success : " + receiveObject.isSuccess()
+                                + ", Code : " + receiveObject.getCode()
+                                + ", Msg : " + receiveObject.getMsg()
+                        );
                     }
 
                     @Override
@@ -81,8 +88,10 @@ public class FinallyRequestReservationActivity extends AppCompatActivity impleme
                         Log.e("error", "onFailure Error! : " + error.toString());
                     }
                 });
-                dialog = new ChoiceDialogFragment().newInstance(ChoiceDialogFragment.RENTER_REQUEST_RESERVATION);
-                dialog.show(getSupportFragmentManager(), "custom");
+//                dialog = new ChoiceDialogFragment().newInstance(ChoiceDialogFragment.RENTER_REQUEST_RESERVATION);
+//                dialog.show(getSupportFragmentManager(), "custom");
+                dialog2 = new FinallyRequestReservationConfirmDialogFragment().newInstance(1);
+                dialog2.show(getSupportFragmentManager(), "custom");
                 break;
             case R.id.activity_finally_request_reservation_small_map_button:
                 intent = new Intent(FinallyRequestReservationActivity.this, SmallMapActivity.class);

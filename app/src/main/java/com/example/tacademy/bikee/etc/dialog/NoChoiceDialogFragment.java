@@ -87,24 +87,20 @@ public class NoChoiceDialogFragment extends DialogFragment {
             tv.setVisibility(View.VISIBLE);
             tv.setText(subMessage);
         }
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (getArguments().getInt(ARG_PARAM2, RENTER_MOVE_TO_RENTER_RESERVATION) == RENTER_MOVE_TO_RENTER_RESERVATION || getArguments().getInt(ARG_PARAM2, RENTER_MOVE_TO_SEARCH_RESULT) == RENTER_MOVE_TO_SEARCH_RESULT) {
-                    intent = new Intent(getContext().getApplicationContext(), RenterMainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
+
+        if (getArguments().getInt(ARG_PARAM2, RENTER_MOVE_TO_RENTER_RESERVATION) == RENTER_MOVE_TO_RENTER_RESERVATION || getArguments().getInt(ARG_PARAM2, RENTER_MOVE_TO_SEARCH_RESULT) == RENTER_MOVE_TO_SEARCH_RESULT) {
+            intent = new Intent(getContext().getApplicationContext(), RenterMainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
 //                    public static final int RENTER_MOVE_TO_RENTER_RESERVATION = 101;
 //                    public static final int RENTER_MOVE_TO_SEARCH_RESULT = 102;
 //                    public static final int LISTER_MOVE_TO_LISTER_REQUESTED = 103;
-                } else if(getArguments().getInt(ARG_PARAM2, LISTER_APPROVE_RESERVATION) == LISTER_APPROVE_RESERVATION || getArguments().getInt(ARG_PARAM2, LISTER_MOVE_TO_LISTER_REQUESTED) == LISTER_MOVE_TO_LISTER_REQUESTED) {
-                    intent = new Intent(getContext().getApplicationContext(), ListerMainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    Log.i("APPROVAL", "리스터 승인!!");
-                    startActivity(intent);
-                }
-            }
-        }, 1000);
+        } else if (getArguments().getInt(ARG_PARAM2, LISTER_APPROVE_RESERVATION) == LISTER_APPROVE_RESERVATION || getArguments().getInt(ARG_PARAM2, LISTER_MOVE_TO_LISTER_REQUESTED) == LISTER_MOVE_TO_LISTER_REQUESTED) {
+            intent = new Intent(getContext().getApplicationContext(), ListerMainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            Log.i("APPROVAL", "리스터 승인!!");
+            startActivity(intent);
+        }
 
         return view;
     }

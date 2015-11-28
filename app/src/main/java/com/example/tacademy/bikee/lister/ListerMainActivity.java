@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -33,7 +34,7 @@ import com.tsengvn.typekit.TypekitContextWrapper;
 
 public class ListerMainActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, TabHost.OnTabChangeListener {
     private FragmentTabHost tabHost;
-    private ImageView iv, btt_iv1, btt_iv2, btt_iv3;
+    private ImageView listerImage, btt_iv1, btt_iv2, btt_iv3;
     private TextView seeMyBicycleTextView;
     private TextView smartLockTextView;
     private TextView paymentInformationTextView;
@@ -72,18 +73,13 @@ public class ListerMainActivity extends AppCompatActivity implements View.OnClic
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        iv = (ImageView) findViewById(R.id.lister_side_menu_lister_image_image_view);
-        iv.setOnClickListener(this);
-        Util.setCircleImageFromURL(this, "http://bikee.s3.amazonaws.com/detail_1446776196619.jpg", 0, iv);
-        iv.setOnClickListener(this);
+        listerImage = (ImageView) findViewById(R.id.lister_side_menu_lister_image_image_view);
+        listerImage.setOnClickListener(this);
+        listerImage.setOnClickListener(this);
         nameTextView = (TextView) findViewById(R.id.lister_side_menu_member_name_text_view);
         nameTextView.setOnClickListener(this);
         emailTextView = (TextView) findViewById(R.id.lister_side_menu_mail_address_text_view);
         emailTextView.setOnClickListener(this);
-        if (!PropertyManager.getInstance().getEmail().equals("") || !PropertyManager.getInstance().getPassword().equals("") ) {
-            // TODO 이름 띄우기
-            emailTextView.setText(PropertyManager.getInstance().getEmail());
-        }
         seeMyBicycleTextView = (TextView) findViewById(R.id.lister_side_menu_see_my_bicycle_text_view);
         seeMyBicycleTextView.setOnClickListener(this);
         smartLockTextView = (TextView) findViewById(R.id.lister_side_menu_register_smart_lock_text_view);
@@ -106,6 +102,8 @@ public class ListerMainActivity extends AppCompatActivity implements View.OnClic
         layout.setOnClickListener(ListerMainActivity.this);
         btn = (ImageView) findViewById(R.id.lister_side_menu_change_mode_button);
         btn.setOnClickListener(ListerMainActivity.this);
+
+        initView();
     }
 
     @Override
@@ -207,6 +205,29 @@ public class ListerMainActivity extends AppCompatActivity implements View.OnClic
                 break;
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == SignInActivity.SIGN_IN_ACTIVITY) {
+            initView();
+        }
+    }
+
+    private void initView() {
+        if (!PropertyManager.getInstance().getEmail().equals("")
+                || !PropertyManager.getInstance().getName().equals("")) {
+            Log.i("Result", PropertyManager.getInstance().getImage());
+            Util.setCircleImageFromURL(this, PropertyManager.getInstance().getImage(), 0, listerImage);
+            nameTextView.setText(PropertyManager.getInstance().getName());
+            emailTextView.setText(PropertyManager.getInstance().getEmail());
+        } else {
+            Util.setCircleImageFromURL(this, "http://bikee.s3.amazonaws.com/detail_1446776196619.jpg", 0, listerImage);
+            nameTextView.setText(R.string.renter_side_menu_member_name_text_view_string);
+            emailTextView.setText(R.string.renter_side_menu_mail_address_text_view_string);
+        }
+    }
+
 
     @Override
     protected void attachBaseContext(Context newBase) {

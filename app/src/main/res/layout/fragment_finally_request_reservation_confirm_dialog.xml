@@ -1,0 +1,35 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/filtering_contentsbox"
+    android:layout_height="match_parent"
+    tools:context="com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.finallyrequestreservation.FinallyRequestReservationConfirmDialogFragment">
+
+    <TextView
+        android:id="@+id/fragment_choice_dialog_message_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="메시지" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fragment_choice_dialog_message_text_view"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/fragment_choice_dialog_button1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="버튼1" />
+
+        <Button
+            android:id="@+id/fragment_choice_dialog_button2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="버튼2" />
+    </LinearLayout>
+</RelativeLayout>
