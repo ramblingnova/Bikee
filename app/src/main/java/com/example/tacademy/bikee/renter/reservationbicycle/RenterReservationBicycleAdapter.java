@@ -43,7 +43,7 @@ public class RenterReservationBicycleAdapter extends BaseAdapter {
         } else {
             v = new RenterReservationBicycleView(parent.getContext());
         }
-        v.setText(items.get(position));
+        v.setView(items.get(position));
         return v;
     }
 }

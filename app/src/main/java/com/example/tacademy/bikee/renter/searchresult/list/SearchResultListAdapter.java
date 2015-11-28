@@ -52,7 +52,7 @@ public class SearchResultListAdapter extends BaseAdapter {
         } else {
             v = new SearchResultView(parent.getContext());
         }
-        v.setSearchResultView(items.get(position));
+        v.setView(items.get(position));
         return v;
     }
 }

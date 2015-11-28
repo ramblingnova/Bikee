@@ -86,10 +86,9 @@
                         android:id="@+id/activity_filtered_bicycle_detail_information_call_image_view"
                         android:layout_width="27dp"
                         android:layout_height="27dp"
-                        android:layout_alignParentBottom="true"
                         android:layout_toLeftOf="@id/activity_filtered_bicycle_detail_information_talk_image_view"
-                        android:layout_marginBottom="25dp"
-
+                        android:layout_alignBottom="@id/activity_filtered_bicycle_detail_information_talk_image_view"
+                        android:layout_marginRight="10dp"
                         android:scaleType="fitXY"
                         android:src="@drawable/temp_icon" />
                 </RelativeLayout>
@@ -103,6 +102,11 @@
                 android:layout_below="@+id/activity_filtered_bicycle_detail_information_bicycle_picture_layout"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="@dimen/contents_box_margin_bottom_5dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bikeeLightGray"/>
 
             <include
                 android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_recommendation_height"

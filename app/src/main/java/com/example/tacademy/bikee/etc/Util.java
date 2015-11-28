@@ -41,29 +41,4 @@ public class Util {
             }
         });
     }
-
-    // TODO : 이름 정규식 체크
-    public static String checkClientNameInputValidation(String name) {
-        return (null == name) ? "이름을 입력해주세요" : name;
-    }
-
-    // TODO : 이메일 정규식 체크
-    public static String checkClientEmailInputValidation(String email) {
-        return (null == email) ? "이메일 주소를 입력해주세요" : email;
-    }
-
-    // TODO : 핸드폰번호 정규식 체크
-    public static String checkClientPhoneInputValidation(String phone) {
-        return (null == phone) ? "핸드폰 번호를 입력해주세요" : phone;
-    }
-
-    // TODO : 인증번호 정규식 체크
-    public static String checkClientAuthenticationInputValidation(String authNum) {
-        return (null == authNum) ? "잘못된 인증번호 형식입니다" : authNum;
-    }
-
-    // TODO : 비밀번호 정규식 체크
-    public static String checkClientPasswordInputValidation(String password) {
-        return (null == password) ? "비밀번호를 입력해주세요" : password;
-    }
 }

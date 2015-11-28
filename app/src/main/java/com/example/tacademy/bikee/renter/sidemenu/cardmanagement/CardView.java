@@ -26,7 +26,7 @@ public class CardView extends FrameLayout {
         delete_button = (Button)findViewById(R.id.view_card_item_delete_button);
     }
 
-    public void setCardView(CardItem item) {
+    public void setView(CardItem item) {
         card_number.setText(item.card_number);
     }
 }

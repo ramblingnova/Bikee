@@ -29,7 +29,7 @@ public class OwningBicycleView extends FrameLayout {
         dateTextView = (TextView) findViewById(R.id.view_owning_bicycle_item_register_date_text_view);
     }
 
-    public void setText(OwningBicycleItem item) {
+    public void setView(OwningBicycleItem item) {
         Util.setRoundRectangleImageFromURL(MyApplication.getmContext(), item.getImageURL(), 6, bicycleImage);
         nameTextView.setText("" + item.getName());
         dateTextView.setText("" + item.getDate());

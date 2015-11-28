@@ -43,7 +43,7 @@ public class RenterReservationBicycleView extends FrameLayout {
         paymentTextView = (TextView) findViewById(R.id.view_renter_reservation_bicycle_item_payment_text_view);
     }
 
-    public void setText(RenterReservationBicycleItem item) {
+    public void setView(RenterReservationBicycleItem item) {
         Util.setRoundRectangleImageFromURL(MyApplication.getmContext(), item.getImageURL(), 6, bicycleImageView);
 
         Date currentDate = new Date(System.currentTimeMillis());

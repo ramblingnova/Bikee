@@ -35,7 +35,7 @@ public class EvaluatedBicyclePostScriptView extends FrameLayout {
         point = (RatingBar)findViewById(R.id.view_evaluated_bicycle_post_script_item_rating_bar);
     }
 
-    public void setText(EvaluatedBicyclePostScriptItem item) {
+    public void setView(EvaluatedBicyclePostScriptItem item) {
         renterName.setText(item.getRenterName());
         bicycleName.setText(item.getBicycleName());
         createDate.setText(item.getCreateDate());

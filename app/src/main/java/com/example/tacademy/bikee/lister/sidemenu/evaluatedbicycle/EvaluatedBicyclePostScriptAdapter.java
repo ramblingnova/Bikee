@@ -42,7 +42,7 @@ public class EvaluatedBicyclePostScriptAdapter extends BaseAdapter {
         } else {
             v = new EvaluatedBicyclePostScriptView(parent.getContext());
         }
-        v.setText(items.get(position));
+        v.setView(items.get(position));
         return v;
     }
 }

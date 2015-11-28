@@ -35,7 +35,7 @@ public class BicyclePostScriptView extends FrameLayout {
         createAt = (TextView) findViewById(R.id.view_bicycle_post_script_item_date1);
     }
 
-    public void setText(BicyclePostScriptItem item) {
+    public void setView(BicyclePostScriptItem item) {
         Util.setCircleImageFromURL(MyApplication.getmContext(), item.getImageURL(), 0, renterImage);
         renterName.setText("" + item.getRenterName());
         point.setRating(item.getPoint());

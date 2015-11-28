@@ -30,7 +30,8 @@ import java.util.List;
 public class RegisterBicyclePictureFragment extends Fragment implements View.OnClickListener {
     private Intent intent;
     private List<File> files;
-    final int REQ_CODE_SELECT_IMAGE = 100;
+
+    public static final int REQ_CODE_SELECT_IMAGE = 100;
 
     public static RegisterBicyclePictureFragment newInstance() {
         return new RegisterBicyclePictureFragment();

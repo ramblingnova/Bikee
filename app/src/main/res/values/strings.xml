@@ -32,6 +32,7 @@
     <string name="activity_sign_in_find_id_text_view_string">아이디 찾기</string>
     <string name="activity_sign_in_find_password_text_view_string">비밀번호 찾기</string>
     <string name="activity_sign_in_sign_in_button_string">로그인</string>
+    <string name="activity_sign_in_sign_out_button_string">로그아웃</string>
     <string name="activity_sign_in_facebook_button_string">페이스북</string>
     <string name="activity_sign_in_naver_button_string">네이버</string>
     <string name="activity_sign_in_kakaotalk_button_string">카카오톡</string>

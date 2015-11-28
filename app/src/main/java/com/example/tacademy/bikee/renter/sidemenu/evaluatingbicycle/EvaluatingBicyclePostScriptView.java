@@ -34,7 +34,7 @@ public class EvaluatingBicyclePostScriptView extends FrameLayout {
         point = (RatingBar) findViewById(R.id.view_evaluating_bicycle_post_script_item_rating_bar);
     }
 
-    public void EvaluatingBicyclePostScriptView(EvaluatingBicyclePostScriptItem item) {
+    public void setView(EvaluatingBicyclePostScriptItem item) {
         Util.setRoundRectangleImageFromURL(MyApplication.getmContext(), item.getImageURL(), 7, image);
         name.setText(item.getName());
         date.setText(item.getDate());

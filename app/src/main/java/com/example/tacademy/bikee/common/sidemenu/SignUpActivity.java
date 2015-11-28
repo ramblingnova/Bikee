@@ -22,16 +22,19 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
-    final public static String ACTIVITY_SIGN_UP_INPUT_NAME_EDIT_TEXT = "activity_sign_up_input_name_edit_text";
-    final public static String ACTIVITY_SIGN_UP_INPUT_MAIL_ADDRESS_EDIT_TEXT = "activity_sign_up_input_mail_address_edit_text";
-    final public static String ACTIVITY_SIGN_UP_INPUT_CELLPHONE_EDIT_TEXT = "activity_sign_up_input_cellphone_edit_text";
-    final public static String ACTIVITY_SIGN_UP_INPUT_PASSWROD_EDIT_TEXT = "activity_sign_up_input_password_edit_text";
-
+    private Intent intent;
     private EditText name;
     private EditText email;
     private EditText phone;
     private EditText password;
     private Button btn;
+
+    public static final int SIGN_UP_ACTIVITY = 1;
+    public static final String ACTIVITY_SIGN_UP_IMAGE = "activity_sign_up_image";
+    public static final String ACTIVITY_SIGN_UP_NAME = "activity_sign_up_name";
+    public static final String ACTIVITY_SIGN_UP_EMAIL = "activity_sign_up_email";
+    public static final String ACTIVITY_SIGN_UP_PHONE = "activity_sign_up_phone";
+    public static final String ACTIVITY_SIGN_UP_PASSWORD = "activity_sign_up_password";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +67,15 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 NetworkManager.getInstance().insertUser(user, new Callback<ReceiveObject>() {
                     @Override
                     public void success(ReceiveObject receiveObject, Response response) {
-                        Log.i("result", "onResponse Code : " + receiveObject.getCode() + ", Success : " + receiveObject.isSuccess() + ", Msg : " + receiveObject.getMsg() + ", Error : ");
-                        Intent intent = getIntent();
-                        intent.putExtra(ACTIVITY_SIGN_UP_INPUT_NAME_EDIT_TEXT, name.getText().toString());
-                        intent.putExtra(ACTIVITY_SIGN_UP_INPUT_MAIL_ADDRESS_EDIT_TEXT, email.getText().toString());
-                        intent.putExtra(ACTIVITY_SIGN_UP_INPUT_CELLPHONE_EDIT_TEXT, phone.getText().toString());
-                        intent.putExtra(ACTIVITY_SIGN_UP_INPUT_PASSWROD_EDIT_TEXT, password.getText().toString());
+                        Log.i("result", "onResponse Code : " + receiveObject.getCode()
+                                + ", Success : " + receiveObject.isSuccess()
+                                + ", Msg : " + receiveObject.getMsg()
+                        );
+                        intent = getIntent();
+                        intent.putExtra(ACTIVITY_SIGN_UP_NAME, name.getText().toString());
+                        intent.putExtra(ACTIVITY_SIGN_UP_EMAIL, email.getText().toString());
+                        intent.putExtra(ACTIVITY_SIGN_UP_PHONE, phone.getText().toString());
+                        intent.putExtra(ACTIVITY_SIGN_UP_PASSWORD, password.getText().toString());
                         setResult(RESULT_OK, intent);
                         finish();
                     }

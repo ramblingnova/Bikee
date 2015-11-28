@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
@@ -37,7 +38,7 @@ import com.tsengvn.typekit.TypekitContextWrapper;
 public class RenterMainActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, DrawerLayout.DrawerListener, TabHost.OnTabChangeListener {
     private FragmentTabHost tabHost;
     private DrawerLayout drawer;
-    private ImageView iv;
+    private ImageView renterImage;
     private ImageView btt_iv1, btt_iv2, btt_iv3, btt_iv4;
     private TextView registerCardTextView;
     private TextView bicycleScriptTextView;
@@ -77,17 +78,12 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
         toggle.syncState();
         drawer.setDrawerListener(this);
 
-        iv = (ImageView) findViewById(R.id.renter_side_menu_renter_image_image_view);
-        iv.setOnClickListener(this);
-        Util.setCircleImageFromURL(this, "http://bikee.s3.amazonaws.com/detail_1446776196619.jpg", 0, iv);
+        renterImage = (ImageView) findViewById(R.id.renter_side_menu_renter_image_image_view);
+        renterImage.setOnClickListener(this);
         nameTextView = (TextView) findViewById(R.id.renter_side_menu_member_name_text_view);
         nameTextView.setOnClickListener(this);
         emailTextView = (TextView) findViewById(R.id.renter_side_menu_mail_address_text_view);
         emailTextView.setOnClickListener(this);
-        if (!PropertyManager.getInstance().getEmail().equals("") || !PropertyManager.getInstance().getPassword().equals("") ) {
-            // TODO 이름 띄우기
-            emailTextView.setText(PropertyManager.getInstance().getEmail());
-        }
         registerCardTextView = (TextView) findViewById(R.id.renter_side_menu_fragment_register_card_text_view);
         registerCardTextView.setOnClickListener(this);
         bicycleScriptTextView = (TextView) findViewById(R.id.renter_side_menu_evaluation_bicycle_script_text_view);
@@ -106,6 +102,8 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
         layout.setOnClickListener(RenterMainActivity.this);
         btn = (ImageView) findViewById(R.id.renter_side_menu_change_mode_button);
         btn.setOnClickListener(this);
+
+        initView();
     }
 
     @Override
@@ -115,7 +113,7 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
             case R.id.renter_side_menu_member_name_text_view:
             case R.id.renter_side_menu_mail_address_text_view:
                 intent = new Intent(RenterMainActivity.this, SignInActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, SignInActivity.SIGN_IN_ACTIVITY);
                 break;
             case R.id.renter_side_menu_fragment_register_card_text_view:
                 intent = new Intent(RenterMainActivity.this, CardManagementActivity.class);
@@ -209,16 +207,46 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
     }
 
     @Override
-         public void onTabChanged(String tabId) {
+    public void onTabChanged(String tabId) {
         btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon1));
         btt_iv2.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon2));
         btt_iv3.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon3));
         btt_iv4.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon4));
-        switch (tabId){
-            case "tab1": btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon1_in)); break;
-            case "tab2": btt_iv2.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon2_in)); break;
-            case "tab3": btt_iv3.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon3_in)); break;
-            case "tab4": btt_iv4.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon4_in)); break;
+        switch (tabId) {
+            case "tab1":
+                btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon1_in));
+                break;
+            case "tab2":
+                btt_iv2.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon2_in));
+                break;
+            case "tab3":
+                btt_iv3.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon3_in));
+                break;
+            case "tab4":
+                btt_iv4.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon4_in));
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == SignInActivity.SIGN_IN_ACTIVITY) {
+            initView();
+        }
+    }
+
+    private void initView() {
+        if (!PropertyManager.getInstance().getEmail().equals("")
+                || !PropertyManager.getInstance().getName().equals("")) {
+            Log.i("Result", PropertyManager.getInstance().getImage());
+            Util.setCircleImageFromURL(this, PropertyManager.getInstance().getImage(), 0, renterImage);
+            nameTextView.setText(PropertyManager.getInstance().getName());
+            emailTextView.setText(PropertyManager.getInstance().getEmail());
+        } else {
+            nameTextView.setText(R.string.renter_side_menu_member_name_text_view_string);
+            emailTextView.setText(R.string.renter_side_menu_mail_address_text_view_string);
+            Util.setCircleImageFromURL(this, "http://bikee.s3.amazonaws.com/detail_1446776196619.jpg", 0, renterImage);
         }
     }
 

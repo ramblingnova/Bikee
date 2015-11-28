@@ -47,7 +47,7 @@ public class OwningBicycleAdapter extends BaseAdapter {
         } else {
             v = new OwningBicycleView(parent.getContext());
         }
-        v.setText(items.get(position));
+        v.setView(items.get(position));
         return v;
     }
 }

@@ -1,7 +1,5 @@
 package com.example.tacademy.bikee.etc.manager;
 
-import android.util.Log;
-
 import com.example.tacademy.bikee.etc.dao.Bike;
 import com.example.tacademy.bikee.etc.dao.Comment;
 import com.example.tacademy.bikee.etc.dao.Inquires;
@@ -26,10 +24,8 @@ import java.util.Map;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
-import retrofit.RetrofitError;
 import retrofit.client.Client;
 import retrofit.client.OkClient;
-import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
 import retrofit.http.Body;
 import retrofit.http.DELETE;
@@ -75,14 +71,16 @@ public class NetworkManager {
     }
 
     public interface ServerUrl {
-        //        String baseUrl = "http://bikee.kr.pe";
-        String baseUrl = "http://192.168.206.65";
-//        String baseUrl = "http://192.168.206.65:2222";
-        // test용 bikee.kr.pe:2222 이전 디비가 들어있다
+//        String baseUrl = "http://bikee.kr.pe";
+        String baseUrl = "http://bikee.kr.pe:2222";
 
         // 본인정보조회 app.get('/users/:userId',users.profile) TODO id 없이 "본인정보조회"하기
         @GET("/users/{userId}")
         void selectUser(@Path("userId") String user_id, Callback<ReceiveObject> callback);
+
+        // id없이 본인정보조회
+        @GET("/profile")
+        void selectUserName(Callback<ReceiveObject> callback);
 
         // 회원가입 app.post('/users', users.create)
         @POST("/users")
@@ -165,6 +163,10 @@ public class NetworkManager {
         @POST("/users/session")
         void login(@Field("email") String email, @Field("password") String password, Callback<ReceiveObject> callback);
 
+        // 로그아웃
+        @GET("/logout")
+        void logout(Callback<ReceiveObject> callback);
+
         // 세션클리어
         @GET("/first")
         void sessionClear(Callback<ReceiveObject> callback);
@@ -217,11 +219,6 @@ public class NetworkManager {
 //
 //        @POST("/message/{userID}")
 //        void sendMessage(@Path("userID") String user_id, @Field("message") String message);
-
-
-//        // FIXME 테스트용
-//        @POST("/comments/{bikeId}")
-//        void insertBicycleComment2(@Path("bikeId") Object bike_id, @Body Comment comment, Callback<Object> callback);
     }
 
     // 모든 날짜 형식을 변환하는 메소드
@@ -242,6 +239,11 @@ public class NetworkManager {
     // 본인정보조회
     public void selectUser(String user_id, Callback<ReceiveObject> callback) {
         serverUrl.selectUser(user_id, callback);
+    }
+
+    // id없이 본인정보조회
+    public void selectUserName(Callback<ReceiveObject> callback) {
+        serverUrl.selectUserName(callback);
     }
 
     // 회원가입
@@ -328,6 +330,11 @@ public class NetworkManager {
         serverUrl.login(email, password, callback);
     }
 
+    // 로그아웃
+    public void logout(Callback<ReceiveObject> callback) {
+        serverUrl.logout(callback);
+    }
+
     // 세션클리어
     public void sessionClear(Callback<ReceiveObject> callback) {
         serverUrl.sessionClear(callback);
@@ -386,7 +393,6 @@ public class NetworkManager {
 //    public ServerUrl getServerUrl() {
 //        return serverUrl;
 //    }
-
 //    // FIXME 테스트용
 //    NetworkManager.getInstance().getServerUrl().insertBicycleComment2(bicycleId, comment, new Callback<Object>() {
 //        @Override

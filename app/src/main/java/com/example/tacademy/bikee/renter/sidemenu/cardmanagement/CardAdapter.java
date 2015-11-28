@@ -52,7 +52,7 @@ public class CardAdapter extends BaseAdapter {
         } else {
             cardView = (CardView) convertView;
         }
-        cardView.setCardView(items.get(position));
+        cardView.setView(items.get(position));
         cardView.delete_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

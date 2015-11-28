@@ -42,7 +42,7 @@ public class SearchResultView extends FrameLayout {
         distance = (TextView) findViewById(R.id.view_search_result_item_distance_text_view);
     }
 
-    public void setSearchResultView(SearchResultListItem item) {
+    public void setView(SearchResultListItem item) {
         Util.setRoundRectangleImageFromURL(MyApplication.getmContext(), item.getImageURL(), 6, bicycle_picture);
         bicycle_name.setText(item.getBicycle_name().toString());
         height.setText(item.getHeight().toString());

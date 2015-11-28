@@ -14,6 +14,7 @@ public class PropertyManager {
     private SharedPreferences mPrefs;
     private SharedPreferences.Editor mEditor;
 
+    public static final String KEY_IMAGE = "image";
     public static final String KEY_NAME = "name";
     public static final String KEY_EMAIL = "id";
     public static final String KEY_PASSWORD = "password";
@@ -30,6 +31,15 @@ public class PropertyManager {
     private PropertyManager() {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(MyApplication.getmContext());
         mEditor = mPrefs.edit();
+    }
+
+    public void setImage(String image) {
+        mEditor.putString(KEY_IMAGE, image);
+        mEditor.commit();
+    }
+
+    public String getImage() {
+        return mPrefs.getString(KEY_IMAGE, "");
     }
 
     public void setName(String name) {
