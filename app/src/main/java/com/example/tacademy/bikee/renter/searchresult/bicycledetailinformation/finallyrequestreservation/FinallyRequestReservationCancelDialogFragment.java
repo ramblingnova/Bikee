@@ -46,6 +46,7 @@ public class FinallyRequestReservationCancelDialogFragment extends DialogFragmen
         btn1.setOnClickListener(this);
         btn2 = (Button) view.findViewById(R.id.fragment_choice_dialog_button2);
         btn2.setOnClickListener(this);
+
         return view;
     }
 
@@ -76,7 +77,7 @@ public class FinallyRequestReservationCancelDialogFragment extends DialogFragmen
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     }
-                }, 1000);
+                }, 1500);
                 break;
             case R.id.fragment_choice_dialog_button2:
                 dismiss();

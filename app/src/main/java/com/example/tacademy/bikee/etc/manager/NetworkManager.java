@@ -72,8 +72,7 @@ public class NetworkManager {
 
     public interface ServerUrl {
 //        String baseUrl = "http://bikee.kr.pe";
-        String baseUrl = "http://192.168.201.226";
-//        String baseUrl = "http://bikee.kr.pe:2222";
+        String baseUrl = "http://192.168.201.226:2222";
 
         // 본인정보조회 app.get('/users/:userId',users.profile) TODO id 없이 "본인정보조회"하기
         @GET("/users/{userId}")
@@ -212,12 +211,14 @@ public class NetworkManager {
         @GET("/import")
         void requestPayment(Callback<ReceiveObject> callback);
 
+//        // TODO :
 //        @POST("/register/")
 //        void registerGCM(@Field("token") String registerationID,
 //                         @Field("deviceID") String deviceID,
 //                         @Field("deviceName") String deviceName,
 //                         @Field("email") String email);
-//
+
+//        // TODO :
 //        @POST("/message/{userID}")
 //        void sendMessage(@Path("userID") String user_id, @Field("message") String message);
     }

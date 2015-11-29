@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@drawable/filtering_contentsbox"
+    android:background="@drawable/temp_icon"
     android:layout_height="match_parent"
     tools:context="com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.finallyrequestreservation.FinallyRequestReservationConfirmDialogFragment">
 
@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="메시지" />
+        android:text="주인장에게 예약요청을 하시겠습니까?" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,13 +23,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:text="버튼1" />
+            android:text="네" />
 
         <Button
             android:id="@+id/fragment_choice_dialog_button2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:text="버튼2" />
+            android:text="아니요" />
     </LinearLayout>
 </RelativeLayout>

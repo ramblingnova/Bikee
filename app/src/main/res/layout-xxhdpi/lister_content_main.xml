@@ -38,7 +38,7 @@
                 android:id="@android:id/tabs"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:background="@color/bikeeBlue" />
+                android:background="@color/bikeeBlack" />
         </LinearLayout>
     </android.support.v4.app.FragmentTabHost>
 </RelativeLayout>

@@ -91,9 +91,9 @@ public class FinallyRegisterBicycleActivity extends AppCompatActivity implements
                 Map<String, TypedFile> map = new HashMap<String, TypedFile>();
                 int i = 0;
                 for (File file : tempItem.getFiles()) {
-                    map.put("image" + i++, new TypedFile("image/png", file));
+                    map.put("image" + (i++), new TypedFile("image/png", file));
                 }
-                int size = i++;
+                int size = i;
 
                 Price price = new Price();
                 price.setHour(tempItem.getHour());
@@ -104,7 +104,11 @@ public class FinallyRegisterBicycleActivity extends AppCompatActivity implements
                 NetworkManager.getInstance().insertBicycle(map, bike, size, new Callback<ReceiveObject>() {
                     @Override
                     public void success(ReceiveObject receiveObject, Response response) {
-                        Log.i("result", "onResponse Code : " + receiveObject.getCode() + ", Success : " + receiveObject.isSuccess() + ", Msg : " + receiveObject.getMsg() + ", response.getStatus() : " + response.getStatus());
+                        Log.i("result", "onResponse Code : " + receiveObject.getCode()
+                                + ", Success : " + receiveObject.isSuccess()
+                                + ", Msg : " + receiveObject.getMsg()
+                                + ", response.getStatus() : " + response.getStatus()
+                        );
                         intent = getIntent();
                         intent.putExtra(ITEM_TAG, tempItem);
                         setResult(RESULT_OK, intent);

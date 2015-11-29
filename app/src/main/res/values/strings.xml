@@ -45,7 +45,7 @@
     <string name="activity_sign_up_authentication_button_string">인증번호받기</string>
     <string name="activity_sign_up_confirm_authentication_button_string">인증확인</string>
     <string name="activity_sign_up_password_text_view_string">비밀번호</string>
-    <string name="activity_sign_up_receive_information_agreement_text_view_string">정보수신동의</string>
+    <string name="activity_sign_up_receive_information_agreement_text_view_string">수신동의</string>
     <string name="activity_sign_up_mail_information_agreement_check_box_string">메일정보 수신 동의</string>
     <string name="activity_sign_up_sms_information_agreement_check_box_string">SMS 수신 동의</string>
     <string name="activity_sign_up_terms_agreement_text_view_string">약관동의</string>

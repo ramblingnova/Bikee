@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
@@ -49,7 +50,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         name = (EditText) findViewById(R.id.activity_sign_up_input_name_edit_text);
         email = (EditText) findViewById(R.id.activity_sign_up_input_mail_address_edit_text);
-        phone = (EditText) findViewById(R.id.activity_sign_up_input_cellphone_edit_text);
+        phone = (EditText) findViewById(R.id.activity_sign_up_input_phone_edit_text);
         password = (EditText) findViewById(R.id.activity_sign_up_input_password_edit_text);
         btn = (Button)findViewById(R.id.activity_sign_up_sign_up_button);
         btn.setOnClickListener(SignUpActivity.this);
@@ -67,17 +68,23 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 NetworkManager.getInstance().insertUser(user, new Callback<ReceiveObject>() {
                     @Override
                     public void success(ReceiveObject receiveObject, Response response) {
-                        Log.i("result", "onResponse Code : " + receiveObject.getCode()
+                        Log.i("result", "회원가입 onResponse Code : " + receiveObject.getCode()
                                 + ", Success : " + receiveObject.isSuccess()
                                 + ", Msg : " + receiveObject.getMsg()
                         );
-                        intent = getIntent();
-                        intent.putExtra(ACTIVITY_SIGN_UP_NAME, name.getText().toString());
-                        intent.putExtra(ACTIVITY_SIGN_UP_EMAIL, email.getText().toString());
-                        intent.putExtra(ACTIVITY_SIGN_UP_PHONE, phone.getText().toString());
-                        intent.putExtra(ACTIVITY_SIGN_UP_PASSWORD, password.getText().toString());
-                        setResult(RESULT_OK, intent);
-                        finish();
+                        if (receiveObject.getCode() == 200) {
+                            Toast.makeText(SignUpActivity.this, "회원가입됐습니다.", Toast.LENGTH_SHORT).show();
+                            intent = getIntent();
+                            intent.putExtra(ACTIVITY_SIGN_UP_NAME, name.getText().toString());
+                            intent.putExtra(ACTIVITY_SIGN_UP_EMAIL, email.getText().toString());
+                            intent.putExtra(ACTIVITY_SIGN_UP_PHONE, phone.getText().toString());
+                            intent.putExtra(ACTIVITY_SIGN_UP_PASSWORD, password.getText().toString());
+                            setResult(RESULT_OK, intent);
+                            finish();
+                        } else {
+                            // DELME
+                            Toast.makeText(SignUpActivity.this, receiveObject.getStack().get(0), Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override
@@ -86,7 +93,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 });
                 break;
-            case R.id.activity_sign_up_authentication_button:
+            case R.id.activity_sign_up_input_phone_edit_text:
                 break;
         }
     }

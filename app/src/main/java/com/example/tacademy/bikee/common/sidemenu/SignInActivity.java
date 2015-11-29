@@ -141,7 +141,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == SignUpActivity.SIGN_UP_ACTIVITY) {
+        if ((resultCode == RESULT_OK) && (requestCode == SignUpActivity.SIGN_UP_ACTIVITY)) {
             final String image = data.getStringExtra(SignUpActivity.ACTIVITY_SIGN_UP_IMAGE);
             final String name = data.getStringExtra(SignUpActivity.ACTIVITY_SIGN_UP_NAME);
             final String email = data.getStringExtra(SignUpActivity.ACTIVITY_SIGN_UP_EMAIL);

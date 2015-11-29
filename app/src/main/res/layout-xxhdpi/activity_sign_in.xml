@@ -1,273 +1,286 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="35dp"
-    android:paddingRight="35dp"
-    android:paddingTop="85dp"
     tools:context="com.example.tacademy.bikee.common.sidemenu.SignInActivity">
 
-    <ImageView
-        android:id="@+id/activity_sign_in_logo_image_view"
-        android:layout_width="80dp"
-        android:layout_height="128dp"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/login_logo" />
-
     <RelativeLayout
-        android:id="@+id/activity_sign_in_user_email_layout"
         android:layout_width="match_parent"
-        android:layout_height="47dp"
-        android:layout_below="@id/activity_sign_in_logo_image_view"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="81dp"
-        android:background="@drawable/login_input_box">
+        android:layout_height="match_parent"
+        android:paddingLeft="35dp"
+        android:paddingRight="35dp"
+        android:paddingTop="85dp">
 
         <ImageView
-            android:id="@+id/activity_sign_in_user_email_image_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="23dp"
-            android:src="@drawable/login_email_icon_after" />
+            android:id="@+id/activity_sign_in_logo_image_view"
+            android:layout_width="80dp"
+            android:layout_height="128dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/login_logo" />
 
-        <ImageView
-            android:id="@+id/activity_sign_in_user_email_check_image_view"
-            android:layout_width="22dp"
-            android:layout_height="18dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="18dp"
-            android:src="@drawable/login_input_finish_icon"
-            android:visibility="invisible" />
-
-        <EditText
-            android:id="@+id/activity_sign_in_user_email_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="19dp"
-            android:layout_marginRight="19dp"
-            android:layout_toLeftOf="@id/activity_sign_in_user_email_check_image_view"
-            android:layout_toRightOf="@id/activity_sign_in_user_email_image_view"
-            android:hint="@string/activity_sign_in_user_email_edit_text_string"
-            android:textColor="@color/bikeeBlue"
-            android:textSize="14dp" />
-
-        <TextView
-            android:id="@+id/activity_sign_in_user_email_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="19dp"
-            android:layout_marginRight="19dp"
-            android:layout_toLeftOf="@id/activity_sign_in_user_email_check_image_view"
-            android:layout_toRightOf="@id/activity_sign_in_user_email_image_view"
-            android:textColor="@color/bikeeLightGray"
-            android:textSize="14dp"
-            android:visibility="gone" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/activity_sign_in_user_password_layout"
-        android:layout_width="match_parent"
-        android:layout_height="47dp"
-        android:layout_below="@id/activity_sign_in_user_email_layout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="9dp"
-        android:background="@drawable/login_input_box">
-
-        <ImageView
-            android:id="@+id/activity_sign_in_user_password_image_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="23dp"
-            android:src="@drawable/login_password_icon_after" />
-
-        <ImageView
-            android:id="@+id/activity_sign_in_user_password_check_image_view"
-            android:layout_width="22dp"
-            android:layout_height="18dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="18dp"
-            android:src="@drawable/login_input_finish_icon"
-            android:visibility="invisible" />
-
-        <EditText
-            android:id="@+id/activity_sign_in_user_password_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="19dp"
-            android:layout_marginRight="19dp"
-            android:layout_toLeftOf="@id/activity_sign_in_user_password_check_image_view"
-            android:layout_toRightOf="@id/activity_sign_in_user_password_image_view"
-            android:hint="@string/activity_sign_in_user_password_edit_text"
-            android:password="true"
-            android:textSize="14dp" />
-
-        <TextView
-            android:id="@+id/activity_sign_in_user_password_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="19dp"
-            android:layout_marginRight="19dp"
-            android:layout_toLeftOf="@id/activity_sign_in_user_password_check_image_view"
-            android:layout_toRightOf="@id/activity_sign_in_user_password_image_view"
-            android:password="true"
-            android:textColor="@color/bikeeLightGray"
-            android:textSize="14dp"
-            android:visibility="gone" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/activity_sign_in_sign_in_out_button_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/activity_sign_in_user_password_layout">
-
-        <Button
-            android:id="@+id/activity_sign_in_sign_in_button"
+        <RelativeLayout
+            android:id="@+id/activity_sign_in_user_email_layout"
             android:layout_width="match_parent"
             android:layout_height="47dp"
+            android:layout_below="@id/activity_sign_in_logo_image_view"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="9dp"
-            android:background="@drawable/login_login_button"
-            android:text="@string/activity_sign_in_sign_in_button_string"
-            android:textColor="@color/bikeeWhite"
-            android:textSize="16sp" />
+            android:layout_marginTop="81dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:background="@drawable/login_input_box">
 
-        <Button
-            android:id="@+id/activity_sign_in_sign_out_button"
+            <ImageView
+                android:id="@+id/activity_sign_in_user_email_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="23dp"
+                android:src="@drawable/login_email_icon_after" />
+
+            <ImageView
+                android:id="@+id/activity_sign_in_user_email_check_image_view"
+                android:layout_width="22dp"
+                android:layout_height="18dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="18dp"
+                android:src="@drawable/login_input_finish_icon"
+                android:visibility="invisible" />
+
+            <EditText
+                android:id="@+id/activity_sign_in_user_email_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="19dp"
+                android:layout_marginRight="19dp"
+                android:layout_toLeftOf="@id/activity_sign_in_user_email_check_image_view"
+                android:layout_toRightOf="@id/activity_sign_in_user_email_image_view"
+                android:background="@null"
+                android:hint="@string/activity_sign_in_user_email_edit_text_string"
+                android:textColor="@color/bikeeBlue"
+                android:textColorHint="@color/bikeeLine"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/activity_sign_in_user_email_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="19dp"
+                android:layout_marginRight="19dp"
+                android:layout_toLeftOf="@id/activity_sign_in_user_email_check_image_view"
+                android:layout_toRightOf="@id/activity_sign_in_user_email_image_view"
+                android:textColor="@color/bikeeLightGray"
+                android:textSize="14dp"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/activity_sign_in_user_password_layout"
             android:layout_width="match_parent"
             android:layout_height="47dp"
+            android:layout_below="@id/activity_sign_in_user_email_layout"
             android:layout_centerHorizontal="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:layout_marginTop="9dp"
-            android:background="@drawable/login_login_button"
-            android:text="@string/activity_sign_in_sign_out_button_string"
-            android:textColor="@color/bikeeWhite"
-            android:textSize="16sp"
-            android:visibility="gone" />
-    </RelativeLayout>
+            android:background="@drawable/login_input_box">
 
-    <CheckBox
-        android:id="@+id/activity_sign_in_remember_sign_in_information_check_box"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:layout_alignLeft="@id/activity_sign_in_sign_in_out_button_layout"
-        android:layout_below="@id/activity_sign_in_sign_in_out_button_layout"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/login_check_selector"
-        android:button="@null" />
+            <ImageView
+                android:id="@+id/activity_sign_in_user_password_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="23dp"
+                android:src="@drawable/login_password_icon_after" />
 
-    <TextView
-        android:id="@+id/activity_sign_in_remember_sign_in_information_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/activity_sign_in_remember_sign_in_information_check_box"
-        android:layout_toRightOf="@id/activity_sign_in_remember_sign_in_information_check_box"
-        android:text="@string/activity_sign_in_remember_sign_in_information_text_view_string"
-        android:textColor="@color/bikeeBlue"
-        android:textSize="12sp" />
+            <ImageView
+                android:id="@+id/activity_sign_in_user_password_check_image_view"
+                android:layout_width="22dp"
+                android:layout_height="18dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="18dp"
+                android:src="@drawable/login_input_finish_icon"
+                android:visibility="invisible" />
 
-    <TextView
-        android:id="@+id/activity_sign_in_find_password_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/activity_sign_in_remember_sign_in_information_check_box"
-        android:layout_alignRight="@id/activity_sign_in_sign_in_out_button_layout"
-        android:text="@string/activity_sign_in_find_password_text_view_string"
-        android:textColor="@color/bikeeGray"
-        android:textSize="12sp" />
+            <EditText
+                android:id="@+id/activity_sign_in_user_password_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="19dp"
+                android:layout_marginRight="19dp"
+                android:layout_toLeftOf="@id/activity_sign_in_user_password_check_image_view"
+                android:layout_toRightOf="@id/activity_sign_in_user_password_image_view"
+                android:background="@null"
+                android:hint="@string/activity_sign_in_user_password_edit_text"
+                android:password="true"
+                android:textColorHint="@color/bikeeLine"
+                android:textSize="14dp" />
 
-    <ImageView
-        android:id="@+id/activity_sign_in_find_id_password_view"
-        android:layout_width="1dp"
-        android:layout_height="14dp"
-        android:layout_alignBottom="@id/activity_sign_in_remember_sign_in_information_check_box"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_toLeftOf="@id/activity_sign_in_find_password_text_view"
-        android:background="@color/bikeeGray" />
+            <TextView
+                android:id="@+id/activity_sign_in_user_password_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="19dp"
+                android:layout_marginRight="19dp"
+                android:layout_toLeftOf="@id/activity_sign_in_user_password_check_image_view"
+                android:layout_toRightOf="@id/activity_sign_in_user_password_image_view"
+                android:password="true"
+                android:textColor="@color/bikeeLightGray"
+                android:textSize="14dp"
+                android:visibility="gone" />
+        </RelativeLayout>
 
-    <TextView
-        android:id="@+id/activity_sign_in_find_id_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/activity_sign_in_remember_sign_in_information_check_box"
-        android:layout_toLeftOf="@id/activity_sign_in_find_id_password_view"
-        android:text="@string/activity_sign_in_find_id_text_view_string"
-        android:textColor="@color/bikeeGray"
-        android:textSize="12sp" />
-
-    <RelativeLayout
-        android:id="@+id/activity_sign_in_other_id_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/activity_sign_in_remember_sign_in_information_check_box">
-        <!--android:layout_marginTop="30dp"-->
-
-        <View
-            android:id="@+id/activity_sign_in_left_line_view"
-            android:layout_width="92dp"
-            android:layout_height="1dp"
-            android:layout_centerVertical="true"
-            android:background="@color/bikeeBlue" />
-
-        <TextView
+        <RelativeLayout
+            android:id="@+id/activity_sign_in_sign_in_out_button_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="다른 아이디로 연동"
+            android:layout_below="@id/activity_sign_in_user_password_layout">
+
+            <Button
+                android:id="@+id/activity_sign_in_sign_in_button"
+                android:layout_width="match_parent"
+                android:layout_height="47dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="9dp"
+                android:background="@drawable/login_login_button"
+                android:text="@string/activity_sign_in_sign_in_button_string"
+                android:textColor="@color/bikeeWhite"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/activity_sign_in_sign_out_button"
+                android:layout_width="match_parent"
+                android:layout_height="47dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="9dp"
+                android:background="@drawable/login_login_button"
+                android:text="@string/activity_sign_in_sign_out_button_string"
+                android:textColor="@color/bikeeWhite"
+                android:textSize="16sp"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <CheckBox
+            android:id="@+id/activity_sign_in_remember_sign_in_information_check_box"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_alignLeft="@id/activity_sign_in_sign_in_out_button_layout"
+            android:layout_below="@id/activity_sign_in_sign_in_out_button_layout"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/login_check_selector"
+            android:button="@null" />
+
+        <TextView
+            android:id="@+id/activity_sign_in_remember_sign_in_information_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/activity_sign_in_remember_sign_in_information_check_box"
+            android:layout_toRightOf="@id/activity_sign_in_remember_sign_in_information_check_box"
+            android:text="@string/activity_sign_in_remember_sign_in_information_text_view_string"
             android:textColor="@color/bikeeBlue"
-            android:textSize="11sp" />
+            android:textSize="12sp" />
 
-        <View
-            android:id="@+id/activity_sign_in_right_line_view"
-            android:layout_width="92dp"
-            android:layout_height="1dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@color/bikeeBlue" />
+        <TextView
+            android:id="@+id/activity_sign_in_find_password_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/activity_sign_in_remember_sign_in_information_check_box"
+            android:layout_alignRight="@id/activity_sign_in_sign_in_out_button_layout"
+            android:text="@string/activity_sign_in_find_password_text_view_string"
+            android:textColor="@color/bikeeGray"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/activity_sign_in_find_id_password_view"
+            android:layout_width="1dp"
+            android:layout_height="14dp"
+            android:layout_alignBottom="@id/activity_sign_in_remember_sign_in_information_check_box"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_toLeftOf="@id/activity_sign_in_find_password_text_view"
+            android:background="@color/bikeeGray" />
+
+        <TextView
+            android:id="@+id/activity_sign_in_find_id_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/activity_sign_in_remember_sign_in_information_check_box"
+            android:layout_toLeftOf="@id/activity_sign_in_find_id_password_view"
+            android:text="@string/activity_sign_in_find_id_text_view_string"
+            android:textColor="@color/bikeeGray"
+            android:textSize="12sp" />
+
+        <RelativeLayout
+            android:id="@+id/activity_sign_in_other_id_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/activity_sign_in_remember_sign_in_information_check_box"
+            android:layout_marginTop="30dp">
+
+            <View
+                android:id="@+id/activity_sign_in_left_line_view"
+                android:layout_width="92dp"
+                android:layout_height="1dp"
+                android:layout_centerVertical="true"
+                android:background="@color/bikeeBlue" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="다른 아이디로 연동"
+                android:textColor="@color/bikeeBlue"
+                android:textSize="11sp" />
+
+            <View
+                android:id="@+id/activity_sign_in_right_line_view"
+                android:layout_width="92dp"
+                android:layout_height="1dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@color/bikeeBlue" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/activity_sign_in_facebook_button"
+            android:layout_width="75dp"
+            android:layout_height="30dp"
+            android:layout_alignLeft="@id/activity_sign_in_sign_in_out_button_layout"
+            android:layout_below="@id/activity_sign_in_other_id_layout"
+            android:layout_marginTop="11dp"
+            android:background="@drawable/login_another_id_button1" />
+
+        <Button
+            android:id="@+id/activity_sign_in_naver_button"
+            android:layout_width="75dp"
+            android:layout_height="30dp"
+            android:layout_alignBottom="@id/activity_sign_in_facebook_button"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/login_another_id_button2" />
+
+        <Button
+            android:id="@+id/activity_sign_in_kakaotalk_button"
+            android:layout_width="75dp"
+            android:layout_height="30dp"
+            android:layout_alignBottom="@id/activity_sign_in_facebook_button"
+            android:layout_alignRight="@id/activity_sign_in_sign_in_out_button_layout"
+            android:background="@drawable/login_another_id_button3" />
+
+        <TextView
+            android:id="@+id/activity_sign_in_sign_up_string"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/activity_sign_in_naver_button"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="@string/activity_sign_in_sign_up_string"
+            android:textColor="@color/bikeeBlue"
+            android:textSize="14sp" />
     </RelativeLayout>
-
-    <Button
-        android:id="@+id/activity_sign_in_facebook_button"
-        android:layout_width="75dp"
-        android:layout_height="30dp"
-        android:layout_alignLeft="@id/activity_sign_in_sign_in_out_button_layout"
-        android:layout_below="@id/activity_sign_in_other_id_layout"
-        android:layout_marginTop="11dp"
-        android:background="@drawable/login_another_id_button1" />
-
-    <Button
-        android:id="@+id/activity_sign_in_naver_button"
-        android:layout_width="75dp"
-        android:layout_height="30dp"
-        android:layout_alignBottom="@id/activity_sign_in_facebook_button"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/login_another_id_button2" />
-
-    <Button
-        android:id="@+id/activity_sign_in_kakaotalk_button"
-        android:layout_width="75dp"
-        android:layout_height="30dp"
-        android:layout_alignBottom="@id/activity_sign_in_facebook_button"
-        android:layout_alignRight="@id/activity_sign_in_sign_in_out_button_layout"
-        android:background="@drawable/login_another_id_button3" />
-
-    <TextView
-        android:id="@+id/activity_sign_in_sign_up_string"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/activity_sign_in_naver_button"
-        android:layout_centerHorizontal="true"
-        android:text="@string/activity_sign_in_sign_up_string"
-        android:textColor="@color/bikeeBlue"
-        android:textSize="14sp" />
-    <!--android:layout_marginTop="20dp"-->
-</RelativeLayout>
+</ScrollView>

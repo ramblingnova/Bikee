@@ -6,11 +6,12 @@ import java.util.List;
  * Created by Tacademy on 2015-11-12.
  */
 public class ReceiveObject1 {
-    public int code = -1;
-    public boolean success = false;
-    public List<Result1> result = null;
-    public Object err = null;
-    public String msg = null;
+    private int code = -1;
+    private boolean success = false;
+    private List<Result1> result = null;
+    private Err err = null;
+    private String msg = null;
+    private List<String> stack = null;
 
     public int getCode() {
         return code;
@@ -36,11 +37,19 @@ public class ReceiveObject1 {
         this.result = result;
     }
 
-    public Object getErr() {
+//    public Object getErr() {
+//        return err;
+//    }
+//
+//    public void setErr(Object err) {
+//        this.err = err;
+//    }
+
+    public Err getErr() {
         return err;
     }
 
-    public void setErr(Object err) {
+    public void setErr(Err err) {
         this.err = err;
     }
 
@@ -50,5 +59,13 @@ public class ReceiveObject1 {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public List<String> getStack() {
+        return stack;
+    }
+
+    public void setStack(List<String> stack) {
+        this.stack = stack;
     }
 }

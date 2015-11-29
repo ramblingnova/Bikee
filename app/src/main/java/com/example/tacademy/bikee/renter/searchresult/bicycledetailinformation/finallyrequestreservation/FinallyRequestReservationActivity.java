@@ -25,7 +25,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class FinallyRequestReservationActivity extends AppCompatActivity implements View.OnClickListener {
-    private ChoiceDialogFragment dialog;
     private FinallyRequestReservationConfirmDialogFragment dialog2;
     private FinallyRequestReservationCancelDialogFragment dialog1;
     private Intent intent;
@@ -64,8 +63,6 @@ public class FinallyRequestReservationActivity extends AppCompatActivity impleme
             case R.id.activity_finally_request_reservation_cancel_button:
                 dialog1 = new FinallyRequestReservationCancelDialogFragment().newInstance(1);
                 dialog1.show(getSupportFragmentManager(), "custom");
-//                dialog = new ChoiceDialogFragment().newInstance(ChoiceDialogFragment.RENTER_CANCEL_RESERVATION);
-//                dialog.show(getSupportFragmentManager(), "custom");
                 break;
             case R.id.activity_finally_request_reservation_confirm_button:
                 Reserve reserve = new Reserve();
@@ -88,8 +85,6 @@ public class FinallyRequestReservationActivity extends AppCompatActivity impleme
                         Log.e("error", "onFailure Error! : " + error.toString());
                     }
                 });
-//                dialog = new ChoiceDialogFragment().newInstance(ChoiceDialogFragment.RENTER_REQUEST_RESERVATION);
-//                dialog.show(getSupportFragmentManager(), "custom");
                 dialog2 = new FinallyRequestReservationConfirmDialogFragment().newInstance(1);
                 dialog2.show(getSupportFragmentManager(), "custom");
                 break;

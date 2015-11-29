@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bikeeBackground"
     android:fitsSystemWindows="true"
     tools:context="com.example.tacademy.bikee.common.sidemenu.SignUpActivity">
 
@@ -24,10 +25,6 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <RelativeLayout
@@ -37,202 +34,451 @@
             <RelativeLayout
                 android:id="@+id/activity_sign_up_image_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@drawable/detailpage_backimg2"
+                android:paddingBottom="25dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="22dp">
+
+                <TextView
+                    android:id="@+id/activity_sign_up_account_information_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="계정정보"
+                    android:textColor="@color/bikeeBlack"
+                    android:textSize="16sp" />
 
                 <ImageView
                     android:id="@+id/activity_sign_up_image_view"
+                    android:layout_width="108dp"
+                    android:layout_height="108dp"
+                    android:layout_below="@id/activity_sign_up_account_information_text_view"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="36dp"
+                    android:src="@drawable/noneimage" />
+
+                <RelativeLayout
+                    android:id="@+id/activity_sign_up_name_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/temp_icon" />
+                    android:layout_below="@id/activity_sign_up_image_view"
+                    android:layout_marginTop="43dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
+
+                    <ImageView
+                        android:id="@+id/activity_sign_up_name_icon_image_view"
+                        android:layout_width="31dp"
+                        android:layout_height="31dp"
+                        android:src="@drawable/signin_icon_name" />
+
+                    <EditText
+                        android:id="@+id/activity_sign_up_input_name_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="27dp"
+                        android:layout_toRightOf="@id/activity_sign_up_name_icon_image_view"
+                        android:background="@null"
+                        android:hint="이름"
+                        android:textColor="@color/bikeeBlack"
+                        android:textColorHint="@color/bikeeLine"
+                        android:textSize="15sp" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/activity_sign_up_name_email_line_image_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/activity_sign_up_name_layout"
+                    android:layout_marginTop="13dp"
+                    android:background="@color/bikeeLightGray" />
+
+                <RelativeLayout
+                    android:id="@+id/activity_sign_up_email_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/activity_sign_up_name_email_line_image_view"
+                    android:layout_marginTop="15dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
+
+                    <ImageView
+                        android:id="@+id/activity_sign_up_email_icon_image_view"
+                        android:layout_width="31dp"
+                        android:layout_height="31dp"
+                        android:src="@drawable/signin_icon_email" />
+
+                    <TextView
+                        android:id="@+id/activity_sign_up_confirm_duplication"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="중복확인"
+                        android:textColor="@color/bikeeLine"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/activity_sign_up_input_mail_address_edit_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="27dp"
+                        android:layout_marginRight="27dp"
+                        android:layout_toLeftOf="@id/activity_sign_up_confirm_duplication"
+                        android:layout_toRightOf="@id/activity_sign_up_email_icon_image_view"
+                        android:background="@null"
+                        android:hint="이메일"
+                        android:textColor="@color/bikeeBlack"
+                        android:textColorHint="@color/bikeeLine"
+                        android:textSize="15sp" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/activity_sign_up_email_password_line_image_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/activity_sign_up_email_layout"
+                    android:layout_marginTop="13dp"
+                    android:background="@color/bikeeLightGray" />
+
+                <RelativeLayout
+                    android:id="@+id/activity_sign_up_password_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/activity_sign_up_email_password_line_image_view"
+                    android:layout_marginTop="15dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
+
+                    <ImageView
+                        android:id="@+id/activity_sign_up_password_icon_image_view"
+                        android:layout_width="31dp"
+                        android:layout_height="31dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/signup_icon_password" />
+
+                    <ImageView
+                        android:id="@+id/activity_sign_up_password_check_image_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/signin_icon_ok" />
+
+                    <EditText
+                        android:id="@+id/activity_sign_up_input_password_edit_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="27dp"
+                        android:layout_marginRight="27dp"
+                        android:layout_toLeftOf="@id/activity_sign_up_password_check_image_view"
+                        android:layout_toRightOf="@id/activity_sign_up_password_icon_image_view"
+                        android:background="@null"
+                        android:hint="비밀번호"
+                        android:password="true"
+                        android:textColor="@color/bikeeBlack"
+                        android:textColorHint="@color/bikeeLine"
+                        android:textSize="15sp" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/activity_sign_up_password_phone_line_image_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/activity_sign_up_password_layout"
+                    android:layout_marginTop="13dp"
+                    android:background="@color/bikeeLightGray" />
+
+                <RelativeLayout
+                    android:id="@+id/activity_sign_up_phone_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/activity_sign_up_password_phone_line_image_view"
+                    android:layout_marginTop="15dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
+
+                    <ImageView
+                        android:id="@+id/activity_sign_up_phone_icon_image_view"
+                        android:layout_width="31dp"
+                        android:layout_height="31dp"
+                        android:src="@drawable/signin_icon_phone" />
+
+                    <TextView
+                        android:id="@+id/activity_sign_up_request_authentication_number_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="인증번호요청"
+                        android:textColor="@color/bikeeBlue"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/activity_sign_up_input_phone_edit_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="27dp"
+                        android:layout_marginRight="27dp"
+                        android:layout_toLeftOf="@id/activity_sign_up_request_authentication_number_text_view"
+                        android:layout_toRightOf="@id/activity_sign_up_phone_icon_image_view"
+                        android:background="@null"
+                        android:hint="핸드폰번호"
+                        android:textColor="@color/bikeeBlack"
+                        android:textColorHint="@color/bikeeLine"
+                        android:textSize="15sp" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/activity_sign_up_phone_authentication_image_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/activity_sign_up_phone_layout"
+                    android:layout_marginTop="13dp"
+                    android:background="@color/bikeeLightGray" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/activity_sign_up_phone_authentication_image_view"
+                    android:layout_marginTop="15dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
+
+                    <ImageView
+                        android:id="@+id/activity_sign_up_authentication_icon_image_view"
+                        android:layout_width="31dp"
+                        android:layout_height="31dp"
+                        android:src="@drawable/signin_icon_phone"
+                        android:visibility="invisible" />
+
+                    <TextView
+                        android:id="@+id/activity_sign_up_confirm_button_authentication"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/activity_sign_up_confirm_authentication_button_string"
+                        android:textColor="@color/bikeeBlue" />
+
+                    <EditText
+                        android:id="@+id/activity_sign_up_authentication_number_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="27dp"
+                        android:layout_toLeftOf="@id/activity_sign_up_authentication_number_edit_text"
+                        android:layout_toRightOf="@id/activity_sign_up_authentication_icon_image_view"
+                        android:background="@null"
+                        android:hint="핸드폰 인증번호"
+                        android:inputType="number"
+                        android:textColor="@color/bikeeBlack"
+                        android:textColorHint="@color/bikeeLine"
+                        android:textSize="15sp" />
+                </RelativeLayout>
             </RelativeLayout>
-
-            <LinearLayout
-                android:id="@+id/activity_sign_up_name_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/activity_sign_up_image_layout"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/activity_sign_up_name_text_view"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/activity_sign_up_name_string" />
-
-                <EditText
-                    android:id="@+id/activity_sign_up_input_name_edit_text"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/activity_sign_up_mail_address_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/activity_sign_up_name_layout"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/activity_sign_up_mail_address_text_view"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/activity_sign_up_mail_address_text_view_string" />
-
-                <EditText
-                    android:id="@+id/activity_sign_up_input_mail_address_edit_text"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/activity_sign_up_cellphone_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/activity_sign_up_mail_address_layout"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/activity_sign_up_cellphone_text_view"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/activity_sign_up_cellphone_text_view_string" />
-
-                <EditText
-                    android:id="@+id/activity_sign_up_input_cellphone_edit_text"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <Button
-                    android:id="@+id/activity_sign_up_authentication_button"
-                    style="@style/Widget.AppCompat.Button.Small"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/activity_sign_up_authentication_button_string" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/activity_sign_up_confirm_authentication_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/activity_sign_up_cellphone_layout"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/activity_sign_up_authentication_number_edit_text"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <Button
-                    android:id="@+id/activity_sign_up_confirm_button_authentication"
-                    style="@style/Widget.AppCompat.Button.Small"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/activity_sign_up_confirm_authentication_button_string" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/activity_sign_up_password_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/activity_sign_up_confirm_authentication_layout"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/activity_sign_up_password_text_view"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/activity_sign_up_password_text_view_string" />
-
-                <EditText
-                    android:id="@+id/activity_sign_up_input_password_edit_text"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:password="true" />
-            </LinearLayout>
 
             <RelativeLayout
                 android:id="@+id/activity_sign_up_receive_information_agreement_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/activity_sign_up_password_layout">
+                android:layout_below="@id/activity_sign_up_image_layout"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/detailpage_backimg2"
+                android:paddingBottom="25dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="22dp">
 
                 <TextView
                     android:id="@+id/activity_sign_up_receive_information_agreement_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/activity_sign_up_receive_information_agreement_text_view_string" />
+                    android:text="@string/activity_sign_up_receive_information_agreement_text_view_string"
+                    android:textColor="@color/bikeeBlack"
+                    android:textSize="16sp" />
 
                 <CheckBox
                     android:id="@+id/activity_sign_up_mail_information_agreement_check_box"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:layout_below="@id/activity_sign_up_receive_information_agreement_text_view"
-                    android:text="@string/activity_sign_up_mail_information_agreement_check_box_string" />
+                    android:layout_marginTop="22dp"
+                    android:background="@drawable/activity_sign_up_check_selector"
+                    android:button="@null" />
+
+                <TextView
+                    android:id="@+id/activity_sign_up_mail_information_agreement_check_box_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/activity_sign_up_mail_information_agreement_check_box"
+                    android:layout_marginLeft="11dp"
+                    android:layout_toRightOf="@id/activity_sign_up_mail_information_agreement_check_box"
+                    android:text="E-mail 수신동의"
+                    android:textColor="@color/bikeeBlack"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/activity_sign_up_sms_information_agreement_check_box_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/activity_sign_up_mail_information_agreement_check_box"
+                    android:layout_alignParentRight="true"
+                    android:text="푸쉬알림 수신동의"
+                    android:textColor="@color/bikeeBlack"
+                    android:textSize="15sp" />
 
                 <CheckBox
-                    android:id="@+id/activity_sign_up_sms_information_agreement"
-                    android:layout_width="match_parent"
+                    android:id="@+id/activity_sign_up_sms_information_agreement_check_box"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_alignBottom="@id/activity_sign_up_mail_information_agreement_check_box"
+                    android:layout_marginRight="11dp"
+                    android:layout_marginTop="22dp"
+                    android:layout_toLeftOf="@id/activity_sign_up_sms_information_agreement_check_box_text_view"
+                    android:background="@drawable/activity_sign_up_check_selector"
+                    android:button="@null" />
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/activity_sign_up_mail_information_agreement_check_box"
-                    android:text="@string/activity_sign_up_sms_information_agreement_check_box_string" />
+                    android:layout_marginTop="18dp"
+                    android:text="약관 및 서비스 내용, 회사의 주요정책 관련 변경에 따른 내용은 정보수신 거부와 상관없이 발송 될 수 있습니다."
+                    android:textColor="@color/bikeeGray"
+                    android:textSize="11sp" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/activity_sign_up_terms_agreement_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/activity_sign_up_receive_information_agreement_layout">
+                android:layout_below="@id/activity_sign_up_receive_information_agreement_layout"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/detailpage_backimg2"
+                android:paddingBottom="25dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="22dp">
 
                 <TextView
                     android:id="@+id/activity_sign_up_terms_agreement_text_view"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/activity_sign_up_terms_agreement_text_view_string" />
+                    android:text="@string/activity_sign_up_terms_agreement_text_view_string"
+                    android:textColor="@color/bikeeBlack"
+                    android:textSize="16sp" />
 
                 <CheckBox
                     android:id="@+id/activity_sign_up_terms_bikee_agreement_check_box"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:layout_below="@+id/activity_sign_up_terms_agreement_text_view"
-                    android:text="@string/activity_sign_up_terms_bikee_agreement_check_box_string" />
+                    android:layout_marginTop="22dp"
+                    android:background="@drawable/activity_sign_up_check_selector"
+                    android:button="@null" />
+
+                <TextView
+                    android:id="@+id/activity_sign_up_terms_bikee_agreement_check_box_text_view1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/activity_sign_up_terms_bikee_agreement_check_box"
+                    android:layout_marginLeft="11dp"
+                    android:layout_toRightOf="@id/activity_sign_up_terms_bikee_agreement_check_box"
+                    android:text="바이키 이용약관"
+                    android:textColor="@color/bikeeBlue"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/activity_sign_up_terms_bikee_agreement_check_box_text_view2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/activity_sign_up_terms_bikee_agreement_check_box"
+                    android:layout_toRightOf="@id/activity_sign_up_terms_bikee_agreement_check_box_text_view1"
+                    android:text="에 동의합니다."
+                    android:textColor="@color/bikeeBlack"
+                    android:textSize="15sp" />
 
                 <CheckBox
                     android:id="@+id/activity_sign_up_terms_location_information_agreement_check_box"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:layout_below="@+id/activity_sign_up_terms_bikee_agreement_check_box"
-                    android:text="@string/activity_sign_up_terms_location_information_agreement_check_box_string" />
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/activity_sign_up_check_selector"
+                    android:button="@null" />
+
+                <TextView
+                    android:id="@+id/activity_sign_up_terms_location_information_agreement_check_box_text_view1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/activity_sign_up_terms_location_information_agreement_check_box"
+                    android:layout_marginLeft="11dp"
+                    android:layout_toRightOf="@id/activity_sign_up_terms_location_information_agreement_check_box"
+                    android:text="위치정보 이용약관"
+                    android:textColor="@color/bikeeBlue"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/activity_sign_up_terms_location_information_agreement_check_box_text_view2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/activity_sign_up_terms_location_information_agreement_check_box"
+                    android:layout_toRightOf="@id/activity_sign_up_terms_location_information_agreement_check_box_text_view1"
+                    android:text="에 동의합니다."
+                    android:textColor="@color/bikeeBlack"
+                    android:textSize="15sp" />
 
                 <CheckBox
                     android:id="@+id/activity_sign_up_terms_information_gathering_agreement_check_box"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:layout_below="@+id/activity_sign_up_terms_location_information_agreement_check_box"
-                    android:text="@string/activity_sign_up_terms_information_gathering_agreement_check_box_string" />
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/activity_sign_up_check_selector"
+                    android:button="@null" />
+
+                <TextView
+                    android:id="@+id/activity_sign_up_terms_information_gathering_agreement_check_box_text_view1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/activity_sign_up_terms_information_gathering_agreement_check_box"
+                    android:layout_marginLeft="11dp"
+                    android:layout_toRightOf="@id/activity_sign_up_terms_information_gathering_agreement_check_box"
+                    android:text="개인정보 수집 및 이용"
+                    android:textColor="@color/bikeeBlue"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/activity_sign_up_terms_information_gathering_agreement_check_box_text_view2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/activity_sign_up_terms_information_gathering_agreement_check_box"
+                    android:layout_toRightOf="@id/activity_sign_up_terms_information_gathering_agreement_check_box_text_view1"
+                    android:text="에 동의합니다."
+                    android:textColor="@color/bikeeBlack"
+                    android:textSize="15sp" />
             </RelativeLayout>
 
             <Button
                 android:id="@+id/activity_sign_up_sign_up_button"
-                style="@style/Widget.AppCompat.Button.Small"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:layout_below="@id/activity_sign_up_terms_agreement_layout"
-                android:text="@string/activity_sign_up_sign_up_button_string" />
+                android:layout_marginBottom="26dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="42dp"
+                android:background="@drawable/detailpage_button2"
+                android:text="@string/activity_sign_up_sign_up_button_string"
+                android:textColor="@color/bikeeWhite"
+                android:textSize="19sp" />
         </RelativeLayout>
     </ScrollView>
 </android.support.design.widget.CoordinatorLayout>

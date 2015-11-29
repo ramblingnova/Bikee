@@ -23,6 +23,12 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        if (PropertyManager.getInstance().getInit().equals("")) {
+            PropertyManager.getInstance().setLatitude("37.565596");
+            PropertyManager.getInstance().setLongitude("126.978013");
+            PropertyManager.getInstance().setInit("false");
+        }
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -32,8 +38,8 @@ public class SplashActivity extends AppCompatActivity {
                         @Override
                         public void success(ReceiveObject receiveObject, Response response) {
                             Log.i("result", "onResponse Success : " + receiveObject.isSuccess()
-                                    + ", Code : " + receiveObject.getCode()
-                                    + ", Msg : " + receiveObject.getMsg()
+                                            + ", Code : " + receiveObject.getCode()
+                                            + ", Msg : " + receiveObject.getMsg()
                             );
                         }
 

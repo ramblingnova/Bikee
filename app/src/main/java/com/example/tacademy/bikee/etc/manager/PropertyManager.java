@@ -20,6 +20,7 @@ public class PropertyManager {
     public static final String KEY_PASSWORD = "password";
     public static final String KEY_LATITUDE = "latitude";
     public static final String KEY_LONGITUDE = "longitude";
+    public static final String KEY_INIT = "init";
 
     public static PropertyManager getInstance() {
         if (instance == null) {
@@ -75,7 +76,7 @@ public class PropertyManager {
     }
 
     public String getLatitude() {
-        return mPrefs.getString(KEY_LATITUDE, "37.565596");
+        return mPrefs.getString(KEY_LATITUDE, "");
     }
 
     public void setLongitude(String longitude) {
@@ -84,8 +85,19 @@ public class PropertyManager {
     }
 
     public String getLongitude() {
-        return mPrefs.getString(KEY_LONGITUDE, "126.978013");
+        return mPrefs.getString(KEY_LONGITUDE, "");
     }
+
+    public void setInit(String init) {
+        mEditor.putString(KEY_INIT, init);
+        mEditor.commit();
+    }
+
+    public String getInit() {
+        return mPrefs.getString(KEY_INIT, "");
+    }
+
+
 
     public boolean isBackupSync() {
         return mPrefs.getBoolean("perf_sync", false);
