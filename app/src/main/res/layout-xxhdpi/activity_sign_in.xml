@@ -208,8 +208,8 @@
         android:id="@+id/activity_sign_in_other_id_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/activity_sign_in_remember_sign_in_information_check_box"
-        android:layout_marginTop="30dp">
+        android:layout_below="@id/activity_sign_in_remember_sign_in_information_check_box">
+        <!--android:layout_marginTop="30dp"-->
 
         <View
             android:id="@+id/activity_sign_in_left_line_view"
@@ -266,8 +266,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/activity_sign_in_naver_button"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
         android:text="@string/activity_sign_in_sign_up_string"
         android:textColor="@color/bikeeBlue"
         android:textSize="14sp" />
+    <!--android:layout_marginTop="20dp"-->
 </RelativeLayout>

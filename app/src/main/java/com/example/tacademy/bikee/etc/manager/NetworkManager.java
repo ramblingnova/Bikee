@@ -72,7 +72,8 @@ public class NetworkManager {
 
     public interface ServerUrl {
 //        String baseUrl = "http://bikee.kr.pe";
-        String baseUrl = "http://bikee.kr.pe:2222";
+        String baseUrl = "http://192.168.201.226";
+//        String baseUrl = "http://bikee.kr.pe:2222";
 
         // 본인정보조회 app.get('/users/:userId',users.profile) TODO id 없이 "본인정보조회"하기
         @GET("/users/{userId}")

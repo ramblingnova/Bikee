@@ -244,7 +244,7 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
             nameTextView.setText(PropertyManager.getInstance().getName());
             emailTextView.setText(PropertyManager.getInstance().getEmail());
         } else {
-            Util.setCircleImageFromURL(this, "http://bikee.s3.amazonaws.com/detail_1446776196619.jpg", 0, renterImage);
+            Util.setCircleImageFromURL(this, "https://s3-ap-northeast-1.amazonaws.com/bikee/KakaoTalk_20151128_194521490.png", 0, renterImage);
             nameTextView.setText(R.string.renter_side_menu_member_name_text_view_string);
             emailTextView.setText(R.string.renter_side_menu_mail_address_text_view_string);
         }

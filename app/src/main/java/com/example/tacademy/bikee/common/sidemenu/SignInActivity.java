@@ -87,7 +87,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                                         || (null != result.getImage().getCdnUri())
                                         || (null != result.getImage().getFiles())
                                         || (null != result.getImage().getFiles().get(0))) {
-                                    PropertyManager.getInstance().setImage(result.getImage().getCdnUri() + "/mini_" + result.getImage().getFiles().get(0));
+//                                    PropertyManager.getInstance().setImage(result.getImage().getCdnUri() + "/mini_" + result.getImage().getFiles().get(0));
+                                    PropertyManager.getInstance().setImage("https://s3-ap-northeast-1.amazonaws.com/bikee/KakaoTalk_20151128_194521490.png");
                                 }
                                 PropertyManager.getInstance().setName(result.getName());
                             }
