@@ -11,9 +11,10 @@
 
     <ImageView
         android:id="@+id/view_evaluated_bicycle_post_script_item_renter_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/temp_icon" />
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/noneimage" />
 
     <TextView
         android:id="@+id/view_evaluated_bicycle_post_script_item_renter_name_text_view"
@@ -32,6 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/view_evaluated_bicycle_post_script_item_renter_name_text_view"
         android:layout_below="@id/view_evaluated_bicycle_post_script_item_renter_name_text_view"
+        android:layout_marginTop="11dp"
         android:text="@string/view_evaluated_bicycle_post_script_item_bicycle_name_text_view_string"
         android:textColor="@color/bikeeBlack"
         android:textSize="13sp" />

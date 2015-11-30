@@ -10,6 +10,7 @@ import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.POI;
 import com.example.tacademy.bikee.etc.MyApplication;
 import com.example.tacademy.bikee.etc.Util;
+import com.example.tacademy.bikee.etc.manager.FontManager;
 import com.example.tacademy.bikee.renter.searchresult.SearchResultMapItem;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
@@ -44,6 +45,7 @@ public class BicycleInfoWindowView implements GoogleMap.InfoWindowAdapter {
         payment_text = (TextView) infoWindow.findViewById(R.id.view_bicycle_info_window_bicycle_payment_text_view1);
         payment = (TextView) infoWindow.findViewById(R.id.view_bicycle_info_window_bicycle_payment_real_text_view);
         perDuration = (TextView) infoWindow.findViewById(R.id.view_bicycle_info_window_bicycle_payment_text_view2);
+        FontManager.getInstance().setTextViewFont(FontManager.NOTO, bicycle_name, type_text, type, height_text, height, payment_text, payment, perDuration);
         mPOIResolver = poiResolver;
     }
 
@@ -62,8 +64,53 @@ public class BicycleInfoWindowView implements GoogleMap.InfoWindowAdapter {
     public void setView(SearchResultMapItem item) {
         Util.setRoundRectangleImageFromURL(MyApplication.getmContext(), item.getImageURL(), 12, bicycleImage);
         bicycle_name.setText(item.getBicycle_name().toString());
-        type.setText(item.getType().toString());
-        height.setText(item.getHeight().toString());
+        String typeString = "보급형";
+        switch (item.getType().toString()) {
+            case "A":
+                typeString = "보급형";
+                break;
+            case "B":
+                typeString = "산악용";
+                break;
+            case "C":
+                typeString = "하이브리드";
+                break;
+            case "D":
+                typeString = "픽시";
+                break;
+            case "E":
+                typeString = "폴딩";
+                break;
+            case "F":
+                typeString = "미니벨로";
+                break;
+            case "G":
+                typeString = "전기자전거";
+                break;
+        }
+        type.setText(typeString);
+        String heightString = "~145cm";
+        switch (item.getHeight().toString()) {
+            case "01":
+                heightString = "~145cm";
+                break;
+            case "02":
+                heightString = "145cm~155cm";
+                break;
+            case "03":
+                heightString = "155cm~165cm";
+                break;
+            case "04":
+                heightString = "165cm~175cm";
+                break;
+            case "05":
+                heightString = "175cm~185cm";
+                break;
+            case "06":
+                heightString = "185cm~";
+                break;
+        }
+        height.setText(heightString);
         payment.setText(item.getPayment().toString());
     }
 }

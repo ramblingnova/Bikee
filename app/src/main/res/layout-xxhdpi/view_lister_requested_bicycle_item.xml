@@ -40,7 +40,8 @@
         android:layout_below="@id/view_lister_requested_bicycle_item_request_reservation_image_view"
         android:layout_marginLeft="19dp"
         android:layout_marginTop="21dp"
-        android:src="@drawable/temp_icon" />
+        android:scaleType="fitXY"
+        android:src="@drawable/detailpage_bike_image_noneimage" />
 
     <TextView
         android:id="@+id/view_lister_requested_bicycle_item_renter_name_text_view"
@@ -70,8 +71,9 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/view_lister_requested_bicycle_item_renter_name_text_view"
         android:layout_below="@id/view_lister_requested_bicycle_item_renter_name_text_view"
-        android:text="@string/view_lister_requested_bicycle_item_bicycle_name_text_view_string"
         android:layout_marginTop="18dp"
+        android:singleLine="true"
+        android:text="@string/view_lister_requested_bicycle_item_bicycle_name_text_view_string"
         android:textColor="#616161"
         android:textSize="12sp" />
 
@@ -135,13 +137,23 @@
         android:textSize="11sp" />
 
     <TextView
-        android:id="@+id/view_lister_requested_bicycle_item_price_text_view"
+        android:id="@+id/view_lister_requested_bicycle_item_price_unit_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@id/view_lister_requested_bicycle_item_line_image_view"
-        android:layout_marginRight="19dp"
+        android:paddingRight="19dp"
         android:layout_marginTop="17dp"
+        android:text="원"
+        android:textColor="@color/bikeeRed"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/view_lister_requested_bicycle_item_price_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/view_lister_requested_bicycle_item_price_unit_text_view"
+        android:layout_toLeftOf="@id/view_lister_requested_bicycle_item_price_unit_text_view"
         android:text="@string/view_lister_requested_bicycle_item_price_text_view_string"
         android:textColor="@color/bikeeRed"
         android:textSize="16sp" />

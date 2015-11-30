@@ -142,7 +142,7 @@ public class ListerMainActivity extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.lister_side_menu_change_mode_layout:
             case R.id.lister_side_menu_change_mode_button: {
-                Toast.makeText(this, "renter_side_menu_change_mode", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "renter_side_menu_change_mode", Toast.LENGTH_SHORT).show();
                 intent = new Intent(ListerMainActivity.this, RenterMainActivity.class);
                 startActivity(intent);
                 finish();
@@ -155,7 +155,7 @@ public class ListerMainActivity extends AppCompatActivity implements View.OnClic
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
             case R.id.lister_side_menu_push_alarm_switch:
-                Toast.makeText(ListerMainActivity.this, "asdfasdf", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ListerMainActivity.this, "asdfasdf", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

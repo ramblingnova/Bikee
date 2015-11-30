@@ -71,8 +71,8 @@ public class NetworkManager {
     }
 
     public interface ServerUrl {
-//        String baseUrl = "http://bikee.kr.pe";
-        String baseUrl = "http://192.168.201.226:2222";
+        String baseUrl = "http://bikee.kr.pe";
+//        String baseUrl = "http://192.168.201.226:2222";
 
         // 본인정보조회 app.get('/users/:userId',users.profile) TODO id 없이 "본인정보조회"하기
         @GET("/users/{userId}")
@@ -85,6 +85,16 @@ public class NetworkManager {
         // 회원가입 app.post('/users', users.create)
         @POST("/users")
         void insertUser(@Body User user, Callback<ReceiveObject> callback);
+
+        // 인증번호요청하기
+        @FormUrlEncoded
+        @POST("/sms/auth")
+        void requestAuthenticationNumber(@Field("mobile") String mobile, Callback<ReceiveObject> callback);
+
+        // 인증번호확인하기
+        @FormUrlEncoded
+        @POST("/sms/check/{authid}")
+        void confirmAuthenticationNumber(@Path("authid") String authid, @Field("auth_number") String auth_number, Callback<ReceiveObject> callback);
 
         // 회원수정 app.put('/users/:userId',userAuth,users.edit);
         @PUT("/users")
@@ -251,6 +261,15 @@ public class NetworkManager {
     // 회원가입
     public void insertUser(User user, Callback<ReceiveObject> callback) {
         serverUrl.insertUser(user, callback);
+    }
+
+    // 인증번호요청하기
+    public void requestAuthenticationNumber(String mobile, Callback<ReceiveObject> callback) {
+        serverUrl.requestAuthenticationNumber(mobile, callback);
+    }
+
+    public void confirmAuthenticationNumber(String authid, String auth_number, Callback<ReceiveObject> callback) {
+        serverUrl.confirmAuthenticationNumber(authid, auth_number, callback);
     }
 
     // 회원수정

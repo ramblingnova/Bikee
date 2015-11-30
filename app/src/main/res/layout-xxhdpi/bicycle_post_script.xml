@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <RatingBar
-        android:id="@+id/bicycle_post_script_rating_bar"
-        style="@style/BikeeRatingBar"
-        android:isIndicator="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    android:layout_height="match_parent"
+    android:background="@drawable/detailpage_back_img2"
+    android:paddingBottom="26dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="25dp">
 
     <ImageView
         android:id="@+id/bicycle_post_script_user_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/bicycle_post_script_rating_bar"
-        android:src="@drawable/temp_icon" />
+        android:src="@drawable/noneimage" />
+
+
+    <RatingBar
+        android:id="@+id/bicycle_post_script_rating_bar"
+        style="@style/BikeeRatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:isIndicator="true" />
 
     <TextView
         android:id="@+id/bicycle_post_script_user_name"
@@ -39,5 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/bicycle_post_script_user_image_view"
         android:layout_centerHorizontal="true"
-        android:text="후기 더 보기" />
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/detailpage_icon_more" />
 </RelativeLayout>

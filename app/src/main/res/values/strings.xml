@@ -124,7 +124,7 @@
     <!-- view_renter_reservation_bicycle_item.xml -->
     <string name="view_renter_reservation_bicycle_item_bicycle_name_text_view_string">자전거 이름</string>
     <string name="view_renter_reservation_bicycle_item_payment_type_height_text_view_string">3000원 / 종류 / 신장</string>
-    <string name="view_renter_reservation_bicycle_item_distance_tex_view_string">0.5km</string>
+    <string name="view_renter_reservation_bicycle_item_distance_tex_view_string">3시간</string>
 
     <!-- activity_renter_reservation_bicycle_detail_information.xml -->
     <string name="activity_renter_reservation_bicycle_detail_information_bicycle_title_text_view_string">여성이 타기 좋은 픽시 자전거</string>
@@ -177,5 +177,5 @@
     <string name="view_lister_requested_bicycle_item_start_date_text_view_string">10.25 am10:30</string>
     <string name="view_lister_requested_bicycle_item_end_date_text_view_string">10.26 am11:30</string>
     <string name="view_lister_requested_bicycle_item_time_text_view_string">1일 1시간</string>
-    <string name="view_lister_requested_bicycle_item_price_text_view_string">13,000원</string>
+    <string name="view_lister_requested_bicycle_item_price_text_view_string">13,000</string>
 </resources>

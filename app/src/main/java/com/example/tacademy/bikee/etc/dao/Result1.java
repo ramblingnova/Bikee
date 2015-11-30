@@ -31,6 +31,9 @@ public class Result1 {
     private String provider = null;
     private String email = null;
     private String name = null;
+    public int auth_number = -1;
+    public boolean accepted = false;
+    public String id = null;
 
     public int getLastIndex() {
         return lastIndex;
@@ -222,5 +225,29 @@ public class Result1 {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getAuth_number() {
+        return auth_number;
+    }
+
+    public void setAuth_number(int auth_number) {
+        this.auth_number = auth_number;
+    }
+
+    public boolean isAccepted() {
+        return accepted;
+    }
+
+    public void setAccepted(boolean accepted) {
+        this.accepted = accepted;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

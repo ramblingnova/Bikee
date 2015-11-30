@@ -149,6 +149,9 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
         gm.setTrafficEnabled(true);
         gm.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         gm.getUiSettings().setZoomControlsEnabled(true);
+        gm.getUiSettings().setCompassEnabled(false);
+        gm.getUiSettings().setRotateGesturesEnabled(false);
+        gm.getUiSettings().setTiltGesturesEnabled(false);
 
         gm.setOnInfoWindowClickListener(this);
         gm.setInfoWindowAdapter(new BicycleInfoWindowView(MyApplication.getmContext(), mPOIResolver));

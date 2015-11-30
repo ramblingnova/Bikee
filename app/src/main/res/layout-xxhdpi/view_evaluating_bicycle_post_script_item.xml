@@ -14,7 +14,7 @@
         android:layout_width="74dp"
         android:layout_height="51dp"
         android:scaleType="fitXY"
-        android:src="@drawable/temp_icon" />
+        android:src="@drawable/detailpage_bike_image_noneimage" />
 
     <TextView
         android:id="@+id/view_evaluating_bicycle_post_script_item_bicycle_name_text_view"

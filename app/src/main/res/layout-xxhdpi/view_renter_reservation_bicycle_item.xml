@@ -15,7 +15,8 @@
         android:id="@+id/view_renter_reservation_bicycle_item_bicycle_picture_image_view"
         android:layout_width="120dp"
         android:layout_height="82dp"
-        android:src="@drawable/temp_icon" />
+        android:scaleType="fitXY"
+        android:src="@drawable/detailpage_bike_image_noneimage" />
 
     <ImageView
         android:id="@+id/view_renter_reservation_bicycle_item_approved_reservation"
@@ -53,8 +54,10 @@
         android:layout_below="@id/view_renter_reservation_bicycle_item_approved_reservation"
         android:layout_marginTop="11dp"
         android:layout_toRightOf="@id/view_renter_reservation_bicycle_item_bicycle_picture_image_view"
+        android:singleLine="true"
         android:text="@string/view_renter_reservation_bicycle_item_bicycle_name_text_view_string"
-        android:textColor="@color/bikeeBlack" />
+        android:textColor="@color/bikeeBlack"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/view_renter_reservation_bicycle_item_start_date_text_view"
@@ -62,7 +65,8 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/view_renter_reservation_bicycle_item_approved_reservation"
         android:layout_below="@id/view_renter_reservation_bicycle_item_bicycle_name_text_view"
-        android:textColor="#616161"
+        android:layout_marginTop="9dp"
+        android:textColor="@color/bikeeGray"
         android:textSize="12sp" />
 
     <TextView
@@ -72,7 +76,7 @@
         android:layout_alignBottom="@id/view_renter_reservation_bicycle_item_start_date_text_view"
         android:layout_toRightOf="@id/view_renter_reservation_bicycle_item_start_date_text_view"
         android:text=" ~ "
-        android:textColor="#616161"
+        android:textColor="@color/bikeeGray"
         android:textSize="12sp" />
 
     <TextView
@@ -81,7 +85,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/view_renter_reservation_bicycle_item_start_date_text_view"
         android:layout_toRightOf="@id/view_renter_reservation_bicycle_item_date_wave_text_view"
-        android:textColor="#616161"
+        android:textColor="@color/bikeeGray"
         android:textSize="12sp" />
 
     <ImageView
@@ -96,6 +100,7 @@
         android:id="@+id/view_renter_reservation_bicycle_item_clock_image_view"
         android:layout_width="12dp"
         android:layout_height="12dp"
+        android:layout_alignLeft="@id/view_renter_reservation_bicycle_item_bicycle_picture_image_view"
         android:layout_below="@id/view_renter_reservation_bicycle_item_bicycle_picture_image_view"
         android:layout_marginTop="13dp"
         android:src="@drawable/rider_icon_time" />
@@ -105,18 +110,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/view_renter_reservation_bicycle_item_clock_image_view"
+        android:layout_marginLeft="6dp"
         android:layout_toRightOf="@id/view_renter_reservation_bicycle_item_clock_image_view"
         android:text="@string/view_renter_reservation_bicycle_item_distance_tex_view_string"
         android:textColor="@color/bikeePanelGrayText" />
 
     <TextView
-        android:id="@+id/view_renter_reservation_bicycle_item_payment_text_view"
+        android:id="@+id/view_renter_reservation_bicycle_item_payment_unit_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignRight="@id/view_renter_reservation_bicycle_item_completed_rental"
         android:layout_below="@id/view_renter_reservation_bicycle_item_bicycle_picture_image_view"
         android:layout_marginTop="12dp"
-        android:text="12000원"
+        android:text="원"
+        android:textColor="@color/bikeeRed"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/view_renter_reservation_bicycle_item_payment_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/view_renter_reservation_bicycle_item_payment_unit_text_view"
+        android:layout_marginTop="12dp"
+        android:layout_toLeftOf="@id/view_renter_reservation_bicycle_item_payment_unit_text_view"
+        android:text="12000"
         android:textColor="@color/bikeeRed"
         android:textSize="16sp" />
 </RelativeLayout>

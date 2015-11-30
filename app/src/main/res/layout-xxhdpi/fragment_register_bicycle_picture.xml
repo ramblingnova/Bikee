@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/fragment_register_bicycle_picture_input_image_view_text_view"
-            android:src="@drawable/temp_icon"
+            android:src="@drawable/detailpage_bike_image_noneimage"
             android:text="첫번째 이미지" />
 
         <ImageView

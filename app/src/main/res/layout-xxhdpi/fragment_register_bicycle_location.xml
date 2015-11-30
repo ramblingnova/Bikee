@@ -28,13 +28,15 @@
             android:layout_below="@id/fragment_register_bicycle_location_location_edit_text"
             android:hint="상세주소" />
 
-        <ImageView
+        <fragment
             android:id="@+id/fragment_register_bicycle_location_small_map"
-            android:src="@drawable/temp_icon"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="217dp"
             android:layout_below="@id/fragment_register_bicycle_location_detail_location_edit_text"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp" />
 
         <!--<include
             android:id="@+id/fragment_register_bicycle_location_small_map"

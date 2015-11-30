@@ -1,23 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/detailpage_back_img2"
+    android:paddingBottom="21dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="21dp">
 
-    <Button
-        android:id="@+id/reservation_period_start_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="2015년 11월 2일"/>
-    <Button
-        android:id="@+id/reservation_period_end_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/reservation_period_start_date"
-        android:text="2015년 12월 4일"/>
+    <ImageView
+        android:layout_width="20dp"
+        android:id="@+id/reservation_period_icon_image_view"
+        android:layout_height="20dp"
+        android:src="@drawable/detailpage_icon5" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/reservation_period_start_date"
-        android:layout_alignRight="@+id/reservation_period_end_date"
-        android:text="한달"/>
+        android:layout_marginLeft="11dp"
+        android:layout_toRightOf="@id/reservation_period_icon_image_view"
+        android:textColor="@color/bikeeGray"
+        android:textSize="16sp"
+        android:text="대여날짜" />
+
+    <TextView
+        android:id="@+id/reservation_period_start_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="12/01 pm3:30"
+        android:textColor="@color/bikeeBlue"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/reservation_period_start_date"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@id/reservation_period_start_date"
+        android:text="시작"
+        android:textColor="@color/bikeeBlack"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/reservation_period_end_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/reservation_period_start_date"
+        android:layout_marginTop="15dp"
+        android:text="12/02 pm3:30"
+        android:textColor="@color/bikeeBlue"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/reservation_period_end_date"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@id/reservation_period_end_date"
+        android:text="종료"
+        android:textColor="@color/bikeeBlack"
+        android:textSize="16sp" />
 </RelativeLayout>

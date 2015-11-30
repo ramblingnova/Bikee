@@ -10,10 +10,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
+import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.dao.User;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.tsengvn.typekit.TypekitContextWrapper;
@@ -27,8 +29,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private EditText name;
     private EditText email;
     private EditText phone;
+    private TextView reqAuth;
     private EditText password;
+    private TextView confirmAuth;
     private Button btn;
+    private String authId;
+    private String authNum;
 
     public static final int SIGN_UP_ACTIVITY = 1;
     public static final String ACTIVITY_SIGN_UP_IMAGE = "activity_sign_up_image";
@@ -52,13 +58,64 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         email = (EditText) findViewById(R.id.activity_sign_up_input_mail_address_edit_text);
         phone = (EditText) findViewById(R.id.activity_sign_up_input_phone_edit_text);
         password = (EditText) findViewById(R.id.activity_sign_up_input_password_edit_text);
+        reqAuth = (TextView) findViewById(R.id.activity_sign_up_request_authentication_number_text_view);
         btn = (Button)findViewById(R.id.activity_sign_up_sign_up_button);
+        confirmAuth = (TextView) findViewById(R.id.activity_sign_up_confirm_authentication_text_view);
         btn.setOnClickListener(SignUpActivity.this);
+
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.activity_sign_up_request_authentication_number_text_view:
+//                // 인증번호요청하기
+//                NetworkManager.getInstance().requestAuthenticationNumber(phone.getText().toString(), new Callback<ReceiveObject>() {
+//                    @Override
+//                    public void success(ReceiveObject receiveObject, Response response) {
+//                        Log.i("result", "onResponse Code : " + receiveObject.getCode()
+//                                        + ", Success : " + receiveObject.isSuccess()
+//                                        + ", Msg : " + receiveObject.getMsg()
+//                                        + ", Error : "
+//                        );
+//                        if (receiveObject.getCode() == 200) {
+//                            for (Result result : receiveObject.getResult()) {
+//                                Log.i("result", "onResponse Id : " + result.getId());
+//                                authId = result.getId();
+//                                authNum = "" + result.getAuth_number();
+//                            }
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void failure(RetrofitError error) {
+//                        Log.e("error", "onFailure Error : " + error.toString());
+//                    }
+//                });
+                break;
+            case R.id.activity_sign_up_confirm_authentication_text_view:
+//                // 인증번호확인하기
+//                String authid = "564d9d0e32a130ea2a0731dc";
+//                String auth_number = "447671";
+//                NetworkManager.getInstance().confirmAuthenticationNumber(authId, authNum, new Callback<ReceiveObject>() {
+//                    @Override
+//                    public void success(ReceiveObject receiveObject, Response response) {
+//                        Log.i("result", "onResponse Code : " + receiveObject.getCode()
+//                                        + ", Success : " + receiveObject.isSuccess()
+//                                        + ", Msg : " + receiveObject.getMsg()
+//                                        + ", Error : "
+//                        );
+//                        for (Result result : receiveObject.getResult()) {
+//                            Log.i("result", "onResponse Accepted : " + result.isAccepted());
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void failure(RetrofitError error) {
+//                        Log.e("error", "onFailure Error : " + error.toString());
+//                    }
+//                });
+                break;
             case R.id.activity_sign_up_sign_up_button:
                 User user = new User();
                 user.setName(name.getText().toString());

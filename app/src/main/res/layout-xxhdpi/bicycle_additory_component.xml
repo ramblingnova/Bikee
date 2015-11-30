@@ -1,34 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:background="@drawable/filtering_contentsbox"
+    android:paddingBottom="13dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="13dp">
+
+    <ImageView
+        android:id="@+id/bicycle_additory_component_icon_image_view"
+        android:layout_width="13dp"
+        android:layout_height="11dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/detailpage_icon3" />
 
     <TextView
         android:id="@+id/bicycle_additory_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="추가구성품" />
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="11dp"
+        android:layout_toRightOf="@id/bicycle_additory_component_icon_image_view"
+        android:text="추가구성품"
+        android:textColor="@color/bikeeGray"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/bicycle_additory_name_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:text="트레일러"
+        android:textColor="@color/bikeeBlue"
+        android:textSize="16sp" />
 
     <ImageView
         android:id="@+id/bicycle_additory_component_item1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/bicycle_additory_text_view"
-        android:src="@drawable/temp_icon" />
-
-    <ImageView
-        android:id="@+id/bicycle_additory_component_item2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/bicycle_additory_text_view"
-        android:layout_toRightOf="@+id/bicycle_additory_component_item1"
-        android:src="@drawable/temp_icon" />
-
-    <ImageView
-        android:id="@+id/bicycle_additory_component_item3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/bicycle_additory_text_view"
-        android:layout_toRightOf="@+id/bicycle_additory_component_item2"
-        android:src="@drawable/temp_icon" />
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="11dp"
+        android:layout_toLeftOf="@id/bicycle_additory_name_text_view"
+        android:src="@drawable/detailpage_icon_addition1" />
 </RelativeLayout>

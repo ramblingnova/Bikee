@@ -71,12 +71,13 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setCustomView(R.layout.renter_main_tool_bar);
 
-        Button btn = (Button) findViewById(R.id.bicycle_post_script_see_more_post_script);
-        btn.setOnClickListener(this);
+        Button btn;
+//        btn = (Button) findViewById(R.id.bicycle_post_script_see_more_post_script);
+//        btn.setOnClickListener(this);
         btn = (Button) findViewById(R.id.activity_filtered_bicycle_detail_information_button);
         btn.setOnClickListener(this);
-        btn = (Button) findViewById(R.id.activity_filtered_bicycle_detail_information_small_map_button);
-        btn.setOnClickListener(this);
+//        btn = (Button) findViewById(R.id.activity_filtered_bicycle_detail_information_small_map_button);
+//        btn.setOnClickListener(this);
         bicycleImage = (ImageView) findViewById(R.id.activity_filtered_bicycle_detail_information_bicycle_picture);
         typeCheck1 = (CheckBox) findViewById(R.id.bicycle_type_check_box1);
         typeCheck1.setClickable(false);
@@ -117,11 +118,11 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.bicycle_post_script_see_more_post_script:
-                intent = new Intent(FilteredBicycleDetailInformationActivity.this, BicyclePostScriptListActivity.class);
-                intent.putExtra("ID", bicycleId);
-                startActivity(intent);
-                break;
+//            case R.id.bicycle_post_script_see_more_post_script:
+//                intent = new Intent(FilteredBicycleDetailInformationActivity.this, BicyclePostScriptListActivity.class);
+//                intent.putExtra("ID", bicycleId);
+//                startActivity(intent);
+//                break;
             case R.id.activity_filtered_bicycle_detail_information_button:
                 intent = new Intent(FilteredBicycleDetailInformationActivity.this, FinallyRequestReservationActivity.class);
                 intent.putExtra("ID", bicycleId);
@@ -133,10 +134,10 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
                 intent.putExtra("BICYCLEPRICE", price);
                 startActivity(intent);
                 break;
-            case R.id.activity_filtered_bicycle_detail_information_small_map_button:
-                intent = new Intent(FilteredBicycleDetailInformationActivity.this, SmallMapActivity.class);
-                startActivity(intent);
-                break;
+//            case R.id.activity_filtered_bicycle_detail_information_small_map_button:
+//                intent = new Intent(FilteredBicycleDetailInformationActivity.this, SmallMapActivity.class);
+//                startActivity(intent);
+//                break;
         }
     }
 

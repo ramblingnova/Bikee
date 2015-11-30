@@ -1,41 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/contents_box_margin_bottom_1dp"
+    android:background="@drawable/filtering_contentsbox"
+    android:paddingBottom="@dimen/post_script_top_bottom_padding"
+    android:paddingLeft="@dimen/post_script_left_right_padding"
+    android:paddingRight="@dimen/post_script_left_right_padding"
+    android:paddingTop="@dimen/post_script_top_bottom_padding">
 
     <ImageView
         android:id="@+id/view_bicycle_post_script_item_user_image1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/temp_icon" />
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/noneimage" />
 
     <TextView
         android:id="@+id/view_bicycle_post_script_item_user_name1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignTop="@id/view_bicycle_post_script_item_user_image1"
+        android:layout_marginLeft="11dp"
         android:layout_toRightOf="@+id/view_bicycle_post_script_item_user_image1"
-        android:text="문근영" />
-
-    <RatingBar
-        android:id="@+id/view_bicycle_post_script_item_rating_bar"
-        style="?android:attr/ratingBarStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/view_bicycle_post_script_item_user_name1" />
+        android:text="John Smith"
+        android:textColor="@color/bikeeBlue"
+        android:textSize="13sp" />
 
     <TextView
-        android:id="@+id/view_bicycle_post_script_item_user_post_script1"
+        android:id="@+id/view_bicycle_post_script_item_bicycle_name_text_view1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/view_bicycle_post_script_item_user_name1"
-        android:layout_toRightOf="@+id/view_bicycle_post_script_item_user_image1"
-        android:text="자전거 깨끗하고 너무 좋아요" />
+        android:layout_alignLeft="@id/view_bicycle_post_script_item_user_name1"
+        android:layout_below="@id/view_bicycle_post_script_item_user_name1"
+        android:layout_marginTop="11dp"
+        android:text="2015 아메리칸이글 CY 픽시 블랙"
+        android:textColor="@color/bikeeBlack"
+        android:textSize="13sp" />
 
     <TextView
         android:id="@+id/view_bicycle_post_script_item_date1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/view_bicycle_post_script_item_user_post_script1"
-        android:layout_toRightOf="@+id/view_bicycle_post_script_item_user_image1"
-        android:text="15.11.02" />
+        android:layout_alignLeft="@id/view_bicycle_post_script_item_user_name1"
+        android:layout_below="@+id/view_bicycle_post_script_item_bicycle_name_text_view1"
+        android:layout_marginTop="10dp"
+        android:text="15.11.02"
+        android:textColor="@color/bikeeLightGray"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/view_bicycle_post_script_item_user_post_script1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/view_bicycle_post_script_item_user_name1"
+        android:layout_below="@+id/view_bicycle_post_script_item_date1"
+        android:layout_marginTop="24dp"
+        android:text="자전거 깨끗하고 너무 좋아요"
+        android:textColor="@color/bikeeLightGray"
+        android:textSize="12dp" />
+
+    <RatingBar
+        android:id="@+id/view_bicycle_post_script_item_rating_bar"
+        style="@style/BikeeRatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/view_bicycle_post_script_item_user_name1"
+        android:layout_below="@id/view_bicycle_post_script_item_user_post_script1"
+        android:layout_marginTop="12dp" />
 </RelativeLayout>

@@ -60,9 +60,13 @@
 
         <Button
             android:id="@+id/activity_input_inquiry_button"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/detailpage_button2"
             android:text="@string/activity_input_inquiry_button_string" />
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

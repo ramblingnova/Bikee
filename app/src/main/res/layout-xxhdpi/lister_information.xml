@@ -11,7 +11,7 @@
             android:id="@+id/lister_information_user_picture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/temp_icon" />
+            android:src="@drawable/noneimage" />
 
         <TextView
             android:id="@+id/lister_information_user_name"
@@ -26,7 +26,7 @@
             android:layout_height="20dp"
             android:layout_below="@+id/lister_information_user_name"
             android:layout_toRightOf="@id/lister_information_user_picture"
-            android:src="@drawable/temp_icon" />
+            android:src="@drawable/detailpage_icon_call" />
 
         <ImageView
             android:id="@+id/lister_information_chat"
@@ -34,6 +34,6 @@
             android:layout_height="20dp"
             android:layout_below="@+id/lister_information_user_name"
             android:layout_toRightOf="@id/lister_information_call"
-            android:src="@drawable/temp_icon" />
+            android:src="@drawable/detailpage_icon_massege" />
     </RelativeLayout>
 </RelativeLayout>

@@ -3,24 +3,38 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <com.squareup.timessquare.CalendarPickerView
-        android:id="@+id/calendar_picker_view"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="400dp">
+        <com.squareup.timessquare.CalendarPickerView
+            android:id="@+id/calendar_view_temp"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:background="#FFFFFF"/>
+        <com.squareup.timessquare.CalendarPickerView
+            android:id="@+id/calendar_view"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:background="#FFFFFF"/>
+    </FrameLayout>
 
     <Button
         android:id="@+id/activity_filter_prev_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="PREV" />
+        android:background="@drawable/calendar_prev" />
 
     <Button
         android:id="@+id/activity_filter_next_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/calendar_next"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:text="Next" />
+        android:layout_alignParentTop="true" />
 </RelativeLayout>

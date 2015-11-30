@@ -11,5 +11,5 @@
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
         android:scaleType="fitXY"
-        android:src="@drawable/temp_icon" />
+        android:src="@drawable/detailpage_bike_image_noneimage" />
 </RelativeLayout>

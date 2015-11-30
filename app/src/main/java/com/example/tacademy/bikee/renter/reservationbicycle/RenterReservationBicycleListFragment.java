@@ -9,15 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.tacademy.bikee.R;
-import com.example.tacademy.bikee.etc.dao.Comment;
-import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject1;
-import com.example.tacademy.bikee.etc.dao.Reserve;
 import com.example.tacademy.bikee.etc.dao.Reserve1;
-import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.dao.Result1;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
 
@@ -44,7 +39,7 @@ public class RenterReservationBicycleListFragment extends Fragment implements Ad
         adapter = new RenterReservationBicycleAdapter();
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(this);
-        initData();
+        init();
 
         return v;
     }
@@ -52,7 +47,6 @@ public class RenterReservationBicycleListFragment extends Fragment implements Ad
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         RenterReservationBicycleItem item = (RenterReservationBicycleItem) lv.getItemAtPosition(position);
-        Toast.makeText(getContext().getApplicationContext(), "position : " + position, Toast.LENGTH_SHORT).show();
         intent = new Intent(getActivity(), RenterReservationBicycleDetailInformationActivity.class);
         intent.putExtra("ID", item.getBicycleId());
         intent.putExtra("STATUS", item.getStatus());
@@ -61,7 +55,7 @@ public class RenterReservationBicycleListFragment extends Fragment implements Ad
         getActivity().startActivity(intent);
     }
 
-    private void initData() {
+    private void init() {
         NetworkManager.getInstance().selectReservationBicycle(new Callback<ReceiveObject1>() {
             @Override
             public void success(ReceiveObject1 receiveObject, Response response) {

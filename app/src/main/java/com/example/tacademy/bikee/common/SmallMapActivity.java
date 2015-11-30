@@ -8,7 +8,6 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.tacademy.bikee.R;
 import com.google.android.gms.maps.GoogleMap;
@@ -20,16 +19,15 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 public class SmallMapActivity extends AppCompatActivity {
-
-    GoogleMap mMap;
+    GoogleMap gm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_small_map);
 
-        mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.small_map)).getMap();
-        captureScreen();
+        gm = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.small_map)).getMap();
+//        captureScreen();
     }
 
     public void captureScreen() {
@@ -60,7 +58,7 @@ public class SmallMapActivity extends AppCompatActivity {
                 openShareImageDialog(filePath);
             }
         };
-        mMap.snapshot(callback);
+        gm.snapshot(callback);
     }
 
     public void openShareImageDialog(String filePath) {

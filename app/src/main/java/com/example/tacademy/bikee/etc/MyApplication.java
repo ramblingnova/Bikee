@@ -37,9 +37,9 @@ public class MyApplication extends Application {
 
     public static void initImageLoader(Context context) {
         DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.drawable.temp_icon)
-                .showImageForEmptyUri(R.drawable.temp_icon)
-                .showImageOnFail(R.drawable.temp_icon)
+//                .showImageOnLoading(R.drawable.temp_icon)
+//                .showImageForEmptyUri(R.drawable.temp_icon)
+                .showImageOnFail(R.drawable.detailpage_bikeimage_noneimage2)
                 .cacheInMemory(true)
                 .considerExifParams(true)
 //                .displayer(new CircleBitmapDisplayer(Color.WHITE, 5))

@@ -11,7 +11,8 @@
         android:id="@+id/view_owning_bicycle_item_bicycle_picture_image_view"
         android:layout_width="157dp"
         android:layout_height="107dp"
-        android:src="@drawable/temp_icon" />
+        android:scaleType="fitXY"
+        android:src="@drawable/detailpage_bike_image_noneimage" />
 
     <TextView
         android:id="@+id/view_owning_bicycle_item_bicycle_name_text_view"

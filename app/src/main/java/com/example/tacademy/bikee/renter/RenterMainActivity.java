@@ -148,7 +148,7 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
             case R.id.renter_side_menu_push_alarm_switch:
-                Toast.makeText(RenterMainActivity.this, "isChecked : " + isChecked, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(RenterMainActivity.this, "isChecked : " + isChecked, Toast.LENGTH_SHORT).show();
                 break;
         }
     }

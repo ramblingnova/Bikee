@@ -32,15 +32,10 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
     private SwipeRefreshLayout refreshLayout;
     private ListView lv;
     private SearchResultListAdapter adapter;
-    private SearchResultINF searchResultINF;
     private boolean isLastItem = false;
     private String latitude = null;
     private String longitude = null;
     private int index;
-
-    public void setSearchResultINF(SearchResultINF searchResultINF) {
-        this.searchResultINF = searchResultINF;
-    }
 
     public SearchResultListFragment() {
 
