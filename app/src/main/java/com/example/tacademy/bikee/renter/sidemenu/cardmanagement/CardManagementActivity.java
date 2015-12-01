@@ -6,20 +6,22 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.tacademy.bikee.R;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnItemClick;
+
 /**
  * Created by Tacademy on 2015-11-03.
  */
-public class CardManagementActivity extends AppCompatActivity implements CardAdapter.OnItemClickListener, View.OnClickListener {
-    private ListView lv;
+public class CardManagementActivity extends AppCompatActivity {
+    @Bind(R.id.activity_card_management_list_view) ListView lv;
     private CardAdapter adapter;
-    private Button btn;
     final private static int REGISTER_CARD_ACTIVITY = 1;
 
     @Override
@@ -32,16 +34,11 @@ public class CardManagementActivity extends AppCompatActivity implements CardAda
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setCustomView(R.layout.renter_main_tool_bar);
+        ButterKnife.bind(this);
 
-        lv = (ListView) findViewById(R.id.activity_card_management_list_view);
         adapter = new CardAdapter();
         lv.setAdapter(adapter);
         initData();
-
-        adapter.setOnItemClickListener(CardManagementActivity.this);
-
-        btn = (Button) findViewById(R.id.activity_card_management_add_button);
-        btn.setOnClickListener(CardManagementActivity.this);
     }
 
     private void initData() {
@@ -51,15 +48,11 @@ public class CardManagementActivity extends AppCompatActivity implements CardAda
         }
     }
 
-    @Override
-    public void onItemClick(CardItem item) {
-//                Intent intent = new Intent(CardManagementActivity.this,.class);
-//                intent.putExtra("item",item);
-//                startActivity(intent);
+    @OnItemClick(R.id.activity_card_management_list_view) void get(int position) {
+
     }
 
-    @Override
-    public void onClick(View v) {
+    @OnClick(R.id.activity_card_management_add_button) void add() {
         Intent intent = new Intent(CardManagementActivity.this, RegisterCardActivity.class);
         startActivityForResult(intent, REGISTER_CARD_ACTIVITY);
     }
