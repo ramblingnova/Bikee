@@ -2,20 +2,21 @@ package com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.tacademy.bikee.R;
-import com.example.tacademy.bikee.common.SmallMapActivity;
 import com.example.tacademy.bikee.etc.MyApplication;
 import com.example.tacademy.bikee.etc.Util;
 import com.example.tacademy.bikee.etc.dao.Comment;
@@ -25,6 +26,11 @@ import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.finallyrequestreservation.FinallyRequestReservationActivity;
 import com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.postscription.BicyclePostScriptListActivity;
 import com.tsengvn.typekit.TypekitContextWrapper;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -37,30 +43,35 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
     private Intent intent;
     private String bicycleId;
     private String bicycleImageURL;
+    private String listerPhone;
     private String type;
     private String height;
     private double latitude;
     private double longitude;
     private int price;
     @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_picture) ImageView bicycleImage;
-    @Bind(R.id.bicycle_type_check_box1) CheckBox typeCheck1;
-    @Bind(R.id.bicycle_type_check_box2) CheckBox typeCheck2;
-    @Bind(R.id.bicycle_type_check_box3) CheckBox typeCheck3;
-    @Bind(R.id.bicycle_type_check_box4) CheckBox typeCheck4;
-    @Bind(R.id.bicycle_type_check_box5) CheckBox typeCheck5;
-    @Bind(R.id.bicycle_type_check_box6) CheckBox typeCheck6;
-    @Bind(R.id.bicycle_type_check_box7) CheckBox typeCheck7;
-    @Bind(R.id.bicycle_recommendation_height_check_box1) CheckBox heightCheck1;
-    @Bind(R.id.bicycle_recommendation_height_check_box2) CheckBox heightCheck2;
-    @Bind(R.id.bicycle_recommendation_height_check_box3) CheckBox heightCheck3;
-    @Bind(R.id.bicycle_recommendation_height_check_box4) CheckBox heightCheck4;
-    @Bind(R.id.bicycle_recommendation_height_check_box5) CheckBox heightCheck5;
-    @Bind(R.id.bicycle_recommendation_height_check_box6) CheckBox heightCheck6;
-    @Bind(R.id.bicycle_rental_place_real_position_text_view) TextView rentalPlaceText;
-    @Bind(R.id.bicycle_post_script_user_image_view) ImageView postsciptImage;
-    @Bind(R.id.bicycle_post_script_rating_bar) RatingBar postsciptPoint;
-    @Bind(R.id.bicycle_post_script_user_name) TextView postsciptName;
-    @Bind(R.id.bicycle_post_script_user_body) TextView postsciptBody;
+    @Bind(R.id.activity_filtered_bicycle_detail_information_lister_picture_image_view) ImageView listerImage;
+    @Bind(R.id.activity_filtered_bicycle_detail_information_lister_name_text_view) TextView listerName;
+    @OnClick(R.id.activity_filtered_bicycle_detail_information_call_button) void call() {
+        intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + listerPhone));
+        startActivity(intent);
+    }
+    @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_name) TextView bicycleName;
+    @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_introduction) TextView bicycleIntro;
+    @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_type) TextView bicycleType;
+    @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_height) TextView bicycleHeight;
+    @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_component) TextView bicycleComponent;
+    @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_rental_place) TextView rentalPlaceText;
+    @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_post_script_renter_image) ImageView postsciptImage;
+    @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_post_script_renter_name) TextView postsciptName;
+    @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_post_script_create_date) TextView postscriptDate;
+    @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_post_script_renter_comment) TextView postsciptBody;
+    @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_post_script_rating_bar) RatingBar postsciptPoint;
+    @OnClick(R.id.activity_filtered_bicycle_detail_information_bicycle_post_script_button) void morePostScript() {
+        intent = new Intent(FilteredBicycleDetailInformationActivity.this, BicyclePostScriptListActivity.class);
+        intent.putExtra("ID", bicycleId);
+        startActivity(intent);
+    }
     @OnClick(R.id.activity_filtered_bicycle_detail_information_button) void detail() {
         intent = new Intent(FilteredBicycleDetailInformationActivity.this, FinallyRequestReservationActivity.class);
         intent.putExtra("ID", bicycleId);
@@ -96,49 +107,63 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
                 Log.i("result", "onResponse Success");
                 Result result = receiveObject.getResult().get(0);
                 // TODO image, type, height, latitude, longitude, price, renterName, postScript
-                String imageURL;
+                String bicycleImageURL;
                 if ((null == result.getImage())
                         || (null == result.getImage().getCdnUri())
                         || (null == result.getImage().getFiles())
                         || (null == result.getImage().getFiles().get(0))) {
-                    imageURL = "";
+                    bicycleImageURL = "";
                 } else {
-                    imageURL = result.getImage().getCdnUri() + "/mini_" + result.getImage().getFiles().get(0);
+                    bicycleImageURL = result.getImage().getCdnUri() + "/detail_" + result.getImage().getFiles().get(0);
                 }
-                Log.i("result", "onResponse imageURL : " + imageURL
+                String listerImageURL;
+                if ((null == result.getUser().getImage())
+                        || (null == result.getUser().getImage().getCdnUri())
+                        || (null == result.getUser().getImage().getFiles())
+                        || (null == result.getUser().getImage().getFiles().get(0))) {
+                    listerImageURL = "";
+                } else {
+                    listerImageURL = result.getUser().getImage().getCdnUri() + "/detail_" + result.getUser().getImage().getFiles().get(0);
+                }
+                Log.i("result", "onResponse imageURL : " + bicycleImageURL
                                 + ", BicycleType : " + result.getType()
                                 + ", BicycleHeight : " + result.getHeight()
                                 + ", BicycleLatitude : " + result.getLoc().getCoordinates().get(1)
                                 + ", BicycleLongitude : " + result.getLoc().getCoordinates().get(0)
                                 + ", BicyclePrice : " + result.getPrice().getMonth()
                 );
-                bicycleImageURL = imageURL;
+                FilteredBicycleDetailInformationActivity.this.bicycleImageURL = bicycleImageURL;
+                listerPhone = result.getUser().getPhone();
                 type = result.getType();
                 height = result.getHeight();
                 latitude = result.getLoc().getCoordinates().get(1);
                 longitude = result.getLoc().getCoordinates().get(0);
                 price = result.getPrice().getMonth();
-                Util.setRoundRectangleImageFromURL(MyApplication.getmContext(), imageURL, 6, bicycleImage);
+                Util.setRoundRectangleImageFromURL(MyApplication.getmContext(), bicycleImageURL, 6, bicycleImage);
+                Util.setCircleImageFromURL(MyApplication.getmContext(), listerImageURL, 0, listerImage);
+                listerName.setText(result.getUser().getName());
+                bicycleName.setText(result.getTitle());
+                bicycleIntro.setText(result.getIntro());
                 switch (type) {
-                    case "A": typeCheck1.setChecked(true); break;
-                    case "B": typeCheck2.setChecked(true); break;
-                    case "C": typeCheck3.setChecked(true); break;
-                    case "D": typeCheck4.setChecked(true); break;
-                    case "E": typeCheck5.setChecked(true); break;
-                    case "F": typeCheck6.setChecked(true); break;
-                    case "G": typeCheck7.setChecked(true); break;
-                    default:  typeCheck1.setChecked(true); break;
+                    case "A": bicycleType.setText("보급형"); break;
+                    case "B": bicycleType.setText("산악용"); break;
+                    case "C": bicycleType.setText("하이브리드"); break;
+                    case "D": bicycleType.setText("픽시"); break;
+                    case "E": bicycleType.setText("폴딩"); break;
+                    case "F": bicycleType.setText("미니벨로"); break;
+                    case "G": bicycleType.setText("전기자전거"); break;
+                    default: bicycleType.setText(""); break;
                 }
                 switch (height) {
-                    case "01": heightCheck1.setChecked(true); break;
-                    case "02": heightCheck2.setChecked(true); break;
-                    case "03": heightCheck3.setChecked(true); break;
-                    case "04": heightCheck4.setChecked(true); break;
-                    case "05": heightCheck5.setChecked(true); break;
-                    case "06": heightCheck6.setChecked(true); break;
-                    default:  heightCheck1.setChecked(true); break;
+                    case "01": bicycleHeight.setText("~ 145cm"); break;
+                    case "02": bicycleHeight.setText("145cm ~ 155cm"); break;
+                    case "03": bicycleHeight.setText("155cm ~ 165cm"); break;
+                    case "04": bicycleHeight.setText("165cm ~ 175cm"); break;
+                    case "05": bicycleHeight.setText("175cm ~ 185cm"); break;
+                    case "06": bicycleHeight.setText("185cm ~"); break;
+                    default: bicycleHeight.setText(""); break;
                 }
-                rentalPlaceText.setText("위도 : " + latitude + ", 경도 : " + longitude);
+                rentalPlaceText.setText(findAddress(latitude, longitude));
 
                 NetworkManager.getInstance().selectBicycleComment(bicycleId, new Callback<ReceiveObject>() {
                     @Override
@@ -154,7 +179,7 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
                                     || (null == comment.getWriter().getImage().getFiles().get(0))) {
                                 imageURL = "";
                             } else {
-                                imageURL = comment.getWriter().getImage().getCdnUri() + "/mini_" + comment.getWriter().getImage().getFiles().get(0);
+                                imageURL = comment.getWriter().getImage().getCdnUri() + "/detail_" + comment.getWriter().getImage().getFiles().get(0);
                             }
                             Log.i("result", "onResponse ImageURL : " + imageURL
                                             + ", WriterName : " + comment.getWriter().getName()
@@ -162,10 +187,14 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
                                             + ", PostScript : " + comment.getBody()
                             );
                             Util.setCircleImageFromURL(MyApplication.getmContext(), imageURL, 0, postsciptImage);
-                            int point = (null != comment.getPoint()) ? comment.getPoint() : 0;
-                            postsciptPoint.setRating(point);
                             postsciptName.setText("" + comment.getWriter().getName());
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy.MM.dd. HH:mm");
+                            postscriptDate.setText("" + simpleDateFormat.format(comment.getCreatedAt()));
                             postsciptBody.setText("" + comment.getBody());
+                            postsciptPoint.setRating((null != comment.getPoint()) ? comment.getPoint() : 0);
+                        } else {
+                            View view = findViewById(R.id.activity_filtered_bicycle_detail_information_bicycle_post_script_layout);
+                            view.setVisibility(View.GONE);
                         }
                     }
 
@@ -195,5 +224,30 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+    }
+
+    private String findAddress(double lat, double lng) {
+        StringBuffer bf = new StringBuffer();
+        Geocoder geocoder = new Geocoder(this, Locale.KOREA);
+        List<Address> address;
+        try {
+            if (geocoder != null) {
+                // 세번째 인수는 최대결과값인데 하나만 리턴받도록 설정했다
+                address = geocoder.getFromLocation(lat, lng, 1);
+                // 설정한 데이터로 주소가 리턴된 데이터가 있으면
+                if (address != null && address.size() > 0) {
+                    // address.get(0).getAddressLine(0);
+
+                    bf.append(address.get(0).getAdminArea())
+                            .append(" " + address.get(0).getLocality())
+                            .append(" " + address.get(0).getLocality())
+                            .append(" " + address.get(0).getThoroughfare());
+                }
+            }
+        } catch (IOException e) {
+            Toast.makeText(this, "주소취득 실패", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+        return bf.toString();
     }
 }

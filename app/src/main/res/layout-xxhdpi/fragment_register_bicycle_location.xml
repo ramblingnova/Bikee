@@ -19,31 +19,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/fragment_register_bicycle_location_text_view"
-            android:hint="서울" />
-
-        <EditText
-            android:id="@+id/fragment_register_bicycle_location_detail_location_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/fragment_register_bicycle_location_location_edit_text"
-            android:hint="상세주소" />
+            android:textColorHint="@color/bikeeLightGray"
+            android:hint="주소를 입력해주세요" />
 
         <fragment
             android:id="@+id/fragment_register_bicycle_location_small_map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:tag="fragment_register_bicycle_location_small_map"
             android:layout_width="match_parent"
             android:layout_height="217dp"
-            android:layout_below="@id/fragment_register_bicycle_location_detail_location_edit_text"
+            android:layout_below="@id/fragment_register_bicycle_location_location_edit_text"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp" />
-
-        <!--<include
-            android:id="@+id/fragment_register_bicycle_location_small_map"
-            layout="@layout/small_map"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:layout_below="@id/fragment_register_bicycle_location_detail_location_edit_text"
-            android:layout_centerHorizontal="true" />-->
     </RelativeLayout>
 </FrameLayout>

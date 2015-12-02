@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Result;
@@ -42,7 +41,6 @@ public class OwningBicycleDetailInformationActivity extends AppCompatActivity im
 
         intent = getIntent();
         int i = intent.getIntExtra("STATE", -1);
-        Toast.makeText(OwningBicycleDetailInformationActivity.this, "STATE : " + i, Toast.LENGTH_SHORT).show();
         if(i == 0) {
             btn = (Button)findViewById(R.id.activity_owning_bicycle_detail_information_deactivate_button);               btn.setVisibility(View.VISIBLE);
             btn = (Button)findViewById(R.id.activity_owning_bicycle_detail_information_back_button);                     btn.setVisibility(View.GONE);

@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.tacademy.bikee.R;
 import com.tsengvn.typekit.TypekitContextWrapper;
@@ -41,17 +40,47 @@ public class RegisterBicycleActivity extends AppCompatActivity implements View.O
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_register_bicycle_information_container, list[0]).commit();
         }
-        Button btn = (Button) findViewById(R.id.fragment_register_bicycle_next_button);
+
+        final Button btn = (Button) findViewById(R.id.fragment_register_bicycle_next_button);
         btn.setOnClickListener(RegisterBicycleActivity.this);
+        btn.setEnabled(false);
+
+        RegisterBicycleInformationFragment registerBicycleInformationFragment = (RegisterBicycleInformationFragment) list[0];
+        RegisterBicycleLocationFragment registerBicycleLocationFragment = (RegisterBicycleLocationFragment) list[1];
+        RegisterBicycleIntroductionFragment registerBicycleIntroductionFragment = (RegisterBicycleIntroductionFragment) list[2];
+        RegisterBicyclePictureFragment registerBicyclePictureFragment = (RegisterBicyclePictureFragment) list[3];
+        RegisterBicycleFeeFragment registerBicycleFeeFragment = (RegisterBicycleFeeFragment) list[4];
+
+        registerBicycleInformationFragment.setRegisterBicycleINF(registerBicycleINF = new RegisterBicycleINF() {
+            @Override
+            public void setEnable(boolean b) {
+                btn.setEnabled(b);
+            }
+
+            @Override
+            public boolean getEnable() {
+                return btn.isEnabled();
+            }
+        });
+        registerBicycleLocationFragment.setRegisterBicycleINF(registerBicycleINF);
+        registerBicycleIntroductionFragment.setRegisterBicycleINF(registerBicycleINF);
+        registerBicyclePictureFragment.setRegisterBicycleINF(registerBicycleINF);
+        registerBicycleFeeFragment.setRegisterBicycleINF(registerBicycleINF);
+
     }
+
+    RegisterBicycleINF registerBicycleINF;
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fragment_register_bicycle_next_button:
+                Button btn = (Button) v.findViewById(R.id.fragment_register_bicycle_next_button);
+                btn.setEnabled(false);
+
                 int page = getSupportFragmentManager().getBackStackEntryCount();
                 if (page < list.length - 1) {
-                    Toast.makeText(RegisterBicycleActivity.this, "page : " + (page + 1) + " -> page : " + (page + 2), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(RegisterBicycleActivity.this, "page : " + (page + 1) + " -> page : " + (page + 2), Toast.LENGTH_SHORT).show();
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_register_bicycle_information_container, list[page + 1]).addToBackStack(null).commit();
                 } else {
                     item = new RegisterBicycleItem();
@@ -79,10 +108,10 @@ public class RegisterBicycleActivity extends AppCompatActivity implements View.O
         if (item.getItemId() == android.R.id.home) {
             int page = getSupportFragmentManager().getBackStackEntryCount();
             if (page == 0) {
-                Toast.makeText(RegisterBicycleActivity.this, "page : " + (page + 1) + " -> finish()", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(RegisterBicycleActivity.this, "page : " + (page + 1) + " -> finish()", Toast.LENGTH_SHORT).show();
                 finish();
             } else {
-                Toast.makeText(RegisterBicycleActivity.this, "page : " + (page + 1) + " -> page : " + page, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(RegisterBicycleActivity.this, "page : " + (page + 1) + " -> page : " + page, Toast.LENGTH_SHORT).show();
                 getSupportFragmentManager().popBackStack();
             }
             return true;

@@ -59,7 +59,7 @@ public class EvaluatedBicyclePostScriptListActivity extends AppCompatActivity {
                                 || (null == comment.getWriter().getImage().getFiles().get(0))) {
                             imageURL = "";
                         } else {
-                            imageURL = comment.getWriter().getImage().getCdnUri() + "/mini_" + comment.getWriter().getImage().getFiles().get(0);
+                            imageURL = comment.getWriter().getImage().getCdnUri() + "/detail_" + comment.getWriter().getImage().getFiles().get(0);
                         }
                         Log.i("result", "onResponse Writer Image : " + imageURL
                                         + ", Writer Name : " + comment.getWriter().getName()

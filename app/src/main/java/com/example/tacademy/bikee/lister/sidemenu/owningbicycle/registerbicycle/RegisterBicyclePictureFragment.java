@@ -78,6 +78,16 @@ public class RegisterBicyclePictureFragment extends Fragment implements View.OnC
                     image.setImageBitmap(image_bitmap);
                     //Toast.makeText(getBaseContext(), "name_Str : "+name_Str , Toast.LENGTH_SHORT).show();
                     files.add(new File(name_Str));
+
+                    if (files.size() != 0) {
+                        if ((null != registerBicycleINF) && (!registerBicycleINF.getEnable())) {
+                            registerBicycleINF.setEnable(true);
+                        }
+                    } else {
+                        if ((null != registerBicycleINF) && (registerBicycleINF.getEnable())) {
+                            registerBicycleINF.setEnable(false);
+                        }
+                    }
                 } catch (FileNotFoundException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -105,5 +115,11 @@ public class RegisterBicyclePictureFragment extends Fragment implements View.OnC
 
     public List<File> getFiles() {
         return files;
+    }
+
+    RegisterBicycleINF registerBicycleINF;
+
+    public void setRegisterBicycleINF(RegisterBicycleINF registerBicycleINF) {
+        this.registerBicycleINF = registerBicycleINF;
     }
 }

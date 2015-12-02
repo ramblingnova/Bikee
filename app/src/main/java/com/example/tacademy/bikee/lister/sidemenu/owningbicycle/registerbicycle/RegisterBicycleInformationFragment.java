@@ -97,6 +97,16 @@ public class RegisterBicycleInformationFragment extends Fragment implements Comp
                 height = isChecked ? "06" : null;
                 break;
         }
+
+        if ((null != type) && (null != height)) {
+            if ((null != registerBicycleINF) && (!registerBicycleINF.getEnable())) {
+                registerBicycleINF.setEnable(true);
+            }
+        } else {
+            if ((null != registerBicycleINF) && (registerBicycleINF.getEnable())) {
+                registerBicycleINF.setEnable(false);
+            }
+        }
     }
 
     public String getType() {
@@ -105,5 +115,11 @@ public class RegisterBicycleInformationFragment extends Fragment implements Comp
 
     public String getHeight() {
         return height;
+    }
+
+    RegisterBicycleINF registerBicycleINF;
+
+    public void setRegisterBicycleINF(RegisterBicycleINF registerBicycleINF) {
+        this.registerBicycleINF = registerBicycleINF;
     }
 }

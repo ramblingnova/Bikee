@@ -19,7 +19,7 @@ public class Util {
     }
 
     public static void setCircleImageFromURL(final Context context, String imageURL, int imageSize, final ImageView targetVIew) {
-        Glide.with(context).load(imageURL).asBitmap().placeholder(R.drawable.temp_icon).fitCenter().thumbnail(0.001f).into(new BitmapImageViewTarget(targetVIew) {
+        Glide.with(context).load(imageURL).asBitmap().placeholder(R.drawable.noneimage).fitCenter().thumbnail(0.0001f).into(new BitmapImageViewTarget(targetVIew) {
             @Override
             protected void setResource(Bitmap resource) {
                 RoundedBitmapDrawable circularBitmapDrawable =
@@ -31,7 +31,7 @@ public class Util {
     }
 
     public static void setRoundRectangleImageFromURL(final Context context, String imageURL, final float radius, final ImageView targetView) {
-        Glide.with(context).load(imageURL).asBitmap().placeholder(R.drawable.temp_icon).fitCenter().thumbnail(0.001f).into(new BitmapImageViewTarget(targetView) {
+        Glide.with(context).load(imageURL).asBitmap().placeholder(R.drawable.detailpage_bike_image_noneimage).fitCenter().thumbnail(0.0001f).into(new BitmapImageViewTarget(targetView) {
             @Override
             protected void setResource(Bitmap resource) {
                 RoundedBitmapDrawable circularBitmapDrawable =
@@ -41,4 +41,6 @@ public class Util {
             }
         });
     }
+
+    public final static String REGEX_HANGUL = "^[가-힣]{2,30}$";
 }

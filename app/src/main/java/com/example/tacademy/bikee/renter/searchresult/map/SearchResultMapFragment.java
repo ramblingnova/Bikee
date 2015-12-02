@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.tacademy.bikee.R;
 
@@ -21,7 +20,6 @@ import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
-import com.example.tacademy.bikee.renter.searchresult.SearchResultINF;
 import com.example.tacademy.bikee.renter.searchresult.SearchResultMapItem;
 import com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.FilteredBicycleDetailInformationActivity;
 import com.google.android.gms.common.ConnectionResult;
@@ -40,8 +38,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -56,10 +52,7 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     private GoogleMap gm;
     private LocationManager locationManager;
     private View view;
-//    private SearchResultINF searchResultINF;
-//    private TimerTask timerTask;
-//    private Timer timer;
-//    private boolean battery;
+    BicycleInfoWindowView bicycleInfoWindowView;
     private String latitude = null;
     private String longitude = null;
 
@@ -67,8 +60,7 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         for (Marker marker : mPOIResolver.keySet()) {
             marker.remove();
         }
@@ -89,17 +81,6 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
         }
 
         requestData();
-//        timerTask = new TimerTask() {
-//            @Override
-//            public void run() {
-//                if (battery) {
-//                    requestData();
-//                }
-//            }
-//        };
-//        timer = new Timer();
-//        battery = true;
-//        timer.schedule(timerTask, 0, 5000);
 
         return view;
     }
@@ -108,20 +89,12 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     public void onStart() {
         super.onStart();
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        String provider = LocationManager.GPS_PROVIDER;
-        //if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
-        provider = LocationManager.NETWORK_PROVIDER;
+        String provider = LocationManager.NETWORK_PROVIDER;
         try {
             locationManager.requestLocationUpdates(provider, 1000, 1, mListener);
         } catch (SecurityException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void onStop() {
-        Log.i("MAP", "STOP!!");
-        super.onStop();
     }
 
     @Override
@@ -135,13 +108,17 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Log.i("MAP", "INIT!!");
         gm = googleMap;
         gm.setMyLocationEnabled(true);
 
@@ -154,7 +131,8 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
         gm.getUiSettings().setTiltGesturesEnabled(false);
 
         gm.setOnInfoWindowClickListener(this);
-        gm.setInfoWindowAdapter(new BicycleInfoWindowView(MyApplication.getmContext(), mPOIResolver));
+        gm.setInfoWindowAdapter(bicycleInfoWindowView = new BicycleInfoWindowView(MyApplication.getmContext(), mPOIResolver));
+        bicycleInfoWindowView.setOnImageLoadListener(onImageLoadListener);
 
         gm.setOnMapClickListener(this);
         gm.setOnMarkerClickListener(this);
@@ -170,8 +148,6 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
         CameraPosition.Builder builder = new CameraPosition.Builder();
         builder.target(new LatLng(lat, lng));
         builder.zoom(15);
-//        builder.bearing(30);
-//        builder.tilt(30);
         CameraPosition position = builder.build();
         CameraUpdate update = CameraUpdateFactory.newCameraPosition(position);
         gm.animateCamera(update);
@@ -181,27 +157,14 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
         @Override
         public void onLocationChanged(Location location) {
             if (location != null) {
-                if (gm != null) {
-                    if ((null == latitude) || (null == longitude)) {
-                        latitude = PropertyManager.getInstance().getLatitude();
-                        longitude = PropertyManager.getInstance().getLongitude();
-                    } else {
-                        latitude = "" + location.getLatitude();
-                        longitude = "" + location.getLongitude();
-                        PropertyManager.getInstance().setLatitude(latitude);
-                        PropertyManager.getInstance().setLongitude(longitude);
-                    }
-                    moveMap(Double.parseDouble(latitude), Double.parseDouble(longitude));
+                if ((null == latitude) || (null == longitude)) {
+                    latitude = PropertyManager.getInstance().getLatitude();
+                    longitude = PropertyManager.getInstance().getLongitude();
                 } else {
-                    if ((null == latitude) || (null == longitude)) {
-                        latitude = PropertyManager.getInstance().getLatitude();
-                        longitude = PropertyManager.getInstance().getLongitude();
-                    } else {
-                        latitude = "" + location.getLatitude();
-                        longitude = "" + location.getLongitude();
-                        PropertyManager.getInstance().setLatitude(latitude);
-                        PropertyManager.getInstance().setLongitude(longitude);
-                    }
+                    latitude = "" + location.getLatitude();
+                    longitude = "" + location.getLongitude();
+                    PropertyManager.getInstance().setLatitude(latitude);
+                    PropertyManager.getInstance().setLongitude(longitude);
                 }
                 try {
                     locationManager.removeUpdates(mListener);
@@ -248,11 +211,19 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     @Override
     public boolean onMarkerClick(Marker marker) {
         POI poi = mPOIResolver.get(marker);
-        Toast.makeText(getContext().getApplicationContext(), "title : " + poi.getName(), Toast.LENGTH_SHORT).show();
-
-        marker.showInfoWindow();
+        SearchResultMapItem searchResultMapItem = poi.getItem();
+        current_marker = marker;
+        bicycleInfoWindowView.setImageView(getActivity(), searchResultMapItem.getImageURL());
         return true;
     }
+
+    Marker current_marker;
+    BicycleInfoWindowView.OnImageLoadListener onImageLoadListener = new BicycleInfoWindowView.OnImageLoadListener() {
+        @Override
+        public void onImageLoad() {
+            current_marker.showInfoWindow();
+        }
+    };
 
     @Override
     public void onMarkerDragStart(Marker marker) {
@@ -296,7 +267,7 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
                             if ((null == result.getImage().getCdnUri()) || (null == result.getImage().getFiles())) {
                                 imageURL = "";
                             } else {
-                                imageURL = result.getImage().getCdnUri() + "/mini_" + result.getImage().getFiles().get(0);
+                                imageURL = result.getImage().getCdnUri() + "/detail_" + result.getImage().getFiles().get(0);
                             }
                             Log.i("result", "onResponse : " + result.get_id()
                                             + ", ImageURL : " + imageURL

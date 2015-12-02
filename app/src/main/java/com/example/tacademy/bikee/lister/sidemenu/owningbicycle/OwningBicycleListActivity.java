@@ -72,7 +72,7 @@ public class OwningBicycleListActivity extends AppCompatActivity implements Adap
                             || (null == result.getImage().getFiles().get(0))) {
                         imageURL = "";
                     } else {
-                        imageURL = result.getImage().getCdnUri() + "/mini_" + result.getImage().getFiles().get(0);
+                        imageURL = result.getImage().getCdnUri() + "/detail_" + result.getImage().getFiles().get(0);
                     }
                     Log.i("result", "onResponse Id : " + result.get_id()
                                     + ", ImageURL : " + imageURL

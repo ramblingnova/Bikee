@@ -11,14 +11,12 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
-import com.example.tacademy.bikee.renter.searchresult.SearchResultINF;
 import com.example.tacademy.bikee.renter.searchresult.SearchResultListItem;
 import com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.FilteredBicycleDetailInformationActivity;
 
@@ -91,7 +89,6 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         SearchResultListItem item = (SearchResultListItem) lv.getItemAtPosition(position);
-        Toast.makeText(getContext().getApplicationContext(), "position : " + position, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getActivity(), FilteredBicycleDetailInformationActivity.class);
         intent.putExtra("ID", item.getBicycleId());
         getActivity().startActivity(intent);
@@ -135,7 +132,7 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
                             if ((null == result.getImage().getCdnUri()) || (null == result.getImage().getFiles())) {
                                 imageURL = "";
                             } else {
-                                imageURL = result.getImage().getCdnUri() + "/mini_" + result.getImage().getFiles().get(0);
+                                imageURL = result.getImage().getCdnUri() + "/detail_" + result.getImage().getFiles().get(0);
                             }
                             Log.i("result", "List!! onResponse Id : " + result.get_id()
                                             + ", ImageURL : " + imageURL

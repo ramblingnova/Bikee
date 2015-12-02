@@ -12,16 +12,13 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.tacademy.bikee.etc.MyApplication;
 import com.example.tacademy.bikee.etc.Util;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Result;
-import com.example.tacademy.bikee.etc.dao.Result1;
 import com.example.tacademy.bikee.etc.dialog.ChoiceDialogFragment;
 import com.example.tacademy.bikee.R;
-import com.example.tacademy.bikee.common.SmallMapActivity;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
@@ -156,7 +153,7 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
                             || (null == result.getImage().getFiles().get(0))) {
                         imageURL = "";
                     } else {
-                        imageURL = result.getImage().getCdnUri() + "/mini_" + result.getImage().getFiles().get(0);
+                        imageURL = result.getImage().getCdnUri() + "/detail_" + result.getImage().getFiles().get(0);
                     }
                     Log.i("result", "onResponse Bike Image : " + imageURL
                                     + ", Bike Name : " + result.getTitle()

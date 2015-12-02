@@ -8,6 +8,7 @@
         android:id="@+id/view_bicycle_info_window_bicycle_picture_image_view"
         android:layout_width="88dp"
         android:layout_height="74dp"
+        android:scaleType="fitXY"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
@@ -21,8 +22,9 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/view_bicycle_info_window_bicycle_picture_image_view"
         android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
         android:layout_toRightOf="@id/view_bicycle_info_window_bicycle_picture_image_view"
-        android:text="@string/view_bicycle_info_window_bicycle_name_text_view_string"
+        android:singleLine="true"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/bikeeWhite"
         android:textSize="13sp" />
@@ -47,7 +49,6 @@
         android:layout_below="@id/view_bicycle_info_window_bicycle_name_text_view"
         android:layout_marginLeft="4dp"
         android:layout_toRightOf="@id/view_bicycle_info_window_bicycle_type_text_view"
-        android:text="@string/view_bicycle_info_window_bicycle_type_real_text_view_string"
         android:textColor="@color/bikeeWhite"
         android:textSize="11sp" />
 
@@ -70,7 +71,6 @@
         android:layout_below="@id/view_bicycle_info_window_bicycle_name_text_view"
         android:layout_marginLeft="4dp"
         android:layout_toRightOf="@id/view_bicycle_info_window_bicycle_height_text_view"
-        android:text="@string/view_bicycle_info_window_bicycle_height_real_text_view_string"
         android:textColor="@color/bikeeWhite"
         android:textSize="11sp" />
 
@@ -92,7 +92,6 @@
         android:layout_alignTop="@id/view_bicycle_info_window_bicycle_payment_text_view1"
         android:layout_marginLeft="4dp"
         android:layout_toRightOf="@id/view_bicycle_info_window_bicycle_payment_text_view1"
-        android:text="@string/view_bicycle_info_window_bicycle_payment_real_text_view_string"
         android:textColor="@color/bikeeWhite"
         android:textSize="11sp" />
 

@@ -13,12 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.tacademy.bikee.R;
-import com.example.tacademy.bikee.etc.MyApplication;
-import com.example.tacademy.bikee.etc.dao.ReceiveObject;
-import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.example.tacademy.bikee.renter.searchresult.filter.FilterActivity;
 import com.example.tacademy.bikee.renter.searchresult.list.SearchResultListFragment;
@@ -31,10 +27,6 @@ import com.google.android.gms.location.LocationListener;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 public class SearchResultFragment extends Fragment implements SearchSwitchView.OnCheckedListener, View.OnClickListener,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
@@ -170,7 +162,6 @@ public class SearchResultFragment extends Fragment implements SearchSwitchView.O
 
     @Override
     public void onLocationChanged(Location location) {
-        Toast.makeText(getActivity(), location.getLatitude() + "," + location.getLongitude(), Toast.LENGTH_SHORT).show();
         Log.i("MYLOCATION", "Latitude : " + location.getLatitude() + ", Longitude : " + location.getLongitude());
         if (location != null) {
             // sharedPreparence에 저장 -> Map과 List에 위도, 경도 전송
@@ -240,7 +231,6 @@ public class SearchResultFragment extends Fragment implements SearchSwitchView.O
     }
 
     private void fragmentChange(boolean isChecked) {
-        Toast.makeText(getContext().getApplicationContext(), "isChecked : " + isChecked, Toast.LENGTH_SHORT).show();
         String CURRENT_TAG = (isChecked) ? SEARCH_RESULT_LIST_FRAGMENT_TAG : SEARCH_RESULT_MAP_FRAGMENT_TAG;
         Fragment old = getChildFragmentManager().findFragmentByTag(CURRENT_TAG);
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();

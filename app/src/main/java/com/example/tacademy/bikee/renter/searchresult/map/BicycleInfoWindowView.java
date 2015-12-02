@@ -1,11 +1,17 @@
 package com.example.tacademy.bikee.renter.searchresult.map;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.POI;
 import com.example.tacademy.bikee.etc.MyApplication;
@@ -21,6 +27,7 @@ import java.util.Map;
  * Created by Tacademy on 2015-11-18.
  */
 public class BicycleInfoWindowView implements GoogleMap.InfoWindowAdapter {
+    OnImageLoadListener onImageLoadListener;
     private View infoWindow;
     private ImageView bicycleImage;
     private TextView bicycle_name;
@@ -32,7 +39,6 @@ public class BicycleInfoWindowView implements GoogleMap.InfoWindowAdapter {
     private TextView payment;
     private TextView perDuration;
     Map<Marker, POI> mPOIResolver;
-
 
     public BicycleInfoWindowView(Context context, Map<Marker, POI> poiResolver) {
         infoWindow = LayoutInflater.from(context).inflate(R.layout.view_bicycle_info_window, null);
@@ -59,6 +65,33 @@ public class BicycleInfoWindowView implements GoogleMap.InfoWindowAdapter {
     @Override
     public View getInfoContents(Marker marker) {
         return null;
+    }
+
+    public interface OnImageLoadListener {
+        void onImageLoad();
+    }
+
+    public void setOnImageLoadListener(OnImageLoadListener onImageLoadListener) {
+        this.onImageLoadListener = onImageLoadListener;
+    }
+
+    public void setImageView(final Context context,String imageURL){
+        Glide.with(context).load(imageURL).asBitmap().placeholder(R.drawable.detailpage_bike_image_noneimage).fitCenter().thumbnail(0.0001f).into(new BitmapImageViewTarget(bicycleImage) {
+            @Override
+            protected void setResource(Bitmap resource) {
+                RoundedBitmapDrawable circularBitmapDrawable = RoundedBitmapDrawableFactory.create(context.getResources(), resource);
+                circularBitmapDrawable.setCornerRadius(12);
+                bicycleImage.setImageDrawable(circularBitmapDrawable);
+            }
+
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                super.onResourceReady(resource, glideAnimation);
+                if (onImageLoadListener != null) {
+                    onImageLoadListener.onImageLoad();
+                }
+            }
+        });
     }
 
     public void setView(SearchResultMapItem item) {
