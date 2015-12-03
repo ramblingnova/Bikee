@@ -215,9 +215,9 @@ public class NetworkManager {
         @POST("/reserves/{bikeId}")
         void insertReservation(@Path("bikeId") String bike_id, @Body Reserve reserve, Callback<ReceiveObject> callback);
 
-        // 리스터가...
+        // 리스터가...c
         @FormUrlEncoded
-        @POST("/reserves/{bikeId}/{reserveId}")
+        @PUT("/reserves/{bikeId}/{reserveId}")
         void reserveStatus(@Path("bikeId")String bike_id, @Path("reserveId") String reserveId, @Field("status") String status, Callback<ReceiveObject> callback);
 
         // 결제요청
