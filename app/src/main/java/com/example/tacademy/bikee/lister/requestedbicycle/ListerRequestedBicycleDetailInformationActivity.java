@@ -10,15 +10,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.tacademy.bikee.etc.dao.ReceiveObject;
+import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.dialog.ChoiceDialogFragment;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.SmallMapActivity;
 import com.example.tacademy.bikee.etc.dialog.NoChoiceDialogFragment;
+import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class ListerRequestedBicycleDetailInformationActivity extends AppCompatActivity implements View.OnClickListener {
     private ChoiceDialogFragment dialog1;
@@ -38,6 +46,8 @@ public class ListerRequestedBicycleDetailInformationActivity extends AppCompatAc
     private String endDate;
     private int price;
     private String status;
+    private String bicycleId;
+    private String reserveId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,26 +60,6 @@ public class ListerRequestedBicycleDetailInformationActivity extends AppCompatAc
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setCustomView(R.layout.lister_main_tool_bar);
 
-        intent = getIntent();
-        imageURL = intent.getStringExtra("BICYCLEURL");
-        type = intent.getStringExtra("TYPE");
-        height = intent.getStringExtra("HEIGHT");
-        latitude = intent.getDoubleExtra("LATITUDE", -1.0);
-        longitude = intent.getDoubleExtra("LONGITUDE", -1.0);
-        startDate = intent.getStringExtra("STARTDATE");
-        endDate = intent.getStringExtra("ENDDATE");
-        price = intent.getIntExtra("PRICE", -1);
-        status = intent.getStringExtra("STATUS");
-        Log.i("result", "BICYCLEURL : " + imageURL
-                        + ", TYPE : " + type
-                        + ", HEIGHT : " + height
-                        + ", LATITUDE : " + latitude
-                        + ", LONGITUDE : " + longitude
-                        + ", STARTDATE : " + startDate
-                        + ", ENDDATE : " + endDate
-                        + ", PRICE : " + price
-                        + ", STATUS : " + status
-        );
         cancelButton = (Button) findViewById(R.id.activity_lister_requested_bicycle_detail_information_cancel_button);
         cancelButton.setOnClickListener(this);
         approvalButton = (Button) findViewById(R.id.activity_lister_requested_bicycle_detail_information_approval_button);
@@ -81,63 +71,38 @@ public class ListerRequestedBicycleDetailInformationActivity extends AppCompatAc
         smallMapButton = (Button) findViewById(R.id.activity_lister_requested_bicycle_detail_information_small_map_button);
         smallMapButton.setOnClickListener(this);
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm", java.util.Locale.getDefault());
-        Date currentDate = new Date(System.currentTimeMillis());
-        Date startTime = null;
-        Date endTime = null;
-        try {
-            startTime = dateFormat.parse(startDate);
-            endTime = dateFormat.parse(endDate);
-        } catch (ParseException pe) {
-            // pe.printStackTrace();
-        }
-//
-//        if (currentDate.after(endTime) == false) {
-
-
-        switch (status) {
-            case "RR":
-                if (currentDate.after(startTime)) {
-                    // 요청 취소
-                } else {
-                    // 예약 요청
-                    cancelButton.setVisibility(View.VISIBLE);
-                    approvalButton.setVisibility(View.VISIBLE);
-                    cancelButton2.setVisibility(View.GONE);
-                    inputPostBackButton.setVisibility(View.GONE);
-                }
-                break;
-            case "RS":
-                if (currentDate.after(startTime)) {
-                    cancelButton.setVisibility(View.GONE);
-                    approvalButton.setVisibility(View.GONE);
-                    cancelButton2.setVisibility(View.GONE);
-                    inputPostBackButton.setVisibility(View.VISIBLE);
-                } else {
-                    // 예약 승인
-                }
-            case "RC":
-                cancelButton.setVisibility(View.GONE);
-                approvalButton.setVisibility(View.GONE);
-                cancelButton2.setVisibility(View.VISIBLE);
-                inputPostBackButton.setVisibility(View.GONE);
-                break;
-        }
+        init();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.activity_lister_requested_bicycle_detail_information_cancel_button:
-                dialog1 = new ChoiceDialogFragment().newInstance(ChoiceDialogFragment.LISTER_CANCEL_RESERVATION);
+                dialog1 = new ChoiceDialogFragment().newInstance(
+                        bicycleId,
+                        reserveId,
+                        "RC",
+                        ChoiceDialogFragment.LISTER_CANCEL_RESERVATION
+                );
                 dialog1.show(getSupportFragmentManager(), "custom");
                 break;
             case R.id.activity_lister_requested_bicycle_detail_information_approval_button:
-                dialog2 = new NoChoiceDialogFragment().newInstance(NoChoiceDialogFragment.LISTER_APPROVE_RESERVATION, NoChoiceDialogFragment.LISTER_MOVE_TO_LISTER_REQUESTED);
+                dialog2 = new NoChoiceDialogFragment().newInstance(
+                        bicycleId,
+                        reserveId,
+                        "RS",
+                        NoChoiceDialogFragment.LISTER_APPROVE_RESERVATION,
+                        NoChoiceDialogFragment.LISTER_MOVE_TO_LISTER_REQUESTED
+                );
                 dialog2.show(getSupportFragmentManager(), "custom");
                 break;
             case R.id.activity_lister_requested_bicycle_detail_information_cancel_button2:
-                dialog1 = new ChoiceDialogFragment().newInstance(ChoiceDialogFragment.LISTER_CANCEL_RESERVATION);
+                dialog1 = new ChoiceDialogFragment().newInstance(
+                        bicycleId,
+                        reserveId,
+                        "RC",
+                        ChoiceDialogFragment.LISTER_CANCEL_RESERVATION
+                );
                 dialog1.show(getSupportFragmentManager(), "custom");
                 break;
             case R.id.activity_lister_requested_bicycle_detail_information_input_post_back_button:
@@ -148,6 +113,56 @@ public class ListerRequestedBicycleDetailInformationActivity extends AppCompatAc
                 startActivity(intent);
                 break;
         }
+    }
+
+    private void init() {
+        intent = getIntent();
+        bicycleId = intent.getStringExtra("ID");
+        NetworkManager.getInstance().selectBicycleDetail(bicycleId, new Callback<ReceiveObject>() {
+            @Override
+            public void success(ReceiveObject receiveObject, Response response) {
+                Log.i("result", "onResponse Success");
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e("error", "onFailure Error : " + error.toString());
+            }
+        });
+
+        status = intent.getStringExtra("STATUS");
+        endDate = intent.getStringExtra("ENDDATE");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm", java.util.Locale.getDefault());
+        Date currentDate = new Date(System.currentTimeMillis());
+        Date endTime = null;
+        try {
+            endTime = dateFormat.parse(endDate);
+        } catch (ParseException pe) {
+            // pe.printStackTrace();
+        }
+        if (currentDate.after(endTime) == false) {
+            switch (status) {
+                case "RR":
+                    cancelButton.setVisibility(View.VISIBLE);
+                    approvalButton.setVisibility(View.VISIBLE);
+                    cancelButton2.setVisibility(View.GONE);
+                    inputPostBackButton.setVisibility(View.GONE);
+                    break;
+                case "RS":
+                case "RC":
+                    cancelButton.setVisibility(View.GONE);
+                    approvalButton.setVisibility(View.GONE);
+                    cancelButton2.setVisibility(View.VISIBLE);
+                    inputPostBackButton.setVisibility(View.GONE);
+                    break;
+            }
+        } else {
+            cancelButton.setVisibility(View.GONE);
+            approvalButton.setVisibility(View.GONE);
+            cancelButton2.setVisibility(View.GONE);
+            inputPostBackButton.setVisibility(View.VISIBLE);
+        }
+        reserveId = intent.getStringExtra("RESERVE");
     }
 
     @Override

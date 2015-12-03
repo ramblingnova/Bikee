@@ -13,8 +13,9 @@ public class RenterReservationBicycleItem {
     private Date startDate;
     private Date endDate;
     private int payment;
+    private String reserveId;
 
-    public RenterReservationBicycleItem(String bicycleId, String imageURL, String bicycleName, String status, Date startDate, Date endDate, int payment) {
+    public RenterReservationBicycleItem(String bicycleId, String imageURL, String bicycleName, String status, Date startDate, Date endDate, int payment, String reserveId) {
         this.bicycleId = bicycleId;
         this.imageURL = imageURL;
         this.bicycleName = bicycleName;
@@ -22,7 +23,7 @@ public class RenterReservationBicycleItem {
         this.startDate = startDate;
         this.endDate = endDate;
         this.payment = payment;
-
+        this.reserveId = reserveId;
     }
     public String getBicycleId() {
         return bicycleId;
@@ -78,5 +79,13 @@ public class RenterReservationBicycleItem {
 
     public void setPayment(int payment) {
         this.payment = payment;
+    }
+
+    public String getReserveId() {
+        return reserveId;
+    }
+
+    public void setReserveId(String reserveId) {
+        this.reserveId = reserveId;
     }
 }

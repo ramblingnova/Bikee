@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
@@ -29,15 +28,6 @@ public class ListerRequestedBicycleListFragment extends Fragment implements Adap
     private Intent intent;
     private ListView lv;
     private ListerRequestedBicycleAdapter adapter;
-    private String status;
-    private String imageURL;
-    private String type;
-    private String height;
-    private double latitude;
-    private double longitude;
-    private String startDate;
-    private String endDate;
-    private int price;
 
     public ListerRequestedBicycleListFragment() {
         // Required empty public constructor
@@ -60,17 +50,12 @@ public class ListerRequestedBicycleListFragment extends Fragment implements Adap
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ListerRequestedBicycleItem item = (ListerRequestedBicycleItem) lv.getItemAtPosition(position);
-
         intent = new Intent(getActivity(), ListerRequestedBicycleDetailInformationActivity.class);
-        intent.putExtra("BICYCLEURL", imageURL);
-        intent.putExtra("TYPE", type);
-        intent.putExtra("HEIGHT", height);
-        intent.putExtra("LATITUDE", latitude);
-        intent.putExtra("LONGITUDE", longitude);
-        intent.putExtra("STARTDATE", startDate);
-        intent.putExtra("ENDDATE", endDate);
-        intent.putExtra("PRICE", price);
-        intent.putExtra("STATUS", status);
+        intent.putExtra("ID", item.getBikeId());
+        intent.putExtra("RESERVE", item.getReserveId());
+        intent.putExtra("STATUS", item.getStatus());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
+        intent.putExtra("ENDDATE", simpleDateFormat.format(item.getEndDate()));
         getActivity().startActivity(intent);
     }
 
@@ -117,23 +102,16 @@ public class ListerRequestedBicycleListFragment extends Fragment implements Adap
                                         + ", Latitude : " + result.getBike().getLoc().getCoordinates().get(1)
                                         + ", Longitude : " + result.getBike().getLoc().getCoordinates().get(0)
                         );
-                        status = reserve.getStatus();
-                        imageURL = bicycleImageURL;
-                        type = result.getBike().getType();
-                        height = result.getBike().getHeight();
-                        latitude = result.getBike().getLoc().getCoordinates().get(1);
-                        longitude = result.getBike().getLoc().getCoordinates().get(0);
-                        startDate = simpleDateFormat.format(reserve.getRentStart());
-                        endDate = simpleDateFormat.format(reserve.getRentEnd());
-                        price = result.getBike().getPrice().getMonth();
 
-                        adapter.add(renterImageURL,
+                        adapter.add(result.get_id(),
+                                renterImageURL,
                                 reserve.getStatus(),
                                 reserve.getRenter().getName(),
                                 result.getBike().getTitle(),
-                                simpleDateFormat.format(reserve.getRentStart()),
-                                simpleDateFormat.format(reserve.getRentEnd()),
-                                "" + result.getBike().getPrice().getMonth()
+                                reserve.getRentStart(),
+                                reserve.getRentEnd(),
+                                "" + result.getBike().getPrice().getMonth(),
+                                reserve.get_id()
                         );
                     }
             }

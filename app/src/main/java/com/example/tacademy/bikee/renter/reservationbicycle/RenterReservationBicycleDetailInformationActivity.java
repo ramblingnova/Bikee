@@ -37,7 +37,7 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
     private Button cancelButton;
     private Button payButton;
     private Button cancelButton2;
-    private Button inputPpostScriptionButton;
+    private Button inputPostScriptionButton;
     private String bicycleId;
     private String status;
     private String endDate;
@@ -47,6 +47,7 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
     private double latitude;
     private double longitude;
     private int price;
+    private String reserveId;
     private CheckBox typeCheck1;
     private CheckBox typeCheck2;
     private CheckBox typeCheck3;
@@ -80,8 +81,8 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
         payButton.setOnClickListener(this);
         cancelButton2 = (Button) findViewById(R.id.activity_renter_reservation_bicycle_detail_information_cancel_button2);
         cancelButton2.setOnClickListener(this);
-        inputPpostScriptionButton = (Button) findViewById(R.id.activity_renter_reservation_bicycle_detail_information_input_post_scription_button);
-        inputPpostScriptionButton.setOnClickListener(this);
+        inputPostScriptionButton = (Button) findViewById(R.id.activity_renter_reservation_bicycle_detail_information_input_post_scription_button);
+        inputPostScriptionButton.setOnClickListener(this);
         typeCheck1 = (CheckBox) findViewById(R.id.bicycle_type_check_box1);
         typeCheck1.setClickable(false);
         typeCheck2 = (CheckBox) findViewById(R.id.bicycle_type_check_box2);
@@ -118,7 +119,7 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.activity_renter_reservation_bicycle_detail_information_cancel_button:
-                dialog = new ChoiceDialogFragment().newInstance(ChoiceDialogFragment.RENTER_CANCEL_ALREADY_RESERVATION);
+                dialog = new ChoiceDialogFragment().newInstance(bicycleId, reserveId, "RC", ChoiceDialogFragment.RENTER_CANCEL_ALREADY_RESERVATION);
                 dialog.show(getSupportFragmentManager(), "custom");
                 break;
             case R.id.activity_renter_reservation_bicycle_detail_information_pay_button:
@@ -126,7 +127,7 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
                 dialog.show(getSupportFragmentManager(), "custom");
                 break;
             case R.id.activity_renter_reservation_bicycle_detail_information_cancel_button2:
-                dialog = new ChoiceDialogFragment().newInstance(ChoiceDialogFragment.RENTER_CANCEL_ALREADY_RESERVATION);
+                dialog = new ChoiceDialogFragment().newInstance(bicycleId, reserveId, "RC", ChoiceDialogFragment.RENTER_CANCEL_ALREADY_RESERVATION);
                 dialog.show(getSupportFragmentManager(), "custom");
                 break;
             case R.id.activity_renter_reservation_bicycle_detail_information_input_post_scription_button:
@@ -169,23 +170,53 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
                     price = result.getPrice().getMonth();
                     Util.setRoundRectangleImageFromURL(MyApplication.getmContext(), imageURL, 6, image);
                     switch (result.getType()) {
-                        case "A": typeCheck1.setChecked(true); break;
-                        case "B": typeCheck2.setChecked(true); break;
-                        case "C": typeCheck3.setChecked(true); break;
-                        case "D": typeCheck4.setChecked(true); break;
-                        case "E": typeCheck5.setChecked(true); break;
-                        case "F": typeCheck6.setChecked(true); break;
-                        case "G": typeCheck7.setChecked(true); break;
-                        default:  typeCheck1.setChecked(true); break;
+                        case "A":
+                            typeCheck1.setChecked(true);
+                            break;
+                        case "B":
+                            typeCheck2.setChecked(true);
+                            break;
+                        case "C":
+                            typeCheck3.setChecked(true);
+                            break;
+                        case "D":
+                            typeCheck4.setChecked(true);
+                            break;
+                        case "E":
+                            typeCheck5.setChecked(true);
+                            break;
+                        case "F":
+                            typeCheck6.setChecked(true);
+                            break;
+                        case "G":
+                            typeCheck7.setChecked(true);
+                            break;
+                        default:
+                            typeCheck1.setChecked(true);
+                            break;
                     }
                     switch (result.getHeight()) {
-                        case "01": heightCheck1.setChecked(true); break;
-                        case "02": heightCheck2.setChecked(true); break;
-                        case "03": heightCheck3.setChecked(true); break;
-                        case "04": heightCheck4.setChecked(true); break;
-                        case "05": heightCheck5.setChecked(true); break;
-                        case "06": heightCheck6.setChecked(true); break;
-                        default:  heightCheck1.setChecked(true); break;
+                        case "01":
+                            heightCheck1.setChecked(true);
+                            break;
+                        case "02":
+                            heightCheck2.setChecked(true);
+                            break;
+                        case "03":
+                            heightCheck3.setChecked(true);
+                            break;
+                        case "04":
+                            heightCheck4.setChecked(true);
+                            break;
+                        case "05":
+                            heightCheck5.setChecked(true);
+                            break;
+                        case "06":
+                            heightCheck6.setChecked(true);
+                            break;
+                        default:
+                            heightCheck1.setChecked(true);
+                            break;
                     }
                     rentalPlaceText.setText("위도 : " + latitude + ", 경도 : " + longitude);
                 }
@@ -218,22 +249,24 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
                     cancelButton.setVisibility(View.VISIBLE);
                     payButton.setVisibility(View.VISIBLE);
                     cancelButton2.setVisibility(View.GONE);
-                    inputPpostScriptionButton.setVisibility(View.GONE);
+                    inputPostScriptionButton.setVisibility(View.GONE);
                     break;
                 case "RS":
                 case "RC":
                     cancelButton.setVisibility(View.GONE);
                     payButton.setVisibility(View.GONE);
                     cancelButton2.setVisibility(View.VISIBLE);
-                    inputPpostScriptionButton.setVisibility(View.GONE);
+                    inputPostScriptionButton.setVisibility(View.GONE);
                     break;
             }
         } else {
             cancelButton.setVisibility(View.GONE);
             payButton.setVisibility(View.GONE);
             cancelButton2.setVisibility(View.GONE);
-            inputPpostScriptionButton.setVisibility(View.VISIBLE);
+            inputPostScriptionButton.setVisibility(View.VISIBLE);
         }
+
+        reserveId = intent.getStringExtra("RESERVE");
     }
 
     @Override

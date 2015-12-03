@@ -16,19 +16,27 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.manager.FontManager;
+import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.lister.ListerMainActivity;
 import com.example.tacademy.bikee.renter.RenterMainActivity;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by Tacademy on 2015-11-02.
  */
 public class NoChoiceDialogFragment extends DialogFragment {
-
     private Intent intent;
     private TextView tv;
     private static final String ARG_PARAM1 = "MESSAGE";
     private static final String ARG_PARAM2 = "SUB_MESSAGE";
+    private static final String BICYCLE_ID = "BICYCLEID";
+    private static final String RESERVE_ID = "RESERVEID";
+    private static final String STATUS = "STATUS";
     private String message;
     private String subMessage;
     public static final int NO_MESSAGE = 0;
@@ -44,6 +52,9 @@ public class NoChoiceDialogFragment extends DialogFragment {
     public static final int RENTER_MOVE_TO_RENTER_RESERVATION = 101;
     public static final int RENTER_MOVE_TO_SEARCH_RESULT = 102;
     public static final int LISTER_MOVE_TO_LISTER_REQUESTED = 103;
+    private String bicycleId;
+    private String reserveId;
+    private String status;
 
     public static NoChoiceDialogFragment newInstance(int param1) {
         NoChoiceDialogFragment fragment = new NoChoiceDialogFragment();
@@ -62,6 +73,18 @@ public class NoChoiceDialogFragment extends DialogFragment {
         return fragment;
     }
 
+    public static NoChoiceDialogFragment newInstance(String bicycleId, String reserveId, String status, int param1, int param2) {
+        NoChoiceDialogFragment fragment = new NoChoiceDialogFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_PARAM1, param1);
+        args.putInt(ARG_PARAM2, param2);
+        args.putString(BICYCLE_ID, bicycleId);
+        args.putString(RESERVE_ID, reserveId);
+        args.putString(STATUS, status);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +94,11 @@ public class NoChoiceDialogFragment extends DialogFragment {
             message = getMessageById(getArguments().getInt(ARG_PARAM1));
             if (getArguments().getInt(ARG_PARAM2, NO_SUB_MESSAGE) != NO_SUB_MESSAGE) {
                 subMessage = getSubMessageById(getArguments().getInt(ARG_PARAM2));
+            }
+            if ((null != getArguments().get(BICYCLE_ID)) && (null != getArguments().getString(RESERVE_ID)) && (null != getArguments().getString(STATUS))) {
+                bicycleId = getArguments().getString(BICYCLE_ID);
+                reserveId = getArguments().getString(RESERVE_ID);
+                status = getArguments().getString(STATUS);
             }
         }
     }
@@ -88,18 +116,44 @@ public class NoChoiceDialogFragment extends DialogFragment {
             tv.setText(subMessage);
         }
 
-        if (getArguments().getInt(ARG_PARAM2, RENTER_MOVE_TO_RENTER_RESERVATION) == RENTER_MOVE_TO_RENTER_RESERVATION || getArguments().getInt(ARG_PARAM2, RENTER_MOVE_TO_SEARCH_RESULT) == RENTER_MOVE_TO_SEARCH_RESULT) {
+        if (getArguments().getInt(ARG_PARAM2, RENTER_MOVE_TO_RENTER_RESERVATION) == RENTER_MOVE_TO_RENTER_RESERVATION
+                || getArguments().getInt(ARG_PARAM2, RENTER_MOVE_TO_SEARCH_RESULT) == RENTER_MOVE_TO_SEARCH_RESULT) {
             intent = new Intent(getContext().getApplicationContext(), RenterMainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
 //                    public static final int RENTER_MOVE_TO_RENTER_RESERVATION = 101;
 //                    public static final int RENTER_MOVE_TO_SEARCH_RESULT = 102;
 //                    public static final int LISTER_MOVE_TO_LISTER_REQUESTED = 103;
-        } else if (getArguments().getInt(ARG_PARAM2, LISTER_APPROVE_RESERVATION) == LISTER_APPROVE_RESERVATION || getArguments().getInt(ARG_PARAM2, LISTER_MOVE_TO_LISTER_REQUESTED) == LISTER_MOVE_TO_LISTER_REQUESTED) {
-            intent = new Intent(getContext().getApplicationContext(), ListerMainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            Log.i("APPROVAL", "리스터 승인!!");
-            startActivity(intent);
+        } else if ((getArguments().getInt(ARG_PARAM1, LISTER_APPROVE_RESERVATION) == LISTER_APPROVE_RESERVATION)
+                && (getArguments().getInt(ARG_PARAM2, LISTER_MOVE_TO_LISTER_REQUESTED) == LISTER_MOVE_TO_LISTER_REQUESTED)) {
+            NetworkManager.getInstance().reserveStatus(bicycleId, reserveId, status, new Callback<ReceiveObject>() {
+                @Override
+                public void success(ReceiveObject receiveObject, Response response) {
+                    Log.i("result", "RC onResponse Success");
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            intent = new Intent(getContext().getApplicationContext(), ListerMainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        }
+                    }, 1500);
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    Log.e("error", "onFailure Error : " + error.toString());
+                }
+            });
+        } else if (getArguments().getInt(ARG_PARAM2, LISTER_MOVE_TO_LISTER_REQUESTED) == LISTER_MOVE_TO_LISTER_REQUESTED) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    intent = new Intent(getContext().getApplicationContext(), ListerMainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
+            }, 1500);
         }
 
         return view;

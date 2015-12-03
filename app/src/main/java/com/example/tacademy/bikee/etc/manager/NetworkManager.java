@@ -72,6 +72,8 @@ public class NetworkManager {
 
     public interface ServerUrl {
         String baseUrl = "http://bikee.kr.pe";
+        // port 3000 로보몽고 접속할때 필요
+        // url 테스팅은 포스트맨
 //        String baseUrl = "http://192.168.201.226:2222";
 
         // 본인정보조회 app.get('/users/:userId',users.profile) TODO id 없이 "본인정보조회"하기
@@ -214,6 +216,7 @@ public class NetworkManager {
         void insertReservation(@Path("bikeId") String bike_id, @Body Reserve reserve, Callback<ReceiveObject> callback);
 
         // 리스터가...
+        @FormUrlEncoded
         @POST("/reserves/{bikeId}/{reserveId}")
         void reserveStatus(@Path("bikeId")String bike_id, @Path("reserveId") String reserveId, @Field("status") String status, Callback<ReceiveObject> callback);
 

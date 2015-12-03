@@ -3,8 +3,10 @@ package com.example.tacademy.bikee.etc.dialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +17,13 @@ import android.widget.TextView;
 
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.MyApplication;
+import com.example.tacademy.bikee.etc.dao.ReceiveObject;
+import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.renter.reservationbicycle.RequestPaymentActivity;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by Tacademy on 2015-11-02.
@@ -25,10 +33,16 @@ public class ChoiceDialogFragment extends DialogFragment implements View.OnClick
     private NoChoiceDialogFragment dialog;
     private TextView tv;
     private Button btn;
+    private static final String BICYCLE_ID = "BICYCLEID";
+    private static final String RESERVE_ID = "RESERVEID";
+    private static final String STATUS = "STATUS";
     private static final String ARG_PARAM = "MESSAGE";
     private String message;
     private String button1Text;
     private String button2Text;
+    private String bicycleId;
+    private String reserveId;
+    private String status;
     public static final int RENTER_CANCEL_RESERVATION = 1;
     public static final int RENTER_REQUEST_RESERVATION = 2;
     public static final int RENTER_PAY_RESERVATION = 3;
@@ -43,6 +57,17 @@ public class ChoiceDialogFragment extends DialogFragment implements View.OnClick
         return fragment;
     }
 
+    public static ChoiceDialogFragment newInstance(String bicycleId, String reserveId, String status, int param) {
+        ChoiceDialogFragment fragment = new ChoiceDialogFragment();
+        Bundle args = new Bundle();
+        args.putString(BICYCLE_ID, bicycleId);
+        args.putString(RESERVE_ID, reserveId);
+        args.putString(STATUS, status);
+        args.putInt(ARG_PARAM, param);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +77,9 @@ public class ChoiceDialogFragment extends DialogFragment implements View.OnClick
             message = getMessageById(getArguments().getInt(ARG_PARAM));
             button1Text = getButton1TextById(getArguments().getInt(ARG_PARAM));
             button2Text = getButton2TextById(getArguments().getInt(ARG_PARAM));
+            bicycleId = getArguments().getString(BICYCLE_ID);
+            reserveId = getArguments().getString(RESERVE_ID);
+            status = getArguments().getString(STATUS);
         }
     }
 
@@ -99,6 +127,18 @@ public class ChoiceDialogFragment extends DialogFragment implements View.OnClick
                         dialog.show(getActivity().getSupportFragmentManager(), "custom");
                         break;
                     case RENTER_CANCEL_ALREADY_RESERVATION:
+                        // RC
+                        NetworkManager.getInstance().reserveStatus(bicycleId, reserveId, status, new Callback<ReceiveObject>() {
+                            @Override
+                            public void success(ReceiveObject receiveObject, Response response) {
+                                Log.i("result", "RC onResponse Success");
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                                Log.e("error", "onFailure Error : " + error.toString());
+                            }
+                        });
                         dialog = new NoChoiceDialogFragment().newInstance(NoChoiceDialogFragment.RENTER_COMPLETE_CANCEL_ALREADY_RESERVATION, NoChoiceDialogFragment.RENTER_MOVE_TO_RENTER_RESERVATION);
                         dialog.show(getActivity().getSupportFragmentManager(), "custom");
                         break;
@@ -106,8 +146,26 @@ public class ChoiceDialogFragment extends DialogFragment implements View.OnClick
                         dismiss();
                         break;
                     case LISTER_CANCEL_RESERVATION:
+                        // RC
+                        NetworkManager.getInstance().reserveStatus(bicycleId, reserveId, status, new Callback<ReceiveObject>() {
+                            @Override
+                            public void success(ReceiveObject receiveObject, Response response) {
+                                Log.i("result", "RC onResponse Success");
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                                Log.e("error", "onFailure Error : " + error.toString());
+                            }
+                        });
                         dialog = new NoChoiceDialogFragment().newInstance(NoChoiceDialogFragment.LISTER_CANCEL_RESERVATION, NoChoiceDialogFragment.LISTER_MOVE_TO_LISTER_REQUESTED);
                         dialog.show(getActivity().getSupportFragmentManager(), "custom");
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+
+                            }
+                        }, 1500);
                         // cancel
                         break;
                 }

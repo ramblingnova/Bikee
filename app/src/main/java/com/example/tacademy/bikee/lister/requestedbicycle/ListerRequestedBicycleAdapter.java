@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -13,8 +14,8 @@ import java.util.List;
 public class ListerRequestedBicycleAdapter extends BaseAdapter {
     List<ListerRequestedBicycleItem> items = new ArrayList<ListerRequestedBicycleItem>();
 
-    public void add(String imageURL, String status, String renterName, String bicycleName, String startDate, String endDate, String price) {
-        ListerRequestedBicycleItem item = new ListerRequestedBicycleItem(imageURL, status, renterName, bicycleName, startDate, endDate, price);
+    public void add(String bikeId, String imageURL, String status, String renterName, String bicycleName, Date startDate, Date endDate, String price, String reserveId) {
+        ListerRequestedBicycleItem item = new ListerRequestedBicycleItem(bikeId, imageURL, status, renterName, bicycleName, startDate, endDate, price, reserveId);
         items.add(item);
         notifyDataSetChanged();
     }

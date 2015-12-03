@@ -68,7 +68,7 @@ public class RenterReservationBicycleView extends FrameLayout {
         }
 
         bicycleNameTextView.setText(item.getBicycleName());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM.dd HH:mm");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy.MM.dd. HH:mm");
         startDateTextView.setText(simpleDateFormat.format(item.getStartDate()));
         endDateTextView.setText(simpleDateFormat.format(item.getEndDate()));
         paymentTextView.setText("" + item.getPayment());

@@ -67,9 +67,9 @@ public class FinallyRequestReservationActivity extends AppCompatActivity impleme
             case R.id.activity_finally_request_reservation_confirm_button:
                 Reserve reserve = new Reserve();
                 Date date = new Date();
-                date.setTime(System.currentTimeMillis() / 1000);
+                date.setTime(System.currentTimeMillis());
                 reserve.setRentStart(date);
-                date.setTime(System.currentTimeMillis() / 1000);
+                date.setTime(System.currentTimeMillis());
                 reserve.setRentEnd(date);
                 NetworkManager.getInstance().insertReservation(id, reserve, new Callback<ReceiveObject>() {
                     @Override

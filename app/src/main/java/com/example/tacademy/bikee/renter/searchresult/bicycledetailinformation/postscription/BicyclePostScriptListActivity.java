@@ -19,6 +19,8 @@ import com.tsengvn.typekit.TypekitContextWrapper;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -28,7 +30,7 @@ import retrofit.client.Response;
  */
 public class BicyclePostScriptListActivity extends AppCompatActivity {
     private Intent intent;
-    private ListView lv;
+    @Bind(R.id.activity_bicycle_post_script_list_list_view) ListView lv;
     private BicyclePostScriptAdapter adapter;
     private String bicycleId;
 
@@ -43,7 +45,8 @@ public class BicyclePostScriptListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setCustomView(R.layout.renter_main_tool_bar);
 
-        lv = (ListView) findViewById(R.id.activity_bicycle_post_script_list_list_view);
+        ButterKnife.bind(this);
+        
         adapter = new BicyclePostScriptAdapter();
         lv.setAdapter(adapter);
 

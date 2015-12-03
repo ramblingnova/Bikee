@@ -1,18 +1,31 @@
 package com.example.tacademy.bikee.lister.requestedbicycle;
 
+import java.util.Date;
+
 /**
  * Created by Tacademy on 2015-11-03.
  */
 public class ListerRequestedBicycleItem {
+    private String bikeId;
     private String imageURL;
     private String status;
     private String renterName;
     private String bicycleName;
-    private String startDate;
-    private String endDate;
+    private Date startDate;
+    private Date endDate;
     private String price;
+    private String reserveId;
 
-    public ListerRequestedBicycleItem(String imageURL, String status, String renterName, String bicycleName, String startDate, String endDate, String price) {
+    public ListerRequestedBicycleItem(String bikeId,
+                                      String imageURL,
+                                      String status,
+                                      String renterName,
+                                      String bicycleName,
+                                      Date startDate,
+                                      Date endDate,
+                                      String price,
+                                      String reserveId) {
+        this.bikeId = bikeId;
         this.imageURL = imageURL;
         this.status = status;
         this.renterName = renterName;
@@ -20,6 +33,15 @@ public class ListerRequestedBicycleItem {
         this.startDate = startDate;
         this.endDate = endDate;
         this.price = price;
+        this.reserveId = reserveId;
+    }
+
+    public String getBikeId() {
+        return bikeId;
+    }
+
+    public void setBikeId(String bikeId) {
+        this.bikeId = bikeId;
     }
 
     public String getImageURL() {
@@ -54,19 +76,19 @@ public class ListerRequestedBicycleItem {
         this.bicycleName = bicycleName;
     }
 
-    public String getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public String getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
@@ -76,5 +98,13 @@ public class ListerRequestedBicycleItem {
 
     public void setPrice(String price) {
         this.price = price;
+    }
+
+    public String getReserveId() {
+        return reserveId;
+    }
+
+    public void setReserveId(String reserveId) {
+        this.reserveId = reserveId;
     }
 }

@@ -9,12 +9,15 @@ import android.widget.ImageView;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.MyApplication;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by User on 2015-11-14.
  */
 public class SearchSwitchView extends FrameLayout {
-    private ImageView iv1;
-    private ImageView iv2;
+    @Bind(R.id.view_search_switch_map_image_view) ImageView iv1;
+    @Bind(R.id.view_search_switch_list_image_view) ImageView iv2;
     private boolean checked;
     private OnCheckedListener onCheckedListener;
 
@@ -30,8 +33,7 @@ public class SearchSwitchView extends FrameLayout {
 
     private void init() {
         inflate(getContext(), R.layout.view_search_switch, this);
-        iv1 = (ImageView) findViewById(R.id.view_search_switch_map_image_view);
-        iv2 = (ImageView) findViewById(R.id.view_search_switch_list_image_view);
+        ButterKnife.bind(this);
 
         checked = false;
         changeImage();
