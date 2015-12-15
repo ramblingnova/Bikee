@@ -1,39 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="87dp">
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/lister_information_lister_picture_image_view"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="29dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/noneimage" />
+
+    <TextView
+        android:id="@+id/lister_information_lister_name_text_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="39dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_toEndOf="@id/lister_information_lister_picture_image_view"
+        android:layout_toRightOf="@id/lister_information_lister_picture_image_view"
+        android:textColor="@color/bikeeBlack"
+        android:textSize="12sp" />
 
-        <ImageView
-            android:id="@+id/lister_information_user_picture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/noneimage" />
+    <Button
+        android:id="@+id/lister_information_chat_with_lister_button"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="25dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/detailpage_icon_massege"
+        android:scaleType="fitXY" />
 
-        <TextView
-            android:id="@+id/lister_information_user_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/lister_information_user_picture"
-            android:text="예약자 / 유아인" />
-
-        <ImageView
-            android:id="@+id/lister_information_call"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_below="@+id/lister_information_user_name"
-            android:layout_toRightOf="@id/lister_information_user_picture"
-            android:src="@drawable/detailpage_icon_call" />
-
-        <ImageView
-            android:id="@+id/lister_information_chat"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_below="@+id/lister_information_user_name"
-            android:layout_toRightOf="@id/lister_information_call"
-            android:src="@drawable/detailpage_icon_massege" />
-    </RelativeLayout>
+    <Button
+        android:id="@+id/lister_information_call_with_lister_button"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_alignBottom="@id/lister_information_chat_with_lister_button"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@id/lister_information_chat_with_lister_button"
+        android:layout_toStartOf="@id/lister_information_chat_with_lister_button"
+        android:background="@drawable/detailpage_icon_call"
+        android:scaleType="fitXY" />
 </RelativeLayout>

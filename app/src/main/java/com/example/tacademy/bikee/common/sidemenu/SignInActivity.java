@@ -18,22 +18,18 @@ import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class SignInActivity extends AppCompatActivity implements View.OnClickListener {
+public class SignInActivity extends AppCompatActivity {
     private SharedPreferences mPrefs;
     private SharedPreferences.Editor mEditor;
 
     private Intent intent;
-    private EditText emailEditText;
-    private EditText passwordEditText;
-    private TextView emailTextView;
-    private TextView passwordTextView;
-    private Button signInButton;
-    private Button signOutButton;
-    private TextView signUpTextView;
 
     public static final int SIGN_IN_ACTIVITY = 1;
     public static final String PREF_NAME = "prefs";
@@ -42,21 +38,19 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     public static final String ACTIVITY_SIGN_IN_EMAIL = "activity_sign_in_email";
     public static final String ACTIVITY_SIGN_IN_PASSWORD = "activity_sign_in_password";
 
+    @Bind(R.id.activity_sign_in_user_email_edit_text) EditText emailEditText;
+    @Bind(R.id.activity_sign_in_user_password_edit_text) EditText passwordEditText;
+    @Bind(R.id.activity_sign_in_user_email_text_view) TextView emailTextView;
+    @Bind(R.id.activity_sign_in_user_password_text_view) TextView passwordTextView;
+    @Bind(R.id.activity_sign_in_sign_in_button) Button signInButton;
+    @Bind(R.id.activity_sign_in_sign_out_button) Button signOutButton;
+    @Bind(R.id.activity_sign_in_sign_up_string) TextView signUpTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
-
-        emailEditText = (EditText) findViewById(R.id.activity_sign_in_user_email_edit_text);
-        emailTextView = (TextView) findViewById(R.id.activity_sign_in_user_email_text_view);
-        passwordEditText = (EditText) findViewById(R.id.activity_sign_in_user_password_edit_text);
-        passwordTextView = (TextView) findViewById(R.id.activity_sign_in_user_password_text_view);
-        signInButton = (Button) findViewById(R.id.activity_sign_in_sign_in_button);
-        signInButton.setOnClickListener(SignInActivity.this);
-        signOutButton = (Button) findViewById(R.id.activity_sign_in_sign_out_button);
-        signOutButton.setOnClickListener(SignInActivity.this);
-        signUpTextView = (TextView) findViewById(R.id.activity_sign_in_sign_up_string);
-        signUpTextView.setOnClickListener(SignInActivity.this);
+        ButterKnife.bind(this);
 
         mPrefs = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         mEditor = mPrefs.edit();
@@ -64,43 +58,30 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         initLogin();
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.activity_sign_in_sign_in_button:
-                NetworkManager.getInstance().login(emailEditText.getText().toString(), passwordEditText.getText().toString(), new Callback<ReceiveObject>() {
+    @OnClick(R.id.activity_sign_in_sign_in_button) void signInButton() {
+        NetworkManager.getInstance().login(emailEditText.getText().toString(), passwordEditText.getText().toString(), new Callback<ReceiveObject>() {
+            @Override
+            public void success(ReceiveObject receiveObject, Response response) {
+                Log.i("result", "onResponse Success : " + receiveObject.isSuccess()
+                                + ", Code : " + receiveObject.getCode()
+                                + ", Msg : " + receiveObject.getMsg()
+                );
+                NetworkManager.getInstance().selectUserName(new Callback<ReceiveObject>() {
                     @Override
                     public void success(ReceiveObject receiveObject, Response response) {
                         Log.i("result", "onResponse Success : " + receiveObject.isSuccess()
                                         + ", Code : " + receiveObject.getCode()
                                         + ", Msg : " + receiveObject.getMsg()
                         );
-                        NetworkManager.getInstance().selectUserName(new Callback<ReceiveObject>() {
-                            @Override
-                            public void success(ReceiveObject receiveObject, Response response) {
-                                Log.i("result", "onResponse Success : " + receiveObject.isSuccess()
-                                                + ", Code : " + receiveObject.getCode()
-                                                + ", Msg : " + receiveObject.getMsg()
-                                );
-                                Result result = receiveObject.getResult().get(0);
-                                if ((null != result.getImage())
-                                        || (null != result.getImage().getCdnUri())
-                                        || (null != result.getImage().getFiles())
-                                        || (null != result.getImage().getFiles().get(0))) {
+                        Result result = receiveObject.getResult().get(0);
+                        if ((null != result.getImage())
+                                || (null != result.getImage().getCdnUri())
+                                || (null != result.getImage().getFiles())
+                                || (null != result.getImage().getFiles().get(0))) {
 //                                    PropertyManager.getInstance().setImage(result.getImage().getCdnUri() + "/detail_" + result.getImage().getFiles().get(0));
-                                    PropertyManager.getInstance().setImage("https://s3-ap-northeast-1.amazonaws.com/bikee/KakaoTalk_20151128_194521490.png");
-                                }
-                                PropertyManager.getInstance().setName(result.getName());
-                            }
-
-                            @Override
-                            public void failure(RetrofitError error) {
-                                Log.e("error", "onFailure Error : " + error.toString());
-                            }
-                        });
-                        PropertyManager.getInstance().setEmail(emailEditText.getText().toString());
-                        PropertyManager.getInstance().setPassword(passwordEditText.getText().toString());
-                        initView();
+                            PropertyManager.getInstance().setImage("https://s3-ap-northeast-1.amazonaws.com/bikee/KakaoTalk_20151128_194521490.png");
+                        }
+                        PropertyManager.getInstance().setName(result.getName());
                     }
 
                     @Override
@@ -108,34 +89,44 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                         Log.e("error", "onFailure Error : " + error.toString());
                     }
                 });
-                break;
-            case R.id.activity_sign_in_sign_out_button:
-                NetworkManager.getInstance().logout(new Callback<ReceiveObject>() {
-                    @Override
-                    public void success(ReceiveObject receiveObject, Response response) {
-                        Log.i("result", "onResponse Success : " + receiveObject.isSuccess()
-                                        + ", Code : " + receiveObject.getCode()
-                                        + ", Msg : " + receiveObject.getMsg()
-                        );
-                        PropertyManager.getInstance().setImage("");
-                        PropertyManager.getInstance().setName("");
-                        PropertyManager.getInstance().setEmail("");
-                        PropertyManager.getInstance().setPassword("");
-                        initView();
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Log.e("error", "onFailure Error : " + error.toString());
-                    }
-                });
+                PropertyManager.getInstance().setEmail(emailEditText.getText().toString());
+                PropertyManager.getInstance().setPassword(passwordEditText.getText().toString());
                 initView();
-                break;
-            case R.id.activity_sign_in_sign_up_string:
-                intent = new Intent(this, SignUpActivity.class);
-                startActivityForResult(intent, SignUpActivity.SIGN_UP_ACTIVITY);
-                break;
-        }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e("error", "onFailure Error : " + error.toString());
+            }
+        });
+    }
+
+    @OnClick(R.id.activity_sign_in_sign_out_button) void signOutButton() {
+        NetworkManager.getInstance().logout(new Callback<ReceiveObject>() {
+            @Override
+            public void success(ReceiveObject receiveObject, Response response) {
+                Log.i("result", "onResponse Success : " + receiveObject.isSuccess()
+                                + ", Code : " + receiveObject.getCode()
+                                + ", Msg : " + receiveObject.getMsg()
+                );
+                PropertyManager.getInstance().setImage("");
+                PropertyManager.getInstance().setName("");
+                PropertyManager.getInstance().setEmail("");
+                PropertyManager.getInstance().setPassword("");
+                initView();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e("error", "onFailure Error : " + error.toString());
+            }
+        });
+        initView();
+    }
+
+    @OnClick(R.id.activity_sign_in_sign_up_string) void signUpTextView() {
+        intent = new Intent(this, SignUpActivity.class);
+        startActivityForResult(intent, SignUpActivity.SIGN_UP_ACTIVITY);
     }
 
     @Override

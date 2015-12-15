@@ -6,7 +6,7 @@
     android:background="@drawable/filtering_contentsbox">
 
     <ImageView
-        android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_picture"
+        android:id="@+id/bicycle_picture_lister_information_bicycle_picture_image_view"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"

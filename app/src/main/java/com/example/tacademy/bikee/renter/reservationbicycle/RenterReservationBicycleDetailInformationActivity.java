@@ -27,6 +27,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -48,6 +50,9 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
     private double longitude;
     private int price;
     private String reserveId;
+
+    @Bind(R.id.bicycle_description_bicycle_name_text_view) TextView bicycleName;
+    @Bind(R.id.bicycle_description_bicycle_introduction_text_view) TextView bicycleIntro;
     private CheckBox typeCheck1;
     private CheckBox typeCheck2;
     private CheckBox typeCheck3;
@@ -74,6 +79,7 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setCustomView(R.layout.renter_main_tool_bar);
+        ButterKnife.bind(this);
 
         cancelButton = (Button) findViewById(R.id.activity_renter_reservation_bicycle_detail_information_cancel_button);
         cancelButton.setOnClickListener(this);
@@ -109,7 +115,7 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
         heightCheck5.setClickable(false);
         heightCheck6 = (CheckBox) findViewById(R.id.bicycle_recommendation_height_check_box6);
         heightCheck6.setClickable(false);
-        image = (ImageView) findViewById(R.id.activity_renter_reservation_bicycle_detail_information_bicycle_picture);
+        image = (ImageView) findViewById(R.id.bicycle_picture_lister_information_bicycle_picture_image_view);
         rentalPlaceText = (TextView) findViewById(R.id.activity_renter_reservation_bicycle_detail_information_bicycle_rental_place_real_position_text_view);
 
         init();
@@ -165,6 +171,8 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
                                     + ", Longitude : " + result.getLoc().getCoordinates().get(0)
                                     + ", Price : " + result.getPrice().getMonth()
                     );
+                    bicycleName.setText(result.getTitle());
+                    bicycleIntro.setText(result.getIntro());
                     latitude = result.getLoc().getCoordinates().get(1);
                     longitude = result.getLoc().getCoordinates().get(0);
                     price = result.getPrice().getMonth();

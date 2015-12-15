@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="47dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+    <ImageView
+        android:id="@+id/bicycle_detail_information_bicycle_location_icon_image_view"
+        android:layout_width="26dp"
+        android:layout_height="20dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/detailpage_icon4" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="11dp"
+        android:layout_marginStart="11dp"
+        android:layout_toEndOf="@id/bicycle_detail_information_bicycle_location_icon_image_view"
+        android:layout_toRightOf="@id/bicycle_detail_information_bicycle_location_icon_image_view"
+        android:text="위치"
+        android:textColor="@color/bikeeGray"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/bicycle_detail_information_bicycle_location_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:textColor="@color/bikeeBlue"
+        android:textSize="16sp" />
+</RelativeLayout>

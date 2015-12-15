@@ -49,19 +49,19 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
     private double latitude;
     private double longitude;
     private int price;
-    @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_picture) ImageView bicycleImage;
-    @Bind(R.id.activity_filtered_bicycle_detail_information_lister_picture_image_view) ImageView listerImage;
-    @Bind(R.id.activity_filtered_bicycle_detail_information_lister_name_text_view) TextView listerName;
-    @OnClick(R.id.activity_filtered_bicycle_detail_information_call_button) void call() {
+    @Bind(R.id.bicycle_picture_lister_information_bicycle_picture_image_view) ImageView bicycleImage;
+    @Bind(R.id.lister_information_lister_picture_image_view) ImageView listerPicture;
+    @Bind(R.id.lister_information_lister_name_text_view) TextView listerName;
+    @OnClick(R.id.lister_information_call_with_lister_button) void call() {
         intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + listerPhone));
         startActivity(intent);
     }
-    @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_name) TextView bicycleName;
-    @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_introduction) TextView bicycleIntro;
-    @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_type) TextView bicycleType;
-    @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_height) TextView bicycleHeight;
-    @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_component) TextView bicycleComponent;
-    @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_rental_place) TextView rentalPlaceText;
+    @Bind(R.id.bicycle_description_bicycle_name_text_view) TextView bicycleName;
+    @Bind(R.id.bicycle_description_bicycle_introduction_text_view) TextView bicycleIntro;
+    @Bind(R.id.bicycle_detail_information_bicycle_type_text_view) TextView bicycleType;
+    @Bind(R.id.bicycle_detail_information_bicycle_height_text_view) TextView bicycleHeight;
+    @Bind(R.id.bicycle_detail_information_bicycle_component_text_view) TextView bicycleComponent;
+    @Bind(R.id.bicycle_detail_information_bicycle_location_text_view) TextView rentalPlaceText;
     @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_post_script_renter_image) ImageView postsciptImage;
     @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_post_script_renter_name) TextView postsciptName;
     @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_post_script_create_date) TextView postscriptDate;
@@ -140,7 +140,7 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
                 longitude = result.getLoc().getCoordinates().get(0);
                 price = result.getPrice().getMonth();
                 Util.setRoundRectangleImageFromURL(MyApplication.getmContext(), bicycleImageURL, 6, bicycleImage);
-                Util.setCircleImageFromURL(MyApplication.getmContext(), listerImageURL, 0, listerImage);
+                Util.setCircleImageFromURL(MyApplication.getmContext(), listerImageURL, 0, listerPicture);
                 listerName.setText(result.getUser().getName());
                 bicycleName.setText(result.getTitle());
                 bicycleIntro.setText(result.getIntro());

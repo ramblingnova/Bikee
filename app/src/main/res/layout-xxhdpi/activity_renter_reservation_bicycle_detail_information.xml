@@ -38,93 +38,18 @@
                 android:background="@color/bikeeWhite"
                 android:paddingBottom="38dp">
 
-                <FrameLayout
+                <include
                     android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_picture_layout"
                     android:layout_width="wrap_content"
-                    android:layout_height="307dp">
+                    android:layout_height="307dp"
+                    layout="@layout/bicycle_picture_lister_information" />
 
-                    <ImageView
-                        android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_picture"
-                        android:layout_width="match_parent"
-                        android:layout_height="248dp"
-                        android:layout_centerHorizontal="true"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/detailpage_bike_image_noneimage" />
-
-                    <RelativeLayout
-                        android:id="@+id/activity_renter_reservation_bicycle_detail_information_lister_information_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="87dp"
-                        android:layout_gravity="bottom">
-
-                        <ImageView
-                            android:id="@+id/activity_renter_reservation_bicycle_detail_information_lister_picture_image_view"
-                            android:layout_width="58dp"
-                            android:layout_height="58dp"
-                            android:layout_alignParentBottom="true"
-                            android:layout_marginBottom="29dp"
-                            android:layout_marginLeft="16dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/noneimage" />
-
-                        <TextView
-                            android:id="@+id/activity_renter_reservation_bicycle_detail_information_lister_name_text_view"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_marginBottom="39dp"
-                            android:layout_marginLeft="8dp"
-                            android:layout_toRightOf="@id/activity_renter_reservation_bicycle_detail_information_lister_picture_image_view"
-                            android:text="Ariana Grande"
-                            android:textColor="@color/bikeeBlack"
-                            android:textSize="12sp" />
-
-                        <ImageView
-                            android:id="@+id/activity_renter_reservation_bicycle_detail_information_talk_image_view"
-                            android:layout_width="27dp"
-                            android:layout_height="27dp"
-                            android:layout_alignParentBottom="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginBottom="25dp"
-                            android:layout_marginRight="16dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/detailpage_icon_massege" />
-
-                        <ImageView
-                            android:id="@+id/activity_renter_reservation_bicycle_detail_information_call_image_view"
-                            android:layout_width="27dp"
-                            android:layout_height="27dp"
-                            android:layout_alignBottom="@id/activity_renter_reservation_bicycle_detail_information_talk_image_view"
-                            android:layout_marginRight="10dp"
-                            android:layout_toLeftOf="@id/activity_renter_reservation_bicycle_detail_information_talk_image_view"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/detailpage_icon_call" />
-                    </RelativeLayout>
-                </FrameLayout>
-
-                <TextView
-                    android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_title_text_view"
+                <include
+                    layout="@layout/bicycle_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/activity_renter_reservation_bicycle_detail_information_bicycle_picture_layout"
-                    android:layout_marginTop="29dp"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:text="@string/activity_renter_reservation_bicycle_detail_information_bicycle_title_text_view_string"
-                    android:textColor="@color/bikeeBlack"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/activity_renter_reservation_bicycle_detail_information_bicycle_title_text_view"
-                    android:layout_marginTop="16dp"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:text="트랙바가 장착되어 있으며 인라인 브레이크 레버가 장착되어 있습니다. 브레이크는 로드자전거에 장착되는 듀얼피봇 켈리퍼 브레이크가 장착되어 있습니다."
-                    android:textColor="@color/bikeeGray"
-                    android:textSize="13sp" />
+                    android:layout_marginTop="29dp" />
             </RelativeLayout>
 
             <View

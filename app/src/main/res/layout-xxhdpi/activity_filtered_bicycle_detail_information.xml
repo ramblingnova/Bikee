@@ -32,109 +32,31 @@
             android:layout_height="wrap_content">
 
             <RelativeLayout
-                android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_picture_name_introduction_layout"
+                android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_picture_lister_information_bicycle_introduction_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/bikeeWhite"
                 android:paddingBottom="48dp">
 
-                <FrameLayout
-                    android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_picture_layout"
+                <include
+                    android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_picture_lister_information_layout"
+                    layout="@layout/bicycle_picture_lister_information"
                     android:layout_width="match_parent"
-                    android:layout_height="307dp">
+                    android:layout_height="307dp" />
 
-                    <ImageView
-                        android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_picture"
-                        android:layout_width="match_parent"
-                        android:layout_height="248dp"
-                        android:layout_gravity="center_horizontal"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/detailpage_bike_image_noneimage" />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="87dp"
-                        android:layout_gravity="bottom">
-
-                        <ImageView
-                            android:id="@+id/activity_filtered_bicycle_detail_information_lister_picture_image_view"
-                            android:layout_width="58dp"
-                            android:layout_height="58dp"
-                            android:layout_alignParentBottom="true"
-                            android:layout_marginBottom="29dp"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginStart="16dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/noneimage" />
-
-                        <TextView
-                            android:id="@+id/activity_filtered_bicycle_detail_information_lister_name_text_view"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_marginBottom="39dp"
-                            android:layout_marginLeft="8dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_toEndOf="@id/activity_filtered_bicycle_detail_information_lister_picture_image_view"
-                            android:layout_toRightOf="@id/activity_filtered_bicycle_detail_information_lister_picture_image_view"
-                            android:textColor="@color/bikeeBlack"
-                            android:textSize="12sp" />
-
-                        <ImageView
-                            android:id="@+id/activity_filtered_bicycle_detail_information_talk_image_view"
-                            android:layout_width="27dp"
-                            android:layout_height="27dp"
-                            android:layout_alignParentBottom="true"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginBottom="25dp"
-                            android:layout_marginEnd="16dp"
-                            android:layout_marginRight="16dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/detailpage_icon_massege" />
-
-                        <Button
-                            android:id="@+id/activity_filtered_bicycle_detail_information_call_button"
-                            android:layout_width="27dp"
-                            android:layout_height="27dp"
-                            android:layout_alignBottom="@id/activity_filtered_bicycle_detail_information_talk_image_view"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_toLeftOf="@id/activity_filtered_bicycle_detail_information_talk_image_view"
-                            android:layout_toStartOf="@id/activity_filtered_bicycle_detail_information_talk_image_view"
-                            android:scaleType="fitXY"
-                            android:background="@drawable/detailpage_icon_call" />
-                    </RelativeLayout>
-                </FrameLayout>
-
-                <TextView
-                    android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_name"
+                <include
+                    layout="@layout/bicycle_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/activity_filtered_bicycle_detail_information_bicycle_picture_layout"
-                    android:layout_marginTop="29dp"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:textColor="@color/bikeeBlack"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_introduction"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/activity_filtered_bicycle_detail_information_bicycle_name"
-                    android:layout_marginTop="16dp"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:textColor="@color/bikeeGray"
-                    android:textSize="13sp" />
+                    android:layout_below="@id/activity_filtered_bicycle_detail_information_bicycle_picture_lister_information_layout"
+                    android:layout_marginTop="29dp" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/activity_filtered_temp_layout"
+                android:id="@+id/activity_filtered_bicycle_detail_informaition_bicycle_information_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/activity_filtered_bicycle_detail_information_bicycle_picture_name_introduction_layout"
+                android:layout_below="@id/activity_filtered_bicycle_detail_information_bicycle_picture_lister_information_bicycle_introduction_layout"
                 android:background="@color/bikeeWhite">
 
                 <View
@@ -145,43 +67,12 @@
                     android:layout_marginRight="16dp"
                     android:background="@color/bikeeLightGray" />
 
-                <RelativeLayout
+                <include
                     android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_type_layout"
+                    layout="@layout/bicycle_detail_information_bicycle_type"
                     android:layout_width="match_parent"
                     android:layout_height="47dp"
-                    android:layout_below="@+id/activity_filtered_bicycle_detail_information_bicycle_picture_name_introduction_bicycle_type_line"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
-
-                    <ImageView
-                        android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_type_icon"
-                        android:layout_width="26dp"
-                        android:layout_height="20dp"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/detailpage_icon1" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="11dp"
-                        android:layout_marginStart="11dp"
-                        android:layout_toEndOf="@id/activity_filtered_bicycle_detail_information_bicycle_type_icon"
-                        android:layout_toRightOf="@id/activity_filtered_bicycle_detail_information_bicycle_type_icon"
-                        android:text="종류"
-                        android:textColor="@color/bikeeGray"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_type"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:textColor="@color/bikeeBlue"
-                        android:textSize="16sp" />
-                </RelativeLayout>
+                    android:layout_below="@+id/activity_filtered_bicycle_detail_information_bicycle_picture_name_introduction_bicycle_type_line" />
 
                 <View
                     android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_type_bicycle_recommendation_height_line"
@@ -192,43 +83,12 @@
                     android:layout_marginRight="16dp"
                     android:background="@color/bikeeLightGray" />
 
-                <RelativeLayout
+                <include
                     android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_height_layout"
+                    layout="@layout/bicycle_detail_information_bicycle_height"
                     android:layout_width="match_parent"
                     android:layout_height="47dp"
-                    android:layout_below="@+id/activity_filtered_bicycle_detail_information_bicycle_type_bicycle_recommendation_height_line"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
-
-                    <ImageView
-                        android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_height_icon"
-                        android:layout_width="26dp"
-                        android:layout_height="20dp"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/detailpage_icon2" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="11dp"
-                        android:layout_marginStart="11dp"
-                        android:layout_toEndOf="@id/activity_filtered_bicycle_detail_information_bicycle_height_icon"
-                        android:layout_toRightOf="@id/activity_filtered_bicycle_detail_information_bicycle_height_icon"
-                        android:text="권장신장"
-                        android:textColor="@color/bikeeGray"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_height"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:textColor="@color/bikeeBlue"
-                        android:textSize="16sp" />
-                </RelativeLayout>
+                    android:layout_below="@+id/activity_filtered_bicycle_detail_information_bicycle_type_bicycle_recommendation_height_line" />
 
                 <View
                     android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_height_bicycle_component_line"
@@ -239,51 +99,12 @@
                     android:layout_marginRight="16dp"
                     android:background="@color/bikeeLightGray" />
 
-                <RelativeLayout
+                <include
                     android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_component_layout"
                     android:layout_width="match_parent"
                     android:layout_height="47dp"
                     android:layout_below="@+id/activity_filtered_bicycle_detail_information_bicycle_height_bicycle_component_line"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
-
-                    <ImageView
-                        android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_component_icon"
-                        android:layout_width="26dp"
-                        android:layout_height="20dp"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/detailpage_icon3" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="11dp"
-                        android:layout_marginStart="11dp"
-                        android:layout_toEndOf="@id/activity_filtered_bicycle_detail_information_bicycle_component_icon"
-                        android:layout_toRightOf="@id/activity_filtered_bicycle_detail_information_bicycle_component_icon"
-                        android:text="추가구성품"
-                        android:textColor="@color/bikeeGray"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_component"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:textColor="@color/bikeeBlue"
-                        android:textSize="16sp" />
-
-                    <ImageView
-                        android:layout_width="26dp"
-                        android:layout_height="26dp"
-                        android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@+id/activity_filtered_bicycle_detail_information_bicycle_component"
-                        android:layout_toStartOf="@id/activity_filtered_bicycle_detail_information_bicycle_component"
-                        android:src="@drawable/detailpage_icon_addition1" />
-                </RelativeLayout>
+                    layout="@layout/bicycle_detail_information_bicycle_component" />
 
                 <View
                     android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_component_bicycle_rental_place_line"
@@ -294,43 +115,12 @@
                     android:layout_marginRight="16dp"
                     android:background="@color/bikeeLightGray" />
 
-                <RelativeLayout
+                <include
                     android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_rental_place_layout"
                     android:layout_width="match_parent"
                     android:layout_height="47dp"
                     android:layout_below="@+id/activity_filtered_bicycle_detail_information_bicycle_component_bicycle_rental_place_line"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
-
-                    <ImageView
-                        android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_rental_place_icon"
-                        android:layout_width="26dp"
-                        android:layout_height="20dp"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/detailpage_icon4" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="11dp"
-                        android:layout_marginStart="11dp"
-                        android:layout_toEndOf="@id/activity_filtered_bicycle_detail_information_bicycle_rental_place_icon"
-                        android:layout_toRightOf="@id/activity_filtered_bicycle_detail_information_bicycle_rental_place_icon"
-                        android:text="위치"
-                        android:textColor="@color/bikeeGray"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_rental_place"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:textColor="@color/bikeeBlue"
-                        android:textSize="16sp" />
-                </RelativeLayout>
+                    layout="@layout/bicycle_detail_information_bicycle_location" />
 
                 <RelativeLayout
                     android:id="@+id/activity_filtered_bicycle_detail_information_map_layout"
@@ -436,7 +226,7 @@
                 layout="@layout/payment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/activity_filtered_temp_layout"
+                android:layout_below="@+id/activity_filtered_bicycle_detail_informaition_bicycle_information_layout"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="@dimen/contents_box_margin_bottom_5dp" />
 

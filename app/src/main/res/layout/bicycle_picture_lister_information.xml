@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="307dp">
+
+    <ImageView
+        android:id="@+id/bicycle_picture_lister_information_bicycle_picture_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="248dp"
+        android:layout_gravity="center_horizontal"
+        android:scaleType="fitXY"
+        android:src="@drawable/detailpage_bike_image_noneimage" />
+
+    <include
+        layout="@layout/lister_information"
+        android:layout_width="match_parent"
+        android:layout_height="87dp"
+        android:layout_gravity="bottom" />
+</FrameLayout>
