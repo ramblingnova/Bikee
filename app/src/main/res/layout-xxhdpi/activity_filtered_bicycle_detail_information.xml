@@ -101,10 +101,10 @@
 
                 <include
                     android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_component_layout"
+                    layout="@layout/bicycle_detail_information_bicycle_component"
                     android:layout_width="match_parent"
                     android:layout_height="47dp"
-                    android:layout_below="@+id/activity_filtered_bicycle_detail_information_bicycle_height_bicycle_component_line"
-                    layout="@layout/bicycle_detail_information_bicycle_component" />
+                    android:layout_below="@+id/activity_filtered_bicycle_detail_information_bicycle_height_bicycle_component_line" />
 
                 <View
                     android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_component_bicycle_rental_place_line"
@@ -117,10 +117,10 @@
 
                 <include
                     android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_rental_place_layout"
+                    layout="@layout/bicycle_detail_information_bicycle_location"
                     android:layout_width="match_parent"
                     android:layout_height="47dp"
-                    android:layout_below="@+id/activity_filtered_bicycle_detail_information_bicycle_component_bicycle_rental_place_line"
-                    layout="@layout/bicycle_detail_information_bicycle_location" />
+                    android:layout_below="@+id/activity_filtered_bicycle_detail_information_bicycle_component_bicycle_rental_place_line" />
 
                 <RelativeLayout
                     android:id="@+id/activity_filtered_bicycle_detail_information_map_layout"
@@ -137,79 +137,12 @@
                         android:layout_height="217dp" />
                 </RelativeLayout>
 
-                <RelativeLayout
+                <include
                     android:id="@+id/activity_filtered_bicycle_detail_information_reservation_period_layout"
+                    layout="@layout/bicycle_detail_information_reservation_period"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/activity_filtered_bicycle_detail_information_map_layout"
-                    android:paddingBottom="21dp"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:paddingTop="21dp">
-
-                    <ImageView
-                        android:id="@+id/activity_filtered_bicycle_detail_information_reservation_period_icon"
-                        android:layout_width="26dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/detailpage_icon5" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="11dp"
-                        android:layout_marginStart="11dp"
-                        android:layout_toEndOf="@id/activity_filtered_bicycle_detail_information_reservation_period_icon"
-                        android:layout_toRightOf="@id/activity_filtered_bicycle_detail_information_reservation_period_icon"
-                        android:text="대여날짜"
-                        android:textColor="@color/bikeeGray"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/reservation_period_start_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:text="12/01 pm3:30"
-                        android:textColor="@color/bikeeBlue"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/reservation_period_start_date"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_toLeftOf="@id/reservation_period_start_date"
-                        android:layout_toStartOf="@id/reservation_period_start_date"
-                        android:text="시작"
-                        android:textColor="@color/bikeeBlack"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/reservation_period_end_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_below="@+id/reservation_period_start_date"
-                        android:layout_marginTop="15dp"
-                        android:text="12/02 pm3:30"
-                        android:textColor="@color/bikeeBlue"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/reservation_period_end_date"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_toLeftOf="@id/reservation_period_end_date"
-                        android:layout_toStartOf="@id/reservation_period_end_date"
-                        android:text="종료"
-                        android:textColor="@color/bikeeBlack"
-                        android:textSize="16sp" />
-                </RelativeLayout>
+                    android:layout_below="@+id/activity_filtered_bicycle_detail_information_map_layout" />
 
                 <View
                     android:id="@+id/activity_filtered_bicycle_detail_information_reservation_period_total_time_line"
@@ -222,8 +155,8 @@
             </RelativeLayout>
 
             <include
-                android:id="@+id/activity_filtered_bicycle_detail_information_payment_layout"
-                layout="@layout/payment"
+                android:id="@+id/activity_filtered_bicycle_detail_information_reservation_price_layout"
+                layout="@layout/bicycle_detail_information_reservation_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/activity_filtered_bicycle_detail_informaition_bicycle_information_layout"
@@ -234,7 +167,7 @@
                 android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_post_script_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/activity_filtered_bicycle_detail_information_payment_layout"
+                android:layout_below="@+id/activity_filtered_bicycle_detail_information_reservation_price_layout"
                 android:layout_marginTop="32dp"
                 android:background="@drawable/detailpage_back_img2"
                 android:paddingBottom="26dp"

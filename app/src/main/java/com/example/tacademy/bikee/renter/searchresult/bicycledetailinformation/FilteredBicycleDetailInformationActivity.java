@@ -62,6 +62,8 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
     @Bind(R.id.bicycle_detail_information_bicycle_height_text_view) TextView bicycleHeight;
     @Bind(R.id.bicycle_detail_information_bicycle_component_text_view) TextView bicycleComponent;
     @Bind(R.id.bicycle_detail_information_bicycle_location_text_view) TextView rentalPlaceText;
+    @Bind(R.id.bicycle_detail_information_reservation_period_start_date_text_view) TextView startDate;
+    @Bind(R.id.bicycle_detail_information_reservation_period_end_date_text_view) TextView endDate;
     @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_post_script_renter_image) ImageView postsciptImage;
     @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_post_script_renter_name) TextView postsciptName;
     @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_post_script_create_date) TextView postscriptDate;
