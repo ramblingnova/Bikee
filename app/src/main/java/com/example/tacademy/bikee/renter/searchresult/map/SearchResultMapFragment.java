@@ -49,7 +49,7 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
         GoogleApiClient.OnConnectionFailedListener {
     final private Map<POI, Marker> mMarkerResolver = new HashMap<POI, Marker>();
     final private Map<Marker, POI> mPOIResolver = new HashMap<Marker, POI>();
-    private GoogleMap gm;
+    private GoogleMap googleMap;
     private LocationManager locationManager;
     private View view;
     BicycleInfoWindowView bicycleInfoWindowView;
@@ -119,23 +119,23 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        gm = googleMap;
-        gm.setMyLocationEnabled(true);
+        this.googleMap = googleMap;
+        this.googleMap.setMyLocationEnabled(true);
 
-        gm.setIndoorEnabled(true);
-        gm.setTrafficEnabled(true);
-        gm.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        gm.getUiSettings().setZoomControlsEnabled(true);
-        gm.getUiSettings().setCompassEnabled(false);
-        gm.getUiSettings().setRotateGesturesEnabled(false);
-        gm.getUiSettings().setTiltGesturesEnabled(false);
+        this.googleMap.setIndoorEnabled(true);
+        this.googleMap.setTrafficEnabled(true);
+        this.googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        this.googleMap.getUiSettings().setZoomControlsEnabled(true);
+        this.googleMap.getUiSettings().setCompassEnabled(false);
+        this.googleMap.getUiSettings().setRotateGesturesEnabled(false);
+        this.googleMap.getUiSettings().setTiltGesturesEnabled(false);
 
-        gm.setOnInfoWindowClickListener(this);
-        gm.setInfoWindowAdapter(bicycleInfoWindowView = new BicycleInfoWindowView(MyApplication.getmContext(), mPOIResolver));
+        this.googleMap.setOnInfoWindowClickListener(this);
+        this.googleMap.setInfoWindowAdapter(bicycleInfoWindowView = new BicycleInfoWindowView(MyApplication.getmContext(), mPOIResolver));
         bicycleInfoWindowView.setOnImageLoadListener(onImageLoadListener);
 
-        gm.setOnMapClickListener(this);
-        gm.setOnMarkerClickListener(this);
+        this.googleMap.setOnMapClickListener(this);
+        this.googleMap.setOnMarkerClickListener(this);
 
         if ((null == latitude) || (null == longitude)) {
             latitude = PropertyManager.getInstance().getLatitude();
@@ -150,7 +150,7 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
         builder.zoom(15);
         CameraPosition position = builder.build();
         CameraUpdate update = CameraUpdateFactory.newCameraPosition(position);
-        gm.animateCamera(update);
+        googleMap.moveCamera(update);
     }
 
     private LocationListener mListener = new LocationListener() {
@@ -200,6 +200,8 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
         marker.hideInfoWindow();
         Intent intent = new Intent(getActivity(), FilteredBicycleDetailInformationActivity.class);
         intent.putExtra("ID", mPOIResolver.get(marker).getItem().getBicycleId());
+        intent.putExtra("LATITUDE", Double.valueOf(latitude));
+        intent.putExtra("LONGITUDE", Double.valueOf(longitude));
         getActivity().startActivity(intent);
     }
 
@@ -283,7 +285,7 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
                             MarkerOptions options = new MarkerOptions();
                             options.position(new LatLng(result.getLoc().getCoordinates().get(1), result.getLoc().getCoordinates().get(0)));
                             options.icon(BitmapDescriptorFactory.fromResource(R.drawable.rider_main_bike_b_icon));
-                            options.anchor(0.5f, 1);
+                            options.anchor(0.5f, 0.5f);
 
                             POI poi = new POI();
                             poi.setItem(
@@ -305,7 +307,7 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
 
                             options.draggable(true);
 
-                            Marker m = gm.addMarker(options);
+                            Marker m = googleMap.addMarker(options);
 
                             mMarkerResolver.put(poi, m);
                             mPOIResolver.put(m, poi);

@@ -25,6 +25,16 @@ import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.finallyrequestreservation.FinallyRequestReservationActivity;
 import com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.postscription.BicyclePostScriptListActivity;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
 import java.io.IOException;
@@ -39,8 +49,9 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class FilteredBicycleDetailInformationActivity extends AppCompatActivity {
+public class FilteredBicycleDetailInformationActivity extends AppCompatActivity implements OnMapReadyCallback {
     private Intent intent;
+    private GoogleMap googleMap;
     private String bicycleId;
     private String bicycleImageURL;
     private String listerPhone;
@@ -49,7 +60,7 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
     private double latitude;
     private double longitude;
     private int price;
-    @Bind(R.id.bicycle_picture_lister_information_bicycle_picture_image_view) ImageView bicycleImage;
+    @Bind(R.id.bicycle_picture_lister_information_bicycle_picture_image_view) ImageView bicyclePicture;
     @Bind(R.id.lister_information_lister_picture_image_view) ImageView listerPicture;
     @Bind(R.id.lister_information_lister_name_text_view) TextView listerName;
     @OnClick(R.id.lister_information_call_with_lister_button) void call() {
@@ -64,12 +75,12 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
     @Bind(R.id.bicycle_detail_information_bicycle_location_text_view) TextView rentalPlaceText;
     @Bind(R.id.bicycle_detail_information_reservation_period_start_date_text_view) TextView startDate;
     @Bind(R.id.bicycle_detail_information_reservation_period_end_date_text_view) TextView endDate;
-    @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_post_script_renter_image) ImageView postsciptImage;
-    @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_post_script_renter_name) TextView postsciptName;
-    @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_post_script_create_date) TextView postscriptDate;
-    @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_post_script_renter_comment) TextView postsciptBody;
-    @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_post_script_rating_bar) RatingBar postsciptPoint;
-    @OnClick(R.id.activity_filtered_bicycle_detail_information_bicycle_post_script_button) void morePostScript() {
+    @Bind(R.id.bicycle_detail_information_bicycle_postscript_renter_picture_image_view) ImageView postscriptPicture;
+    @Bind(R.id.bicycle_detail_information_bicycle_postscript_renter_name_text_view) TextView postscriptName;
+    @Bind(R.id.bicycle_detail_information_bicycle_postscript_create_date_text_view) TextView postscriptDate;
+    @Bind(R.id.bicycle_detail_information_bicycle_postscript_renter_comment_text_view) TextView postscriptComment;
+    @Bind(R.id.bicycle_detail_information_bicycle_postscript_rating_bar) RatingBar postscriptPoint;
+    @OnClick(R.id.bicycle_detail_information_bicycle_postscript_button) void morePostScript() {
         intent = new Intent(FilteredBicycleDetailInformationActivity.this, BicyclePostScriptListActivity.class);
         intent.putExtra("ID", bicycleId);
         startActivity(intent);
@@ -97,11 +108,33 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setCustomView(R.layout.renter_main_tool_bar);
         ButterKnife.bind(this);
-        initData();
+
+        intent = getIntent();
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.activity_filtered_bicycle_detail_information_small_map);
+        mapFragment.getMapAsync(this);
+        init();
     }
 
-    private void initData() {
-        intent = getIntent();
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        this.googleMap = googleMap;
+        this.googleMap.getUiSettings().setScrollGesturesEnabled(false);
+
+        CameraPosition.Builder builder = new CameraPosition.Builder();
+        builder.target(new LatLng(intent.getDoubleExtra("LATITUDE", 1.0), intent.getDoubleExtra("LONGITUDE", 1.0)));
+        builder.zoom(15);
+        CameraPosition position = builder.build();
+        CameraUpdate update = CameraUpdateFactory.newCameraPosition(position);
+        this.googleMap.moveCamera(update);
+
+        MarkerOptions options = new MarkerOptions();
+        options.position(new LatLng(intent.getDoubleExtra("LATITUDE", 1.0), intent.getDoubleExtra("LONGITUDE", 1.0)));
+        options.icon(BitmapDescriptorFactory.fromResource(R.drawable.rider_main_bike_b_icon));
+        options.anchor(0.5f, 0.5f);
+        this.googleMap.addMarker(options);
+    }
+
+    private void init() {
         bicycleId = intent.getStringExtra("ID");
         NetworkManager.getInstance().selectBicycleDetail(bicycleId, new Callback<ReceiveObject>() {
             @Override
@@ -141,7 +174,7 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
                 latitude = result.getLoc().getCoordinates().get(1);
                 longitude = result.getLoc().getCoordinates().get(0);
                 price = result.getPrice().getMonth();
-                Util.setRoundRectangleImageFromURL(MyApplication.getmContext(), bicycleImageURL, 6, bicycleImage);
+                Util.setRoundRectangleImageFromURL(MyApplication.getmContext(), bicycleImageURL, 6, bicyclePicture);
                 Util.setCircleImageFromURL(MyApplication.getmContext(), listerImageURL, 0, listerPicture);
                 listerName.setText(result.getUser().getName());
                 bicycleName.setText(result.getTitle());
@@ -173,6 +206,8 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
                         Log.i("result", "onResponse Success");
                         Result result = receiveObject.getResult().get(0);
                         if (null != result) {
+                            View view = findViewById(R.id.activity_filtered_bicycle_detail_information_bicycle_post_script_layout);
+                            view.setVisibility(View.VISIBLE);
                             Comment comment = result.getComments().get(result.getComments().size() - 1);
                             String imageURL;
                             if ((null == comment.getWriter().getImage())
@@ -188,15 +223,12 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
                                             + ", Point : " + comment.getPoint()
                                             + ", PostScript : " + comment.getBody()
                             );
-                            Util.setCircleImageFromURL(MyApplication.getmContext(), imageURL, 0, postsciptImage);
-                            postsciptName.setText("" + comment.getWriter().getName());
+                            Util.setCircleImageFromURL(MyApplication.getmContext(), imageURL, 0, postscriptPicture);
+                            postscriptName.setText("" + comment.getWriter().getName());
                             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy.MM.dd. HH:mm");
                             postscriptDate.setText("" + simpleDateFormat.format(comment.getCreatedAt()));
-                            postsciptBody.setText("" + comment.getBody());
-                            postsciptPoint.setRating((null != comment.getPoint()) ? comment.getPoint() : 0);
-                        } else {
-                            View view = findViewById(R.id.activity_filtered_bicycle_detail_information_bicycle_post_script_layout);
-                            view.setVisibility(View.GONE);
+                            postscriptComment.setText("" + comment.getBody());
+                            postscriptPoint.setRating((null != comment.getPoint()) ? comment.getPoint() : 0);
                         }
                     }
 

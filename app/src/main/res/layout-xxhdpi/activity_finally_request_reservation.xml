@@ -85,7 +85,7 @@
 
             <include
                 android:id="@+id/activity_finally_request_reservation_payment"
-                layout="@layout/payment"
+                layout="@layout/bicycle_detail_information_reservation_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/activity_finally_request_reservation_reservation_period" />

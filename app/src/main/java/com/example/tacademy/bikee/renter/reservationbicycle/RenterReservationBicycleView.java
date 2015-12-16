@@ -9,42 +9,33 @@ import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.MyApplication;
 import com.example.tacademy.bikee.etc.Util;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Created by User on 2015-10-31.
  */
 public class RenterReservationBicycleView extends FrameLayout {
-    private ImageView bicycleImageView;
-    private ImageView approvedReservationImageView;
-    private ImageView completedReservationImageView;
-    private ImageView completedRentalImageView;
-    private TextView bicycleNameTextView;
-    private TextView startDateTextView;
-    private TextView endDateTextView;
-    private TextView paymentTextView;
+    @Bind(R.id.view_renter_reservation_bicycle_item_bicycle_picture_image_view) ImageView bicyclePicture;
+    @Bind(R.id.view_renter_reservation_bicycle_item_approved_reservation) ImageView approvedReservationImageView;
+    @Bind(R.id.view_renter_reservation_bicycle_item_completed_reservation) ImageView completedReservationImageView;
+    @Bind(R.id.view_renter_reservation_bicycle_item_completed_rental) ImageView completedRentalImageView;
+    @Bind(R.id.view_renter_reservation_bicycle_item_bicycle_name_text_view) TextView bicycleName;
+    @Bind(R.id.view_renter_reservation_bicycle_item_start_date_text_view) TextView startDate;
+    @Bind(R.id.view_renter_reservation_bicycle_item_end_date_text_view) TextView endDate;
+    @Bind(R.id.view_renter_reservation_bicycle_item_payment_text_view) TextView bicyclePrice;
 
     public RenterReservationBicycleView(Context context) {
         super(context);
-        init();
-    }
-
-    private void init() {
         inflate(getContext(), R.layout.view_renter_reservation_bicycle_item, this);
-        bicycleImageView = (ImageView) findViewById(R.id.view_renter_reservation_bicycle_item_bicycle_picture_image_view);
-        approvedReservationImageView = (ImageView) findViewById(R.id.view_renter_reservation_bicycle_item_approved_reservation);
-        completedReservationImageView = (ImageView) findViewById(R.id.view_renter_reservation_bicycle_item_completed_reservation);
-        completedRentalImageView = (ImageView) findViewById(R.id.view_renter_reservation_bicycle_item_completed_rental);
-        bicycleNameTextView = (TextView) findViewById(R.id.view_renter_reservation_bicycle_item_bicycle_name_text_view);
-        startDateTextView = (TextView) findViewById(R.id.view_renter_reservation_bicycle_item_start_date_text_view);
-        endDateTextView = (TextView) findViewById(R.id.view_renter_reservation_bicycle_item_end_date_text_view);
-        paymentTextView = (TextView) findViewById(R.id.view_renter_reservation_bicycle_item_payment_text_view);
+        ButterKnife.bind(this);
     }
 
     public void setView(RenterReservationBicycleItem item) {
-        Util.setRoundRectangleImageFromURL(MyApplication.getmContext(), item.getImageURL(), 6, bicycleImageView);
+        Util.setRoundRectangleImageFromURL(MyApplication.getmContext(), item.getImageURL(), 6, bicyclePicture);
 
         Date currentDate = new Date(System.currentTimeMillis());
         if (currentDate.after(item.getEndDate()) == false) {
@@ -67,10 +58,10 @@ public class RenterReservationBicycleView extends FrameLayout {
             completedRentalImageView.setVisibility(VISIBLE);
         }
 
-        bicycleNameTextView.setText(item.getBicycleName());
+        bicycleName.setText(item.getBicycleName());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy.MM.dd. HH:mm");
-        startDateTextView.setText(simpleDateFormat.format(item.getStartDate()));
-        endDateTextView.setText(simpleDateFormat.format(item.getEndDate()));
-        paymentTextView.setText("" + item.getPayment());
+        startDate.setText(simpleDateFormat.format(item.getStartDate()));
+        endDate.setText(simpleDateFormat.format(item.getEndDate()));
+        bicyclePrice.setText("" + item.getPayment());
     }
 }

@@ -163,85 +163,20 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="@dimen/contents_box_margin_bottom_5dp" />
 
-            <RelativeLayout
+            <include
                 android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_post_script_layout"
+                layout="@layout/bicycle_detail_information_bicycle_postscript"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/activity_filtered_bicycle_detail_information_reservation_price_layout"
                 android:layout_marginTop="32dp"
-                android:background="@drawable/detailpage_back_img2"
-                android:paddingBottom="26dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="25dp">
-
-                <ImageView
-                    android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_post_script_renter_image"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/noneimage" />
-
-                <TextView
-                    android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_post_script_renter_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/activity_filtered_bicycle_detail_information_bicycle_post_script_renter_image"
-                    android:layout_marginLeft="11dp"
-                    android:layout_marginStart="11dp"
-                    android:layout_toEndOf="@id/activity_filtered_bicycle_detail_information_bicycle_post_script_renter_image"
-                    android:layout_toRightOf="@id/activity_filtered_bicycle_detail_information_bicycle_post_script_renter_image"
-                    android:textColor="@color/bikeeBlue"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_post_script_create_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@id/activity_filtered_bicycle_detail_information_bicycle_post_script_renter_name"
-                    android:layout_alignStart="@id/activity_filtered_bicycle_detail_information_bicycle_post_script_renter_name"
-                    android:layout_below="@id/activity_filtered_bicycle_detail_information_bicycle_post_script_renter_name"
-                    android:layout_marginTop="9dp"
-                    android:textColor="@color/bikeeLightGray"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_post_script_renter_comment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@id/activity_filtered_bicycle_detail_information_bicycle_post_script_renter_name"
-                    android:layout_alignStart="@id/activity_filtered_bicycle_detail_information_bicycle_post_script_renter_name"
-                    android:layout_below="@+id/activity_filtered_bicycle_detail_information_bicycle_post_script_create_date"
-                    android:layout_marginTop="24dp"
-                    android:textColor="@color/bikeeGray"
-                    android:textSize="12sp" />
-
-                <RatingBar
-                    android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_post_script_rating_bar"
-                    style="@style/BikeeRatingBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@id/activity_filtered_bicycle_detail_information_bicycle_post_script_renter_name"
-                    android:layout_alignStart="@id/activity_filtered_bicycle_detail_information_bicycle_post_script_renter_name"
-                    android:layout_below="@id/activity_filtered_bicycle_detail_information_bicycle_post_script_renter_comment"
-                    android:layout_marginTop="12dp"
-                    android:isIndicator="true" />
-
-                <Button
-                    android:id="@+id/activity_filtered_bicycle_detail_information_bicycle_post_script_button"
-                    android:layout_width="72dp"
-                    android:layout_height="30dp"
-                    android:layout_below="@id/activity_filtered_bicycle_detail_information_bicycle_post_script_rating_bar"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/detailpage_icon_more" />
-            </RelativeLayout>
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/activity_filtered_bicycle_detail_information_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/activity_filtered_bicycle_detail_information_bicycle_post_script_layout"
+                android:layout_below="@id/activity_filtered_bicycle_detail_information_bicycle_post_script_layout"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="26dp"
                 android:layout_marginLeft="16dp"
