@@ -119,6 +119,7 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
         this.googleMap.getUiSettings().setScrollGesturesEnabled(false);
+        this.googleMap.getUiSettings().setZoomControlsEnabled(true);
 
         CameraPosition.Builder builder = new CameraPosition.Builder();
         builder.target(new LatLng(intent.getDoubleExtra("LATITUDE", 1.0), intent.getDoubleExtra("LONGITUDE", 1.0)));
@@ -132,6 +133,8 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
         options.icon(BitmapDescriptorFactory.fromResource(R.drawable.rider_main_bike_b_icon));
         options.anchor(0.5f, 0.5f);
         this.googleMap.addMarker(options);
+
+        this.googleMap.getUiSettings().setZoomGesturesEnabled(false);
     }
 
     private void init() {

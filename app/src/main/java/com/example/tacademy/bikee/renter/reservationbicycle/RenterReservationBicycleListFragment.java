@@ -53,6 +53,8 @@ public class RenterReservationBicycleListFragment extends Fragment implements Ad
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
         intent.putExtra("ENDDATE", simpleDateFormat.format(item.getEndDate()));
         intent.putExtra("RESERVE", item.getReserveId());
+        intent.putExtra("LATITUDE", item.getLatitude());
+        intent.putExtra("LONGITUDE", item.getLongitude());
         getActivity().startActivity(intent);
     }
 
@@ -79,7 +81,9 @@ public class RenterReservationBicycleListFragment extends Fragment implements Ad
                                 reserve.getRentStart(),
                                 reserve.getRentEnd(),
                                 result.getBike().getPrice().getMonth(),
-                                reserve.get_id()
+                                reserve.get_id(),
+                                result.getBike().getLoc().getCoordinates().get(1),
+                                result.getBike().getLoc().getCoordinates().get(0)
                         );
                     }
             }

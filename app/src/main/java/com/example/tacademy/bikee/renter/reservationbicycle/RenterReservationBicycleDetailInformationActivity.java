@@ -2,6 +2,8 @@ package com.example.tacademy.bikee.renter.reservationbicycle;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +14,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.tacademy.bikee.etc.MyApplication;
 import com.example.tacademy.bikee.etc.Util;
@@ -20,12 +23,23 @@ import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.dialog.ChoiceDialogFragment;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -33,8 +47,9 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class RenterReservationBicycleDetailInformationActivity extends AppCompatActivity implements View.OnClickListener {
+public class RenterReservationBicycleDetailInformationActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback {
     private Intent intent;
+    private GoogleMap googleMap;
     private ChoiceDialogFragment dialog;
     private Button cancelButton;
     private Button payButton;
@@ -53,21 +68,10 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
 
     @Bind(R.id.bicycle_description_bicycle_name_text_view) TextView bicycleName;
     @Bind(R.id.bicycle_description_bicycle_introduction_text_view) TextView bicycleIntro;
-    private CheckBox typeCheck1;
-    private CheckBox typeCheck2;
-    private CheckBox typeCheck3;
-    private CheckBox typeCheck4;
-    private CheckBox typeCheck5;
-    private CheckBox typeCheck6;
-    private CheckBox typeCheck7;
-    private CheckBox heightCheck1;
-    private CheckBox heightCheck2;
-    private CheckBox heightCheck3;
-    private CheckBox heightCheck4;
-    private CheckBox heightCheck5;
-    private CheckBox heightCheck6;
+    @Bind(R.id.bicycle_detail_information_bicycle_type_text_view) TextView bicycleType;
+    @Bind(R.id.bicycle_detail_information_bicycle_height_text_view) TextView bicycleHeight;
+    @Bind(R.id.bicycle_detail_information_bicycle_location_text_view) TextView rentalPlaceText;
     private ImageView image;
-    private TextView rentalPlaceText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,36 +93,34 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
         cancelButton2.setOnClickListener(this);
         inputPostScriptionButton = (Button) findViewById(R.id.activity_renter_reservation_bicycle_detail_information_input_post_scription_button);
         inputPostScriptionButton.setOnClickListener(this);
-        typeCheck1 = (CheckBox) findViewById(R.id.bicycle_type_check_box1);
-        typeCheck1.setClickable(false);
-        typeCheck2 = (CheckBox) findViewById(R.id.bicycle_type_check_box2);
-        typeCheck2.setClickable(false);
-        typeCheck3 = (CheckBox) findViewById(R.id.bicycle_type_check_box3);
-        typeCheck3.setClickable(false);
-        typeCheck4 = (CheckBox) findViewById(R.id.bicycle_type_check_box4);
-        typeCheck4.setClickable(false);
-        typeCheck5 = (CheckBox) findViewById(R.id.bicycle_type_check_box5);
-        typeCheck5.setClickable(false);
-        typeCheck6 = (CheckBox) findViewById(R.id.bicycle_type_check_box6);
-        typeCheck6.setClickable(false);
-        typeCheck7 = (CheckBox) findViewById(R.id.bicycle_type_check_box7);
-        typeCheck7.setClickable(false);
-        heightCheck1 = (CheckBox) findViewById(R.id.bicycle_recommendation_height_check_box1);
-        heightCheck1.setClickable(false);
-        heightCheck2 = (CheckBox) findViewById(R.id.bicycle_recommendation_height_check_box2);
-        heightCheck2.setClickable(false);
-        heightCheck3 = (CheckBox) findViewById(R.id.bicycle_recommendation_height_check_box3);
-        heightCheck3.setClickable(false);
-        heightCheck4 = (CheckBox) findViewById(R.id.bicycle_recommendation_height_check_box4);
-        heightCheck4.setClickable(false);
-        heightCheck5 = (CheckBox) findViewById(R.id.bicycle_recommendation_height_check_box5);
-        heightCheck5.setClickable(false);
-        heightCheck6 = (CheckBox) findViewById(R.id.bicycle_recommendation_height_check_box6);
-        heightCheck6.setClickable(false);
         image = (ImageView) findViewById(R.id.bicycle_picture_lister_information_bicycle_picture_image_view);
-        rentalPlaceText = (TextView) findViewById(R.id.activity_renter_reservation_bicycle_detail_information_bicycle_rental_place_real_position_text_view);
 
+        intent = getIntent();
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.activity_renter_reservation_bicycle_detail_information_small_map);
+        mapFragment.getMapAsync(this);
         init();
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        this.googleMap = googleMap;
+        this.googleMap.getUiSettings().setScrollGesturesEnabled(false);
+        this.googleMap.getUiSettings().setZoomControlsEnabled(true);
+
+        CameraPosition.Builder builder = new CameraPosition.Builder();
+        builder.target(new LatLng(intent.getDoubleExtra("LATITUDE", 1.0), intent.getDoubleExtra("LONGITUDE", 1.0)));
+        builder.zoom(15);
+        CameraPosition position = builder.build();
+        CameraUpdate update = CameraUpdateFactory.newCameraPosition(position);
+        this.googleMap.moveCamera(update);
+
+        MarkerOptions options = new MarkerOptions();
+        options.position(new LatLng(intent.getDoubleExtra("LATITUDE", 1.0), intent.getDoubleExtra("LONGITUDE", 1.0)));
+        options.icon(BitmapDescriptorFactory.fromResource(R.drawable.rider_main_bike_b_icon));
+        options.anchor(0.5f, 0.5f);
+        this.googleMap.addMarker(options);
+
+        this.googleMap.getUiSettings().setZoomGesturesEnabled(false);
     }
 
     @Override
@@ -145,7 +147,6 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
     }
 
     private void init() {
-        intent = getIntent();
         bicycleId = intent.getStringExtra("ID");
         NetworkManager.getInstance().selectBicycleDetail(bicycleId, new Callback<ReceiveObject>() {
             @Override
@@ -178,55 +179,25 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
                     price = result.getPrice().getMonth();
                     Util.setRoundRectangleImageFromURL(MyApplication.getmContext(), imageURL, 6, image);
                     switch (result.getType()) {
-                        case "A":
-                            typeCheck1.setChecked(true);
-                            break;
-                        case "B":
-                            typeCheck2.setChecked(true);
-                            break;
-                        case "C":
-                            typeCheck3.setChecked(true);
-                            break;
-                        case "D":
-                            typeCheck4.setChecked(true);
-                            break;
-                        case "E":
-                            typeCheck5.setChecked(true);
-                            break;
-                        case "F":
-                            typeCheck6.setChecked(true);
-                            break;
-                        case "G":
-                            typeCheck7.setChecked(true);
-                            break;
-                        default:
-                            typeCheck1.setChecked(true);
-                            break;
+                        case "A": bicycleType.setText("보급형"); break;
+                        case "B": bicycleType.setText("산악용"); break;
+                        case "C": bicycleType.setText("하이브리드"); break;
+                        case "D": bicycleType.setText("픽시"); break;
+                        case "E": bicycleType.setText("폴딩"); break;
+                        case "F": bicycleType.setText("미니벨로"); break;
+                        case "G": bicycleType.setText("전기자전거"); break;
+                        default: bicycleType.setText(""); break;
                     }
                     switch (result.getHeight()) {
-                        case "01":
-                            heightCheck1.setChecked(true);
-                            break;
-                        case "02":
-                            heightCheck2.setChecked(true);
-                            break;
-                        case "03":
-                            heightCheck3.setChecked(true);
-                            break;
-                        case "04":
-                            heightCheck4.setChecked(true);
-                            break;
-                        case "05":
-                            heightCheck5.setChecked(true);
-                            break;
-                        case "06":
-                            heightCheck6.setChecked(true);
-                            break;
-                        default:
-                            heightCheck1.setChecked(true);
-                            break;
+                        case "01": bicycleHeight.setText("~ 145cm"); break;
+                        case "02": bicycleHeight.setText("145cm ~ 155cm"); break;
+                        case "03": bicycleHeight.setText("155cm ~ 165cm"); break;
+                        case "04": bicycleHeight.setText("165cm ~ 175cm"); break;
+                        case "05": bicycleHeight.setText("175cm ~ 185cm"); break;
+                        case "06": bicycleHeight.setText("185cm ~"); break;
+                        default: bicycleHeight.setText(""); break;
                     }
-                    rentalPlaceText.setText("위도 : " + latitude + ", 경도 : " + longitude);
+                    rentalPlaceText.setText(findAddress(latitude, longitude));
                 }
             }
 
@@ -284,6 +255,31 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private String findAddress(double lat, double lng) {
+        StringBuffer bf = new StringBuffer();
+        Geocoder geocoder = new Geocoder(this, Locale.KOREA);
+        List<Address> address;
+        try {
+            if (geocoder != null) {
+                // 세번째 인수는 최대결과값인데 하나만 리턴받도록 설정했다
+                address = geocoder.getFromLocation(lat, lng, 1);
+                // 설정한 데이터로 주소가 리턴된 데이터가 있으면
+                if (address != null && address.size() > 0) {
+                    // address.get(0).getAddressLine(0);
+
+                    bf.append(address.get(0).getAdminArea())
+                            .append(" " + address.get(0).getLocality())
+                            .append(" " + address.get(0).getLocality())
+                            .append(" " + address.get(0).getThoroughfare());
+                }
+            }
+        } catch (IOException e) {
+            Toast.makeText(this, "주소취득 실패", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+        return bf.toString();
     }
 
     @Override

@@ -53,8 +53,8 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     private LocationManager locationManager;
     private View view;
     BicycleInfoWindowView bicycleInfoWindowView;
-    private String latitude = null;
-    private String longitude = null;
+    private String userLatitude = null;
+    private String userLongitude = null;
 
     public SearchResultMapFragment() {
     }
@@ -137,11 +137,11 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
         this.googleMap.setOnMapClickListener(this);
         this.googleMap.setOnMarkerClickListener(this);
 
-        if ((null == latitude) || (null == longitude)) {
-            latitude = PropertyManager.getInstance().getLatitude();
-            longitude = PropertyManager.getInstance().getLongitude();
+        if ((null == userLatitude) || (null == userLongitude)) {
+            userLatitude = PropertyManager.getInstance().getLatitude();
+            userLongitude = PropertyManager.getInstance().getLongitude();
         }
-        moveMap(Double.parseDouble(latitude), Double.parseDouble(longitude));
+        moveMap(Double.parseDouble(userLatitude), Double.parseDouble(userLongitude));
     }
 
     private void moveMap(double lat, double lng) {
@@ -157,14 +157,14 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
         @Override
         public void onLocationChanged(Location location) {
             if (location != null) {
-                if ((null == latitude) || (null == longitude)) {
-                    latitude = PropertyManager.getInstance().getLatitude();
-                    longitude = PropertyManager.getInstance().getLongitude();
+                if ((null == userLatitude) || (null == userLongitude)) {
+                    userLatitude = PropertyManager.getInstance().getLatitude();
+                    userLongitude = PropertyManager.getInstance().getLongitude();
                 } else {
-                    latitude = "" + location.getLatitude();
-                    longitude = "" + location.getLongitude();
-                    PropertyManager.getInstance().setLatitude(latitude);
-                    PropertyManager.getInstance().setLongitude(longitude);
+                    userLatitude = "" + location.getLatitude();
+                    userLongitude = "" + location.getLongitude();
+                    PropertyManager.getInstance().setLatitude(userLatitude);
+                    PropertyManager.getInstance().setLongitude(userLongitude);
                 }
                 try {
                     locationManager.removeUpdates(mListener);
@@ -200,8 +200,8 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
         marker.hideInfoWindow();
         Intent intent = new Intent(getActivity(), FilteredBicycleDetailInformationActivity.class);
         intent.putExtra("ID", mPOIResolver.get(marker).getItem().getBicycleId());
-        intent.putExtra("LATITUDE", Double.valueOf(latitude));
-        intent.putExtra("LONGITUDE", Double.valueOf(longitude));
+        intent.putExtra("LATITUDE", mPOIResolver.get(marker).getItem().getLatitude());
+        intent.putExtra("LONGITUDE", mPOIResolver.get(marker).getItem().getLongitude());
         getActivity().startActivity(intent);
     }
 
@@ -243,17 +243,17 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     }
 
     public void onResponseLocation(String latitude, String longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.userLatitude = latitude;
+        this.userLongitude = longitude;
     }
 
     private void requestData() {
-        if ((null == latitude) || (null == longitude)) {
-            latitude = PropertyManager.getInstance().getLatitude();
-            longitude = PropertyManager.getInstance().getLongitude();
+        if ((null == userLatitude) || (null == userLongitude)) {
+            userLatitude = PropertyManager.getInstance().getLatitude();
+            userLongitude = PropertyManager.getInstance().getLongitude();
         }
-        String lat = latitude;
-        String lon = longitude;
+        String lat = userLatitude;
+        String lon = userLongitude;
         NetworkManager.getInstance().selectAllMapBicycle(
                 lon, lat, new Callback<ReceiveObject>() {
                     @Override
@@ -295,7 +295,9 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
                                             result.getTitle(),
                                             result.getType(),
                                             result.getHeight(),
-                                            "" + result.getPrice().getMonth()
+                                            "" + result.getPrice().getMonth(),
+                                            result.getLoc().getCoordinates().get(1),
+                                            result.getLoc().getCoordinates().get(0)
                                     )
                             );
 

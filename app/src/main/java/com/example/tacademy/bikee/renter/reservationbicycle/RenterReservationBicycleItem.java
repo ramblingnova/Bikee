@@ -14,8 +14,10 @@ public class RenterReservationBicycleItem {
     private Date endDate;
     private int payment;
     private String reserveId;
+    private double latitude;
+    private double longitude;
 
-    public RenterReservationBicycleItem(String bicycleId, String imageURL, String bicycleName, String status, Date startDate, Date endDate, int payment, String reserveId) {
+    public RenterReservationBicycleItem(String bicycleId, String imageURL, String bicycleName, String status, Date startDate, Date endDate, int payment, String reserveId, double latitude, double longitude) {
         this.bicycleId = bicycleId;
         this.imageURL = imageURL;
         this.bicycleName = bicycleName;
@@ -24,6 +26,8 @@ public class RenterReservationBicycleItem {
         this.endDate = endDate;
         this.payment = payment;
         this.reserveId = reserveId;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
     public String getBicycleId() {
         return bicycleId;
@@ -87,5 +91,21 @@ public class RenterReservationBicycleItem {
 
     public void setReserveId(String reserveId) {
         this.reserveId = reserveId;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 }

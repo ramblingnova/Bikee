@@ -26,13 +26,15 @@ public class SearchResultMapItem {
         this.longitude = longitude;
     }
 
-    public SearchResultMapItem(String bicycleId, String imageURL, String bicycle_name, String type, String height, String payment) {
+    public SearchResultMapItem(String bicycleId, String imageURL, String bicycle_name, String type, String height, String payment, double latitude, double longitude) {
         this.bicycleId = bicycleId;
         this.imageURL = imageURL;
         this.bicycle_name = bicycle_name;
         this.height = height;
         this.type = type;
         this.payment = payment;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public String getBicycleId() {

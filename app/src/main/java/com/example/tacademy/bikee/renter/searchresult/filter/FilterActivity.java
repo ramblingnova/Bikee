@@ -24,6 +24,8 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
     private Calendar calendar;
     private Date start, end, select;
     private Animation anim;
+    private boolean isStartDatePicked = false;
+    private boolean isEndDatePicked = false;
 
     public final static int RESULT_OK = 1;
     public final static int RESULT_CANCEL = 2;
@@ -42,14 +44,21 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
         Button btn = (Button) findViewById(R.id.activity_filter_search_button);
         btn.setOnClickListener(FilterActivity.this);
 
-        Toast.makeText(this, "onCreate...", Toast.LENGTH_SHORT).show();
         calendarPickerView = (CalendarPickerView) findViewById(R.id.calendar_view);
         calendarPickerView.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener() {
             @Override
             public void onDateSelected(Date date) {
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Toast.makeText(FilterActivity.this, simpleDateFormat.format(date), Toast.LENGTH_SHORT).show();
-                select = date;
+                if (isStartDatePicked == false) {
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Toast.makeText(FilterActivity.this, "State Date : " + simpleDateFormat.format(date), Toast.LENGTH_SHORT).show();
+                    select = date;
+                    isStartDatePicked = true;
+                } else if (isEndDatePicked == false) {
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Toast.makeText(FilterActivity.this, "End Date : " + simpleDateFormat.format(date), Toast.LENGTH_SHORT).show();
+                    select = date;
+                    isEndDatePicked = true;
+                }
             }
 
             @Override

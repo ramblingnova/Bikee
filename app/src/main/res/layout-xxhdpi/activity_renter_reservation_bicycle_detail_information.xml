@@ -36,13 +36,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/bikeeWhite"
-                android:paddingBottom="38dp">
+                android:paddingBottom="48dp">
 
                 <include
                     android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_picture_layout"
+                    layout="@layout/bicycle_picture_lister_information"
                     android:layout_width="wrap_content"
-                    android:layout_height="307dp"
-                    layout="@layout/bicycle_picture_lister_information" />
+                    android:layout_height="307dp" />
 
                 <include
                     layout="@layout/bicycle_description"
@@ -52,79 +52,102 @@
                     android:layout_marginTop="29dp" />
             </RelativeLayout>
 
-            <View
-                android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_picture_name_introduction_bicycle_type_line"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/activity_renter_reservation_bicycle_detail_information_bicycle_picture_name_introduction_layout"
-                android:background="@color/bikeeLightGray" />
-
-            <include
-                android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_type"
-                layout="@layout/bicycle_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_picture_name_introduction_layout"
-                android:layout_centerHorizontal="true" />
-
-            <include
-                android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_recommendation_height"
-                layout="@layout/bicycle_recommendation_height"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_type"
-                android:layout_centerHorizontal="true" />
-
-            <include
-                android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_additory_component"
-                layout="@layout/bicycle_additory_component"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_recommendation_height"
-                android:layout_centerHorizontal="true" />
-
-            <include
-                android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_rental_place"
-                layout="@layout/bicycle_rental_place"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_additory_component"
-                android:layout_centerHorizontal="true" />
-
             <RelativeLayout
-                android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_rental_place_layout"
+                android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_information_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_additory_component"
-                android:background="@drawable/filtering_contentsbox"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
+                android:layout_below="@id/activity_renter_reservation_bicycle_detail_information_bicycle_picture_name_introduction_layout"
+                android:paddingBottom="21dp"
+                android:background="@color/bikeeWhite">
 
-                <TextView
-                    android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_rental_place_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="대여장소 " />
-
-                <TextView
-                    android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_rental_place_real_position_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_rental_place_text_view"
-                    android:text="서울시 관악구 봉천동" />
-
-                <fragment
-                    android:id="@+id/activity_renter_reservation_bicycle_detail_information_small_map"
-                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                <View
+                    android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_picture_name_introduction_bicycle_type_line"
                     android:layout_width="match_parent"
-                    android:layout_height="217dp"
-                    android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_rental_place_text_view" />
+                    android:layout_height="1px"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@color/bikeeLightGray" />
+
+                <include
+                    android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_type"
+                    layout="@layout/bicycle_detail_information_bicycle_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="47dp"
+                    android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_picture_name_introduction_bicycle_type_line" />
+
+                <View
+                    android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_type_bicycle_recommendation_height_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_type"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@color/bikeeLightGray" />
+
+                <include
+                    android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_recommendation_height"
+                    layout="@layout/bicycle_detail_information_bicycle_height"
+                    android:layout_width="match_parent"
+                    android:layout_height="47dp"
+                    android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_type_bicycle_recommendation_height_line"
+                    android:layout_centerHorizontal="true" />
+
+                <View
+                    android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_height_bicycle_component_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_recommendation_height"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@color/bikeeLightGray" />
+
+                <include
+                    android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_additory_component"
+                    layout="@layout/bicycle_detail_information_bicycle_component"
+                    android:layout_width="match_parent"
+                    android:layout_height="47dp"
+                    android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_height_bicycle_component_line"
+                    android:layout_centerHorizontal="true" />
+
+                <View
+                    android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_component_bicycle_rental_place_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_additory_component"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@color/bikeeLightGray" />
+
+                <include
+                    android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_rental_place"
+                    layout="@layout/bicycle_detail_information_bicycle_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="47dp"
+                    android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_component_bicycle_rental_place_line"
+                    android:layout_centerHorizontal="true" />
+
+                <RelativeLayout
+                    android:id="@+id/activity_renter_reservation_bicycle_detail_information_map_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_rental_place"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp">
+
+                    <fragment
+                        android:id="@+id/activity_renter_reservation_bicycle_detail_information_small_map"
+                        android:name="com.google.android.gms.maps.SupportMapFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="217dp" />
+                </RelativeLayout>
             </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_rental_place_layout"
+                android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_information_layout"
+                android:layout_marginBottom="26dp"
+                android:layout_marginTop="42dp"
                 android:orientation="horizontal">
 
                 <Button
@@ -155,10 +178,12 @@
                 android:id="@+id/activity_renter_reservation_bicycle_detail_information_cancel_button2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_rental_place_layout"
+                android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_information_layout"
                 android:layout_centerHorizontal="true"
+                android:layout_marginBottom="26dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
+                android:layout_marginTop="42dp"
                 android:background="@drawable/detailpage_button2"
                 android:text="@string/activity_renter_reservation_bicycle_detail_information_cancel_button2_string"
                 android:visibility="gone" />
@@ -167,17 +192,18 @@
                 android:id="@+id/activity_renter_reservation_bicycle_detail_information_input_post_scription_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_rental_place_layout"
+                android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_information_layout"
                 android:layout_centerHorizontal="true"
+                android:layout_marginBottom="26dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
+                android:layout_marginTop="42dp"
                 android:background="@drawable/detailpage_button2"
                 android:text="@string/activity_renter_reservation_bicycle_detail_information_input_post_scription_button_string"
                 android:visibility="gone" />
         </RelativeLayout>
     </ScrollView>
-</android.support.design.widget.CoordinatorLayout>
-    <!--<Button
+</android.support.design.widget.CoordinatorLayout><!--<Button
         android:id="@+id/activity_renter_reservation_bicycle_detail_information_small_map_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
