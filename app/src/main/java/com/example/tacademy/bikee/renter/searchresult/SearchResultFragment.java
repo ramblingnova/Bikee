@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.example.tacademy.bikee.R;
@@ -28,6 +29,9 @@ import com.google.android.gms.location.LocationListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class SearchResultFragment extends Fragment implements SearchSwitchView.OnCheckedListener, View.OnClickListener,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
@@ -39,6 +43,7 @@ public class SearchResultFragment extends Fragment implements SearchSwitchView.O
     private SearchResultMapFragment searchResultMapFragment;
     private SearchSwitchView searchSwitchView;
     private ImageView imageView;
+    @Bind(R.id.fragment_search_result_search_edit_text) EditText address;
     private List<SearchResultListItem> listList;
     private List<SearchResultMapItem> mapList;
 
@@ -83,6 +88,8 @@ public class SearchResultFragment extends Fragment implements SearchSwitchView.O
 
         listList = new ArrayList<>();
         mapList = new ArrayList<>();
+
+        ButterKnife.bind(this, v);
 
         return v;
     }
@@ -224,6 +231,7 @@ public class SearchResultFragment extends Fragment implements SearchSwitchView.O
         switch (v.getId()) {
             case R.id.fragment_search_result_filter_image_view: {
                 Intent intent = new Intent(getActivity(), FilterActivity.class);
+                intent.putExtra("ADDRESS", address.getText().toString());
                 getActivity().startActivityForResult(intent, 0);
                 break;
             }

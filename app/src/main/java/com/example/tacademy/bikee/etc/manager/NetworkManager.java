@@ -71,9 +71,10 @@ public class NetworkManager {
     }
 
     public interface ServerUrl {
-        String baseUrl = "http://bikee.kr.pe";
+//        String baseUrl = "http://bikee.kr.pe";
         // port 3000 로보몽고 접속할때 필요
         // url 테스팅은 포스트맨
+        String baseUrl = "http://54.64.210.161";
 //        String baseUrl = "http://192.168.201.226:2222";
 
         // 본인정보조회 app.get('/users/:userId',users.profile) TODO id 없이 "본인정보조회"하기

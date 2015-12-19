@@ -33,6 +33,15 @@
                     android:layout_marginLeft="10dp"
                     android:src="@drawable/rider_main_search_icon" />
 
+                <ImageView
+                    android:id="@+id/fragment_search_result_filter_image_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/rider_main_search_fillter" />
+
                 <EditText
                     android:id="@+id/fragment_search_result_search_edit_text"
                     android:layout_width="wrap_content"
@@ -42,16 +51,7 @@
                     android:layout_marginRight="13dp"
                     android:layout_toRightOf="@id/fragment_search_result_search_image_view"
                     android:singleLine="true"
-                    android:layout_toLeftOf="@+id/fragment_search_result_filter_image_view"/>
-
-                <ImageView
-                    android:id="@+id/fragment_search_result_filter_image_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="45dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/rider_main_search_fillter" />
+                    android:layout_toLeftOf="@id/fragment_search_result_filter_image_view"/>
             </RelativeLayout>
 
             <com.example.tacademy.bikee.renter.searchresult.SearchSwitchView

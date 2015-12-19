@@ -32,10 +32,18 @@
             android:background="@color/bikeeBackground">
 
             <include
+                android:id="@+id/activity_filter_bicycle_location"
+                layout="@layout/bicycle_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp" />
+
+            <include
                 android:id="@+id/activity_filter_calendar"
                 layout="@layout/calendar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/activity_filter_bicycle_location"
                 android:layout_marginBottom="5dp" />
 
             <include
