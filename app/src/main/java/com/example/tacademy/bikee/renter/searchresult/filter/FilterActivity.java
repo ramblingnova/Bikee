@@ -28,7 +28,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 public class FilterActivity extends AppCompatActivity {
@@ -66,14 +65,13 @@ public class FilterActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         intent = getIntent();
-        if (intent.getStringExtra("ADDRESS").equals("")) {
+        String addressString = intent.getStringExtra("ADDRESS");
+        if (addressString.equals("")) {
             View view = findViewById(R.id.activity_filter_bicycle_location);
             view.setVisibility(View.GONE);
         } else {
-            // TODO : 캘린더 위 margin 부여
-            // 참고 http://stackoverflow.com/questions/11062187/how-to-set-margin-dynamically-in-android
-            address.setText(intent.getStringExtra("ADDRESS"));
-            Toast.makeText(FilterActivity.this, "address : " + findGeoPoint(intent.getStringExtra("ADDRESS")), Toast.LENGTH_SHORT).show();
+            address.setText(addressString);
+            Toast.makeText(FilterActivity.this, "address : " + findGeoPoint(addressString), Toast.LENGTH_SHORT).show();
         }
 
         calendarPickerView = (CalendarPickerView) findViewById(R.id.calendar_view);
