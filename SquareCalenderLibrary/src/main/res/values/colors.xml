@@ -1,14 +1,19 @@
 <!-- Copyright 2012 Square, Inc. -->
 <resources>
-  <color name="calendar_active_month_bg">#FFFFFFFF</color><!--활성화된 월의 배경 색상-->
+  <color name="calendar_active_month_bg">#FFFFFF</color><!--활성화된 달의 배경 색상-->
   <color name="calendar_bg">#ffffffff</color>
-  <color name="calendar_divider">#FFFFFFFF</color><!--구분선 색상-->
-  <color name="calendar_inactive_month_bg">#AADDFF00</color><!--비활성화된 월의 배경 색상-->
+  <color name="calendar_divider">#FFFFFF</color><!--구분선 색상-->
+  <color name="calendar_inactive_month_bg">#FFFFFF</color><!--비활성화된 달의 배경 색상-->
   <color name="calendar_selected_day_bg">#ff379bff</color>
   <color name="calendar_highlighted_day_bg">#ccffcc</color>
   <color name="calendar_selected_range_bg">#ff96caff</color>
-  <color name="calendar_text_inactive">#40778088</color>
-  <color name="calendar_text_active">#ff778088</color>
+  <color name="calendar_text_inactive">#E0E0E0</color><!--비활성화된 달의 텍스트 색상-->
+  <color name="calendar_text_active">#212121</color><!--활성화된 달의 텍스트 색상-->
   <color name="calendar_text_selected">#ffffffff</color>
   <color name="calendar_text_unselectable">#7f778088</color>
+
+  <color name="calendar_text_title">#FFFFFF</color><!--yyyy.MM 텍스트 색상-->
+  <color name="calendar_title_bg">#424242</color><!--yyyy.MM 배경 색상-->
+  <color name="calendar_text_header">#BDBDBD</color><!--요일 텍스트 색상-->
+  <color name="calendar_header_background">#424242</color><!--요일 배경 색상-->
 </resources>

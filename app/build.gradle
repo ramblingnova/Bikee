@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':SquareCalenderLibrary')
     testCompile 'junit:junit:4.12'
     compile files('libs/com.skp.Tmap_1.0.36.jar')
@@ -44,4 +44,5 @@ dependencies {
     compile 'com.tsengvn:Typekit:1.0.0'
     compile 'com.google.android.gms:play-services-location:8.3.0'
     compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.android.support:cardview-v7:23.1.1'
 }

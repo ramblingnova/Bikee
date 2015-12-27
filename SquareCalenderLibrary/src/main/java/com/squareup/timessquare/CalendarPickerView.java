@@ -117,14 +117,14 @@ public class CalendarPickerView extends ListView {
     dividerColor = a.getColor(R.styleable.CalendarPickerView_tsquare_dividerColor,
         res.getColor(R.color.calendar_divider));
     dayBackgroundResId = a.getResourceId(R.styleable.CalendarPickerView_tsquare_dayBackground,
-        R.drawable.calendar_bg_selector);
+            R.drawable.calendar_bg_selector);
     dayTextColorResId = a.getResourceId(R.styleable.CalendarPickerView_tsquare_dayTextColor,
         R.color.calendar_text_selector);
     titleTextColor = a.getColor(R.styleable.CalendarPickerView_tsquare_titleTextColor,
-        res.getColor(R.color.calendar_text_active));
+            res.getColor(R.color.calendar_text_title));
     displayHeader = a.getBoolean(R.styleable.CalendarPickerView_tsquare_displayHeader, true);
     headerTextColor = a.getColor(R.styleable.CalendarPickerView_tsquare_headerTextColor,
-        res.getColor(R.color.calendar_text_active));
+            res.getColor(R.color.calendar_text_header));
     a.recycle();
 
     adapter = new MonthAdapter();
@@ -132,6 +132,7 @@ public class CalendarPickerView extends ListView {
     setDividerHeight(0);
     setBackgroundColor(bg);
     setCacheColorHint(bg);
+    Locale.setDefault(new Locale(Locale.US.getLanguage())); // It is my custom
     locale = Locale.getDefault();
     today = Calendar.getInstance(locale);
     minCal = Calendar.getInstance(locale);

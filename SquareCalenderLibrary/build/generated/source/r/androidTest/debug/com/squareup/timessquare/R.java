@@ -8,33 +8,52 @@ package com.squareup.timessquare;
 
 public final class R {
 	public static final class attr {
+		public static final int cardBackgroundColor = 0x7f010006;
+		public static final int cardCornerRadius = 0x7f010007;
+		public static final int cardElevation = 0x7f010008;
+		public static final int cardMaxElevation = 0x7f010009;
+		public static final int cardPreventCornerOverlap = 0x7f01000b;
+		public static final int cardUseCompatPadding = 0x7f01000a;
+		public static final int contentPadding = 0x7f01000c;
+		public static final int contentPaddingBottom = 0x7f010010;
+		public static final int contentPaddingLeft = 0x7f01000d;
+		public static final int contentPaddingRight = 0x7f01000e;
+		public static final int contentPaddingTop = 0x7f01000f;
 		public static final int tsquare_dayBackground = 0x7f010001;
 		public static final int tsquare_dayTextColor = 0x7f010002;
 		public static final int tsquare_displayHeader = 0x7f010004;
 		public static final int tsquare_dividerColor = 0x7f010000;
 		public static final int tsquare_headerTextColor = 0x7f010005;
-		public static final int tsquare_state_current_month = 0x7f010007;
-		public static final int tsquare_state_highlighted = 0x7f01000c;
-		public static final int tsquare_state_range_first = 0x7f010009;
-		public static final int tsquare_state_range_last = 0x7f01000b;
-		public static final int tsquare_state_range_middle = 0x7f01000a;
-		public static final int tsquare_state_selectable = 0x7f010006;
-		public static final int tsquare_state_today = 0x7f010008;
+		public static final int tsquare_state_current_month = 0x7f010012;
+		public static final int tsquare_state_highlighted = 0x7f010017;
+		public static final int tsquare_state_range_first = 0x7f010014;
+		public static final int tsquare_state_range_last = 0x7f010016;
+		public static final int tsquare_state_range_middle = 0x7f010015;
+		public static final int tsquare_state_selectable = 0x7f010011;
+		public static final int tsquare_state_today = 0x7f010013;
 		public static final int tsquare_titleTextColor = 0x7f010003;
 	}
 	public static final class color {
 		public static final int calendar_active_month_bg = 0x7f050000;
 		public static final int calendar_bg = 0x7f050001;
 		public static final int calendar_divider = 0x7f050002;
-		public static final int calendar_highlighted_day_bg = 0x7f050003;
-		public static final int calendar_inactive_month_bg = 0x7f050004;
-		public static final int calendar_selected_day_bg = 0x7f050005;
-		public static final int calendar_selected_range_bg = 0x7f050006;
-		public static final int calendar_text_active = 0x7f050007;
-		public static final int calendar_text_inactive = 0x7f050008;
-		public static final int calendar_text_selected = 0x7f050009;
-		public static final int calendar_text_selector = 0x7f05000b;
-		public static final int calendar_text_unselectable = 0x7f05000a;
+		public static final int calendar_header_background = 0x7f050003;
+		public static final int calendar_highlighted_day_bg = 0x7f050004;
+		public static final int calendar_inactive_month_bg = 0x7f050005;
+		public static final int calendar_selected_day_bg = 0x7f050006;
+		public static final int calendar_selected_range_bg = 0x7f050007;
+		public static final int calendar_text_active = 0x7f050008;
+		public static final int calendar_text_header = 0x7f050009;
+		public static final int calendar_text_inactive = 0x7f05000a;
+		public static final int calendar_text_selected = 0x7f05000b;
+		public static final int calendar_text_selector = 0x7f050013;
+		public static final int calendar_text_title = 0x7f05000c;
+		public static final int calendar_text_unselectable = 0x7f05000d;
+		public static final int calendar_title_bg = 0x7f05000e;
+		public static final int cardview_dark_background = 0x7f05000f;
+		public static final int cardview_light_background = 0x7f050010;
+		public static final int cardview_shadow_end_color = 0x7f050011;
+		public static final int cardview_shadow_start_color = 0x7f050012;
 	}
 	public static final class dimen {
 		public static final int calendar_day_headers_paddingbottom = 0x7f060000;
@@ -42,6 +61,9 @@ public final class R {
 		public static final int calendar_month_topmargin = 0x7f060002;
 		public static final int calendar_text_medium = 0x7f060003;
 		public static final int calendar_text_small = 0x7f060004;
+		public static final int cardview_compat_inset_shadow = 0x7f060005;
+		public static final int cardview_default_elevation = 0x7f060006;
+		public static final int cardview_default_radius = 0x7f060007;
 	}
 	public static final class drawable {
 		public static final int calendar_bg_selector = 0x7f020000;
@@ -64,6 +86,9 @@ public final class R {
 		public static final int CalendarCell_CalendarDate = 0x7f070001;
 		public static final int CalendarCell_DayHeader = 0x7f070002;
 		public static final int CalendarTitle = 0x7f070003;
+		public static final int CardView = 0x7f070004;
+		public static final int CardView_Dark = 0x7f070005;
+		public static final int CardView_Light = 0x7f070006;
 	}
 	public static final class styleable {
 		public static final int[] CalendarPickerView = { 0x010100d4, 0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003, 0x7f010004, 0x7f010005 };
@@ -74,7 +99,19 @@ public final class R {
 		public static final int CalendarPickerView_tsquare_dividerColor = 1;
 		public static final int CalendarPickerView_tsquare_headerTextColor = 6;
 		public static final int CalendarPickerView_tsquare_titleTextColor = 4;
-		public static final int[] calendar_cell = { 0x7f010006, 0x7f010007, 0x7f010008, 0x7f010009, 0x7f01000a, 0x7f01000b, 0x7f01000c };
+		public static final int[] CardView = { 0x7f010006, 0x7f010007, 0x7f010008, 0x7f010009, 0x7f01000a, 0x7f01000b, 0x7f01000c, 0x7f01000d, 0x7f01000e, 0x7f01000f, 0x7f010010 };
+		public static final int CardView_cardBackgroundColor = 0;
+		public static final int CardView_cardCornerRadius = 1;
+		public static final int CardView_cardElevation = 2;
+		public static final int CardView_cardMaxElevation = 3;
+		public static final int CardView_cardPreventCornerOverlap = 5;
+		public static final int CardView_cardUseCompatPadding = 4;
+		public static final int CardView_contentPadding = 6;
+		public static final int CardView_contentPaddingBottom = 10;
+		public static final int CardView_contentPaddingLeft = 7;
+		public static final int CardView_contentPaddingRight = 8;
+		public static final int CardView_contentPaddingTop = 9;
+		public static final int[] calendar_cell = { 0x7f010011, 0x7f010012, 0x7f010013, 0x7f010014, 0x7f010015, 0x7f010016, 0x7f010017 };
 		public static final int calendar_cell_tsquare_state_current_month = 1;
 		public static final int calendar_cell_tsquare_state_highlighted = 6;
 		public static final int calendar_cell_tsquare_state_range_first = 3;
