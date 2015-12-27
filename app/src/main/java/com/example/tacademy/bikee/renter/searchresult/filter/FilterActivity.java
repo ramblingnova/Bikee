@@ -30,9 +30,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class FilterActivity extends AppCompatActivity {
+public class FilterActivity extends AppCompatActivity implements CalendarPickerView.OnDateSelectedListener {
     private Intent intent;
-    private CalendarPickerView calendarPickerView, calendarPickerViewTemp;
+    private CalendarPickerView currentCalendarPickerView, oldCalendarPickerView;
     private Calendar calendar;
     private Date start, end, select;
     private Animation anim;
@@ -74,47 +74,57 @@ public class FilterActivity extends AppCompatActivity {
             Toast.makeText(FilterActivity.this, "address : " + findGeoPoint(addressString), Toast.LENGTH_SHORT).show();
         }
 
-        calendarPickerView = (CalendarPickerView) findViewById(R.id.calendar_view);
-        calendarPickerView.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener() {
-            @Override
-            public void onDateSelected(Date date) {
-                if (isStartDatePicked == false) {
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    Toast.makeText(FilterActivity.this, "State Date : " + simpleDateFormat.format(date), Toast.LENGTH_SHORT).show();
-                    select = date;
-                    isStartDatePicked = true;
-                } else if (isEndDatePicked == false) {
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    Toast.makeText(FilterActivity.this, "End Date : " + simpleDateFormat.format(date), Toast.LENGTH_SHORT).show();
-                    select = date;
-                    isEndDatePicked = true;
-                }
-            }
-
-            @Override
-            public void onDateUnselected(Date date) {
-
-            }
-        });
-        calendarPickerViewTemp = (CalendarPickerView) findViewById(R.id.calendar_view_temp);
+        currentCalendarPickerView = (CalendarPickerView) findViewById(R.id.calendar_view);
+        currentCalendarPickerView.setOnDateSelectedListener(this);
+        oldCalendarPickerView = (CalendarPickerView) findViewById(R.id.calendar_view_temp);
         calendar = Calendar.getInstance();
         calendar.set(Calendar.DATE, 1);
         start = calendar.getTime();
         calendar.add(Calendar.MONTH, 1);
         end = calendar.getTime();
-        calendarPickerView.init(start, end)
+        currentCalendarPickerView.init(start, end)
                 .inMode(CalendarPickerView.SelectionMode.SINGLE)
                 .withSelectedDate(new Date());
-        calendarPickerViewTemp.init(start, end)
+        oldCalendarPickerView.init(start, end)
                 .inMode(CalendarPickerView.SelectionMode.SINGLE)
                 .withSelectedDate(new Date());
+        oldCalendarPickerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onDateSelected(Date date) {
+        if (isStartDatePicked == false) {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Toast.makeText(FilterActivity.this, "State Date : " + simpleDateFormat.format(date), Toast.LENGTH_SHORT).show();
+            select = date;
+            isStartDatePicked = true;
+        } else if (isEndDatePicked == false) {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Toast.makeText(FilterActivity.this, "End Date : " + simpleDateFormat.format(date), Toast.LENGTH_SHORT).show();
+            select = date;
+            isEndDatePicked = true;
+        }
+    }
+
+    @Override
+    public void onDateUnselected(Date date) {
+
+    }
+
+    @OnClick(R.id.calendar_summary) void temp() {
+        View view = findViewById(R.id.calendar_content);
+        anim = AnimationUtils.loadAnimation(FilterActivity.this, R.anim.calendar_top_in);
+        anim.setFillAfter(true);
+        view.startAnimation(anim);
+        view.setVisibility(View.VISIBLE);
     }
 
     @OnClick(R.id.activity_filter_prev_button) void prevButton() {
-        calendarPickerViewTemp.init(start, end);
+        oldCalendarPickerView.setVisibility(View.VISIBLE);
+        oldCalendarPickerView.init(start, end);
 
         if (select != null && select.getTime() >= start.getTime() && select.getTime() <= end.getTime()) {
-            calendarPickerViewTemp.selectDate(select);
+            oldCalendarPickerView.selectDate(select);
         }
 
         calendar = Calendar.getInstance();
@@ -126,23 +136,41 @@ public class FilterActivity extends AppCompatActivity {
         calendar.add(Calendar.MONTH, -1);
         end = calendar.getTime();
 
-        calendarPickerView.init(start, end);
+        currentCalendarPickerView.init(start, end);
 
         if (select != null && select.getTime() >= start.getTime() && select.getTime() <= end.getTime()) {
-            calendarPickerView.selectDate(select);
+            currentCalendarPickerView.selectDate(select);
         }
 
-        anim = AnimationUtils.loadAnimation(FilterActivity.this, R.anim.left_in);
-        calendarPickerView.startAnimation(anim);
-        anim = AnimationUtils.loadAnimation(FilterActivity.this, R.anim.right_out);
-        calendarPickerViewTemp.startAnimation(anim);
+        anim = AnimationUtils.loadAnimation(FilterActivity.this, R.anim.calendar_left_in);
+        anim.setFillAfter(true);
+        currentCalendarPickerView.startAnimation(anim);
+        anim = AnimationUtils.loadAnimation(FilterActivity.this, R.anim.calendar_right_out);
+        anim.setFillAfter(false);
+        oldCalendarPickerView.startAnimation(anim);
+        oldCalendarPickerView.getAnimation().setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                oldCalendarPickerView.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
     }
 
     @OnClick(R.id.activity_filter_next_button) void nextButton() {
-        calendarPickerViewTemp.init(start, end);
+        oldCalendarPickerView.setVisibility(View.VISIBLE);
+        oldCalendarPickerView.init(start, end);
 
         if (select != null && select.getTime() >= start.getTime() && select.getTime() <= end.getTime()) {
-            calendarPickerViewTemp.selectDate(select);
+            oldCalendarPickerView.selectDate(select);
         }
 
         calendar = Calendar.getInstance();
@@ -154,16 +182,33 @@ public class FilterActivity extends AppCompatActivity {
         calendar.add(Calendar.MONTH, 1);
         end = calendar.getTime();
 
-        calendarPickerView.init(start, end);
+        currentCalendarPickerView.init(start, end);
 
         if (select != null && select.getTime() >= start.getTime() && select.getTime() <= end.getTime()) {
-            calendarPickerView.selectDate(select);
+            currentCalendarPickerView.selectDate(select);
         }
 
-        anim = AnimationUtils.loadAnimation(FilterActivity.this, R.anim.right_in);
-        calendarPickerView.startAnimation(anim);
-        anim = AnimationUtils.loadAnimation(FilterActivity.this, R.anim.left_out);
-        calendarPickerViewTemp.startAnimation(anim);
+        anim = AnimationUtils.loadAnimation(FilterActivity.this, R.anim.calendar_right_in);
+        anim.setFillAfter(true);
+        currentCalendarPickerView.startAnimation(anim);
+        anim = AnimationUtils.loadAnimation(FilterActivity.this, R.anim.calendar_left_out);
+        anim.setFillAfter(false);
+        oldCalendarPickerView.startAnimation(anim);
+        oldCalendarPickerView.getAnimation().setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                oldCalendarPickerView.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
     }
 
     @OnClick({R.id.bicycle_type_check_box1,

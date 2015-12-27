@@ -68,4 +68,4 @@
     <include layout="@layout/week"/>
     <include layout="@layout/week"/>
   </com.squareup.timessquare.CalendarGridView>
-</com.squareup.timessquare.MonthView><!-- From: file:/C:/Users/Tacademy/AndroidStudioProjects/Bikee/SquareCalenderLibrary/src/main/res/layout/month.xml --><!-- From: file:/C:/Users/Tacademy/AndroidStudioProjects/Bikee/SquareCalenderLibrary/build/intermediates/bundles/debug/res/layout/month.xml -->
+</com.squareup.timessquare.MonthView><!-- From: file:/C:/Users/User/AndroidStudioProjects/Bikee/SquareCalenderLibrary/src/main/res/layout/month.xml --><!-- From: file:/C:/Users/User/AndroidStudioProjects/Bikee/SquareCalenderLibrary/build/intermediates/bundles/debug/res/layout/month.xml -->
