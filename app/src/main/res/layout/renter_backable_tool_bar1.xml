@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize">
+
+    <RelativeLayout
+        android:id="@+id/renter_backable_tool_bar1_back_button_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_before_w" />
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:paddingRight="?attr/actionBarSize"
+        android:src="@drawable/rider_main_logo" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:padding="16dp"
+        android:src="@drawable/rider_main_icon" />
+</RelativeLayout>

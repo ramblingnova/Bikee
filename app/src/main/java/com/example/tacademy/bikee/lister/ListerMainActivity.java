@@ -49,6 +49,8 @@ public class ListerMainActivity extends AppCompatActivity implements View.OnClic
     private CheckBox cb;
     private View layout;
 
+    final public static String from = "LISTER";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,6 +116,7 @@ public class ListerMainActivity extends AppCompatActivity implements View.OnClic
             case R.id.lister_side_menu_member_name_text_view:
             case R.id.lister_side_menu_mail_address_text_view:
                 intent = new Intent(ListerMainActivity.this, SignInActivity.class);
+                intent.putExtra("FROM", from);
                 startActivity(intent);
                 break;
             case R.id.lister_side_menu_see_my_bicycle_text_view: {
@@ -136,6 +139,7 @@ public class ListerMainActivity extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.lister_side_menu_input_inquiry_text_view:
                 intent = new Intent(ListerMainActivity.this, InputInquiryActivity.class);
+                intent.putExtra("FROM", from);
                 startActivity(intent);
                 break;
             case R.id.lister_side_menu_version_information_text_view:

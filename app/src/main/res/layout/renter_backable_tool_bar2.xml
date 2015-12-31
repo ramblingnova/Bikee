@@ -4,7 +4,7 @@
     android:layout_height="?attr/actionBarSize">
 
     <RelativeLayout
-        android:id="@+id/backable_tool_bar1_back_button_image_view"
+        android:id="@+id/renter_backable_tool_bar2_back_button_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -13,7 +13,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_before_w" />
+            android:src="@drawable/icon_before" />
     </RelativeLayout>
 
     <ImageView

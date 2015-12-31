@@ -156,7 +156,7 @@
     <string name="lister_side_menu_see_my_bicycle_text_view_string">내 자전거 보기</string>
     <string name="lister_side_menu_register_smart_lock_text_view_string">내 스마트락 등록</string>
     <string name="lister_side_menu_receive_payment_information_text_view_string">대금수령정보</string>
-    <string name="lister_side_menu_evaluated_bicycle_script_text_view_string">내평가보기</string>
+    <string name="lister_side_menu_evaluated_bicycle_script_text_view_string">내 자전거 후기 보기</string>
     <string name="lister_side_menu_authentication_information_text_view_string">인증</string>
     <string name="lister_side_menu_push_alarm_text_view_string">푸시알림</string>
     <string name="lister_side_menu_input_inquiry_text_view_string">고객센터</string>

@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -82,12 +81,12 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        View cView = getLayoutInflater().inflate(R.layout.backable_tool_bar1, null);
-        cView.findViewById(R.id.backable_tool_bar1_back_button_image_view).setOnClickListener(new View.OnClickListener() {
+        View cView = getLayoutInflater().inflate(R.layout.renter_backable_tool_bar1, null);
+        cView.findViewById(R.id.renter_backable_tool_bar1_back_button_image_view).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
-                    case R.id.backable_tool_bar1_back_button_image_view:
+                    case R.id.renter_backable_tool_bar1_back_button_image_view:
                         finish();
                         break;
                 }

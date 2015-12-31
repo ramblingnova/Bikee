@@ -8,11 +8,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Reserve;
-import com.example.tacademy.bikee.etc.dialog.ChoiceDialogFragment;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.SmallMapActivity;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
@@ -47,12 +45,12 @@ public class FinallyRequestReservationActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        View cView = getLayoutInflater().inflate(R.layout.backable_tool_bar1, null);
-        cView.findViewById(R.id.backable_tool_bar1_back_button_image_view).setOnClickListener(new View.OnClickListener() {
+        View cView = getLayoutInflater().inflate(R.layout.renter_backable_tool_bar1, null);
+        cView.findViewById(R.id.renter_backable_tool_bar1_back_button_image_view).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
-                    case R.id.backable_tool_bar1_back_button_image_view:
+                    case R.id.renter_backable_tool_bar1_back_button_image_view:
                         finish();
                         break;
                 }

@@ -1,6 +1,7 @@
 package com.example.tacademy.bikee.common.sidemenu;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +15,8 @@ import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.dao.Inquires;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
+import com.example.tacademy.bikee.lister.ListerMainActivity;
+import com.example.tacademy.bikee.renter.RenterMainActivity;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
 import retrofit.Callback;
@@ -24,6 +27,8 @@ public class InputInquiryActivity extends AppCompatActivity implements View.OnCl
     private EditText title_edit_text;
     private EditText description_edit_text;
     private Button btn;
+    private Intent intent;
+    private String from;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +36,38 @@ public class InputInquiryActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_input_inquiry);
         Toolbar toolbar = (Toolbar)findViewById(R.id.activity_input_inquiry_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setCustomView(R.layout.renter_main_tool_bar);
+        intent = getIntent();
+        from = intent.getStringExtra("FROM");
+        View cView = null;
+        if (from.equals(RenterMainActivity.from)) {
+            cView = getLayoutInflater().inflate(R.layout.renter_backable_tool_bar1, null);
+            cView.findViewById(R.id.renter_backable_tool_bar1_back_button_image_view).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    switch (v.getId()) {
+                        case R.id.renter_backable_tool_bar1_back_button_image_view:
+                            finish();
+                            break;
+                    }
+                }
+            });
+        } else if (from.equals(ListerMainActivity.from)) {
+            cView = getLayoutInflater().inflate(R.layout.lister_backable_tool_bar1, null);
+            cView.findViewById(R.id.lister_backable_tool_bar1_back_button_image_view).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    switch (v.getId()) {
+                        case R.id.lister_backable_tool_bar1_back_button_image_view:
+                            finish();
+                            break;
+                    }
+                }
+            });
+        }
+        getSupportActionBar().setCustomView(cView);
 
         title_edit_text = (EditText)findViewById(R.id.activity_input_inquiry_title_edit_text);
         description_edit_text = (EditText)findViewById(R.id.activity_input_inquiry_description_edit_text);

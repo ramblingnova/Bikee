@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.tacademy.bikee.R;
@@ -44,12 +43,12 @@ public class RegisterCardActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        View cView = getLayoutInflater().inflate(R.layout.backable_tool_bar1, null);
-        cView.findViewById(R.id.backable_tool_bar1_back_button_image_view).setOnClickListener(new View.OnClickListener() {
+        View cView = getLayoutInflater().inflate(R.layout.renter_backable_tool_bar1, null);
+        cView.findViewById(R.id.renter_backable_tool_bar1_back_button_image_view).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
-                    case R.id.backable_tool_bar1_back_button_image_view:
+                    case R.id.renter_backable_tool_bar1_back_button_image_view:
                         finish();
                         break;
                 }

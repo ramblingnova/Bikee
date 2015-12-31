@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
-import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.dialog.ChoiceDialogFragment;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.SmallMapActivity;
@@ -22,7 +21,6 @@ import com.tsengvn.typekit.TypekitContextWrapper;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -58,12 +56,12 @@ public class ListerRequestedBicycleDetailInformationActivity extends AppCompatAc
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        View cView = getLayoutInflater().inflate(R.layout.backable_tool_bar1, null);
-        cView.findViewById(R.id.backable_tool_bar1_back_button_image_view).setOnClickListener(new View.OnClickListener() {
+        View cView = getLayoutInflater().inflate(R.layout.lister_backable_tool_bar1, null);
+        cView.findViewById(R.id.lister_backable_tool_bar1_back_button_image_view).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
-                    case R.id.backable_tool_bar1_back_button_image_view:
+                    case R.id.lister_backable_tool_bar1_back_button_image_view:
                         finish();
                         break;
                 }

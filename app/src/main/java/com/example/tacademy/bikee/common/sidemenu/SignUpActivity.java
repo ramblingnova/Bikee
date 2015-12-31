@@ -15,9 +15,10 @@ import android.widget.Toast;
 
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
-import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.dao.User;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
+import com.example.tacademy.bikee.lister.ListerMainActivity;
+import com.example.tacademy.bikee.renter.RenterMainActivity;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
 import butterknife.Bind;
@@ -31,6 +32,7 @@ public class SignUpActivity extends AppCompatActivity {
     private Intent intent;
     private String authId;
     private String authNum;
+    private String from;
 
     public static final int SIGN_UP_ACTIVITY = 1;
     public static final String ACTIVITY_SIGN_UP_IMAGE = "activity_sign_up_image";
@@ -56,17 +58,34 @@ public class SignUpActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        View cView = getLayoutInflater().inflate(R.layout.backable_tool_bar1, null);
-        cView.findViewById(R.id.backable_tool_bar1_back_button_image_view).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.backable_tool_bar1_back_button_image_view:
-                        finish();
-                        break;
+        intent = getIntent();
+        from = intent.getStringExtra("FROM");
+        View cView = null;
+        if (from.equals(RenterMainActivity.from)) {
+            cView = getLayoutInflater().inflate(R.layout.renter_backable_tool_bar1, null);
+            cView.findViewById(R.id.renter_backable_tool_bar1_back_button_image_view).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    switch (v.getId()) {
+                        case R.id.renter_backable_tool_bar1_back_button_image_view:
+                            finish();
+                            break;
+                    }
                 }
-            }
-        });
+            });
+        } else if (from.equals(ListerMainActivity.from)) {
+            cView = getLayoutInflater().inflate(R.layout.lister_backable_tool_bar1, null);
+            cView.findViewById(R.id.lister_backable_tool_bar1_back_button_image_view).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    switch (v.getId()) {
+                        case R.id.lister_backable_tool_bar1_back_button_image_view:
+                            finish();
+                            break;
+                    }
+                }
+            });
+        }
         getSupportActionBar().setCustomView(cView);
 
         ButterKnife.bind(this);

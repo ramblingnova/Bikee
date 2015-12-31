@@ -141,32 +141,32 @@
             android:id="@+id/old_calendar_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FFFFFF" />
+            android:background="@color/bikeeWhite" />
 
         <com.squareup.timessquare.CalendarPickerView
             android:id="@+id/current_calendar_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FFFFFF" />
+            android:background="@color/bikeeWhite" />
 
         <Button
             android:id="@+id/activity_filter_calendar_prev_button"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="10dp"
+            android:layout_height="15dp"
             android:layout_gravity="start|top"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/calendar_prev" />
+            android:layout_marginLeft="19dp"
+            android:layout_marginStart="19dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/icon_arrow_l" />
 
         <Button
             android:id="@+id/activity_filter_calendar_next_button"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="10dp"
+            android:layout_height="15dp"
             android:layout_gravity="end|top"
-            android:layout_marginEnd="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/calendar_next" />
+            android:layout_marginEnd="19dp"
+            android:layout_marginRight="19dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/icon_arrow_r" />
     </FrameLayout>
 </RelativeLayout>

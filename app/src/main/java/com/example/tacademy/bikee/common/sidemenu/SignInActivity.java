@@ -28,6 +28,7 @@ import retrofit.client.Response;
 public class SignInActivity extends AppCompatActivity {
     private SharedPreferences mPrefs;
     private SharedPreferences.Editor mEditor;
+    private String from;
 
     private Intent intent;
 
@@ -125,7 +126,10 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.activity_sign_in_sign_up_string) void signUpTextView() {
+        intent = getIntent();
+        from = intent.getStringExtra("FROM");
         intent = new Intent(this, SignUpActivity.class);
+        intent.putExtra("FROM", from);
         startActivityForResult(intent, SignUpActivity.SIGN_UP_ACTIVITY);
     }
 

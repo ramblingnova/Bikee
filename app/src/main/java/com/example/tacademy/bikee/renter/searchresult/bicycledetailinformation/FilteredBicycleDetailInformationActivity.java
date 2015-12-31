@@ -33,7 +33,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
@@ -102,12 +101,12 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        View cView = getLayoutInflater().inflate(R.layout.backable_tool_bar1, null);
-        cView.findViewById(R.id.backable_tool_bar1_back_button_image_view).setOnClickListener(new View.OnClickListener() {
+        View cView = getLayoutInflater().inflate(R.layout.renter_backable_tool_bar1, null);
+        cView.findViewById(R.id.renter_backable_tool_bar1_back_button_image_view).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
-                    case R.id.backable_tool_bar1_back_button_image_view:
+                    case R.id.renter_backable_tool_bar1_back_button_image_view:
                         finish();
                         break;
                 }

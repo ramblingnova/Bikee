@@ -51,6 +51,8 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
     TextView emailTextView;
     private Intent intent;
 
+    final public static String from = "RENTER";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,6 +100,7 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
             case R.id.renter_side_menu_member_name_text_view:
             case R.id.renter_side_menu_mail_address_text_view:
                 intent = new Intent(RenterMainActivity.this, SignInActivity.class);
+                intent.putExtra("FROM", from);
                 startActivityForResult(intent, SignInActivity.SIGN_IN_ACTIVITY);
                 break;
             case R.id.renter_side_menu_fragment_register_card_text_view:
@@ -116,6 +119,7 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
                 break;
             case R.id.renter_side_menu_input_inquiry_text_view:
                 intent = new Intent(RenterMainActivity.this, InputInquiryActivity.class);
+                intent.putExtra("FROM", from);
                 startActivity(intent);
                 break;
             case R.id.renter_side_menu_version_information_text_view:
