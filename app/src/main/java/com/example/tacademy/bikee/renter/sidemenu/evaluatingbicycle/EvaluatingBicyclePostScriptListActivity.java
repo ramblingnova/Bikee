@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 
 import com.example.tacademy.bikee.R;
@@ -32,10 +33,21 @@ public class EvaluatingBicyclePostScriptListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_evaluating_bicycle_post_script_list);
         Toolbar toolbar = (Toolbar)findViewById(R.id.activity_evaluating_bicycle_post_script_list_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setCustomView(R.layout.renter_main_tool_bar);
+        View cView = getLayoutInflater().inflate(R.layout.backable_tool_bar1, null);
+        cView.findViewById(R.id.backable_tool_bar1_back_button_image_view).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.backable_tool_bar1_back_button_image_view:
+                        finish();
+                        break;
+                }
+            }
+        });
+        getSupportActionBar().setCustomView(cView);
 
         lv = (ListView)findViewById(R.id.activity_evaluating_bicycle_post_script_list_view);
         adapter = new EvaluatingBicyclePostScriptAdapter();

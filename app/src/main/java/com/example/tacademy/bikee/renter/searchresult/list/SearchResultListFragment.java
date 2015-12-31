@@ -22,6 +22,8 @@ import com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.F
 
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -91,6 +93,8 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
         SearchResultListItem item = (SearchResultListItem) lv.getItemAtPosition(position);
         Intent intent = new Intent(getActivity(), FilteredBicycleDetailInformationActivity.class);
         intent.putExtra("ID", item.getBicycleId());
+        intent.putExtra("LATITUDE", item.getLatitude());
+        intent.putExtra("LONGITUDE", item.getLongitude());
         getActivity().startActivity(intent);
     }
 

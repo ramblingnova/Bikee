@@ -131,7 +131,8 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
         this.googleMap.getUiSettings().setTiltGesturesEnabled(false);
 
         this.googleMap.setOnInfoWindowClickListener(this);
-        this.googleMap.setInfoWindowAdapter(bicycleInfoWindowView = new BicycleInfoWindowView(MyApplication.getmContext(), mPOIResolver));
+        this.googleMap.setInfoWindowAdapter(bicycleInfoWindowView = BicycleInfoWindowView.getInstance(MyApplication.getmContext(), mPOIResolver));
+//        this.googleMap.setInfoWindowAdapter(bicycleInfoWindowView = new BicycleInfoWindowView(MyApplication.getmContext(), mPOIResolver));
         bicycleInfoWindowView.setOnImageLoadListener(onImageLoadListener);
 
         this.googleMap.setOnMapClickListener(this);

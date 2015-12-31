@@ -7,23 +7,22 @@ import android.widget.TextView;
 
 import com.example.tacademy.bikee.R;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by Tacademy on 2015-11-03.
  */
 public class CardView extends FrameLayout {
+    @Bind(R.id.view_card_item_card_number_text_view)
+    TextView card_number;
+    @Bind(R.id.view_card_item_delete_button)
+    Button delete_button;
 
     public CardView(Context context) {
         super(context);
-        init();
-    }
-
-    TextView card_number;
-    Button delete_button;
-
-    private void init() {
         inflate(getContext(), R.layout.view_card_item, this);
-        card_number = (TextView) findViewById(R.id.view_card_item_card_number_text_view);
-        delete_button = (Button)findViewById(R.id.view_card_item_delete_button);
+        ButterKnife.bind(this);
     }
 
     public void setView(CardItem item) {

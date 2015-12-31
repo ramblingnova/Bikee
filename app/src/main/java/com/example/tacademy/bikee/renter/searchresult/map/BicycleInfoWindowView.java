@@ -6,6 +6,7 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,36 +24,45 @@ import com.google.android.gms.maps.model.Marker;
 
 import java.util.Map;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by Tacademy on 2015-11-18.
  */
-public class BicycleInfoWindowView implements GoogleMap.InfoWindowAdapter {
+public class BicycleInfoWindowView extends FrameLayout implements GoogleMap.InfoWindowAdapter {
     OnImageLoadListener onImageLoadListener;
     private View infoWindow;
-    private ImageView bicycleImage;
-    private TextView bicycle_name;
-    private TextView type_text;
-    private TextView type;
-    private TextView height_text;
-    private TextView height;
-    private TextView payment_text;
-    private TextView payment;
-    private TextView perDuration;
+    @Bind(R.id.view_bicycle_info_window_bicycle_picture_image_view)
+    ImageView bicycleImage;
+    @Bind(R.id.view_bicycle_info_window_bicycle_name_text_view)
+    TextView bicycle_name;
+    @Bind(R.id.view_bicycle_info_window_bicycle_type_text_view)
+    TextView type_text;
+    @Bind(R.id.view_bicycle_info_window_bicycle_type_real_text_view)
+    TextView type;
+    @Bind(R.id.view_bicycle_info_window_bicycle_height_text_view)
+    TextView height_text;
+    @Bind(R.id.view_bicycle_info_window_bicycle_height_real_text_view)
+    TextView height;
+    @Bind(R.id.view_bicycle_info_window_bicycle_payment_text_view1)
+    TextView payment_text;
+    @Bind(R.id.view_bicycle_info_window_bicycle_payment_real_text_view)
+    TextView payment;
+    @Bind(R.id.view_bicycle_info_window_bicycle_payment_text_view2)
+    TextView perDuration;
     Map<Marker, POI> mPOIResolver;
 
     public BicycleInfoWindowView(Context context, Map<Marker, POI> poiResolver) {
-        infoWindow = LayoutInflater.from(context).inflate(R.layout.view_bicycle_info_window, null);
-        bicycleImage = (ImageView) infoWindow.findViewById(R.id.view_bicycle_info_window_bicycle_picture_image_view);
-        bicycle_name = (TextView) infoWindow.findViewById(R.id.view_bicycle_info_window_bicycle_name_text_view);
-        height_text = (TextView) infoWindow.findViewById(R.id.view_bicycle_info_window_bicycle_height_text_view);
-        height = (TextView) infoWindow.findViewById(R.id.view_bicycle_info_window_bicycle_height_real_text_view);
-        type_text = (TextView) infoWindow.findViewById(R.id.view_bicycle_info_window_bicycle_type_text_view);
-        type = (TextView) infoWindow.findViewById(R.id.view_bicycle_info_window_bicycle_type_real_text_view);
-        payment_text = (TextView) infoWindow.findViewById(R.id.view_bicycle_info_window_bicycle_payment_text_view1);
-        payment = (TextView) infoWindow.findViewById(R.id.view_bicycle_info_window_bicycle_payment_real_text_view);
-        perDuration = (TextView) infoWindow.findViewById(R.id.view_bicycle_info_window_bicycle_payment_text_view2);
+        super(context);
+        infoWindow = inflate(getContext(), R.layout.view_bicycle_info_window, this);
+        ButterKnife.bind(this);
         FontManager.getInstance().setTextViewFont(FontManager.NOTO, bicycle_name, type_text, type, height_text, height, payment_text, payment, perDuration);
         mPOIResolver = poiResolver;
+    }
+
+    public static BicycleInfoWindowView getInstance(Context context, Map<Marker, POI> poiResolver) {
+        return new BicycleInfoWindowView(context, poiResolver);
     }
 
     @Override
@@ -75,7 +85,7 @@ public class BicycleInfoWindowView implements GoogleMap.InfoWindowAdapter {
         this.onImageLoadListener = onImageLoadListener;
     }
 
-    public void setImageView(final Context context,String imageURL){
+    public void setImageView(final Context context, String imageURL) {
         Glide.with(context).load(imageURL).asBitmap().placeholder(R.drawable.detailpage_bike_image_noneimage).fitCenter().thumbnail(0.0001f).into(new BitmapImageViewTarget(bicycleImage) {
             @Override
             protected void setResource(Bitmap resource) {

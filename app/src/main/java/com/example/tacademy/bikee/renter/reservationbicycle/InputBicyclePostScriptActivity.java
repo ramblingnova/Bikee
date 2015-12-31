@@ -22,15 +22,19 @@ import com.tsengvn.typekit.TypekitContextWrapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class InputBicyclePostScriptActivity extends AppCompatActivity implements View.OnClickListener {
+public class InputBicyclePostScriptActivity extends AppCompatActivity {
     private Intent intent;
-    private EditText et;
-    private RatingBar rb;
-    private Button btn;
+    @Bind(R.id.activity_input_bicycle_post_script_input_post_script_edit_text)
+    EditText et;
+    @Bind(R.id.activity_input_bicycle_post_script_rating_bar)
+    RatingBar rb;
     private String bicycleId;
 
     @Override
@@ -44,41 +48,33 @@ public class InputBicyclePostScriptActivity extends AppCompatActivity implements
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setCustomView(R.layout.renter_main_tool_bar);
 
+        ButterKnife.bind(this);
+
         intent = getIntent();
         bicycleId = intent.getStringExtra("ID");
-
-        et = (EditText) findViewById(R.id.activity_input_bicycle_post_script_input_post_script_edit_text);
-        rb = (RatingBar) findViewById(R.id.activity_input_bicycle_post_script_rating_bar);
-        btn = (Button) findViewById(R.id.activity_input_bicycle_post_script_input_button);
-        btn.setOnClickListener(this);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.activity_input_bicycle_post_script_input_button:
-                Comment comment = new Comment();
-                comment.setBody(et.getText().toString());
-                comment.setPoint((int) rb.getRating());
-                NetworkManager.getInstance().insertBicycleComment(bicycleId, comment, new Callback<ReceiveObject>() {
-                    @Override
-                    public void success(ReceiveObject receiveObject, Response response) {
-                        Log.i("result", "onResponse Code : " + receiveObject.getCode()
-                                        + ", Success : " + receiveObject.isSuccess()
-                                        + ", Msg : " + receiveObject.getMsg()
-                                        + ", Error : "
-                        );
-                        finish();
-                    }
+    @OnClick(R.id.activity_input_bicycle_post_script_input_button) void inputPostScript() {
+        Comment comment = new Comment();
+        comment.setBody(et.getText().toString());
+        comment.setPoint((int) rb.getRating());
+        NetworkManager.getInstance().insertBicycleComment(bicycleId, comment, new Callback<ReceiveObject>() {
+            @Override
+            public void success(ReceiveObject receiveObject, Response response) {
+                Log.i("result", "onResponse Code : " + receiveObject.getCode()
+                                + ", Success : " + receiveObject.isSuccess()
+                                + ", Msg : " + receiveObject.getMsg()
+                                + ", Error : "
+                );
+                finish();
+            }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Log.e("error", "onFailure Error : " + error.toString());
-                        finish();
-                    }
-                });
-                break;
-        }
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e("error", "onFailure Error : " + error.toString());
+                finish();
+            }
+        });
     }
 
     @Override

@@ -31,21 +31,20 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class SearchResultFragment extends Fragment implements SearchSwitchView.OnCheckedListener, View.OnClickListener,
+public class SearchResultFragment extends Fragment implements SearchSwitchView.OnCheckedListener,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
     private static final String SEARCH_RESULT_LIST_FRAGMENT_TAG = "search_result_list_fragment";
     private static final String SEARCH_RESULT_MAP_FRAGMENT_TAG = "search_result_map_fragment";
 
+    private Intent intent;
     private Fragment currentFragment;
     private SearchResultListFragment searchResultListFragment;
     private SearchResultMapFragment searchResultMapFragment;
     private SearchSwitchView searchSwitchView;
-    private ImageView imageView;
     @Bind(R.id.fragment_search_result_search_edit_text) EditText address;
-    private List<SearchResultListItem> listList;
-    private List<SearchResultMapItem> mapList;
 
     private boolean b = false;
 
@@ -82,12 +81,6 @@ public class SearchResultFragment extends Fragment implements SearchSwitchView.O
 
         searchSwitchView = (SearchSwitchView) v.findViewById(R.id.search_bar_switch);
         searchSwitchView.setOnCheckedListener(this);
-
-        imageView = (ImageView) v.findViewById(R.id.fragment_search_result_filter_image_view);
-        imageView.setOnClickListener(this);
-
-        listList = new ArrayList<>();
-        mapList = new ArrayList<>();
 
         ButterKnife.bind(this, v);
 
@@ -226,16 +219,12 @@ public class SearchResultFragment extends Fragment implements SearchSwitchView.O
         fragmentChange(isChecked);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.fragment_search_result_filter_image_view: {
-                Intent intent = new Intent(getActivity(), FilterActivity.class);
-                intent.putExtra("ADDRESS", address.getText().toString());
-                getActivity().startActivityForResult(intent, 0);
-                break;
-            }
-        }
+
+    @OnClick(R.id.fragment_search_result_filter_image_view)
+    void adjustFilter() {
+        intent = new Intent(getActivity(), FilterActivity.class);
+        intent.putExtra("ADDRESS", address.getText().toString());
+        getActivity().startActivityForResult(intent, 0);
     }
 
     private void fragmentChange(boolean isChecked) {

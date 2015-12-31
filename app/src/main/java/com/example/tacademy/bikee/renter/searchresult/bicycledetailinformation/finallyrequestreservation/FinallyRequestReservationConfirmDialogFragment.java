@@ -18,10 +18,11 @@ import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.dialog.NoChoiceDialogFragment;
 import com.example.tacademy.bikee.renter.RenterMainActivity;
 
-public class FinallyRequestReservationConfirmDialogFragment extends DialogFragment implements View.OnClickListener {
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class FinallyRequestReservationConfirmDialogFragment extends DialogFragment {
     private Intent intent;
-    private Button btn1;
-    private Button btn2;
     private static final String ARG_PARAM = "MESSAGE";
 
     public static FinallyRequestReservationConfirmDialogFragment newInstance(int param) {
@@ -42,10 +43,7 @@ public class FinallyRequestReservationConfirmDialogFragment extends DialogFragme
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_finally_request_reservation_confirm_dialog, container, false);
 
-        btn1 = (Button) view.findViewById(R.id.fragment_choice_dialog_button1);
-        btn1.setOnClickListener(this);
-        btn2 = (Button) view.findViewById(R.id.fragment_choice_dialog_button2);
-        btn2.setOnClickListener(this);
+        ButterKnife.bind(this, view);
 
         return view;
     }
@@ -64,24 +62,22 @@ public class FinallyRequestReservationConfirmDialogFragment extends DialogFragme
         d.getWindow().setAttributes(params);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.fragment_choice_dialog_button1:
-                NoChoiceDialogFragment dialog = new NoChoiceDialogFragment().newInstance(NoChoiceDialogFragment.RENTER_COMPLETE_RESERVATION, NoChoiceDialogFragment.RENTER_COMPLETE_CANCEL_ALREADY_RESERVATION);
-                dialog.show(getActivity().getSupportFragmentManager(), "custom");
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        intent = new Intent(getContext().getApplicationContext(), RenterMainActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                    }
-                }, 1500);
-                break;
-            case R.id.fragment_choice_dialog_button2:
-                dismiss();
-                break;
-        }
+    @OnClick(R.id.fragment_choice_dialog_button1)
+    void doButton1Work() {
+        NoChoiceDialogFragment dialog = new NoChoiceDialogFragment().newInstance(NoChoiceDialogFragment.RENTER_COMPLETE_RESERVATION, NoChoiceDialogFragment.RENTER_COMPLETE_CANCEL_ALREADY_RESERVATION);
+        dialog.show(getActivity().getSupportFragmentManager(), "custom");
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                intent = new Intent(getContext().getApplicationContext(), RenterMainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        }, 1500);
+    }
+
+    @OnClick(R.id.fragment_choice_dialog_button2)
+    void doButton2Work() {
+        dismiss();
     }
 }

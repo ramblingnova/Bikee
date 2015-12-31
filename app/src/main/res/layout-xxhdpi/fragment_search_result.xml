@@ -4,68 +4,66 @@
     android:layout_height="match_parent"
     tools:context="com.example.tacademy.bikee.renter.searchresult.SearchResultFragment">
 
-    <RelativeLayout
+    <FrameLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom" />
+    <!--android:paddingTop="50dp" ??? -->
+
+    <RelativeLayout
+        android:id="@+id/fragment_search_result_temp_layout"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_gravity="top"
+        android:background="@drawable/rider_main_back_w"
+        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
 
         <RelativeLayout
-            android:id="@+id/fragment_search_result_temp_layout"
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:orientation="horizontal"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp" >
+            android:id="@+id/fragment_search_result_search_bar_layout"
+            android:layout_width="258dp"
+            android:layout_height="42dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/rider_main_search_round"
+            android:orientation="horizontal">
 
-            <RelativeLayout
-                android:id="@+id/fragment_search_result_search_bar_layout"
-                android:layout_width="258dp"
-                android:layout_height="42dp"
+            <ImageView
+                android:id="@+id/fragment_search_result_search_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/rider_main_search_round"
-                android:orientation="horizontal">
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/rider_main_search_icon" />
 
-                <ImageView
-                    android:id="@+id/fragment_search_result_search_image_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/rider_main_search_icon" />
+            <ImageView
+                android:id="@+id/fragment_search_result_filter_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/rider_main_search_fillter" />
 
-                <ImageView
-                    android:id="@+id/fragment_search_result_filter_image_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="45dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/rider_main_search_fillter" />
-
-                <EditText
-                    android:id="@+id/fragment_search_result_search_edit_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="13dp"
-                    android:layout_marginRight="13dp"
-                    android:layout_toRightOf="@id/fragment_search_result_search_image_view"
-                    android:singleLine="true"
-                    android:layout_toLeftOf="@id/fragment_search_result_filter_image_view"/>
-            </RelativeLayout>
-
-            <com.example.tacademy.bikee.renter.searchresult.SearchSwitchView
-                android:id="@+id/search_bar_switch"
+            <EditText
+                android:id="@+id/fragment_search_result_search_edit_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/fragment_search_result_search_bar_layout" />
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="13dp"
+                android:layout_toLeftOf="@id/fragment_search_result_filter_image_view"
+                android:layout_toRightOf="@id/fragment_search_result_search_image_view"
+                android:singleLine="true" />
         </RelativeLayout>
 
-        <FrameLayout
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/fragment_search_result_temp_layout" />
+        <com.example.tacademy.bikee.renter.searchresult.SearchSwitchView
+            android:id="@+id/search_bar_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/fragment_search_result_search_bar_layout" />
     </RelativeLayout>
 </FrameLayout>

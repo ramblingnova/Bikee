@@ -10,36 +10,36 @@ import com.example.tacademy.bikee.etc.MyApplication;
 import com.example.tacademy.bikee.etc.Util;
 import com.example.tacademy.bikee.renter.searchresult.SearchResultListItem;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by Tacademy on 2015-10-30.
  */
 public class SearchResultView extends FrameLayout {
+    @Bind(R.id.view_search_result_item_bicycle_picture_image_view)
+    ImageView bicycle_picture;
+    @Bind(R.id.view_search_result_item_bicycle_name_text_view)
+    TextView bicycle_name;
+    @Bind(R.id.view_search_result_item_height_text_view)
+    TextView height_text;
+    @Bind(R.id.view_search_result_item_height_real_text_view)
+    TextView height;
+    @Bind(R.id.view_search_result_item_type_text_view)
+    TextView type_text;
+    @Bind(R.id.view_search_result_item_type_real_text_view)
+    TextView type;
+    @Bind(R.id.view_search_result_item_payment_real_text_view)
+    TextView payment;
+    @Bind(R.id.view_search_result_item_per_duration_text_view)
+    TextView perDuration;
+    @Bind(R.id.view_search_result_item_distance_text_view)
+    TextView distance;
+
     public SearchResultView(Context context) {
         super(context);
-        init();
-    }
-
-    private ImageView bicycle_picture;
-    private TextView bicycle_name;
-    private TextView height_text;
-    private TextView height;
-    private TextView type_text;
-    private TextView type;
-    private TextView payment;
-    private TextView perDuration;
-    private TextView distance;
-
-    private void init() {
         inflate(getContext(), R.layout.view_search_result_item, this);
-        bicycle_picture = (ImageView) findViewById(R.id.view_search_result_item_bicycle_picture_image_view);
-        bicycle_name = (TextView) findViewById(R.id.view_search_result_item_bicycle_name_text_view);
-        height_text = (TextView) findViewById(R.id.view_search_result_item_height_text_view);
-        height = (TextView) findViewById(R.id.view_search_result_item_height_real_text_view);
-        type_text = (TextView) findViewById(R.id.view_search_result_item_type_text_view);
-        type = (TextView) findViewById(R.id.view_search_result_item_type_real_text_view);
-        payment = (TextView) findViewById(R.id.view_search_result_item_payment_real_text_view);
-        perDuration = (TextView) findViewById(R.id.view_search_result_item_per_duration_text_view);
-        distance = (TextView) findViewById(R.id.view_search_result_item_distance_text_view);
+        ButterKnife.bind(this);
     }
 
     public void setView(SearchResultListItem item) {

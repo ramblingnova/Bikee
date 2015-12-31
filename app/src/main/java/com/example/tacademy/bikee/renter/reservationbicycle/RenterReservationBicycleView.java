@@ -19,14 +19,22 @@ import butterknife.ButterKnife;
  * Created by User on 2015-10-31.
  */
 public class RenterReservationBicycleView extends FrameLayout {
-    @Bind(R.id.view_renter_reservation_bicycle_item_bicycle_picture_image_view) ImageView bicyclePicture;
-    @Bind(R.id.view_renter_reservation_bicycle_item_approved_reservation) ImageView approvedReservationImageView;
-    @Bind(R.id.view_renter_reservation_bicycle_item_completed_reservation) ImageView completedReservationImageView;
-    @Bind(R.id.view_renter_reservation_bicycle_item_completed_rental) ImageView completedRentalImageView;
-    @Bind(R.id.view_renter_reservation_bicycle_item_bicycle_name_text_view) TextView bicycleName;
-    @Bind(R.id.view_renter_reservation_bicycle_item_start_date_text_view) TextView startDate;
-    @Bind(R.id.view_renter_reservation_bicycle_item_end_date_text_view) TextView endDate;
-    @Bind(R.id.view_renter_reservation_bicycle_item_payment_text_view) TextView bicyclePrice;
+    @Bind(R.id.view_renter_reservation_bicycle_item_bicycle_picture_image_view)
+    ImageView bicyclePicture;
+    @Bind(R.id.view_renter_reservation_bicycle_item_approved_reservation)
+    ImageView approvedReservationImageView;
+    @Bind(R.id.view_renter_reservation_bicycle_item_completed_reservation)
+    ImageView completedReservationImageView;
+    @Bind(R.id.view_renter_reservation_bicycle_item_completed_rental)
+    ImageView completedRentalImageView;
+    @Bind(R.id.view_renter_reservation_bicycle_item_bicycle_name_text_view)
+    TextView bicycleName;
+    @Bind(R.id.view_renter_reservation_bicycle_item_start_date_text_view)
+    TextView startDate;
+    @Bind(R.id.view_renter_reservation_bicycle_item_end_date_text_view)
+    TextView endDate;
+    @Bind(R.id.view_renter_reservation_bicycle_item_payment_text_view)
+    TextView bicyclePrice;
 
     public RenterReservationBicycleView(Context context) {
         super(context);

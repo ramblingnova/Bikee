@@ -79,10 +79,21 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
         setContentView(R.layout.activity_renter_reservation_bicycle_detail_information);
         Toolbar toolbar = (Toolbar) findViewById(R.id.activity_renter_reservation_bicycle_detail_information_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setCustomView(R.layout.renter_main_tool_bar);
+        View cView = getLayoutInflater().inflate(R.layout.backable_tool_bar1, null);
+        cView.findViewById(R.id.backable_tool_bar1_back_button_image_view).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.backable_tool_bar1_back_button_image_view:
+                        finish();
+                        break;
+                }
+            }
+        });
+        getSupportActionBar().setCustomView(cView);
         ButterKnife.bind(this);
 
         cancelButton = (Button) findViewById(R.id.activity_renter_reservation_bicycle_detail_information_cancel_button);

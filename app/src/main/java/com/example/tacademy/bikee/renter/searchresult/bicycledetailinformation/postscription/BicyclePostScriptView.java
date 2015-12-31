@@ -17,11 +17,16 @@ import butterknife.ButterKnife;
  * Created by Tacademy on 2015-11-02.
  */
 public class BicyclePostScriptView extends FrameLayout {
-    @Bind(R.id.view_bicycle_post_script_item_user_image1) ImageView renterImage;
-    @Bind(R.id.view_bicycle_post_script_item_user_name1) TextView renterName;
-    @Bind(R.id.view_bicycle_post_script_item_rating_bar) RatingBar point;
-    @Bind(R.id.view_bicycle_post_script_item_user_post_script1) TextView postscript;
-    @Bind(R.id.view_bicycle_post_script_item_date1) TextView createAt;
+    @Bind(R.id.view_bicycle_post_script_item_user_image1)
+    ImageView renterImage;
+    @Bind(R.id.view_bicycle_post_script_item_user_name1)
+    TextView renterName;
+    @Bind(R.id.view_bicycle_post_script_item_rating_bar)
+    RatingBar point;
+    @Bind(R.id.view_bicycle_post_script_item_user_post_script1)
+    TextView postscript;
+    @Bind(R.id.view_bicycle_post_script_item_date1)
+    TextView createAt;
 
     public BicyclePostScriptView(Context context) {
         super(context);

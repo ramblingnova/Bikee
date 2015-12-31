@@ -13,7 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TabHost;
@@ -35,23 +34,22 @@ import com.example.tacademy.bikee.renter.sidemenu.evaluatingbicycle.EvaluatingBi
 import com.example.tacademy.bikee.common.sidemenu.InputInquiryActivity;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
-public class RenterMainActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, DrawerLayout.DrawerListener, TabHost.OnTabChangeListener {
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
+import butterknife.OnClick;
+
+public class RenterMainActivity extends AppCompatActivity implements DrawerLayout.DrawerListener, TabHost.OnTabChangeListener {
     private FragmentTabHost tabHost;
     private DrawerLayout drawer;
-    private ImageView renterImage;
     private ImageView btt_iv1, btt_iv2, btt_iv3, btt_iv4;
-    private TextView registerCardTextView;
-    private TextView bicycleScriptTextView;
-    private TextView authenticationInformationTextView;
-    private TextView pushAlarmTextView;
-    private TextView inputInquiryTextView;
-    private TextView versionInformationTextView;
-    private TextView nameTextView;
-    private TextView emailTextView;
-    private ImageView btn;
-    private CheckBox cb;
+    @Bind(R.id.renter_side_menu_renter_image_image_view)
+    ImageView renterImage;
+    @Bind(R.id.renter_side_menu_member_name_text_view)
+    TextView nameTextView;
+    @Bind(R.id.renter_side_menu_mail_address_text_view)
+    TextView emailTextView;
     private Intent intent;
-    private View layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,36 +76,23 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
         toggle.syncState();
         drawer.setDrawerListener(this);
 
-        renterImage = (ImageView) findViewById(R.id.renter_side_menu_renter_image_image_view);
-        renterImage.setOnClickListener(this);
-        nameTextView = (TextView) findViewById(R.id.renter_side_menu_member_name_text_view);
-        nameTextView.setOnClickListener(this);
-        emailTextView = (TextView) findViewById(R.id.renter_side_menu_mail_address_text_view);
-        emailTextView.setOnClickListener(this);
-        registerCardTextView = (TextView) findViewById(R.id.renter_side_menu_fragment_register_card_text_view);
-        registerCardTextView.setOnClickListener(this);
-        bicycleScriptTextView = (TextView) findViewById(R.id.renter_side_menu_evaluation_bicycle_script_text_view);
-        bicycleScriptTextView.setOnClickListener(this);
-        authenticationInformationTextView = (TextView) findViewById(R.id.renter_side_menu_authentication_information_text_view);
-        authenticationInformationTextView.setOnClickListener(this);
-        pushAlarmTextView = (TextView) findViewById(R.id.renter_side_menu_push_alarm_text_view);
-        pushAlarmTextView.setOnClickListener(this);
-        cb = (CheckBox) findViewById(R.id.renter_side_menu_push_alarm_switch);
-        cb.setOnCheckedChangeListener(this);
-        inputInquiryTextView = (TextView) findViewById(R.id.renter_side_menu_input_inquiry_text_view);
-        inputInquiryTextView.setOnClickListener(this);
-        versionInformationTextView = (TextView) findViewById(R.id.renter_side_menu_version_information_text_view);
-        versionInformationTextView.setOnClickListener(this);
-        layout = findViewById(R.id.renter_side_menu_change_mode_layout);
-        layout.setOnClickListener(RenterMainActivity.this);
-        btn = (ImageView) findViewById(R.id.renter_side_menu_change_mode_button);
-        btn.setOnClickListener(this);
+        ButterKnife.bind(this);
 
-        initView();
+        initProfile();
     }
 
-    @Override
-    public void onClick(View v) {
+    @OnClick({R.id.renter_side_menu_renter_image_image_view,
+            R.id.renter_side_menu_member_name_text_view,
+            R.id.renter_side_menu_mail_address_text_view,
+            R.id.renter_side_menu_fragment_register_card_text_view,
+            R.id.renter_side_menu_evaluation_bicycle_script_text_view,
+            R.id.renter_side_menu_authentication_information_text_view,
+            R.id.renter_side_menu_push_alarm_text_view,
+            R.id.renter_side_menu_input_inquiry_text_view,
+            R.id.renter_side_menu_version_information_text_view,
+            R.id.renter_side_menu_change_mode_layout,
+            R.id.renter_side_menu_change_mode_button})
+    void selectRenterSideMenu(View v) {
         switch (v.getId()) {
             case R.id.renter_side_menu_renter_image_image_view:
             case R.id.renter_side_menu_member_name_text_view:
@@ -144,11 +129,11 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+    @OnCheckedChanged(R.id.renter_side_menu_push_alarm_switch)
+    void pushAlramCheckedChange(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
             case R.id.renter_side_menu_push_alarm_switch:
-//                Toast.makeText(RenterMainActivity.this, "isChecked : " + isChecked, Toast.LENGTH_SHORT).show();
+                Toast.makeText(RenterMainActivity.this, "isChecked : " + isChecked, Toast.LENGTH_SHORT).show();
                 break;
         }
     }
@@ -232,11 +217,11 @@ public class RenterMainActivity extends AppCompatActivity implements View.OnClic
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == SignInActivity.SIGN_IN_ACTIVITY) {
-            initView();
+            initProfile();
         }
     }
 
-    private void initView() {
+    private void initProfile() {
         if (!PropertyManager.getInstance().getEmail().equals("")
                 || !PropertyManager.getInstance().getName().equals("")) {
             Log.i("Result", PropertyManager.getInstance().getImage());

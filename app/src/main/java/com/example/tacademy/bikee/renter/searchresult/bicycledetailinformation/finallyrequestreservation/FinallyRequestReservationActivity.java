@@ -20,11 +20,13 @@ import com.tsengvn.typekit.TypekitContextWrapper;
 
 import java.util.Date;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class FinallyRequestReservationActivity extends AppCompatActivity implements View.OnClickListener {
+public class FinallyRequestReservationActivity extends AppCompatActivity {
     private FinallyRequestReservationConfirmDialogFragment dialog2;
     private FinallyRequestReservationCancelDialogFragment dialog1;
     private Intent intent;
@@ -42,57 +44,60 @@ public class FinallyRequestReservationActivity extends AppCompatActivity impleme
         setContentView(R.layout.activity_finally_request_reservation);
         Toolbar toolbar = (Toolbar) findViewById(R.id.activity_finally_request_reservation_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setCustomView(R.layout.renter_main_tool_bar);
+        View cView = getLayoutInflater().inflate(R.layout.backable_tool_bar1, null);
+        cView.findViewById(R.id.backable_tool_bar1_back_button_image_view).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.backable_tool_bar1_back_button_image_view:
+                        finish();
+                        break;
+                }
+            }
+        });
+        getSupportActionBar().setCustomView(cView);
 
-        Button btn = (Button) findViewById(R.id.activity_finally_request_reservation_cancel_button);
-        btn.setOnClickListener(FinallyRequestReservationActivity.this);
-        btn = (Button) findViewById(R.id.activity_finally_request_reservation_confirm_button);
-        btn.setOnClickListener(FinallyRequestReservationActivity.this);
-        btn = (Button) findViewById(R.id.activity_finally_request_reservation_small_map_button);
-        btn.setOnClickListener(FinallyRequestReservationActivity.this);
+        ButterKnife.bind(this);
 
         initData();
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.activity_finally_request_reservation_cancel_button:
-                dialog1 = new FinallyRequestReservationCancelDialogFragment().newInstance(1);
-                dialog1.show(getSupportFragmentManager(), "custom");
-                break;
-            case R.id.activity_finally_request_reservation_confirm_button:
-                Reserve reserve = new Reserve();
-                Date date = new Date();
-                date.setTime(System.currentTimeMillis());
-                reserve.setRentStart(date);
-                date.setTime(System.currentTimeMillis());
-                reserve.setRentEnd(date);
-                NetworkManager.getInstance().insertReservation(id, reserve, new Callback<ReceiveObject>() {
-                    @Override
-                    public void success(ReceiveObject receiveObject, Response response) {
-                        Log.i("result", "onResponse Success : " + receiveObject.isSuccess()
+    @OnClick(R.id.activity_finally_request_reservation_cancel_button) void cancel() {
+        dialog1 = new FinallyRequestReservationCancelDialogFragment().newInstance(1);
+        dialog1.show(getSupportFragmentManager(), "custom");
+    }
+
+    @OnClick(R.id.activity_finally_request_reservation_confirm_button) void confirm() {
+        Reserve reserve = new Reserve();
+        Date date = new Date();
+        date.setTime(System.currentTimeMillis());
+        reserve.setRentStart(date);
+        date.setTime(System.currentTimeMillis());
+        reserve.setRentEnd(date);
+        NetworkManager.getInstance().insertReservation(id, reserve, new Callback<ReceiveObject>() {
+            @Override
+            public void success(ReceiveObject receiveObject, Response response) {
+                Log.i("result", "onResponse Success : " + receiveObject.isSuccess()
                                 + ", Code : " + receiveObject.getCode()
                                 + ", Msg : " + receiveObject.getMsg()
-                        );
-                    }
+                );
+            }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Log.e("error", "onFailure Error! : " + error.toString());
-                    }
-                });
-                dialog2 = new FinallyRequestReservationConfirmDialogFragment().newInstance(1);
-                dialog2.show(getSupportFragmentManager(), "custom");
-                break;
-            case R.id.activity_finally_request_reservation_small_map_button:
-                intent = new Intent(FinallyRequestReservationActivity.this, SmallMapActivity.class);
-                startActivity(intent);
-                break;
-        }
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e("error", "onFailure Error! : " + error.toString());
+            }
+        });
+        dialog2 = new FinallyRequestReservationConfirmDialogFragment().newInstance(1);
+        dialog2.show(getSupportFragmentManager(), "custom");
+    }
+
+    @OnClick(R.id.activity_finally_request_reservation_small_map_button) void openSmallMap() {
+        intent = new Intent(FinallyRequestReservationActivity.this, SmallMapActivity.class);
+        startActivity(intent);
     }
 
     private void initData() {

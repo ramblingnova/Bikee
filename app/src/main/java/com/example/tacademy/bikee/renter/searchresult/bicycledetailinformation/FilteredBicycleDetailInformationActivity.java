@@ -60,42 +60,38 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
     private double latitude;
     private double longitude;
     private int price;
-    @Bind(R.id.bicycle_picture_lister_information_bicycle_picture_image_view) ImageView bicyclePicture;
-    @Bind(R.id.lister_information_lister_picture_image_view) ImageView listerPicture;
-    @Bind(R.id.lister_information_lister_name_text_view) TextView listerName;
-    @OnClick(R.id.lister_information_call_with_lister_button) void call() {
-        intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + listerPhone));
-        startActivity(intent);
-    }
-    @Bind(R.id.bicycle_description_bicycle_name_text_view) TextView bicycleName;
-    @Bind(R.id.bicycle_description_bicycle_introduction_text_view) TextView bicycleIntro;
-    @Bind(R.id.bicycle_detail_information_bicycle_type_text_view) TextView bicycleType;
-    @Bind(R.id.bicycle_detail_information_bicycle_height_text_view) TextView bicycleHeight;
-    @Bind(R.id.bicycle_detail_information_bicycle_component_text_view) TextView bicycleComponent;
-    @Bind(R.id.bicycle_detail_information_bicycle_location_text_view) TextView rentalPlaceText;
-    @Bind(R.id.bicycle_detail_information_reservation_period_start_date_text_view) TextView startDate;
-    @Bind(R.id.bicycle_detail_information_reservation_period_end_date_text_view) TextView endDate;
-    @Bind(R.id.bicycle_detail_information_bicycle_postscript_renter_picture_image_view) ImageView postscriptPicture;
-    @Bind(R.id.bicycle_detail_information_bicycle_postscript_renter_name_text_view) TextView postscriptName;
-    @Bind(R.id.bicycle_detail_information_bicycle_postscript_create_date_text_view) TextView postscriptDate;
-    @Bind(R.id.bicycle_detail_information_bicycle_postscript_renter_comment_text_view) TextView postscriptComment;
-    @Bind(R.id.bicycle_detail_information_bicycle_postscript_rating_bar) RatingBar postscriptPoint;
-    @OnClick(R.id.bicycle_detail_information_bicycle_postscript_button) void morePostScript() {
-        intent = new Intent(FilteredBicycleDetailInformationActivity.this, BicyclePostScriptListActivity.class);
-        intent.putExtra("ID", bicycleId);
-        startActivity(intent);
-    }
-    @OnClick(R.id.activity_filtered_bicycle_detail_information_button) void detail() {
-        intent = new Intent(FilteredBicycleDetailInformationActivity.this, FinallyRequestReservationActivity.class);
-        intent.putExtra("ID", bicycleId);
-        intent.putExtra("IMAGEURL", bicycleImageURL);
-        intent.putExtra("BICYCLETYPE", type);
-        intent.putExtra("BICYCLEHEIGHT", height);
-        intent.putExtra("BICYCLELATITUDE", latitude);
-        intent.putExtra("BICYCLELONGITUDE", longitude);
-        intent.putExtra("BICYCLEPRICE", price);
-        startActivity(intent);
-    }
+    @Bind(R.id.bicycle_picture_lister_information_bicycle_picture_image_view)
+    ImageView bicyclePicture;
+    @Bind(R.id.lister_information_lister_picture_image_view)
+    ImageView listerPicture;
+    @Bind(R.id.lister_information_lister_name_text_view)
+    TextView listerName;
+    @Bind(R.id.bicycle_description_bicycle_name_text_view)
+    TextView bicycleName;
+    @Bind(R.id.bicycle_description_bicycle_introduction_text_view)
+    TextView bicycleIntro;
+    @Bind(R.id.bicycle_detail_information_bicycle_type_text_view)
+    TextView bicycleType;
+    @Bind(R.id.bicycle_detail_information_bicycle_height_text_view)
+    TextView bicycleHeight;
+    @Bind(R.id.bicycle_detail_information_bicycle_component_text_view)
+    TextView bicycleComponent;
+    @Bind(R.id.bicycle_detail_information_bicycle_location_text_view)
+    TextView rentalPlaceText;
+    @Bind(R.id.bicycle_detail_information_reservation_period_start_date_text_view)
+    TextView startDate;
+    @Bind(R.id.bicycle_detail_information_reservation_period_end_date_text_view)
+    TextView endDate;
+    @Bind(R.id.bicycle_detail_information_bicycle_postscript_renter_picture_image_view)
+    ImageView postscriptPicture;
+    @Bind(R.id.bicycle_detail_information_bicycle_postscript_renter_name_text_view)
+    TextView postscriptName;
+    @Bind(R.id.bicycle_detail_information_bicycle_postscript_create_date_text_view)
+    TextView postscriptDate;
+    @Bind(R.id.bicycle_detail_information_bicycle_postscript_renter_comment_text_view)
+    TextView postscriptComment;
+    @Bind(R.id.bicycle_detail_information_bicycle_postscript_rating_bar)
+    RatingBar postscriptPoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,10 +99,21 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
         setContentView(R.layout.activity_filtered_bicycle_detail_information);
         Toolbar toolbar = (Toolbar) findViewById(R.id.activity_filtered_bicycle_detail_information_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setCustomView(R.layout.renter_main_tool_bar);
+        View cView = getLayoutInflater().inflate(R.layout.backable_tool_bar1, null);
+        cView.findViewById(R.id.backable_tool_bar1_back_button_image_view).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.backable_tool_bar1_back_button_image_view:
+                        finish();
+                        break;
+                }
+            }
+        });
+        getSupportActionBar().setCustomView(cView);
         ButterKnife.bind(this);
 
         intent = getIntent();
@@ -135,6 +142,32 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
         this.googleMap.addMarker(options);
 
         this.googleMap.getUiSettings().setZoomGesturesEnabled(false);
+    }
+
+    @OnClick(R.id.lister_information_call_with_lister_button)
+    void call() {
+        intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + listerPhone));
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.bicycle_detail_information_bicycle_postscript_button)
+    void morePostScript() {
+        intent = new Intent(FilteredBicycleDetailInformationActivity.this, BicyclePostScriptListActivity.class);
+        intent.putExtra("ID", bicycleId);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.activity_filtered_bicycle_detail_information_button)
+    void detail() {
+        intent = new Intent(FilteredBicycleDetailInformationActivity.this, FinallyRequestReservationActivity.class);
+        intent.putExtra("ID", bicycleId);
+        intent.putExtra("IMAGEURL", bicycleImageURL);
+        intent.putExtra("BICYCLETYPE", type);
+        intent.putExtra("BICYCLEHEIGHT", height);
+        intent.putExtra("BICYCLELATITUDE", latitude);
+        intent.putExtra("BICYCLELONGITUDE", longitude);
+        intent.putExtra("BICYCLEPRICE", price);
+        startActivity(intent);
     }
 
     private void init() {
@@ -183,23 +216,53 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
                 bicycleName.setText(result.getTitle());
                 bicycleIntro.setText(result.getIntro());
                 switch (type) {
-                    case "A": bicycleType.setText("보급형"); break;
-                    case "B": bicycleType.setText("산악용"); break;
-                    case "C": bicycleType.setText("하이브리드"); break;
-                    case "D": bicycleType.setText("픽시"); break;
-                    case "E": bicycleType.setText("폴딩"); break;
-                    case "F": bicycleType.setText("미니벨로"); break;
-                    case "G": bicycleType.setText("전기자전거"); break;
-                    default: bicycleType.setText(""); break;
+                    case "A":
+                        bicycleType.setText("보급형");
+                        break;
+                    case "B":
+                        bicycleType.setText("산악용");
+                        break;
+                    case "C":
+                        bicycleType.setText("하이브리드");
+                        break;
+                    case "D":
+                        bicycleType.setText("픽시");
+                        break;
+                    case "E":
+                        bicycleType.setText("폴딩");
+                        break;
+                    case "F":
+                        bicycleType.setText("미니벨로");
+                        break;
+                    case "G":
+                        bicycleType.setText("전기자전거");
+                        break;
+                    default:
+                        bicycleType.setText("");
+                        break;
                 }
                 switch (height) {
-                    case "01": bicycleHeight.setText("~ 145cm"); break;
-                    case "02": bicycleHeight.setText("145cm ~ 155cm"); break;
-                    case "03": bicycleHeight.setText("155cm ~ 165cm"); break;
-                    case "04": bicycleHeight.setText("165cm ~ 175cm"); break;
-                    case "05": bicycleHeight.setText("175cm ~ 185cm"); break;
-                    case "06": bicycleHeight.setText("185cm ~"); break;
-                    default: bicycleHeight.setText(""); break;
+                    case "01":
+                        bicycleHeight.setText("~ 145cm");
+                        break;
+                    case "02":
+                        bicycleHeight.setText("145cm ~ 155cm");
+                        break;
+                    case "03":
+                        bicycleHeight.setText("155cm ~ 165cm");
+                        break;
+                    case "04":
+                        bicycleHeight.setText("165cm ~ 175cm");
+                        break;
+                    case "05":
+                        bicycleHeight.setText("175cm ~ 185cm");
+                        break;
+                    case "06":
+                        bicycleHeight.setText("185cm ~");
+                        break;
+                    default:
+                        bicycleHeight.setText("");
+                        break;
                 }
                 rentalPlaceText.setText(findAddress(latitude, longitude));
 

@@ -10,28 +10,28 @@ import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.MyApplication;
 import com.example.tacademy.bikee.etc.Util;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by Tacademy on 2015-11-03.
  */
 public class EvaluatingBicyclePostScriptView extends FrameLayout {
-    private ImageView image;
-    private TextView name;
-    private TextView date;
-    private TextView desc;
-    private RatingBar point;
+    @Bind(R.id.view_evaluating_bicycle_post_script_item_bicycle_picture_image_view)
+    ImageView image;
+    @Bind(R.id.view_evaluating_bicycle_post_script_item_bicycle_name_text_view)
+    TextView name;
+    @Bind(R.id.view_evaluating_bicycle_post_script_item_date_time_text_view)
+    TextView date;
+    @Bind(R.id.view_evaluating_bicycle_post_script_item_post_script_text_view)
+    TextView desc;
+    @Bind(R.id.view_evaluating_bicycle_post_script_item_rating_bar)
+    RatingBar point;
 
     public EvaluatingBicyclePostScriptView(Context context) {
         super(context);
-        init();
-    }
-
-    private void init() {
         inflate(getContext(), R.layout.view_evaluating_bicycle_post_script_item, this);
-        image = (ImageView) findViewById(R.id.view_evaluating_bicycle_post_script_item_bicycle_picture_image_view);
-        name = (TextView) findViewById(R.id.view_evaluating_bicycle_post_script_item_bicycle_name_text_view);
-        date = (TextView) findViewById(R.id.view_evaluating_bicycle_post_script_item_date_time_text_view);
-        desc = (TextView) findViewById(R.id.view_evaluating_bicycle_post_script_item_post_script_text_view);
-        point = (RatingBar) findViewById(R.id.view_evaluating_bicycle_post_script_item_rating_bar);
+        ButterKnife.bind(this);
     }
 
     public void setView(EvaluatingBicyclePostScriptItem item) {
