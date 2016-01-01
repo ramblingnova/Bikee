@@ -36,12 +36,12 @@ public class EvaluatedBicyclePostScriptListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        View cView = getLayoutInflater().inflate(R.layout.lister_backable_tool_bar1, null);
-        cView.findViewById(R.id.lister_backable_tool_bar1_back_button_image_view).setOnClickListener(new View.OnClickListener() {
+        View cView = getLayoutInflater().inflate(R.layout.post_script_backable_tool_bar, null);
+        cView.findViewById(R.id.post_script_backable_tool_bar_back_button_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
-                    case R.id.lister_backable_tool_bar1_back_button_image_view:
+                    case R.id.post_script_backable_tool_bar_back_button_layout:
                         finish();
                         break;
                 }

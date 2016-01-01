@@ -61,13 +61,23 @@ public class FilterActivity extends AppCompatActivity implements CalendarPickerV
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        View cView = getLayoutInflater().inflate(R.layout.renter_backable_tool_bar2, null);
-        cView.findViewById(R.id.renter_backable_tool_bar2_back_button_image_view).setOnClickListener(new View.OnClickListener() {
+        View cView = getLayoutInflater().inflate(R.layout.filter_backable_tool_bar, null);
+        cView.findViewById(R.id.filter_backable_tool_bar_back_button_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
-                    case R.id.renter_backable_tool_bar2_back_button_image_view:
+                    case R.id.filter_backable_tool_bar_back_button_layout:
                         finish();
+                        break;
+                }
+            }
+        });
+        cView.findViewById(R.id.filter_backable_tool_bar_reset_text_view).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.filter_backable_tool_bar_reset_text_view:
+                        Toast.makeText(FilterActivity.this, "RESET!", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }

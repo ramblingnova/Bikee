@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 
 import com.example.tacademy.bikee.R;
@@ -40,10 +41,21 @@ public class BicyclePostScriptListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bicycle_post_script_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.activity_bicycle_post_script_list_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setCustomView(R.layout.renter_main_tool_bar);
+        View cView = getLayoutInflater().inflate(R.layout.post_script_backable_tool_bar, null);
+        cView.findViewById(R.id.post_script_backable_tool_bar_back_button_layout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.post_script_backable_tool_bar_back_button_layout:
+                        finish();
+                        break;
+                }
+            }
+        });
+        getSupportActionBar().setCustomView(cView);
 
         ButterKnife.bind(this);
         

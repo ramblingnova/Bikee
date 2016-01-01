@@ -43,24 +43,24 @@ public class InputInquiryActivity extends AppCompatActivity implements View.OnCl
         from = intent.getStringExtra("FROM");
         View cView = null;
         if (from.equals(RenterMainActivity.from)) {
-            cView = getLayoutInflater().inflate(R.layout.renter_backable_tool_bar1, null);
-            cView.findViewById(R.id.renter_backable_tool_bar1_back_button_image_view).setOnClickListener(new View.OnClickListener() {
+            cView = getLayoutInflater().inflate(R.layout.renter_backable_tool_bar, null);
+            cView.findViewById(R.id.renter_backable_tool_bar_back_button_layout).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     switch (v.getId()) {
-                        case R.id.renter_backable_tool_bar1_back_button_image_view:
+                        case R.id.renter_backable_tool_bar_back_button_layout:
                             finish();
                             break;
                     }
                 }
             });
         } else if (from.equals(ListerMainActivity.from)) {
-            cView = getLayoutInflater().inflate(R.layout.lister_backable_tool_bar1, null);
-            cView.findViewById(R.id.lister_backable_tool_bar1_back_button_image_view).setOnClickListener(new View.OnClickListener() {
+            cView = getLayoutInflater().inflate(R.layout.lister_backable_tool_bar, null);
+            cView.findViewById(R.id.lister_backable_tool_bar_back_button_layout).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     switch (v.getId()) {
-                        case R.id.lister_backable_tool_bar1_back_button_image_view:
+                        case R.id.lister_backable_tool_bar_back_button_layout:
                             finish();
                             break;
                     }
