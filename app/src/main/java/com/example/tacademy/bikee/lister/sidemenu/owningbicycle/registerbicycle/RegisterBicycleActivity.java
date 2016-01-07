@@ -9,11 +9,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.tacademy.bikee.R;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class RegisterBicycleActivity extends AppCompatActivity implements View.OnClickListener {
+    private Toolbar toolbar;
     private Intent intent;
     private Fragment[] list = {
             RegisterBicycleInformationFragment.newInstance(),
@@ -30,12 +35,13 @@ public class RegisterBicycleActivity extends AppCompatActivity implements View.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_bicycle);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_register_bicycle_toolbar);
+
+        toolbar = (Toolbar) findViewById(R.id.activity_register_bicycle_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setCustomView(R.layout.lister_main_tool_bar);
+        getSupportActionBar().setCustomView(R.layout.lister_backable_tool_bar);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_register_bicycle_information_container, list[0]).commit();
@@ -67,6 +73,12 @@ public class RegisterBicycleActivity extends AppCompatActivity implements View.O
         registerBicyclePictureFragment.setRegisterBicycleINF(registerBicycleINF);
         registerBicycleFeeFragment.setRegisterBicycleINF(registerBicycleINF);
 
+        ButterKnife.bind(this);
+    }
+
+    @OnClick(R.id.lister_backable_tool_bar_back_button_layout)
+    void back() {
+        finish();
     }
 
     RegisterBicycleINF registerBicycleINF;
