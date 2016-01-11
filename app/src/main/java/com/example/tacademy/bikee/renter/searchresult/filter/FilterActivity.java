@@ -36,19 +36,42 @@ public class FilterActivity extends AppCompatActivity implements CalendarPickerV
     private Calendar calendar;
     private Date start, end, select;
     private Animation anim;
-    @Bind(R.id.bicycle_location_address_text_view) TextView address;
+    @Bind(R.id.bicycle_location_address_text_view)
+    TextView address;
     private boolean isStartDatePicked = false;
     private boolean isEndDatePicked = false;
-    @Bind(R.id.bicycle_type_check_box1) CheckBox type1;
-    @Bind(R.id.bicycle_type_check_box2) CheckBox type2;
-    @Bind(R.id.bicycle_type_check_box3) CheckBox type3;
-    @Bind(R.id.bicycle_type_check_box4) CheckBox type4;
-    @Bind(R.id.bicycle_type_check_box5) CheckBox type5;
-    @Bind(R.id.bicycle_type_check_box6) CheckBox type6;
-    @Bind(R.id.bicycle_type_check_box7) CheckBox type7;
-    @Bind(R.id.bicycle_order_price_order_check_box) CheckBox priceOrder;
-    @Bind(R.id.bicycle_order_distance_order_check_box) CheckBox distanceOrder;
-
+    @Bind(R.id.calendar_content)
+    View calendarContent;
+    @Bind(R.id.bicycle_type_check_box1)
+    CheckBox type1;
+    @Bind(R.id.bicycle_type_check_box2)
+    CheckBox type2;
+    @Bind(R.id.bicycle_type_check_box3)
+    CheckBox type3;
+    @Bind(R.id.bicycle_type_check_box4)
+    CheckBox type4;
+    @Bind(R.id.bicycle_type_check_box5)
+    CheckBox type5;
+    @Bind(R.id.bicycle_type_check_box6)
+    CheckBox type6;
+    @Bind(R.id.bicycle_type_check_box7)
+    CheckBox type7;
+    @Bind(R.id.bicycle_recommendation_height_check_box1)
+    CheckBox height1;
+    @Bind(R.id.bicycle_recommendation_height_check_box2)
+    CheckBox height2;
+    @Bind(R.id.bicycle_recommendation_height_check_box3)
+    CheckBox height3;
+    @Bind(R.id.bicycle_recommendation_height_check_box4)
+    CheckBox height4;
+    @Bind(R.id.bicycle_recommendation_height_check_box5)
+    CheckBox height5;
+    @Bind(R.id.bicycle_recommendation_height_check_box6)
+    CheckBox height6;
+    @Bind(R.id.bicycle_order_price_order_check_box)
+    CheckBox priceOrder;
+    @Bind(R.id.bicycle_order_distance_order_check_box)
+    CheckBox distanceOrder;
     public final static int RESULT_OK = 1;
     public final static int RESULT_CANCEL = 2;
 
@@ -61,28 +84,7 @@ public class FilterActivity extends AppCompatActivity implements CalendarPickerV
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        View cView = getLayoutInflater().inflate(R.layout.filter_backable_tool_bar, null);
-        cView.findViewById(R.id.filter_backable_tool_bar_back_button_layout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.filter_backable_tool_bar_back_button_layout:
-                        finish();
-                        break;
-                }
-            }
-        });
-        cView.findViewById(R.id.filter_backable_tool_bar_reset_text_view).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.filter_backable_tool_bar_reset_text_view:
-                        Toast.makeText(FilterActivity.this, "RESET!", Toast.LENGTH_SHORT).show();
-                        break;
-                }
-            }
-        });
-        getSupportActionBar().setCustomView(cView);
+        getSupportActionBar().setCustomView(getLayoutInflater().inflate(R.layout.filter_backable_tool_bar, null));
         ButterKnife.bind(this);
 
         intent = getIntent();
@@ -112,52 +114,52 @@ public class FilterActivity extends AppCompatActivity implements CalendarPickerV
         oldCalendarPickerView.setVisibility(View.GONE);
     }
 
-    @Override
-    public void onDateSelected(Date date) {
-        if (isStartDatePicked == false) {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Toast.makeText(FilterActivity.this, "State Date : " + simpleDateFormat.format(date), Toast.LENGTH_SHORT).show();
-            select = date;
-            isStartDatePicked = true;
-        } else if (isEndDatePicked == false) {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Toast.makeText(FilterActivity.this, "End Date : " + simpleDateFormat.format(date), Toast.LENGTH_SHORT).show();
-            select = date;
-            isEndDatePicked = true;
-        }
+    @OnClick(R.id.filter_backable_tool_bar_back_button_layout)
+    void back(View view) {
+        finish();
     }
 
-    @Override
-    public void onDateUnselected(Date date) {
+    @OnClick(R.id.filter_backable_tool_bar_reset_text_view)
+    void reset(View view) {
+        Toast.makeText(FilterActivity.this, "RESET!", Toast.LENGTH_SHORT).show();
     }
 
-    boolean isOpenStartDateCalendar = false;
-    boolean isOpenEndDateCalendar = false;
+    boolean isOpenCalendar = false;
+
     @OnClick({R.id.calendar_start_date_summary,
             R.id.calendar_end_date_summary})
-    void expandCalendar(View view) {
-        int currentViewId = view.getId();
+    void openCloseCalendar() {
+        if (isOpenCalendar == true) {
+            isOpenCalendar = false;
+            anim = AnimationUtils.loadAnimation(FilterActivity.this, R.anim.calendar_top_out);
+            anim.setFillAfter(true);
+            calendarContent.startAnimation(anim);
+            calendarContent.getAnimation().setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                }
 
-        if ((currentViewId == R.id.calendar_start_date_summary) && (isOpenStartDateCalendar == false)) {
-            // calendar_start_date_summary 닫혀있으면 -> calendar_end_date_summary 닫고 calendar_start_date_summary 연다
-        } else if ((currentViewId == R.id.calendar_start_date_summary) && (isOpenStartDateCalendar == true)) {
-            // calendar_start_date_summary 열려있으면 -> 닫는다
-        } else if ((currentViewId == R.id.calendar_end_date_summary) && (isOpenEndDateCalendar == false)) {
-            // calendar_end_date_summary 닫혀있으면 -> calendar_start_date_summary 닫고 calendar_end_date_summary 연다
-        } else if ((currentViewId == R.id.calendar_end_date_summary) && (isOpenEndDateCalendar == true)) {
-            // calendar_end_date_summary 열려있으면 -> 닫는다
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    calendarContent.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
+            });
+        } else {
+            isOpenCalendar = true;
+            anim = AnimationUtils.loadAnimation(FilterActivity.this, R.anim.calendar_top_in);
+            anim.setFillAfter(true);
+            calendarContent.startAnimation(anim);
+            calendarContent.setVisibility(View.VISIBLE);
         }
-
-        View v = findViewById(R.id.calendar_content);
-        anim = AnimationUtils.loadAnimation(FilterActivity.this, R.anim.calendar_top_in);
-        anim.setFillAfter(true);
-        v.startAnimation(anim);
-        v.setVisibility(View.VISIBLE);
     }
 
     @OnClick({R.id.activity_filter_calendar_prev_button,
             R.id.activity_filter_calendar_next_button})
-    void changeCalendar(View view) {
+    void changeCalendarMonth(View view) {
         int currentViewId = view.getId();
 
         oldCalendarPickerView.setVisibility(View.VISIBLE);
@@ -205,6 +207,25 @@ public class FilterActivity extends AppCompatActivity implements CalendarPickerV
         });
     }
 
+    @Override
+    public void onDateSelected(Date date) {
+        if (isStartDatePicked == false) {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Toast.makeText(FilterActivity.this, "State Date : " + simpleDateFormat.format(date), Toast.LENGTH_SHORT).show();
+            select = date;
+            isStartDatePicked = true;
+        } else if (isEndDatePicked == false) {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Toast.makeText(FilterActivity.this, "End Date : " + simpleDateFormat.format(date), Toast.LENGTH_SHORT).show();
+            select = date;
+            isEndDatePicked = true;
+        }
+    }
+
+    @Override
+    public void onDateUnselected(Date date) {
+    }
+
     @OnClick({R.id.bicycle_type_check_box1,
             R.id.bicycle_type_check_box2,
             R.id.bicycle_type_check_box3,
@@ -221,13 +242,62 @@ public class FilterActivity extends AppCompatActivity implements CalendarPickerV
         type6.setChecked(false);
         type7.setChecked(false);
         switch (view.getId()) {
-            case R.id.bicycle_type_check_box1: type1.setChecked(true); break;
-            case R.id.bicycle_type_check_box2: type2.setChecked(true); break;
-            case R.id.bicycle_type_check_box3: type3.setChecked(true); break;
-            case R.id.bicycle_type_check_box4: type4.setChecked(true); break;
-            case R.id.bicycle_type_check_box5: type5.setChecked(true); break;
-            case R.id.bicycle_type_check_box6: type6.setChecked(true); break;
-            case R.id.bicycle_type_check_box7: type7.setChecked(true); break;
+            case R.id.bicycle_type_check_box1:
+                type1.setChecked(true);
+                break;
+            case R.id.bicycle_type_check_box2:
+                type2.setChecked(true);
+                break;
+            case R.id.bicycle_type_check_box3:
+                type3.setChecked(true);
+                break;
+            case R.id.bicycle_type_check_box4:
+                type4.setChecked(true);
+                break;
+            case R.id.bicycle_type_check_box5:
+                type5.setChecked(true);
+                break;
+            case R.id.bicycle_type_check_box6:
+                type6.setChecked(true);
+                break;
+            case R.id.bicycle_type_check_box7:
+                type7.setChecked(true);
+                break;
+        }
+    }
+
+    @OnClick({R.id.bicycle_recommendation_height_check_box1,
+            R.id.bicycle_recommendation_height_check_box2,
+            R.id.bicycle_recommendation_height_check_box3,
+            R.id.bicycle_recommendation_height_check_box4,
+            R.id.bicycle_recommendation_height_check_box5,
+            R.id.bicycle_recommendation_height_check_box6})
+    void selectHeight(View view) {
+        height1.setChecked(false);
+        height2.setChecked(false);
+        height3.setChecked(false);
+        height4.setChecked(false);
+        height5.setChecked(false);
+        height6.setChecked(false);
+        switch (view.getId()) {
+            case R.id.bicycle_recommendation_height_check_box1:
+                height1.setChecked(true);
+                break;
+            case R.id.bicycle_recommendation_height_check_box2:
+                height2.setChecked(true);
+                break;
+            case R.id.bicycle_recommendation_height_check_box3:
+                height3.setChecked(true);
+                break;
+            case R.id.bicycle_recommendation_height_check_box4:
+                height4.setChecked(true);
+                break;
+            case R.id.bicycle_recommendation_height_check_box5:
+                height5.setChecked(true);
+                break;
+            case R.id.bicycle_recommendation_height_check_box6:
+                height6.setChecked(true);
+                break;
         }
     }
 

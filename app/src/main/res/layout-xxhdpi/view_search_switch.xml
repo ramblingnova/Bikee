@@ -6,13 +6,13 @@
 
     <ImageView
         android:id="@+id/view_search_switch_map_image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="26dp"
+        android:layout_height="26dp" />
 
     <ImageView
         android:id="@+id/view_search_switch_list_image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
         android:layout_marginLeft="8dp"
         android:layout_toRightOf="@id/view_search_switch_map_image_view" />
 </RelativeLayout>

@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -32,22 +33,22 @@ import com.example.tacademy.bikee.lister.sidemenu.owningbicycle.OwningBicycleLis
 import com.example.tacademy.bikee.renter.RenterMainActivity;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
-public class ListerMainActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, TabHost.OnTabChangeListener {
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class ListerMainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, TabHost.OnTabChangeListener {
+    private Toolbar toolbar;
+    private DrawerLayout drawer;
+    private ActionBarDrawerToggle toggle;
     private FragmentTabHost tabHost;
-    private ImageView listerImage, btt_iv1, btt_iv2, btt_iv3;
-    private TextView seeMyBicycleTextView;
-    private TextView smartLockTextView;
-    private TextView paymentInformationTextView;
-    private TextView bicycleScriptTextView;
-    private TextView authenticationInformationTextView;
-    private TextView alarmTextView;
-    private TextView inputInquiryTextView;
-    private TextView versionInformationTextView;
-    private TextView nameTextView;
-    private TextView emailTextView;
-    private ImageView btn;
-    private CheckBox cb;
-    private View layout;
+    private ImageView btt_iv1, btt_iv2, btt_iv3;
+    @Bind(R.id.lister_side_menu_lister_image_image_view)
+    ImageView listerImage;
+    @Bind(R.id.lister_side_menu_member_name_text_view)
+    TextView nameTextView;
+    @Bind(R.id.lister_side_menu_mail_address_text_view)
+    TextView emailTextView;
 
     final public static String from = "LISTER";
 
@@ -55,11 +56,19 @@ public class ListerMainActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lister_activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.lister_toolbar);
+
+        toolbar = (Toolbar) findViewById(R.id.lister_toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setCustomView(R.layout.lister_main_tool_bar);
+
+        drawer = (DrawerLayout) findViewById(R.id.lister_activity_main_drawer_layout);
+
+        toggle = new ActionBarDrawerToggle(this, drawer, null, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
 
         setBottomTabImage();
         tabHost = (FragmentTabHost) findViewById(R.id.tabHost);
@@ -67,49 +76,32 @@ public class ListerMainActivity extends AppCompatActivity implements View.OnClic
         tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator(btt_iv1), ListerRequestedBicycleListFragment.class, null);
         tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator(btt_iv2), ChattingRoomListFragment.class, null);
         tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator(btt_iv3), SmartKeyFragment.class, null);
-        tabHost.setOnTabChangedListener(ListerMainActivity.this);
+        tabHost.setOnTabChangedListener(this);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.lister_activity_main_drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+        ButterKnife.bind(this);
 
-        listerImage = (ImageView) findViewById(R.id.lister_side_menu_lister_image_image_view);
-        listerImage.setOnClickListener(this);
-        listerImage.setOnClickListener(this);
-        nameTextView = (TextView) findViewById(R.id.lister_side_menu_member_name_text_view);
-        nameTextView.setOnClickListener(this);
-        emailTextView = (TextView) findViewById(R.id.lister_side_menu_mail_address_text_view);
-        emailTextView.setOnClickListener(this);
-        seeMyBicycleTextView = (TextView) findViewById(R.id.lister_side_menu_see_my_bicycle_text_view);
-        seeMyBicycleTextView.setOnClickListener(this);
-        smartLockTextView = (TextView) findViewById(R.id.lister_side_menu_register_smart_lock_text_view);
-        smartLockTextView.setOnClickListener(this);
-        paymentInformationTextView = (TextView) findViewById(R.id.lister_side_menu_receive_payment_information_text_view);
-        paymentInformationTextView.setOnClickListener(this);
-        bicycleScriptTextView = (TextView) findViewById(R.id.lister_side_menu_evaluated_bicycle_script_text_view);
-        bicycleScriptTextView.setOnClickListener(this);
-        authenticationInformationTextView = (TextView) findViewById(R.id.lister_side_menu_authentication_information_text_view);
-        authenticationInformationTextView.setOnClickListener(this);
-        alarmTextView = (TextView) findViewById(R.id.lister_side_menu_push_alarm_text_view);
-        alarmTextView.setOnClickListener(this);
-        cb = (CheckBox) findViewById(R.id.lister_side_menu_push_alarm_switch);
-        cb.setOnCheckedChangeListener(this);
-        inputInquiryTextView = (TextView) findViewById(R.id.lister_side_menu_input_inquiry_text_view);
-        inputInquiryTextView.setOnClickListener(this);
-        versionInformationTextView = (TextView) findViewById(R.id.lister_side_menu_version_information_text_view);
-        versionInformationTextView.setOnClickListener(this);
-        layout = findViewById(R.id.lister_side_menu_change_mode_layout);
-        layout.setOnClickListener(ListerMainActivity.this);
-        btn = (ImageView) findViewById(R.id.lister_side_menu_change_mode_button);
-        btn.setOnClickListener(ListerMainActivity.this);
-
-        initView();
+        initProfile();
     }
 
-    @Override
-    public void onClick(View v) {
+    @OnClick(R.id.lister_main_tool_bar_hamburger_icon_layout)
+    void clickHamburgerIcon() {
+        drawer.openDrawer(Gravity.LEFT);
+    }
+
+    @OnClick({R.id.lister_side_menu_lister_image_image_view,
+            R.id.lister_side_menu_member_name_text_view,
+            R.id.lister_side_menu_mail_address_text_view,
+            R.id.lister_side_menu_see_my_bicycle_text_view,
+            R.id.lister_side_menu_register_smart_lock_text_view,
+            R.id.lister_side_menu_receive_payment_information_text_view,
+            R.id.lister_side_menu_evaluated_bicycle_script_text_view,
+            R.id.lister_side_menu_authentication_information_text_view,
+            R.id.lister_side_menu_push_alarm_text_view,
+            R.id.lister_side_menu_input_inquiry_text_view,
+            R.id.lister_side_menu_version_information_text_view,
+            R.id.lister_side_menu_change_mode_layout,
+            R.id.lister_side_menu_change_mode_button})
+    void selectListerSideMenu(View v) {
         Intent intent;
         switch (v.getId()) {
             case R.id.lister_side_menu_lister_image_image_view:
@@ -214,11 +206,11 @@ public class ListerMainActivity extends AppCompatActivity implements View.OnClic
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == SignInActivity.SIGN_IN_ACTIVITY) {
-            initView();
+            initProfile();
         }
     }
 
-    private void initView() {
+    private void initProfile() {
         if (!PropertyManager.getInstance().getEmail().equals("")
                 || !PropertyManager.getInstance().getName().equals("")) {
             Log.i("Result", PropertyManager.getInstance().getImage());

@@ -10,11 +10,14 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,8 +43,10 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 public class RenterMainActivity extends AppCompatActivity implements DrawerLayout.DrawerListener, TabHost.OnTabChangeListener {
-    private FragmentTabHost tabHost;
+    private Toolbar toolbar;
     private DrawerLayout drawer;
+    private ActionBarDrawerToggle toggle;
+    private FragmentTabHost tabHost;
     private ImageView btt_iv1, btt_iv2, btt_iv3, btt_iv4;
     @Bind(R.id.renter_side_menu_renter_image_image_view)
     ImageView renterImage;
@@ -57,11 +62,19 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.renter_activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.renter_toolbar);
+
+        toolbar = (Toolbar) findViewById(R.id.renter_toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setCustomView(R.layout.renter_main_tool_bar);
+
+        drawer = (DrawerLayout) findViewById(R.id.renter_activity_main_drawer_layout);
+
+        toggle = new ActionBarDrawerToggle(this, drawer, null, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
 
         setBottomTabImage();
         tabHost = (FragmentTabHost) findViewById(R.id.tabHost);
@@ -72,15 +85,50 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
         tabHost.addTab(tabHost.newTabSpec("tab4").setIndicator(btt_iv4), SmartKeyFragment.class, null);
         tabHost.setOnTabChangedListener(this);
 
-        drawer = (DrawerLayout) findViewById(R.id.renter_activity_main_drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-        drawer.setDrawerListener(this);
-
         ButterKnife.bind(this);
 
         initProfile();
+    }
+
+    @OnClick(R.id.renter_main_tool_bar_hamburger_icon_layout)
+    void clickHamburgerIcon() {
+        drawer.openDrawer(Gravity.LEFT);
+    }
+
+    @Override
+    public void onDrawerSlide(View drawerView, float slideOffset) {
+
+    }
+
+    @Override
+    public void onDrawerOpened(View drawerView) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null)
+            imm.hideSoftInputFromWindow(RenterMainActivity.this.getCurrentFocus().getWindowToken(), 0);
+    }
+
+    @Override
+    public void onDrawerClosed(View drawerView) {
+
+    }
+
+    @Override
+    public void onDrawerStateChanged(int newState) {
+
+    }
+
+    private void initProfile() {
+        if (!PropertyManager.getInstance().getEmail().equals("")
+                || !PropertyManager.getInstance().getName().equals("")) {
+            Log.i("Result", PropertyManager.getInstance().getImage());
+            Util.setCircleImageFromURL(this, PropertyManager.getInstance().getImage(), 0, renterImage);
+            nameTextView.setText(PropertyManager.getInstance().getName());
+            emailTextView.setText(PropertyManager.getInstance().getEmail());
+        } else {
+            Util.setCircleImageFromURL(this, "https://s3-ap-northeast-1.amazonaws.com/bikee/KakaoTalk_20151128_194521490.png", 0, renterImage);
+            nameTextView.setText(R.string.renter_side_menu_member_name_text_view_string);
+            emailTextView.setText(R.string.renter_side_menu_mail_address_text_view_string);
+        }
     }
 
     @OnClick({R.id.renter_side_menu_renter_image_image_view,
@@ -133,47 +181,6 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
         }
     }
 
-    @OnCheckedChanged(R.id.renter_side_menu_push_alarm_switch)
-    void pushAlramCheckedChange(CompoundButton buttonView, boolean isChecked) {
-        switch (buttonView.getId()) {
-            case R.id.renter_side_menu_push_alarm_switch:
-                Toast.makeText(RenterMainActivity.this, "isChecked : " + isChecked, Toast.LENGTH_SHORT).show();
-                break;
-        }
-    }
-
-    @Override
-    public void onDrawerSlide(View drawerView, float slideOffset) {
-
-    }
-
-    @Override
-    public void onDrawerOpened(View drawerView) {
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm != null)
-            imm.hideSoftInputFromWindow(RenterMainActivity.this.getCurrentFocus().getWindowToken(), 0);
-    }
-
-    @Override
-    public void onDrawerClosed(View drawerView) {
-
-    }
-
-    @Override
-    public void onDrawerStateChanged(int newState) {
-
-    }
-
-    @Override
-    public void onBackPressed() {
-        drawer = (DrawerLayout) findViewById(R.id.renter_activity_main_drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
     private void setBottomTabImage() {
         btt_iv1 = new ImageView(this);
         btt_iv2 = new ImageView(this);
@@ -217,25 +224,30 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
         }
     }
 
+    @OnCheckedChanged(R.id.renter_side_menu_push_alarm_switch)
+    void pushAlramCheckedChange(CompoundButton buttonView, boolean isChecked) {
+        switch (buttonView.getId()) {
+            case R.id.renter_side_menu_push_alarm_switch:
+                Toast.makeText(RenterMainActivity.this, "isChecked : " + isChecked, Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        drawer = (DrawerLayout) findViewById(R.id.renter_activity_main_drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == SignInActivity.SIGN_IN_ACTIVITY) {
             initProfile();
-        }
-    }
-
-    private void initProfile() {
-        if (!PropertyManager.getInstance().getEmail().equals("")
-                || !PropertyManager.getInstance().getName().equals("")) {
-            Log.i("Result", PropertyManager.getInstance().getImage());
-            Util.setCircleImageFromURL(this, PropertyManager.getInstance().getImage(), 0, renterImage);
-            nameTextView.setText(PropertyManager.getInstance().getName());
-            emailTextView.setText(PropertyManager.getInstance().getEmail());
-        } else {
-            Util.setCircleImageFromURL(this, "https://s3-ap-northeast-1.amazonaws.com/bikee/KakaoTalk_20151128_194521490.png", 0, renterImage);
-            nameTextView.setText(R.string.renter_side_menu_member_name_text_view_string);
-            emailTextView.setText(R.string.renter_side_menu_mail_address_text_view_string);
         }
     }
 

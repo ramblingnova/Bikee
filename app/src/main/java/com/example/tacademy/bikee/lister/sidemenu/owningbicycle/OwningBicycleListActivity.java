@@ -22,15 +22,17 @@ import com.tsengvn.typekit.TypekitContextWrapper;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class OwningBicycleListActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
+public class OwningBicycleListActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+    private Toolbar toolbar;
     private Intent intent;
     private ListView lv;
     private OwningBicycleAdapter adapter;
-    private Button btn;
     final private static int REGISTER_BICYCLE_ACTIVITY = 1;
     final public static String ID_TAG = "ID";
 
@@ -38,23 +40,12 @@ public class OwningBicycleListActivity extends AppCompatActivity implements Adap
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owning_bicycle_list);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_owning_bicycle_list_toolbar);
+        toolbar = (Toolbar) findViewById(R.id.activity_owning_bicycle_list_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        View cView = getLayoutInflater().inflate(R.layout.lister_backable_tool_bar, null);
-        cView.findViewById(R.id.lister_backable_tool_bar_back_button_layout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.lister_backable_tool_bar_back_button_layout:
-                        finish();
-                        break;
-                }
-            }
-        });
-        getSupportActionBar().setCustomView(cView);
+        getSupportActionBar().setCustomView(R.layout.lister_backable_addable_tool_bar);
 
         lv = (ListView) findViewById(R.id.activity_owning_bicycle_list_list_view);
         adapter = new OwningBicycleAdapter();
@@ -62,8 +53,18 @@ public class OwningBicycleListActivity extends AppCompatActivity implements Adap
         initData();
         lv.setOnItemClickListener(OwningBicycleListActivity.this);
 
-        btn = (Button) findViewById(R.id.activity_owning_bicycle_list_button);
-        btn.setOnClickListener(OwningBicycleListActivity.this);
+        ButterKnife.bind(this);
+    }
+
+    @OnClick(R.id.lister_backable_addable_tool_bar_back_button_layout)
+    void back() {
+        super.onBackPressed();
+    }
+
+    @OnClick(R.id.lister_backable_addable_tool_bar_register_bicycle_button_layout)
+    void register() {
+        Intent intent = new Intent(OwningBicycleListActivity.this, RegisterBicycleActivity.class);
+        startActivityForResult(intent, REGISTER_BICYCLE_ACTIVITY);
     }
 
     private void initData() {
@@ -72,13 +73,13 @@ public class OwningBicycleListActivity extends AppCompatActivity implements Adap
             @Override
             public void success(ReceiveObject receiveObject, Response response) {
                 Log.i("result", "onResponse Code : " + receiveObject.getCode()
-                        + ", Success : " + receiveObject.isSuccess()
+                                + ", Success : " + receiveObject.isSuccess()
                 );
                 List<Result> results = receiveObject.getResult();
                 for (Result result : results) {
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM.dd HH:mm");
                     String imageURL;
-                    if((null == result.getImage().getCdnUri())
+                    if ((null == result.getImage().getCdnUri())
                             || (null == result.getImage().getCdnUri())
                             || (null == result.getImage().getFiles().get(0))) {
                         imageURL = "";
@@ -111,16 +112,6 @@ public class OwningBicycleListActivity extends AppCompatActivity implements Adap
         intent = new Intent(OwningBicycleListActivity.this, OwningBicycleDetailInformationActivity.class);
         intent.putExtra(ID_TAG, item.getId());
         startActivity(intent);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.activity_owning_bicycle_list_button:
-                Intent intent = new Intent(OwningBicycleListActivity.this, RegisterBicycleActivity.class);
-                startActivityForResult(intent, REGISTER_BICYCLE_ACTIVITY);
-                break;
-        }
     }
 
     @Override

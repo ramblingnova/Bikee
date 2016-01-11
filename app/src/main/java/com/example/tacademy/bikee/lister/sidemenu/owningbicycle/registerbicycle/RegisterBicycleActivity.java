@@ -9,16 +9,27 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.ImageView;
 
 import com.example.tacademy.bikee.R;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class RegisterBicycleActivity extends AppCompatActivity implements View.OnClickListener {
     private Toolbar toolbar;
+    @Bind(R.id.lister_backable_addable_tool_bar_top_num1_image_view)
+    ImageView page0;
+    @Bind(R.id.lister_backable_addable_tool_bar_top_num2_image_view)
+    ImageView page1;
+    @Bind(R.id.lister_backable_addable_tool_bar_top_num3_image_view)
+    ImageView page2;
+    @Bind(R.id.lister_backable_addable_tool_bar_top_num4_image_view)
+    ImageView page3;
+    @Bind(R.id.lister_backable_addable_tool_bar_top_num5_image_view)
+    ImageView page4;
     private Intent intent;
     private Fragment[] list = {
             RegisterBicycleInformationFragment.newInstance(),
@@ -41,7 +52,7 @@ public class RegisterBicycleActivity extends AppCompatActivity implements View.O
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setCustomView(R.layout.lister_backable_tool_bar);
+        getSupportActionBar().setCustomView(R.layout.lister_backable_page_movable_tool_bar);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_register_bicycle_information_container, list[0]).commit();
@@ -74,11 +85,26 @@ public class RegisterBicycleActivity extends AppCompatActivity implements View.O
         registerBicycleFeeFragment.setRegisterBicycleINF(registerBicycleINF);
 
         ButterKnife.bind(this);
+
+        refreshTopPageNumber(0);
     }
 
-    @OnClick(R.id.lister_backable_tool_bar_back_button_layout)
+    @OnClick(R.id.lister_backable_page_movable_tool_bar_back_button_layout)
     void back() {
-        finish();
+        int page = getSupportFragmentManager().getBackStackEntryCount();
+        if (page > 0) {
+            refreshTopPageNumber(page - 1);
+        }
+        super.onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
+        int page = getSupportFragmentManager().getBackStackEntryCount();
+        if (page > 0) {
+            refreshTopPageNumber(page - 1);
+        }
+        super.onBackPressed();
     }
 
     RegisterBicycleINF registerBicycleINF;
@@ -94,6 +120,7 @@ public class RegisterBicycleActivity extends AppCompatActivity implements View.O
                 if (page < list.length - 1) {
 //                    Toast.makeText(RegisterBicycleActivity.this, "page : " + (page + 1) + " -> page : " + (page + 2), Toast.LENGTH_SHORT).show();
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_register_bicycle_information_container, list[page + 1]).addToBackStack(null).commit();
+                    refreshTopPageNumber(page + 1);
                 } else {
                     item = new RegisterBicycleItem();
                     item.setType(((RegisterBicycleInformationFragment) list[0]).getType());
@@ -111,6 +138,31 @@ public class RegisterBicycleActivity extends AppCompatActivity implements View.O
                     intent.putExtra(ITEM_TAG, item);
                     startActivityForResult(intent, FINALLY_REGISTER_BICYCLE_ACTIVITY);
                 }
+                break;
+        }
+    }
+
+    private void refreshTopPageNumber(int page) {
+        page0.setImageResource(R.drawable.topnum_1);
+        page1.setImageResource(R.drawable.topnum_2);
+        page2.setImageResource(R.drawable.topnum_3);
+        page3.setImageResource(R.drawable.topnum_4);
+        page4.setImageResource(R.drawable.topnum_5);
+        switch (page) {
+            case 0:
+                page0.setImageResource(R.drawable.topnum_1_this);
+                break;
+            case 1:
+                page1.setImageResource(R.drawable.topnum_2_this);
+                break;
+            case 2:
+                page2.setImageResource(R.drawable.topnum_3_this);
+                break;
+            case 3:
+                page3.setImageResource(R.drawable.topnum_4_this);
+                break;
+            case 4:
+                page4.setImageResource(R.drawable.topnum_5_this);
                 break;
         }
     }

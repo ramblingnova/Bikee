@@ -21,7 +21,7 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
     </android.support.design.widget.AppBarLayout>
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -33,13 +33,5 @@
             android:background="@color/bikeeBackground"
             android:divider="@null"
             android:dividerHeight="0dp" />
-
-        <Button
-            android:id="@+id/activity_owning_bicycle_list_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/detailpage_button2"
-            android:layout_gravity="right|bottom"
-            android:text="추가하기" />
-    </FrameLayout>
+    </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

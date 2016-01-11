@@ -8,8 +8,8 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="48dp"
-        android:layout_gravity="bottom" />
+        android:layout_gravity="bottom"
+        android:paddingTop="48dp" />
 
     <RelativeLayout
         android:id="@+id/fragment_search_result_temp_layout"
@@ -18,14 +18,15 @@
         android:layout_gravity="top"
         android:background="@drawable/rider_main_back_w"
         android:orientation="horizontal"
+        android:paddingBottom="6dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp">
 
         <RelativeLayout
             android:id="@+id/fragment_search_result_search_bar_layout"
             android:layout_width="258dp"
-            android:layout_height="42dp"
-            android:layout_centerVertical="true"
+            android:layout_height="33dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/rider_main_search_round"
             android:orientation="horizontal">
 
@@ -51,9 +52,10 @@
                 android:id="@+id/fragment_search_result_search_edit_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_marginLeft="13dp"
                 android:layout_marginRight="13dp"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="-8dp"
                 android:layout_toLeftOf="@id/fragment_search_result_filter_image_view"
                 android:layout_toRightOf="@id/fragment_search_result_search_image_view"
                 android:singleLine="true" />
