@@ -18,7 +18,7 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAu8afjq-HRqTqYUvovbcs4-o3XPGWzrfQ" />
+            android:value="AIzaSyAgzFLJmOeRZX_RkomOPgs8ceG-bYy3lmg" />
 
         <activity
             android:name=".common.SplashActivity"
@@ -123,7 +123,8 @@
         <activity
             android:name=".common.SmallMapActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".renter.reservationbicycle.RequestPaymentActivity"></activity>
+        <activity android:name=".renter.reservationbicycle.RequestPaymentActivity" />
+        <activity android:name=".lister.sidemenu.owningbicycle.registerbicycle.TempActivity"></activity>
     </application>
 
 </manifest>

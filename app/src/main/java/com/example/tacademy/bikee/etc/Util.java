@@ -9,6 +9,10 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.etc.dao.Comment;
+import com.example.tacademy.bikee.etc.dao.Result;
+
+import java.util.List;
 
 /**
  * Created by User on 2015-11-10.
@@ -43,4 +47,46 @@ public class Util {
     }
 
     public final static String REGEX_HANGUL = "^[가-힣]{2,30}$";
+
+    public static String getBicycleImageURL(Result result) {
+        if ((null == result.getImage())
+                || (null == result.getImage().getCdnUri())
+                || (null == result.getImage().getFiles())
+                || (0 >= result.getImage().getFiles().size())) {
+            return "";
+        } else {
+            return result.getImage().getCdnUri() + "/detail_" + result.getImage().getFiles().get(0);
+        }
+    }
+
+    public static String getUserImageURL(Result result) {
+        if ((null == result.getUser().getImage())
+                || (null == result.getUser().getImage().getCdnUri())
+                || (null == result.getUser().getImage().getFiles())
+                || (0 >= result.getUser().getImage().getFiles().size())) {
+            return "";
+        } else {
+            return result.getUser().getImage().getCdnUri() + "/detail_" + result.getUser().getImage().getFiles().get(0);
+        }
+    }
+
+    public static String getUserImageURL(Comment comment) {
+        if ((null == comment.getWriter().getImage())
+                || (null == comment.getWriter().getImage().getCdnUri())
+                || (null == comment.getWriter().getImage().getFiles())
+                || (0 >= comment.getWriter().getImage().getFiles().size())) {
+            return "";
+        } else {
+            return comment.getWriter().getImage().getCdnUri() + "/detail_" + comment.getWriter().getImage().getFiles().get(0);
+        }
+    }
+
+    public static List<String> getComponents(Result result) {
+        if ((null == result.getComponents())
+                || (0 >= result.getComponents().size())) {
+            return null;
+        } else {
+            return result.getComponents();
+        }
+    }
 }

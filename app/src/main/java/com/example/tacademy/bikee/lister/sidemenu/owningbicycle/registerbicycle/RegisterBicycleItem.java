@@ -8,6 +8,7 @@ import retrofit.http.Body;
 
 public class RegisterBicycleItem implements Serializable {
     private String type;
+    private List<String> components;
     private String height;
     private double latitude;
     private double longitude;
@@ -24,6 +25,14 @@ public class RegisterBicycleItem implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public List<String> getComponents() {
+        return components;
+    }
+
+    public void setComponents(List<String> components) {
+        this.components = components;
     }
 
     public String getHeight() {

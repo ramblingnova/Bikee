@@ -19,11 +19,14 @@ import com.tsengvn.typekit.TypekitContextWrapper;
 
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class OwningBicycleDetailInformationActivity extends AppCompatActivity implements View.OnClickListener {
+    private Toolbar toolbar;
     private Intent intent;
     private Button btn;
     private String id;
@@ -32,12 +35,12 @@ public class OwningBicycleDetailInformationActivity extends AppCompatActivity im
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owning_bicycle_detail_information);
-        Toolbar toolbar = (Toolbar)findViewById(R.id.activity_owning_bicycle_detail_information_toolbar);
+        toolbar = (Toolbar)findViewById(R.id.activity_owning_bicycle_detail_information_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setCustomView(R.layout.lister_main_tool_bar);
+        getSupportActionBar().setCustomView(R.layout.lister_backable_tool_bar);
 
         intent = getIntent();
         int i = intent.getIntExtra("STATE", -1);
@@ -55,6 +58,13 @@ public class OwningBicycleDetailInformationActivity extends AppCompatActivity im
 
         id = intent.getStringExtra(OwningBicycleListActivity.ID_TAG);
         initData(id);
+
+        ButterKnife.bind(this);
+    }
+
+    @OnClick(R.id.lister_backable_tool_bar_back_button_layout)
+    void back() {
+        super.onBackPressed();
     }
 
     @Override

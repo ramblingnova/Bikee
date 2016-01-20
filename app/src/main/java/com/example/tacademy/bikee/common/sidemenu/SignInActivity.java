@@ -6,10 +6,13 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
@@ -21,6 +24,7 @@ import com.tsengvn.typekit.TypekitContextWrapper;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnEditorAction;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -39,13 +43,20 @@ public class SignInActivity extends AppCompatActivity {
     public static final String ACTIVITY_SIGN_IN_EMAIL = "activity_sign_in_email";
     public static final String ACTIVITY_SIGN_IN_PASSWORD = "activity_sign_in_password";
 
-    @Bind(R.id.activity_sign_in_user_email_edit_text) EditText emailEditText;
-    @Bind(R.id.activity_sign_in_user_password_edit_text) EditText passwordEditText;
-    @Bind(R.id.activity_sign_in_user_email_text_view) TextView emailTextView;
-    @Bind(R.id.activity_sign_in_user_password_text_view) TextView passwordTextView;
-    @Bind(R.id.activity_sign_in_sign_in_button) Button signInButton;
-    @Bind(R.id.activity_sign_in_sign_out_button) Button signOutButton;
-    @Bind(R.id.activity_sign_in_sign_up_string) TextView signUpTextView;
+    @Bind(R.id.activity_sign_in_user_email_edit_text)
+    EditText emailEditText;
+    @Bind(R.id.activity_sign_in_user_password_edit_text)
+    EditText passwordEditText;
+    @Bind(R.id.activity_sign_in_user_email_text_view)
+    TextView emailTextView;
+    @Bind(R.id.activity_sign_in_user_password_text_view)
+    TextView passwordTextView;
+    @Bind(R.id.activity_sign_in_sign_in_button)
+    Button signInButton;
+    @Bind(R.id.activity_sign_in_sign_out_button)
+    Button signOutButton;
+    @Bind(R.id.activity_sign_in_sign_up_string)
+    TextView signUpTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,56 +64,84 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
         ButterKnife.bind(this);
 
+        emailEditText.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+
         mPrefs = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         mEditor = mPrefs.edit();
 
         initLogin();
     }
 
-    @OnClick(R.id.activity_sign_in_sign_in_button) void signInButton() {
-        NetworkManager.getInstance().login(emailEditText.getText().toString(), passwordEditText.getText().toString(), new Callback<ReceiveObject>() {
+    @OnEditorAction({R.id.activity_sign_in_user_email_edit_text,
+            R.id.activity_sign_in_user_password_edit_text})
+    boolean next(TextView v, int actionId, KeyEvent event) {
+        if (actionId == EditorInfo.IME_ACTION_NEXT
+                && (v.getId() == R.id.activity_sign_in_user_email_edit_text)) {
+            passwordEditText.requestFocus();
+            return false;
+        } else if ((actionId == EditorInfo.IME_ACTION_DONE)
+                && (v.getId() == R.id.activity_sign_in_user_password_edit_text)) {
+            return false;
+        }
+        return true;
+    }
+
+    @OnClick(R.id.activity_sign_in_sign_in_button)
+    void signInButton() {
+        NetworkManager.getInstance().login(emailEditText.getText().toString().trim(), passwordEditText.getText().toString(), new Callback<ReceiveObject>() {
             @Override
             public void success(ReceiveObject receiveObject, Response response) {
-                Log.i("result", "onResponse Success : " + receiveObject.isSuccess()
+                Log.i("result", "SignInActivity onResponse Success : " + receiveObject.isSuccess()
                                 + ", Code : " + receiveObject.getCode()
                                 + ", Msg : " + receiveObject.getMsg()
                 );
-                NetworkManager.getInstance().selectUserName(new Callback<ReceiveObject>() {
-                    @Override
-                    public void success(ReceiveObject receiveObject, Response response) {
-                        Log.i("result", "onResponse Success : " + receiveObject.isSuccess()
-                                        + ", Code : " + receiveObject.getCode()
-                                        + ", Msg : " + receiveObject.getMsg()
-                        );
-                        Result result = receiveObject.getResult().get(0);
-                        if ((null != result.getImage())
-                                || (null != result.getImage().getCdnUri())
-                                || (null != result.getImage().getFiles())
-                                || (null != result.getImage().getFiles().get(0))) {
-//                                    PropertyManager.getInstance().setImage(result.getImage().getCdnUri() + "/detail_" + result.getImage().getFiles().get(0));
-                            PropertyManager.getInstance().setImage("https://s3-ap-northeast-1.amazonaws.com/bikee/KakaoTalk_20151128_194521490.png");
-                        }
-                        PropertyManager.getInstance().setName(result.getName());
-                    }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Log.e("error", "onFailure Error : " + error.toString());
-                    }
-                });
-                PropertyManager.getInstance().setEmail(emailEditText.getText().toString());
-                PropertyManager.getInstance().setPassword(passwordEditText.getText().toString());
-                initView();
+                if (receiveObject.getCode() == 200) {
+                    Toast.makeText(SignInActivity.this, "로그인됐습니다.", Toast.LENGTH_SHORT).show();
+                    NetworkManager.getInstance().selectUserName(new Callback<ReceiveObject>() {
+                        @Override
+                        public void success(ReceiveObject receiveObject, Response response) {
+                            Log.i("result", "onResponse Success : " + receiveObject.isSuccess()
+                                            + ", Code : " + receiveObject.getCode()
+                                            + ", Msg : " + receiveObject.getMsg()
+                            );
+                            Result result = receiveObject.getResult().get(0);
+                            if ((null != result.getImage())
+                                    || (null != result.getImage().getCdnUri())
+                                    || (null != result.getImage().getFiles())
+                                    || (null != result.getImage().getFiles().get(0))) {
+//                                    PropertyManager.getInstance().setImage(result.getImage().getCdnUri() + "/detail_" + result.getImage().getFiles().get(0));
+                                PropertyManager.getInstance().setImage("https://s3-ap-northeast-1.amazonaws.com/bikee/KakaoTalk_20151128_194521490.png");
+                            }
+                            PropertyManager.getInstance().setName(result.getName());
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+                            Log.e("error", "onFailure Error : " + error.toString());
+                        }
+                    });
+                    PropertyManager.getInstance().setEmail(emailEditText.getText().toString().trim());
+                    PropertyManager.getInstance().setPassword(passwordEditText.getText().toString());
+                    initView();
+
+                    intent = getIntent();
+                    setResult(RESULT_OK, intent);
+                    finish();
+                } else {
+                    Toast.makeText(SignInActivity.this, receiveObject.getMsg(), Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Log.e("error", "onFailure Error : " + error.toString());
+                Log.e("error", "SignInActivity onFailure Error : " + error.toString());
             }
         });
     }
 
-    @OnClick(R.id.activity_sign_in_sign_out_button) void signOutButton() {
+    @OnClick(R.id.activity_sign_in_sign_out_button)
+    void signOutButton() {
         NetworkManager.getInstance().logout(new Callback<ReceiveObject>() {
             @Override
             public void success(ReceiveObject receiveObject, Response response) {
@@ -125,7 +164,8 @@ public class SignInActivity extends AppCompatActivity {
         initView();
     }
 
-    @OnClick(R.id.activity_sign_in_sign_up_string) void signUpTextView() {
+    @OnClick(R.id.activity_sign_in_sign_up_string)
+    void signUpTextView() {
         intent = getIntent();
         from = intent.getStringExtra("FROM");
         intent = new Intent(this, SignUpActivity.class);

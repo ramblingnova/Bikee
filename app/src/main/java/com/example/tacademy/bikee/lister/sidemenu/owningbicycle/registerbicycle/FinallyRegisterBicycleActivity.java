@@ -25,6 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -33,6 +35,7 @@ import retrofit.mime.TypedFile;
 import retrofit.mime.TypedString;
 
 public class FinallyRegisterBicycleActivity extends AppCompatActivity implements View.OnClickListener {
+    private Toolbar toolbar;
     private Button btn;
     private Intent intent;
     private RegisterBicycleItem tempItem;
@@ -42,12 +45,12 @@ public class FinallyRegisterBicycleActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finally_register_bicycle);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_finally_register_bicycle_toolbar);
+        toolbar = (Toolbar) findViewById(R.id.activity_finally_register_bicycle_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setCustomView(R.layout.lister_main_tool_bar);
+        getSupportActionBar().setCustomView(R.layout.lister_backable_page_movable_tool_bar);
 
         btn = (Button) findViewById(R.id.activity_finally_register_bicycle_back_button);
         btn.setOnClickListener(this);
@@ -58,6 +61,13 @@ public class FinallyRegisterBicycleActivity extends AppCompatActivity implements
 
         intent = getIntent();
         tempItem = (RegisterBicycleItem) intent.getSerializableExtra(RegisterBicycleActivity.ITEM_TAG);
+
+        ButterKnife.bind(this);
+    }
+
+    @OnClick(R.id.lister_backable_page_movable_tool_bar_back_button_layout)
+    void back() {
+        super.onBackPressed();
     }
 
     @Override
@@ -76,6 +86,7 @@ public class FinallyRegisterBicycleActivity extends AppCompatActivity implements
                 Bike bike = new Bike();
 
                 bike.setType(tempItem.getType());
+                bike.setComponents(tempItem.getComponents());
                 bike.setHeight(tempItem.getHeight());
 
                 List<Double> coordinates = new ArrayList<>();

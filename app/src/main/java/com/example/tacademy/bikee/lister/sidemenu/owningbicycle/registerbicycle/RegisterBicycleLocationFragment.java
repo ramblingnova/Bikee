@@ -1,6 +1,6 @@
 package com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle;
 
-
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -16,18 +16,15 @@ import android.widget.EditText;
 
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.Util;
-import com.example.tacademy.bikee.etc.manager.PropertyManager;
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
 import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class RegisterBicycleLocationFragment extends Fragment implements OnMapReadyCallback {
     private View view;
@@ -67,7 +64,15 @@ public class RegisterBicycleLocationFragment extends Fragment implements OnMapRe
         address = (EditText) view.findViewById(R.id.fragment_register_bicycle_location_location_edit_text);
         address.addTextChangedListener(tw);
 
+        ButterKnife.bind(this, view);
+
         return view;
+    }
+
+    @OnClick(R.id.fragment_register_bicycle_location_text_view)
+    void spinner() {
+        Intent intent = new Intent(getActivity(), TempActivity.class);
+        startActivity(intent);
     }
 
     @Override

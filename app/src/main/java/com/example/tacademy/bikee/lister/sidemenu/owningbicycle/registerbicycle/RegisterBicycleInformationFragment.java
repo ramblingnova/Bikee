@@ -11,6 +11,9 @@ import android.widget.Toast;
 
 import com.example.tacademy.bikee.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -53,8 +56,8 @@ public class RegisterBicycleInformationFragment extends Fragment implements Bicy
     @Bind(R.id.bicycle_recommendation_height_check_box6)
     CheckBox height6;
     private String type;
-    private String component;
     private String height;
+    private List<String> components;
 
     public static RegisterBicycleInformationFragment newInstance() {
         return new RegisterBicycleInformationFragment();
@@ -71,6 +74,7 @@ public class RegisterBicycleInformationFragment extends Fragment implements Bicy
         component6 = false;
         component7 = false;
         component8 = false;
+        components = new ArrayList<>();
     }
 
     @Override
@@ -156,36 +160,76 @@ public class RegisterBicycleInformationFragment extends Fragment implements Bicy
 //        Toast.makeText(getContext(), "position" + (position + 1), Toast.LENGTH_SHORT).show();
         switch (position + 1) {
             case 1:
-                component = "" + position;
-                component1 = component1 ? false : true;
+                if (component1 == true) {
+                    component1 = false;
+                    components.remove(components.indexOf("A"));
+                } else {
+                    component1 = true;
+                    components.add("A");
+                }
                 break;
             case 2:
-                component = "" + position;
-                component2 = component2 ? false : true;
+                if (component2 == true) {
+                    component2 = false;
+                    components.remove(components.indexOf("B"));
+                } else {
+                    component2 = true;
+                    components.add("B");
+                }
                 break;
             case 3:
-                component = "" + position;
-                component3 = component3 ? false : true;
+                if (component3 == true) {
+                    component3 = false;
+                    components.remove(components.indexOf("C"));
+                } else {
+                    component3 = true;
+                    components.add("C");
+                }
                 break;
             case 4:
-                component = "" + position;
-                component4 = component4 ? false : true;
+                if (component4 == true) {
+                    component4 = false;
+                    components.remove(components.indexOf("D"));
+                } else {
+                    component4 = true;
+                    components.add("D");
+                }
                 break;
             case 5:
-                component = "" + position;
-                component5 = component5 ? false : true;
+                if (component5 == true) {
+                    component5 = false;
+                    components.remove(components.indexOf("E"));
+                } else {
+                    component5 = true;
+                    components.add("E");
+                }
                 break;
             case 6:
-                component = "" + position;
-                component6 = component6 ? false : true;
+                if (component6 == true) {
+                    component6 = false;
+                    components.remove(components.indexOf("F"));
+                } else {
+                    component6 = true;
+                    components.add("F");
+                }
                 break;
             case 7:
-                component = "" + position;
-                component7 = component7 ? false : true;
+                if (component7 == true) {
+                    component7 = false;
+                    components.remove(components.indexOf("A"));
+                } else {
+                    component7 = true;
+                    components.add("A");
+                }
                 break;
             case 8:
-                component = "" + position;
-                component8 = component8 ? false : true;
+                if (component8 == true) {
+                    component8 = false;
+                    components.remove(components.indexOf("G"));
+                } else {
+                    component8 = true;
+                    components.add("G");
+                }
                 break;
         }
         activeNextButton();
@@ -234,7 +278,7 @@ public class RegisterBicycleInformationFragment extends Fragment implements Bicy
     }
 
     private void activeNextButton() {
-        if ((null != type) && (null != component) && (null != height)) {
+        if ((null != type) && (0 < components.size()) && (null != height)) {
             if ((null != registerBicycleINF) && (!registerBicycleINF.getEnable())) {
                 registerBicycleINF.setEnable(true);
             }
@@ -249,8 +293,8 @@ public class RegisterBicycleInformationFragment extends Fragment implements Bicy
         return type;
     }
 
-    public String getComponent() {
-        return component;
+    public List<String> getComponents() {
+        return components;
     }
 
     public String getHeight() {

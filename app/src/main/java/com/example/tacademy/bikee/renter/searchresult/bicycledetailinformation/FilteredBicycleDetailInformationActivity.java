@@ -49,12 +49,14 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class FilteredBicycleDetailInformationActivity extends AppCompatActivity implements OnMapReadyCallback {
+    private Toolbar toolbar;
     private Intent intent;
     private GoogleMap googleMap;
     private String bicycleId;
     private String bicycleImageURL;
     private String listerPhone;
     private String type;
+    private List<String> components;
     private String height;
     private double latitude;
     private double longitude;
@@ -96,29 +98,35 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filtered_bicycle_detail_information);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_filtered_bicycle_detail_information_toolbar);
+        toolbar = (Toolbar) findViewById(R.id.activity_filtered_bicycle_detail_information_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        View cView = getLayoutInflater().inflate(R.layout.renter_backable_tool_bar, null);
-        cView.findViewById(R.id.renter_backable_tool_bar_back_button_layout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.renter_backable_tool_bar_back_button_layout:
-                        finish();
-                        break;
-                }
-            }
-        });
-        getSupportActionBar().setCustomView(cView);
+        getSupportActionBar().setCustomView(R.layout.renter_backable_tool_bar);
+//        View cView = getLayoutInflater().inflate(R.layout.renter_backable_tool_bar, null);
+//        cView.findViewById(R.id.renter_backable_tool_bar_back_button_layout).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                switch (v.getId()) {
+//                    case R.id.renter_backable_tool_bar_back_button_layout:
+//                        finish();
+//                        break;
+//                }
+//            }
+//        });
+//        getSupportActionBar().setCustomView(cView);
         ButterKnife.bind(this);
 
         intent = getIntent();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.activity_filtered_bicycle_detail_information_small_map);
         mapFragment.getMapAsync(this);
         init();
+    }
+
+    @OnClick(R.id.renter_backable_tool_bar_back_button_layout)
+    void back() {
+        super.onBackPressed();
     }
 
     @Override
@@ -177,24 +185,8 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
                 Log.i("result", "onResponse Success");
                 Result result = receiveObject.getResult().get(0);
                 // TODO image, type, height, latitude, longitude, price, renterName, postScript
-                String bicycleImageURL;
-                if ((null == result.getImage())
-                        || (null == result.getImage().getCdnUri())
-                        || (null == result.getImage().getFiles())
-                        || (null == result.getImage().getFiles().get(0))) {
-                    bicycleImageURL = "";
-                } else {
-                    bicycleImageURL = result.getImage().getCdnUri() + "/detail_" + result.getImage().getFiles().get(0);
-                }
-                String listerImageURL;
-                if ((null == result.getUser().getImage())
-                        || (null == result.getUser().getImage().getCdnUri())
-                        || (null == result.getUser().getImage().getFiles())
-                        || (null == result.getUser().getImage().getFiles().get(0))) {
-                    listerImageURL = "";
-                } else {
-                    listerImageURL = result.getUser().getImage().getCdnUri() + "/detail_" + result.getUser().getImage().getFiles().get(0);
-                }
+                String bicycleImageURL = Util.getBicycleImageURL(result);
+                String listerImageURL = Util.getUserImageURL(result);
                 Log.i("result", "onResponse imageURL : " + bicycleImageURL
                                 + ", BicycleType : " + result.getType()
                                 + ", BicycleHeight : " + result.getHeight()
@@ -205,6 +197,7 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
                 FilteredBicycleDetailInformationActivity.this.bicycleImageURL = bicycleImageURL;
                 listerPhone = result.getUser().getPhone();
                 type = result.getType();
+                components = Util.getComponents(result);
                 height = result.getHeight();
                 latitude = result.getLoc().getCoordinates().get(1);
                 longitude = result.getLoc().getCoordinates().get(0);
@@ -274,15 +267,7 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
                             View view = findViewById(R.id.activity_filtered_bicycle_detail_information_bicycle_post_script_layout);
                             view.setVisibility(View.VISIBLE);
                             Comment comment = result.getComments().get(result.getComments().size() - 1);
-                            String imageURL;
-                            if ((null == comment.getWriter().getImage())
-                                    || (null == comment.getWriter().getImage().getCdnUri())
-                                    || (null == comment.getWriter().getImage().getFiles())
-                                    || (null == comment.getWriter().getImage().getFiles().get(0))) {
-                                imageURL = "";
-                            } else {
-                                imageURL = comment.getWriter().getImage().getCdnUri() + "/detail_" + comment.getWriter().getImage().getFiles().get(0);
-                            }
+                            String imageURL = Util.getUserImageURL(comment);
                             Log.i("result", "onResponse ImageURL : " + imageURL
                                             + ", WriterName : " + comment.getWriter().getName()
                                             + ", Point : " + comment.getPoint()

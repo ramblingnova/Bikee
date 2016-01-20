@@ -78,6 +78,8 @@ public class RegisterBicyclePictureFragment extends Fragment implements View.OnC
                     image.setImageBitmap(image_bitmap);
                     //Toast.makeText(getBaseContext(), "name_Str : "+name_Str , Toast.LENGTH_SHORT).show();
                     files.add(new File(name_Str));
+                    files.add(new File(name_Str));
+                    files.add(new File(name_Str));
 
                     if (files.size() != 0) {
                         if ((null != registerBicycleINF) && (!registerBicycleINF.getEnable())) {

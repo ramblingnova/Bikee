@@ -26,9 +26,9 @@
             android:layout_below="@id/activity_sign_in_logo_image_view"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="81dp"
+            android:background="@drawable/login_input_box"
             android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:background="@drawable/login_input_box">
+            android:focusableInTouchMode="true">
 
             <ImageView
                 android:id="@+id/activity_sign_in_user_email_image_view"
@@ -59,6 +59,14 @@
                 android:layout_toRightOf="@id/activity_sign_in_user_email_image_view"
                 android:background="@null"
                 android:hint="@string/activity_sign_in_user_email_edit_text_string"
+                android:imeOptions="actionNext"
+                android:inputType="textVisiblePassword"
+                android:nextFocusDown="@+id/activity_sign_in_user_password_edit_text"
+                android:nextFocusForward="@+id/activity_sign_in_user_password_edit_text"
+                android:nextFocusLeft="@+id/activity_sign_in_user_password_edit_text"
+                android:nextFocusRight="@+id/activity_sign_in_user_password_edit_text"
+                android:nextFocusUp="@+id/activity_sign_in_user_password_edit_text"
+                android:singleLine="true"
                 android:textColor="@color/bikeeBlue"
                 android:textColorHint="@color/bikeeLine"
                 android:textSize="14dp" />
@@ -83,10 +91,10 @@
             android:layout_height="47dp"
             android:layout_below="@id/activity_sign_in_user_email_layout"
             android:layout_centerHorizontal="true"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
             android:layout_marginTop="9dp"
-            android:background="@drawable/login_input_box">
+            android:background="@drawable/login_input_box"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
             <ImageView
                 android:id="@+id/activity_sign_in_user_password_image_view"
@@ -117,7 +125,9 @@
                 android:layout_toRightOf="@id/activity_sign_in_user_password_image_view"
                 android:background="@null"
                 android:hint="@string/activity_sign_in_user_password_edit_text"
+                android:imeOptions="actionDone"
                 android:password="true"
+                android:singleLine="true"
                 android:textColorHint="@color/bikeeLine"
                 android:textSize="14dp" />
 
