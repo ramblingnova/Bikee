@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false">
+    <item android:drawable="@drawable/bikee_add01" android:duration="140"/>
+    <item android:drawable="@drawable/bikee_add02" android:duration="140"/>
+    <item android:drawable="@drawable/bikee_add03" android:duration="140"/>
+    <item android:drawable="@drawable/bikee_add04" android:duration="140"/>
+    <item android:drawable="@drawable/bikee_add05" android:duration="140"/>
+    <item android:drawable="@drawable/bikee_add06" android:duration="140"/>
+    <item android:drawable="@drawable/bikee_add07" android:duration="140"/>
+    <item android:drawable="@drawable/bikee_add08" android:duration="140"/>
+    <item android:drawable="@drawable/bikee_add09" android:duration="140"/>
+    <item android:drawable="@drawable/bikee_add10" android:duration="140"/>
+    <item android:drawable="@drawable/bikee_add11" android:duration="140"/>
+    <item android:drawable="@drawable/bikee_add12" android:duration="140"/>
+</animation-list>

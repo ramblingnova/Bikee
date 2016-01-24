@@ -4,39 +4,371 @@
     android:layout_height="match_parent"
     tools:context="com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle.RegisterBicycleFeeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/fragment_register_bicycle_fee_text_view"
+        <RelativeLayout
+            android:id="@+id/fragment_register_bicycle_fee_text_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="마지막 단계! 대여가격을 책정해주세요!" />
+            android:layout_height="69dp">
 
-        <EditText
-            android:id="@+id/fragment_register_bicycle_fee_per_hour_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/fragment_register_bicycle_fee_text_view"
-            android:hint="시간당 권장 값 3,000원"
-            android:inputType="number" />
+            <TextView
+                android:id="@+id/fragment_register_bicycle_fee_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="14dp"
+                android:text="마지막 단계!"
+                android:textColor="@color/bikeeBlack"
+                android:textSize="19sp" />
 
-        <EditText
-            android:id="@+id/fragment_register_bicycle_fee_per_day_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/fragment_register_bicycle_fee_per_hour_edit_text"
-            android:hint="일별 권장 값 5,000원"
-            android:inputType="number" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fragment_register_bicycle_fee_text_view"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="대여가격을 책정해주세요!"
+                android:textColor="@color/bikeeBlack"
+                android:textSize="16sp" />
+        </RelativeLayout>
 
-        <EditText
-            android:id="@+id/fragment_register_bicycle_fee_per_month_edit_text"
+        <RelativeLayout
+            android:id="@+id/fragment_register_bicycle_fee_animation_image_layout"
+            android:layout_width="match_parent"
+            android:layout_height="164dp"
+            android:layout_below="@id/fragment_register_bicycle_fee_text_layout"
+            android:background="#8D8D8D">
+
+            <ImageView
+                android:id="@+id/fragment_register_bicycle_fee_animation_image_view"
+                android:layout_width="184dp"
+                android:layout_height="162dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="23dp"
+                android:layout_marginStart="23dp" />
+
+            <ImageView
+                android:layout_width="103dp"
+                android:layout_height="109dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="42dp"
+                android:layout_marginRight="42dp"
+                android:background="@drawable/bikee_add_illust01" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/fragment_register_bicycle_fee_per_day_edit_text"
-            android:hint="월달 권장 값 50,000원"
-            android:inputType="number" />
+            android:layout_below="@id/fragment_register_bicycle_fee_animation_image_layout"
+            android:background="@drawable/zigzag"
+            android:paddingBottom="33dp"
+            android:paddingEnd="31dp"
+            android:paddingLeft="31dp"
+            android:paddingRight="31dp"
+            android:paddingStart="31dp"
+            android:paddingTop="16dp">
+
+            <RelativeLayout
+                android:id="@+id/fragment_register_bicycle_fee_hour_layout"
+                android:layout_width="match_parent"
+                android:layout_height="41dp">
+
+                <ImageView
+                    android:id="@+id/fragment_register_bicycle_fee_hour_icon_image_view"
+                    android:layout_width="21dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/icon1" />
+
+                <TextView
+                    android:id="@+id/fragment_register_bicycle_fee_hour_icon_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="9dp"
+                    android:layout_marginStart="9dp"
+                    android:layout_toEndOf="@id/fragment_register_bicycle_fee_hour_icon_image_view"
+                    android:layout_toRightOf="@id/fragment_register_bicycle_fee_hour_icon_image_view"
+                    android:text="시간당"
+                    android:textColor="@color/bikeeBlack"
+                    android:textSize="17sp" />
+
+                <RelativeLayout
+                    android:id="@+id/fragment_register_bicycle_fee_hour_input_layout"
+                    android:layout_width="172dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/price_box">
+
+                    <TextView
+                        android:id="@+id/hour_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="11dp"
+                        android:layout_marginRight="11dp"
+                        android:text="원"
+                        android:textColor="#757575"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/fragment_register_bicycle_fee_hour_hint_text_view2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="7dp"
+                        android:layout_marginRight="7dp"
+                        android:layout_toLeftOf="@id/hour_text_view"
+                        android:layout_toStartOf="@id/hour_text_view"
+                        android:text="1,500"
+                        android:textColor="@color/bikeeLine"
+                        android:textSize="21sp" />
+
+                    <TextView
+                        android:id="@+id/fragment_register_bicycle_fee_hour_hint_text_view1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/fragment_register_bicycle_fee_hour_hint_text_view2"
+                        android:layout_marginEnd="11dp"
+                        android:layout_marginRight="11dp"
+                        android:layout_toLeftOf="@id/fragment_register_bicycle_fee_hour_hint_text_view2"
+                        android:layout_toStartOf="@id/fragment_register_bicycle_fee_hour_hint_text_view2"
+                        android:text="권장 값"
+                        android:textColor="@color/bikeeLine"
+                        android:textSize="10sp" />
+
+                    <EditText
+                        android:id="@+id/fragment_register_bicycle_fee_hour_edit_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="7dp"
+                        android:layout_marginRight="7dp"
+                        android:layout_toLeftOf="@id/hour_text_view"
+                        android:layout_toStartOf="@id/hour_text_view"
+                        android:nextFocusDown="@+id/fragment_register_bicycle_fee_day_edit_text"
+                        android:nextFocusForward="@+id/fragment_register_bicycle_fee_day_edit_text"
+                        android:nextFocusLeft="@+id/fragment_register_bicycle_fee_day_edit_text"
+                        android:nextFocusRight="@+id/fragment_register_bicycle_fee_day_edit_text"
+                        android:nextFocusUp="@+id/fragment_register_bicycle_fee_day_edit_text"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:textColor="@color/bikeeBlue"
+                        android:textSize="21sp" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/fragment_register_bicycle_fee_hour_day_view"
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_below="@id/fragment_register_bicycle_fee_hour_layout"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="14dp"
+                android:background="@color/bikeeLine" />
+
+            <RelativeLayout
+                android:id="@+id/fragment_register_bicycle_fee_day_layout"
+                android:layout_width="match_parent"
+                android:layout_height="41dp"
+                android:layout_below="@id/fragment_register_bicycle_fee_hour_day_view">
+
+                <ImageView
+                    android:id="@+id/fragment_register_bicycle_fee_day_icon_image_view"
+                    android:layout_width="21dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/icon2" />
+
+                <TextView
+                    android:id="@+id/fragment_register_bicycle_fee_day_icon_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="9dp"
+                    android:layout_marginStart="9dp"
+                    android:layout_toEndOf="@id/fragment_register_bicycle_fee_day_icon_image_view"
+                    android:layout_toRightOf="@id/fragment_register_bicycle_fee_day_icon_image_view"
+                    android:text="일당"
+                    android:textColor="@color/bikeeBlack"
+                    android:textSize="17sp" />
+
+                <RelativeLayout
+                    android:id="@+id/fragment_register_bicycle_fee_day_input_layout"
+                    android:layout_width="172dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/price_box">
+
+                    <TextView
+                        android:id="@+id/day_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="11dp"
+                        android:layout_marginRight="11dp"
+                        android:text="원"
+                        android:textColor="#757575"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/fragment_register_bicycle_fee_day_hint_text_view2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="7dp"
+                        android:layout_marginRight="7dp"
+                        android:layout_toLeftOf="@id/day_text_view"
+                        android:layout_toStartOf="@id/day_text_view"
+                        android:text="35,000"
+                        android:textColor="@color/bikeeLine"
+                        android:textSize="21sp" />
+
+                    <TextView
+                        android:id="@+id/fragment_register_bicycle_fee_day_hint_text_view1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/fragment_register_bicycle_fee_day_hint_text_view2"
+                        android:layout_marginEnd="11dp"
+                        android:layout_marginRight="11dp"
+                        android:layout_toLeftOf="@id/fragment_register_bicycle_fee_day_hint_text_view2"
+                        android:layout_toStartOf="@id/fragment_register_bicycle_fee_day_hint_text_view2"
+                        android:text="권장 값"
+                        android:textColor="@color/bikeeLine"
+                        android:textSize="10sp" />
+
+                    <EditText
+                        android:id="@+id/fragment_register_bicycle_fee_day_edit_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="7dp"
+                        android:layout_marginRight="7dp"
+                        android:layout_toLeftOf="@id/day_text_view"
+                        android:layout_toStartOf="@id/day_text_view"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:nextFocusDown="@+id/fragment_register_bicycle_fee_month_edit_text"
+                        android:nextFocusForward="@+id/fragment_register_bicycle_fee_month_edit_text"
+                        android:nextFocusLeft="@+id/fragment_register_bicycle_fee_month_edit_text"
+                        android:nextFocusRight="@+id/fragment_register_bicycle_fee_month_edit_text"
+                        android:nextFocusUp="@+id/fragment_register_bicycle_fee_month_edit_text"
+                        android:textColor="@color/bikeeBlue"
+                        android:textSize="21sp" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/fragment_register_bicycle_fee_day_month_view"
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_below="@id/fragment_register_bicycle_fee_day_layout"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="14dp"
+                android:background="@color/bikeeLine" />
+
+            <RelativeLayout
+                android:id="@+id/fragment_register_bicycle_fee_month_layout"
+                android:layout_width="match_parent"
+                android:layout_height="41dp"
+                android:layout_below="@id/fragment_register_bicycle_fee_day_month_view">
+
+                <ImageView
+                    android:id="@+id/fragment_register_bicycle_fee_month_icon_image_view"
+                    android:layout_width="21dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/icon3" />
+
+                <TextView
+                    android:id="@+id/fragment_register_bicycle_fee_month_icon_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="9dp"
+                    android:layout_marginStart="9dp"
+                    android:layout_toEndOf="@id/fragment_register_bicycle_fee_month_icon_image_view"
+                    android:layout_toRightOf="@id/fragment_register_bicycle_fee_month_icon_image_view"
+                    android:text="월당"
+                    android:textColor="@color/bikeeBlack"
+                    android:textSize="17sp" />
+
+                <RelativeLayout
+                    android:id="@+id/fragment_register_bicycle_fee_month_input_layout"
+                    android:layout_width="172dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/price_box">
+
+                    <TextView
+                        android:id="@+id/month_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="11dp"
+                        android:layout_marginRight="11dp"
+                        android:text="원"
+                        android:textColor="#757575"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/fragment_register_bicycle_fee_month_hint_text_view2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="7dp"
+                        android:layout_marginRight="7dp"
+                        android:layout_toLeftOf="@id/month_text_view"
+                        android:layout_toStartOf="@id/month_text_view"
+                        android:text="110,000"
+                        android:textColor="@color/bikeeLine"
+                        android:textSize="21sp" />
+
+                    <TextView
+                        android:id="@+id/fragment_register_bicycle_fee_month_hint_text_view1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/fragment_register_bicycle_fee_month_hint_text_view2"
+                        android:layout_marginEnd="11dp"
+                        android:layout_marginRight="11dp"
+                        android:layout_toLeftOf="@id/fragment_register_bicycle_fee_month_hint_text_view2"
+                        android:layout_toStartOf="@id/fragment_register_bicycle_fee_month_hint_text_view2"
+                        android:text="권장 값"
+                        android:textColor="@color/bikeeLine"
+                        android:textSize="10sp" />
+
+                    <EditText
+                        android:id="@+id/fragment_register_bicycle_fee_month_edit_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="7dp"
+                        android:layout_marginRight="7dp"
+                        android:layout_toLeftOf="@id/month_text_view"
+                        android:layout_toStartOf="@id/month_text_view"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:textColor="@color/bikeeBlue"
+                        android:textSize="21sp" />
+                    <!--android:textCursorDrawable="@color/bikeeLine"-->
+                    <!--android:background="@drawable/bikee_edit_text_selector"-->
+                </RelativeLayout>
+            </RelativeLayout>
+        </RelativeLayout>
     </RelativeLayout>
 </FrameLayout>

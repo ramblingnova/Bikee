@@ -145,4 +145,6 @@ public class RegisterBicycleLocationFragment extends Fragment implements OnMapRe
     public void setRegisterBicycleINF(RegisterBicycleINF registerBicycleINF) {
         this.registerBicycleINF = registerBicycleINF;
     }
+
+//    https://developers.daum.net/services/apis/local/geo/coord2addr 참고
 }

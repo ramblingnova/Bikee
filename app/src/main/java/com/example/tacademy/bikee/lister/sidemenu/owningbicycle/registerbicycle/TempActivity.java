@@ -1,19 +1,16 @@
 package com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle;
 
-import android.content.BroadcastReceiver;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.etc.Util;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -22,19 +19,22 @@ import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.AutocompletePrediction;
 import com.google.android.gms.location.places.AutocompletePredictionBuffer;
 import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 public class TempActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private GoogleApiClient mGoogleApiClient;
-    List<String> items;
+    private AutoCompleteTextView mAutoCompleteTextView;
+    private ArrayAdapter<String> adapter;
+    private List<Integer> placeTypeList;
+    private AutocompleteFilter mAutocompleteFilter;
+    private PendingResult<AutocompletePredictionBuffer> result;
+    private LatLngBounds bounds;
+    private LatLng southwest, northeast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,42 +49,18 @@ public class TempActivity extends AppCompatActivity implements GoogleApiClient.C
                 .addOnConnectionFailedListener(this)
                 .build();
 
-        AutoCompleteTextView actv = (AutoCompleteTextView) findViewById(R.id.edit);
-        items = new ArrayList<>();
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, items);
+        mAutoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.edit);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, new ArrayList<String>());
         adapter.setNotifyOnChange(true);
-        actv.setAdapter(adapter);
-        List<Integer> list = new ArrayList<>();
-        list.add(Place.TYPE_LOCALITY);
-        list.add(Place.TYPE_AIRPORT);
-        list.add(Place.TYPE_BANK);
-        list.add(Place.TYPE_TRAIN_STATION);
-        list.add(Place.TYPE_SUBWAY_STATION);
-        list.add(Place.TYPE_BUS_STATION);
-        list.add(Place.TYPE_LIBRARY);
-        list.add(Place.TYPE_ADMINISTRATIVE_AREA_LEVEL_1);
-        list.add(Place.TYPE_ADMINISTRATIVE_AREA_LEVEL_2);
-        list.add(Place.TYPE_ADMINISTRATIVE_AREA_LEVEL_3);
-        list.add(Place.TYPE_GAS_STATION);
-        AutocompleteFilter mAutocompleteFilter = AutocompleteFilter.create(list);
-        PendingResult<AutocompletePredictionBuffer> result = Places.GeoDataApi.getAutocompletePredictions(
-                mGoogleApiClient,
-                actv.getText().toString(),
-                new LatLngBounds(new LatLng(33.0, 124.5), new LatLng(38.9, 132.0)),
-                mAutocompleteFilter
-        );
-        result.setResultCallback(new ResultCallback<AutocompletePredictionBuffer>() {
-            @Override
-            public void onResult(AutocompletePredictionBuffer autocompletePredictions) {
-                for (AutocompletePrediction autocompletePrediction : autocompletePredictions) {
-                    Toast.makeText(TempActivity.this, "" + autocompletePrediction.getDescription(), Toast.LENGTH_SHORT).show();
-                    Log.i("RESULT", "" + autocompletePrediction.getDescription());
-//                    items.add("" + autocompletePrediction.getDescription());
-                    adapter.add("" + autocompletePrediction.getDescription());
-                }
-                adapter.notifyDataSetChanged();
-            }
-        });
+        mAutoCompleteTextView.setAdapter(adapter);
+        mAutoCompleteTextView.addTextChangedListener(tw);
+        placeTypeList = new ArrayList<>();
+        placeTypeList.add(Place.TYPE_GEOCODE);
+        mAutocompleteFilter = AutocompleteFilter.create(placeTypeList);
+
+        southwest = new LatLng(33.0, 124.5);
+        northeast = new LatLng(38.9, 132.0);
+        bounds = new LatLngBounds(southwest, northeast);
     }
 
     @Override
@@ -113,4 +89,45 @@ public class TempActivity extends AppCompatActivity implements GoogleApiClient.C
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
     }
+
+    TextWatcher tw = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            Log.i("TEXTWATCHER", "BEFORE");
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            Log.i("TEXTWATCHER", "ONCHANGE");
+//            if (s.toString().matches(Util.REGEX_ADDRESS)) {
+                result = Places.GeoDataApi.getAutocompletePredictions(
+                        mGoogleApiClient,
+                        mAutoCompleteTextView.getText().toString(),
+                        bounds,
+                        mAutocompleteFilter
+                );
+                result.setResultCallback(new ResultCallback<AutocompletePredictionBuffer>() {
+                    @Override
+                    public void onResult(AutocompletePredictionBuffer autocompletePredictions) {
+                        adapter.clear();
+                        for (AutocompletePrediction autocompletePrediction : autocompletePredictions) {
+                            String s = autocompletePrediction.getDescription();
+                            if (s.startsWith("대한민국")) {
+                                s = s.split("대한민국 ")[1];
+                                Log.i("RESULT", s);
+                                adapter.add(s);
+                            }
+                        }
+                        adapter.notifyDataSetChanged();
+                        autocompletePredictions.release();
+                    }
+                });
+//            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            Log.i("TEXTWATCHER", "AFTER");
+        }
+    };
 }

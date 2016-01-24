@@ -319,7 +319,7 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Log.e("error", "onFailure Error : " + error.toString());
+                        Log.e("error", "SearchResultFragment onFailure Error : " + error.toString());
                     }
                 });
     }
