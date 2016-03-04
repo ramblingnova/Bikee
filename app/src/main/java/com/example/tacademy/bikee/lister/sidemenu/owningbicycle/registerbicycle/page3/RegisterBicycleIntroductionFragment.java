@@ -1,8 +1,7 @@
-package com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle;
+package com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle.page3;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.renderscript.ScriptGroup;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,11 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import com.example.tacademy.bikee.R;
-import com.example.tacademy.bikee.etc.manager.FontManager;
+import com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle.RegisterBicycleINF;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

@@ -17,6 +17,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
 }
 
 repositories {
@@ -45,4 +48,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:8.3.0'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.android.support:cardview-v7:23.1.1'
+    compile 'com.android.support:recyclerview-v7:23.1.1'
+    compile 'org.projectlombok:lombok:1.16.6'
+    compile 'com.mcxiaoke.volley:library:1+'
 }

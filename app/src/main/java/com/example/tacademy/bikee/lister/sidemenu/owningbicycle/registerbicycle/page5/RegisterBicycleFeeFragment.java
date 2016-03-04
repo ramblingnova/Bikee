@@ -1,11 +1,10 @@
-package com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle;
+package com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle.page5;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle.RegisterBicycleINF;
 
 import java.text.DecimalFormat;
 
@@ -25,7 +25,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnEditorAction;
 import butterknife.OnFocusChange;
-import butterknife.OnTextChanged;
 
 public class RegisterBicycleFeeFragment extends Fragment implements TextWatcher {
     @Bind(R.id.fragment_register_bicycle_fee_animation_image_view)
@@ -215,15 +214,15 @@ public class RegisterBicycleFeeFragment extends Fragment implements TextWatcher 
     }
 
     public int getHour() {
-        return Integer.parseInt(hour.getText().toString());
+        return Integer.parseInt(hour.getText().toString().replace(",", ""));
     }
 
     public int getDay() {
-        return Integer.parseInt(day.getText().toString());
+        return Integer.parseInt(day.getText().toString().replace(",", ""));
     }
 
     public int getMonth() {
-        return Integer.parseInt(month.getText().toString());
+        return Integer.parseInt(month.getText().toString().replace(",", ""));
     }
 
     RegisterBicycleINF registerBicycleINF;

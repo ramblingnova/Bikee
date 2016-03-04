@@ -102,6 +102,7 @@ public class FinallyRegisterBicycleActivity extends AppCompatActivity implements
                 Map<String, TypedFile> map = new HashMap<String, TypedFile>();
                 int i = 0;
                 for (File file : tempItem.getFiles()) {
+                    // temporary sleep, i have to wake this up TODO image + i++ 대체할 방법
                     map.put("image" + (i++), new TypedFile("image/png", file));
                 }
                 int size = i;

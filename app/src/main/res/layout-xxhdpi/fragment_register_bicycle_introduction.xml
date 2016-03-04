@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle.RegisterBicycleIntroductionFragment">
+    tools:context=".lister.sidemenu.owningbicycle.registerbicycle.page3.RegisterBicycleIntroductionFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -93,10 +93,12 @@
                 android:layout_height="wrap_content"
                 android:gravity="top|left"
                 android:inputType="textMultiLine"
+                android:lineSpacingExtra="30dp"
                 android:lines="6"
                 android:maxLines="6"
                 android:minLines="6"
                 android:textColor="@color/bikeeBlack"
+                android:textCursorDrawable="@drawable/bikee_cursor"
                 android:textSize="15sp" />
         </RelativeLayout>
     </RelativeLayout>

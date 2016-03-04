@@ -1,4 +1,4 @@
-package com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle;
+package com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle.page1;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,9 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.GridView;
-import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle.RegisterBicycleINF;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,21 +45,20 @@ public class RegisterBicycleInformationFragment extends Fragment implements Bicy
     private boolean component6;
     private boolean component7;
     private boolean component8;
-    @Bind(R.id.bicycle_recommendation_height_check_box1)
-    CheckBox height1;
-    @Bind(R.id.bicycle_recommendation_height_check_box2)
-    CheckBox height2;
-    @Bind(R.id.bicycle_recommendation_height_check_box3)
-    CheckBox height3;
-    @Bind(R.id.bicycle_recommendation_height_check_box4)
-    CheckBox height4;
-    @Bind(R.id.bicycle_recommendation_height_check_box5)
-    CheckBox height5;
-    @Bind(R.id.bicycle_recommendation_height_check_box6)
-    CheckBox height6;
     private String type;
     private String height;
     private List<String> components;
+    @Bind(R.id.activity_main_item1_image_view)
+    ImageView item1;
+    @Bind(R.id.activity_main_item2_image_view)
+    ImageView item2;
+    @Bind(R.id.activity_main_item3_layout)
+    ImageView item3;
+    @Bind(R.id.activity_main_minimum_height_text_view)
+    TextView minimum;
+    @Bind(R.id.activity_main_maximum_height_text_view)
+    TextView maximum;
+    private MyCircularList list;
 
     public static RegisterBicycleInformationFragment newInstance() {
         return new RegisterBicycleInformationFragment();
@@ -88,10 +89,15 @@ public class RegisterBicycleInformationFragment extends Fragment implements Bicy
         gridView.setHorizontalSpacing(getResources().getDimensionPixelSize(R.dimen.register_bicycle_additory_component_item_horizontal_space));
         gridView.setVerticalSpacing(getResources().getDimensionPixelSize(R.dimen.register_bicycle_additory_component_item_vertical_space));
         adapter.setOnItemClickListener(this);
+
         initAdditoryComponent();
         activeNextButton();
 
         ButterKnife.bind(this, view);
+
+        list = new MyCircularList(0);
+        height = list.getCurrent();
+        activeNextButton();
 
         return view;
     }
@@ -235,46 +241,92 @@ public class RegisterBicycleInformationFragment extends Fragment implements Bicy
         activeNextButton();
     }
 
-    @OnClick({R.id.bicycle_recommendation_height_check_box1,
-            R.id.bicycle_recommendation_height_check_box2,
-            R.id.bicycle_recommendation_height_check_box3,
-            R.id.bicycle_recommendation_height_check_box4,
-            R.id.bicycle_recommendation_height_check_box5,
-            R.id.bicycle_recommendation_height_check_box6})
-    void selectHeight(View view) {
-        height1.setChecked(false);
-        height2.setChecked(false);
-        height3.setChecked(false);
-        height4.setChecked(false);
-        height5.setChecked(false);
-        height6.setChecked(false);
-        switch (view.getId()) {
-            case R.id.bicycle_recommendation_height_check_box1:
-                height1.setChecked(true);
-                height = "01";
+    @OnClick({R.id.activity_main_prev_button_image_view,
+            R.id.activity_main_next_button_image_view})
+    void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.activity_main_prev_button_image_view:
+                list.movePrev();
                 break;
-            case R.id.bicycle_recommendation_height_check_box2:
-                height2.setChecked(true);
-                height = "02";
-                break;
-            case R.id.bicycle_recommendation_height_check_box3:
-                height3.setChecked(true);
-                height = "03";
-                break;
-            case R.id.bicycle_recommendation_height_check_box4:
-                height4.setChecked(true);
-                height = "04";
-                break;
-            case R.id.bicycle_recommendation_height_check_box5:
-                height5.setChecked(true);
-                height = "05";
-                break;
-            case R.id.bicycle_recommendation_height_check_box6:
-                height6.setChecked(true);
-                height = "06";
+            case R.id.activity_main_next_button_image_view:
+                list.moveNext();
                 break;
         }
-        activeNextButton();
+        height = list.getCurrent();
+    }
+
+    private class MyCircularList {
+        private List<MyCircularListItem> list;
+        private int position;
+
+        public MyCircularList(int position) {
+            this.list = new ArrayList<>();
+            this.position = position;
+
+            initList();
+            initImage();
+        }
+
+        private void initList() {
+            this.list.add(new MyCircularListItem(R.drawable.main_character1, R.drawable.sub_character1, "이하", "145cm"));
+            this.list.add(new MyCircularListItem(R.drawable.main_character2, R.drawable.sub_character2, "145cm", "155cm"));
+            this.list.add(new MyCircularListItem(R.drawable.main_character3, R.drawable.sub_character3, "155cm", "165cm"));
+            this.list.add(new MyCircularListItem(R.drawable.main_character4, R.drawable.sub_character4, "165cm", "175cm"));
+            this.list.add(new MyCircularListItem(R.drawable.main_character5, R.drawable.sub_character5, "175cm", "185cm"));
+            this.list.add(new MyCircularListItem(R.drawable.main_character6, R.drawable.sub_character6, "185cm", "이상"));
+        }
+
+        private void initImage() {
+            item1.setImageResource(this.list.get((6 + (position - 1)) % 6).getSub());
+            item2.setImageResource(this.list.get(position).getMain());
+            item3.setImageResource(this.list.get((position + 1) % 6).getSub());
+            minimum.setText(this.list.get(position).getMinimumHeight());
+            maximum.setText(this.list.get(position).getMaximumHeight());
+        }
+
+        public void movePrev() {
+            position = (6 + (position - 1)) % 6;
+            initImage();
+        }
+
+        public void moveNext() {
+            position = (position + 1) % 6;
+            initImage();
+        }
+
+        public String getCurrent() {
+            return "0" + (position + 1);
+        }
+
+        private class MyCircularListItem {
+            private Integer main;
+            private Integer sub;
+            private String maximumHeight;
+            private String minimumHeight;
+
+            public MyCircularListItem(Integer main, Integer sub, String minimumHeight, String maximumHeight) {
+                this.main = main;
+                this.sub = sub;
+                this.maximumHeight = maximumHeight;
+                this.minimumHeight = minimumHeight;
+            }
+
+            public Integer getMain() {
+                return main;
+            }
+
+            public Integer getSub() {
+                return sub;
+            }
+
+            public String getMaximumHeight() {
+                return maximumHeight;
+            }
+
+            public String getMinimumHeight() {
+                return minimumHeight;
+            }
+        }
     }
 
     private void activeNextButton() {

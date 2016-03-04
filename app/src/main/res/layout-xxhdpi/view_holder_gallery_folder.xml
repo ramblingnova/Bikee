@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/view_holder_gallery_folder_recycler_layout"
+    android:layout_width="match_parent"
+    android:layout_height="91dp">
+
+    <ImageView
+        android:id="@+id/view_holder_gallery_folder_represent_item_image_view"
+        android:layout_width="104dp"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/view_holder_gallery_folder_title_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="18dp"
+        android:layout_marginStart="18dp"
+        android:layout_toEndOf="@id/view_holder_gallery_folder_represent_item_image_view"
+        android:layout_toRightOf="@id/view_holder_gallery_folder_represent_item_image_view"
+        android:textColor="@color/bikeeWhite"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/view_holder_gallery_folder_number_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="17dp"
+        android:layout_marginStart="17dp"
+        android:layout_toEndOf="@id/view_holder_gallery_folder_title_text_view"
+        android:layout_toRightOf="@id/view_holder_gallery_folder_title_text_view"
+        android:textColor="@color/bikeeGray"
+        android:textSize="13sp" />
+
+    <ImageView
+        android:layout_width="9dp"
+        android:layout_height="15dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/enter_icon"
+        android:layout_marginEnd="14dp"
+        android:layout_marginRight="14dp" />
+</RelativeLayout>

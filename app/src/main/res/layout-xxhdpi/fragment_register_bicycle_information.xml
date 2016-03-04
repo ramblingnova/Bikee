@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle.RegisterBicycleInformationFragment">
+    tools:context=".lister.sidemenu.owningbicycle.registerbicycle.page1.RegisterBicycleInformationFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -11,7 +11,8 @@
         <RelativeLayout
             android:id="@+id/fragment_register_bicycle_information_bicycle_type_text_view_layout"
             android:layout_width="match_parent"
-            android:layout_height="43dp">
+            android:layout_height="43dp"
+            android:background="#EEEEEE">
 
             <TextView
                 android:id="@+id/fragment_register_bicycle_information_bicycle_type_text_view"
@@ -23,19 +24,87 @@
                 android:textSize="16sp" />
         </RelativeLayout>
 
-        <include
+        <RelativeLayout
             android:id="@+id/fragment_register_bicycle_information_bicycle_type"
-            layout="@layout/bicycle_type"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/fragment_register_bicycle_information_bicycle_type_text_view_layout"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:background="@color/bikeeWhite"
+            android:padding="16dp">
+
+            <CheckBox
+                android:id="@+id/bicycle_type_check_box1"
+                android:layout_width="wrap_content"
+                android:layout_height="26dp"
+                android:background="@drawable/bicycle_type_check_selector1"
+                android:button="@null" />
+
+            <CheckBox
+                android:id="@+id/bicycle_type_check_box2"
+                android:layout_width="wrap_content"
+                android:layout_height="26dp"
+                android:layout_alignTop="@id/bicycle_type_check_box1"
+                android:layout_marginLeft="19dp"
+                android:layout_toRightOf="@id/bicycle_type_check_box1"
+                android:background="@drawable/bicycle_type_check_selector2"
+                android:button="@null" />
+
+            <CheckBox
+                android:id="@+id/bicycle_type_check_box3"
+                android:layout_width="wrap_content"
+                android:layout_height="26dp"
+                android:layout_alignTop="@id/bicycle_type_check_box1"
+                android:layout_marginLeft="19dp"
+                android:layout_toRightOf="@id/bicycle_type_check_box2"
+                android:background="@drawable/bicycle_type_check_selector3"
+                android:button="@null" />
+
+            <CheckBox
+                android:id="@+id/bicycle_type_check_box4"
+                android:layout_width="wrap_content"
+                android:layout_height="26dp"
+                android:layout_alignTop="@id/bicycle_type_check_box1"
+                android:layout_marginLeft="19dp"
+                android:layout_toRightOf="@id/bicycle_type_check_box3"
+                android:background="@drawable/bicycle_type_check_selector4"
+                android:button="@null" />
+
+            <CheckBox
+                android:id="@+id/bicycle_type_check_box5"
+                android:layout_width="wrap_content"
+                android:layout_height="26dp"
+                android:layout_alignLeft="@id/bicycle_type_check_box1"
+                android:layout_below="@id/bicycle_type_check_box1"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bicycle_type_check_selector5"
+                android:button="@null" />
+
+            <CheckBox
+                android:id="@+id/bicycle_type_check_box6"
+                android:layout_width="wrap_content"
+                android:layout_height="26dp"
+                android:layout_alignRight="@id/bicycle_type_check_box2"
+                android:layout_alignTop="@id/bicycle_type_check_box5"
+                android:background="@drawable/bicycle_type_check_selector6"
+                android:button="@null" />
+
+            <CheckBox
+                android:id="@+id/bicycle_type_check_box7"
+                android:layout_width="wrap_content"
+                android:layout_height="26dp"
+                android:layout_alignLeft="@id/bicycle_type_check_box3"
+                android:layout_alignTop="@id/bicycle_type_check_box5"
+                android:background="@drawable/bicycle_type_check_selector7"
+                android:button="@null" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/fragment_register_bicycle_information_bicycle_additory_component_text_view_layout"
             android:layout_width="match_parent"
             android:layout_height="43dp"
-            android:layout_below="@id/fragment_register_bicycle_information_bicycle_type">
+            android:layout_below="@id/fragment_register_bicycle_information_bicycle_type"
+            android:background="#EEEEEE">
 
             <TextView
                 android:id="@+id/fragment_register_bicycle_information_bicycle_additory_component_text_view"
@@ -47,19 +116,28 @@
                 android:textSize="16sp" />
         </RelativeLayout>
 
-        <include
+        <RelativeLayout
             android:id="@+id/fragment_register_bicycle_information_bicycle_additory_component"
-            layout="@layout/register_bicycle_additory_component"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/fragment_register_bicycle_information_bicycle_additory_component_text_view_layout"
-            android:layout_centerHorizontal="true" />
+            android:background="@color/bikeeWhite"
+            android:padding="16dp">
+
+            <GridView
+                android:id="@+id/register_bicycle_additory_component_grid_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:numColumns="3"
+                android:stretchMode="columnWidth" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/fragment_register_bicycle_information_bicycle_additory_component_layout"
             android:layout_width="match_parent"
             android:layout_height="43dp"
-            android:layout_below="@id/fragment_register_bicycle_information_bicycle_additory_component">
+            android:layout_below="@id/fragment_register_bicycle_information_bicycle_additory_component"
+            android:background="#EEEEEE">
 
             <TextView
                 android:id="@+id/fragment_register_bicycle_information_bicycle_recommendation_height_text_view"
@@ -71,12 +149,110 @@
                 android:textSize="16sp" />
         </RelativeLayout>
 
-        <include
-            android:id="@+id/fragment_register_bicycle_information_bicycle_recommendation_height"
-            layout="@layout/bicycle_recommendation_height"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/fragment_register_bicycle_information_bicycle_additory_component_layout"
-            android:layout_centerHorizontal="true" />
+        <RelativeLayout
+            android:id="@+id/activity_main_height_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/bikeeLightGray"
+            android:layout_below="@id/fragment_register_bicycle_information_bicycle_additory_component_layout">
+
+            <ImageView
+                android:id="@+id/activity_main_prev_button_image_view"
+                android:layout_width="13dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="68dp"
+                android:src="@drawable/scroll_left" />
+
+            <ImageView
+                android:id="@+id/activity_main_item1_image_view"
+                android:layout_width="48dp"
+                android:layout_height="98dp"
+                android:layout_marginLeft="13dp"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="34dp"
+                android:layout_toEndOf="@id/activity_main_prev_button_image_view"
+                android:layout_toRightOf="@id/activity_main_prev_button_image_view" />
+
+            <ImageView
+                android:id="@+id/activity_main_item2_image_view"
+                android:layout_width="61dp"
+                android:layout_height="125dp"
+                android:layout_marginLeft="13dp"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="15dp"
+                android:layout_toEndOf="@id/activity_main_item1_image_view"
+                android:layout_toRightOf="@id/activity_main_item1_image_view" />
+
+            <ImageView
+                android:id="@+id/activity_main_item3_layout"
+                android:layout_width="48dp"
+                android:layout_height="98dp"
+                android:layout_alignTop="@id/activity_main_item1_image_view"
+                android:layout_marginLeft="13dp"
+                android:layout_marginStart="13dp"
+                android:layout_toEndOf="@id/activity_main_item2_image_view"
+                android:layout_toRightOf="@id/activity_main_item2_image_view" />
+
+            <ImageView
+                android:id="@+id/activity_main_next_button_image_view"
+                android:layout_width="13dp"
+                android:layout_height="24dp"
+                android:layout_alignTop="@id/activity_main_prev_button_image_view"
+                android:layout_marginLeft="13dp"
+                android:layout_marginStart="13dp"
+                android:layout_toEndOf="@id/activity_main_item3_layout"
+                android:layout_toRightOf="@id/activity_main_item3_layout"
+                android:src="@drawable/scroll_right" />
+
+            <RelativeLayout
+                android:layout_width="69dp"
+                android:layout_height="91dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="32dp"
+                android:layout_toEndOf="@id/activity_main_next_button_image_view"
+                android:layout_toRightOf="@id/activity_main_next_button_image_view">
+
+                <RelativeLayout
+                    android:id="@+id/activity_main_maximum_height_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/height_box1">
+
+                    <TextView
+                        android:id="@+id/activity_main_maximum_height_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:textColor="@color/bikeeBlue"
+                        android:textSize="15sp" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="25dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/height_box_arrow" />
+
+                <RelativeLayout
+                    android:id="@+id/activity_main_minimum_height_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/height_box1">
+
+                    <TextView
+                        android:id="@+id/activity_main_minimum_height_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:textColor="@color/bikeeBlue"
+                        android:textSize="15sp" />
+                </RelativeLayout>
+            </RelativeLayout>
+        </RelativeLayout>
     </RelativeLayout>
 </FrameLayout>

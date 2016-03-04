@@ -12,6 +12,7 @@ import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.dao.Comment;
 import com.example.tacademy.bikee.etc.dao.Result;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -20,6 +21,10 @@ import java.util.List;
 public class Util {
     public static void setRectangleImageFromImageURL(Context context, String imageURL, ImageView targetView) {
         Glide.with(context).load(imageURL).thumbnail(0.0001f).centerCrop().into(targetView);
+    }
+
+    public static void setRectangleImageFromURI(Context context, String uri, ImageView targetView) {
+        Glide.with(context).load(uri).thumbnail(0.0001f).centerCrop().into(targetView);
     }
 
     public static void setCircleImageFromURL(final Context context, String imageURL, int imageSize, final ImageView targetVIew) {
@@ -36,6 +41,18 @@ public class Util {
 
     public static void setRoundRectangleImageFromURL(final Context context, String imageURL, final float radius, final ImageView targetView) {
         Glide.with(context).load(imageURL).asBitmap().placeholder(R.drawable.detailpage_bike_image_noneimage).fitCenter().thumbnail(0.0001f).into(new BitmapImageViewTarget(targetView) {
+            @Override
+            protected void setResource(Bitmap resource) {
+                RoundedBitmapDrawable circularBitmapDrawable =
+                        RoundedBitmapDrawableFactory.create(context.getResources(), resource);
+                circularBitmapDrawable.setCornerRadius(radius);
+                targetView.setImageDrawable(circularBitmapDrawable);
+            }
+        });
+    }
+
+    public static void setRoundRectangleImageFromFile(final Context context, int placeHolderResourceId, File file, final float radius, final ImageView targetView) {
+        Glide.with(context).load(file).asBitmap().placeholder(placeHolderResourceId).fitCenter().thumbnail(0.0001f).into(new BitmapImageViewTarget(targetView) {
             @Override
             protected void setResource(Bitmap resource) {
                 RoundedBitmapDrawable circularBitmapDrawable =

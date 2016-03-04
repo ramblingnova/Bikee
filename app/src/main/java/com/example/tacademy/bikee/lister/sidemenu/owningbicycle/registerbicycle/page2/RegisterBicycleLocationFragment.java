@@ -1,4 +1,4 @@
-package com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle;
+package com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle.page2;
 
 import android.content.Intent;
 import android.location.Address;
@@ -16,6 +16,7 @@ import android.widget.EditText;
 
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.Util;
+import com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle.RegisterBicycleINF;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -35,6 +36,32 @@ public class RegisterBicycleLocationFragment extends Fragment implements OnMapRe
     private Address addr;
     private double latitude;
     private double longitude;
+    TextWatcher tw = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (s.toString().matches(Util.REGEX_HANGUL))
+                findGeoPoint(s.toString());
+            if ((latitude != 0) && (longitude != 0)) {
+                if ((null != registerBicycleINF) && (!registerBicycleINF.getEnable())) {
+                    registerBicycleINF.setEnable(true);
+                }
+            } else {
+                if ((null != registerBicycleINF) && (registerBicycleINF.getEnable())) {
+                    registerBicycleINF.setEnable(false);
+                }
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
 
     public static RegisterBicycleLocationFragment newInstance() {
         return new RegisterBicycleLocationFragment();
@@ -88,33 +115,6 @@ public class RegisterBicycleLocationFragment extends Fragment implements OnMapRe
         gm.getUiSettings().setRotateGesturesEnabled(false);
         gm.getUiSettings().setTiltGesturesEnabled(false);
     }
-
-    TextWatcher tw = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (s.toString().matches(Util.REGEX_HANGUL))
-                findGeoPoint(s.toString());
-            if ((latitude != 0) && (longitude != 0)) {
-                if ((null != registerBicycleINF) && (!registerBicycleINF.getEnable())) {
-                    registerBicycleINF.setEnable(true);
-                }
-            } else {
-                if ((null != registerBicycleINF) && (registerBicycleINF.getEnable())) {
-                    registerBicycleINF.setEnable(false);
-                }
-            }
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-        }
-    };
 
     public double getLatitude() {
         return latitude;

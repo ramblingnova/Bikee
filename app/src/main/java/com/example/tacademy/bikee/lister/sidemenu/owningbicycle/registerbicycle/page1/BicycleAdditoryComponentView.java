@@ -1,4 +1,4 @@
-package com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle;
+package com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle.page1;
 
 import android.content.Context;
 import android.view.View;

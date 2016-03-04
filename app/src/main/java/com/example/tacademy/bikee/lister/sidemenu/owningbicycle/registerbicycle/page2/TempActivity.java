@@ -1,4 +1,4 @@
-package com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle;
+package com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle.page2;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

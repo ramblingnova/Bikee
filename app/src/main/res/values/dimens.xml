@@ -17,4 +17,7 @@
 
     <dimen name="register_bicycle_additory_component_item_horizontal_space">27dp</dimen>
     <dimen name="register_bicycle_additory_component_item_vertical_space">14dp</dimen>
+
+    <dimen name="view_holder_gallery_picture_item_space">4dp</dimen>
+    <dimen name="view_holder_gallery_folder_item_space">6dp</dimen>
 </resources>

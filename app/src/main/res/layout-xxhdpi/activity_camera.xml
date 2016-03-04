@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#263238"
+    tools:context=".page4.camera.CameraActivity">
+
+    <RelativeLayout
+        android:id="@+id/activity_camera_layout"
+        android:layout_width="match_parent"
+        android:layout_height="415dp">
+
+        <SurfaceView
+            android:id="@+id/activity_camera_surface_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/activity_camera_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/activity_camera_back_save_button"
+        android:layout_width="53dp"
+        android:layout_height="53dp"
+        android:layout_below="@id/activity_camera_layout"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/camera_back_button" />
+
+    <Button
+        android:id="@+id/activity_camera_freeze_button"
+        android:layout_width="73dp"
+        android:layout_height="73dp"
+        android:layout_below="@id/activity_camera_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="19dp"
+        android:background="@drawable/camera_active_button" />
+
+    <Button
+        android:id="@+id/activity_camera_cancel_button"
+        android:layout_width="53dp"
+        android:layout_height="53dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/activity_camera_back_save_button"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/camera_cancel_button"
+        android:enabled="false" />
+
+    <include
+        layout="@layout/thumbnail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/activity_camera_freeze_button"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="18dp" />
+</RelativeLayout>

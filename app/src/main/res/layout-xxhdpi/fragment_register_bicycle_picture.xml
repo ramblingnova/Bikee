@@ -2,10 +2,125 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle.RegisterBicyclePictureFragment">
+    tools:context=".lister.sidemenu.owningbicycle.registerbicycle.page4.RegisterBicyclePictureFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/fragment_register_bicycle_picture_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:background="#EEEEEE"
+            android:gravity="center"
+            android:text="자전거의 멋진 모습을 담아주세요!"
+            android:textColor="#212121"
+            android:textSize="16sp" />
+
+        <RelativeLayout
+            android:id="@+id/fragment_register_bicycle_picture_select_layout"
+            android:layout_width="match_parent"
+            android:layout_height="303dp"
+            android:layout_below="@id/fragment_register_bicycle_picture_text_view"
+            android:background="#263238">
+
+            <ImageView
+                android:id="@+id/fragment_register_bicycle_picture_camera_image_view"
+                android:layout_width="109dp"
+                android:layout_height="88dp"
+                android:layout_marginLeft="48dp"
+                android:layout_marginStart="48dp"
+                android:layout_marginTop="92dp"
+                android:src="@drawable/icon_camera" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fragment_register_bicycle_picture_camera_image_view"
+                android:layout_marginLeft="51dp"
+                android:layout_marginStart="51dp"
+                android:layout_marginTop="20dp"
+                android:text="사진 촬영하기"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/fragment_register_bicycle_picture_line_image_view"
+                android:layout_width="10dp"
+                android:layout_height="138dp"
+                android:layout_marginLeft="19dp"
+                android:layout_marginStart="19dp"
+                android:layout_marginTop="82dp"
+                android:layout_toEndOf="@id/fragment_register_bicycle_picture_camera_image_view"
+                android:layout_toRightOf="@id/fragment_register_bicycle_picture_camera_image_view"
+                android:scaleType="fitXY"
+                android:src="@drawable/center_bar1" />
+
+            <ImageView
+                android:id="@+id/fragment_register_bicycle_picture_gallery_image_view"
+                android:layout_width="109dp"
+                android:layout_height="88dp"
+                android:layout_alignTop="@id/fragment_register_bicycle_picture_camera_image_view"
+                android:layout_marginLeft="26dp"
+                android:layout_marginStart="26dp"
+                android:layout_toEndOf="@id/fragment_register_bicycle_picture_line_image_view"
+                android:layout_toRightOf="@id/fragment_register_bicycle_picture_line_image_view"
+                android:src="@drawable/icon_folder" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fragment_register_bicycle_picture_gallery_image_view"
+                android:layout_marginLeft="31dp"
+                android:layout_marginStart="31dp"
+                android:layout_marginTop="20dp"
+                android:layout_toRightOf="@id/fragment_register_bicycle_picture_line_image_view"
+                android:text="이미지 불러오기"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/fragment_register_bicycle_picture_warning_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fragment_register_bicycle_picture_select_layout"
+            android:layout_marginLeft="17dp"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="14dp">
+
+            <ImageView
+                android:id="@+id/fragment_register_bicycle_picture_warning_image_view"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/icon_warning" />
+
+            <TextView
+                android:id="@+id/fragment_register_bicycle_picture_warning_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="7dp"
+                android:layout_marginStart="7dp"
+                android:layout_toEndOf="@id/fragment_register_bicycle_picture_warning_image_view"
+                android:layout_toRightOf="@id/fragment_register_bicycle_picture_warning_image_view"
+                android:text="자전거 사진이 비어있습니다."
+                android:textColor="#FF1F1F"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <include
+            layout="@layout/thumbnail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fragment_register_bicycle_picture_warning_layout"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="9dp" />
+    </RelativeLayout>
+
+    <!--<RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -56,6 +171,5 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/fragment_register_bicycle_picture_description_text_view"
             android:text="옆면 / 측면 / 배달 / 바퀴" />
-    </RelativeLayout>
-
+    </RelativeLayout>-->
 </FrameLayout>

@@ -6,12 +6,19 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle.page1.RegisterBicycleInformationFragment;
+import com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle.page2.RegisterBicycleLocationFragment;
+import com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle.page3.RegisterBicycleIntroductionFragment;
+import com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle.page4.RegisterBicyclePictureFragment;
+import com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle.page5.RegisterBicycleFeeFragment;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
 import butterknife.Bind;
@@ -41,6 +48,7 @@ public class RegisterBicycleActivity extends AppCompatActivity implements View.O
     private RegisterBicycleItem item;
     public static final String ITEM_TAG = "ITEM";
     final private static int FINALLY_REGISTER_BICYCLE_ACTIVITY = 1;
+    InputMethodManager imm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +95,8 @@ public class RegisterBicycleActivity extends AppCompatActivity implements View.O
         ButterKnife.bind(this);
 
         refreshTopPageNumber(0);
+
+        imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
     }
 
     @OnClick(R.id.lister_backable_page_movable_tool_bar_back_button_layout)
@@ -94,6 +104,10 @@ public class RegisterBicycleActivity extends AppCompatActivity implements View.O
         int page = getSupportFragmentManager().getBackStackEntryCount();
         if (page > 0) {
             refreshTopPageNumber(page - 1);
+        }
+        if (imm.isActive() == true) {
+            Log.i("isActive() : ", "" +imm.isActive());
+//            imm.hideSoftInputFromWindow(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
         }
         super.onBackPressed();
     }
@@ -103,6 +117,10 @@ public class RegisterBicycleActivity extends AppCompatActivity implements View.O
         int page = getSupportFragmentManager().getBackStackEntryCount();
         if (page > 0) {
             refreshTopPageNumber(page - 1);
+        }
+        if (imm.isActive() == true) {
+            Log.i("isActive() : ", "" +imm.isActive());
+//            imm.hideSoftInputFromWindow(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
         }
         super.onBackPressed();
     }
