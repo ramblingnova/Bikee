@@ -1,12 +1,9 @@
 package com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.postscription;
 
-import android.graphics.drawable.BitmapDrawable;
-
 /**
  * Created by Tacademy on 2015-11-02.
  */
 public class BicyclePostScriptItem {
-    // TODO 이미지
     private String imageURL;
     private String renterName;
     private int point;

@@ -34,7 +34,6 @@ public class SmallMapActivity extends AppCompatActivity {
         GoogleMap.SnapshotReadyCallback callback = new GoogleMap.SnapshotReadyCallback() {
             @Override
             public void onSnapshotReady(Bitmap snapshot) {
-                // TODO Auto-generated method stub
                 OutputStream fout = null;
                 String filePath = "/sdcard/1.png";
                 try {
@@ -45,12 +44,10 @@ public class SmallMapActivity extends AppCompatActivity {
                     fout.flush();
                     fout.close();
                 } catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block
                     Log.d("ImageCapture", "FileNotFoundException");
                     Log.d("ImageCapture", e.getMessage());
                     filePath = "";
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
                     Log.d("ImageCapture", "IOException");
                     Log.d("ImageCapture", e.getMessage());
                     filePath = "";

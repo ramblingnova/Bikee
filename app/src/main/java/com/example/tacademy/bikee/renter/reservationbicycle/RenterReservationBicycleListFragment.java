@@ -24,6 +24,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class RenterReservationBicycleListFragment extends Fragment implements AdapterView.OnItemClickListener {
+    // TODO : need scenario
     private Intent intent;
     private ListView lv;
     private RenterReservationBicycleAdapter adapter;

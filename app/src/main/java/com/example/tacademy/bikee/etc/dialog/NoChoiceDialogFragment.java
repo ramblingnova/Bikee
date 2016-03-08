@@ -30,6 +30,7 @@ import retrofit.client.Response;
  * Created by Tacademy on 2015-11-02.
  */
 public class NoChoiceDialogFragment extends DialogFragment {
+    // TODO : handle dialog, need generalization
     private Intent intent;
     private TextView tv;
     private static final String ARG_PARAM1 = "MESSAGE";

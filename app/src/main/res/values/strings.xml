@@ -1,9 +1,8 @@
 <resources>
     <string name="app_name">Bikee</string>
 
-    <string name="GCM_SenderId">310148832766</string>
+    <string name="GCM_SenderId">1067729957964</string>
 
-    <!-- TODO : Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_filter">FilterActivity</string>
 

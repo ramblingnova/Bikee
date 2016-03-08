@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tacademy.bikee.R;
-import com.example.tacademy.bikee.etc.Util;
+import com.example.tacademy.bikee.etc.utils.ImageUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -33,7 +33,11 @@ public class GalleryFolderViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setView(GalleryFolderItem item) {
-        Util.setRectangleImageFromURI(view.getContext(), item.getRepresentativeFilePath(), imageView);
+        ImageUtil.setRectangleImageFromURL(
+                view.getContext(),
+                item.getRepresentativeFilePath(),
+                imageView
+        );
         titleTextView.setText(item.getFolderName());
         numberTextView.setText("" + item.getNumberOfPicture());
     }

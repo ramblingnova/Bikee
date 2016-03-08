@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.MyApplication;
-import com.example.tacademy.bikee.etc.Util;
+import com.example.tacademy.bikee.etc.utils.ImageUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,7 +40,13 @@ public class BicyclePostScriptView extends FrameLayout {
     }
 
     public void setView(BicyclePostScriptItem item) {
-        Util.setCircleImageFromURL(MyApplication.getmContext(), item.getImageURL(), 0, renterImage);
+        ImageUtil.setCircleImageFromURL(
+                MyApplication.getmContext(),
+                item.getImageURL(),
+                R.drawable.noneimage,
+                0,
+                renterImage
+        );
         renterName.setText("" + item.getRenterName());
         point.setRating(item.getPoint());
         postscript.setText("" + item.getPostScript());

@@ -7,10 +7,8 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Toast;
 
 import com.example.tacademy.bikee.R;
-import com.example.tacademy.bikee.etc.Util;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -99,7 +97,7 @@ public class TempActivity extends AppCompatActivity implements GoogleApiClient.C
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             Log.i("TEXTWATCHER", "ONCHANGE");
-//            if (s.toString().matches(Util.REGEX_ADDRESS)) {
+//            if (s.toString().matches(ImageUtil.REGEX_ADDRESS)) {
                 result = Places.GeoDataApi.getAutocompletePredictions(
                         mGoogleApiClient,
                         mAutoCompleteTextView.getText().toString(),

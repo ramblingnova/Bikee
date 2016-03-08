@@ -35,6 +35,7 @@ import retrofit.mime.TypedFile;
 import retrofit.mime.TypedString;
 
 public class FinallyRegisterBicycleActivity extends AppCompatActivity implements View.OnClickListener {
+    // TODO : need new post url
     private Toolbar toolbar;
     private Button btn;
     private Intent intent;
@@ -102,7 +103,7 @@ public class FinallyRegisterBicycleActivity extends AppCompatActivity implements
                 Map<String, TypedFile> map = new HashMap<String, TypedFile>();
                 int i = 0;
                 for (File file : tempItem.getFiles()) {
-                    // temporary sleep, i have to wake this up TODO image + i++ 대체할 방법
+                    // temporary sleep, i have to wake this up
                     map.put("image" + (i++), new TypedFile("image/png", file));
                 }
                 int size = i;

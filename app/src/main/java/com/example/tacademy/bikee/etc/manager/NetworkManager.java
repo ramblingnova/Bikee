@@ -77,7 +77,7 @@ public class NetworkManager {
         String baseUrl = "http://1.255.51.120:3000";
 //        String baseUrl = "http://192.168.201.226:2222";52.79.73.201
 
-        // 본인정보조회 app.get('/users/:userId',users.profile) TODO id 없이 "본인정보조회"하기
+        // 본인정보조회 app.get('/users/:userId',users.profile)
         @GET("/users/{userId}")
         void selectUser(@Path("userId") String user_id, Callback<ReceiveObject> callback);
 
@@ -225,14 +225,16 @@ public class NetworkManager {
         @GET("/import")
         void requestPayment(Callback<ReceiveObject> callback);
 
-//        // TODO :
+        @FormUrlEncoded
+        @POST("/devices")
+        void registerToken(@Field("deviceID")String deviceID, @Field("token")String token, @Field("os")String os, Callback<ReceiveObject> callback);
+
 //        @POST("/register/")
 //        void registerGCM(@Field("token") String registerationID,
 //                         @Field("deviceID") String deviceID,
 //                         @Field("deviceName") String deviceName,
 //                         @Field("email") String email);
 
-//        // TODO :
 //        @POST("/message/{userID}")
 //        void sendMessage(@Path("userID") String user_id, @Field("message") String message);
     }
@@ -414,11 +416,13 @@ public class NetworkManager {
         serverUrl.reserveStatus(bike_id, reserveId, status, callback);
     }
 
-//    // FIXME 테스트용
+    public void registerToken(String deviceID, String token, String os, Callback<ReceiveObject> callback) {
+        serverUrl.registerToken(deviceID, token, os, callback);
+    }
+
 //    public ServerUrl getServerUrl() {
 //        return serverUrl;
 //    }
-//    // FIXME 테스트용
 //    NetworkManager.getInstance().getServerUrl().insertBicycleComment2(bicycleId, comment, new Callback<Object>() {
 //        @Override
 //        public void success(Object receiveObject, Response response) {

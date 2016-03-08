@@ -7,9 +7,8 @@ import android.widget.TextView;
 
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.MyApplication;
-import com.example.tacademy.bikee.etc.Util;
+import com.example.tacademy.bikee.etc.utils.ImageUtil;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -46,7 +45,13 @@ public class ListerRequestedBicycleView extends FrameLayout {
     }
 
     public void setView(ListerRequestedBicycleItem item) {
-        Util.setCircleImageFromURL(MyApplication.getmContext(), item.getImageURL(), 0, renterImage);
+        ImageUtil.setCircleImageFromURL(
+                MyApplication.getmContext(),
+                item.getImageURL(),
+                R.drawable.noneimage,
+                0,
+                renterImage
+        );
 
         Date currentDate = new Date(System.currentTimeMillis());
         if (currentDate.after(item.getEndDate()) == false) {

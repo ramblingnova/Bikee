@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.example.tacademy.bikee.R;
-import com.example.tacademy.bikee.etc.Util;
+import com.example.tacademy.bikee.etc.utils.ImageUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -31,7 +31,7 @@ public class GalleryPictureViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setView(GalleryPictureItem item) {
-        Util.setRectangleImageFromURI(view.getContext(), item.getPicturePath(), itemImageVIew);
+        ImageUtil.setRectangleImageFromURL(view.getContext(), item.getPicturePath(), itemImageVIew);
         if (item.isSelected())
             checkImageView.setVisibility(View.VISIBLE);
         else

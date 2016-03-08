@@ -22,6 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class FinallyRequestReservationConfirmDialogFragment extends DialogFragment {
+    // TODO : handle dialog, need generalization
     private Intent intent;
     private static final String ARG_PARAM = "MESSAGE";
 

@@ -40,7 +40,7 @@
 
                 <include
                     android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_picture_layout"
-                    layout="@layout/bicycle_picture_lister_information"
+                    layout="@layout/bicycle_pictures_user_information"
                     android:layout_width="wrap_content"
                     android:layout_height="307dp" />
 

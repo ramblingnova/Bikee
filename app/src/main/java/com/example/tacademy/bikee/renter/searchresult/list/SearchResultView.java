@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.MyApplication;
-import com.example.tacademy.bikee.etc.Util;
+import com.example.tacademy.bikee.etc.utils.ImageUtil;
 import com.example.tacademy.bikee.renter.searchresult.SearchResultListItem;
 
 import butterknife.Bind;
@@ -43,7 +43,13 @@ public class SearchResultView extends FrameLayout {
     }
 
     public void setView(SearchResultListItem item) {
-        Util.setRoundRectangleImageFromURL(MyApplication.getmContext(), item.getImageURL(), 6, bicycle_picture);
+        ImageUtil.setRoundRectangleImageFromURL(
+                MyApplication.getmContext(),
+                item.getImageURL(),
+                R.drawable.detailpage_bike_image_noneimage,
+                bicycle_picture,
+                6
+        );
         bicycle_name.setText(item.getBicycle_name().toString());
         String heightString = "~145cm";
         switch (item.getHeight().toString()) {

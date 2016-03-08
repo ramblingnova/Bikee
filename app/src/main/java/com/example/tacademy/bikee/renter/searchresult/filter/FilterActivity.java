@@ -2,12 +2,9 @@ package com.example.tacademy.bikee.renter.searchresult.filter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
@@ -17,20 +14,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.etc.MyApplication;
+import com.example.tacademy.bikee.etc.utils.RefinementUtil;
 import com.squareup.timessquare.CalendarPickerView;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class FilterActivity extends AppCompatActivity implements CalendarPickerView.OnDateSelectedListener {
+    // TODO : handle filter and send filter result, handle renew button
     private Intent intent;
     private CalendarPickerView currentCalendarPickerView, oldCalendarPickerView;
     private Calendar calendar;
@@ -75,6 +73,8 @@ public class FilterActivity extends AppCompatActivity implements CalendarPickerV
     public final static int RESULT_OK = 1;
     public final static int RESULT_CANCEL = 2;
 
+    private static final String TAG = "FILTER_ACTIVITY";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +84,7 @@ public class FilterActivity extends AppCompatActivity implements CalendarPickerV
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setCustomView(getLayoutInflater().inflate(R.layout.filter_backable_tool_bar, null));
+        getSupportActionBar().setCustomView(R.layout.filter_backable_tool_bar);
         ButterKnife.bind(this);
 
         intent = getIntent();
@@ -94,7 +94,8 @@ public class FilterActivity extends AppCompatActivity implements CalendarPickerV
             view.setVisibility(View.GONE);
         } else {
             address.setText(addressString);
-            Toast.makeText(FilterActivity.this, "address : " + findGeoPoint(addressString), Toast.LENGTH_SHORT).show();
+            // TODO : what?
+            Toast.makeText(FilterActivity.this, "address : " + RefinementUtil.findGeoPoint(MyApplication.getmContext(), addressString), Toast.LENGTH_SHORT).show();
         }
 
         currentCalendarPickerView = (CalendarPickerView) findViewById(R.id.current_calendar_view);
@@ -318,7 +319,8 @@ public class FilterActivity extends AppCompatActivity implements CalendarPickerV
 
     @OnClick(R.id.activity_filter_search_button)
     void searchDetail() {
-        setResult(RESULT_OK);
+        // TODO : need putExtra for filtered searching
+        setResult(RESULT_OK, intent);
         finish();
     }
 
@@ -340,25 +342,5 @@ public class FilterActivity extends AppCompatActivity implements CalendarPickerV
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
-    }
-
-    private String findGeoPoint(String address) {
-        Geocoder geocoder = new Geocoder(this);
-        Address addr;
-        String location = null;
-        try {
-            List<Address> listAddress = geocoder.getFromLocationName(address, 1);
-            if (listAddress.size() > 0) { // 주소값이 존재 하면
-                addr = listAddress.get(0); // Address형태로
-                int lat = (int) (addr.getLatitude() * 1E6);
-                int lng = (int) (addr.getLongitude() * 1E6);
-                location = lat + ", " + lng;
-
-                Log.d("RESULT", "주소로부터 취득한 위도 : " + lat + ", 경도 : " + lng);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return location;
     }
 }

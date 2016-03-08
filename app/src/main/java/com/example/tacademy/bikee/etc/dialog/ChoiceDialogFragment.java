@@ -29,7 +29,7 @@ import retrofit.client.Response;
  * Created by Tacademy on 2015-11-02.
  */
 public class ChoiceDialogFragment extends DialogFragment implements View.OnClickListener {
-
+    // TODO : handle dialog, need generalization
     private NoChoiceDialogFragment dialog;
     private TextView tv;
     private Button btn;
@@ -184,7 +184,6 @@ public class ChoiceDialogFragment extends DialogFragment implements View.OnClick
                     case RENTER_PAY_RESERVATION:
 //                        dialog = new NoChoiceDialogFragment().newInstance(NoChoiceDialogFragment.RENTER_COMPLETE_PAYMENT, NoChoiceDialogFragment.RENTER_MOVE_TO_RENTER_RESERVATION);
 //                        dialog.show(getActivity().getSupportFragmentManager(), "custom");
-                        // TODO : 결제 웹뷰
                         Intent intent = new Intent(MyApplication.getmContext(), RequestPaymentActivity.class);
                         startActivity(intent);
                         break;

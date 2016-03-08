@@ -20,4 +20,10 @@
 
     <dimen name="view_holder_gallery_picture_item_space">4dp</dimen>
     <dimen name="view_holder_gallery_folder_item_space">6dp</dimen>
+
+    <dimen name="indicator_width">6dp</dimen>
+    <dimen name="indicator_height">6dp</dimen>
+    <dimen name="first_indicator_right_margin">16dp</dimen>
+    <dimen name="other_indicator_right_margin">6dp</dimen>
+    <dimen name="indicator_top_margin">16dp</dimen>
 </resources>

@@ -13,19 +13,17 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.tacademy.bikee.common.sidemenu.SignInActivity;
 import com.example.tacademy.bikee.common.chatting.ChattingRoomListFragment;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.sidemenu.InputInquiryActivity;
 import com.example.tacademy.bikee.common.smartkey.SmartKeyFragment;
-import com.example.tacademy.bikee.etc.Util;
+import com.example.tacademy.bikee.etc.utils.ImageUtil;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.example.tacademy.bikee.lister.requestedbicycle.ListerRequestedBicycleListFragment;
 import com.example.tacademy.bikee.lister.sidemenu.evaluatedbicycle.EvaluatedBicyclePostScriptListActivity;
@@ -38,6 +36,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ListerMainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, TabHost.OnTabChangeListener {
+    // TODO : need scenario
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
@@ -214,11 +213,23 @@ public class ListerMainActivity extends AppCompatActivity implements CompoundBut
         if (!PropertyManager.getInstance().getEmail().equals("")
                 || !PropertyManager.getInstance().getName().equals("")) {
             Log.i("Result", PropertyManager.getInstance().getImage());
-            Util.setCircleImageFromURL(this, PropertyManager.getInstance().getImage(), 0, listerImage);
+            ImageUtil.setCircleImageFromURL(
+                    this,
+                    PropertyManager.getInstance().getImage(),
+                    R.drawable.noneimage,
+                    0,
+                    listerImage
+            );
             nameTextView.setText(PropertyManager.getInstance().getName());
             emailTextView.setText(PropertyManager.getInstance().getEmail());
         } else {
-            Util.setCircleImageFromURL(this, "https://s3-ap-northeast-1.amazonaws.com/bikee/KakaoTalk_20151128_194521490.png", 0, listerImage);
+            ImageUtil.setCircleImageFromURL(
+                    this,
+                    "https://s3-ap-northeast-1.amazonaws.com/bikee/KakaoTalk_20151128_194521490.png",
+                    R.drawable.noneimage,
+                    0,
+                    listerImage
+            );
             nameTextView.setText(R.string.renter_side_menu_member_name_text_view_string);
             emailTextView.setText(R.string.renter_side_menu_mail_address_text_view_string);
         }

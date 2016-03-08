@@ -3,6 +3,9 @@ package com.example.tacademy.bikee.common.sidemenu;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
+import android.os.Handler;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,12 +17,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.android.gms.iid.InstanceID;
 import com.tsengvn.typekit.TypekitContextWrapper;
+
+import java.io.IOException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -58,6 +68,12 @@ public class SignInActivity extends AppCompatActivity {
     @Bind(R.id.activity_sign_in_sign_up_string)
     TextView signUpTextView;
 
+    static final private String TAG = "SIGN_IN_ACTIVITY";
+    private String deviceID;
+    private String registrationID;
+    private String deviceName;
+    private String deviceOS = "Android";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,20 +107,22 @@ public class SignInActivity extends AppCompatActivity {
         NetworkManager.getInstance().login(emailEditText.getText().toString().trim(), passwordEditText.getText().toString(), new Callback<ReceiveObject>() {
             @Override
             public void success(ReceiveObject receiveObject, Response response) {
-                Log.i("result", "SignInActivity onResponse Success : " + receiveObject.isSuccess()
-                                + ", Code : " + receiveObject.getCode()
-                                + ", Msg : " + receiveObject.getMsg()
-                );
+                if (BuildConfig.DEBUG)
+                    Log.d(TAG, "SignInActivity onResponse Success : " + receiveObject.isSuccess()
+                                    + ", Code : " + receiveObject.getCode()
+                                    + ", Msg : " + receiveObject.getMsg()
+                    );
 
                 if (receiveObject.getCode() == 200) {
                     Toast.makeText(SignInActivity.this, "로그인됐습니다.", Toast.LENGTH_SHORT).show();
                     NetworkManager.getInstance().selectUserName(new Callback<ReceiveObject>() {
                         @Override
                         public void success(ReceiveObject receiveObject, Response response) {
-                            Log.i("result", "onResponse Success : " + receiveObject.isSuccess()
-                                            + ", Code : " + receiveObject.getCode()
-                                            + ", Msg : " + receiveObject.getMsg()
-                            );
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "onResponse Success : " + receiveObject.isSuccess()
+                                                + ", Code : " + receiveObject.getCode()
+                                                + ", Msg : " + receiveObject.getMsg()
+                                );
                             Result result = receiveObject.getResult().get(0);
                             if ((null != result.getImage())
                                     || (null != result.getImage().getCdnUri())
@@ -118,24 +136,33 @@ public class SignInActivity extends AppCompatActivity {
 
                         @Override
                         public void failure(RetrofitError error) {
-                            Log.e("error", "onFailure Error : " + error.toString());
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "onFailure Error : " + error.toString());
                         }
                     });
                     PropertyManager.getInstance().setEmail(emailEditText.getText().toString().trim());
                     PropertyManager.getInstance().setPassword(passwordEditText.getText().toString());
                     initView();
 
+                    // TODO : need GCM test
+                    checkPlayService();
+                    resolveDeviceID();
+                    resolveDeviceName();
+                    new RequestTokenThread().start();
+                    registerToken();
+                    showStoredToken();
+                } else {
+                    Toast.makeText(SignInActivity.this, receiveObject.getMsg(), Toast.LENGTH_SHORT).show();
                     intent = getIntent();
                     setResult(RESULT_OK, intent);
                     finish();
-                } else {
-                    Toast.makeText(SignInActivity.this, receiveObject.getMsg(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Log.e("error", "SignInActivity onFailure Error : " + error.toString());
+                if (BuildConfig.DEBUG)
+                    Log.d(TAG, "SignInActivity onFailure Error : " + error.toString());
             }
         });
     }
@@ -145,10 +172,11 @@ public class SignInActivity extends AppCompatActivity {
         NetworkManager.getInstance().logout(new Callback<ReceiveObject>() {
             @Override
             public void success(ReceiveObject receiveObject, Response response) {
-                Log.i("result", "onResponse Success : " + receiveObject.isSuccess()
-                                + ", Code : " + receiveObject.getCode()
-                                + ", Msg : " + receiveObject.getMsg()
-                );
+                if (BuildConfig.DEBUG)
+                    Log.d(TAG, "onResponse Success : " + receiveObject.isSuccess()
+                                    + ", Code : " + receiveObject.getCode()
+                                    + ", Msg : " + receiveObject.getMsg()
+                    );
                 PropertyManager.getInstance().setImage("");
                 PropertyManager.getInstance().setName("");
                 PropertyManager.getInstance().setEmail("");
@@ -158,7 +186,8 @@ public class SignInActivity extends AppCompatActivity {
 
             @Override
             public void failure(RetrofitError error) {
-                Log.e("error", "onFailure Error : " + error.toString());
+                if (BuildConfig.DEBUG)
+                    Log.d(TAG, "onFailure Error : " + error.toString());
             }
         });
         initView();
@@ -184,10 +213,11 @@ public class SignInActivity extends AppCompatActivity {
             NetworkManager.getInstance().login(email, password, new Callback<ReceiveObject>() {
                 @Override
                 public void success(ReceiveObject receiveObject, Response response) {
-                    Log.i("result", "onResponse Success : " + receiveObject.isSuccess()
-                                    + ", Code : " + receiveObject.getCode()
-                                    + ", Msg : " + receiveObject.getMsg()
-                    );
+                    if (BuildConfig.DEBUG)
+                        Log.d("result", "onResponse Success : " + receiveObject.isSuccess()
+                                        + ", Code : " + receiveObject.getCode()
+                                        + ", Msg : " + receiveObject.getMsg()
+                        );
                     PropertyManager.getInstance().setImage(image);
                     PropertyManager.getInstance().setName(name);
                     PropertyManager.getInstance().setEmail(email);
@@ -197,7 +227,8 @@ public class SignInActivity extends AppCompatActivity {
 
                 @Override
                 public void failure(RetrofitError error) {
-                    Log.e("error", "onFailure Error : " + error.toString());
+                    if (BuildConfig.DEBUG)
+                        Log.d(TAG, "onFailure Error : " + error.toString());
                 }
             });
         }
@@ -206,21 +237,25 @@ public class SignInActivity extends AppCompatActivity {
     private void initLogin() {
         if (!PropertyManager.getInstance().getEmail().equals("")
                 || !PropertyManager.getInstance().getPassword().equals("")) {
-            NetworkManager.getInstance().login(PropertyManager.getInstance().getEmail(), PropertyManager.getInstance().getPassword(), new Callback<ReceiveObject>() {
-                @Override
-                public void success(ReceiveObject receiveObject, Response response) {
-                    Log.i("result", "onResponse Success : " + receiveObject.isSuccess()
-                                    + ", Code : " + receiveObject.getCode()
-                                    + ", Msg : " + receiveObject.getMsg()
-                    );
-                    initView();
-                }
+            NetworkManager.getInstance().login(PropertyManager.getInstance().getEmail(),
+                    PropertyManager.getInstance().getPassword(),
+                    new Callback<ReceiveObject>() {
+                        @Override
+                        public void success(ReceiveObject receiveObject, Response response) {
+                            if (BuildConfig.DEBUG)
+                                Log.d("result", "onResponse Success : " + receiveObject.isSuccess()
+                                                + ", Code : " + receiveObject.getCode()
+                                                + ", Msg : " + receiveObject.getMsg()
+                                );
+                            initView();
+                        }
 
-                @Override
-                public void failure(RetrofitError error) {
-                    Log.e("error", "onFailure Error : " + error.toString());
-                }
-            });
+                        @Override
+                        public void failure(RetrofitError error) {
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "onFailure Error : " + error.toString());
+                        }
+                    });
         }
     }
 
@@ -262,5 +297,99 @@ public class SignInActivity extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+    }
+
+    void checkPlayService() {
+        int resultCode = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this);
+        if (BuildConfig.DEBUG)
+            Log.d(TAG, "isGooglePlayServicesAvailable : " + resultCode);
+        if (ConnectionResult.SUCCESS == resultCode) {
+            if (BuildConfig.DEBUG)
+                Log.d(TAG, "Google Paly Service is available to bikee!");
+        } else {
+            GoogleApiAvailability.getInstance().getErrorDialog(this, resultCode, 0).show();
+        }
+    }
+
+    private void resolveDeviceID() {
+        String androidID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        if (BuildConfig.DEBUG)
+            Log.d(TAG, "Android ID : " + androidID);
+
+        deviceID = androidID;
+    }
+
+    private void resolveDeviceName() {
+        deviceName = Build.DEVICE;
+    }
+
+    class RequestTokenThread extends Thread {
+        @Override
+        public void run() {
+            if (BuildConfig.DEBUG)
+                Log.d(TAG, "Trying to register device");
+            try {
+                InstanceID instanceID = InstanceID.getInstance(SignInActivity.this);
+                final String token = instanceID.getToken(getString(R.string.GCM_SenderId), GoogleCloudMessaging.INSTANCE_ID_SCOPE);
+                if (registrationID != token) {
+                    registrationID = token;
+                    saveRegistrationID();
+                }
+                if (BuildConfig.DEBUG)
+                    Log.d(TAG, "Token : " + token);
+            } catch (IOException e) {
+                e.printStackTrace();
+                if (BuildConfig.DEBUG)
+                    Log.d(TAG, "Register Exception", e);
+            }
+        }
+    }
+
+    void registerToken() {
+        if (deviceID == null)
+            resolveDeviceID();
+        if (deviceName == null)
+            resolveDeviceName();
+
+        NetworkManager.getInstance().registerToken(deviceID, registrationID, deviceOS, new Callback<ReceiveObject>() {
+            @Override
+            public void success(ReceiveObject receiveObject, Response response) {
+                if (BuildConfig.DEBUG)
+                    Log.d(TAG, "onResponse Success : " + receiveObject.isSuccess()
+                                    + ", Code : " + receiveObject.getCode()
+                                    + ", Msg : " + receiveObject.getMsg()
+                    );
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        intent = getIntent();
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
+                }, 5000);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                if (BuildConfig.DEBUG)
+                    Log.d(TAG, "onFailure Error : " + error.toString());
+            }
+        });
+    }
+
+    void showStoredToken() {
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        String storedToken = sharedPref.getString("REGISTRATION_ID", null);
+        if (storedToken != null) {
+            registrationID = storedToken;
+        }
+    }
+
+    void saveRegistrationID() {
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("REGISTRATION_ID", registrationID);
+        editor.commit();
     }
 }

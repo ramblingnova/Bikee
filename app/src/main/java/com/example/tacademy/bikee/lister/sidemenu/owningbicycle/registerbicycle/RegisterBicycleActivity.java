@@ -26,6 +26,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class RegisterBicycleActivity extends AppCompatActivity implements View.OnClickListener {
+    // TODO : need InputManagerMethod management
     private Toolbar toolbar;
     @Bind(R.id.lister_backable_addable_tool_bar_top_num1_image_view)
     ImageView page0;

@@ -12,6 +12,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Result;
@@ -24,18 +25,23 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnItemClick;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class SearchResultListFragment extends Fragment implements AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener {
+public class SearchResultListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener {
+    // TODO : handle filter result, modify UI
     private SwipeRefreshLayout refreshLayout;
-    private ListView lv;
+    @Bind(R.id.view_search_result_item_list_view)
+    ListView lv;
     private SearchResultListAdapter adapter;
-    private boolean isLastItem = false;
+    private boolean lastItem = false;
     private String latitude = null;
     private String longitude = null;
     private int index;
+
+    private static final String TAG = "SEARCH_R...T_ACTIVITY";
 
     public SearchResultListFragment() {
 
@@ -45,12 +51,12 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_result_list, container, false);
 
+        ButterKnife.bind(this, view);
+
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.view_search_result_item_refresh_list_view);
         refreshLayout.setOnRefreshListener(SearchResultListFragment.this);
 
-        lv = (ListView) view.findViewById(R.id.view_search_result_item_list_view);
         lv.setOnScrollListener(SearchResultListFragment.this);
-        lv.setOnItemClickListener(SearchResultListFragment.this);
         adapter = new SearchResultListAdapter();
         lv.setAdapter(adapter);
 
@@ -69,7 +75,7 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
-        if (isLastItem && scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+        if (lastItem && scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
             requestData();
         }
     }
@@ -77,9 +83,9 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         if (totalItemCount > 0 && (firstVisibleItem + visibleItemCount >= totalItemCount - 1)) {
-            isLastItem = true;
+            lastItem = true;
         } else {
-            isLastItem = false;
+            lastItem = false;
         }
     }
 
@@ -88,9 +94,9 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
 
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        SearchResultListItem item = (SearchResultListItem) lv.getItemAtPosition(position);
+    @OnItemClick(R.id.view_search_result_item_list_view)
+    void onClickItem(AdapterView<?> parent, View view, int position, long id) {
+        SearchResultListItem item = (SearchResultListItem) parent.getItemAtPosition(position);
         Intent intent = new Intent(getActivity(), FilteredBicycleDetailInformationActivity.class);
         intent.putExtra("ID", item.getBicycleId());
         intent.putExtra("LATITUDE", item.getLatitude());
@@ -123,30 +129,33 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
                 component, smartlock, new Callback<ReceiveObject>() {
                     @Override
                     public void success(ReceiveObject receiveObject, Response response) {
-                        Log.i("result", "onResponse Index : " + receiveObject.getLastindex()
-                                        + ", Code : " + receiveObject.getCode()
-                                        + ", Success : " + receiveObject.isSuccess()
-                                        + ", Msg : " + receiveObject.getMsg()
-                                        + ", Error : "
-                        );
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "onResponse Index : " + receiveObject.getLastindex()
+                                            + ", Code : " + receiveObject.getCode()
+                                            + ", Success : " + receiveObject.isSuccess()
+                                            + ", Msg : " + receiveObject.getMsg()
+                                            + ", Error : "
+                            );
                         index = receiveObject.getLastindex();
                         List<Result> results = receiveObject.getResult();
                         String imageURL;
                         for (Result result : results) {
-                            if ((null == result.getImage().getCdnUri()) || (null == result.getImage().getFiles())) {
+                            if ((null == result.getImage().getCdnUri())
+                                    || (null == result.getImage().getFiles())) {
                                 imageURL = "";
                             } else {
                                 imageURL = result.getImage().getCdnUri() + "/detail_" + result.getImage().getFiles().get(0);
                             }
-                            Log.i("result", "List!! onResponse Id : " + result.get_id()
-                                            + ", ImageURL : " + imageURL
-                                            + ", Name : " + result.getTitle()
-                                            + ", Type : " + result.getType()
-                                            + ", Height : " + result.getHeight()
-                                            + ", Price.month : " + result.getPrice().getMonth()
-                                            + ", lat : " + result.getLoc().getCoordinates().get(1)
-                                            + ", lon : " + result.getLoc().getCoordinates().get(0)
-                            );
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "List!! onResponse Id : " + result.get_id()
+                                                + ", ImageURL : " + imageURL
+                                                + ", Name : " + result.getTitle()
+                                                + ", Type : " + result.getType()
+                                                + ", Height : " + result.getHeight()
+                                                + ", Price.month : " + result.getPrice().getMonth()
+                                                + ", lat : " + result.getLoc().getCoordinates().get(1)
+                                                + ", lon : " + result.getLoc().getCoordinates().get(0)
+                                );
                             adapter.add(
                                     result.get_id(),
                                     imageURL,
@@ -170,7 +179,8 @@ public class SearchResultListFragment extends Fragment implements AdapterView.On
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Log.e("error", "onFailure Error : " + error.toString());
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "onFailure Error : " + error.toString());
                     }
                 });
     }

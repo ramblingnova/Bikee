@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.MyApplication;
-import com.example.tacademy.bikee.etc.Util;
+import com.example.tacademy.bikee.etc.utils.ImageUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -43,7 +43,13 @@ public class RenterReservationBicycleView extends FrameLayout {
     }
 
     public void setView(RenterReservationBicycleItem item) {
-        Util.setRoundRectangleImageFromURL(MyApplication.getmContext(), item.getImageURL(), 6, bicyclePicture);
+        ImageUtil.setRoundRectangleImageFromURL(
+                MyApplication.getmContext(),
+                item.getImageURL(),
+                R.drawable.detailpage_bike_image_noneimage,
+                bicyclePicture,
+                6
+        );
 
         Date currentDate = new Date(System.currentTimeMillis());
         if (currentDate.after(item.getEndDate()) == false) {

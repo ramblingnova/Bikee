@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="307dp">
+
+    <RelativeLayout
+        android:id="@+id/bicycle_pictures_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/bicycle_pictures_user_information_view_pager"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <include
+        layout="@layout/lister_information"
+        android:layout_width="match_parent"
+        android:layout_height="87dp"
+        android:layout_gravity="bottom" />
+</FrameLayout>

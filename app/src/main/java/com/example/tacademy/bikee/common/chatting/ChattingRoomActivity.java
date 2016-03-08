@@ -13,7 +13,7 @@ import com.example.tacademy.bikee.R;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
 public class ChattingRoomActivity extends AppCompatActivity {
-
+    // TODO : Chatting
     private Intent intent;
     private ChattingRoomItem item;
     private ListView lv;

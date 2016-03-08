@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.MyApplication;
-import com.example.tacademy.bikee.etc.Util;
+import com.example.tacademy.bikee.etc.utils.ImageUtil;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
 import java.io.File;
@@ -193,15 +193,45 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
         list = (ArrayList) intent.getSerializableExtra("LIST");
 
         if (list.get(0) != null)
-            Util.setRoundRectangleImageFromFile(MyApplication.getmContext(), R.drawable.bike_img_01, list.get(0), 8, item1ImageView);
+            ImageUtil.setRoundRectangleImageFromFile(
+                    MyApplication.getmContext(),
+                    list.get(0),
+                    R.drawable.bike_img_01,
+                    item1ImageView,
+                    8
+            );
         if (list.get(1) != null)
-            Util.setRoundRectangleImageFromFile(MyApplication.getmContext(), R.drawable.bike_img_02, list.get(1), 8, item2ImageView);
+            ImageUtil.setRoundRectangleImageFromFile(
+                    MyApplication.getmContext(),
+                    list.get(1),
+                    R.drawable.bike_img_02,
+                    item2ImageView,
+                    8
+            );
         if (list.get(2) != null)
-            Util.setRoundRectangleImageFromFile(MyApplication.getmContext(), R.drawable.bike_img_03, list.get(2), 8, item3ImageView);
+            ImageUtil.setRoundRectangleImageFromFile(
+                    MyApplication.getmContext(),
+                    list.get(2),
+                    R.drawable.bike_img_03,
+                    item3ImageView,
+                    8
+            );
         if (list.get(3) != null)
-            Util.setRoundRectangleImageFromFile(MyApplication.getmContext(), R.drawable.bike_img_04, list.get(3), 8, item4ImageView);
+            ImageUtil.setRoundRectangleImageFromFile(
+                    MyApplication.getmContext(),
+                    list.get(3),
+                    R.drawable.bike_img_04,
+                    item4ImageView,
+                    8
+            );
         if (list.get(4) != null)
-            Util.setRoundRectangleImageFromFile(MyApplication.getmContext(), R.drawable.bike_img_05, list.get(4), 8, item5ImageView);
+            ImageUtil.setRoundRectangleImageFromFile(
+                    MyApplication.getmContext(),
+                    list.get(4),
+                    R.drawable.bike_img_05,
+                    item5ImageView,
+                    8
+            );
 
         if (getPrimaryEmptyPosition() == MAXIMUM_LIST_SIZE) {
             freezeButton.setEnabled(false);
@@ -227,19 +257,49 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
                     int position = getPrimaryEmptyPosition();
                     switch (position) {
                         case 0:
-                            Util.setRoundRectangleImageFromFile(MyApplication.getmContext(), R.drawable.bike_img_01, file, 8, item1ImageView);
+                            ImageUtil.setRoundRectangleImageFromFile(
+                                    MyApplication.getmContext(),
+                                    file,
+                                    R.drawable.bike_img_01,
+                                    item1ImageView,
+                                    8
+                            );
                             break;
                         case 1:
-                            Util.setRoundRectangleImageFromFile(MyApplication.getmContext(), R.drawable.bike_img_02, file, 8, item2ImageView);
+                            ImageUtil.setRoundRectangleImageFromFile(
+                                    MyApplication.getmContext(),
+                                    file,
+                                    R.drawable.bike_img_02,
+                                    item2ImageView,
+                                    8
+                            );
                             break;
                         case 2:
-                            Util.setRoundRectangleImageFromFile(MyApplication.getmContext(), R.drawable.bike_img_03, file, 8, item3ImageView);
+                            ImageUtil.setRoundRectangleImageFromFile(
+                                    MyApplication.getmContext(),
+                                    file,
+                                    R.drawable.bike_img_03,
+                                    item3ImageView,
+                                    8
+                            );
                             break;
                         case 3:
-                            Util.setRoundRectangleImageFromFile(MyApplication.getmContext(), R.drawable.bike_img_04, file, 8, item4ImageView);
+                            ImageUtil.setRoundRectangleImageFromFile(
+                                    MyApplication.getmContext(),
+                                    file,
+                                    R.drawable.bike_img_04,
+                                    item4ImageView,
+                                    8
+                            );
                             break;
                         case 4:
-                            Util.setRoundRectangleImageFromFile(MyApplication.getmContext(), R.drawable.bike_img_05, file, 8, item5ImageView);
+                            ImageUtil.setRoundRectangleImageFromFile(
+                                    MyApplication.getmContext(),
+                                    file,
+                                    R.drawable.bike_img_05,
+                                    item5ImageView,
+                                    8
+                            );
                             break;
                     }
                     list.set(position, file);

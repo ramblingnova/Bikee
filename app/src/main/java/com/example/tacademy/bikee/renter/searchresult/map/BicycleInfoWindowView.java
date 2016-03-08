@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -16,7 +15,7 @@ import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.POI;
 import com.example.tacademy.bikee.etc.MyApplication;
-import com.example.tacademy.bikee.etc.Util;
+import com.example.tacademy.bikee.etc.utils.ImageUtil;
 import com.example.tacademy.bikee.etc.manager.FontManager;
 import com.example.tacademy.bikee.renter.searchresult.SearchResultMapItem;
 import com.google.android.gms.maps.GoogleMap;
@@ -105,7 +104,13 @@ public class BicycleInfoWindowView extends FrameLayout implements GoogleMap.Info
     }
 
     public void setView(SearchResultMapItem item) {
-        Util.setRoundRectangleImageFromURL(MyApplication.getmContext(), item.getImageURL(), 12, bicycleImage);
+        ImageUtil.setRoundRectangleImageFromURL(
+                MyApplication.getmContext(),
+                item.getImageURL(),
+                R.drawable.detailpage_bike_image_noneimage,
+                bicycleImage,
+                12
+        );
         bicycle_name.setText(item.getBicycle_name().toString());
         String typeString = "보급형";
         switch (item.getType().toString()) {

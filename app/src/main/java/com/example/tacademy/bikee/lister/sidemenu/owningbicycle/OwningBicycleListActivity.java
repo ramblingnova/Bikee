@@ -29,6 +29,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class OwningBicycleListActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+    // TODO : need modify UI
     private Toolbar toolbar;
     private Intent intent;
     private ListView lv;
@@ -118,8 +119,6 @@ public class OwningBicycleListActivity extends AppCompatActivity implements Adap
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == REGISTER_BICYCLE_ACTIVITY) {
-            // TODO 자전거 등록을 완료했을 때를 구현해야 한다.
-            // 데이터를 받아온다. -> 어댑터에 심는다.
             adapter.clear();
             initData();
         }

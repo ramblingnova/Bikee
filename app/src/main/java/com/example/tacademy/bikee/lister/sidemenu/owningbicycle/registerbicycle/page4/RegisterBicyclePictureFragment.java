@@ -2,31 +2,24 @@ package com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.MyApplication;
-import com.example.tacademy.bikee.etc.Util;
+import com.example.tacademy.bikee.etc.utils.ImageUtil;
 import com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle.RegisterBicycleINF;
 import com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle.page4.camera.CameraActivity;
 import com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle.page4.gallery.GalleryActivity;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,8 +58,6 @@ public class RegisterBicyclePictureFragment extends Fragment {
 
     private List<File> files;
 
-    public static final int REQ_CODE_SELECT_IMAGE = 100;
-
     public static RegisterBicyclePictureFragment newInstance() {
         return new RegisterBicyclePictureFragment();
     }
@@ -87,8 +78,6 @@ public class RegisterBicyclePictureFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_register_bicycle_picture, container, false);
         ButterKnife.bind(this, view);
-//        Button btn = (Button) view.findViewById(R.id.fragment_register_bicycle_picture_input_image_button);
-//        btn.setOnClickListener(this);
 
         files = new ArrayList<>();
 
@@ -129,8 +118,8 @@ public class RegisterBicyclePictureFragment extends Fragment {
             warningImageView.setVisibility(View.INVISIBLE);
             warningTextView.setVisibility(View.INVISIBLE);
             if ((null != registerBicycleINF) && (!registerBicycleINF.getEnable())) {
-                            registerBicycleINF.setEnable(true);
-                        }
+                registerBicycleINF.setEnable(true);
+            }
         } else {
             warningImageView.setVisibility(View.VISIBLE);
             warningTextView.setVisibility(View.VISIBLE);
@@ -165,9 +154,9 @@ public class RegisterBicyclePictureFragment extends Fragment {
     void cancel(View view) {
         warningImageView.setVisibility(View.VISIBLE);
         warningTextView.setVisibility(View.VISIBLE);
-                        if ((null != registerBicycleINF) && (registerBicycleINF.getEnable())) {
-                            registerBicycleINF.setEnable(false);
-                        }
+        if ((null != registerBicycleINF) && (registerBicycleINF.getEnable())) {
+            registerBicycleINF.setEnable(false);
+        }
 
         switch (view.getId()) {
             case R.id.thumbnail_item1_cancel_image_view:
@@ -203,18 +192,6 @@ public class RegisterBicyclePictureFragment extends Fragment {
         }
     }
 
-//    @Override
-//    public void onClick(View v) {
-//        switch (v.getId()) {
-////            case R.id.fragment_register_bicycle_picture_input_image_button:
-////                intent = new Intent(Intent.ACTION_PICK);
-////                intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
-////                intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-////                startActivityForResult(intent, REQ_CODE_SELECT_IMAGE);
-////                break;
-//        }
-//    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Toast.makeText(MyApplication.getmContext(), "resultCode : " + resultCode, Toast.LENGTH_SHORT).show();
@@ -223,75 +200,57 @@ public class RegisterBicyclePictureFragment extends Fragment {
             list = (ArrayList) data.getSerializableExtra("LIST");
 
             if (list.get(0) != null)
-                Util.setRoundRectangleImageFromFile(MyApplication.getmContext(), R.drawable.img_01, list.get(0), 8, item1ImageView);
+                ImageUtil.setRoundRectangleImageFromFile(
+                        MyApplication.getmContext(),
+                        list.get(0),
+                        R.drawable.img_01,
+                        item1ImageView,
+                        8
+                );
             else
                 item1ImageView.setImageResource(R.drawable.img_01);
             if (list.get(1) != null)
-                Util.setRoundRectangleImageFromFile(MyApplication.getmContext(), R.drawable.img_02, list.get(1), 8, item2ImageView);
+                ImageUtil.setRoundRectangleImageFromFile(
+                        MyApplication.getmContext(),
+                        list.get(1),
+                        R.drawable.img_02,
+                        item2ImageView,
+                        8
+                );
             else
                 item2ImageView.setImageResource(R.drawable.img_02);
             if (list.get(2) != null)
-                Util.setRoundRectangleImageFromFile(MyApplication.getmContext(), R.drawable.img_03, list.get(2), 8, item3ImageView);
+                ImageUtil.setRoundRectangleImageFromFile(
+                        MyApplication.getmContext(),
+                        list.get(2),
+                        R.drawable.img_03,
+                        item3ImageView,
+                        8
+                );
             else
                 item3ImageView.setImageResource(R.drawable.img_03);
             if (list.get(3) != null)
-                Util.setRoundRectangleImageFromFile(MyApplication.getmContext(), R.drawable.img_04, list.get(3), 8, item4ImageView);
+                ImageUtil.setRoundRectangleImageFromFile(
+                        MyApplication.getmContext(),
+                        list.get(3),
+                        R.drawable.img_04,
+                        item4ImageView,
+                        8
+                );
             else
                 item4ImageView.setImageResource(R.drawable.img_04);
             if (list.get(4) != null)
-                Util.setRoundRectangleImageFromFile(MyApplication.getmContext(), R.drawable.img_05, list.get(4), 8, item5ImageView);
+                ImageUtil.setRoundRectangleImageFromFile(
+                        MyApplication.getmContext(),
+                        list.get(4),
+                        R.drawable.img_05,
+                        item5ImageView,
+                        8
+                );
             else
                 item5ImageView.setImageResource(R.drawable.img_05);
         }
-
-//        if (requestCode == REQ_CODE_SELECT_IMAGE) {
-//            if (resultCode == Activity.RESULT_OK) {
-//                try {
-//                    //Uri에서 이미지 이름을 얻어온다.
-//                    String name_Str = getRealPathFromURI(data.getData());
-//                    //이미지 데이터를 비트맵으로 받아온다.
-//                    Bitmap image_bitmap = MediaStore.Images.Media.getBitmap(MyApplication.getmContext().getContentResolver(), data.getData());
-//                    ImageView image = (ImageView) view.findViewById(R.id.fragment_register_bicycle_picture_input_image_image_view);
-//                    //배치해놓은 ImageView에 set
-//                    image.setImageBitmap(image_bitmap);
-//                    //Toast.makeText(getBaseContext(), "name_Str : "+name_Str , Toast.LENGTH_SHORT).show();
-//                    files.add(new File(name_Str));
-//                    files.add(new File(name_Str));
-//                    files.add(new File(name_Str));
-//
-////                    if (files.size() != 0) {
-////                        if ((null != registerBicycleINF) && (!registerBicycleINF.getEnable())) {
-////                            registerBicycleINF.setEnable(true);
-////                        }
-////                    } else {
-////                        if ((null != registerBicycleINF) && (registerBicycleINF.getEnable())) {
-////                            registerBicycleINF.setEnable(false);
-////                        }
-////                    }
-//                } catch (FileNotFoundException e) {
-//                    // TODO Auto-generated catch block
-//                    e.printStackTrace();
-//                } catch (IOException e) {
-//                    // TODO Auto-generated catch block
-//                    e.printStackTrace();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
     }
-
-//    public String getRealPathFromURI(Uri contentUri) {
-//        String res = null;
-//        String[] proj = {MediaStore.Images.Media.DATA};
-//        Cursor cursor = MyApplication.getmContext().getContentResolver().query(contentUri, proj, null, null, null);
-//        if (cursor.moveToFirst()) {
-//            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-//            res = cursor.getString(column_index);
-//        }
-//        cursor.close();
-//        return res;
-//    }
 
     public List<File> getFiles() {
         return list;

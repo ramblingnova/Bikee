@@ -15,7 +15,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.example.tacademy.bikee.R;
-import com.example.tacademy.bikee.etc.Util;
+import com.example.tacademy.bikee.etc.utils.ImageUtil;
+import com.example.tacademy.bikee.etc.utils.RegExUtil;
 import com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle.RegisterBicycleINF;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -28,6 +29,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class RegisterBicycleLocationFragment extends Fragment implements OnMapReadyCallback {
+    // TODO : handle address
     private View view;
     private GoogleMap gm;
     private EditText address;
@@ -44,7 +46,7 @@ public class RegisterBicycleLocationFragment extends Fragment implements OnMapRe
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (s.toString().matches(Util.REGEX_HANGUL))
+            if (s.toString().matches(RegExUtil.REGEX_HANGUL))
                 findGeoPoint(s.toString());
             if ((latitude != 0) && (longitude != 0)) {
                 if ((null != registerBicycleINF) && (!registerBicycleINF.getEnable())) {

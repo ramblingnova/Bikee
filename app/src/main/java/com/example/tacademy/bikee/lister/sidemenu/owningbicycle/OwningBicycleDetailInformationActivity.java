@@ -119,7 +119,7 @@ public class OwningBicycleDetailInformationActivity extends AppCompatActivity im
                                     + ", Latitude : " + result.getLoc().getCoordinates().get(1)
                                     + ", Longitude : " + result.getLoc().getCoordinates().get(0)
                     );
-                    // TODO 데이터를 뿌려주어야 한다.
+                    // TODO : need setting data to UI
                 }
             }
 

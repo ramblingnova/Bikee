@@ -47,6 +47,7 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
         GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMapClickListener,
         GoogleMap.OnMarkerDragListener, GoogleMap.OnCameraChangeListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
+    // TODO : handle filter result, when click icon move to center, modify click area
     final private Map<POI, Marker> mMarkerResolver = new HashMap<POI, Marker>();
     final private Map<Marker, POI> mPOIResolver = new HashMap<Marker, POI>();
     private GoogleMap googleMap;

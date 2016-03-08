@@ -42,7 +42,6 @@ public class CardManagementActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        // TODO
         for (int i = 0; i < 10; i++) {
             adapter.add("카드종류" + i, "카드번호" + i, "유효기간" + i, "생년월일" + i, "비밀번호" + i);
         }

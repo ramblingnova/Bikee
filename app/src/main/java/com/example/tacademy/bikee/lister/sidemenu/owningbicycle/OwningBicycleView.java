@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.MyApplication;
-import com.example.tacademy.bikee.etc.Util;
+import com.example.tacademy.bikee.etc.utils.ImageUtil;
 
 /**
  * Created by Tacademy on 2015-11-04.
@@ -30,7 +30,13 @@ public class OwningBicycleView extends FrameLayout {
     }
 
     public void setView(OwningBicycleItem item) {
-        Util.setRoundRectangleImageFromURL(MyApplication.getmContext(), item.getImageURL(), 6, bicycleImage);
+        ImageUtil.setRoundRectangleImageFromURL(
+                MyApplication.getmContext(),
+                item.getImageURL(),
+                R.drawable.detailpage_bike_image_noneimage,
+                bicycleImage,
+                6
+        );
         nameTextView.setText("" + item.getName());
         dateTextView.setText("" + item.getDate());
     }

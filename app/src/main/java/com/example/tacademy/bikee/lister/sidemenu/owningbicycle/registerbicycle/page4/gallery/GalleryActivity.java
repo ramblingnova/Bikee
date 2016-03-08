@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.MyApplication;
-import com.example.tacademy.bikee.etc.Util;
+import com.example.tacademy.bikee.etc.utils.ImageUtil;
 import com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle.page4.gallery.folder.GalleryFolderFragment;
 import com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle.page4.gallery.folder.GetGalleryFolderNameListener;
 import com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle.page4.gallery.picture.GalleryPictureFragment;
@@ -27,7 +27,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class GalleryActivity extends AppCompatActivity implements GetGalleryPicturePathListener, GetGalleryFolderNameListener {
-    private Toolbar toolbar;
     private Intent intent;
     private int currentFragmentState;
     private final static int GALLERY_PICTURE_STATE = 1;
@@ -70,7 +69,7 @@ public class GalleryActivity extends AppCompatActivity implements GetGalleryPict
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
 
-        toolbar = (Toolbar) findViewById(R.id.activity_owning_bicycle_list_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_owning_bicycle_list_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
@@ -104,23 +103,53 @@ public class GalleryActivity extends AppCompatActivity implements GetGalleryPict
         ArrayList<String> checkedPathList = new ArrayList<>();
 
         if (list.get(0) != null) {
-            Util.setRoundRectangleImageFromFile(MyApplication.getmContext(), R.drawable.bike_img_01, list.get(0), 8, item1ImageView);
+            ImageUtil.setRoundRectangleImageFromFile(
+                    MyApplication.getmContext(),
+                    list.get(0),
+                    R.drawable.bike_img_01,
+                    item1ImageView,
+                    8
+            );
             checkedPathList.add(list.get(0).getPath());
         }
         if (list.get(1) != null) {
-            Util.setRoundRectangleImageFromFile(MyApplication.getmContext(), R.drawable.bike_img_02, list.get(1), 8, item2ImageView);
+            ImageUtil.setRoundRectangleImageFromFile(
+                    MyApplication.getmContext(),
+                    list.get(1),
+                    R.drawable.bike_img_02,
+                    item2ImageView,
+                    8
+            );
             checkedPathList.add(list.get(1).getPath());
         }
         if (list.get(2) != null) {
-            Util.setRoundRectangleImageFromFile(MyApplication.getmContext(), R.drawable.bike_img_03, list.get(2), 8, item3ImageView);
+            ImageUtil.setRoundRectangleImageFromFile(
+                    MyApplication.getmContext(),
+                    list.get(2),
+                    R.drawable.bike_img_03,
+                    item3ImageView,
+                    8
+            );
             checkedPathList.add(list.get(2).getPath());
         }
         if (list.get(3) != null) {
-            Util.setRoundRectangleImageFromFile(MyApplication.getmContext(), R.drawable.bike_img_04, list.get(3), 8, item4ImageView);
+            ImageUtil.setRoundRectangleImageFromFile(
+                    MyApplication.getmContext(),
+                    list.get(3),
+                    R.drawable.bike_img_04,
+                    item4ImageView,
+                    8
+            );
             checkedPathList.add(list.get(3).getPath());
         }
         if (list.get(4) != null) {
-            Util.setRoundRectangleImageFromFile(MyApplication.getmContext(), R.drawable.bike_img_05, list.get(4), 8, item5ImageView);
+            ImageUtil.setRoundRectangleImageFromFile(
+                    MyApplication.getmContext(),
+                    list.get(4),
+                    R.drawable.bike_img_05,
+                    item5ImageView,
+                    8
+            );
             checkedPathList.add(list.get(4).getPath());
         }
 
@@ -131,7 +160,7 @@ public class GalleryActivity extends AppCompatActivity implements GetGalleryPict
         galleryFolderFragment = GalleryFolderFragment.newInstance();
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.activity_callery_container, galleryPictureFragment).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.activity_gallery_container, galleryPictureFragment).commit();
         }
 
         galleryPictureFragment.setGetGalleryPicturePathListener(this);
@@ -159,7 +188,7 @@ public class GalleryActivity extends AppCompatActivity implements GetGalleryPict
                     currentFragmentState = GALLERY_PICTURE_STATE;
                     pictureImageView.setImageResource(R.drawable.image_icon_b);
                     folderImageView.setImageResource(R.drawable.folder_icon_w);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.activity_callery_container, galleryPictureFragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.activity_gallery_container, galleryPictureFragment).commit();
                 }
                 break;
             case R.id.gallery_tool_bar_folder_button_image_view:
@@ -167,7 +196,7 @@ public class GalleryActivity extends AppCompatActivity implements GetGalleryPict
                     currentFragmentState = GALLERY_FOLDER_STATE;
                     pictureImageView.setImageResource(R.drawable.image_icon_w);
                     folderImageView.setImageResource(R.drawable.folder_icon_b);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.activity_callery_container, galleryFolderFragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.activity_gallery_container, galleryFolderFragment).commit();
                 }
                 break;
         }
@@ -229,19 +258,49 @@ public class GalleryActivity extends AppCompatActivity implements GetGalleryPict
             list.set(position, file);
             switch (position) {
                 case 0:
-                    Util.setRoundRectangleImageFromFile(MyApplication.getmContext(), R.drawable.bike_img_01, list.get(0), 8, item1ImageView);
+                    ImageUtil.setRoundRectangleImageFromFile(
+                            MyApplication.getmContext(),
+                            list.get(0),
+                            R.drawable.bike_img_01,
+                            item1ImageView,
+                            8
+                    );
                     break;
                 case 1:
-                    Util.setRoundRectangleImageFromFile(MyApplication.getmContext(), R.drawable.bike_img_02, list.get(1), 8, item2ImageView);
+                    ImageUtil.setRoundRectangleImageFromFile(
+                            MyApplication.getmContext(),
+                            list.get(1),
+                            R.drawable.bike_img_02,
+                            item2ImageView,
+                            8
+                    );
                     break;
                 case 2:
-                    Util.setRoundRectangleImageFromFile(MyApplication.getmContext(), R.drawable.bike_img_03, list.get(2), 8, item3ImageView);
+                    ImageUtil.setRoundRectangleImageFromFile(
+                            MyApplication.getmContext(),
+                            list.get(2),
+                            R.drawable.bike_img_03,
+                            item3ImageView,
+                            8
+                    );
                     break;
                 case 3:
-                    Util.setRoundRectangleImageFromFile(MyApplication.getmContext(), R.drawable.bike_img_04, list.get(3), 8, item4ImageView);
+                    ImageUtil.setRoundRectangleImageFromFile(
+                            MyApplication.getmContext(),
+                            list.get(3),
+                            R.drawable.bike_img_04,
+                            item4ImageView,
+                            8
+                    );
                     break;
                 case 4:
-                    Util.setRoundRectangleImageFromFile(MyApplication.getmContext(), R.drawable.bike_img_05, list.get(4), 8, item5ImageView);
+                    ImageUtil.setRoundRectangleImageFromFile(
+                            MyApplication.getmContext(),
+                            list.get(4),
+                            R.drawable.bike_img_05,
+                            item5ImageView,
+                            8
+                    );
                     break;
             }
         }
@@ -257,7 +316,7 @@ public class GalleryActivity extends AppCompatActivity implements GetGalleryPict
         currentFragmentState = GALLERY_PICTURE_STATE;
         pictureImageView.setImageResource(R.drawable.image_icon_b);
         folderImageView.setImageResource(R.drawable.folder_icon_w);
-        getSupportFragmentManager().beginTransaction().replace(R.id.activity_callery_container, galleryPictureFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.activity_gallery_container, galleryPictureFragment).commit();
         galleryPictureFragment.enterFolder(folderName);
     }
 

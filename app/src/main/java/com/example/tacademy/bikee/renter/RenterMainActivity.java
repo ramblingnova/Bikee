@@ -10,19 +10,18 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.Layout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.tacademy.bikee.etc.Util;
+import com.example.tacademy.bikee.BuildConfig;
+import com.example.tacademy.bikee.etc.utils.ImageUtil;
 import com.example.tacademy.bikee.common.chatting.ChattingRoomListFragment;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.example.tacademy.bikee.lister.ListerMainActivity;
@@ -43,6 +42,7 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 public class RenterMainActivity extends AppCompatActivity implements DrawerLayout.DrawerListener, TabHost.OnTabChangeListener {
+    // TODO : get filter result and send to filter result, handle shadow
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
@@ -57,6 +57,7 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
     private Intent intent;
 
     final public static String from = "RENTER";
+    private static final String TAG = "RENTER_MAIN_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,12 +121,25 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
     private void initProfile() {
         if (!PropertyManager.getInstance().getEmail().equals("")
                 || !PropertyManager.getInstance().getName().equals("")) {
-            Log.i("Result", PropertyManager.getInstance().getImage());
-            Util.setCircleImageFromURL(this, PropertyManager.getInstance().getImage(), 0, renterImage);
+            if (BuildConfig.DEBUG)
+                Log.d(TAG, PropertyManager.getInstance().getImage());
+            ImageUtil.setCircleImageFromURL(
+                    this,
+                    PropertyManager.getInstance().getImage(),
+                    R.drawable.noneimage,
+                    0,
+                    renterImage
+            );
             nameTextView.setText(PropertyManager.getInstance().getName());
             emailTextView.setText(PropertyManager.getInstance().getEmail());
         } else {
-            Util.setCircleImageFromURL(this, "https://s3-ap-northeast-1.amazonaws.com/bikee/KakaoTalk_20151128_194521490.png", 0, renterImage);
+            ImageUtil.setCircleImageFromURL(
+                    this,
+                    "https://s3-ap-northeast-1.amazonaws.com/bikee/KakaoTalk_20151128_194521490.png",
+                    R.drawable.noneimage,
+                    0,
+                    renterImage
+            );
             nameTextView.setText(R.string.renter_side_menu_member_name_text_view_string);
             emailTextView.setText(R.string.renter_side_menu_mail_address_text_view_string);
         }
