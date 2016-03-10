@@ -1,12 +1,12 @@
 package com.example.tacademy.bikee.lister.sidemenu.owningbicycle.registerbicycle;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -25,9 +25,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class RegisterBicycleActivity extends AppCompatActivity implements View.OnClickListener {
-    // TODO : need InputManagerMethod management
-    private Toolbar toolbar;
+public class RegisterBicycleActivity extends AppCompatActivity {
+    private Intent intent;
     @Bind(R.id.lister_backable_addable_tool_bar_top_num1_image_view)
     ImageView page0;
     @Bind(R.id.lister_backable_addable_tool_bar_top_num2_image_view)
@@ -38,7 +37,6 @@ public class RegisterBicycleActivity extends AppCompatActivity implements View.O
     ImageView page3;
     @Bind(R.id.lister_backable_addable_tool_bar_top_num5_image_view)
     ImageView page4;
-    private Intent intent;
     private Fragment[] list = {
             RegisterBicycleInformationFragment.newInstance(),
             RegisterBicycleLocationFragment.newInstance(),
@@ -46,46 +44,47 @@ public class RegisterBicycleActivity extends AppCompatActivity implements View.O
             RegisterBicyclePictureFragment.newInstance(),
             RegisterBicycleFeeFragment.newInstance()
     };
+    @Bind(R.id.fragment_register_bicycle_next_button)
+    Button nextButton;
+    private RegisterBicycleINF registerBicycleINF;
+
     private RegisterBicycleItem item;
     public static final String ITEM_TAG = "ITEM";
-    final private static int FINALLY_REGISTER_BICYCLE_ACTIVITY = 1;
-    InputMethodManager imm;
+    final static private int FINALLY_REGISTER_BICYCLE_ACTIVITY = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_bicycle);
 
-        toolbar = (Toolbar) findViewById(R.id.activity_register_bicycle_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_register_bicycle_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setCustomView(R.layout.lister_backable_page_movable_tool_bar);
 
+        ButterKnife.bind(this);
+
+        nextButton.setEnabled(false);
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_register_bicycle_information_container, list[0]).commit();
         }
-
-        final Button btn = (Button) findViewById(R.id.fragment_register_bicycle_next_button);
-        btn.setOnClickListener(RegisterBicycleActivity.this);
-        btn.setEnabled(false);
-
         RegisterBicycleInformationFragment registerBicycleInformationFragment = (RegisterBicycleInformationFragment) list[0];
         RegisterBicycleLocationFragment registerBicycleLocationFragment = (RegisterBicycleLocationFragment) list[1];
         RegisterBicycleIntroductionFragment registerBicycleIntroductionFragment = (RegisterBicycleIntroductionFragment) list[2];
         RegisterBicyclePictureFragment registerBicyclePictureFragment = (RegisterBicyclePictureFragment) list[3];
         RegisterBicycleFeeFragment registerBicycleFeeFragment = (RegisterBicycleFeeFragment) list[4];
-
         registerBicycleInformationFragment.setRegisterBicycleINF(registerBicycleINF = new RegisterBicycleINF() {
             @Override
             public void setEnable(boolean b) {
-                btn.setEnabled(b);
+                nextButton.setEnabled(b);
             }
 
             @Override
             public boolean getEnable() {
-                return btn.isEnabled();
+                return nextButton.isEnabled();
             }
         });
         registerBicycleLocationFragment.setRegisterBicycleINF(registerBicycleINF);
@@ -93,51 +92,49 @@ public class RegisterBicycleActivity extends AppCompatActivity implements View.O
         registerBicyclePictureFragment.setRegisterBicycleINF(registerBicycleINF);
         registerBicycleFeeFragment.setRegisterBicycleINF(registerBicycleINF);
 
-        ButterKnife.bind(this);
-
         refreshTopPageNumber(0);
-
-        imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
     }
 
     @OnClick(R.id.lister_backable_page_movable_tool_bar_back_button_layout)
     void back() {
+        hideKeyboard(this);
         int page = getSupportFragmentManager().getBackStackEntryCount();
         if (page > 0) {
             refreshTopPageNumber(page - 1);
-        }
-        if (imm.isActive() == true) {
-            Log.i("isActive() : ", "" +imm.isActive());
-//            imm.hideSoftInputFromWindow(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
         }
         super.onBackPressed();
     }
 
     @Override
     public void onBackPressed() {
+        hideKeyboard(this);
         int page = getSupportFragmentManager().getBackStackEntryCount();
         if (page > 0) {
             refreshTopPageNumber(page - 1);
         }
-        if (imm.isActive() == true) {
-            Log.i("isActive() : ", "" +imm.isActive());
-//            imm.hideSoftInputFromWindow(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-        }
         super.onBackPressed();
     }
 
-    RegisterBicycleINF registerBicycleINF;
+    public static void hideKeyboard(Context ctx) {
+        InputMethodManager inputManager = (InputMethodManager) ctx
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
 
-    @Override
-    public void onClick(View v) {
+        View v = ((Activity) ctx).getCurrentFocus();
+        if (v == null)
+            return;
+
+        inputManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+    }
+
+    @OnClick(R.id.fragment_register_bicycle_next_button)
+    void onClick(View v) {
         switch (v.getId()) {
             case R.id.fragment_register_bicycle_next_button:
-                Button btn = (Button) v.findViewById(R.id.fragment_register_bicycle_next_button);
-                btn.setEnabled(false);
+                hideKeyboard(this);
+                nextButton.setEnabled(false);
 
                 int page = getSupportFragmentManager().getBackStackEntryCount();
                 if (page < list.length - 1) {
-//                    Toast.makeText(RegisterBicycleActivity.this, "page : " + (page + 1) + " -> page : " + (page + 2), Toast.LENGTH_SHORT).show();
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_register_bicycle_information_container, list[page + 1]).addToBackStack(null).commit();
                     refreshTopPageNumber(page + 1);
                 } else {
@@ -191,13 +188,10 @@ public class RegisterBicycleActivity extends AppCompatActivity implements View.O
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             int page = getSupportFragmentManager().getBackStackEntryCount();
-            if (page == 0) {
-//                Toast.makeText(RegisterBicycleActivity.this, "page : " + (page + 1) + " -> finish()", Toast.LENGTH_SHORT).show();
+            if (page == 0)
                 finish();
-            } else {
-//                Toast.makeText(RegisterBicycleActivity.this, "page : " + (page + 1) + " -> page : " + page, Toast.LENGTH_SHORT).show();
+            else
                 getSupportFragmentManager().popBackStack();
-            }
             return true;
         }
         return super.onOptionsItemSelected(item);

@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TabHost;
@@ -29,13 +30,16 @@ import com.example.tacademy.bikee.lister.requestedbicycle.ListerRequestedBicycle
 import com.example.tacademy.bikee.lister.sidemenu.evaluatedbicycle.EvaluatedBicyclePostScriptListActivity;
 import com.example.tacademy.bikee.lister.sidemenu.owningbicycle.OwningBicycleListActivity;
 import com.example.tacademy.bikee.renter.RenterMainActivity;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.android.gms.iid.InstanceID;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
-public class ListerMainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, TabHost.OnTabChangeListener {
+public class ListerMainActivity extends AppCompatActivity implements TabHost.OnTabChangeListener {
     // TODO : need scenario
     private Toolbar toolbar;
     private DrawerLayout drawer;
@@ -146,11 +150,20 @@ public class ListerMainActivity extends AppCompatActivity implements CompoundBut
         }
     }
 
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+    @Bind(R.id.lister_side_menu_push_alarm_switch)
+    CheckBox push;
+    @OnCheckedChanged(R.id.lister_side_menu_push_alarm_switch)
+    void pushAlramCheckedChange(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
             case R.id.lister_side_menu_push_alarm_switch:
-//                Toast.makeText(ListerMainActivity.this, "asdfasdf", Toast.LENGTH_SHORT).show();
+                if (isChecked) {
+                    PropertyManager.getInstance().setPushEnable(true);
+                } else {
+                    PropertyManager.getInstance().setPushEnable(false);
+//                    try {
+//                        InstanceID.getInstance(this).deleteToken(getString(R.string.GCM_SenderId), GoogleCloudMessaging.INSTANCE_ID_SCOPE);
+//                    } catch (Exception e) {}
+                }
                 break;
         }
     }
@@ -233,6 +246,11 @@ public class ListerMainActivity extends AppCompatActivity implements CompoundBut
             nameTextView.setText(R.string.renter_side_menu_member_name_text_view_string);
             emailTextView.setText(R.string.renter_side_menu_mail_address_text_view_string);
         }
+
+        if (PropertyManager.getInstance().isPushEnable())
+            push.setChecked(true);
+        else
+            push.setChecked(false);
     }
 
 

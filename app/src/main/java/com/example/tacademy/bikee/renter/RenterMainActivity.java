@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TabHost;
@@ -143,6 +144,11 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
             nameTextView.setText(R.string.renter_side_menu_member_name_text_view_string);
             emailTextView.setText(R.string.renter_side_menu_mail_address_text_view_string);
         }
+
+        if (PropertyManager.getInstance().isPushEnable())
+            push.setChecked(true);
+        else
+            push.setChecked(false);
     }
 
     @OnClick({R.id.renter_side_menu_renter_image_image_view,
@@ -238,11 +244,20 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
         }
     }
 
+    @Bind(R.id.renter_side_menu_push_alarm_switch)
+    CheckBox push;
     @OnCheckedChanged(R.id.renter_side_menu_push_alarm_switch)
     void pushAlramCheckedChange(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
             case R.id.renter_side_menu_push_alarm_switch:
-                Toast.makeText(RenterMainActivity.this, "isChecked : " + isChecked, Toast.LENGTH_SHORT).show();
+                if (isChecked) {
+                    PropertyManager.getInstance().setPushEnable(true);
+                } else {
+                    PropertyManager.getInstance().setPushEnable(false);
+//                    try {
+//                        InstanceID.getInstance(this).deleteToken(getString(R.string.GCM_SenderId), GoogleCloudMessaging.INSTANCE_ID_SCOPE);
+//                    } catch (Exception e) {}
+                }
                 break;
         }
     }

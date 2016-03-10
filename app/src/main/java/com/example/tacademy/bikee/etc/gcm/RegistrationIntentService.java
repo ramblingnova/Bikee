@@ -31,9 +31,9 @@ public class RegistrationIntentService extends IntentService {
             InstanceID instanceID = InstanceID.getInstance(this);
             final String token = instanceID.getToken(getString(R.string.GCM_SenderId), GoogleCloudMessaging.INSTANCE_ID_SCOPE);
             Log.d(TAG, "Token : " + token);
-
             Intent completeIntent = new Intent(REGISTRATION_COMPLETE_BROADCAST);
             completeIntent.putExtra("TOKEN", token);
+            completeIntent.getStringExtra("TOKEN");
             LocalBroadcastManager.getInstance(this).sendBroadcast(completeIntent);
 
         } catch (IOException e) {

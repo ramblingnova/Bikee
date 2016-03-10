@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.MyApplication;
@@ -55,31 +54,28 @@ public class RegisterBicyclePictureFragment extends Fragment {
     TextView item4TextView;
     @Bind(R.id.thumbnail_item5_title_text_view)
     TextView item5TextView;
-
-    private List<File> files;
+    private RegisterBicycleINF registerBicycleINF;
 
     public static RegisterBicyclePictureFragment newInstance() {
         return new RegisterBicyclePictureFragment();
     }
 
-    View view;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        list = new ArrayList<>();
-        for (int i = 0; i < MAXIMUM_LIST_SIZE; i++)
-            list.add(null);
+        if (list == null) {
+            list = new ArrayList<>();
+            for (int i = 0; i < MAXIMUM_LIST_SIZE; i++)
+                list.add(null);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_register_bicycle_picture, container, false);
-        ButterKnife.bind(this, view);
+        View view = inflater.inflate(R.layout.fragment_register_bicycle_picture, container, false);
 
-        files = new ArrayList<>();
+        ButterKnife.bind(this, view);
 
         item1ImageView.setImageResource(R.drawable.img_01);
         item2ImageView.setImageResource(R.drawable.img_02);
@@ -105,14 +101,71 @@ public class RegisterBicyclePictureFragment extends Fragment {
     }
 
     @Override
+    public void onDetach() {
+        super.onDetach();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
 
         int count = 0;
 
-        for (File file : list)
-            if (file != null)
-                count++;
+        if (list.get(0) != null) {
+            ImageUtil.setRoundRectangleImageFromFile(
+                    MyApplication.getmContext(),
+                    list.get(0),
+                    R.drawable.img_01,
+                    item1ImageView,
+                    8
+            );
+            count++;
+        } else
+            item1ImageView.setImageResource(R.drawable.img_01);
+        if (list.get(1) != null) {
+            ImageUtil.setRoundRectangleImageFromFile(
+                    MyApplication.getmContext(),
+                    list.get(1),
+                    R.drawable.img_02,
+                    item2ImageView,
+                    8
+            );
+            count++;
+        } else
+            item2ImageView.setImageResource(R.drawable.img_02);
+        if (list.get(2) != null) {
+            ImageUtil.setRoundRectangleImageFromFile(
+                    MyApplication.getmContext(),
+                    list.get(2),
+                    R.drawable.img_03,
+                    item3ImageView,
+                    8
+            );
+            count++;
+        } else
+            item3ImageView.setImageResource(R.drawable.img_03);
+        if (list.get(3) != null) {
+            ImageUtil.setRoundRectangleImageFromFile(
+                    MyApplication.getmContext(),
+                    list.get(3),
+                    R.drawable.img_04,
+                    item4ImageView,
+                    8
+            );
+            count++;
+        } else
+            item4ImageView.setImageResource(R.drawable.img_04);
+        if (list.get(4) != null) {
+            ImageUtil.setRoundRectangleImageFromFile(
+                    MyApplication.getmContext(),
+                    list.get(4),
+                    R.drawable.img_05,
+                    item5ImageView,
+                    8
+            );
+            count++;
+        } else
+            item5ImageView.setImageResource(R.drawable.img_05);
 
         if (count == MAXIMUM_LIST_SIZE) {
             warningImageView.setVisibility(View.INVISIBLE);
@@ -194,69 +247,14 @@ public class RegisterBicyclePictureFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Toast.makeText(MyApplication.getmContext(), "resultCode : " + resultCode, Toast.LENGTH_SHORT).show();
-
         if (((requestCode == 2) || (requestCode == 1)) && (resultCode == Activity.RESULT_OK)) {
             list = (ArrayList) data.getSerializableExtra("LIST");
-
-            if (list.get(0) != null)
-                ImageUtil.setRoundRectangleImageFromFile(
-                        MyApplication.getmContext(),
-                        list.get(0),
-                        R.drawable.img_01,
-                        item1ImageView,
-                        8
-                );
-            else
-                item1ImageView.setImageResource(R.drawable.img_01);
-            if (list.get(1) != null)
-                ImageUtil.setRoundRectangleImageFromFile(
-                        MyApplication.getmContext(),
-                        list.get(1),
-                        R.drawable.img_02,
-                        item2ImageView,
-                        8
-                );
-            else
-                item2ImageView.setImageResource(R.drawable.img_02);
-            if (list.get(2) != null)
-                ImageUtil.setRoundRectangleImageFromFile(
-                        MyApplication.getmContext(),
-                        list.get(2),
-                        R.drawable.img_03,
-                        item3ImageView,
-                        8
-                );
-            else
-                item3ImageView.setImageResource(R.drawable.img_03);
-            if (list.get(3) != null)
-                ImageUtil.setRoundRectangleImageFromFile(
-                        MyApplication.getmContext(),
-                        list.get(3),
-                        R.drawable.img_04,
-                        item4ImageView,
-                        8
-                );
-            else
-                item4ImageView.setImageResource(R.drawable.img_04);
-            if (list.get(4) != null)
-                ImageUtil.setRoundRectangleImageFromFile(
-                        MyApplication.getmContext(),
-                        list.get(4),
-                        R.drawable.img_05,
-                        item5ImageView,
-                        8
-                );
-            else
-                item5ImageView.setImageResource(R.drawable.img_05);
         }
     }
 
     public List<File> getFiles() {
         return list;
     }
-
-    RegisterBicycleINF registerBicycleINF;
 
     public void setRegisterBicycleINF(RegisterBicycleINF registerBicycleINF) {
         this.registerBicycleINF = registerBicycleINF;

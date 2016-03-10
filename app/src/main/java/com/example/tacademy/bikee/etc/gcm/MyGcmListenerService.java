@@ -13,6 +13,7 @@ import android.util.Log;
 
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.SplashActivity;
+import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.google.android.gms.gcm.GcmListenerService;
 
 public class MyGcmListenerService extends GcmListenerService {
@@ -27,8 +28,9 @@ public class MyGcmListenerService extends GcmListenerService {
 
       Log.d(TAG, "GCMListener - onMessageReceived");
 
-      // 도착한 메세지를 사용자에게 알린다.
-      sendNotification(title, message);
+       if (PropertyManager.getInstance().isPushEnable())
+           // 도착한 메세지를 사용자에게 알린다.
+           sendNotification(title, message);
    }
 
    private void sendNotification(String title, String message) {

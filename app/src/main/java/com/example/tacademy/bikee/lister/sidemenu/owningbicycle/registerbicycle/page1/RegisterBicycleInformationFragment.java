@@ -21,8 +21,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class RegisterBicycleInformationFragment extends Fragment implements BicycleAdditoryComponentAdapter.OnItemClickListener {
-    private GridView gridView;
+    @Bind(R.id.register_bicycle_additory_component_grid_view)
+    GridView gridView;
     private BicycleAdditoryComponentAdapter adapter;
+    private String type;
     @Bind(R.id.bicycle_type_check_box1)
     CheckBox type1;
     @Bind(R.id.bicycle_type_check_box2)
@@ -37,6 +39,7 @@ public class RegisterBicycleInformationFragment extends Fragment implements Bicy
     CheckBox type6;
     @Bind(R.id.bicycle_type_check_box7)
     CheckBox type7;
+    private List<String> components;
     private boolean component1;
     private boolean component2;
     private boolean component3;
@@ -45,9 +48,8 @@ public class RegisterBicycleInformationFragment extends Fragment implements Bicy
     private boolean component6;
     private boolean component7;
     private boolean component8;
-    private String type;
     private String height;
-    private List<String> components;
+    private MyCircularList list;
     @Bind(R.id.activity_main_item1_image_view)
     ImageView item1;
     @Bind(R.id.activity_main_item2_image_view)
@@ -58,7 +60,7 @@ public class RegisterBicycleInformationFragment extends Fragment implements Bicy
     TextView minimum;
     @Bind(R.id.activity_main_maximum_height_text_view)
     TextView maximum;
-    private MyCircularList list;
+    private RegisterBicycleINF registerBicycleINF;
 
     public static RegisterBicycleInformationFragment newInstance() {
         return new RegisterBicycleInformationFragment();
@@ -83,7 +85,8 @@ public class RegisterBicycleInformationFragment extends Fragment implements Bicy
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_register_bicycle_information, container, false);
 
-        gridView = (GridView) view.findViewById(R.id.register_bicycle_additory_component_grid_view);
+        ButterKnife.bind(this, view);
+
         adapter = new BicycleAdditoryComponentAdapter();
         gridView.setAdapter(adapter);
         gridView.setHorizontalSpacing(getResources().getDimensionPixelSize(R.dimen.register_bicycle_additory_component_item_horizontal_space));
@@ -91,12 +94,13 @@ public class RegisterBicycleInformationFragment extends Fragment implements Bicy
         adapter.setOnItemClickListener(this);
 
         initAdditoryComponent();
-        activeNextButton();
 
-        ButterKnife.bind(this, view);
+        if (list == null)
+            list = new MyCircularList();
+        else
+            list.refreshView(list.getCurrent());
+        height = "0" + (list.getCurrent() + 1);
 
-        list = new MyCircularList(0);
-        height = list.getCurrent();
         activeNextButton();
 
         return view;
@@ -163,7 +167,6 @@ public class RegisterBicycleInformationFragment extends Fragment implements Bicy
 
     @Override
     public void onItemClick(int position) {
-//        Toast.makeText(getContext(), "position" + (position + 1), Toast.LENGTH_SHORT).show();
         switch (position + 1) {
             case 1:
                 if (component1 == true) {
@@ -252,18 +255,21 @@ public class RegisterBicycleInformationFragment extends Fragment implements Bicy
                 list.moveNext();
                 break;
         }
-        height = list.getCurrent();
+        height = "0" + (list.getCurrent() + 1);
     }
 
     private class MyCircularList {
         private List<MyCircularListItem> list;
         private int position;
 
-        public MyCircularList(int position) {
+        public MyCircularList() {
             this.list = new ArrayList<>();
-            this.position = position;
-
             initList();
+            refreshView(0);
+        }
+
+        public void refreshView(int position) {
+            this.position = position;
             initImage();
         }
 
@@ -294,8 +300,8 @@ public class RegisterBicycleInformationFragment extends Fragment implements Bicy
             initImage();
         }
 
-        public String getCurrent() {
-            return "0" + (position + 1);
+        public int getCurrent() {
+            return position;
         }
 
         private class MyCircularListItem {
@@ -352,8 +358,6 @@ public class RegisterBicycleInformationFragment extends Fragment implements Bicy
     public String getHeight() {
         return height;
     }
-
-    RegisterBicycleINF registerBicycleINF;
 
     public void setRegisterBicycleINF(RegisterBicycleINF registerBicycleINF) {
         this.registerBicycleINF = registerBicycleINF;

@@ -18,11 +18,12 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class RegisterBicycleIntroductionFragment extends Fragment {
+public class RegisterBicycleIntroductionFragment extends Fragment implements TextWatcher {
     @Bind(R.id.fragment_register_bicycle_introduction_bicycle_name)
     EditText nameEditText;
     @Bind(R.id.fragment_register_bicycle_introduction_bicycle_introduction)
     EditText introductionEditText;
+    private RegisterBicycleINF registerBicycleINF;
     private InputMethodManager imm;
 
     public static RegisterBicycleIntroductionFragment newInstance() {
@@ -36,37 +37,36 @@ public class RegisterBicycleIntroductionFragment extends Fragment {
 
         ButterKnife.bind(this, view);
 
-        nameEditText.addTextChangedListener(tw);
-        introductionEditText.addTextChangedListener(tw);
+        nameEditText.addTextChangedListener(this);
+        introductionEditText.addTextChangedListener(this);
+
         imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
         return view;
     }
 
-    TextWatcher tw = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-        }
+    }
 
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (("" != nameEditText.getText().toString()) && ("" != introductionEditText.getText().toString())) {
-                if ((null != registerBicycleINF) && (!registerBicycleINF.getEnable())) {
-                    registerBicycleINF.setEnable(true);
-                }
-            } else {
-                if ((null != registerBicycleINF) && (registerBicycleINF.getEnable())) {
-                    registerBicycleINF.setEnable(false);
-                }
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if (("" != nameEditText.getText().toString()) && ("" != introductionEditText.getText().toString())) {
+            if ((null != registerBicycleINF) && (!registerBicycleINF.getEnable())) {
+                registerBicycleINF.setEnable(true);
+            }
+        } else {
+            if ((null != registerBicycleINF) && (registerBicycleINF.getEnable())) {
+                registerBicycleINF.setEnable(false);
             }
         }
+    }
 
-        @Override
-        public void afterTextChanged(Editable s) {
+    @Override
+    public void afterTextChanged(Editable s) {
 
-        }
-    };
+    }
 
     @OnClick({R.id.fragment_register_bicycle_introduction_bicycle_name_layout,
             R.id.fragment_register_bicycle_introduction_bicycle_introduction_layout})
@@ -90,8 +90,6 @@ public class RegisterBicycleIntroductionFragment extends Fragment {
     public String getIntroduction() {
         return introductionEditText.getText().toString();
     }
-
-    RegisterBicycleINF registerBicycleINF;
 
     public void setRegisterBicycleINF(RegisterBicycleINF registerBicycleINF) {
         this.registerBicycleINF = registerBicycleINF;

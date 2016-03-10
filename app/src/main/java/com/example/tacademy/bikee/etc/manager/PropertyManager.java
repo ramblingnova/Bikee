@@ -21,6 +21,7 @@ public class PropertyManager {
     public static final String KEY_LATITUDE = "latitude";
     public static final String KEY_LONGITUDE = "longitude";
     public static final String KEY_INIT = "init";
+    public static final String KEY_PUSH = "push";
 
     public static PropertyManager getInstance() {
         if (instance == null) {
@@ -97,7 +98,14 @@ public class PropertyManager {
         return mPrefs.getString(KEY_INIT, "");
     }
 
+    public void setPushEnable(boolean push) {
+        mEditor.putBoolean(KEY_PUSH, push);
+        mEditor.commit();
+    }
 
+    public boolean isPushEnable() {
+        return mPrefs.getBoolean(KEY_PUSH, true);
+    }
 
     public boolean isBackupSync() {
         return mPrefs.getBoolean("perf_sync", false);

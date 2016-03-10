@@ -49,6 +49,7 @@ public class RegisterBicycleFeeFragment extends Fragment implements TextWatcher 
     TextView monthHint2;
     private DecimalFormat df = new DecimalFormat("###,###.####");
     private String result;
+    private RegisterBicycleINF registerBicycleINF;
     private InputMethodManager imm;
 
     public static RegisterBicycleFeeFragment newInstance() {
@@ -68,6 +69,23 @@ public class RegisterBicycleFeeFragment extends Fragment implements TextWatcher 
         imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        if (!hour.getText().toString().equals("")) {
+            hourHint1.setVisibility(View.GONE);
+            hourHint2.setVisibility(View.GONE);
+        }
+        if (!day.getText().toString().equals("")) {
+            dayHint1.setVisibility(View.GONE);
+            dayHint2.setVisibility(View.GONE);
+        }
+        if (!month.getText().toString().equals("")) {
+            monthHint1.setVisibility(View.GONE);
+            monthHint2.setVisibility(View.GONE);
+        }
+        super.onResume();
     }
 
     @Override
@@ -139,7 +157,7 @@ public class RegisterBicycleFeeFragment extends Fragment implements TextWatcher 
     void onFocusChange(View view, boolean hasFocus) {
         switch (view.getId()) {
             case R.id.fragment_register_bicycle_fee_hour_edit_text:
-                if (hasFocus == true) {
+                if (hasFocus) {
                     imm.showSoftInput(hour, InputMethodManager.SHOW_FORCED);
                     hourHint1.setVisibility(View.GONE);
                     hourHint2.setVisibility(View.GONE);
@@ -155,7 +173,7 @@ public class RegisterBicycleFeeFragment extends Fragment implements TextWatcher 
                 }
                 break;
             case R.id.fragment_register_bicycle_fee_day_edit_text:
-                if (hasFocus == true) {
+                if (hasFocus) {
                     imm.showSoftInput(day, InputMethodManager.SHOW_FORCED);
                     dayHint1.setVisibility(View.GONE);
                     dayHint2.setVisibility(View.GONE);
@@ -170,7 +188,7 @@ public class RegisterBicycleFeeFragment extends Fragment implements TextWatcher 
                 }
                 break;
             case R.id.fragment_register_bicycle_fee_month_edit_text:
-                if (hasFocus == true) {
+                if (hasFocus) {
                     imm.showSoftInput(month, InputMethodManager.SHOW_FORCED);
                     monthHint1.setVisibility(View.GONE);
                     monthHint2.setVisibility(View.GONE);
@@ -224,8 +242,6 @@ public class RegisterBicycleFeeFragment extends Fragment implements TextWatcher 
     public int getMonth() {
         return Integer.parseInt(month.getText().toString().replace(",", ""));
     }
-
-    RegisterBicycleINF registerBicycleINF;
 
     public void setRegisterBicycleINF(RegisterBicycleINF registerBicycleINF) {
         this.registerBicycleINF = registerBicycleINF;
