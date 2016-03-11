@@ -20,6 +20,7 @@ import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import retrofit.Callback;
@@ -39,6 +40,7 @@ import retrofit.http.Part;
 import retrofit.http.PartMap;
 import retrofit.http.Path;
 import retrofit.http.Query;
+import retrofit.mime.MultipartTypedOutput;
 import retrofit.mime.TypedFile;
 
 /**
@@ -46,7 +48,6 @@ import retrofit.mime.TypedFile;
  */
 public class NetworkManager {
     private static NetworkManager networkManager;
-    RestAdapter restAdapter;
     private ServerUrl serverUrl;
 
     private NetworkManager() {
@@ -56,7 +57,7 @@ public class NetworkManager {
         okHttpClient.setCookieHandler(cookieManager);
         Client client = new OkClient(okHttpClient);
         Gson gson = new GsonBuilder().registerTypeAdapter(Date.class, new DateDeserializer()).create();
-        restAdapter = new RestAdapter.Builder()
+        RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(ServerUrl.baseUrl)
                 .setConverter(new GsonConverter(gson))
                 .setClient(client)
@@ -74,8 +75,7 @@ public class NetworkManager {
 //        String baseUrl = "http://bikee.kr.pe";
         // port 3000 로보몽고 접속할때 필요
         // url 테스팅은 포스트맨
-        String baseUrl = "http://1.255.51.120:3000";
-//        String baseUrl = "http://192.168.201.226:2222";52.79.73.201
+        String baseUrl = "http://192.168.209.8:3000"; // 원래 주소 -> "http://1.255.51.120:3000";
 
         // 본인정보조회 app.get('/users/:userId',users.profile)
         @GET("/users/{userId}")
@@ -103,21 +103,30 @@ public class NetworkManager {
         @PUT("/users")
         void updateUser(@Body User user, Callback<ReceiveObject> callback);
 
-//        // 보유자전거등록 app.post('/bikes/users',auth.requiresLogin,bikes.create);
-//        @Multipart
-//        @POST("/bikes/users")
-//        void insertBicycle(@Part("image") List<TypedFile> file1,
-//                           @Part("image") TypedFile file2,
-//                           @Part("bike") Bike bike,
-//                           Callback<ReceiveObject> callback);
-
         // 보유자전거등록 app.post('/bikes/users',auth.requiresLogin,bikes.create);
         @Multipart
         @POST("/bikes/users")
-        void insertBicycle(@PartMap Map<String, TypedFile> files,
+        void insertBicycle(@Part("image") List<TypedFile> list,
                            @Part("bike") Bike bike,
-                           @Part("size") int size,
                            Callback<ReceiveObject> callback);
+
+        @POST("/images")
+        void tempInsertBicycle(@Body MultipartTypedOutput multipartTypedOutput,
+                               Callback<String> callback);
+
+        @Multipart
+        @POST("/images")
+        void tempInsertBicycle2(@Part("image") TypedFile list,
+                               @Part("bike") Bike bike,
+                               Callback<String> callback);
+
+//        // 보유자전거등록 app.post('/bikes/users',auth.requiresLogin,bikes.create);
+//        @Multipart
+//        @POST("/bikes/users")
+//        void insertBicycle(@PartMap Map<String, TypedFile> files,
+//                           @Part("bike") Bike bike,
+//                           @Part("size") int size,
+//                           Callback<ReceiveObject> callback);
 
         // 보유자전거조회 app.get('/bikes/users',auth.requiresLogin,bikes.myList); 유저아이디는?
         @GET("/bikes/users")
@@ -283,15 +292,23 @@ public class NetworkManager {
         serverUrl.updateUser(user, callback);
     }
 
-//    // 보유자전거등록
-//    public void insertBicycle(List<TypedFile> file1, TypedFile file2, Bike bike, Callback<ReceiveObject> callback) {
-//        serverUrl.insertBicycle(file1, file2, bike, callback);
-//    }
-
     // 보유자전거등록
-    public void insertBicycle(Map<String, TypedFile> file, Bike bike, int size, Callback<ReceiveObject> callback) {
-        serverUrl.insertBicycle(file, bike, size, callback);
+    public void insertBicycle(List<TypedFile> list, Bike bike, Callback<ReceiveObject> callback) {
+        serverUrl.insertBicycle(list, bike, callback);
     }
+
+    public void tempInsertBicycle(MultipartTypedOutput multipartTypedOutput, Callback<String> callback) {
+        serverUrl.tempInsertBicycle(multipartTypedOutput, callback);
+    }
+
+    public void tempInsertBicycle2(TypedFile file, Bike bike, Callback<String> callback) {
+        serverUrl.tempInsertBicycle2(file, bike, callback);
+    }
+
+//    // 보유자전거등록
+//    public void insertBicycle(Map<String, TypedFile> file, Bike bike, int size, Callback<ReceiveObject> callback) {
+//        serverUrl.insertBicycle(file, bike, size, callback);
+//    }
 
     // 보유자전거조회
     public void selectBicycle(Callback<ReceiveObject> callback) {

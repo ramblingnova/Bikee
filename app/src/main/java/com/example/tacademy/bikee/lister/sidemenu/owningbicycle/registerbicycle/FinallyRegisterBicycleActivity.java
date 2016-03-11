@@ -20,6 +20,8 @@ import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,11 +34,11 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.mime.MultipartTypedOutput;
 import retrofit.mime.TypedFile;
+import retrofit.mime.TypedOutput;
 import retrofit.mime.TypedString;
 
 public class FinallyRegisterBicycleActivity extends AppCompatActivity implements View.OnClickListener {
     // TODO : need new post url
-    private Toolbar toolbar;
     private Button btn;
     private Intent intent;
     private RegisterBicycleItem tempItem;
@@ -46,12 +48,14 @@ public class FinallyRegisterBicycleActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finally_register_bicycle);
-        toolbar = (Toolbar) findViewById(R.id.activity_finally_register_bicycle_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_finally_register_bicycle_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setCustomView(R.layout.lister_backable_page_movable_tool_bar);
+
+        ButterKnife.bind(this);
 
         btn = (Button) findViewById(R.id.activity_finally_register_bicycle_back_button);
         btn.setOnClickListener(this);
@@ -63,7 +67,6 @@ public class FinallyRegisterBicycleActivity extends AppCompatActivity implements
         intent = getIntent();
         tempItem = (RegisterBicycleItem) intent.getSerializableExtra(RegisterBicycleActivity.ITEM_TAG);
 
-        ButterKnife.bind(this);
     }
 
     @OnClick(R.id.lister_backable_page_movable_tool_bar_back_button_layout)
@@ -80,10 +83,6 @@ public class FinallyRegisterBicycleActivity extends AppCompatActivity implements
                 finish();
                 break;
             case R.id.activity_finally_register_bicycle_ok_button:
-//                List<TypedFile> typedFile1 = new ArrayList<>();
-//                typedFile1.add(new TypedFile("image/png", tempItem.getFile1()));
-//                TypedFile typedFile2 = new TypedFile("image/png", tempItem.getFile2());
-//                typedFile1.add(typedFile2);
                 Bike bike = new Bike();
 
                 bike.setType(tempItem.getType());
@@ -100,13 +99,21 @@ public class FinallyRegisterBicycleActivity extends AppCompatActivity implements
                 bike.setTitle(tempItem.getName());
                 bike.setIntro(tempItem.getIntroduction());
 
-                Map<String, TypedFile> map = new HashMap<String, TypedFile>();
-                int i = 0;
-                for (File file : tempItem.getFiles()) {
-                    // temporary sleep, i have to wake this up
-                    map.put("image" + (i++), new TypedFile("image/png", file));
-                }
-                int size = i;
+//                Map<String, TypedFile> map = new HashMap<String, TypedFile>();
+//                int i = 0;
+//                for (File file : tempItem.getFiles()) {
+//                    // temporary sleep, i have to wake this up
+//                    map.put("image" + (i++), new TypedFile("image/png", file));
+//                }
+//                int size = i;
+                // TODO : delete me
+//                List<TypedFile> typedFile1 = new ArrayList<>();
+//                typedFile1.add(new TypedFile("image/png", tempItem.getFile1()));
+//                TypedFile typedFile2 = new TypedFile("image/png", tempItem.getFile2());
+//                typedFile1.add(typedFile2);
+                List<TypedFile> list = new ArrayList<>();
+                for (File file : tempItem.getFiles())
+                    list.add(new TypedFile("image/png", file));
 
                 Price price = new Price();
                 price.setHour(tempItem.getHour());
@@ -114,18 +121,34 @@ public class FinallyRegisterBicycleActivity extends AppCompatActivity implements
                 price.setMonth(tempItem.getMonth());
                 bike.setPrice(price);
 
-                NetworkManager.getInstance().insertBicycle(map, bike, size, new Callback<ReceiveObject>() {
+//                NetworkManager.getInstance().insertBicycle(list, bike, new Callback<ReceiveObject>() {
+//                    @Override
+//                    public void success(ReceiveObject receiveObject, Response response) {
+//                        Log.i("result", "onResponse Code : " + receiveObject.getCode()
+//                                + ", Success : " + receiveObject.isSuccess()
+//                                + ", Msg : " + receiveObject.getMsg()
+//                                + ", response.getStatus() : " + response.getStatus()
+//                        );
+//                        intent = getIntent();
+//                        intent.putExtra(ITEM_TAG, tempItem);
+//                        setResult(RESULT_OK, intent);
+//                        finish();
+//                    }
+//
+//                    @Override
+//                    public void failure(RetrofitError error) {
+//                        Log.e("error", "onFailure Error : " + error.toString());
+//                    }
+//                });
+
+                // 이미지 여러개
+                MultipartTypedOutput multipartTypedOutput = new MultipartTypedOutput();
+                for (File file : tempItem.getFiles())
+                    multipartTypedOutput.addPart("f[]", new TypedFile("image/jpg", file));
+                NetworkManager.getInstance().tempInsertBicycle(multipartTypedOutput, new Callback<String>() {
                     @Override
-                    public void success(ReceiveObject receiveObject, Response response) {
-                        Log.i("result", "onResponse Code : " + receiveObject.getCode()
-                                + ", Success : " + receiveObject.isSuccess()
-                                + ", Msg : " + receiveObject.getMsg()
-                                + ", response.getStatus() : " + response.getStatus()
-                        );
-                        intent = getIntent();
-                        intent.putExtra(ITEM_TAG, tempItem);
-                        setResult(RESULT_OK, intent);
-                        finish();
+                    public void success(String receiveString, Response response) {
+                        Log.i("result", "onResponse receiveString : " + receiveString);
                     }
 
                     @Override
@@ -133,6 +156,20 @@ public class FinallyRegisterBicycleActivity extends AppCompatActivity implements
                         Log.e("error", "onFailure Error : " + error.toString());
                     }
                 });
+
+                // 이미지 하나
+//                TypedFile typedFile = new TypedFile("image/png", tempItem.getFiles().get(0));
+//                NetworkManager.getInstance().tempInsertBicycle2(typedFile, bike, new Callback<String>() {
+//                    @Override
+//                    public void success(String receiveString, Response response) {
+//                        Log.i("result", "onResponse receiveString : " + receiveString);
+//                    }
+//
+//                    @Override
+//                    public void failure(RetrofitError error) {
+//                        Log.e("error", "onFailure Error : " + error.toString());
+//                    }
+//                });
                 break;
             case R.id.activity_finally_register_bicycle_small_map_button:
                 intent = new Intent(FinallyRegisterBicycleActivity.this, SmallMapActivity.class);

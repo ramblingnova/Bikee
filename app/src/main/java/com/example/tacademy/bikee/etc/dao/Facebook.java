@@ -1,43 +1,23 @@
 package com.example.tacademy.bikee.etc.dao;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Created by Tacademy on 2015-11-12.
  */
 public class Facebook {
-    public String id = null;
-    public String name = null;
-    public Picture picture = null;
-    public String email = null;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Picture getPicture() {
-        return picture;
-    }
-
-    public void setPicture(Picture picture) {
-        this.picture = picture;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    @Getter
+    @Setter(AccessLevel.PUBLIC)
+    String id = null;
+    @Getter
+    @Setter(AccessLevel.PUBLIC)
+    String name = null;
+    @Getter
+    @Setter(AccessLevel.PUBLIC)
+    Picture picture = null;
+    @Getter
+    @Setter(AccessLevel.PUBLIC)
+    String email = null;
 }

@@ -1,34 +1,20 @@
 package com.example.tacademy.bikee.etc.dao;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Created by User on 2015-11-30.
  */
 public class Err {
-    private String stack;
-    private String message;
-    private String name;
-
-    public String getStack() {
-        return stack;
-    }
-
-    public void setStack(String stack) {
-        this.stack = stack;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    @Getter
+    @Setter(AccessLevel.PUBLIC)
+    String stack = null;
+    @Getter
+    @Setter(AccessLevel.PUBLIC)
+    String message = null;
+    @Getter
+    @Setter(AccessLevel.PUBLIC)
+    String name = null;
 }

@@ -27,8 +27,8 @@ public class MyGcmListenerService extends GcmListenerService {
       String message = data.getString("message");
 
       Log.d(TAG, "GCMListener - onMessageReceived");
-
        if (PropertyManager.getInstance().isPushEnable())
+
            // 도착한 메세지를 사용자에게 알린다.
            sendNotification(title, message);
    }

@@ -1,16 +1,14 @@
 package com.example.tacademy.bikee.etc.dao;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Created by Tacademy on 2015-11-12.
  */
 public class Picture {
-    public Data data = null;
-
-    public Data getData() {
-        return data;
-    }
-
-    public void setData(Data data) {
-        this.data = data;
-    }
+    @Getter
+    @Setter(AccessLevel.PUBLIC)
+    Data data = null;
 }
