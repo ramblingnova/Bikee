@@ -26,4 +26,10 @@
     <dimen name="first_indicator_right_margin">16dp</dimen>
     <dimen name="other_indicator_right_margin">6dp</dimen>
     <dimen name="indicator_top_margin">16dp</dimen>
+
+    <dimen name="view_holder_chatting_room_item_space">1dp</dimen>
+    <dimen name="view_holder_conversation_item_bottom_space">10dp</dimen>
+    <dimen name="view_holder_conversation_first_item_top_space">12dp</dimen>
+
+    <dimen name="activity_conversation_bicycle_image_image_view_radius">4dp</dimen>
 </resources>

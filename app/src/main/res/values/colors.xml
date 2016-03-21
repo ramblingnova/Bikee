@@ -15,4 +15,5 @@
     <color name="bikeeLine">#E0E0E0</color>
     <color name="bikeePanelGrayText">#616161</color>
     <color name="bikeeTransParent">#FFFFFFFF</color>
+    <color name="bikeeConversationBackground">#D7ECFF</color>
 </resources>

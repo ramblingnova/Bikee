@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.example.user.bikeechatting.chatting.room.ConversationActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/activity_conversation_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bikeeConversationBackground"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/activity_conversation_swipe_refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="44dp"
+            android:layout_marginTop="68dp">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/activity_conversation_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <RelativeLayout
+            android:id="@+id/activity_conversation_bicycle_bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="74dp"
+            android:background="@drawable/top_info2">
+
+            <ImageView
+                android:id="@+id/activity_conversation_bicycle_image_image_view"
+                android:layout_width="76dp"
+                android:layout_height="52dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:id="@+id/activity_conversation_bicycle_name_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="13dp"
+                android:layout_toEndOf="@id/activity_conversation_bicycle_image_image_view"
+                android:layout_toRightOf="@id/activity_conversation_bicycle_image_image_view"
+                android:textColor="@color/bikeeBlack"
+                android:textSize="13sp" />
+
+            <ImageView
+                android:id="@+id/activity_conversation_clock_image_image_view"
+                android:layout_width="11dp"
+                android:layout_height="11dp"
+                android:layout_alignLeft="@id/activity_conversation_bicycle_name_text_view"
+                android:layout_alignStart="@id/activity_conversation_bicycle_name_text_view"
+                android:layout_below="@id/activity_conversation_bicycle_name_text_view"
+                android:layout_marginTop="19dp"
+                android:src="@drawable/icon_time" />
+
+            <TextView
+                android:id="@+id/activity_conversation_reservation_period_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/activity_conversation_clock_image_image_view"
+                android:layout_marginLeft="4dp"
+                android:layout_marginStart="4dp"
+                android:layout_toEndOf="@id/activity_conversation_clock_image_image_view"
+                android:layout_toRightOf="@id/activity_conversation_clock_image_image_view"
+                android:textColor="@color/bikeeGray"
+                android:textSize="11dp" />
+
+            <TextView
+                android:id="@+id/activity_conversation_reservation_state_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/activity_conversation_clock_image_image_view"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:textSize="11sp" />
+
+            <ImageView
+                android:id="@+id/activity_conversation_reservation_state_image_view"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_alignBottom="@id/activity_conversation_clock_image_image_view"
+                android:layout_marginEnd="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_toLeftOf="@id/activity_conversation_reservation_state_text_view"
+                android:layout_toStartOf="@id/activity_conversation_reservation_state_text_view"
+                android:scaleType="fitXY" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/activity_conversation_writing_bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/bottom_message">
+
+            <Button
+                android:id="@+id/activity_conversation_writing_bar_send_message_button"
+                android:layout_width="25dp"
+                android:layout_height="23dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="18dp"
+                android:layout_marginRight="18dp"
+                android:background="@drawable/icon_send" />
+
+            <EditText
+                android:id="@+id/activity_conversation_writing_bar_message_edit_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="13dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="13dp"
+                android:layout_marginStart="25dp"
+                android:layout_toLeftOf="@id/activity_conversation_writing_bar_send_message_button"
+                android:layout_toStartOf="@id/activity_conversation_writing_bar_send_message_button"
+                android:hint="메세지를 입력하세요."
+                android:textColor="@color/bikeeBlack"
+                android:textColorHint="@color/bikeeLightGray"
+                android:textSize="14sp" />
+        </RelativeLayout>
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

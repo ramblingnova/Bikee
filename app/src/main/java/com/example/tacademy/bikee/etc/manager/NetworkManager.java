@@ -75,7 +75,7 @@ public class NetworkManager {
 //        String baseUrl = "http://bikee.kr.pe";
         // port 3000 로보몽고 접속할때 필요
         // url 테스팅은 포스트맨
-        String baseUrl = "http://192.168.209.8:3000"; // 원래 주소 -> "http://1.255.51.120:3000";
+        String baseUrl = "http://1.255.51.120:3000"; // 원래 주소 -> "http://1.255.51.120:3000"; 임시 주소 -> "http://192.168.209.8:3000"
 
         // 본인정보조회 app.get('/users/:userId',users.profile)
         @GET("/users/{userId}")
@@ -436,19 +436,4 @@ public class NetworkManager {
     public void registerToken(String deviceID, String token, String os, Callback<ReceiveObject> callback) {
         serverUrl.registerToken(deviceID, token, os, callback);
     }
-
-//    public ServerUrl getServerUrl() {
-//        return serverUrl;
-//    }
-//    NetworkManager.getInstance().getServerUrl().insertBicycleComment2(bicycleId, comment, new Callback<Object>() {
-//        @Override
-//        public void success(Object receiveObject, Response response) {
-//            Log.i("result", "onResponse receiveObject.toString() : " + receiveObject.toString() + ", response.getStatus() : " + response.getStatus());
-//        }
-//
-//        @Override
-//        public void failure(RetrofitError error) {
-//            Log.e("error", "onFailure Error : " + error.toString());
-//        }
-//    });
 }

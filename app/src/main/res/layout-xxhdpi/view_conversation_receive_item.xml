@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/view_conversation_receive_item_user_image_image_view"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/view_conversation_receive_item_conversation_text_view"
+        android:layout_toRightOf="@id/view_conversation_receive_item_user_image_image_view"
+        android:layout_toEndOf="@id/view_conversation_receive_item_user_image_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:layout_marginStart="3dp"
+        android:textColor="@color/bikeeWhite"
+        android:background="@drawable/message_b1"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/view_conversation_receive_item_conversation_time_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/view_conversation_receive_item_conversation_text_view"
+        android:layout_alignStart="@id/view_conversation_receive_item_conversation_text_view"
+        android:layout_below="@id/view_conversation_receive_item_conversation_text_view"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/bikeeGray"
+        android:textSize="10sp" />
+</RelativeLayout>

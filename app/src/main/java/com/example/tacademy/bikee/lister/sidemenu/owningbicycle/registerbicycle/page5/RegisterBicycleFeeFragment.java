@@ -174,7 +174,7 @@ public class RegisterBicycleFeeFragment extends Fragment implements TextWatcher 
                 break;
             case R.id.fragment_register_bicycle_fee_day_edit_text:
                 if (hasFocus) {
-                    imm.showSoftInput(day, InputMethodManager.SHOW_FORCED);
+                        imm.showSoftInput(day, InputMethodManager.SHOW_FORCED);
                     dayHint1.setVisibility(View.GONE);
                     dayHint2.setVisibility(View.GONE);
                     if (hour.getText().toString().equals("")) {

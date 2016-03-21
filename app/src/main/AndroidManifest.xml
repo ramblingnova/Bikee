@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -26,29 +26,38 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAgzFLJmOeRZX_RkomOPgs8ceG-bYy3lmg" />
 
-        <receiver android:name="com.google.android.gms.gcm.GcmReceiver"
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
                 <category android:name="com.vanillastepdev.example.gcm" />
             </intent-filter>
         </receiver>
-                <service
-        android:name=".etc.gcm.MyGcmListenerService"
-        android:exported="false">
-                    <intent-filter>
-                        <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                    </intent-filter>
-                </service>
-        <service android:name=".etc.gcm.MyInstanceIDListenerService"
+           
+        <service
+            android:name=".etc.gcm.MyGcmListenerService"
+            android:exported="false">
+                       
+            <intent-filter>
+                               
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                           
+            </intent-filter>
+                   
+        </service>
+        <service
+            android:name=".etc.gcm.MyInstanceIDListenerService"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID"/>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
-        <service android:name=".etc.gcm.RegistrationIntentService"
+        <service
+            android:name=".etc.gcm.RegistrationIntentService"
             android:exported="false"></service>
 
         <activity
@@ -76,10 +85,6 @@
         <activity
             android:name=".renter.searchresult.filter.FilterActivity"
             android:label="@string/title_activity_filter"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".common.chatting.ChattingRoomActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -146,8 +151,8 @@
         <activity
             android:name=".lister.sidemenu.owningbicycle.registerbicycle.RegisterBicycleActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".lister.sidemenu.owningbicycle.registerbicycle.FinallyRegisterBicycleActivity"
             android:screenOrientation="portrait"
@@ -163,6 +168,10 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".lister.sidemenu.owningbicycle.registerbicycle.page4.gallery.GalleryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".common.chatting.room.ConversationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>

@@ -1,53 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/view_chatting_room_item_layout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/contents_box_margin_bottom_5dp"
-    android:background="@drawable/filtering_contentsbox"
-    android:orientation="vertical">
+    android:background="@color/bikeeWhite"
+    android:paddingBottom="21dp"
+    android:paddingEnd="17dp"
+    android:paddingLeft="17dp"
+    android:paddingRight="17dp"
+    android:paddingStart="17dp"
+    android:paddingTop="17dp">
 
-    <ImageView
-        android:id="@+id/view_chatting_room_item_bicycle_picture_image_view"
+    <RelativeLayout
+        android:id="@+id/view_chatting_room_item_reservation_state_user_image_layout"
+        android:layout_width="50dp"
+        android:layout_height="50dp">
+
+        <ImageView
+            android:id="@+id/view_chatting_room_item_user_image_image_view"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="fitXY" />
+
+        <ImageView
+            android:id="@+id/view_chatting_room_item_reservation_state_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="2dp"
+            android:layout_marginStart="2dp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/view_chatting_room_item_user_name_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/temp_icon" />
+        android:layout_alignTop="@id/view_chatting_room_item_reservation_state_user_image_layout"
+        android:layout_marginLeft="13dp"
+        android:layout_marginStart="13dp"
+        android:layout_toEndOf="@id/view_chatting_room_item_reservation_state_user_image_layout"
+        android:layout_toRightOf="@id/view_chatting_room_item_reservation_state_user_image_layout"
+        android:textColor="@color/bikeeBlack"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/view_chatting_room_item_last_conversation_time_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/view_chatting_room_item_reservation_state_user_image_layout"
+        android:textColor="@color/bikeeLightGray"
+        android:textSize="10sp" />
 
     <TextView
         android:id="@+id/view_chatting_room_item_bicycle_name_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/view_chatting_room_item_bicycle_picture_image_view"
-        android:text="@string/view_chatting_room_item_bicycle_name_text_view_string" />
+        android:layout_alignLeft="@id/view_chatting_room_item_user_name_text_view"
+        android:layout_alignStart="@id/view_chatting_room_item_user_name_text_view"
+        android:layout_below="@id/view_chatting_room_item_user_name_text_view"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/bikeeBlack"
+        android:textSize="13sp" />
 
     <TextView
-        android:id="@+id/view_chatting_room_item_payment_text_view"
+        android:id="@+id/view_chatting_room_item_last_conversation_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/view_chatting_room_item_user_name_text_view"
+        android:layout_alignStart="@id/view_chatting_room_item_user_name_text_view"
         android:layout_below="@id/view_chatting_room_item_bicycle_name_text_view"
-        android:layout_toRightOf="@id/view_chatting_room_item_bicycle_picture_image_view"
-        android:text="@string/view_chatting_room_item_payment_text_view_string" />
+        android:layout_marginTop="17dp"
+        android:textColor="@color/bikeeGray"
+        android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/view_chatting_room_item_type_text_view"
+        android:id="@+id/view_chatting_room_item_num_of_stacked_conversation_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/view_chatting_room_item_bicycle_name_text_view"
-        android:layout_toRightOf="@id/view_chatting_room_item_payment_text_view"
-        android:text="@string/view_chatting_room_item_type_text_view_string" />
-
-    <TextView
-        android:id="@+id/view_chatting_room_item_height_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/view_chatting_room_item_bicycle_name_text_view"
-        android:layout_toRightOf="@id/view_chatting_room_item_type_text_view"
-        android:text="@string/view_chatting_room_item_height_text_view_string" />
-
-    <TextView
-        android:id="@+id/view_chatting_room_item_distance_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:text="@string/view_chatting_room_item_distance_text_view_string" />
+        android:layout_below="@id/view_chatting_room_item_last_conversation_time_text_view"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/message_num"
+        android:gravity="center"
+        android:textColor="@color/bikeeWhite"
+        android:textSize="13sp" />
 </RelativeLayout>

@@ -1,64 +1,51 @@
 package com.example.tacademy.bikee.common.chatting;
 
-import android.widget.TextView;
+import java.util.Date;
 
-import java.io.Serializable;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
- * Created by User on 2015-10-31.
+ * Created by User on 2016-03-11.
  */
-public class ChattingRoomItem implements Serializable {
-    public ChattingRoomItem(String bicycle_name, String payment, String type, String height, String distance) {
-        this.bicycle_name = bicycle_name;
-        this.payment = payment;
-        this.type = type;
-        this.height = height;
-        this.distance = distance;
-    }
+public class ChattingRoomItem {
+    @Getter
+    @Setter(AccessLevel.PUBLIC)
+    String userImage;
+    @Getter
+    @Setter(AccessLevel.PUBLIC)
+    String reservationState;
+    @Getter
+    @Setter(AccessLevel.PUBLIC)
+    String userName;
+    @Getter
+    @Setter(AccessLevel.PUBLIC)
+    Date lastConversationTime;
+    @Getter
+    @Setter(AccessLevel.PUBLIC)
+    String bicycleName;
+    @Getter
+    @Setter(AccessLevel.PUBLIC)
+    String lastConversation;
+    @Getter
+    @Setter(AccessLevel.PUBLIC)
+    int numOfStackedConversation;
 
-    private String bicycle_name;
-    private String payment;
-    private String type;
-    private String height;
-    private String distance;
-
-    public String getBicycle_name() {
-        return bicycle_name;
-    }
-
-    public void setBicycle_name(String bicycle_name) {
-        this.bicycle_name = bicycle_name;
-    }
-
-    public String getPayment() {
-        return payment;
-    }
-
-    public void setPayment(String payment) {
-        this.payment = payment;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getHeight() {
-        return height;
-    }
-
-    public void setHeight(String height) {
-        this.height = height;
-    }
-
-    public String getDistance() {
-        return distance;
-    }
-
-    public void setDistance(String distance) {
-        this.distance = distance;
+    public ChattingRoomItem(
+            String userImage,
+            String reservationState,
+            String userName,
+            Date lastConversationTime,
+            String bicycleName,
+            String lastConversation,
+            int numOfStackedConversation) {
+        this.userImage = userImage;
+        this.reservationState = reservationState;
+        this.userName = userName;
+        this.lastConversationTime = lastConversationTime;
+        this.bicycleName = bicycleName;
+        this.lastConversation = lastConversation;
+        this.numOfStackedConversation = numOfStackedConversation;
     }
 }

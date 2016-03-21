@@ -1,6 +1,5 @@
 package com.example.tacademy.bikee.lister.requestedbicycle;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -32,7 +31,6 @@ public class ListerRequestedBicycleListFragment extends Fragment implements Adap
     public ListerRequestedBicycleListFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

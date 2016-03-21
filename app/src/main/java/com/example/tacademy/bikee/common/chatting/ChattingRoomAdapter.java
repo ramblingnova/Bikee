@@ -1,48 +1,60 @@
 package com.example.tacademy.bikee.common.chatting;
 
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+
+import com.example.tacademy.bikee.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by User on 2015-10-31.
+ * Created by User on 2016-03-11.
  */
-public class ChattingRoomAdapter extends BaseAdapter {
-    List<ChattingRoomItem> items = new ArrayList<ChattingRoomItem>();
+public class ChattingRoomAdapter extends RecyclerView.Adapter<ChattingRoomViewHolder> {
+    private List<ChattingRoomItem> list;
+    private OnChattingRoomAdapterClickListener onChattingRoomAdapterClickListener;
 
-    public void add(String bicycle_name, String payment, String type, String height, String distance) {
-        ChattingRoomItem item = new ChattingRoomItem(bicycle_name, payment, type, height, distance);
-        items.add(item);
+    public ChattingRoomAdapter() {
+        list = new ArrayList<>();
+    }
+
+    @Override
+    public ChattingRoomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_chatting_room_item, parent, false);
+
+        ChattingRoomViewHolder chattingRoomViewHolder = new ChattingRoomViewHolder(view);
+
+        return chattingRoomViewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(ChattingRoomViewHolder holder, final int position) {
+        holder.setView(list.get(position));
+        holder.setOnChattingRoomClickListener(new OnChattingRoomClickListener() {
+            @Override
+            public void onChattingRoomClick(View view) {
+                list.get(position).setNumOfStackedConversation(0);
+                notifyDataSetChanged();
+                if (onChattingRoomAdapterClickListener != null)
+                    onChattingRoomAdapterClickListener.onChattingRoomAdapterClick(view, list.get(position), position);
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return list.size();
+    }
+
+    public void add(ChattingRoomItem item) {
+        list.add(item);
         notifyDataSetChanged();
     }
 
-    @Override
-    public int getCount() {
-        return items.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return items.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ChattingRoomView v;
-        if (convertView != null) {
-            v = (ChattingRoomView)convertView;
-        } else {
-            v = new ChattingRoomView(parent.getContext());
-        }
-        v.setText(items.get(position));
-        return v;
+    public void setOnChattingRoomAdapterClickListener(OnChattingRoomAdapterClickListener onChattingRoomAdapterClickListener) {
+        this.onChattingRoomAdapterClickListener = onChattingRoomAdapterClickListener;
     }
 }
