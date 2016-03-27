@@ -42,7 +42,13 @@ public class ChattingRoomViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setView(ChattingRoomItem item) {
-        ImageUtil.setCircleImageFromURL(MyApplication.getmContext(), item.getUserImage(), R.drawable.noneimage, 0, userImage);
+        ImageUtil.setCircleImageFromURL(
+                MyApplication.getmContext(),
+                item.getUserImage(),
+                R.drawable.noneimage,
+                0,
+                userImage
+        );
 
         switch (item.getReservationState()) {
             case "RR":

@@ -36,4 +36,8 @@ public class ConversationItem {
         this.type = type;
         this.single = true;
     }
+
+    public boolean isPast() {
+        return conversationTime.getTime() < new Date().getTime();
+    }
 }

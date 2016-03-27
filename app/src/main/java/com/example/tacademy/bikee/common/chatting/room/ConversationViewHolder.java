@@ -44,7 +44,7 @@ public class ConversationViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setView(ConversationItem item) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm", java.util.Locale.getDefault());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("aa HH:mm", java.util.Locale.getDefault());
         switch (viewType) {
             case ConversationAdapter.RECEIVE:
                 ImageView userImage = (ImageView) map.get("USER_IMAGE");

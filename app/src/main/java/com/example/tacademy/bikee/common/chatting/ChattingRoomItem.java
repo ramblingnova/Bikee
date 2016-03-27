@@ -12,6 +12,9 @@ import lombok.Setter;
 public class ChattingRoomItem {
     @Getter
     @Setter(AccessLevel.PUBLIC)
+    String messageChannelUrl;
+    @Getter
+    @Setter(AccessLevel.PUBLIC)
     String userImage;
     @Getter
     @Setter(AccessLevel.PUBLIC)
@@ -33,6 +36,7 @@ public class ChattingRoomItem {
     int numOfStackedConversation;
 
     public ChattingRoomItem(
+            String messageChannelUrl,
             String userImage,
             String reservationState,
             String userName,
@@ -40,6 +44,7 @@ public class ChattingRoomItem {
             String bicycleName,
             String lastConversation,
             int numOfStackedConversation) {
+        this.messageChannelUrl = messageChannelUrl;
         this.userImage = userImage;
         this.reservationState = reservationState;
         this.userName = userName;

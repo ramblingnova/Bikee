@@ -24,6 +24,7 @@ android {
 
 repositories {
     mavenCentral()
+    maven { url "https://raw.githubusercontent.com/smilefam/SendBird-SDK-Android/master/" }
 }
 
 dependencies {
@@ -49,4 +50,5 @@ dependencies {
     compile 'com.android.support:cardview-v7:23.1.1'
     compile 'com.android.support:recyclerview-v7:23.1.1'
     compile 'org.projectlombok:lombok:1.16.6'
+    compile 'com.sendbird.sdk:sendbird-android-sdk:2.0.9'
 }

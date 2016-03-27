@@ -3,15 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/fragment_chatting_rooms_swipe_refresh_layout"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/fragment_chatting_rooms_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#E0E0E0">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/fragment_chatting_rooms_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+        android:layout_height="match_parent" />
 </RelativeLayout>

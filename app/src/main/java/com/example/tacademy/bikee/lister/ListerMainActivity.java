@@ -24,12 +24,15 @@ import com.example.tacademy.bikee.common.sidemenu.SignInActivity;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.sidemenu.InputInquiryActivity;
 import com.example.tacademy.bikee.common.smartkey.SmartKeyFragment;
+import com.example.tacademy.bikee.etc.SendBirdHelper;
 import com.example.tacademy.bikee.etc.utils.ImageUtil;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.example.tacademy.bikee.lister.requestedbicycle.ListerRequestedBicycleListFragment;
 import com.example.tacademy.bikee.lister.sidemenu.evaluatedbicycle.EvaluatedBicyclePostScriptListActivity;
 import com.example.tacademy.bikee.lister.sidemenu.owningbicycle.OwningBicycleListActivity;
 import com.example.tacademy.bikee.renter.RenterMainActivity;
+import com.sendbird.android.SendBird;
+import com.sendbird.android.UserListQuery;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
 import butterknife.Bind;
@@ -75,7 +78,25 @@ public class ListerMainActivity extends AppCompatActivity implements TabHost.OnT
         tabHost = (FragmentTabHost) findViewById(R.id.tabHost);
         tabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
         tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator(btt_iv1), ListerRequestedBicycleListFragment.class, null);
-        tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator(btt_iv2), ChattingRoomsFragment.class, null);
+
+        final String appId = "2E377FE1-E1AD-4484-A66F-696AF1306F58"; /* Sample SendBird Application */
+        String userId = SendBirdHelper.generateDeviceUUID(ListerMainActivity.this); /* Generate Device UUID */
+        String userName = "User-" + "20B5A"; /* Generate User Nickname */
+        String gcmRegToken = "f7x_1qavNuM:APA91bGB8RVUTMtxFbTehOYO-gr5JFUORJQZDLtzAsXoDD_o2ZBqHn_PhqAfzpJwSbY6SF6iY7_mfK4nrEERZsZbq5HuddaVqKPBA6OKBdjJrSTxjEJEyfIzLcJeNpPcgoo0f66cXwxY";
+
+        SendBird.init(this, appId);
+        SendBird.login(SendBird.LoginOption.build(userId).setUserName(userName).setGCMRegToken(gcmRegToken));
+
+        UserListQuery mUserListQuery = SendBird.queryUserList();
+        mUserListQuery.setLimit(30);
+
+        Bundle args = new Bundle();
+        args.putString("APP_ID", appId);
+        args.putString("USER_ID", userId);
+        args.putString("USER_NAME", userName);
+        args.putString("GCM_TOKEN", gcmRegToken);
+
+        tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator(btt_iv2), ChattingRoomsFragment.class, args);
         tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator(btt_iv3), SmartKeyFragment.class, null);
         tabHost.setOnTabChangedListener(this);
 
