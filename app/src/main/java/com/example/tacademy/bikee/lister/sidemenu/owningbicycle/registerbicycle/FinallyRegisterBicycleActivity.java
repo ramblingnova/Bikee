@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.SmallMapActivity;
 import com.example.tacademy.bikee.etc.dao.Bike;
@@ -17,12 +18,24 @@ import com.example.tacademy.bikee.etc.dao.Loc;
 import com.example.tacademy.bikee.etc.dao.Price;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
+import com.ncloud.filestorage.FSRestClient;
+import com.ncloud.filestorage.model.FSClientException;
+import com.ncloud.filestorage.model.FSResourceID;
+import com.ncloud.filestorage.model.FSServiceException;
+import com.ncloud.filestorage.model.FSUploadFileResult;
+import com.ncloud.filestorage.model.FSUploadSourceInfo;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,11 +51,12 @@ import retrofit.mime.TypedOutput;
 import retrofit.mime.TypedString;
 
 public class FinallyRegisterBicycleActivity extends AppCompatActivity implements View.OnClickListener {
-    // TODO : need new post url
     private Button btn;
     private Intent intent;
     private RegisterBicycleItem tempItem;
     public static final String ITEM_TAG = "ITEM";
+    private final int MAX_BUF_BYTE = 1024000;
+    private static final String TAG = "FINALLY_R_B_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,11 +120,6 @@ public class FinallyRegisterBicycleActivity extends AppCompatActivity implements
 //                    map.put("image" + (i++), new TypedFile("image/png", file));
 //                }
 //                int size = i;
-                // TODO : delete me
-//                List<TypedFile> typedFile1 = new ArrayList<>();
-//                typedFile1.add(new TypedFile("image/png", tempItem.getFile1()));
-//                TypedFile typedFile2 = new TypedFile("image/png", tempItem.getFile2());
-//                typedFile1.add(typedFile2);
                 List<TypedFile> list = new ArrayList<>();
                 for (File file : tempItem.getFiles())
                     list.add(new TypedFile("image/png", file));
@@ -141,35 +150,60 @@ public class FinallyRegisterBicycleActivity extends AppCompatActivity implements
 //                    }
 //                });
 
-                // 이미지 여러개
-                MultipartTypedOutput multipartTypedOutput = new MultipartTypedOutput();
-                for (File file : tempItem.getFiles())
-                    multipartTypedOutput.addPart("f[]", new TypedFile("image/jpg", file));
-                NetworkManager.getInstance().tempInsertBicycle(multipartTypedOutput, new Callback<String>() {
-                    @Override
-                    public void success(String receiveString, Response response) {
-                        Log.i("result", "onResponse receiveString : " + receiveString);
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Log.e("error", "onFailure Error : " + error.toString());
-                    }
-                });
-
-                // 이미지 하나
-//                TypedFile typedFile = new TypedFile("image/png", tempItem.getFiles().get(0));
-//                NetworkManager.getInstance().tempInsertBicycle2(typedFile, bike, new Callback<String>() {
-//                    @Override
-//                    public void success(String receiveString, Response response) {
-//                        Log.i("result", "onResponse receiveString : " + receiveString);
-//                    }
+                // TODO : send images to ncloud
+//                FSRestClient.initialize();
+//                FSRestClient client = new FSRestClient(
+//                        "restapi.fs.ncloud.com",
+//                        80,
+//                        "EQGtmtLqgwPNONDwuODO",
+//                        "YbJwoJw9q5fO7qj4EQMzT4LpCl97CQ4Bmp3vwWqA"
+//                );
+//                InputStream ins = null;
+//                try {
+//                    for (File file : tempItem.getFiles()) {
+//                        String fileName = Long.toString(new Date().getTime())
+//                                + "_" + file.getName();
+//                        byte fileArray[] = fileWrite(file);
+//                        String mimeType = "image/png";
 //
-//                    @Override
-//                    public void failure(RetrofitError error) {
-//                        Log.e("error", "onFailure Error : " + error.toString());
+//                        FSResourceID rid = new FSResourceID("bikee-image/" + fileName);
+//                        ins = new ByteArrayInputStream(fileArray);
+//                        FSUploadSourceInfo info = new FSUploadSourceInfo(
+//                                ins,
+//                                mimeType,
+//                                fileArray.length,
+//                                null
+//                        );
+//
+//                        FSUploadFileResult result = client.uploadFile(rid, info);
+//                        if (BuildConfig.DEBUG)
+//                            Log.d(TAG, "fileUrl : " + "http://restapi.fs.ncloud.com/bikee-image/" + fileName
+//                                            + "\nresult.getETag() : " + result.getETag()
+//                                            + "\nresult.toString() : " + result.toString()
+//                            );
+//
+//                        ins.close();
 //                    }
-//                });
+//                } catch (FSClientException e) {
+//                    if (BuildConfig.DEBUG)
+//                        Log.d(TAG, "FSClientException...", e);
+//                } catch (FSServiceException e) {
+//                    if (BuildConfig.DEBUG)
+//                        Log.d(TAG, "FSServiceException...", e);
+//                } catch (Exception e) {
+//                    if (BuildConfig.DEBUG)
+//                        Log.d(TAG, "Exception...", e);
+//                } finally {
+//                    try {
+//                        if (ins != null)
+//                            ins.close();
+//                    } catch (IOException e) {
+//                        if (BuildConfig.DEBUG)
+//                            Log.d(TAG, "IOException...", e);
+//                    } finally {
+//                        FSRestClient.destroy();
+//                    }
+//                }
                 break;
             case R.id.activity_finally_register_bicycle_small_map_button:
                 intent = new Intent(FinallyRegisterBicycleActivity.this, SmallMapActivity.class);
@@ -185,6 +219,36 @@ public class FinallyRegisterBicycleActivity extends AppCompatActivity implements
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public byte[] fileWrite(File file) {
+        InputStream in = null;
+        BufferedInputStream bis = null;
+        ByteArrayOutputStream arrayBuff = new ByteArrayOutputStream();
+        try {
+
+            byte[] buffer = new byte[MAX_BUF_BYTE];
+
+            in = new FileInputStream(file);
+            bis = new BufferedInputStream(in);
+            int len = 0;
+            while ((len = bis.read(buffer)) >= 0) {
+                arrayBuff.write(buffer, 0, len);
+            }
+
+        } catch (Exception e) {
+
+        } finally {
+
+            try {
+
+                in.close();
+                bis.close();
+
+            } catch (Exception e) {
+            }
+        }
+        return arrayBuff.toByteArray();
     }
 
     @Override

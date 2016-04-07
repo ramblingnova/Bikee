@@ -14,25 +14,46 @@ public class PropertyManager {
     private SharedPreferences mPrefs;
     private SharedPreferences.Editor mEditor;
 
-    public static final String KEY_IMAGE = "image";
-    public static final String KEY_NAME = "name";
-    public static final String KEY_EMAIL = "id";
-    public static final String KEY_PASSWORD = "password";
-    public static final String KEY_LATITUDE = "latitude";
-    public static final String KEY_LONGITUDE = "longitude";
-    public static final String KEY_INIT = "init";
-    public static final String KEY_PUSH = "push";
+    private static final String KEY_SIGN_IN_STATE = "SIGN_IN_STATE";
+    public static final int SIGN_OUT_STATE = 0;
+    public static final int SIGN_IN_FACEBOOK_STATE = 1;
+    public static final int SIGN_IN_LOCAL_STATE = 2;
+
+    private static final String KEY_IMAGE = "IMAGE";
+    private static final String KEY_NAME = "NAME";
+    private static final String KEY_EMAIL = "EMAIL";
+    private static final String KEY_PASSWORD = "PASSWORD";
+    private static final String KEY_PHONE = "PHONE";
+
+    private static final String KEY_INIT_COORDINATES = "INIT_COORDINATES";
+    private static final String KEY_LATITUDE = "LATITUDE";
+    private static final String KEY_LONGITUDE = "LONGITUDE";
+
+    private static final String KEY_PUSH = "PUSH";
+
+    private static final String KEY_FACEBOOK_ID = "FACEBOOK_ID";
+
+    private static final String KEY_GCM_TOKEN = "GCM_TOKEN";
 
     public static PropertyManager getInstance() {
-        if (instance == null) {
+        if (instance == null)
             instance = new PropertyManager();
-        }
+
         return instance;
     }
 
     private PropertyManager() {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(MyApplication.getmContext());
         mEditor = mPrefs.edit();
+    }
+
+    public void setSignInState(int state) {
+        mEditor.putInt(KEY_SIGN_IN_STATE, state);
+        mEditor.commit();
+    }
+
+    public int getSignInState() {
+        return mPrefs.getInt(KEY_SIGN_IN_STATE, SIGN_OUT_STATE);
     }
 
     public void setImage(String image) {
@@ -71,6 +92,15 @@ public class PropertyManager {
         return mPrefs.getString(KEY_PASSWORD, "");
     }
 
+    public void setPhone(String phone) {
+        mEditor.putString(KEY_PHONE, phone);
+        mEditor.commit();
+    }
+
+    public String getPhone() {
+        return mPrefs.getString(KEY_PHONE, "");
+    }
+
     public void setLatitude(String latitude) {
         mEditor.putString(KEY_LATITUDE, latitude);
         mEditor.commit();
@@ -89,13 +119,13 @@ public class PropertyManager {
         return mPrefs.getString(KEY_LONGITUDE, "");
     }
 
-    public void setInit(String init) {
-        mEditor.putString(KEY_INIT, init);
+    public void setInitCoordinates(boolean initCoordinates) {
+        mEditor.putBoolean(KEY_INIT_COORDINATES, initCoordinates);
         mEditor.commit();
     }
 
-    public String getInit() {
-        return mPrefs.getString(KEY_INIT, "");
+    public boolean isInitCoordinates() {
+        return mPrefs.getBoolean(KEY_INIT_COORDINATES, true);
     }
 
     public void setPushEnable(boolean push) {
@@ -107,7 +137,21 @@ public class PropertyManager {
         return mPrefs.getBoolean(KEY_PUSH, true);
     }
 
-    public boolean isBackupSync() {
-        return mPrefs.getBoolean("perf_sync", false);
+    public void setFacebookId(String id) {
+        mEditor.putString(KEY_FACEBOOK_ID, id);
+        mEditor.commit();
+    }
+
+    public String getFacebookId() {
+        return mPrefs.getString(KEY_FACEBOOK_ID, "");
+    }
+
+    public void setGCMToken(String id) {
+        mEditor.putString(KEY_GCM_TOKEN, id);
+        mEditor.commit();
+    }
+
+    public String getGCMToken() {
+        return mPrefs.getString(KEY_GCM_TOKEN, "");
     }
 }

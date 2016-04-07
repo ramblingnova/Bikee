@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.MemoryCategory;
+import com.facebook.FacebookSdk;
 import com.tsengvn.typekit.Typekit;
 
 /**
@@ -19,6 +20,7 @@ public class MyApplication extends Application {
         Glide.get(mContext).setMemoryCategory(MemoryCategory.HIGH);
         Typekit.getInstance()
                 .addNormal(Typekit.createFromAsset(this, "NotoSansKR-Regular.otf"));
+        FacebookSdk.sdkInitialize(this);
     }
 
     public static Context getmContext() {

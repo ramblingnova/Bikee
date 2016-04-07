@@ -80,9 +80,12 @@ public class ListerMainActivity extends AppCompatActivity implements TabHost.OnT
         tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator(btt_iv1), ListerRequestedBicycleListFragment.class, null);
 
         final String appId = "2E377FE1-E1AD-4484-A66F-696AF1306F58"; /* Sample SendBird Application */
-        String userId = SendBirdHelper.generateDeviceUUID(ListerMainActivity.this); /* Generate Device UUID */
-        String userName = "User-" + "20B5A"; /* Generate User Nickname */
-        String gcmRegToken = "f7x_1qavNuM:APA91bGB8RVUTMtxFbTehOYO-gr5JFUORJQZDLtzAsXoDD_o2ZBqHn_PhqAfzpJwSbY6SF6iY7_mfK4nrEERZsZbq5HuddaVqKPBA6OKBdjJrSTxjEJEyfIzLcJeNpPcgoo0f66cXwxY";
+//        String userId = SendBirdHelper.generateDeviceUUID(RenterMainActivity.this); /* Generate Device UUID */
+//        String userName = "User-" + "20B5A"; /* Generate User Nickname */
+//        String gcmRegToken = "f7x_1qavNuM:APA91bGB8RVUTMtxFbTehOYO-gr5JFUORJQZDLtzAsXoDD_o2ZBqHn_PhqAfzpJwSbY6SF6iY7_mfK4nrEERZsZbq5HuddaVqKPBA6OKBdjJrSTxjEJEyfIzLcJeNpPcgoo0f66cXwxY";
+        String userId = PropertyManager.getInstance().getEmail();
+        String userName = PropertyManager.getInstance().getName();
+        String gcmRegToken = PropertyManager.getInstance().getGCMToken();
 
         SendBird.init(this, appId);
         SendBird.login(SendBird.LoginOption.build(userId).setUserName(userName).setGCMRegToken(gcmRegToken));

@@ -139,6 +139,4 @@ public class GalleryPictureFragment extends Fragment implements OnGalleryPicture
     public void enterFolder(String folderName) {
         this.folderName = folderName;
     }
-
-    // DELME : http://www.androidpub.com/2573998 해상도 문제 해결하기 에브리싱!
 }

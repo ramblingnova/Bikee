@@ -10,14 +10,14 @@ import lombok.Setter;
 public class Facebook {
     @Getter
     @Setter(AccessLevel.PUBLIC)
-    String id = null;
-    @Getter
-    @Setter(AccessLevel.PUBLIC)
-    String name = null;
-    @Getter
-    @Setter(AccessLevel.PUBLIC)
-    Picture picture = null;
+    String access_token = null;
     @Getter
     @Setter(AccessLevel.PUBLIC)
     String email = null;
+    @Getter
+    @Setter(AccessLevel.PUBLIC)
+    String phone = null;
+    @Getter
+    @Setter(AccessLevel.PUBLIC)
+    String username = null;
 }

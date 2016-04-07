@@ -2,6 +2,7 @@
     <string name="app_name">Bikee</string>
 
     <string name="GCM_SenderId">1067729957964</string>
+    <string name="facebook_app_id">904815852972365</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_filter">FilterActivity</string>
