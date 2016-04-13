@@ -1,5 +1,7 @@
 package com.example.tacademy.bikee.common.chatting.room;
 
+import com.sendbird.android.model.MessageModel;
+
 import java.util.Date;
 
 import lombok.AccessLevel;
@@ -12,32 +14,24 @@ import lombok.Setter;
 public class ConversationItem {
     @Getter
     @Setter(AccessLevel.PUBLIC)
-    String userImage;
-    @Getter
-    @Setter(AccessLevel.PUBLIC)
-    String conversation;
+    MessageModel messageModel;
     @Getter
     @Setter(AccessLevel.PUBLIC)
     Date conversationTime;
     @Getter
     @Setter(AccessLevel.PUBLIC)
-    int type;
+    int messageType;
     @Getter
     @Setter(AccessLevel.PUBLIC)
-    boolean single;
+    boolean singleMessage;
     @Getter
     @Setter(AccessLevel.PUBLIC)
-    int innerType;
+    int multiMessageType;
 
-    public ConversationItem(String userImage, String conversation, Date conversationTime, int type) {
-        this.userImage = userImage;
-        this.conversation = conversation;
+    public ConversationItem(MessageModel messageModel, Date conversationTime, int messageType) {
+        this.messageModel = messageModel;
         this.conversationTime = conversationTime;
-        this.type = type;
-        this.single = true;
-    }
-
-    public boolean isPast() {
-        return conversationTime.getTime() < new Date().getTime();
+        this.messageType = messageType;
+        this.singleMessage = true;
     }
 }

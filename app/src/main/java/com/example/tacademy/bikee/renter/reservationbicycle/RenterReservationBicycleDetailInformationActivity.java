@@ -142,6 +142,7 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
     }
 
     @OnClick({R.id.renter_backable_tool_bar_back_button_layout,
+            R.id.lister_information_chat_with_lister_button,
             R.id.lister_information_call_with_lister_button,
             R.id.activity_renter_reservation_bicycle_detail_information_cancel_button,
             R.id.activity_renter_reservation_bicycle_detail_information_pay_button,
@@ -151,6 +152,21 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
         switch (view.getId()) {
             case R.id.renter_backable_tool_bar_back_button_layout:
                 super.onBackPressed();
+                break;
+            case R.id.lister_information_chat_with_lister_button:
+                // TODO : 유저를 하나 선택해서 채팅을 시작하는 부분 이미 채팅을 했던
+//              intent.putExtra("START", true);
+//              intent.putExtra("APP_ID", appId);
+//              intent.putExtra("USER_ID", userId);
+//              intent.putExtra("USER_NAME", userName);
+//              for (MessagingChannel.Member member : item.getMessagingChannel().getMembers())
+//                  if (!member.getId().equals(SendBird.getUserId())) {
+//                      intent.putExtra("TARGET_USER_NAME", member.getName());
+//                      intent.putExtra("TARGET_USER_ID", member.getId());
+//                      break;
+//                  }
+//              intent.putExtra("bicycleName", item.getBicycleName());
+//              startActivity(intent);
                 break;
             case R.id.lister_information_call_with_lister_button:
                 intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + listerPhone));

@@ -10,9 +10,11 @@ import android.widget.TextView;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.MyApplication;
 import com.example.tacademy.bikee.etc.utils.ImageUtil;
+import com.sendbird.android.model.Message;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 
 /**
@@ -36,6 +38,7 @@ public class ConversationViewHolder extends RecyclerView.ViewHolder {
             case ConversationAdapter.SEND:
                 map.put("SEND_MESSAGE", itemView.findViewById(R.id.view_conversation_send_item_conversation_text_view));
                 map.put("SEND_TIME", itemView.findViewById(R.id.view_conversation_send_item_conversation_time_text_view));
+                map.put("UNREAD", itemView.findViewById(R.id.view_conversation_send_item_unread_text_view));
                 break;
             case ConversationAdapter.DATE:
                 map.put("CONVERSATION_DATE", itemView.findViewById(R.id.view_conversation_date_item_conversation_date_text_view));
@@ -43,7 +46,7 @@ public class ConversationViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    public void setView(ConversationItem item) {
+    public void setView(ConversationItem item, Hashtable<String, Long> readStatusTable) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("aa HH:mm", java.util.Locale.getDefault());
         switch (viewType) {
             case ConversationAdapter.RECEIVE:
@@ -51,51 +54,74 @@ public class ConversationViewHolder extends RecyclerView.ViewHolder {
                 TextView receiveMessage = (TextView) map.get("RECEIVE_MESSAGE");
                 TextView receiveMessageTime = (TextView) map.get("RECEIVE_TIME");
 
-                if (item.isSingle()) {
+                receiveMessage.setText(((Message)item.getMessageModel()).getMessage());
+
+                if (item.isSingleMessage()) {
                     userImage.setVisibility(View.VISIBLE);
                     receiveMessageTime.setVisibility(View.VISIBLE);
 
-                    ImageUtil.setCircleImageFromURL(MyApplication.getmContext(), item.getUserImage(), R.drawable.noneimage, 0, userImage);
-                    receiveMessage.setText(item.getConversation());
+                    ImageUtil.setCircleImageFromURL(
+                            MyApplication.getmContext(),
+                            ((Message) item.getMessageModel()).getSenderImageUrl(),
+                            R.drawable.noneimage,
+                            0,
+                            userImage
+                    );
                     receiveMessageTime.setText(simpleDateFormat.format(item.getConversationTime()));
-                } else if (item.getInnerType() == ConversationAdapter.INIT) {
+                } else if (item.getMultiMessageType() == ConversationAdapter.INIT) {
                     userImage.setVisibility(View.VISIBLE);
                     receiveMessageTime.setVisibility(View.GONE);
 
-                    ImageUtil.setCircleImageFromURL(MyApplication.getmContext(), item.getUserImage(), R.drawable.noneimage, 0, userImage);
-                    receiveMessage.setText(item.getConversation());
-                } else if (item.getInnerType() == ConversationAdapter.MID) {
+                    ImageUtil.setCircleImageFromURL(
+                            MyApplication.getmContext(),
+                            ((Message) item.getMessageModel()).getSenderImageUrl(),
+                            R.drawable.noneimage,
+                            0,
+                            userImage
+                    );
+                } else if (item.getMultiMessageType() == ConversationAdapter.MID) {
                     userImage.setVisibility(View.INVISIBLE);
                     receiveMessageTime.setVisibility(View.GONE);
-
-                    receiveMessage.setText(item.getConversation());
-                } else if (item.getInnerType() == ConversationAdapter.FINAL) {
+                } else if (item.getMultiMessageType() == ConversationAdapter.FINAL) {
                     userImage.setVisibility(View.INVISIBLE);
                     receiveMessageTime.setVisibility(View.VISIBLE);
 
-                    receiveMessage.setText(item.getConversation());
                     receiveMessageTime.setText(simpleDateFormat.format(item.getConversationTime()));
                 }
                 break;
             case ConversationAdapter.SEND:
                 TextView sendMessage = (TextView) map.get("SEND_MESSAGE");
                 TextView sendMessageTime = (TextView) map.get("SEND_TIME");
+                TextView unread = (TextView) map.get("UNREAD");
 
-                if (item.isSingle()) {
+                sendMessage.setText(((Message) item.getMessageModel()).getMessage());
+                if (item.isSingleMessage()
+                        || (item.getMultiMessageType() == ConversationAdapter.FINAL)) {
                     sendMessageTime.setVisibility(View.VISIBLE);
-
-                    sendMessage.setText(item.getConversation());
                     sendMessageTime.setText(simpleDateFormat.format(item.getConversationTime()));
-                } else if ((item.getInnerType() == ConversationAdapter.INIT)
-                        || (item.getInnerType() == ConversationAdapter.MID)) {
+                } else if ((item.getMultiMessageType() == ConversationAdapter.INIT)
+                        || (item.getMultiMessageType() == ConversationAdapter.MID))
                     sendMessageTime.setVisibility(View.GONE);
 
-                    sendMessage.setText(item.getConversation());
-                } else if (item.getInnerType() == ConversationAdapter.FINAL) {
-                    sendMessageTime.setVisibility(View.VISIBLE);
+                int readCount = 0;
+                for (String key : readStatusTable.keySet()) {
+                    if (key.equals(((Message) item.getMessageModel()).getSenderId())) {
+                        readCount += 1;
+                        continue;
+                    }
 
-                    sendMessage.setText(item.getConversation());
-                    sendMessageTime.setText(simpleDateFormat.format(item.getConversationTime()));
+                    if (readStatusTable.get(key) >= ((Message) item.getMessageModel()).getTimestamp()) {
+                        readCount += 1;
+                    }
+                }
+                if (readCount < readStatusTable.size()) {
+                    if (readStatusTable.size() - readCount > 1) {
+                        unread.setVisibility(View.VISIBLE);
+                    } else {
+                        unread.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    unread.setVisibility(View.GONE);
                 }
                 break;
             case ConversationAdapter.DATE:

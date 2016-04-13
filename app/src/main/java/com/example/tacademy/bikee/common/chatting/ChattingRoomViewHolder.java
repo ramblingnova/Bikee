@@ -8,8 +8,11 @@ import android.widget.TextView;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.MyApplication;
 import com.example.tacademy.bikee.etc.utils.ImageUtil;
+import com.sendbird.android.SendBird;
+import com.sendbird.android.model.MessagingChannel;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -42,9 +45,15 @@ public class ChattingRoomViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setView(ChattingRoomItem item) {
+        String opponentImageUrl = null;
+        for (MessagingChannel.Member member : item.getMessagingChannel().getMembers())
+            if (!member.getId().equals(SendBird.getUserId())) {
+                opponentImageUrl = member.getImageUrl();
+                break;
+            }
         ImageUtil.setCircleImageFromURL(
                 MyApplication.getmContext(),
-                item.getUserImage(),
+                opponentImageUrl,
                 R.drawable.noneimage,
                 0,
                 userImage
@@ -61,21 +70,24 @@ public class ChattingRoomViewHolder extends RecyclerView.ViewHolder {
                 reservationState.setImageResource(R.drawable.chatting_icon_step3);
                 break;
         }
-
-        userName.setText(item.getUserName());
+        for (MessagingChannel.Member member : item.getMessagingChannel().getMembers())
+            if (!member.getId().equals(SendBird.getUserId())) {
+                userName.setText(member.getName());
+                break;
+            }
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM.dd HH:mm", java.util.Locale.getDefault());
-        lastConversationTime.setText(simpleDateFormat.format(item.getLastConversationTime()));
+        lastConversationTime.setText(simpleDateFormat.format(new Date(item.getMessagingChannel().getLastMessageTimestamp())));
 
         bicycleName.setText(item.getBicycleName());
 
-        lastConversation.setText(item.getLastConversation());
+        lastConversation.setText(item.getMessagingChannel().getLastMessage().getMessage());
 
-        if (item.getNumOfStackedConversation() == 0)
+        if (item.getMessagingChannel().getUnreadMessageCount() == 0)
             numOfStackedConversation.setVisibility(View.GONE);
-        else if (item.getNumOfStackedConversation() > 0) {
+        else if (item.getMessagingChannel().getUnreadMessageCount() > 0) {
             numOfStackedConversation.setVisibility(View.VISIBLE);
-            numOfStackedConversation.setText("" + item.getNumOfStackedConversation());
+            numOfStackedConversation.setText("" + item.getMessagingChannel().getUnreadMessageCount());
         }
     }
 

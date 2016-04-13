@@ -302,6 +302,28 @@ public class SignUpActivity extends AppCompatActivity {
         if (BuildConfig.DEBUG)
             Log.d(TAG, "emailDuplicationTextView");
         // TODO : Email 중복 확인 작업이 필요함
+        User user = new User();
+        user.setEmail(emailEditText.getText().toString());
+        NetworkManager.getInstance().checkEmailDuplication(user, new Callback<ReceiveObject>() {
+            @Override
+            public void success(ReceiveObject receiveObject, Response response) {
+                if (receiveObject.isSuccess()) {
+                    // TODO : Email 사용 가능! 처리 작업이 필요함
+                    if (BuildConfig.DEBUG)
+                        Log.d(TAG, "checkEmailDuplication success isSuccess : " + receiveObject.isSuccess());
+                } else {
+                    // TODO : Email 중복! 처리 작업이 필요함
+                    if (BuildConfig.DEBUG)
+                        Log.d(TAG, "checkEmailDuplication success isSuccess : " + receiveObject.isSuccess());
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                if (BuildConfig.DEBUG)
+                    Log.d(TAG, "checkEmailDuplication failure");
+            }
+        });
     }
 
     @OnClick(R.id.activity_sign_up_request_authentication_number_text_view)

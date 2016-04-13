@@ -14,24 +14,29 @@ import com.example.tacademy.bikee.common.chatting.room.inspectors.YearInspector;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.List;
 
 /**
  * Created by User on 2016-03-14.
  */
 public class ConversationAdapter extends RecyclerView.Adapter<ConversationViewHolder> {
-    private List<ConversationItem> list;
+    private List<ConversationItem> mItemList;
+    private Hashtable<String, Long> mReadStatusTable;
+    private long mMaxMessageTimestamp = Long.MIN_VALUE;
+    private long mMinMessageTimestamp = Long.MAX_VALUE;
+
     public static final int RECEIVE = 1;
     public static final int SEND = 2;
     public static final int DATE = 3;
     public static final int INIT = 4;
     public static final int MID = 5;
     public static final int FINAL = 6;
-    private long mMaxMessageTimestamp = Long.MIN_VALUE;
-    private long mMinMessageTimestamp = Long.MAX_VALUE;
+    private static final String TAG = "CONVERSATION_ADAPTER";
 
     public ConversationAdapter() {
-        list = new ArrayList<>();
+        mItemList = new ArrayList<>();
+        mReadStatusTable = new Hashtable<>();
     }
 
     @Override
@@ -53,22 +58,26 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationViewHo
 
     @Override
     public void onBindViewHolder(ConversationViewHolder holder, int position) {
-        holder.setView(list.get(position));
+        holder.setView(mItemList.get(position), mReadStatusTable);
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return mItemList.size();
     }
 
     public void add(ConversationItem item) {
-        if (item.isPast()) {
-            list.add(0, item);
-            item.setInnerType(INIT);
-            if (list.size() > 1) {
-                int position = 0;
-                int currentType = item.getType();
-                int afterType = list.get(position + 1).getType();
+        if (mItemList.size() == 0) {
+            mItemList.add(0, item);
+            item.setMultiMessageType(INIT);
+        } else if (item.getConversationTime().getTime() < getMinMessageTimestamp()) {
+            mItemList.add(0, item);
+            item.setMultiMessageType(INIT);
+
+            if (mItemList.size() > 1) {
+                int nextPosition = 1;
+                Date nextConversationTime = mItemList.get(nextPosition).getConversationTime();
+                int nextType = mItemList.get(nextPosition).getMessageType();
 
                 DiscreteMessageInspector inspector = new YearInspector()
                         .setNext(new MonthInspector())
@@ -76,45 +85,41 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationViewHo
                 boolean discrete = inspector.isDiscreteMessage(
                         new InspectorItem(
                                 item.getConversationTime(),
-                                list.get(position + 1).getConversationTime()
+                                nextConversationTime
                         )
                 );
-                if (discrete) {
-                    if (afterType != DATE) {
-                        Date afterConversationTime = list.get(position + 1).getConversationTime();
-                        list.add(1, new ConversationItem(null, null, afterConversationTime, DATE));
-                    }
-                } else if (currentType == afterType) {
-                    inspector = new YearInspector()
-                            .setNext(new MonthInspector())
-                            .setNext(new DayInspector())
-                            .setNext(new HourInspector())
+
+                if (discrete && (nextType != DATE))
+                    mItemList.add(1, new ConversationItem(null, nextConversationTime, DATE));
+                else if (item.getMessageType() == nextType) {
+                    inspector = new HourInspector()
                             .setNext(new MinuteInspector());
                     discrete = inspector.isDiscreteMessage(
                             new InspectorItem(
                                     item.getConversationTime(),
-                                    list.get(position + 1).getConversationTime()
+                                    mItemList.get(nextPosition).getConversationTime()
                             )
                     );
 
-                    if (discrete) {
-                        item.setSingle(true);
-                    } else {
-                        list.get(position + 1).setSingle(false);
-                        list.get(position + 1).setInnerType(FINAL);
-                        item.setSingle(false);
-                        if ((list.size() > 2) && (list.get(position + 2).getInnerType() != INIT))
-                            list.get(position + 1).setInnerType(MID);
+                    if (!discrete) {
+                        mItemList.get(nextPosition).setSingleMessage(false);
+                        mItemList.get(nextPosition).setMultiMessageType(FINAL);
+                        item.setSingleMessage(false);
+
+                        if ((mItemList.size() > 2)
+                                && (mItemList.get(nextPosition + 1).getMultiMessageType() != INIT))
+                            mItemList.get(nextPosition).setMultiMessageType(MID);
                     }
                 }
             }
-        } else {
-            list.add(item);
-            item.setInnerType(INIT);
-            if (list.size() > 1) {
-                int position = list.size() - 1;
-                int currentType = item.getType();
-                int beforeType = list.get(position - 1).getType();
+        } else if (item.getConversationTime().getTime() > getMaxMessageTimestamp()) {
+            mItemList.add(item);
+            item.setMultiMessageType(INIT);
+
+            if (mItemList.size() > 1) {
+                int prevPosition = mItemList.size() - 2;
+                Date prevConversationTime = mItemList.get(prevPosition).getConversationTime();
+                int prevType = mItemList.get(prevPosition).getMessageType();
 
                 DiscreteMessageInspector inspector = new YearInspector()
                         .setNext(new MonthInspector())
@@ -122,53 +127,45 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationViewHo
                 boolean discrete = inspector.isDiscreteMessage(
                         new InspectorItem(
                                 item.getConversationTime(),
-                                list.get(position - 1).getConversationTime()
+                                prevConversationTime
                         )
                 );
 
-                if (discrete) {
-                    if (beforeType != DATE) {
-                        Date beforeConversationTime = list.get(position - 1).getConversationTime();
-                        list.add(position, new ConversationItem(null, null, beforeConversationTime, DATE));
-                    }
-                } else if (currentType == beforeType) {
-                    inspector = new YearInspector()
-                            .setNext(new MonthInspector())
-                            .setNext(new DayInspector())
-                            .setNext(new HourInspector())
+                if (discrete && (prevType != DATE))
+                    mItemList.add(prevPosition + 1, new ConversationItem(null, prevConversationTime, DATE));
+                else if (item.getMessageType() == prevType) {
+                    inspector = new HourInspector()
                             .setNext(new MinuteInspector());
                     discrete = inspector.isDiscreteMessage(
                             new InspectorItem(
                                     item.getConversationTime(),
-                                    list.get(position - 1).getConversationTime()
+                                    prevConversationTime
                             )
                     );
 
-                    if (discrete) {
-                        item.setSingle(true);
-                    } else {
-                        list.get(position - 1).setSingle(false);
-                        item.setSingle(false);
-                        item.setInnerType(FINAL);
-                        if (list.get(position - 1).getInnerType() == FINAL)
-                            list.get(position - 1).setInnerType(MID);
+                    if (!discrete) {
+                        mItemList.get(prevPosition).setSingleMessage(false);
+                        item.setSingleMessage(false);
+                        item.setMultiMessageType(FINAL);
+
+                        if (mItemList.get(prevPosition).getMultiMessageType() == FINAL)
+                            mItemList.get(prevPosition).setMultiMessageType(MID);
                     }
                 }
             }
         }
-
         updateMessageTimestamp(item.getConversationTime().getTime());
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemViewType(int position) {
-        ConversationItem conversationItem = list.get(position);
-        return conversationItem.getType();
+        ConversationItem conversationItem = mItemList.get(position);
+        return conversationItem.getMessageType();
     }
 
-    public List<ConversationItem> getList() {
-        return list;
+    public List<ConversationItem> getItemList() {
+        return mItemList;
     }
 
     private void updateMessageTimestamp(long timestamp) {
@@ -188,6 +185,21 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationViewHo
         mMaxMessageTimestamp = Long.MIN_VALUE;
         mMinMessageTimestamp = Long.MAX_VALUE;
 
-        list.clear();
+        mItemList.clear();
+        mReadStatusTable.clear();
+    }
+
+    public void resetReadStatusTable(Hashtable<String, Long> readStatusTable) {
+        mReadStatusTable = readStatusTable;
+    }
+
+    public Hashtable<String, Long> getReadStatusTable() {
+        return mReadStatusTable;
+    }
+
+    public void setReadStatus(String userId, long timeStamp) {
+        if ((mReadStatusTable.get(userId) == null)
+                || (mReadStatusTable.get(userId) < timeStamp))
+            mReadStatusTable.put(userId, timeStamp);
     }
 }

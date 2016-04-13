@@ -88,6 +88,11 @@ public class NetworkManager {
         void insertUser(@Body User user,
                         Callback<ReceiveObject> callback);
 
+        // 이메일 중복 체크
+        @POST("/users/check")
+        void checkEmailDuplication(@Body User user,
+                                   Callback<ReceiveObject> callback);
+
         // 인증 번호 요청하기
         @FormUrlEncoded
         @POST("/sms/auth")
@@ -114,7 +119,7 @@ public class NetworkManager {
                    Callback<ReceiveObject> callback);
 
         // 로그아웃하기
-        @GET("/logout")
+        @POST("/logout")
         void logout(Callback<ReceiveObject> callback);
 
         // 세션클리어하기
@@ -128,7 +133,7 @@ public class NetworkManager {
 
         // 페이스북 계정으로 로그인하기
         @POST("/users/facebook/session")
-        void signInFacebook(@Body String token,
+        void signInFacebook(@Body Facebook facebook,
                             Callback<ReceiveObject> callback);
 
         // 페이스북 로그인 여부 확인하기
@@ -174,16 +179,17 @@ public class NetworkManager {
         void selectAllListBicycle(@Path("lon") String lon,
                                   @Path("lat") String lat,
                                   @Path("lastindex") String lastindex,
-                                  @Query("start") String start,
-                                  @Query("end") String end,
-                                  @Query("type") String type,
-                                  @Query("height") String height,
-                                  @Query("component") String component,
-                                  @Query("smartlock") Boolean smartlock,
+                                  @Query("filter") String filter,
                                   Callback<ReceiveObject> callback);
+//                                  @Query("start") String start,
+//                                  @Query("end") String end,
+//                                  @Query("type") String type,
+//                                  @Query("height") String height,
+//                                  @Query("component") String component,
+//                                  @Query("smartlock") Boolean smartlock,
 
         // 전체 자전거(맵) 조회하기
-        @GET("/bikes/all/{lon}/{lat}")
+        @GET("/bikes/map/{lon}/{lat}")
         void selectAllMapBicycle(@Path("lon") String lon,
                                  @Path("lat") String lat,
                                  Callback<ReceiveObject> callback);
@@ -301,6 +307,12 @@ public class NetworkManager {
         serverUrl.insertUser(user, callback);
     }
 
+    // 이메일 중복 체크
+    public void checkEmailDuplication(@Body User user,
+                               Callback<ReceiveObject> callback) {
+        serverUrl.checkEmailDuplication(user, callback);
+    }
+
     // 인증 번호 요청하기
     public void requestAuthenticationNumber(String mobile,
                                             Callback<ReceiveObject> callback) {
@@ -344,8 +356,8 @@ public class NetworkManager {
     }
 
     // 페이스북 계정으로 로그인하기
-    public void signInFacebook(String token, Callback<ReceiveObject> callback) {
-        serverUrl.signInFacebook(token, callback);
+    public void signInFacebook(Facebook facebook, Callback<ReceiveObject> callback) {
+        serverUrl.signInFacebook(facebook, callback);
     }
 
     // 페이스북 로그인 여부 확인하기
@@ -389,14 +401,15 @@ public class NetworkManager {
     public void selectAllListBicycle(String lon,
                                      String lat,
                                      String lastindex,
-                                     String start,
-                                     String end,
-                                     String type,
-                                     String height,
-                                     String component,
-                                     Boolean smartlock,
+                                     String filter,
+//                                     String start,
+//                                     String end,
+//                                     String type,
+//                                     String height,
+//                                     String component,
+//                                     Boolean smartlock,
                                      Callback<ReceiveObject> callback) {
-        serverUrl.selectAllListBicycle(lon, lat, lastindex, start, end, type, height, component, smartlock, callback);
+        serverUrl.selectAllListBicycle(lon, lat, lastindex, filter, callback);
     }
 
     // 전체 자전거(맵) 조회하기

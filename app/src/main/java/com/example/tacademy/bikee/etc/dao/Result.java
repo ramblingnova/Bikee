@@ -92,4 +92,7 @@ public class Result {
     @Getter
     @Setter(AccessLevel.PUBLIC)
     String id = null;
+    @Getter
+    @Setter(AccessLevel.PUBLIC)
+    String distance = null;
 }

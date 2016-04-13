@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.common.chatting.ChattingRoomsFragment;
 import com.example.tacademy.bikee.common.sidemenu.SignInActivity;
 import com.example.tacademy.bikee.R;
@@ -55,6 +56,7 @@ public class ListerMainActivity extends AppCompatActivity implements TabHost.OnT
     TextView emailTextView;
 
     final public static String from = "LISTER";
+    private static final String TAG = "LISTER_MAIN_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,9 +81,9 @@ public class ListerMainActivity extends AppCompatActivity implements TabHost.OnT
         tabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
         tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator(btt_iv1), ListerRequestedBicycleListFragment.class, null);
 
-        final String appId = "2E377FE1-E1AD-4484-A66F-696AF1306F58"; /* Sample SendBird Application */
-//        String userId = SendBirdHelper.generateDeviceUUID(RenterMainActivity.this); /* Generate Device UUID */
-//        String userName = "User-" + "20B5A"; /* Generate User Nickname */
+        final String appId = "2E377FE1-E1AD-4484-A66F-696AF1306F58";
+//        String userId = SendBirdHelper.generateDeviceUUID(RenterMainActivity.this);
+//        String userName = "User-" + "20B5A";
 //        String gcmRegToken = "f7x_1qavNuM:APA91bGB8RVUTMtxFbTehOYO-gr5JFUORJQZDLtzAsXoDD_o2ZBqHn_PhqAfzpJwSbY6SF6iY7_mfK4nrEERZsZbq5HuddaVqKPBA6OKBdjJrSTxjEJEyfIzLcJeNpPcgoo0f66cXwxY";
         String userId = PropertyManager.getInstance().getEmail();
         String userName = PropertyManager.getInstance().getName();
@@ -134,7 +136,7 @@ public class ListerMainActivity extends AppCompatActivity implements TabHost.OnT
             case R.id.lister_side_menu_mail_address_text_view:
                 intent = new Intent(ListerMainActivity.this, SignInActivity.class);
                 intent.putExtra("FROM", from);
-                startActivity(intent);
+                startActivityForResult(intent, SignInActivity.SIGN_IN_ACTIVITY);
                 break;
             case R.id.lister_side_menu_see_my_bicycle_text_view: {
                 intent = new Intent(ListerMainActivity.this, OwningBicycleListActivity.class);
@@ -245,28 +247,32 @@ public class ListerMainActivity extends AppCompatActivity implements TabHost.OnT
     }
 
     private void initProfile() {
-        if (!PropertyManager.getInstance().getEmail().equals("")
-                || !PropertyManager.getInstance().getName().equals("")) {
-            Log.i("Result", PropertyManager.getInstance().getImage());
-            ImageUtil.setCircleImageFromURL(
-                    this,
-                    PropertyManager.getInstance().getImage(),
-                    R.drawable.noneimage,
-                    0,
-                    listerImage
-            );
-            nameTextView.setText(PropertyManager.getInstance().getName());
-            emailTextView.setText(PropertyManager.getInstance().getEmail());
-        } else {
-            ImageUtil.setCircleImageFromURL(
-                    this,
-                    "https://s3-ap-northeast-1.amazonaws.com/bikee/KakaoTalk_20151128_194521490.png",
-                    R.drawable.noneimage,
-                    0,
-                    listerImage
-            );
-            nameTextView.setText(R.string.renter_side_menu_member_name_text_view_string);
-            emailTextView.setText(R.string.renter_side_menu_mail_address_text_view_string);
+        switch (PropertyManager.getInstance().getSignInState()) {
+            case PropertyManager.SIGN_IN_FACEBOOK_STATE:
+            case PropertyManager.SIGN_IN_LOCAL_STATE:
+                if (BuildConfig.DEBUG)
+                    Log.d(TAG, PropertyManager.getInstance().getImage());
+                ImageUtil.setCircleImageFromURL(
+                        this,
+                        PropertyManager.getInstance().getImage(),
+                        R.drawable.noneimage,
+                        0,
+                        listerImage
+                );
+                nameTextView.setText(PropertyManager.getInstance().getName());
+                emailTextView.setText(PropertyManager.getInstance().getEmail());
+                break;
+            case PropertyManager.SIGN_OUT_STATE:
+                ImageUtil.setCircleImageFromURL(
+                        this,
+                        "https://s3-ap-northeast-1.amazonaws.com/bikee/KakaoTalk_20151128_194521490.png",
+                        R.drawable.noneimage,
+                        0,
+                        listerImage
+                );
+                nameTextView.setText(R.string.renter_side_menu_member_name_text_view_string);
+                emailTextView.setText(R.string.renter_side_menu_mail_address_text_view_string);
+                break;
         }
 
         if (PropertyManager.getInstance().isPushEnable())

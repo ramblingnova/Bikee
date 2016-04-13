@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.etc.dao.Facebook;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.manager.FacebookNetworkManager;
@@ -179,16 +180,32 @@ public class SignInActivity extends AppCompatActivity {
     void signOutButton() {
         switch (PropertyManager.getInstance().getSignInState()) {
             case PropertyManager.SIGN_IN_FACEBOOK_STATE:
-                mLoginManager.logOut();
-                PropertyManager.getInstance().setSignInState(PropertyManager.SIGN_OUT_STATE);
-                initView();
+                NetworkManager.getInstance().logout(new Callback<ReceiveObject>() {
+                    @Override
+                    public void success(ReceiveObject receiveObject, Response response) {
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "SIGN_IN_FACEBOOK_STATE logout onResponse Success : " + receiveObject.isSuccess()
+                                            + ", Code : " + receiveObject.getCode()
+                                            + ", Msg : " + receiveObject.getMsg()
+                            );
+                        PropertyManager.getInstance().setSignInState(PropertyManager.SIGN_OUT_STATE);
+                        mLoginManager.logOut();
+                        initView();
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "onFailure Error : " + error.toString());
+                    }
+                });
                 break;
             case PropertyManager.SIGN_IN_LOCAL_STATE:
                 NetworkManager.getInstance().logout(new Callback<ReceiveObject>() {
                     @Override
                     public void success(ReceiveObject receiveObject, Response response) {
                         if (BuildConfig.DEBUG)
-                            Log.d(TAG, "onResponse Success : " + receiveObject.isSuccess()
+                            Log.d(TAG, "SIGN_IN_LOCAL_STATE logout onResponse Success : " + receiveObject.isSuccess()
                                             + ", Code : " + receiveObject.getCode()
                                             + ", Msg : " + receiveObject.getMsg()
                             );
@@ -256,9 +273,40 @@ public class SignInActivity extends AppCompatActivity {
                                                         Log.d(TAG, "success : " + receiveObject.isSuccess());
                                                     PropertyManager.getInstance().setFacebookId(token.getUserId());
                                                     // TODO : 서버에 계정 정보를 얻어와야 한다.
-                                                    PropertyManager.getInstance().setSignInState(PropertyManager.SIGN_IN_FACEBOOK_STATE);
-                                                    initView();
-                                                    wakeSignOutButton();
+                                                    Facebook facebook = new Facebook();
+                                                    facebook.setAccess_token(token.getToken());
+                                                    NetworkManager.getInstance().signInFacebook(facebook, new Callback<ReceiveObject>() {
+                                                        @Override
+                                                        public void success(ReceiveObject receiveObject, Response response) {
+                                                            NetworkManager.getInstance().selectUserName(new Callback<ReceiveObject>() {
+                                                                @Override
+                                                                public void success(ReceiveObject receiveObject, Response response) {
+                                                                    if (BuildConfig.DEBUG)
+                                                                        Log.d(TAG, "selectUserName success");
+                                                                    Result result = receiveObject.getResult().get(0);
+                                                                    PropertyManager.getInstance().setImage("https://s3-ap-northeast-1.amazonaws.com/bikee/KakaoTalk_20151128_194521490.png");
+                                                                    PropertyManager.getInstance().setName(result.getName());
+                                                                    PropertyManager.getInstance().setEmail(result.getEmail());
+
+                                                                    PropertyManager.getInstance().setSignInState(PropertyManager.SIGN_IN_FACEBOOK_STATE);
+                                                                    initView();
+                                                                    wakeSignOutButton();
+                                                                }
+
+                                                                @Override
+                                                                public void failure(RetrofitError error) {
+                                                                    if (BuildConfig.DEBUG)
+                                                                        Log.d(TAG, "selectUserName failure");
+                                                                    wakeSignOutButton();
+                                                                }
+                                                            });
+                                                        }
+
+                                                        @Override
+                                                        public void failure(RetrofitError error) {
+                                                            wakeSignOutButton();
+                                                        }
+                                                    });
                                                 } else {
                                                     if (BuildConfig.DEBUG) {
                                                         Log.d(TAG, "success : " + receiveObject.isSuccess());

@@ -16,6 +16,7 @@ import android.util.Log;
 
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.etc.dao.Facebook;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.manager.FacebookNetworkManager;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
@@ -124,7 +125,9 @@ public class SplashActivity extends AppCompatActivity {
                                         if (result.equals("OK")) {
                                             if (BuildConfig.DEBUG)
                                                 Log.d(TAG, "loginFacebookToken result : " + result);
-                                            NetworkManager.getInstance().signInFacebook(token.getToken(), new Callback<ReceiveObject>() {
+                                            Facebook facebook = new Facebook();
+                                            facebook.setAccess_token(token.getToken());
+                                            NetworkManager.getInstance().signInFacebook(facebook, new Callback<ReceiveObject>() {
                                                 @Override
                                                 public void success(ReceiveObject receiveObject, Response response) {
                                                     if (BuildConfig.DEBUG)

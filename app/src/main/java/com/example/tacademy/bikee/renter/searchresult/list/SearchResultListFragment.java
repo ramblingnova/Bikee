@@ -21,6 +21,8 @@ import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.example.tacademy.bikee.renter.searchresult.SearchResultListItem;
 import com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.FilteredBicycleDetailInformationActivity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -117,16 +119,19 @@ public class SearchResultListFragment extends Fragment implements SwipeRefreshLa
         }
         String lat = latitude;
         String lon = longitude;
-        String start = "";
-        String end = "";
+        String filter = "";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm");
+        String start = simpleDateFormat.format(new Date());
+        String end = simpleDateFormat.format(new Date());
         String type = "";
         String height = "";
         String component = "";
         Boolean smartlock = new Boolean(true);
-        NetworkManager.getInstance().selectAllListBicycle(
-                lon, lat, "" + index, start,
-                end, type, height,
-                component, smartlock, new Callback<ReceiveObject>() {
+//        filter = "{\"start\":\"" + start + "\",\"end\":\"" + end + "\",\"type\":\"B\",\"height\":\"04\"" + "}";
+        // TODO : last index -1 입력 해결 필요
+        filter = null;
+                NetworkManager.getInstance().selectAllListBicycle(
+                lon, lat, "" + index, filter, new Callback<ReceiveObject>() {
                     @Override
                     public void success(ReceiveObject receiveObject, Response response) {
                         if (BuildConfig.DEBUG)
@@ -155,6 +160,7 @@ public class SearchResultListFragment extends Fragment implements SwipeRefreshLa
                                                 + ", Price.month : " + result.getPrice().getMonth()
                                                 + ", lat : " + result.getLoc().getCoordinates().get(1)
                                                 + ", lon : " + result.getLoc().getCoordinates().get(0)
+                                                + ", distance : " + result.getDistance()
                                 );
                             adapter.add(
                                     result.get_id(),
