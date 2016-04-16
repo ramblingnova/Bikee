@@ -2,7 +2,6 @@ package com.example.tacademy.bikee.common.sidemenu;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
@@ -25,7 +24,6 @@ import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.manager.FacebookNetworkManager;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
-import com.example.tacademy.bikee.etc.utils.RefinementUtil;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -36,6 +34,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
+import com.sendbird.android.SendBird;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
 import java.io.IOException;
@@ -45,21 +44,11 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnEditorAction;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SignInActivity extends AppCompatActivity {
-    private Intent intent;
-    private String from;
-    private CallbackManager callbackManager = CallbackManager.Factory.create();
-    private LoginManager mLoginManager = LoginManager.getInstance();
-    private AccessToken token;
-    private String deviceID;
-    private String registrationID;
-    private String deviceName;
-    private String deviceOS = "Android";
-
     @Bind(R.id.activity_sign_in_user_email_edit_text)
     EditText emailEditText;
     @Bind(R.id.activity_sign_in_user_password_layout)
@@ -79,6 +68,20 @@ public class SignInActivity extends AppCompatActivity {
     @Bind(R.id.activity_sign_in_sign_up_string)
     TextView signUpTextView;
 
+    private Intent intent;
+    private String from;
+    private CallbackManager callbackManager = CallbackManager.Factory.create();
+    private LoginManager mLoginManager = LoginManager.getInstance();
+    private AccessToken token;
+    private String deviceID;
+    private String registrationID;
+    private String deviceName;
+    private String deviceOS = "Android";
+    final String appId = "2E377FE1-E1AD-4484-A66F-696AF1306F58";
+    private String userId;
+    private String userName;
+    private String gcmRegToken;
+
     public static final int SIGN_IN_ACTIVITY = 1;
     private static final String TAG = "SIGN_IN_ACTIVITY";
 
@@ -92,279 +95,8 @@ public class SignInActivity extends AppCompatActivity {
 
         emailEditText.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 
-        initLogin();
-    }
-
-    @OnEditorAction({R.id.activity_sign_in_user_email_edit_text,
-            R.id.activity_sign_in_user_password_edit_text})
-    boolean next(TextView v, int actionId, KeyEvent event) {
-        if (actionId == EditorInfo.IME_ACTION_NEXT
-                && (v.getId() == R.id.activity_sign_in_user_email_edit_text)) {
-            passwordEditText.requestFocus();
-            return false;
-        } else if ((actionId == EditorInfo.IME_ACTION_DONE)
-                && (v.getId() == R.id.activity_sign_in_user_password_edit_text)) {
-            return false;
-        }
-        return true;
-    }
-
-    @OnClick(R.id.activity_sign_in_sign_in_button)
-    void signInButton() {
-        NetworkManager.getInstance().login(
-                emailEditText.getText().toString().trim(),
-                passwordEditText.getText().toString(),
-                new Callback<ReceiveObject>() {
-                    @Override
-                    public void success(ReceiveObject receiveObject, Response response) {
-                        if (BuildConfig.DEBUG)
-                            Log.d(TAG, "SignInActivity onResponse Success : " + receiveObject.isSuccess()
-                                            + ", Code : " + receiveObject.getCode()
-                                            + ", Msg : " + receiveObject.getMsg()
-                            );
-
-                        if (receiveObject.getCode() == 200) {
-                            Toast.makeText(SignInActivity.this, "로그인됐습니다.", Toast.LENGTH_SHORT).show();
-                            NetworkManager.getInstance().selectUserName(new Callback<ReceiveObject>() {
-                                @Override
-                                public void success(ReceiveObject receiveObject, Response response) {
-                                    if (BuildConfig.DEBUG)
-                                        Log.d(TAG, "onResponse Success : " + receiveObject.isSuccess()
-                                                        + ", Code : " + receiveObject.getCode()
-                                                        + ", Msg : " + receiveObject.getMsg()
-                                        );
-                                    Result result = receiveObject.getResult().get(0);
-//                                    PropertyManager.getInstance().setImage(
-//                                                    RefinementUtil.getUserImageURLStringFromResult(
-//                                                            result
-//                                                    )
-//                                            );
-                                    PropertyManager.getInstance().setImage("https://s3-ap-northeast-1.amazonaws.com/bikee/KakaoTalk_20151128_194521490.png");
-                                    PropertyManager.getInstance().setName(result.getName());
-                                }
-
-                                @Override
-                                public void failure(RetrofitError error) {
-                                    if (BuildConfig.DEBUG)
-                                        Log.d(TAG, "onFailure Error : " + error.toString());
-                                }
-                            });
-                            PropertyManager.getInstance().setEmail(emailEditText.getText().toString().trim());
-                            PropertyManager.getInstance().setPassword(passwordEditText.getText().toString());
-                            PropertyManager.getInstance().setSignInState(PropertyManager.SIGN_IN_LOCAL_STATE);
-                            initView();
-
-                            checkPlayService();
-                            getDeviceID();
-                            getDeviceName();
-                            getRegistrationID();
-                            new RequestTokenThread().start();
-                            sendGCMToken();
-                        } else {
-                            Toast.makeText(SignInActivity.this, receiveObject.getMsg(), Toast.LENGTH_SHORT).show();
-                            intent = getIntent();
-                            setResult(RESULT_OK, intent);
-                            finish();
-                        }
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        if (BuildConfig.DEBUG)
-                            Log.d(TAG, "SignInActivity onFailure Error : " + error.toString());
-                    }
-                });
-    }
-
-    @OnClick(R.id.activity_sign_in_sign_out_button)
-    void signOutButton() {
-        switch (PropertyManager.getInstance().getSignInState()) {
-            case PropertyManager.SIGN_IN_FACEBOOK_STATE:
-                NetworkManager.getInstance().logout(new Callback<ReceiveObject>() {
-                    @Override
-                    public void success(ReceiveObject receiveObject, Response response) {
-                        if (BuildConfig.DEBUG)
-                            Log.d(TAG, "SIGN_IN_FACEBOOK_STATE logout onResponse Success : " + receiveObject.isSuccess()
-                                            + ", Code : " + receiveObject.getCode()
-                                            + ", Msg : " + receiveObject.getMsg()
-                            );
-                        PropertyManager.getInstance().setSignInState(PropertyManager.SIGN_OUT_STATE);
-                        mLoginManager.logOut();
-                        initView();
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        if (BuildConfig.DEBUG)
-                            Log.d(TAG, "onFailure Error : " + error.toString());
-                    }
-                });
-                break;
-            case PropertyManager.SIGN_IN_LOCAL_STATE:
-                NetworkManager.getInstance().logout(new Callback<ReceiveObject>() {
-                    @Override
-                    public void success(ReceiveObject receiveObject, Response response) {
-                        if (BuildConfig.DEBUG)
-                            Log.d(TAG, "SIGN_IN_LOCAL_STATE logout onResponse Success : " + receiveObject.isSuccess()
-                                            + ", Code : " + receiveObject.getCode()
-                                            + ", Msg : " + receiveObject.getMsg()
-                            );
-                        PropertyManager.getInstance().setSignInState(PropertyManager.SIGN_OUT_STATE);
-                        initView();
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        if (BuildConfig.DEBUG)
-                            Log.d(TAG, "onFailure Error : " + error.toString());
-                    }
-                });
-                break;
-            case PropertyManager.SIGN_OUT_STATE:
-                break;
-        }
-    }
-
-    @OnClick(R.id.activity_sign_in_facebook_button)
-    void signInFacebookButton(View view) {
-        signInFacebook();
-    }
-
-//    private boolean isLogin() {
-//        AccessToken token = AccessToken.getCurrentAccessToken();
-//        return token != null;
-//    }
-
-    private void signInFacebook() {
-        sleepSignOutButton();
-        mLoginManager.logInWithReadPermissions(SignInActivity.this, Arrays.asList("public_profile", "email"));
-        mLoginManager.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                token = AccessToken.getCurrentAccessToken();
-
-                if (BuildConfig.DEBUG)
-                    Log.d(TAG, "AccessToken : " + token.getToken());
-
-                FacebookNetworkManager.getInstance().loginFacebookToken(
-                        SignInActivity.this,
-                        token.getToken(),
-                        "NOTREGISTER",
-                        new FacebookNetworkManager.OnResultListener<String>() {
-                            @Override
-                            public void onSuccess(String result) {
-                                if (result.equals("OK")) {
-                                    if (BuildConfig.DEBUG)
-                                        Log.d(TAG, "OK");
-                                    PropertyManager.getInstance().setFacebookId(token.getUserId());
-                                    // TODO : 서버에 계정 정보를 얻어와야 한다.
-                                    PropertyManager.getInstance().setSignInState(PropertyManager.SIGN_IN_FACEBOOK_STATE);
-                                    initView();
-                                    wakeSignOutButton();
-                                } else if (result.equals("NOTREGISTER")) {
-                                    NetworkManager.getInstance().isSignedInFacebook(token.getUserId(), new Callback<ReceiveObject>() {
-                                        @Override
-                                        public void success(ReceiveObject receiveObject, Response response) {
-                                            if (receiveObject != null) {
-                                                if (BuildConfig.DEBUG)
-                                                    Log.d(TAG, "receiveObject != null");
-                                                if (receiveObject.isSuccess()) {
-                                                    if (BuildConfig.DEBUG)
-                                                        Log.d(TAG, "success : " + receiveObject.isSuccess());
-                                                    PropertyManager.getInstance().setFacebookId(token.getUserId());
-                                                    // TODO : 서버에 계정 정보를 얻어와야 한다.
-                                                    Facebook facebook = new Facebook();
-                                                    facebook.setAccess_token(token.getToken());
-                                                    NetworkManager.getInstance().signInFacebook(facebook, new Callback<ReceiveObject>() {
-                                                        @Override
-                                                        public void success(ReceiveObject receiveObject, Response response) {
-                                                            NetworkManager.getInstance().selectUserName(new Callback<ReceiveObject>() {
-                                                                @Override
-                                                                public void success(ReceiveObject receiveObject, Response response) {
-                                                                    if (BuildConfig.DEBUG)
-                                                                        Log.d(TAG, "selectUserName success");
-                                                                    Result result = receiveObject.getResult().get(0);
-                                                                    PropertyManager.getInstance().setImage("https://s3-ap-northeast-1.amazonaws.com/bikee/KakaoTalk_20151128_194521490.png");
-                                                                    PropertyManager.getInstance().setName(result.getName());
-                                                                    PropertyManager.getInstance().setEmail(result.getEmail());
-
-                                                                    PropertyManager.getInstance().setSignInState(PropertyManager.SIGN_IN_FACEBOOK_STATE);
-                                                                    initView();
-                                                                    wakeSignOutButton();
-                                                                }
-
-                                                                @Override
-                                                                public void failure(RetrofitError error) {
-                                                                    if (BuildConfig.DEBUG)
-                                                                        Log.d(TAG, "selectUserName failure");
-                                                                    wakeSignOutButton();
-                                                                }
-                                                            });
-                                                        }
-
-                                                        @Override
-                                                        public void failure(RetrofitError error) {
-                                                            wakeSignOutButton();
-                                                        }
-                                                    });
-                                                } else {
-                                                    if (BuildConfig.DEBUG) {
-                                                        Log.d(TAG, "success : " + receiveObject.isSuccess());
-                                                        Log.d(TAG, "userID : " + token.getUserId());
-                                                        Log.d(TAG, "NOTREGISTER");
-                                                    }
-                                                    from = intent.getStringExtra("FROM");
-                                                    intent = new Intent(SignInActivity.this, SignUpActivity.class);
-                                                    intent.putExtra("FROM", from);
-                                                    startActivityForResult(intent, SignUpActivity.SIGN_UP_FACEBOOK);
-                                                }
-                                            } else {
-                                                if (BuildConfig.DEBUG)
-                                                    Log.d(TAG, "receiveObject == null");
-                                            }
-                                        }
-
-                                        @Override
-                                        public void failure(RetrofitError error) {
-                                            if (BuildConfig.DEBUG)
-                                                Log.d(TAG, "isSignedInFacebook failure : " + error.toString());
-                                            wakeSignOutButton();
-                                        }
-                                    });
-                                }
-                            }
-
-                            @Override
-                            public void onFail(int code) {
-                                if (BuildConfig.DEBUG)
-                                    Log.d(TAG, "onFail");
-                                wakeSignOutButton();
-                            }
-                        });
-            }
-
-            @Override
-            public void onCancel() {
-                if (BuildConfig.DEBUG)
-                    Log.d(TAG, "onCancel");
-                wakeSignOutButton();
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                if (BuildConfig.DEBUG)
-                    Log.d(TAG, "onError");
-                wakeSignOutButton();
-            }
-        });
-    }
-
-    @OnClick(R.id.activity_sign_in_sign_up_string)
-    void signUpTextView() {
-        from = intent.getStringExtra("FROM");
-        intent = new Intent(this, SignUpActivity.class);
-        intent.putExtra("FROM", from);
-        startActivityForResult(intent, SignUpActivity.SIGN_UP_LOCAL);
+        // TODO : SharedPreferences에 정보가 있더라도 인터넷 연결 여부에 따라 처리해야 한다.
+        initView();
     }
 
     @Override
@@ -395,99 +127,306 @@ public class SignInActivity extends AppCompatActivity {
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "resultCode : RESULT_OK, requestCode : SIGN_UP_FACEBOOK");
 
-            String facebookUserId = data.getStringExtra(SignUpActivity.ACTIVITY_SIGN_UP_FACEBOOK_USER_ID);
-            String name = data.getStringExtra(SignUpActivity.ACTIVITY_SIGN_UP_NAME);
-            String email = data.getStringExtra(SignUpActivity.ACTIVITY_SIGN_UP_EMAIL);
-            String phone = data.getStringExtra(SignUpActivity.ACTIVITY_SIGN_UP_PHONE);
-
-            PropertyManager.getInstance().setFacebookId(facebookUserId);
-            PropertyManager.getInstance().setName(name);
-            PropertyManager.getInstance().setEmail(email);
-            PropertyManager.getInstance().setPhone(phone);
-
-            PropertyManager.getInstance().setSignInState(PropertyManager.SIGN_IN_FACEBOOK_STATE);
-            initView();
-            wakeSignOutButton();
+            afterSignIn(PropertyManager.SIGN_IN_FACEBOOK_STATE);
 
             callbackManager.onActivityResult(requestCode, resultCode, data);
+
             finish();
         } else if ((resultCode == RESULT_OK)
                 && (requestCode == SignUpActivity.SIGN_UP_LOCAL)) {
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "resultCode : RESULT_OK, requestCode : SIGN_UP_LOCAL");
 
-            final String image = data.getStringExtra(SignUpActivity.ACTIVITY_SIGN_UP_IMAGE);
-            final String name = data.getStringExtra(SignUpActivity.ACTIVITY_SIGN_UP_NAME);
-            final String email = data.getStringExtra(SignUpActivity.ACTIVITY_SIGN_UP_EMAIL);
-            final String password = data.getStringExtra(SignUpActivity.ACTIVITY_SIGN_UP_PASSWORD);
-            final String phone = data.getStringExtra(SignUpActivity.ACTIVITY_SIGN_UP_PHONE);
+            String email = data.getStringExtra(SignUpActivity.ACTIVITY_SIGN_UP_EMAIL);
+            String password = data.getStringExtra(SignUpActivity.ACTIVITY_SIGN_UP_PASSWORD);
 
-            NetworkManager.getInstance().login(email, password, new Callback<ReceiveObject>() {
-                @Override
-                public void success(ReceiveObject receiveObject, Response response) {
-                    if (BuildConfig.DEBUG)
-                        Log.d("result", "onResponse Success : " + receiveObject.isSuccess()
-                                        + ", Code : " + receiveObject.getCode()
-                                        + ", Msg : " + receiveObject.getMsg()
-                        );
+            emailEditText.setText(email);
+            passwordEditText.setText(password);
 
-                    PropertyManager.getInstance().setImage(image);
-                    PropertyManager.getInstance().setName(name);
-                    PropertyManager.getInstance().setEmail(email);
-                    PropertyManager.getInstance().setPassword(password);
-                    PropertyManager.getInstance().setPhone(phone);
+            PropertyManager.getInstance().setEmail(email);
+            PropertyManager.getInstance().setPassword(password);
 
-                    PropertyManager.getInstance().setSignInState(PropertyManager.SIGN_IN_LOCAL_STATE);
-                    initView();
-
-                    finish();
-                }
-
-                @Override
-                public void failure(RetrofitError error) {
-                    if (BuildConfig.DEBUG)
-                        Log.d(TAG, "onFailure Error : " + error.toString());
-                }
-            });
+            signInLocal(email, password);
         }
     }
 
-    private void initLogin() {
+    @OnEditorAction({R.id.activity_sign_in_user_email_edit_text,
+            R.id.activity_sign_in_user_password_edit_text})
+    boolean nextFocus(TextView v, int actionId, KeyEvent event) {
+        if (actionId == EditorInfo.IME_ACTION_NEXT
+                && (v.getId() == R.id.activity_sign_in_user_email_edit_text)) {
+            passwordEditText.requestFocus();
+            return false;
+        } else if ((actionId == EditorInfo.IME_ACTION_DONE)
+                && (v.getId() == R.id.activity_sign_in_user_password_edit_text)) {
+            return false;
+        }
+        return true;
+    }
+
+    @OnClick(R.id.activity_sign_in_sign_in_button)
+    void signInLocalButton() {
+        signInLocal(emailEditText.getText().toString().trim(), passwordEditText.getText().toString());
+    }
+
+    public void signInLocal(String email, String password) {
+        NetworkManager.getInstance().login(
+                email,
+                password,
+                null,
+                new Callback<ReceiveObject>() {
+                    @Override
+                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                        ReceiveObject receiveObject = response.body();
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "SignInActivity onResponse Success : " + receiveObject.isSuccess()
+                                            + ", Code : " + receiveObject.getCode()
+                                            + ", Msg : " + receiveObject.getMsg()
+                            );
+
+                        if (receiveObject.getCode() == 200) {
+                            Toast.makeText(SignInActivity.this, "로그인됐습니다.", Toast.LENGTH_SHORT).show();
+                            afterSignIn(PropertyManager.SIGN_IN_LOCAL_STATE);
+                        } else {
+                            Toast.makeText(SignInActivity.this, receiveObject.getMsg(), Toast.LENGTH_SHORT).show();
+                            intent = getIntent();
+                            setResult(RESULT_OK, intent);
+                            finish();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "SignInActivity onFailure Error : " + t.toString());
+                    }
+                });
+    }
+
+    @OnClick(R.id.activity_sign_in_sign_out_button)
+    void signOutButton() {
         switch (PropertyManager.getInstance().getSignInState()) {
             case PropertyManager.SIGN_IN_FACEBOOK_STATE:
-                signInFacebook();
-                initView();
+                signOut(PropertyManager.SIGN_IN_FACEBOOK_STATE);
                 break;
             case PropertyManager.SIGN_IN_LOCAL_STATE:
-                NetworkManager.getInstance().login(
-                        PropertyManager.getInstance().getEmail(),
-                        PropertyManager.getInstance().getPassword(),
-                        new Callback<ReceiveObject>() {
-                            @Override
-                            public void success(ReceiveObject receiveObject, Response response) {
-                                if (BuildConfig.DEBUG)
-                                    Log.d("result", "onResponse Success : " + receiveObject.isSuccess()
-                                                    + ", Code : " + receiveObject.getCode()
-                                                    + ", Msg : " + receiveObject.getMsg()
-                                    );
-
-                                initView();
-                            }
-
-                            @Override
-                            public void failure(RetrofitError error) {
-                                if (BuildConfig.DEBUG)
-                                    Log.d(TAG, "onFailure Error : " + error.toString());
-                            }
-                        });
+                signOut(PropertyManager.SIGN_IN_LOCAL_STATE);
                 break;
             case PropertyManager.SIGN_OUT_STATE:
                 break;
         }
     }
 
+    private void signOut(final int signInState) {
+        NetworkManager.getInstance().logout(
+                null,
+                new Callback<ReceiveObject>() {
+                    @Override
+                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                        ReceiveObject receiveObject = response.body();
+
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "logout onResponse Success : " + receiveObject.isSuccess()
+                                    + "\nCode : " + receiveObject.getCode()
+                                    + "\nMsg : " + receiveObject.getMsg());
+
+                        PropertyManager.getInstance().setSignInState(PropertyManager.SIGN_OUT_STATE);
+                        if (signInState == PropertyManager.SIGN_IN_FACEBOOK_STATE)
+                            mLoginManager.logOut();
+                        initView();
+                    }
+
+                    @Override
+                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "onFailure Error : " + t.toString());
+                    }
+                });
+    }
+
+    @OnClick(R.id.activity_sign_in_facebook_button)
+    void signInFacebookButton(View view) {
+        signInFacebook();
+    }
+
+    private void signInFacebook() {
+        sleepSignOutButton();
+        mLoginManager.logInWithReadPermissions(SignInActivity.this, Arrays.asList("public_profile", "email"));
+        mLoginManager.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                token = AccessToken.getCurrentAccessToken();
+
+                if (BuildConfig.DEBUG)
+                    Log.d(TAG, "AccessToken : " + token.getToken());
+
+                FacebookNetworkManager.getInstance().loginFacebookToken(
+                        SignInActivity.this,
+                        token.getToken(),
+                        "NOTREGISTER",
+                        new FacebookNetworkManager.OnResultListener<String>() {
+                            @Override
+                            public void onSuccess(String result) {
+                                if (result.equals("OK")) {
+                                    if (BuildConfig.DEBUG)
+                                        Log.d(TAG, "OK");
+                                    PropertyManager.getInstance().setFacebookId(token.getUserId());
+                                    afterSignIn(PropertyManager.SIGN_IN_FACEBOOK_STATE);
+                                } else if (result.equals("NOTREGISTER")) {
+//                                    private boolean isLogin() {
+//                                        AccessToken token = AccessToken.getCurrentAccessToken();
+//                                        return token != null;
+//                                    }
+                                    NetworkManager.getInstance().isSignedInFacebook(
+                                            token.getUserId(),
+                                            null,
+                                            new Callback<ReceiveObject>() {
+                                                @Override
+                                                public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                                                    ReceiveObject receiveObject = response.body();
+                                                    if (receiveObject != null) {
+                                                        if (BuildConfig.DEBUG)
+                                                            Log.d(TAG, "receiveObject != null");
+                                                        if (receiveObject.isSuccess()) {
+                                                            if (BuildConfig.DEBUG)
+                                                                Log.d(TAG, "success : " + receiveObject.isSuccess());
+                                                            PropertyManager.getInstance().setFacebookId(token.getUserId());
+                                                            Facebook facebook = new Facebook();
+                                                            facebook.setAccess_token(token.getToken());
+                                                            NetworkManager.getInstance().signInFacebook(
+                                                                    facebook,
+                                                                    null,
+                                                                    new Callback<ReceiveObject>() {
+                                                                        @Override
+                                                                        public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                                                                            ReceiveObject receiveObject = response.body();
+                                                                            afterSignIn(PropertyManager.SIGN_IN_FACEBOOK_STATE);
+                                                                        }
+
+                                                                        @Override
+                                                                        public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                                                                            if (BuildConfig.DEBUG)
+                                                                                Log.d(TAG, "onFailure Error : " + t.toString());
+                                                                        }
+                                                                    });
+                                                        } else {
+                                                            if (BuildConfig.DEBUG) {
+                                                                Log.d(TAG, "success : " + receiveObject.isSuccess());
+                                                                Log.d(TAG, "userID : " + token.getUserId());
+                                                                Log.d(TAG, "NOTREGISTER");
+                                                            }
+                                                            from = intent.getStringExtra("FROM");
+                                                            intent = new Intent(SignInActivity.this, SignUpActivity.class);
+                                                            intent.putExtra("FROM", from);
+                                                            startActivityForResult(intent, SignUpActivity.SIGN_UP_FACEBOOK);
+                                                        }
+                                                    } else {
+                                                        if (BuildConfig.DEBUG)
+                                                            Log.d(TAG, "receiveObject == null");
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                                                    if (BuildConfig.DEBUG)
+                                                        Log.d(TAG, "onFailure Error : " + t.toString());
+                                                    wakeSignOutButton();
+                                                }
+                                            });
+                                }
+                            }
+
+                            @Override
+                            public void onFail(int code) {
+                                if (BuildConfig.DEBUG)
+                                    Log.d(TAG, "onFail");
+                                wakeSignOutButton();
+                            }
+                        });
+            }
+
+            @Override
+            public void onCancel() {
+                if (BuildConfig.DEBUG)
+                    Log.d(TAG, "onCancel");
+                wakeSignOutButton();
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                if (BuildConfig.DEBUG)
+                    Log.d(TAG, "onError");
+                wakeSignOutButton();
+            }
+        });
+    }
+
+    public void afterSignIn(final int signInState) {
+        NetworkManager.getInstance().receiveProfile(
+                null,
+                new Callback<ReceiveObject>() {
+                    @Override
+                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                        ReceiveObject receiveObject = response.body();
+
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "onResponse Success : " + receiveObject.isSuccess()
+                                    + ", Code : " + receiveObject.getCode()
+                                    + ", Msg : " + receiveObject.getMsg());
+
+                        /* sendGCMToken to server */
+                        checkPlayService();
+                        getDeviceID();
+                        getDeviceName();
+                        getRegistrationID();
+                        new RequestTokenThread().start();
+                        sendGCMToken();
+
+                        /* Property initialization */
+                        for (Result result : receiveObject.getResult())
+                            if (result.get_id() != null) {
+                                PropertyManager.getInstance().set_id(result.get_id());
+                                PropertyManager.getInstance().setImage("https://s3-ap-northeast-1.amazonaws.com/bikee/KakaoTalk_20151128_194521490.png");
+                                PropertyManager.getInstance().setName(result.getName());
+                                PropertyManager.getInstance().setEmail(result.getEmail());
+                                if (signInState == PropertyManager.SIGN_IN_FACEBOOK_STATE) {
+                                    PropertyManager.getInstance().setSignInState(PropertyManager.SIGN_IN_FACEBOOK_STATE);
+                                } else if (signInState == PropertyManager.SIGN_IN_LOCAL_STATE) {
+                                    PropertyManager.getInstance().setPassword(passwordEditText.getText().toString());
+                                    PropertyManager.getInstance().setSignInState(PropertyManager.SIGN_IN_LOCAL_STATE);
+                                }
+                                userId = result.get_id();
+                                userName = result.getName();
+                                break;
+                            }
+                        gcmRegToken = PropertyManager.getInstance().getGCMToken();
+
+                        /* SendBird initialization and login */
+                        SendBird.init(SignInActivity.this, appId);
+                        SendBird.login(SendBird.LoginOption.build(userId).setUserName(userName).setGCMRegToken(gcmRegToken));
+
+                        /* view initialization */
+                        initView();
+                        wakeSignOutButton();
+                    }
+
+                    @Override
+                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "onFailure Error : " + t.toString());
+                    }
+                });
+    }
+
+    @OnClick(R.id.activity_sign_in_sign_up_string)
+    void signUpTextView() {
+        from = intent.getStringExtra("FROM");
+        intent = new Intent(this, SignUpActivity.class);
+        intent.putExtra("FROM", from);
+        startActivityForResult(intent, SignUpActivity.SIGN_UP_LOCAL);
+    }
+
     private void initView() {
-        // TODO : SharedPreferences에 정보가 있더라도 인터넷 연결 여부에 따라 처리해야 한다.
         switch (PropertyManager.getInstance().getSignInState()) {
             case PropertyManager.SIGN_IN_FACEBOOK_STATE:
                 emailTextView.setVisibility(View.VISIBLE);
@@ -604,22 +543,29 @@ public class SignInActivity extends AppCompatActivity {
                             + "\nregistrationID(GCM Token) : " + registrationID
                             + "\ndeviceOS : " + deviceID
             );
-        NetworkManager.getInstance().sendGCMToken(deviceID, registrationID, deviceOS, new Callback<ReceiveObject>() {
-            @Override
-            public void success(ReceiveObject receiveObject, Response response) {
-                if (BuildConfig.DEBUG)
-                    Log.d(TAG, "sendGCMToken onResponse Success : " + receiveObject.isSuccess()
-                                    + ", Code : " + receiveObject.getCode()
-                                    + ", Msg : " + receiveObject.getMsg()
-                    );
-            }
+        NetworkManager.getInstance().sendGCMToken(
+                deviceID,
+                registrationID,
+                deviceOS,
+                null,
+                new Callback<ReceiveObject>() {
+                    @Override
+                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                        ReceiveObject receiveObject = response.body();
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "sendGCMToken onResponse Success : " + receiveObject.isSuccess()
+                                            + ", Code : " + receiveObject.getCode()
+                                            + ", Msg : " + receiveObject.getMsg()
+                            );
 
-            @Override
-            public void failure(RetrofitError error) {
-                if (BuildConfig.DEBUG)
-                    Log.d(TAG, "sendGCMToken onFailure Error...", error);
-            }
-        });
+                    }
+
+                    @Override
+                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "onFailure Error : " + t.toString());
+                    }
+                });
     }
 
     @Override

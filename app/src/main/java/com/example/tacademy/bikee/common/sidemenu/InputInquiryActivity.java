@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.dao.Inquires;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
@@ -19,9 +20,9 @@ import com.example.tacademy.bikee.lister.ListerMainActivity;
 import com.example.tacademy.bikee.renter.RenterMainActivity;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class InputInquiryActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText title_edit_text;
@@ -30,11 +31,13 @@ public class InputInquiryActivity extends AppCompatActivity implements View.OnCl
     private Intent intent;
     private String from;
 
+    private static final String TAG = "INPUT_INQUIRY_ACTIVITY";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_inquiry);
-        Toolbar toolbar = (Toolbar)findViewById(R.id.activity_input_inquiry_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_input_inquiry_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
@@ -69,9 +72,9 @@ public class InputInquiryActivity extends AppCompatActivity implements View.OnCl
         }
         getSupportActionBar().setCustomView(cView);
 
-        title_edit_text = (EditText)findViewById(R.id.activity_input_inquiry_title_edit_text);
-        description_edit_text = (EditText)findViewById(R.id.activity_input_inquiry_description_edit_text);
-        btn = (Button)findViewById(R.id.activity_input_inquiry_button);
+        title_edit_text = (EditText) findViewById(R.id.activity_input_inquiry_title_edit_text);
+        description_edit_text = (EditText) findViewById(R.id.activity_input_inquiry_description_edit_text);
+        btn = (Button) findViewById(R.id.activity_input_inquiry_button);
         btn.setOnClickListener(this);
     }
 
@@ -82,23 +85,28 @@ public class InputInquiryActivity extends AppCompatActivity implements View.OnCl
                 Inquires inquires = new Inquires();
                 inquires.setTitle(title_edit_text.getText().toString());
                 inquires.setBody(description_edit_text.getText().toString());
-                NetworkManager.getInstance().insertInquiry(inquires, new Callback<ReceiveObject>() {
-                    @Override
-                    public void success(ReceiveObject receiveObject, Response response) {
-                        Log.i("result", "onResponse Code : " + receiveObject.getCode()
-                                + ", Success : " + receiveObject.isSuccess()
-                                + ", Msg : " + receiveObject.getMsg()
-                                + ", Error : "
-                        );
-                        finish();
-                    }
+                NetworkManager.getInstance().insertInquiry(
+                        inquires,
+                        null,
+                        new Callback<ReceiveObject>() {
+                            @Override
+                            public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                                ReceiveObject receiveObject = response.body();
+                                Log.i("result", "onResponse Code : " + receiveObject.getCode()
+                                                + ", Success : " + receiveObject.isSuccess()
+                                                + ", Msg : " + receiveObject.getMsg()
+                                                + ", Error : "
+                                );
+                                finish();
+                            }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Log.e("error", "onFailure Error : " + error.toString());
-                        finish();
-                    }
-                });
+                            @Override
+                            public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                                if (BuildConfig.DEBUG)
+                                    Log.d(TAG, "onFailure Error : " + t.toString());
+                                finish();
+                            }
+                        });
                 break;
         }
     }

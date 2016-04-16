@@ -15,7 +15,10 @@ import android.widget.TextView;
 
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.common.chatting.room.ConversationActivity;
 import com.example.tacademy.bikee.etc.MyApplication;
+import com.example.tacademy.bikee.etc.SendBirdHelper;
+import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.example.tacademy.bikee.etc.utils.ImageUtil;
 import com.example.tacademy.bikee.etc.dao.Comment;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
@@ -41,13 +44,14 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FilteredBicycleDetailInformationActivity extends AppCompatActivity implements OnMapReadyCallback {
     // TODO : handle filter result, modify UI, need UnFilteredBycycleDetailInformation activity
     private Intent intent;
+    private String listerEmail;
     private String bicycleId;
     private String bicycleImageURL;
     private String listerPhone;
@@ -91,6 +95,8 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
     RatingBar postscriptPoint;
     @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_post_script_layout)
     View postScriptView;
+
+    private static final String TAG = "FILTERED_B_D_I_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,6 +151,7 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
 
     @OnClick({R.id.renter_backable_tool_bar_back_button_layout,
             R.id.lister_information_call_with_lister_button,
+            R.id.lister_information_chat_with_lister_button,
             R.id.bicycle_detail_information_bicycle_postscript_button,
             R.id.activity_filtered_bicycle_detail_information_button})
     void back(View view) {
@@ -154,6 +161,18 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
                 break;
             case R.id.lister_information_call_with_lister_button:
                 intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + listerPhone));
+                startActivity(intent);
+                break;
+            case R.id.lister_information_chat_with_lister_button:
+                // TODO : chatting start
+                intent = new Intent(this, ConversationActivity.class);
+                intent.putExtra("TARGET_USER_NAME", "Tester3");
+                intent.putExtra("TARGET_USER_ID", listerEmail);
+                intent.putExtra("APP_ID", "2E377FE1-E1AD-4484-A66F-696AF1306F58");
+                intent.putExtra("USER_ID", PropertyManager.getInstance().getEmail());
+                intent.putExtra("USER_NAME", PropertyManager.getInstance().getName());
+                intent.putExtra("BICYCLE_ID", bicycleId);
+                intent.putExtra("START", true);
                 startActivity(intent);
                 break;
             case R.id.bicycle_detail_information_bicycle_postscript_button:
@@ -177,109 +196,118 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
 
     private void init() {
         bicycleId = intent.getStringExtra("ID");
-        NetworkManager.getInstance().selectBicycleDetail(bicycleId, new Callback<ReceiveObject>() {
-            @Override
-            public void success(ReceiveObject receiveObject, Response response) {
-                // TODO image, type, height, latitude, longitude, price, renterName, postScript
-                if (BuildConfig.DEBUG)
-                    Log.d("result", "onResponse Success");
-                Result result = receiveObject.getResult().get(0);
-                if (BuildConfig.DEBUG)
-                    Log.d("result", "onResponse imageURL : " + RefinementUtil.getBicycleImageURLStringFromResult(result)
-                                    + ", BicycleType : " + result.getType()
-                                    + ", BicycleHeight : " + result.getHeight()
-                                    + ", BicycleLatitude : " + result.getLoc().getCoordinates().get(1)
-                                    + ", BicycleLongitude : " + result.getLoc().getCoordinates().get(0)
-                                    + ", BicyclePrice : " + result.getPrice().getMonth()
-                    );
-                bicycleImageURL = RefinementUtil.getBicycleImageURLStringFromResult(result);
-                ImageUtil.setRoundRectangleImageFromURL(
-                        MyApplication.getmContext(),
-                        RefinementUtil.getBicycleImageURLStringFromResult(result),
-                        R.drawable.detailpage_bike_image_noneimage,
-                        bicyclePicture,
-                        6
-                );
-                ImageUtil.setCircleImageFromURL(
-                        MyApplication.getmContext(),
-                        RefinementUtil.getUserImageURLStringFromResult(result),
-                        R.drawable.noneimage,
-                        0,
-                        listerPicture
-                );
-                listerName.setText(result.getUser().getName());
-                listerPhone = result.getUser().getPhone();
-                bicycleName.setText(result.getTitle());
-                bicycleIntro.setText(result.getIntro());
-                height = RefinementUtil.getBicycleHeightStringFromBicycleHeight(result.getHeight());
-                bicycleType.setText(
-                        RefinementUtil.getBicycleHeightStringFromBicycleHeight(
-                                result.getHeight()
-                        )
-                );
-                height = RefinementUtil.getBicycleTypeStringFromBicycleType(result.getType());
-                bicycleHeight.setText(
-                        RefinementUtil.getBicycleTypeStringFromBicycleType(
-                                result.getType()
-                        )
-                );
-                components = RefinementUtil.getComponentListFromResult(result);
-                latitude = result.getLoc().getCoordinates().get(1);
-                longitude = result.getLoc().getCoordinates().get(0);
-                rentalPlaceText.setText(
-                        RefinementUtil.findAddress(
-                                MyApplication.getmContext(),
-                                result.getLoc().getCoordinates().get(1),
-                                result.getLoc().getCoordinates().get(0)
-                        )
-                );
-                price = result.getPrice().getMonth();
-
-                NetworkManager.getInstance().selectBicycleComment(bicycleId, new Callback<ReceiveObject>() {
+        NetworkManager.getInstance().selectBicycleDetail(
+                bicycleId,
+                null,
+                new Callback<ReceiveObject>() {
                     @Override
-                    public void success(ReceiveObject receiveObject, Response response) {
+                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                        ReceiveObject receiveObject = response.body();
+                        // TODO image, type, height, latitude, longitude, price, renterName, postScript
                         if (BuildConfig.DEBUG)
                             Log.d("result", "onResponse Success");
                         Result result = receiveObject.getResult().get(0);
-                        if (null != result) {
-                            postScriptView.setVisibility(View.VISIBLE);
-                            Comment comment = result.getComments().get(result.getComments().size() - 1);
-                            String imageURL = RefinementUtil.getUserImageURLStringFromComment(comment);
-                            ImageUtil.setCircleImageFromURL(
-                                    MyApplication.getmContext(),
-                                    imageURL,
-                                    R.drawable.noneimage,
-                                    0,
-                                    postscriptPicture
+                        if (BuildConfig.DEBUG)
+                            Log.d("result", "onResponse imageURL : " + RefinementUtil.getBicycleImageURLStringFromResult(result)
+                                            + ", BicycleType : " + result.getType()
+                                            + ", BicycleHeight : " + result.getHeight()
+                                            + ", BicycleLatitude : " + result.getLoc().getCoordinates().get(1)
+                                            + ", BicycleLongitude : " + result.getLoc().getCoordinates().get(0)
+                                            + ", BicyclePrice : " + result.getPrice().getMonth()
                             );
-                            if (BuildConfig.DEBUG)
-                                Log.d("result", "onResponse ImageURL : " + imageURL
-                                                + ", WriterName : " + comment.getWriter().getName()
-                                                + ", Point : " + comment.getPoint()
-                                                + ", PostScript : " + comment.getBody()
-                                );
-                            postscriptName.setText("" + comment.getWriter().getName());
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy.MM.dd. HH:mm");
-                            postscriptDate.setText("" + simpleDateFormat.format(comment.getCreatedAt()));
-                            postscriptComment.setText("" + comment.getBody());
-                            postscriptPoint.setRating((null != comment.getPoint()) ? comment.getPoint() : 0);
-                        }
+                        bicycleImageURL = RefinementUtil.getBicycleImageURLStringFromResult(result);
+                        ImageUtil.setRoundRectangleImageFromURL(
+                                MyApplication.getmContext(),
+                                RefinementUtil.getBicycleImageURLStringFromResult(result),
+                                R.drawable.detailpage_bike_image_noneimage,
+                                bicyclePicture,
+                                6
+                        );
+                        ImageUtil.setCircleImageFromURL(
+                                MyApplication.getmContext(),
+                                RefinementUtil.getUserImageURLStringFromResult(result),
+                                R.drawable.noneimage,
+                                0,
+                                listerPicture
+                        );
+                        listerEmail = result.getUser().getEmail();
+                        listerName.setText(result.getUser().getName());
+                        listerPhone = result.getUser().getPhone();
+                        bicycleName.setText(result.getTitle());
+                        bicycleIntro.setText(result.getIntro());
+                        height = RefinementUtil.getBicycleHeightStringFromBicycleHeight(result.getHeight());
+                        bicycleType.setText(
+                                RefinementUtil.getBicycleHeightStringFromBicycleHeight(
+                                        result.getHeight()
+                                )
+                        );
+                        height = RefinementUtil.getBicycleTypeStringFromBicycleType(result.getType());
+                        bicycleHeight.setText(
+                                RefinementUtil.getBicycleTypeStringFromBicycleType(
+                                        result.getType()
+                                )
+                        );
+                        components = RefinementUtil.getComponentListFromResult(result);
+                        latitude = result.getLoc().getCoordinates().get(1);
+                        longitude = result.getLoc().getCoordinates().get(0);
+                        rentalPlaceText.setText(
+                                RefinementUtil.findAddress(
+                                        MyApplication.getmContext(),
+                                        result.getLoc().getCoordinates().get(1),
+                                        result.getLoc().getCoordinates().get(0)
+                                )
+                        );
+                        price = result.getPrice().getMonth();
+
+                        NetworkManager.getInstance().selectBicycleComment(
+                                bicycleId,
+                                null,
+                                new Callback<ReceiveObject>() {
+                                    @Override
+                                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                                        ReceiveObject receiveObject = response.body();
+                                        if (BuildConfig.DEBUG)
+                                            Log.d("result", "onResponse Success");
+                                        Result result = receiveObject.getResult().get(0);
+                                        if (null != result) {
+                                            postScriptView.setVisibility(View.VISIBLE);
+                                            Comment comment = result.getComments().get(result.getComments().size() - 1);
+                                            String imageURL = RefinementUtil.getUserImageURLStringFromComment(comment);
+                                            ImageUtil.setCircleImageFromURL(
+                                                    MyApplication.getmContext(),
+                                                    imageURL,
+                                                    R.drawable.noneimage,
+                                                    0,
+                                                    postscriptPicture
+                                            );
+                                            if (BuildConfig.DEBUG)
+                                                Log.d("result", "onResponse ImageURL : " + imageURL
+                                                                + ", WriterName : " + comment.getWriter().getName()
+                                                                + ", Point : " + comment.getPoint()
+                                                                + ", PostScript : " + comment.getBody()
+                                                );
+                                            postscriptName.setText("" + comment.getWriter().getName());
+                                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy.MM.dd. HH:mm");
+                                            postscriptDate.setText("" + simpleDateFormat.format(comment.getCreatedAt()));
+                                            postscriptComment.setText("" + comment.getBody());
+                                            postscriptPoint.setRating((null != comment.getPoint()) ? comment.getPoint() : 0);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                                        if (BuildConfig.DEBUG)
+                                            Log.d(TAG, "onFailure Error : " + t.toString());
+                                    }
+                                });
                     }
 
                     @Override
-                    public void failure(RetrofitError error) {
+                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
                         if (BuildConfig.DEBUG)
-                            Log.d("error", "onFailure Error : " + error.toString());
+                            Log.d(TAG, "onFailure Error : " + t.toString());
                     }
                 });
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                if (BuildConfig.DEBUG)
-                    Log.d("error", "onFailure Error : " + error.toString());
-            }
-        });
     }
 
     @Override

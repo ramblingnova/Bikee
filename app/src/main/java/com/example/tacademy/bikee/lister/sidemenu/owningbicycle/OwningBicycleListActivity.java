@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Result;
@@ -24,9 +25,9 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class OwningBicycleListActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     // TODO : need modify UI
@@ -36,6 +37,8 @@ public class OwningBicycleListActivity extends AppCompatActivity implements Adap
     private OwningBicycleAdapter adapter;
     final private static int REGISTER_BICYCLE_ACTIVITY = 1;
     final public static String ID_TAG = "ID";
+
+    private static final String TAG = "OWNING_B_L_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,41 +73,45 @@ public class OwningBicycleListActivity extends AppCompatActivity implements Adap
 
     private void initData() {
         // 보유자전거조회
-        NetworkManager.getInstance().selectBicycle(new Callback<ReceiveObject>() {
-            @Override
-            public void success(ReceiveObject receiveObject, Response response) {
-                Log.i("result", "onResponse Code : " + receiveObject.getCode()
-                                + ", Success : " + receiveObject.isSuccess()
-                );
-                List<Result> results = receiveObject.getResult();
-                for (Result result : results) {
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM.dd HH:mm");
-                    String imageURL;
-                    if ((null == result.getImage().getCdnUri())
-                            || (null == result.getImage().getCdnUri())
-                            || (null == result.getImage().getFiles().get(0))) {
-                        imageURL = "";
-                    } else {
-                        imageURL = result.getImage().getCdnUri() + "/detail_" + result.getImage().getFiles().get(0);
+        NetworkManager.getInstance().selectBicycle(
+                null,
+                new Callback<ReceiveObject>() {
+                    @Override
+                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                        ReceiveObject receiveObject = response.body();
+                        Log.i("result", "onResponse Code : " + receiveObject.getCode()
+                                        + ", Success : " + receiveObject.isSuccess()
+                        );
+                        List<Result> results = receiveObject.getResult();
+                        for (Result result : results) {
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM.dd HH:mm");
+                            String imageURL;
+                            if ((null == result.getImage().getCdnUri())
+                                    || (null == result.getImage().getCdnUri())
+                                    || (null == result.getImage().getFiles().get(0))) {
+                                imageURL = "";
+                            } else {
+                                imageURL = result.getImage().getCdnUri() + "/detail_" + result.getImage().getFiles().get(0);
+                            }
+                            Log.i("result", "onResponse Id : " + result.get_id()
+                                            + ", ImageURL : " + imageURL
+                                            + ", Title : " + result.getTitle()
+                                            + ", CreateAt : " + simpleDateFormat.format(result.getCreatedAt())
+                            );
+                            adapter.add(result.get_id(),
+                                    imageURL,
+                                    result.getTitle(),
+                                    simpleDateFormat.format(result.getCreatedAt())
+                            );
+                        }
                     }
-                    Log.i("result", "onResponse Id : " + result.get_id()
-                                    + ", ImageURL : " + imageURL
-                                    + ", Title : " + result.getTitle()
-                                    + ", CreateAt : " + simpleDateFormat.format(result.getCreatedAt())
-                    );
-                    adapter.add(result.get_id(),
-                            imageURL,
-                            result.getTitle(),
-                            simpleDateFormat.format(result.getCreatedAt())
-                    );
-                }
-            }
 
-            @Override
-            public void failure(RetrofitError error) {
-                Log.e("error", "onFailure Error : " + error.toString());
-            }
-        });
+                    @Override
+                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "onFailure Error : " + t.toString());
+                    }
+                });
     }
 
     @Override

@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
 
+import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.dao.Comment;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
@@ -25,9 +26,9 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class InputBicyclePostScriptActivity extends AppCompatActivity {
     private Intent intent;
@@ -36,6 +37,8 @@ public class InputBicyclePostScriptActivity extends AppCompatActivity {
     @Bind(R.id.activity_input_bicycle_post_script_rating_bar)
     RatingBar rb;
     private String bicycleId;
+
+    private static final String TAG = "INPUT_B_P_S_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,27 +57,33 @@ public class InputBicyclePostScriptActivity extends AppCompatActivity {
         bicycleId = intent.getStringExtra("ID");
     }
 
-    @OnClick(R.id.activity_input_bicycle_post_script_input_button) void inputPostScript() {
+    @OnClick(R.id.activity_input_bicycle_post_script_input_button)
+    void inputPostScript() {
         Comment comment = new Comment();
         comment.setBody(et.getText().toString());
         comment.setPoint((int) rb.getRating());
-        NetworkManager.getInstance().insertBicycleComment(bicycleId, comment, new Callback<ReceiveObject>() {
-            @Override
-            public void success(ReceiveObject receiveObject, Response response) {
-                Log.i("result", "onResponse Code : " + receiveObject.getCode()
-                                + ", Success : " + receiveObject.isSuccess()
-                                + ", Msg : " + receiveObject.getMsg()
-                                + ", Error : "
-                );
-                finish();
-            }
+        NetworkManager.getInstance().insertBicycleComment(
+                bicycleId,
+                comment,
+                null,
+                new Callback<ReceiveObject>() {
+                    @Override
+                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                        ReceiveObject receiveObject = response.body();
+                        Log.i("result", "onResponse Code : " + receiveObject.getCode()
+                                        + ", Success : " + receiveObject.isSuccess()
+                                        + ", Msg : " + receiveObject.getMsg()
+                                        + ", Error : "
+                        );
+                        finish();
+                    }
 
-            @Override
-            public void failure(RetrofitError error) {
-                Log.e("error", "onFailure Error : " + error.toString());
-                finish();
-            }
-        });
+                    @Override
+                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "onFailure Error : " + t.toString());
+                    }
+                });
     }
 
     @Override

@@ -15,15 +15,16 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.MyApplication;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.renter.reservationbicycle.RequestPaymentActivity;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Tacademy on 2015-11-02.
@@ -48,6 +49,8 @@ public class ChoiceDialogFragment extends DialogFragment implements View.OnClick
     public static final int RENTER_PAY_RESERVATION = 3;
     public static final int RENTER_CANCEL_ALREADY_RESERVATION = 4;
     public static final int LISTER_CANCEL_RESERVATION = 5;
+
+    private static final String TAG = "CHOICE_DIALOG_FRAGMENT";
 
     public static ChoiceDialogFragment newInstance(int param) {
         ChoiceDialogFragment fragment = new ChoiceDialogFragment();
@@ -128,17 +131,24 @@ public class ChoiceDialogFragment extends DialogFragment implements View.OnClick
                         break;
                     case RENTER_CANCEL_ALREADY_RESERVATION:
                         // RC
-                        NetworkManager.getInstance().reserveStatus(bicycleId, reserveId, status, new Callback<ReceiveObject>() {
-                            @Override
-                            public void success(ReceiveObject receiveObject, Response response) {
-                                Log.i("result", "RC onResponse Success");
-                            }
+                        NetworkManager.getInstance().reserveStatus(
+                                bicycleId,
+                                reserveId,
+                                status,
+                                null,
+                                new Callback<ReceiveObject>() {
+                                    @Override
+                                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                                        ReceiveObject receiveObject = response.body();
+                                        Log.i("result", "RC onResponse Success");
+                                    }
 
-                            @Override
-                            public void failure(RetrofitError error) {
-                                Log.e("error", "onFailure Error : " + error.toString());
-                            }
-                        });
+                                    @Override
+                                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                                        if (BuildConfig.DEBUG)
+                                            Log.d(TAG, "onFailure Error : " + t.toString());
+                                    }
+                                });
                         dialog = new NoChoiceDialogFragment().newInstance(NoChoiceDialogFragment.RENTER_COMPLETE_CANCEL_ALREADY_RESERVATION, NoChoiceDialogFragment.RENTER_MOVE_TO_RENTER_RESERVATION);
                         dialog.show(getActivity().getSupportFragmentManager(), "custom");
                         break;
@@ -147,17 +157,24 @@ public class ChoiceDialogFragment extends DialogFragment implements View.OnClick
                         break;
                     case LISTER_CANCEL_RESERVATION:
                         // RC
-                        NetworkManager.getInstance().reserveStatus(bicycleId, reserveId, status, new Callback<ReceiveObject>() {
-                            @Override
-                            public void success(ReceiveObject receiveObject, Response response) {
-                                Log.i("result", "RC onResponse Success");
-                            }
+                        NetworkManager.getInstance().reserveStatus(
+                                bicycleId,
+                                reserveId,
+                                status,
+                                null,
+                                new Callback<ReceiveObject>() {
+                                    @Override
+                                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                                        ReceiveObject receiveObject = response.body();
+                                        Log.i("result", "RC onResponse Success");
+                                    }
 
-                            @Override
-                            public void failure(RetrofitError error) {
-                                Log.e("error", "onFailure Error : " + error.toString());
-                            }
-                        });
+                                    @Override
+                                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                                        if (BuildConfig.DEBUG)
+                                            Log.d(TAG, "onFailure Error : " + t.toString());
+                                    }
+                                });
                         dialog = new NoChoiceDialogFragment().newInstance(NoChoiceDialogFragment.LISTER_CANCEL_RESERVATION, NoChoiceDialogFragment.LISTER_MOVE_TO_LISTER_REQUESTED);
                         dialog.show(getActivity().getSupportFragmentManager(), "custom");
                         new Handler().postDelayed(new Runnable() {

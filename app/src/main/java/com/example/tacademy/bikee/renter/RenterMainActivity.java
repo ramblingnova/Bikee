@@ -23,6 +23,8 @@ import android.widget.TextView;
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.common.chatting.ChattingRoomsFragment;
 import com.example.tacademy.bikee.etc.SendBirdHelper;
+import com.example.tacademy.bikee.etc.dao.ReceiveObject;
+import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.etc.utils.ImageUtil;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.example.tacademy.bikee.lister.ListerMainActivity;
@@ -86,36 +88,11 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
         tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator(btt_iv1), SearchResultFragment.class, null);
         tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator(btt_iv2), RenterReservationBicycleListFragment.class, null);
 
-//        Bundle args = new Bundle();
-//        switch (PropertyManager.getInstance().getSignInState()) {
-//            case PropertyManager.SIGN_IN_FACEBOOK_STATE:
-//            case PropertyManager.SIGN_IN_LOCAL_STATE:
 //                final String appId = "2E377FE1-E1AD-4484-A66F-696AF1306F58";
-////                String userId = SendBirdHelper.generateDeviceUUID(RenterMainActivity.this);
-////                String userName = "User-" + "20B5A";
-////                String gcmRegToken = "f7x_1qavNuM:APA91bGB8RVUTMtxFbTehOYO-gr5JFUORJQZDLtzAsXoDD_o2ZBqHn_PhqAfzpJwSbY6SF6iY7_mfK4nrEERZsZbq5HuddaVqKPBA6OKBdjJrSTxjEJEyfIzLcJeNpPcgoo0f66cXwxY";
-////                String userId = PropertyManager.getInstance().getEmail();
 //                String userId = SendBirdHelper.generateDeviceUUID(RenterMainActivity.this);
-//                String userName = "Tester1";
-//                String gcmRegToken = PropertyManager.getInstance().getGCMToken();
-//
-//                SendBird.init(this, appId);
-//                SendBird.login(SendBird.LoginOption.build(userId).setUserName(userName).setGCMRegToken(gcmRegToken));
-//
-//                args.putString("APP_ID", appId);
-//                args.putString("USER_ID", userId);
-//                args.putString("USER_NAME", userName);
-//                args.putString("GCM_TOKEN", gcmRegToken);
-//                break;
-//            case PropertyManager.SIGN_OUT_STATE:
-//                args.putString("APP_ID", "");
-//                args.putString("USER_ID", "");
-//                args.putString("USER_NAME", "");
-//                args.putString("GCM_TOKEN", "");
-//                break;
-//        }
+//                String userName = "User-" + "20B5A";
+//                String gcmRegToken = "f7x_1qavNuM:APA91bGB8RVUTMtxFbTehOYO-gr5JFUORJQZDLtzAsXoDD_o2ZBqHn_PhqAfzpJwSbY6SF6iY7_mfK4nrEERZsZbq5HuddaVqKPBA6OKBdjJrSTxjEJEyfIzLcJeNpPcgoo0f66cXwxY";
 
-//        tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator(btt_iv3), ChattingRoomsFragment.class, args);
         tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator(btt_iv3), ChattingRoomsFragment.class, null);
         tabHost.addTab(tabHost.newTabSpec("tab4").setIndicator(btt_iv4), SmartKeyFragment.class, null);
         tabHost.setOnTabChangedListener(this);
@@ -282,18 +259,15 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
 
     @Bind(R.id.renter_side_menu_push_alarm_switch)
     CheckBox push;
+
     @OnCheckedChanged(R.id.renter_side_menu_push_alarm_switch)
     void pushAlramCheckedChange(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
             case R.id.renter_side_menu_push_alarm_switch:
-                if (isChecked) {
+                if (isChecked)
                     PropertyManager.getInstance().setPushEnable(true);
-                } else {
+                else
                     PropertyManager.getInstance().setPushEnable(false);
-//                    try {
-//                        InstanceID.getInstance(this).deleteToken(getString(R.string.GCM_SenderId), GoogleCloudMessaging.INSTANCE_ID_SCOPE);
-//                    } catch (Exception e) {}
-                }
                 break;
         }
     }

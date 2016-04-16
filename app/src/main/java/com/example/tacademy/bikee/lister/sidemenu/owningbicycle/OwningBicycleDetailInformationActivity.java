@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.R;
@@ -21,15 +22,17 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class OwningBicycleDetailInformationActivity extends AppCompatActivity implements View.OnClickListener {
     private Toolbar toolbar;
     private Intent intent;
     private Button btn;
     private String id;
+
+    private static final String TAG = "OWING_B_D_I_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,9 +104,13 @@ public class OwningBicycleDetailInformationActivity extends AppCompatActivity im
 
     private void initData(String bike_id) {
         // 자전거상세조회
-        NetworkManager.getInstance().selectBicycleDetail(bike_id, new Callback<ReceiveObject>() {
-            @Override
-            public void success(ReceiveObject receiveObject, Response response) {
+        NetworkManager.getInstance().selectBicycleDetail(
+                bike_id,
+                null,
+                new Callback<ReceiveObject>() {
+                    @Override
+                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                        ReceiveObject receiveObject = response.body();
                 Log.i("result", "onResponse Code : " + receiveObject.getCode()
                         + ", Success : " + receiveObject.isSuccess()
                         + ", Msg : " + receiveObject.getMsg()
@@ -123,10 +130,11 @@ public class OwningBicycleDetailInformationActivity extends AppCompatActivity im
                 }
             }
 
-            @Override
-            public void failure(RetrofitError error) {
-                Log.e("error", "onFailure Error : " + error.toString());
-            }
+                    @Override
+                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "onFailure Error : " + t.toString());
+                    }
         });
     }
 

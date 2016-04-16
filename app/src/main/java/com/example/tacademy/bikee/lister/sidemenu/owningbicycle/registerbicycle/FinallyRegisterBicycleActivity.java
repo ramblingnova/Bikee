@@ -42,13 +42,6 @@ import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-import retrofit.mime.MultipartTypedOutput;
-import retrofit.mime.TypedFile;
-import retrofit.mime.TypedOutput;
-import retrofit.mime.TypedString;
 
 public class FinallyRegisterBicycleActivity extends AppCompatActivity implements View.OnClickListener {
     private Button btn;
@@ -120,9 +113,9 @@ public class FinallyRegisterBicycleActivity extends AppCompatActivity implements
 //                    map.put("image" + (i++), new TypedFile("image/png", file));
 //                }
 //                int size = i;
-                List<TypedFile> list = new ArrayList<>();
-                for (File file : tempItem.getFiles())
-                    list.add(new TypedFile("image/png", file));
+//                List<TypedFile> list = new ArrayList<>();
+//                for (File file : tempItem.getFiles())
+//                    list.add(new TypedFile("image/png", file));
 
                 Price price = new Price();
                 price.setHour(tempItem.getHour());

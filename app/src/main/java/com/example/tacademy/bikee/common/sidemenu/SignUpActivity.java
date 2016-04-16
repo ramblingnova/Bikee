@@ -20,6 +20,7 @@ import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.dao.Facebook;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
+import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.dao.User;
 import com.example.tacademy.bikee.etc.manager.FacebookNetworkManager;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
@@ -38,19 +39,11 @@ import org.json.JSONObject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SignUpActivity extends AppCompatActivity {
-    private Intent intent;
-    private String from;
-    private int requestCode;
-    private String password;
-    private String authId;
-    private String authNum;
-    private AccessToken token;
-
     @Bind(R.id.activity_sign_up_input_name_edit_text)
     EditText nameEditText;
     @Bind(R.id.activity_sign_up_input_mail_address_edit_text)
@@ -80,15 +73,19 @@ public class SignUpActivity extends AppCompatActivity {
     @Bind(R.id.activity_sign_up_password_alert_layout)
     RelativeLayout passwordAlertLayout;
 
+    private Intent intent;
+    private String from;
+    private int requestCode;
+    private String password;
+    private String authId;
+    private String authNum;
+    private AccessToken token;
+
     public static final int SIGN_UP_ABNORMAL = 0;
     public static final int SIGN_UP_LOCAL = 1;
     public static final int SIGN_UP_FACEBOOK = 2;
-    public static final String ACTIVITY_SIGN_UP_IMAGE = "ACTIVITY_SIGN_UP_IMAGE";
-    public static final String ACTIVITY_SIGN_UP_NAME = "ACTIVITY_SIGN_UP_NAME";
     public static final String ACTIVITY_SIGN_UP_EMAIL = "ACTIVITY_SIGN_UP_EMAIL";
-    public static final String ACTIVITY_SIGN_UP_PHONE = "ACTIVITY_SIGN_UP_PHONE";
     public static final String ACTIVITY_SIGN_UP_PASSWORD = "ACTIVITY_SIGN_UP_PASSWORD";
-    public static final String ACTIVITY_SIGN_UP_FACEBOOK_USER_ID = "ACTIVITY_SIGN_UP_FACEBOOK_USER_ID";
     private static final String TAG = "SIGN_UP_ACTIVITY";
 
     @Override
@@ -250,6 +247,7 @@ public class SignUpActivity extends AppCompatActivity {
     };
 
     private void signUpFacebook() {
+        // TODO : 가입하기 버튼을 누르기전에 signupFacebook을 실행해도 되는 지 모르겠다.
         FacebookNetworkManager.getInstance().signupFacebook(
                 SignUpActivity.this,
                 "message",
@@ -304,84 +302,99 @@ public class SignUpActivity extends AppCompatActivity {
         // TODO : Email 중복 확인 작업이 필요함
         User user = new User();
         user.setEmail(emailEditText.getText().toString());
-        NetworkManager.getInstance().checkEmailDuplication(user, new Callback<ReceiveObject>() {
-            @Override
-            public void success(ReceiveObject receiveObject, Response response) {
-                if (receiveObject.isSuccess()) {
-                    // TODO : Email 사용 가능! 처리 작업이 필요함
-                    if (BuildConfig.DEBUG)
-                        Log.d(TAG, "checkEmailDuplication success isSuccess : " + receiveObject.isSuccess());
-                } else {
-                    // TODO : Email 중복! 처리 작업이 필요함
-                    if (BuildConfig.DEBUG)
-                        Log.d(TAG, "checkEmailDuplication success isSuccess : " + receiveObject.isSuccess());
-                }
-            }
+        NetworkManager.getInstance().checkEmailDuplication(
+                user,
+                null,
+                new Callback<ReceiveObject>() {
+                    @Override
+                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                        ReceiveObject receiveObject = response.body();
+                        if (receiveObject.isSuccess()) {
+                            // TODO : Email 사용 가능! 처리 작업이 필요함
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "checkEmailDuplication success isSuccess : " + receiveObject.isSuccess());
+                        } else {
+                            // TODO : Email 중복! 처리 작업이 필요함
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "checkEmailDuplication success isSuccess : " + receiveObject.isSuccess());
+                        }
+                    }
 
-            @Override
-            public void failure(RetrofitError error) {
-                if (BuildConfig.DEBUG)
-                    Log.d(TAG, "checkEmailDuplication failure");
-            }
-        });
+                    @Override
+                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "onFailure Error : " + t.toString());
+                    }
+                });
     }
 
+    // 인증번호요청하기
     @OnClick(R.id.activity_sign_up_request_authentication_number_text_view)
     void reqAuth() {
         if (BuildConfig.DEBUG)
             Log.d(TAG, "reqAuthNumTextView");
-//        // 인증번호요청하기
-//        NetworkManager.getInstance().requestAuthenticationNumber(phoneEditText.getText().toString(), new Callback<ReceiveObject>() {
-//            @Override
-//            public void success(ReceiveObject receiveObject, Response response) {
-//                if (BuildConfig.DEBUG)
-//                Log.d(TAG, "onResponse Code : " + receiveObject.getCode()
-//                                + ", Success : " + receiveObject.isSuccess()
-//                                + ", Msg : " + receiveObject.getMsg()
-//                                + ", Error : "
-//                );
-//                if (receiveObject.getCode() == 200) {
-//                    for (Result result : receiveObject.getResult()) {
-//                        if (BuildConfig.DEBUG)
-//                        Log.d(TAG, "onResponse Id : " + result.getId());
-//                        authId = result.getId();
-//                        authNum = "" + result.getAuth_number();
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                Log.d(TAG, "onFailure Error : " + error.toString());
-//            }
-//        });
+        /*NetworkManager.getInstance().requestAuthenticationNumber(
+                phoneEditText.getText().toString(),
+                null,
+                new Callback<ReceiveObject>() {
+                    @Override
+                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                        ReceiveObject receiveObject = response.body();
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "onResponse Code : " + receiveObject.getCode()
+                                            + ", Success : " + receiveObject.isSuccess()
+                                            + ", Msg : " + receiveObject.getMsg()
+                                            + ", Error : "
+                            );
+                        if (receiveObject.getCode() == 200) {
+                            for (Result result : receiveObject.getResult()) {
+                                if (BuildConfig.DEBUG)
+                                    Log.d(TAG, "onResponse Id : " + result.getId());
+                                authId = result.getId();
+                                authNum = "" + result.getAuth_number();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "onFailure Error : " + t.toString());
+                    }
+                });*/
     }
 
+    // 인증번호확인하기
     @OnClick(R.id.activity_sign_up_confirm_authentication_text_view)
     void confirmAuth() {
         if (BuildConfig.DEBUG)
             Log.d(TAG, "confirmAuthTextView");
-//        // 인증번호확인하기
-//        String authid = "564d9d0e32a130ea2a0731dc";
-//        String auth_number = "447671";
-//        NetworkManager.getInstance().confirmAuthenticationNumber(authId, authNum, new Callback<ReceiveObject>() {
-//            @Override
-//            public void success(ReceiveObject receiveObject, Response response) {
-//                Log.d(TAG, "onResponse Code : " + receiveObject.getCode()
-//                                + ", Success : " + receiveObject.isSuccess()
-//                                + ", Msg : " + receiveObject.getMsg()
-//                                + ", Error : "
-//                );
-//                for (Result result : receiveObject.getResult()) {
-//                    Log.d(TAG, "onResponse Accepted : " + result.isAccepted());
-//                }
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                Log.d(TAG, "onFailure Error : " + error.toString());
-//            }
-//        });
+        /*String authid = "564d9d0e32a130ea2a0731dc";
+        String auth_number = "447671";
+        NetworkManager.getInstance().confirmAuthenticationNumber(
+                authId,
+                authNum,
+                null,
+                new Callback<ReceiveObject>() {
+                    @Override
+                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                        ReceiveObject receiveObject = response.body();
+                        Log.d(TAG, "onResponse Code : " + receiveObject.getCode()
+                                        + ", Success : " + receiveObject.isSuccess()
+                                        + ", Msg : " + receiveObject.getMsg()
+                                        + ", Error : "
+                        );
+                        for (Result result : receiveObject.getResult()) {
+                            Log.d(TAG, "onResponse Accepted : " + result.isAccepted());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "onFailure Error : " + t.toString());
+                    }
+                });*/
     }
 
     @OnClick(R.id.activity_sign_up_sign_up_button)
@@ -399,17 +412,15 @@ public class SignUpActivity extends AppCompatActivity {
                         + "\nname : " + nameEditText.getText().toString());
             NetworkManager.getInstance().signUpFacebook(
                     facebook,
+                    null,
                     new Callback<ReceiveObject>() {
                         @Override
-                        public void success(ReceiveObject receiveObject, Response response) {
+                        public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                            ReceiveObject receiveObject = response.body();
                             if (receiveObject != null) {
                                 if (BuildConfig.DEBUG)
                                     Log.d(TAG, "receiveObject isn't null");
 
-                                intent.putExtra(ACTIVITY_SIGN_UP_FACEBOOK_USER_ID, token.getUserId());
-                                intent.putExtra(ACTIVITY_SIGN_UP_NAME, nameEditText.getText().toString());
-                                intent.putExtra(ACTIVITY_SIGN_UP_EMAIL, emailEditText.getText().toString());
-                                intent.putExtra(ACTIVITY_SIGN_UP_PHONE, phoneEditText.getText().toString());
                                 setResult(RESULT_OK, intent);
 
                                 finish();
@@ -418,9 +429,9 @@ public class SignUpActivity extends AppCompatActivity {
                         }
 
                         @Override
-                        public void failure(RetrofitError error) {
+                        public void onFailure(Call<ReceiveObject> call, Throwable t) {
                             if (BuildConfig.DEBUG)
-                                Log.d(TAG, "signUpFacebook failure : ", error);
+                                Log.d(TAG, "onFailure Error : " + t.toString());
                         }
                     });
         } else if (requestCode == SIGN_UP_LOCAL) {
@@ -431,9 +442,11 @@ public class SignUpActivity extends AppCompatActivity {
             user.setPassword(passwordEditText.getText().toString());
             NetworkManager.getInstance().insertUser(
                     user,
+                    null,
                     new Callback<ReceiveObject>() {
                         @Override
-                        public void success(ReceiveObject receiveObject, Response response) {
+                        public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                            ReceiveObject receiveObject = response.body();
                             if (BuildConfig.DEBUG)
                                 Log.d(TAG, "회원가입 onResponse Code : " + receiveObject.getCode()
                                                 + "\nSuccess : " + receiveObject.isSuccess()
@@ -442,10 +455,8 @@ public class SignUpActivity extends AppCompatActivity {
                             if (receiveObject.getCode() == 200) {
                                 Toast.makeText(SignUpActivity.this, "회원가입됐습니다.", Toast.LENGTH_SHORT).show();
 
-                                intent.putExtra(ACTIVITY_SIGN_UP_NAME, nameEditText.getText().toString());
                                 intent.putExtra(ACTIVITY_SIGN_UP_EMAIL, emailEditText.getText().toString());
                                 intent.putExtra(ACTIVITY_SIGN_UP_PASSWORD, passwordEditText.getText().toString());
-                                intent.putExtra(ACTIVITY_SIGN_UP_PHONE, phoneEditText.getText().toString());
                                 setResult(RESULT_OK, intent);
 
                                 finish();
@@ -454,9 +465,9 @@ public class SignUpActivity extends AppCompatActivity {
                         }
 
                         @Override
-                        public void failure(RetrofitError error) {
+                        public void onFailure(Call<ReceiveObject> call, Throwable t) {
                             if (BuildConfig.DEBUG)
-                                Log.d(TAG, "onFailure Error : " + error.toString());
+                                Log.d(TAG, "onFailure Error : " + t.toString());
                         }
                     });
         }

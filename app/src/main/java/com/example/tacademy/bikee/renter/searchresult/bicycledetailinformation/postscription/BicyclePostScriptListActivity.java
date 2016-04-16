@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
+import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.dao.Comment;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
@@ -22,18 +23,21 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Tacademy on 2015-11-02.
  */
 public class BicyclePostScriptListActivity extends AppCompatActivity {
     private Intent intent;
-    @Bind(R.id.activity_bicycle_post_script_list_list_view) ListView lv;
+    @Bind(R.id.activity_bicycle_post_script_list_list_view)
+    ListView lv;
     private BicyclePostScriptAdapter adapter;
     private String bicycleId;
+
+    private static final String TAG = "BICYCLE_P_S_L_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +62,7 @@ public class BicyclePostScriptListActivity extends AppCompatActivity {
         getSupportActionBar().setCustomView(cView);
 
         ButterKnife.bind(this);
-        
+
         adapter = new BicyclePostScriptAdapter();
         lv.setAdapter(adapter);
 
@@ -69,41 +73,46 @@ public class BicyclePostScriptListActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        NetworkManager.getInstance().selectBicycleComment(bicycleId, new Callback<ReceiveObject>() {
-            @Override
-            public void success(ReceiveObject receiveObject, Response response) {
-                Log.i("result", "onResponse Success");
-                List<Result> results = receiveObject.getResult();
-                for (Result result : results) {
-                    if (null != result) {
-                        for (Comment comment : result.getComments()) {
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM.dd HH:mm");
-                            String imageURL;
-                            if ((null == comment.getWriter().getImage())
-                                    || (null == comment.getWriter().getImage().getCdnUri())
-                                    || (null == comment.getWriter().getImage().getFiles())
-                                    || (null == comment.getWriter().getImage().getFiles().get(0))) {
-                                imageURL = "";
-                            } else {
-                                imageURL = comment.getWriter().getImage().getCdnUri() + "/mini_" + comment.getWriter().getImage().getFiles().get(0);
+        NetworkManager.getInstance().selectBicycleComment(
+                bicycleId,
+                null,
+                new Callback<ReceiveObject>() {
+                    @Override
+                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                        ReceiveObject receiveObject = response.body();
+                        Log.i("result", "onResponse Success");
+                        List<Result> results = receiveObject.getResult();
+                        for (Result result : results) {
+                            if (null != result) {
+                                for (Comment comment : result.getComments()) {
+                                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM.dd HH:mm");
+                                    String imageURL;
+                                    if ((null == comment.getWriter().getImage())
+                                            || (null == comment.getWriter().getImage().getCdnUri())
+                                            || (null == comment.getWriter().getImage().getFiles())
+                                            || (null == comment.getWriter().getImage().getFiles().get(0))) {
+                                        imageURL = "";
+                                    } else {
+                                        imageURL = comment.getWriter().getImage().getCdnUri() + "/mini_" + comment.getWriter().getImage().getFiles().get(0);
+                                    }
+                                    Log.i("result", "onResponse ImageURL : " + imageURL
+                                                    + ", WriterName : " + comment.getWriter().getName()
+                                                    + ", Point : " + comment.getPoint()
+                                                    + ", PostScript : " + comment.getBody()
+                                                    + ", CreateAt : " + simpleDateFormat.format(comment.getCreatedAt())
+                                    );
+                                    adapter.add(imageURL, comment.getWriter().getName(), comment.getPoint(), comment.getBody(), simpleDateFormat.format(comment.getCreatedAt()));
+                                }
                             }
-                            Log.i("result", "onResponse ImageURL : " + imageURL
-                                            + ", WriterName : " + comment.getWriter().getName()
-                                            + ", Point : " + comment.getPoint()
-                                            + ", PostScript : " + comment.getBody()
-                                            + ", CreateAt : " + simpleDateFormat.format(comment.getCreatedAt())
-                            );
-                            adapter.add(imageURL, comment.getWriter().getName(), comment.getPoint(), comment.getBody(), simpleDateFormat.format(comment.getCreatedAt()));
                         }
                     }
-                }
-            }
 
-            @Override
-            public void failure(RetrofitError error) {
-                Log.e("error", "onFailure Error : " + error.toString());
-            }
-        });
+                    @Override
+                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "onFailure Error : " + t.toString());
+                    }
+                });
     }
 
     @Override

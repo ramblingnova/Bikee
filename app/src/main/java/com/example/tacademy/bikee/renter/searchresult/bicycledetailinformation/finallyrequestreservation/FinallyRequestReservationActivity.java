@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Reserve;
 import com.example.tacademy.bikee.R;
@@ -20,9 +21,9 @@ import java.util.Date;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FinallyRequestReservationActivity extends AppCompatActivity {
     private FinallyRequestReservationConfirmDialogFragment dialog2;
@@ -35,6 +36,8 @@ public class FinallyRequestReservationActivity extends AppCompatActivity {
     private double latitude;
     private double longitude;
     private int price;
+
+    private static final String TAG = "FINALLY_R_R_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,37 +66,46 @@ public class FinallyRequestReservationActivity extends AppCompatActivity {
         initData();
     }
 
-    @OnClick(R.id.activity_finally_request_reservation_cancel_button) void cancel() {
+    @OnClick(R.id.activity_finally_request_reservation_cancel_button)
+    void cancel() {
         dialog1 = new FinallyRequestReservationCancelDialogFragment().newInstance(1);
         dialog1.show(getSupportFragmentManager(), "custom");
     }
 
-    @OnClick(R.id.activity_finally_request_reservation_confirm_button) void confirm() {
+    @OnClick(R.id.activity_finally_request_reservation_confirm_button)
+    void confirm() {
         Reserve reserve = new Reserve();
         Date date = new Date();
         date.setTime(System.currentTimeMillis());
         reserve.setRentStart(date);
         date.setTime(System.currentTimeMillis());
         reserve.setRentEnd(date);
-        NetworkManager.getInstance().insertReservation(id, reserve, new Callback<ReceiveObject>() {
-            @Override
-            public void success(ReceiveObject receiveObject, Response response) {
-                Log.i("result", "onResponse Success : " + receiveObject.isSuccess()
-                                + ", Code : " + receiveObject.getCode()
-                                + ", Msg : " + receiveObject.getMsg()
-                );
-            }
+        NetworkManager.getInstance().insertReservation(
+                id,
+                reserve,
+                null,
+                new Callback<ReceiveObject>() {
+                    @Override
+                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                        ReceiveObject receiveObject = response.body();
+                        Log.i("result", "onResponse Success : " + receiveObject.isSuccess()
+                                        + ", Code : " + receiveObject.getCode()
+                                        + ", Msg : " + receiveObject.getMsg()
+                        );
+                    }
 
-            @Override
-            public void failure(RetrofitError error) {
-                Log.e("error", "onFailure Error! : " + error.toString());
-            }
-        });
+                    @Override
+                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "onFailure Error : " + t.toString());
+                    }
+                });
         dialog2 = new FinallyRequestReservationConfirmDialogFragment().newInstance(1);
         dialog2.show(getSupportFragmentManager(), "custom");
     }
 
-    @OnClick(R.id.activity_finally_request_reservation_small_map_button) void openSmallMap() {
+    @OnClick(R.id.activity_finally_request_reservation_small_map_button)
+    void openSmallMap() {
         intent = new Intent(FinallyRequestReservationActivity.this, SmallMapActivity.class);
         startActivity(intent);
     }

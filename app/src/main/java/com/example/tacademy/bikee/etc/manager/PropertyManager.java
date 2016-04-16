@@ -35,6 +35,8 @@ public class PropertyManager {
 
     private static final String KEY_GCM_TOKEN = "GCM_TOKEN";
 
+    private static final String KEY_ID = "KEY_ID";
+
     public static PropertyManager getInstance() {
         if (instance == null)
             instance = new PropertyManager();
@@ -137,8 +139,8 @@ public class PropertyManager {
         return mPrefs.getBoolean(KEY_PUSH, true);
     }
 
-    public void setFacebookId(String id) {
-        mEditor.putString(KEY_FACEBOOK_ID, id);
+    public void setFacebookId(String facebookId) {
+        mEditor.putString(KEY_FACEBOOK_ID, facebookId);
         mEditor.commit();
     }
 
@@ -146,12 +148,21 @@ public class PropertyManager {
         return mPrefs.getString(KEY_FACEBOOK_ID, "");
     }
 
-    public void setGCMToken(String id) {
-        mEditor.putString(KEY_GCM_TOKEN, id);
+    public void setGCMToken(String token) {
+        mEditor.putString(KEY_GCM_TOKEN, token);
         mEditor.commit();
     }
 
     public String getGCMToken() {
         return mPrefs.getString(KEY_GCM_TOKEN, "");
+    }
+
+    public void set_id(String _id) {
+        mEditor.putString(KEY_ID, _id);
+        mEditor.commit();
+    }
+
+    public String get_id() {
+        return mPrefs.getString(KEY_ID, "");
     }
 }

@@ -44,9 +44,9 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RenterReservationBicycleDetailInformationActivity extends AppCompatActivity implements OnMapReadyCallback, ViewPager.OnPageChangeListener {
     private Intent intent;
@@ -218,71 +218,75 @@ public class RenterReservationBicycleDetailInformationActivity extends AppCompat
 
     private void init() {
         bicycleId = intent.getStringExtra("ID");
-        NetworkManager.getInstance().selectBicycleDetail(bicycleId, new Callback<ReceiveObject>() {
-            @Override
-            public void success(ReceiveObject receiveObject, Response response) {
-                if (BuildConfig.DEBUG)
-                    Log.d(TAG, "onResponse Success");
-                List<Result> results = receiveObject.getResult();
-                for (Result result : results) {
-                    if (BuildConfig.DEBUG)
-                        Log.d(TAG, "onResponse Bike Image : " + RefinementUtil.getBicycleImageURLStringFromResult(result)
-                                        + ", Bike Name : " + result.getTitle()
-                                        + ", Bike Intro : " + result.getIntro()
-                                        + ", Type : " + result.getType()
-                                        + ", Height : " + result.getHeight()
-                                        + ", Latitude : " + result.getLoc().getCoordinates().get(1)
-                                        + ", Longitude : " + result.getLoc().getCoordinates().get(0)
-                                        + ", Price : " + result.getPrice().getMonth()
-                        );
-                    // TODO : change none-rounded rectangle image
-                    BicycleImageViewPagerAdapter bicycleImageViewPagerAdapter = new BicycleImageViewPagerAdapter(
-                            RefinementUtil.getBicycleImageURLListFromResult(result)
-                    );
-                    viewPager.setAdapter(bicycleImageViewPagerAdapter);
-                    ImageUtil.initIndicators(
-                            MyApplication.getmContext(),
-                            bicycleImageViewPagerAdapter.getCount(),
-                            bicyclePicturesLayout
-                    );
-                    ImageUtil.setCircleImageFromURL(
-                            MyApplication.getmContext(),
-                            RefinementUtil.getUserImageURLStringFromResult(result),
-                            R.drawable.noneimage,
-                            0,
-                            listerPicture
-                    );
-                    listerName.setText(result.getUser().getName());
-                    listerPhone = result.getUser().getPhone();
-                    bicycleName.setText(result.getTitle());
-                    bicycleIntro.setText(result.getIntro());
-                    bicycleType.setText(
-                            RefinementUtil.getBicycleTypeStringFromBicycleType(
-                                    result.getType()
-                            )
-                    );
-                    bicycleHeight.setText(
-                            RefinementUtil.getBicycleHeightStringFromBicycleHeight(
-                                    result.getHeight()
-                            )
-                    );
-                    rentalPlaceText.setText(
-                            RefinementUtil.findAddress(
+        NetworkManager.getInstance().selectBicycleDetail(
+                bicycleId,
+                null,
+                new Callback<ReceiveObject>() {
+                    @Override
+                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                        ReceiveObject receiveObject = response.body();
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "onResponse Success");
+                        List<Result> results = receiveObject.getResult();
+                        for (Result result : results) {
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "onResponse Bike Image : " + RefinementUtil.getBicycleImageURLStringFromResult(result)
+                                                + ", Bike Name : " + result.getTitle()
+                                                + ", Bike Intro : " + result.getIntro()
+                                                + ", Type : " + result.getType()
+                                                + ", Height : " + result.getHeight()
+                                                + ", Latitude : " + result.getLoc().getCoordinates().get(1)
+                                                + ", Longitude : " + result.getLoc().getCoordinates().get(0)
+                                                + ", Price : " + result.getPrice().getMonth()
+                                );
+                            // TODO : change none-rounded rectangle image
+                            BicycleImageViewPagerAdapter bicycleImageViewPagerAdapter = new BicycleImageViewPagerAdapter(
+                                    RefinementUtil.getBicycleImageURLListFromResult(result)
+                            );
+                            viewPager.setAdapter(bicycleImageViewPagerAdapter);
+                            ImageUtil.initIndicators(
                                     MyApplication.getmContext(),
-                                    result.getLoc().getCoordinates().get(1),
-                                    result.getLoc().getCoordinates().get(0)
-                            )
-                    );
-                    price = result.getPrice().getMonth();
-                }
-            }
+                                    bicycleImageViewPagerAdapter.getCount(),
+                                    bicyclePicturesLayout
+                            );
+                            ImageUtil.setCircleImageFromURL(
+                                    MyApplication.getmContext(),
+                                    RefinementUtil.getUserImageURLStringFromResult(result),
+                                    R.drawable.noneimage,
+                                    0,
+                                    listerPicture
+                            );
+                            listerName.setText(result.getUser().getName());
+                            listerPhone = result.getUser().getPhone();
+                            bicycleName.setText(result.getTitle());
+                            bicycleIntro.setText(result.getIntro());
+                            bicycleType.setText(
+                                    RefinementUtil.getBicycleTypeStringFromBicycleType(
+                                            result.getType()
+                                    )
+                            );
+                            bicycleHeight.setText(
+                                    RefinementUtil.getBicycleHeightStringFromBicycleHeight(
+                                            result.getHeight()
+                                    )
+                            );
+                            rentalPlaceText.setText(
+                                    RefinementUtil.findAddress(
+                                            MyApplication.getmContext(),
+                                            result.getLoc().getCoordinates().get(1),
+                                            result.getLoc().getCoordinates().get(0)
+                                    )
+                            );
+                            price = result.getPrice().getMonth();
+                        }
+                    }
 
-            @Override
-            public void failure(RetrofitError error) {
-                if (BuildConfig.DEBUG)
-                    Log.d(TAG, "onFailure Error : " + error.toString());
-            }
-        });
+                    @Override
+                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "onFailure Error : " + t.toString());
+                    }
+                });
 
         status = intent.getStringExtra("STATUS");
         endDate = intent.getStringExtra("ENDDATE");

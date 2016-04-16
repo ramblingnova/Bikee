@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
+import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.dao.Comment;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
@@ -19,13 +20,15 @@ import com.tsengvn.typekit.TypekitContextWrapper;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class EvaluatedBicyclePostScriptListActivity extends AppCompatActivity {
     private ListView lv;
     private EvaluatedBicyclePostScriptAdapter adapter;
+
+    private static final String TAG = "EVALUATED_B_P_S_L_ACT";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +59,12 @@ public class EvaluatedBicyclePostScriptListActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        NetworkManager.getInstance().selectMyBicycleComment(new Callback<ReceiveObject>() {
-            @Override
-            public void success(ReceiveObject receiveObject, Response response) {
+        NetworkManager.getInstance().selectMyBicycleComment(
+                null,
+                new Callback<ReceiveObject>() {
+                    @Override
+                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                        ReceiveObject receiveObject = response.body();
                 Log.i("result", "onResponse Success");
                 List<Result> results = receiveObject.getResult();
                 for (Result result : results) {
@@ -91,10 +97,11 @@ public class EvaluatedBicyclePostScriptListActivity extends AppCompatActivity {
                 }
             }
 
-            @Override
-            public void failure(RetrofitError error) {
-                Log.e("error", "onFailure Error : " + error.toString());
-            }
+                    @Override
+                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "onFailure Error : " + t.toString());
+                    }
         });
     }
 

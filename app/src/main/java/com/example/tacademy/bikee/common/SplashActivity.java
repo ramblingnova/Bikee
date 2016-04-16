@@ -1,8 +1,6 @@
 package com.example.tacademy.bikee.common;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
@@ -18,6 +16,7 @@ import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.dao.Facebook;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
+import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.manager.FacebookNetworkManager;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
@@ -33,13 +32,14 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
+import com.sendbird.android.SendBird;
 
 import java.io.IOException;
 import java.security.MessageDigest;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SplashActivity extends AppCompatActivity {
     private String deviceID;
@@ -49,6 +49,10 @@ public class SplashActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
     private LoginManager mLoginManager;
     private AccessTokenTracker mTokenTracker;
+    private final String appId = "2E377FE1-E1AD-4484-A66F-696AF1306F58";
+    private String userId;
+    private String userName;
+    private String gcmRegToken;
 
     private static final String TAG = "SPLASH_ACTIVITY";
 
@@ -103,13 +107,12 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void signInFacebook() {
-
         mTokenTracker = new AccessTokenTracker() {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
                 final AccessToken token = AccessToken.getCurrentAccessToken();
-                String facebookId = PropertyManager.getInstance().getFacebookId();
                 if (token != null) {
+                    String facebookId = PropertyManager.getInstance().getFacebookId();
                     if (BuildConfig.DEBUG)
                         Log.d(TAG, "token.getToken : " + token.getToken()
                                 + "\ntoken.getUserId : " + token.getUserId()
@@ -127,30 +130,26 @@ public class SplashActivity extends AppCompatActivity {
                                                 Log.d(TAG, "loginFacebookToken result : " + result);
                                             Facebook facebook = new Facebook();
                                             facebook.setAccess_token(token.getToken());
-                                            NetworkManager.getInstance().signInFacebook(facebook, new Callback<ReceiveObject>() {
-                                                @Override
-                                                public void success(ReceiveObject receiveObject, Response response) {
-                                                    if (BuildConfig.DEBUG)
-                                                        Log.d(TAG, "Success send token to server...");
-                                                    checkPlayService();
-                                                    getDeviceID();
-                                                    getDeviceName();
-                                                    getRegistrationID();
-                                                    new RequestTokenThread().start();
-                                                    sendGCMToken();
+                                            NetworkManager.getInstance().signInFacebook(
+                                                    facebook,
+                                                    null,
+                                                    new Callback<ReceiveObject>() {
+                                                        @Override
+                                                        public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                                                            if (BuildConfig.DEBUG)
+                                                                Log.d(TAG, "Success send token to server...");
+                                                            afterSignIn();
+                                                        }
 
-                                                    closeSplash();
-                                                }
+                                                        @Override
+                                                        public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                                                            if (BuildConfig.DEBUG)
+                                                                Log.d(TAG, "onFailure Error : " + t.toString());
+                                                            mLoginManager.logOut();
 
-                                                @Override
-                                                public void failure(RetrofitError error) {
-                                                    if (BuildConfig.DEBUG)
-                                                        Log.d(TAG, "Failure send token to server...");
-                                                    mLoginManager.logOut();
-
-                                                    closeSplash();
-                                                }
-                                            });
+                                                            closeSplash();
+                                                        }
+                                                    });
                                         }
                                     }
 
@@ -198,14 +197,42 @@ public class SplashActivity extends AppCompatActivity {
         NetworkManager.getInstance().login(
                 PropertyManager.getInstance().getEmail(),
                 PropertyManager.getInstance().getPassword(),
+                null,
                 new Callback<ReceiveObject>() {
                     @Override
-                    public void success(ReceiveObject receiveObject, Response response) {
+                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                        ReceiveObject receiveObject = response.body();
                         if (BuildConfig.DEBUG)
                             Log.d(TAG, "login onResponse Success : " + receiveObject.isSuccess()
                                             + ", Code : " + receiveObject.getCode()
                                             + ", Msg : " + receiveObject.getMsg()
                             );
+                        afterSignIn();
+                    }
+
+                    @Override
+                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "onFailure Error : " + t.toString());
+                    }
+                });
+    }
+
+    public void afterSignIn() {
+        // TODO : SignInActivity에서 로그인 후에 _id를 저장했다면, 여기서 receiveProfile을 호출할 필요가 없는 것 같다.
+        NetworkManager.getInstance().receiveProfile(
+                null,
+                new Callback<ReceiveObject>() {
+                    @Override
+                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                        ReceiveObject receiveObject = response.body();
+
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "onResponse Success : " + receiveObject.isSuccess()
+                                            + ", Code : " + receiveObject.getCode()
+                                            + ", Msg : " + receiveObject.getMsg());
+
+                        /* send gcm token to server */
                         checkPlayService();
                         getDeviceID();
                         getDeviceName();
@@ -213,14 +240,29 @@ public class SplashActivity extends AppCompatActivity {
                         new RequestTokenThread().start();
                         sendGCMToken();
 
+                        /* property initialization */
+                        for (Result result : receiveObject.getResult())
+                            if (result.get_id() != null) {
+                                PropertyManager.getInstance().set_id(result.get_id());
+                                PropertyManager.getInstance().setName(result.getName());
+                                userId = result.get_id();
+                                userName = result.getName();
+                                break;
+                            }
+                        gcmRegToken = PropertyManager.getInstance().getGCMToken();
+
+                        /* SendBird initialization and login */
+                        SendBird.init(SplashActivity.this, appId);
+                        SendBird.login(SendBird.LoginOption.build(userId).setUserName(userName).setGCMRegToken(gcmRegToken));
+
+                        /* close splash */
                         closeSplash();
                     }
 
                     @Override
-                    public void failure(RetrofitError error) {
+                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
                         if (BuildConfig.DEBUG)
-                            Log.d(TAG, "login onFailure Error...", error);
-                        closeSplash();
+                            Log.d(TAG, "onFailure Error : " + t.toString());
                     }
                 });
     }
@@ -267,7 +309,7 @@ public class SplashActivity extends AppCompatActivity {
             try {
                 InstanceID instanceID = InstanceID.getInstance(SplashActivity.this);
                 final String token = instanceID.getToken(getString(R.string.GCM_SenderId), GoogleCloudMessaging.INSTANCE_ID_SCOPE);
-                if (registrationID != token) {
+                if (!registrationID.equals(token)) {
                     registrationID = token;
                     saveRegistrationID();
                 }
@@ -290,24 +332,29 @@ public class SplashActivity extends AppCompatActivity {
         if (BuildConfig.DEBUG)
             Log.d(TAG, "deviceID : " + deviceID
                             + "\nregistrationID(GCM Token) : " + registrationID
-                            + "\ndeviceOS : " + deviceID
-            );
-        NetworkManager.getInstance().sendGCMToken(deviceID, registrationID, deviceOS, new Callback<ReceiveObject>() {
-            @Override
-            public void success(ReceiveObject receiveObject, Response response) {
-                if (BuildConfig.DEBUG)
-                    Log.d(TAG, "sendGCMToken onResponse Success : " + receiveObject.isSuccess()
-                                    + ", Code : " + receiveObject.getCode()
-                                    + ", Msg : " + receiveObject.getMsg()
-                    );
-            }
+                            + "\ndeviceOS : " + deviceID);
+        NetworkManager.getInstance().sendGCMToken(
+                deviceID,
+                registrationID,
+                deviceOS,
+                null,
+                new Callback<ReceiveObject>() {
+                    @Override
+                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                        ReceiveObject receiveObject = response.body();
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "sendGCMToken onResponse Success : " + receiveObject.isSuccess()
+                                            + ", Code : " + receiveObject.getCode()
+                                            + ", Msg : " + receiveObject.getMsg()
+                            );
+                    }
 
-            @Override
-            public void failure(RetrofitError error) {
-                if (BuildConfig.DEBUG)
-                    Log.d(TAG, "sendGCMToken onFailure Error...", error);
-            }
-        });
+                    @Override
+                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "onFailure Error : " + t.toString());
+                    }
+                });
     }
 
     private void closeSplash() {
@@ -318,7 +365,7 @@ public class SplashActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
-        }, 1500);
+        }, 1000);
     }
 
     private void getAppKeyHash() {

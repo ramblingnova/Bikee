@@ -15,16 +15,16 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
-import com.example.tacademy.bikee.etc.manager.FontManager;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.lister.ListerMainActivity;
 import com.example.tacademy.bikee.renter.RenterMainActivity;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Tacademy on 2015-11-02.
@@ -56,6 +56,8 @@ public class NoChoiceDialogFragment extends DialogFragment {
     private String bicycleId;
     private String reserveId;
     private String status;
+
+    private static final String TAG = "NO_CHOICE_DIALOG_FRAGMENT";
 
     public static NoChoiceDialogFragment newInstance(int param1) {
         NoChoiceDialogFragment fragment = new NoChoiceDialogFragment();
@@ -127,25 +129,32 @@ public class NoChoiceDialogFragment extends DialogFragment {
 //                    public static final int LISTER_MOVE_TO_LISTER_REQUESTED = 103;
         } else if ((getArguments().getInt(ARG_PARAM1, LISTER_APPROVE_RESERVATION) == LISTER_APPROVE_RESERVATION)
                 && (getArguments().getInt(ARG_PARAM2, LISTER_MOVE_TO_LISTER_REQUESTED) == LISTER_MOVE_TO_LISTER_REQUESTED)) {
-            NetworkManager.getInstance().reserveStatus(bicycleId, reserveId, status, new Callback<ReceiveObject>() {
-                @Override
-                public void success(ReceiveObject receiveObject, Response response) {
-                    Log.i("result", "RC onResponse Success");
-                    new Handler().postDelayed(new Runnable() {
+            NetworkManager.getInstance().reserveStatus(
+                    bicycleId,
+                    reserveId,
+                    status,
+                    null,
+                    new Callback<ReceiveObject>() {
                         @Override
-                        public void run() {
-                            intent = new Intent(getContext().getApplicationContext(), ListerMainActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
+                        public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                            ReceiveObject receiveObject = response.body();
+                            Log.i("result", "RC onResponse Success");
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    intent = new Intent(getContext().getApplicationContext(), ListerMainActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    startActivity(intent);
+                                }
+                            }, 1500);
                         }
-                    }, 1500);
-                }
 
-                @Override
-                public void failure(RetrofitError error) {
-                    Log.e("error", "onFailure Error : " + error.toString());
-                }
-            });
+                        @Override
+                        public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "onFailure Error : " + t.toString());
+                        }
+                    });
         } else if (getArguments().getInt(ARG_PARAM2, LISTER_MOVE_TO_LISTER_REQUESTED) == LISTER_MOVE_TO_LISTER_REQUESTED) {
             new Handler().postDelayed(new Runnable() {
                 @Override

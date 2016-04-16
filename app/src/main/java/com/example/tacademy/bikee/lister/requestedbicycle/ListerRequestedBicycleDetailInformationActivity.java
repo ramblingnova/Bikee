@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dialog.ChoiceDialogFragment;
 import com.example.tacademy.bikee.R;
@@ -22,9 +23,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ListerRequestedBicycleDetailInformationActivity extends AppCompatActivity implements View.OnClickListener {
     private ChoiceDialogFragment dialog1;
@@ -46,6 +47,8 @@ public class ListerRequestedBicycleDetailInformationActivity extends AppCompatAc
     private String status;
     private String bicycleId;
     private String reserveId;
+
+    private static final String TAG = "LISTER_R_B_D_I_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,17 +130,22 @@ public class ListerRequestedBicycleDetailInformationActivity extends AppCompatAc
     private void init() {
         intent = getIntent();
         bicycleId = intent.getStringExtra("ID");
-        NetworkManager.getInstance().selectBicycleDetail(bicycleId, new Callback<ReceiveObject>() {
-            @Override
-            public void success(ReceiveObject receiveObject, Response response) {
-                Log.i("result", "onResponse Success");
-            }
+        NetworkManager.getInstance().selectBicycleDetail(
+                bicycleId,
+                null,
+                new Callback<ReceiveObject>() {
+                    @Override
+                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                        ReceiveObject receiveObject = response.body();
+                        Log.i("result", "onResponse Success");
+                    }
 
-            @Override
-            public void failure(RetrofitError error) {
-                Log.e("error", "onFailure Error : " + error.toString());
-            }
-        });
+                    @Override
+                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "onFailure Error : " + t.toString());
+                    }
+                });
 
         status = intent.getStringExtra("STATUS");
         endDate = intent.getStringExtra("ENDDATE");

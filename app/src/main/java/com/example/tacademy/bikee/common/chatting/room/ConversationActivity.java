@@ -19,7 +19,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.etc.dao.ReceiveObject;
+import com.example.tacademy.bikee.etc.dao.SendBirdSendObject;
+import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.etc.utils.ImageUtil;
 import com.sendbird.android.MessageListQuery;
 import com.sendbird.android.SendBird;
@@ -43,6 +47,9 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ConversationActivity extends AppCompatActivity {
     @Bind(R.id.conversation_toolbar_target_user_name_text_view)
@@ -73,6 +80,8 @@ public class ConversationActivity extends AppCompatActivity {
     private String messageChannelURL;
     private MessagingChannel mMessagingChannel;
     private CountDownTimer mTimer;
+    String bicycleId;
+
 
     private static final String TAG = "CONVERSATION_ACTIVITY";
 
@@ -92,17 +101,12 @@ public class ConversationActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         targetUserName.setText(intent.getStringExtra("TARGET_USER_NAME"));
-        String appId = intent.getStringExtra("APP_ID");
-        String userId = intent.getStringExtra("USER_ID");
-        String myName = intent.getStringExtra("USER_NAME");
+        final String userId = intent.getStringExtra("USER_ID");
+        bicycleId = intent.getStringExtra("BICYCLE_ID");
         // TODO : SharedPreperence에서 찾아와야 한다.
-        String gcmRegToken = "f7x_1qavNuM:APA91bGB8RVUTMtxFbTehOYO-gr5JFUORJQZDLtzAsXoDD_o2ZBqHn_PhqAfzpJwSbY6SF6iY7_mfK4nrEERZsZbq5HuddaVqKPBA6OKBdjJrSTxjEJEyfIzLcJeNpPcgoo0f66cXwxY";
         messageChannelURL = intent.getStringExtra("messageChannelUrl");
 
         messageEditText.addTextChangedListener(tw);
-
-        SendBird.init(this, appId);
-        SendBird.login(SendBird.LoginOption.build(userId).setUserName(myName).setGCMRegToken(gcmRegToken));
 
         SendBird.registerNotificationHandler(new SendBirdNotificationHandler() {
             @Override
@@ -201,39 +205,70 @@ public class ConversationActivity extends AppCompatActivity {
 
             @Override
             public void onMessagingStarted(final MessagingChannel messagingChannel) {
+                // TODO : 채팅방 생성 알림
+                SendBirdSendObject sendBirdSendObject = new SendBirdSendObject();
+                sendBirdSendObject.setRenter(userId);
+                for (MessagingChannel.Member member : messagingChannel.getMembers())
+                    if (!member.getId().equals(userId)) {
+                        sendBirdSendObject.setLister(member.getId());
+                        break;
+                    }
+                sendBirdSendObject.setChannel_url(messagingChannel.getUrl());
+                sendBirdSendObject.setBike(bicycleId);
+
+                NetworkManager.getInstance().createChannel(
+                        sendBirdSendObject,
+                        null,
+                        new Callback<ReceiveObject>() {
+                            @Override
+                            public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                                ReceiveObject receiveObject = response.body();
+                                if (BuildConfig.DEBUG)
+                                    Log.d(TAG, "createChannel success");
+                            }
+
+                            @Override
+                            public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                                if (BuildConfig.DEBUG)
+                                    Log.d(TAG, "onFailure Error : " + t.toString());
+                            }
+                        });
+
                 updateReadStatus(messagingChannel);
                 SendBird.queryMessageList(messagingChannel.getUrl()).load(
                         Long.MAX_VALUE,
                         30,
                         10,
                         new MessageListQuery.MessageListQueryResult() {
-                    @Override
-                    public void onResult(List<MessageModel> messageModels) {
-                        Log.i(TAG, "onMessagingStarted onResult");
-                        for (MessageModel model : messageModels) {
+                            @Override
+                            public void onResult(List<MessageModel> messageModels) {
+                                Log.i(TAG, "onMessagingStarted onResult");
+                                for (MessageModel model : messageModels) {
 
-                            conversationAdapter.add(
-                                    new ConversationItem(
-                                            model,
-                                            new Date(model.getTimestamp()),
-                                            ((Message) model).getSenderId().equals(SendBird.getUserId()) ? ConversationAdapter.SEND : ConversationAdapter.RECEIVE
-                                    )
-                            );
-                        }
+                                    conversationAdapter.add(
+                                            new ConversationItem(
+                                                    model,
+                                                    new Date(model.getTimestamp()),
+                                                    ((Message) model).getSenderId().equals(SendBird.getUserId())
+                                                            ? ConversationAdapter.SEND
+                                                            : ConversationAdapter.RECEIVE
+                                            )
+                                    );
+                                }
 
-                        conversationAdapter.notifyDataSetChanged();
-                        recyclerView.scrollToPosition(conversationAdapter.getItemCount() - 1);
+                                conversationAdapter.notifyDataSetChanged();
+                                recyclerView.scrollToPosition(conversationAdapter.getItemCount() - 1);
 
-                        SendBird.markAsRead(messagingChannel.getUrl());
-                        SendBird.join(messagingChannel.getUrl());
-                        SendBird.connect(conversationAdapter.getMaxMessageTimestamp());
-                    }
+                                SendBird.markAsRead(messagingChannel.getUrl());
+                                SendBird.join(messagingChannel.getUrl());
+                                SendBird.connect(conversationAdapter.getMaxMessageTimestamp());
+                            }
 
-                    @Override
-                    public void onError(Exception e) {
+                            @Override
+                            public void onError(Exception e) {
 
-                    }
-                });
+                            }
+                        });
             }
 
             @Override
@@ -297,31 +332,31 @@ public class ConversationActivity extends AppCompatActivity {
                                 conversationAdapter.getMinMessageTimestamp(),
                                 30,
                                 new MessageListQuery.MessageListQueryResult() {
-                            @Override
-                            public void onResult(List<MessageModel> messageModels) {
-                                if (messageModels.size() <= 0) {
-                                    return;
-                                }
+                                    @Override
+                                    public void onResult(List<MessageModel> messageModels) {
+                                        if (messageModels.size() <= 0) {
+                                            return;
+                                        }
 
-                                int completeVisiblePosition = linearLayoutManager.findLastCompletelyVisibleItemPosition();
-                                for (MessageModel model : messageModels)
-                                    conversationAdapter.add(
-                                            new ConversationItem(
-                                                    model,
-                                                    new Date(model.getTimestamp()),
-                                                    ((Message) model).getSenderId().equals(SendBird.getUserId()) ? ConversationAdapter.SEND : ConversationAdapter.RECEIVE
-                                            )
-                                    );
-                                conversationAdapter.notifyDataSetChanged();
+                                        int completeVisiblePosition = linearLayoutManager.findLastCompletelyVisibleItemPosition();
+                                        for (MessageModel model : messageModels)
+                                            conversationAdapter.add(
+                                                    new ConversationItem(
+                                                            model,
+                                                            new Date(model.getTimestamp()),
+                                                            ((Message) model).getSenderId().equals(SendBird.getUserId()) ? ConversationAdapter.SEND : ConversationAdapter.RECEIVE
+                                                    )
+                                            );
+                                        conversationAdapter.notifyDataSetChanged();
 
-                                recyclerView.scrollToPosition(messageModels.size() - 1 + completeVisiblePosition + 1);
-                            }
+                                        recyclerView.scrollToPosition(messageModels.size() - 1 + completeVisiblePosition + 1);
+                                    }
 
-                            @Override
-                            public void onError(Exception e) {
+                                    @Override
+                                    public void onError(Exception e) {
 
-                            }
-                        });
+                                    }
+                                });
                     }
                 } else if (linearLayoutManager.findLastVisibleItemPosition() == conversationAdapter.getItemCount() - 1
                         && recyclerView.getChildCount() > 0) {
@@ -329,29 +364,29 @@ public class ConversationActivity extends AppCompatActivity {
                             conversationAdapter.getMaxMessageTimestamp(),
                             30,
                             new MessageListQuery.MessageListQueryResult() {
-                        @Override
-                        public void onResult(List<MessageModel> messageModels) {
-                            if (messageModels.size() <= 0) {
-                                return;
-                            }
+                                @Override
+                                public void onResult(List<MessageModel> messageModels) {
+                                    if (messageModels.size() <= 0) {
+                                        return;
+                                    }
 
-                            for (MessageModel model : messageModels)
-                                conversationAdapter.add(
-                                        new ConversationItem(
-                                                model,
-                                                new Date(model.getTimestamp()),
-                                                ((Message) model).getSenderId().equals(SendBird.getUserId()) ? ConversationAdapter.SEND : ConversationAdapter.RECEIVE
-                                        )
-                                );
-                            conversationAdapter.notifyDataSetChanged();
+                                    for (MessageModel model : messageModels)
+                                        conversationAdapter.add(
+                                                new ConversationItem(
+                                                        model,
+                                                        new Date(model.getTimestamp()),
+                                                        ((Message) model).getSenderId().equals(SendBird.getUserId()) ? ConversationAdapter.SEND : ConversationAdapter.RECEIVE
+                                                )
+                                        );
+                                    conversationAdapter.notifyDataSetChanged();
 
-                        }
+                                }
 
-                        @Override
-                        public void onError(Exception e) {
+                                @Override
+                                public void onError(Exception e) {
 
-                        }
-                    });
+                                }
+                            });
                 }
             }
         });

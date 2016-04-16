@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
 
 import com.example.tacademy.bikee.common.POI;
@@ -39,9 +40,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SearchResultMapFragment extends Fragment implements OnMapReadyCallback,
         GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMapClickListener,
@@ -56,6 +57,8 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     BicycleInfoWindowView bicycleInfoWindowView;
     private String userLatitude = null;
     private String userLongitude = null;
+
+    private static final String TAG = "SEARCH_R_M_ACTIVITY";
 
     public SearchResultMapFragment() {
     }
@@ -257,9 +260,13 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
         String lat = userLatitude;
         String lon = userLongitude;
         NetworkManager.getInstance().selectAllMapBicycle(
-                lon, lat, new Callback<ReceiveObject>() {
+                lon,
+                lat,
+                null,
+                new Callback<ReceiveObject>() {
                     @Override
-                    public void success(ReceiveObject receiveObject, Response response) {
+                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                        ReceiveObject receiveObject = response.body();
                         Log.i("result", "Map!! onResponse Code : " + receiveObject.getCode()
                                         + ", Success : " + receiveObject.isSuccess()
                                         + ", Msg : " + receiveObject.getMsg()
@@ -319,8 +326,9 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
                     }
 
                     @Override
-                    public void failure(RetrofitError error) {
-                        Log.e("error", "SearchResultFragment onFailure Error : " + error.toString());
+                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "onFailure Error : " + t.toString());
                     }
                 });
     }

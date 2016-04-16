@@ -28,9 +28,9 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnItemClick;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SearchResultListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener {
     // TODO : handle filter result, modify UI
@@ -130,10 +130,16 @@ public class SearchResultListFragment extends Fragment implements SwipeRefreshLa
 //        filter = "{\"start\":\"" + start + "\",\"end\":\"" + end + "\",\"type\":\"B\",\"height\":\"04\"" + "}";
         // TODO : last index -1 입력 해결 필요
         filter = null;
-                NetworkManager.getInstance().selectAllListBicycle(
-                lon, lat, "" + index, filter, new Callback<ReceiveObject>() {
+        NetworkManager.getInstance().selectAllListBicycle(
+                lon,
+                lat,
+                "" + index,
+                filter,
+                null,
+                new Callback<ReceiveObject>() {
                     @Override
-                    public void success(ReceiveObject receiveObject, Response response) {
+                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                        ReceiveObject receiveObject = response.body();
                         if (BuildConfig.DEBUG)
                             Log.d(TAG, "onResponse Index : " + receiveObject.getLastindex()
                                             + ", Code : " + receiveObject.getCode()
@@ -184,9 +190,9 @@ public class SearchResultListFragment extends Fragment implements SwipeRefreshLa
                     }
 
                     @Override
-                    public void failure(RetrofitError error) {
+                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
                         if (BuildConfig.DEBUG)
-                            Log.d(TAG, "onFailure Error : " + error.toString());
+                            Log.d(TAG, "onFailure Error : " + t.toString());
                     }
                 });
     }

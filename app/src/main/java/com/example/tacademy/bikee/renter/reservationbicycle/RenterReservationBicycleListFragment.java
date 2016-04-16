@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject1;
 import com.example.tacademy.bikee.etc.dao.Reserve1;
@@ -19,15 +20,17 @@ import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RenterReservationBicycleListFragment extends Fragment implements AdapterView.OnItemClickListener {
     // TODO : need scenario
     private Intent intent;
     private ListView lv;
     private RenterReservationBicycleAdapter adapter;
+
+    private static final String TAG = "RENTER_R_B_L_FRAGMENT";
 
     public RenterReservationBicycleListFragment() {
     }
@@ -60,9 +63,12 @@ public class RenterReservationBicycleListFragment extends Fragment implements Ad
     }
 
     private void init() {
-        NetworkManager.getInstance().selectReservationBicycle(new Callback<ReceiveObject1>() {
+        NetworkManager.getInstance().selectReservationBicycle(
+                null,
+                new Callback<ReceiveObject1>() {
             @Override
-            public void success(ReceiveObject1 receiveObject, Response response) {
+            public void onResponse(Call<ReceiveObject1> call, Response<ReceiveObject1> response) {
+                ReceiveObject1 receiveObject = response.body();
                 Log.i("result", "onResponse Success");
                 List<Result1> results = receiveObject.getResult();
                 for (Result1 result : results)
@@ -89,9 +95,11 @@ public class RenterReservationBicycleListFragment extends Fragment implements Ad
                     }
             }
 
+
             @Override
-            public void failure(RetrofitError error) {
-                Log.e("error", "onFailure Error : " + error.toString());
+            public void onFailure(Call<ReceiveObject1> call, Throwable t) {
+                if (BuildConfig.DEBUG)
+                    Log.d(TAG, "onFailure Error : " + t.toString());
             }
         });
     }
