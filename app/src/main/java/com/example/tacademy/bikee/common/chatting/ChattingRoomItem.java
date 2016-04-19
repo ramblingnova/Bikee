@@ -23,6 +23,10 @@ public class ChattingRoomItem {
     @Setter(AccessLevel.PUBLIC)
     String bicycleId;
 
+    public ChattingRoomItem() {
+
+    }
+
     public ChattingRoomItem(
             MessagingChannel messagingChannel,
             String reservationState,

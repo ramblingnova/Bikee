@@ -22,9 +22,6 @@ import android.widget.TextView;
 
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.common.chatting.ChattingRoomsFragment;
-import com.example.tacademy.bikee.etc.SendBirdHelper;
-import com.example.tacademy.bikee.etc.dao.ReceiveObject;
-import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.etc.utils.ImageUtil;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.example.tacademy.bikee.lister.ListerMainActivity;
@@ -37,8 +34,6 @@ import com.example.tacademy.bikee.common.sidemenu.AuthenticationInformationActiv
 import com.example.tacademy.bikee.renter.sidemenu.cardmanagement.CardManagementActivity;
 import com.example.tacademy.bikee.renter.sidemenu.evaluatingbicycle.EvaluatingBicyclePostScriptListActivity;
 import com.example.tacademy.bikee.common.sidemenu.InputInquiryActivity;
-import com.sendbird.android.SendBird;
-import com.sendbird.android.UserListQuery;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
 import butterknife.Bind;
@@ -47,21 +42,23 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 public class RenterMainActivity extends AppCompatActivity implements DrawerLayout.DrawerListener, TabHost.OnTabChangeListener {
-    // TODO : get filter result and send to filter result, handle shadow
-    private Toolbar toolbar;
-    private DrawerLayout drawer;
-    private ActionBarDrawerToggle toggle;
-    private FragmentTabHost tabHost;
-    private ImageView btt_iv1, btt_iv2, btt_iv3, btt_iv4;
     @Bind(R.id.renter_side_menu_renter_image_image_view)
     ImageView renterImage;
     @Bind(R.id.renter_side_menu_member_name_text_view)
     TextView nameTextView;
     @Bind(R.id.renter_side_menu_mail_address_text_view)
     TextView emailTextView;
-    private Intent intent;
+    @Bind(R.id.renter_side_menu_push_alarm_switch)
+    CheckBox push;
 
-    final public static String from = "RENTER";
+    private Intent intent;
+    private Toolbar toolbar;
+    private DrawerLayout drawer;
+    private ActionBarDrawerToggle toggle;
+    private FragmentTabHost tabHost;
+    private ImageView btt_iv1, btt_iv2, btt_iv3, btt_iv4;
+
+    public static final String from = "RENTER";
     private static final String TAG = "RENTER_MAIN_ACTIVITY";
 
     @Override
@@ -96,9 +93,12 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
         initProfile();
     }
 
-    @OnClick(R.id.renter_main_tool_bar_hamburger_icon_layout)
-    void clickHamburgerIcon() {
-        drawer.openDrawer(Gravity.LEFT);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == SignInActivity.SIGN_IN_ACTIVITY) {
+            initProfile();
+        }
     }
 
     @Override
@@ -123,39 +123,31 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
 
     }
 
-    private void initProfile() {
-        switch (PropertyManager.getInstance().getSignInState()) {
-            case PropertyManager.SIGN_IN_FACEBOOK_STATE:
-            case PropertyManager.SIGN_IN_LOCAL_STATE:
-                if (BuildConfig.DEBUG)
-                    Log.d(TAG, PropertyManager.getInstance().getImage());
-                ImageUtil.setCircleImageFromURL(
-                        this,
-                        PropertyManager.getInstance().getImage(),
-                        R.drawable.noneimage,
-                        0,
-                        renterImage
-                );
-                nameTextView.setText(PropertyManager.getInstance().getName());
-                emailTextView.setText(PropertyManager.getInstance().getEmail());
+    @Override
+    public void onTabChanged(String tabId) {
+        btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon1));
+        btt_iv2.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon2));
+        btt_iv3.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon3));
+        btt_iv4.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon4));
+        switch (tabId) {
+            case "tab1":
+                btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon1_in));
                 break;
-            case PropertyManager.SIGN_OUT_STATE:
-                ImageUtil.setCircleImageFromURL(
-                        this,
-                        "https://s3-ap-northeast-1.amazonaws.com/bikee/KakaoTalk_20151128_194521490.png",
-                        R.drawable.noneimage,
-                        0,
-                        renterImage
-                );
-                nameTextView.setText(R.string.renter_side_menu_member_name_text_view_string);
-                emailTextView.setText(R.string.renter_side_menu_mail_address_text_view_string);
+            case "tab2":
+                btt_iv2.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon2_in));
+                break;
+            case "tab3":
+                btt_iv3.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon3_in));
+                break;
+            case "tab4":
+                btt_iv4.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon4_in));
                 break;
         }
+    }
 
-        if (PropertyManager.getInstance().isPushEnable())
-            push.setChecked(true);
-        else
-            push.setChecked(false);
+    @OnClick(R.id.renter_main_tool_bar_hamburger_icon_layout)
+    void clickHamburgerIcon() {
+        drawer.openDrawer(Gravity.LEFT);
     }
 
     @OnClick({R.id.renter_side_menu_renter_image_image_view,
@@ -208,6 +200,18 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
         }
     }
 
+    @OnCheckedChanged(R.id.renter_side_menu_push_alarm_switch)
+    void pushAlramCheckedChange(CompoundButton buttonView, boolean isChecked) {
+        switch (buttonView.getId()) {
+            case R.id.renter_side_menu_push_alarm_switch:
+                if (isChecked)
+                    PropertyManager.getInstance().setPushEnable(true);
+                else
+                    PropertyManager.getInstance().setPushEnable(false);
+                break;
+        }
+    }
+
     private void setBottomTabImage() {
         btt_iv1 = new ImageView(this);
         btt_iv2 = new ImageView(this);
@@ -229,41 +233,39 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
         }
     }
 
-    @Override
-    public void onTabChanged(String tabId) {
-        btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon1));
-        btt_iv2.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon2));
-        btt_iv3.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon3));
-        btt_iv4.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon4));
-        switch (tabId) {
-            case "tab1":
-                btt_iv1.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon1_in));
+    private void initProfile() {
+        switch (PropertyManager.getInstance().getSignInState()) {
+            case PropertyManager.SIGN_IN_FACEBOOK_STATE:
+            case PropertyManager.SIGN_IN_LOCAL_STATE:
+                if (BuildConfig.DEBUG)
+                    Log.d(TAG, PropertyManager.getInstance().getImage());
+                ImageUtil.setCircleImageFromURL(
+                        this,
+                        PropertyManager.getInstance().getImage(),
+                        R.drawable.noneimage,
+                        0,
+                        renterImage
+                );
+                nameTextView.setText(PropertyManager.getInstance().getName());
+                emailTextView.setText(PropertyManager.getInstance().getEmail());
                 break;
-            case "tab2":
-                btt_iv2.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon2_in));
-                break;
-            case "tab3":
-                btt_iv3.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon3_in));
-                break;
-            case "tab4":
-                btt_iv4.setImageDrawable(getResources().getDrawable(R.drawable.rider_main_menu_icon4_in));
-                break;
-        }
-    }
-
-    @Bind(R.id.renter_side_menu_push_alarm_switch)
-    CheckBox push;
-
-    @OnCheckedChanged(R.id.renter_side_menu_push_alarm_switch)
-    void pushAlramCheckedChange(CompoundButton buttonView, boolean isChecked) {
-        switch (buttonView.getId()) {
-            case R.id.renter_side_menu_push_alarm_switch:
-                if (isChecked)
-                    PropertyManager.getInstance().setPushEnable(true);
-                else
-                    PropertyManager.getInstance().setPushEnable(false);
+            case PropertyManager.SIGN_OUT_STATE:
+                ImageUtil.setCircleImageFromURL(
+                        this,
+                        "https://s3-ap-northeast-1.amazonaws.com/bikee/KakaoTalk_20151128_194521490.png",
+                        R.drawable.noneimage,
+                        0,
+                        renterImage
+                );
+                nameTextView.setText(R.string.renter_side_menu_member_name_text_view_string);
+                emailTextView.setText(R.string.renter_side_menu_mail_address_text_view_string);
                 break;
         }
+
+        if (PropertyManager.getInstance().isPushEnable())
+            push.setChecked(true);
+        else
+            push.setChecked(false);
     }
 
     @Override
@@ -273,14 +275,6 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == SignInActivity.SIGN_IN_ACTIVITY) {
-            initProfile();
         }
     }
 

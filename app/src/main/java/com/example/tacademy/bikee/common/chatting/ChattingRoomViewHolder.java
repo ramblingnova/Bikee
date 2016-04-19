@@ -60,7 +60,7 @@ public class ChattingRoomViewHolder extends RecyclerView.ViewHolder {
         );
 
         switch (item.getReservationState()) {
-            // TODO : 예약 상태에 따라 아이콘이 변화해야 함
+            // TODO : 예약 상태에 따라 아이콘이 바뀜
             case "RR":
                 reservationState.setVisibility(View.VISIBLE);
                 reservationState.setImageResource(R.drawable.chatting_icon_step1);

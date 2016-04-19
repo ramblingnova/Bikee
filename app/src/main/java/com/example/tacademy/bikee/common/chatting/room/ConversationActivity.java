@@ -1,5 +1,6 @@
 package com.example.tacademy.bikee.common.chatting.room;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ import com.sendbird.android.model.MessagingChannel;
 import com.sendbird.android.model.ReadStatus;
 import com.sendbird.android.model.SystemMessage;
 import com.sendbird.android.model.TypeStatus;
+import com.tsengvn.typekit.TypekitContextWrapper;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -622,5 +624,10 @@ public class ConversationActivity extends AppCompatActivity {
 
         conversationAdapter.resetReadStatusTable(readStatus);
         conversationAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 }

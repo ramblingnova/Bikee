@@ -73,8 +73,9 @@ public class NetworkManager {
     public interface ServerUrl {
 //        String baseUrl = "http://bikee.kr.pe";
 //        String baseUrl = "http://192.168.0.14:3000";
-        String baseUrl = "http://1.255.51.120";
+//        String baseUrl = "http://1.255.51.120";
 //        String baseUrl = "http://192.168.0.8:3000";
+        String baseUrl = "https://bi-kee.xyz";
 
         // 회원 정보 조회하기
         @GET("/users/{userId}")

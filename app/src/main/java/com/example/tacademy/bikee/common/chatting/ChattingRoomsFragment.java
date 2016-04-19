@@ -26,6 +26,7 @@ import com.sendbird.android.SendBirdNotificationHandler;
 import com.sendbird.android.model.Mention;
 import com.sendbird.android.model.MessagingChannel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -211,6 +212,7 @@ public class ChattingRoomsFragment extends Fragment implements OnChattingRoomAda
                             GetChannelInfoReceiveObject getChannelInfoReceiveObject = response.body();
 
                             SendBirdSendObject sendBirdSendObject = new SendBirdSendObject();
+                            // TODO : 없는 경우는 어떤 경우인가?
                             sendBirdSendObject.setRenter(getChannelInfoReceiveObject.getResult().get(0).getRenter());
                             sendBirdSendObject.setLister(getChannelInfoReceiveObject.getResult().get(0).getLister());
                             sendBirdSendObject.setBike(getChannelInfoReceiveObject.getResult().get(0).getBike());
