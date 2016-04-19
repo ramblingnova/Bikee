@@ -69,6 +69,7 @@
                 android:layout_alignStart="@id/activity_conversation_bicycle_name_text_view"
                 android:layout_below="@id/activity_conversation_bicycle_name_text_view"
                 android:layout_marginTop="19dp"
+                android:visibility="invisible"
                 android:src="@drawable/icon_time" />
 
             <TextView

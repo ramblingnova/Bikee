@@ -196,7 +196,7 @@ public class SearchResultFragment extends Fragment implements SearchSwitchView.O
             case FilterActivity.RESULT_OK:
                 b = true;
                 break;
-            case FilterActivity.RESULT_CANCEL:
+            case FilterActivity.RESULT_CANCELED:
                 break;
         }
         if (requestCode == REQUEST_RESOLVE_ERROR) {

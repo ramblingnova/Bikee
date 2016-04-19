@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -36,6 +37,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.sendbird.android.MessagingChannelListQuery;
+import com.sendbird.android.SendBird;
+import com.sendbird.android.model.MessagingChannel;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
 import java.text.SimpleDateFormat;
@@ -61,6 +65,7 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
     private double latitude;
     private double longitude;
     private int price;
+    private String listerId;
     @Bind(R.id.bicycle_picture_lister_information_bicycle_picture_image_view)
     ImageView bicyclePicture;
     @Bind(R.id.lister_information_lister_picture_image_view)
@@ -95,6 +100,13 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
     RatingBar postscriptPoint;
     @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_post_script_layout)
     View postScriptView;
+    @Bind(R.id.lister_information_chat_with_lister_button)
+    Button chatting;
+    private MessagingChannelListQuery mMessagingChannelListQuery;
+    private boolean hasMyId;
+    private boolean hasTargetId;
+    private boolean hasMyIdTargetId;
+    private String messageChannelURL;
 
     private static final String TAG = "FILTERED_B_D_I_ACTIVITY";
 
@@ -115,6 +127,17 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
                 .findFragmentById(R.id.activity_filtered_bicycle_detail_information_small_map);
         mapFragment.getMapAsync(this);
         init();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(mMessagingChannelListQuery != null) {
+            mMessagingChannelListQuery.cancel();
+            mMessagingChannelListQuery = null;
+        }
+
+        SendBird.disconnect();
     }
 
     @Override
@@ -154,7 +177,7 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
             R.id.lister_information_chat_with_lister_button,
             R.id.bicycle_detail_information_bicycle_postscript_button,
             R.id.activity_filtered_bicycle_detail_information_button})
-    void back(View view) {
+    void onClick(View view) {
         switch (view.getId()) {
             case R.id.renter_backable_tool_bar_back_button_layout:
                 super.onBackPressed();
@@ -165,15 +188,57 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
                 break;
             case R.id.lister_information_chat_with_lister_button:
                 // TODO : chatting start
-                intent = new Intent(this, ConversationActivity.class);
-                intent.putExtra("TARGET_USER_NAME", "Tester3");
-                intent.putExtra("TARGET_USER_ID", listerEmail);
-                intent.putExtra("APP_ID", "2E377FE1-E1AD-4484-A66F-696AF1306F58");
-                intent.putExtra("USER_ID", PropertyManager.getInstance().getEmail());
-                intent.putExtra("USER_NAME", PropertyManager.getInstance().getName());
-                intent.putExtra("BICYCLE_ID", bicycleId);
-                intent.putExtra("START", true);
-                startActivity(intent);
+
+                if (mMessagingChannelListQuery == null) {
+                    mMessagingChannelListQuery = SendBird.queryMessagingChannelList();
+                    mMessagingChannelListQuery.setLimit(30);
+                }
+                mMessagingChannelListQuery.next(new MessagingChannelListQuery.MessagingChannelListQueryResult() {
+                    @Override
+                    public void onResult(List<MessagingChannel> list) {
+                        for (MessagingChannel messagingChannel : list) {
+                            hasMyId = false;
+                            hasTargetId = false;
+                            hasMyIdTargetId = false;
+                            for (MessagingChannel.Member member : messagingChannel.getMembers()) {
+                                if (member.getId().equals(PropertyManager.getInstance().get_id()))
+                                    hasMyId = true;
+                                else if (member.getId().equals(listerId))
+                                    hasTargetId = true;
+                                if (hasMyId && hasTargetId) {
+                                    hasMyIdTargetId = true;
+                                    messageChannelURL = messagingChannel.getUrl();
+                                    break;
+                                }
+                            }
+                        }
+
+                        SendBird.join("");
+                        SendBird.connect();
+
+                        intent = new Intent(FilteredBicycleDetailInformationActivity.this, ConversationActivity.class);
+                        intent.putExtra("TARGET_USER_NAME", listerName.getText().toString());
+                        intent.putExtra("TARGET_USER_ID", listerId);
+                        intent.putExtra("APP_ID", "2E377FE1-E1AD-4484-A66F-696AF1306F58");
+                        intent.putExtra("USER_ID", PropertyManager.getInstance().get_id());
+                        intent.putExtra("USER_NAME", PropertyManager.getInstance().getName());
+                        intent.putExtra("BICYCLE_ID", bicycleId);
+                        if (hasMyIdTargetId) {
+                            // join chat using channelUrl
+                            intent.putExtra("CHANNEL_URL", messageChannelURL);
+                            intent.putExtra("JOIN", true);
+                        } else {
+                            // start chat using targetId
+                            intent.putExtra("START", true);
+                        }
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onError(int i) {
+
+                    }
+                });
                 break;
             case R.id.bicycle_detail_information_bicycle_postscript_button:
                 intent = new Intent(FilteredBicycleDetailInformationActivity.this, BicyclePostScriptListActivity.class);
@@ -230,6 +295,9 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
                                 0,
                                 listerPicture
                         );
+                        listerId = result.getUser().get_id();
+                        if (listerId == PropertyManager.getInstance().get_id())
+                            chatting.setVisibility(View.GONE);
                         listerEmail = result.getUser().getEmail();
                         listerName.setText(result.getUser().getName());
                         listerPhone = result.getUser().getPhone();

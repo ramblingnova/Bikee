@@ -87,12 +87,6 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
         tabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
         tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator(btt_iv1), SearchResultFragment.class, null);
         tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator(btt_iv2), RenterReservationBicycleListFragment.class, null);
-
-//                final String appId = "2E377FE1-E1AD-4484-A66F-696AF1306F58";
-//                String userId = SendBirdHelper.generateDeviceUUID(RenterMainActivity.this);
-//                String userName = "User-" + "20B5A";
-//                String gcmRegToken = "f7x_1qavNuM:APA91bGB8RVUTMtxFbTehOYO-gr5JFUORJQZDLtzAsXoDD_o2ZBqHn_PhqAfzpJwSbY6SF6iY7_mfK4nrEERZsZbq5HuddaVqKPBA6OKBdjJrSTxjEJEyfIzLcJeNpPcgoo0f66cXwxY";
-
         tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator(btt_iv3), ChattingRoomsFragment.class, null);
         tabHost.addTab(tabHost.newTabSpec("tab4").setIndicator(btt_iv4), SmartKeyFragment.class, null);
         tabHost.setOnTabChangedListener(this);

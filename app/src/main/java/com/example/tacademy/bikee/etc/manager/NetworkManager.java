@@ -3,12 +3,13 @@ package com.example.tacademy.bikee.etc.manager;
 import com.example.tacademy.bikee.etc.dao.Bike;
 import com.example.tacademy.bikee.etc.dao.Comment;
 import com.example.tacademy.bikee.etc.dao.Facebook;
+import com.example.tacademy.bikee.etc.dao.GetChannelResInfoReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Inquires;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject1;
 import com.example.tacademy.bikee.etc.dao.Reserve;
 import com.example.tacademy.bikee.etc.dao.SendBirdSendObject;
-import com.example.tacademy.bikee.etc.dao.SendbirdReceiveObject;
+import com.example.tacademy.bikee.etc.dao.GetChannelInfoReceiveObject;
 import com.example.tacademy.bikee.etc.dao.User;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -70,9 +71,10 @@ public class NetworkManager {
     }
 
     public interface ServerUrl {
-        //        String baseUrl = "http://bikee.kr.pe";
+//        String baseUrl = "http://bikee.kr.pe";
 //        String baseUrl = "http://192.168.0.14:3000";
-        String baseUrl = "http://1.255.51.120:3000";
+        String baseUrl = "http://1.255.51.120";
+//        String baseUrl = "http://192.168.0.8:3000";
 
         // 회원 정보 조회하기
         @GET("/users/{userId}")
@@ -131,13 +133,13 @@ public class NetworkManager {
         @POST("/users/facebook/check/{id}")
         Call<ReceiveObject> isSignedInFacebook(@Path("id") String id);
 
-        // 채팅방 정보 가져오기
+        // 채팅방 목록 정보 가져오기
         @GET("/sendbird/{channel_url}")
-        Call<SendbirdReceiveObject> getChannelInfo(@Path("channel_url") String channelUrl);
+        Call<GetChannelInfoReceiveObject> getChannelInfo(@Path("channel_url") String channelUrl);
 
         // 채팅방 예약 정보 조회
-        @POST("/reserves/channel")
-        Call<ReceiveObject> getChannelResInfo(@Body SendBirdSendObject sendBirdSendObject);
+        @POST("/sendbird/reserves")
+        Call<GetChannelResInfoReceiveObject> getChannelResInfo(@Body SendBirdSendObject sendBirdSendObject);
 
         // 채팅방 등록
         @POST("/sendbird")
@@ -408,21 +410,21 @@ public class NetworkManager {
         call.enqueue(callback);
     }
 
-    // 채팅방 정보 가져오기
+    // 채팅방 목록 정보 가져오기
     public void getChannelInfo(String channelUrl,
                                Stack<Call> callStack,
-                               Callback<SendbirdReceiveObject> callback) {
-        Call<SendbirdReceiveObject> call = serverUrl.getChannelInfo(channelUrl);
+                               Callback<GetChannelInfoReceiveObject> callback) {
+        Call<GetChannelInfoReceiveObject> call = serverUrl.getChannelInfo(channelUrl);
         if (callStack != null)
             callStack.push(call);
         call.enqueue(callback);
     }
 
-    // 채팅방 정보 보내기
+    // 채팅방 예약 정보 조회
     public void getChannelResInfo(SendBirdSendObject sendBirdSendObject,
                                   Stack<Call> callStack,
-                                  Callback<ReceiveObject> callback) {
-        Call<ReceiveObject> call = serverUrl.getChannelResInfo(sendBirdSendObject);
+                                  Callback<GetChannelResInfoReceiveObject> callback) {
+        Call<GetChannelResInfoReceiveObject> call = serverUrl.getChannelResInfo(sendBirdSendObject);
         if (callStack != null)
             callStack.push(call);
         call.enqueue(callback);

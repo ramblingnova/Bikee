@@ -502,8 +502,7 @@ public class SignInActivity extends AppCompatActivity {
 
     private void getRegistrationID() {
         String storedToken = PropertyManager.getInstance().getGCMToken();
-        if (!storedToken.equals(""))
-            registrationID = storedToken;
+        registrationID = storedToken;
     }
 
     private void saveRegistrationID() {
@@ -521,6 +520,7 @@ public class SignInActivity extends AppCompatActivity {
                 if (registrationID != token) {
                     registrationID = token;
                     saveRegistrationID();
+                    sendGCMToken();
                 }
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "GCM Token : " + token);
@@ -541,7 +541,7 @@ public class SignInActivity extends AppCompatActivity {
         if (BuildConfig.DEBUG)
             Log.d(TAG, "deviceID : " + deviceID
                             + "\nregistrationID(GCM Token) : " + registrationID
-                            + "\ndeviceOS : " + deviceID
+                            + "\ndeviceOS : " + deviceOS
             );
         NetworkManager.getInstance().sendGCMToken(
                 deviceID,

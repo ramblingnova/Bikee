@@ -3,12 +3,15 @@ package com.example.tacademy.bikee.etc.utils;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.etc.dao.Comment;
+import com.example.tacademy.bikee.etc.dao.GetChannelResInfoReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Result;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,6 +30,19 @@ public class RefinementUtil {
             return "";
         } else {
             return result.getImage().getCdnUri() + "/detail_" + result.getImage().getFiles().get(0);
+        }
+    }
+
+    public static String getBicycleImageURLStringFromSendBirdResult(GetChannelResInfoReceiveObject.SendBirdResult result) {
+        if ((null == result.getBike().getImage())
+                || (null == result.getBike().getImage().getCdnUri())
+                || (null == result.getBike().getImage().getFiles())
+                || (0 >= result.getBike().getImage().getFiles().size())) {
+            return "";
+        } else {
+            return result.getBike().getImage().getCdnUri()
+                    + "/detail_"
+                    + result.getBike().getImage().getFiles().get(0);
         }
     }
 
@@ -159,22 +175,23 @@ public class RefinementUtil {
     }
 
 
-    public static String findGeoPoint(Context context, String address) {
+    public static LatLng findGeoPoint(Context context, String address) {
         Geocoder geocoder = new Geocoder(context, Locale.KOREA);
         Address addr;
-        String location = null;
+        LatLng latLng = null;
         try {
             List<Address> listAddress = geocoder.getFromLocationName(address, 1);
             if (listAddress.size() > 0) { // 주소값이 존재 하면
                 addr = listAddress.get(0); // Address형태로
                 int lat = (int) (addr.getLatitude() * 1E6);
                 int lng = (int) (addr.getLongitude() * 1E6);
-                location = lat + ", " + lng;
+                latLng = new LatLng(lat, lng);
             }
         } catch (IOException e) {
             Toast.makeText(context, "좌표변환 실패", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
-        return location;
+        return latLng;
+
     }
 }

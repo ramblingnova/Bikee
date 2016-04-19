@@ -14,8 +14,10 @@ import android.view.ViewGroup;
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.chatting.room.ConversationActivity;
+import com.example.tacademy.bikee.etc.dao.GetChannelResInfoReceiveObject;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.SendBirdSendObject;
+import com.example.tacademy.bikee.etc.dao.GetChannelInfoReceiveObject;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.sendbird.android.MessagingChannelListQuery;
@@ -39,31 +41,15 @@ public class ChattingRoomsFragment extends Fragment implements OnChattingRoomAda
     @Bind(R.id.fragment_chatting_rooms_recycler_view)
     RecyclerView recyclerView;
 
-    private LinearLayoutManager linearLayoutManager;
     private MessagingChannelListQuery mMessagingChannelListQuery;
+    private LinearLayoutManager linearLayoutManager;
     private ChattingRoomAdapter chattingRoomAdapter;
     private String appId;
     private String userId;
     private String userName;
+    private String gcmRegToken;
 
     private static final String TAG = "CHATTING_ROOMS_FRAGMENT";
-
-    public static ChattingRoomsFragment newInstance(String appId, String userId, String userName, String gcmRegToken) {
-        ChattingRoomsFragment chattingRoomsFragment = new ChattingRoomsFragment();
-        Bundle args = new Bundle();
-        args.putString("APP_ID", appId);
-        args.putString("USER_ID", userId);
-        args.putString("USER_NAME", userName);
-        args.putString("GCM_TOKEN", gcmRegToken);
-        chattingRoomsFragment.setArguments(args);
-
-        return chattingRoomsFragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Nullable
     @Override
@@ -71,10 +57,6 @@ public class ChattingRoomsFragment extends Fragment implements OnChattingRoomAda
         View view = inflater.inflate(R.layout.fragment_chatting_rooms, container, false);
 
         ButterKnife.bind(this, view);
-
-        appId = "2E377FE1-E1AD-4484-A66F-696AF1306F58";
-        userId = PropertyManager.getInstance().get_id();
-        userName = PropertyManager.getInstance().getName();
 
         linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -92,14 +74,12 @@ public class ChattingRoomsFragment extends Fragment implements OnChattingRoomAda
         return view;
     }
 
-    String gcmRegToken;
-
     @Override
     public void onResume() {
         super.onResume();
 
         if (PropertyManager.getInstance().getSignInState() != PropertyManager.SIGN_OUT_STATE) {
-            // TODO : SENDBIRD
+            appId = "2E377FE1-E1AD-4484-A66F-696AF1306F58";
             userId = PropertyManager.getInstance().get_id();
             userName = PropertyManager.getInstance().getName();
             gcmRegToken = PropertyManager.getInstance().getGCMToken();
@@ -119,8 +99,6 @@ public class ChattingRoomsFragment extends Fragment implements OnChattingRoomAda
                 }
             });
 
-            recyclerView.addOnScrollListener(onScrollListener);
-
             if (mMessagingChannelListQuery == null) {
                 mMessagingChannelListQuery = SendBird.queryMessagingChannelList();
                 mMessagingChannelListQuery.setLimit(30);
@@ -131,56 +109,7 @@ public class ChattingRoomsFragment extends Fragment implements OnChattingRoomAda
                 public void onResult(List<MessagingChannel> list) {
                     chattingRoomAdapter.clear();
 
-                    String reservationState = null;
-                    int i = 0;
-
-                    for (MessagingChannel messagingChannel : list) {
-                        // TODO : 채팅방 예약 정보 들고오기
-                        SendBirdSendObject sendBirdSendObject = new SendBirdSendObject();
-                        sendBirdSendObject.setRenter(userId);
-                        for (MessagingChannel.Member member : messagingChannel.getMembers())
-                            if (!member.getId().equals(userId))
-                                sendBirdSendObject.setLister(member.getId());
-                        sendBirdSendObject.setChannel_url(messagingChannel.getUrl());
-                        NetworkManager.getInstance().getChannelResInfo(
-                                sendBirdSendObject,
-                                null,
-                                new Callback<ReceiveObject>() {
-                                    @Override
-                                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
-                                        ReceiveObject receiveObject = response.body();
-                                        if (BuildConfig.DEBUG)
-                                            Log.d(TAG, "createChannel success");
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
-                                        if (BuildConfig.DEBUG)
-                                            Log.d(TAG, "onFailure Error : " + t.toString());
-                                    }
-                                });
-                        if (BuildConfig.DEBUG)
-                            Log.d(TAG, "channelUrl : " + messagingChannel.getUrl());
-                        switch (++i % 3) {
-                            case 0:
-                                reservationState = "RR";
-                                break;
-                            case 1:
-                                reservationState = "RS";
-                                break;
-                            case 2:
-                                reservationState = "RC";
-                                break;
-                        }
-
-                        chattingRoomAdapter.add(
-                                new ChattingRoomItem(
-                                        messagingChannel,
-                                        reservationState,
-                                        "Bicycle Name" + i
-                                )
-                        );
-                    }
+                    addItemsToAdapter(list);
 
                     SendBird.join("");
                     SendBird.connect();
@@ -191,12 +120,16 @@ public class ChattingRoomsFragment extends Fragment implements OnChattingRoomAda
 
                 }
             });
+
+            recyclerView.addOnScrollListener(onScrollListener);
         } else {
             if (mMessagingChannelListQuery != null) {
                 mMessagingChannelListQuery.cancel();
                 mMessagingChannelListQuery = null;
             }
+
             chattingRoomAdapter.clear();
+
             recyclerView.removeOnScrollListener(onScrollListener);
         }
     }
@@ -210,8 +143,7 @@ public class ChattingRoomsFragment extends Fragment implements OnChattingRoomAda
                 mMessagingChannelListQuery.cancel();
                 mMessagingChannelListQuery = null;
             }
-            if (BuildConfig.DEBUG)
-                Log.d(TAG, "CANCEL DISCONNECT");
+
             SendBird.cancelAll();
             SendBird.disconnect();
         }
@@ -220,16 +152,18 @@ public class ChattingRoomsFragment extends Fragment implements OnChattingRoomAda
     @Override
     public void onChattingRoomAdapterClick(View view, ChattingRoomItem item, int position) {
         Intent intent = new Intent(getActivity(), ConversationActivity.class);
-        intent.putExtra("messageChannelUrl", item.getMessagingChannel().getUrl());
         intent.putExtra("APP_ID", appId);
         intent.putExtra("USER_ID", userId);
         intent.putExtra("USER_NAME", userName);
         for (MessagingChannel.Member member : item.getMessagingChannel().getMembers())
             if (!member.getId().equals(SendBird.getUserId())) {
+                intent.putExtra("TARGET_USER_ID", member.getId());
                 intent.putExtra("TARGET_USER_NAME", member.getName());
                 break;
             }
-        intent.putExtra("bicycleName", item.getBicycleName());
+        intent.putExtra("BICYCLE_ID", item.getBicycleId());
+        intent.putExtra("BICYCLE_NAME", item.getBicycleName());
+        intent.putExtra("CHANNEL_URL", item.getMessagingChannel().getUrl());
         intent.putExtra("JOIN", true);
         startActivity(intent);
     }
@@ -246,35 +180,14 @@ public class ChattingRoomsFragment extends Fragment implements OnChattingRoomAda
                         && mMessagingChannelListQuery.hasNext()) {
                     mMessagingChannelListQuery.next(new MessagingChannelListQuery.MessagingChannelListQueryResult() {
                         @Override
-                        public void onResult(List<MessagingChannel> messagingChannels) {
-                            String reservationState = null;
-                            int i = 0;
-
-                            for (MessagingChannel messagingChannel : messagingChannels) {
-                                switch (++i % 3) {
-                                    case 0:
-                                        reservationState = "RR";
-                                        break;
-                                    case 1:
-                                        reservationState = "RS";
-                                        break;
-                                    case 2:
-                                        reservationState = "RC";
-                                        break;
-                                }
-
-                                chattingRoomAdapter.add(
-                                        new ChattingRoomItem(
-                                                messagingChannel,
-                                                reservationState,
-                                                "Bicycle Name" + i
-                                        )
-                                );
-                            }
+                        public void onResult(List<MessagingChannel> list) {
+                            addItemsToAdapter(list);
                         }
 
                         @Override
                         public void onError(int i) {
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "onError");
                         }
                     });
                 }
@@ -286,4 +199,82 @@ public class ChattingRoomsFragment extends Fragment implements OnChattingRoomAda
             super.onScrolled(recyclerView, dx, dy);
         }
     };
+
+    private void addItemsToAdapter(List<MessagingChannel> list) {
+        for (final MessagingChannel messagingChannel : list) {
+            NetworkManager.getInstance().getChannelInfo(
+                    messagingChannel.getUrl(),
+                    null,
+                    new Callback<GetChannelInfoReceiveObject>() {
+                        @Override
+                        public void onResponse(Call<GetChannelInfoReceiveObject> call, Response<GetChannelInfoReceiveObject> response) {
+                            GetChannelInfoReceiveObject getChannelInfoReceiveObject = response.body();
+
+                            SendBirdSendObject sendBirdSendObject = new SendBirdSendObject();
+                            sendBirdSendObject.setRenter(getChannelInfoReceiveObject.getResult().get(0).getRenter());
+                            sendBirdSendObject.setLister(getChannelInfoReceiveObject.getResult().get(0).getLister());
+                            sendBirdSendObject.setBike(getChannelInfoReceiveObject.getResult().get(0).getBike());
+                            final String bicycleId = getChannelInfoReceiveObject.getResult().get(0).getBike();
+
+                            NetworkManager.getInstance().getChannelResInfo(
+                                    sendBirdSendObject,
+                                    null,
+                                    new Callback<GetChannelResInfoReceiveObject>() {
+                                        @Override
+                                        public void onResponse(Call<GetChannelResInfoReceiveObject> call, Response<GetChannelResInfoReceiveObject> response) {
+                                            GetChannelResInfoReceiveObject receiveObject = response.body();
+
+                                            if (receiveObject.getResult().size() == 0) {
+                                                NetworkManager.getInstance().selectBicycleDetail(
+                                                        bicycleId,
+                                                        null,
+                                                        new Callback<ReceiveObject>() {
+                                                            @Override
+                                                            public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                                                                ReceiveObject receiveObject = response.body();
+
+                                                                chattingRoomAdapter.add(
+                                                                        new ChattingRoomItem(
+                                                                                messagingChannel,
+                                                                                "",
+                                                                                receiveObject.getResult().get(0).getTitle(),
+                                                                                bicycleId
+                                                                        )
+                                                                );
+                                                            }
+
+                                                            @Override
+                                                            public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                                                                if (BuildConfig.DEBUG)
+                                                                    Log.d(TAG, "onFailure Error : " + t.toString());
+                                                            }
+                                                        });
+                                            } else {
+                                                chattingRoomAdapter.add(
+                                                        new ChattingRoomItem(
+                                                                messagingChannel,
+                                                                receiveObject.getResult().get(0).getReserve().getStatus(),
+                                                                receiveObject.getResult().get(0).getBike().getTitle(),
+                                                                bicycleId
+                                                        )
+                                                );
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<GetChannelResInfoReceiveObject> call, Throwable t) {
+                                            if (BuildConfig.DEBUG)
+                                                Log.d(TAG, "onFailure Error : " + t.toString());
+                                        }
+                                    });
+                        }
+
+                        @Override
+                        public void onFailure(Call<GetChannelInfoReceiveObject> call, Throwable t) {
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "onFailure Error : " + t.toString());
+                        }
+                    });
+        }
+    }
 }

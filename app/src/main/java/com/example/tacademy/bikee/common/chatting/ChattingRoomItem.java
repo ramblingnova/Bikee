@@ -19,14 +19,19 @@ public class ChattingRoomItem {
     @Getter
     @Setter(AccessLevel.PUBLIC)
     String bicycleName;
+    @Getter
+    @Setter(AccessLevel.PUBLIC)
+    String bicycleId;
 
     public ChattingRoomItem(
             MessagingChannel messagingChannel,
             String reservationState,
-            String bicycleName
+            String bicycleName,
+            String bicycleId
     ) {
         this.messagingChannel = messagingChannel;
         this.reservationState = reservationState;
         this.bicycleName = bicycleName;
+        this.bicycleId = bicycleId;
     }
 }

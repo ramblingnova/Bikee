@@ -60,14 +60,21 @@ public class ChattingRoomViewHolder extends RecyclerView.ViewHolder {
         );
 
         switch (item.getReservationState()) {
+            // TODO : 예약 상태에 따라 아이콘이 변화해야 함
             case "RR":
+                reservationState.setVisibility(View.VISIBLE);
                 reservationState.setImageResource(R.drawable.chatting_icon_step1);
                 break;
             case "RS":
+                reservationState.setVisibility(View.VISIBLE);
                 reservationState.setImageResource(R.drawable.chatting_icon_step2);
                 break;
             case "RC":
+                reservationState.setVisibility(View.VISIBLE);
                 reservationState.setImageResource(R.drawable.chatting_icon_step3);
+                break;
+            default:
+                reservationState.setVisibility(View.INVISIBLE);
                 break;
         }
         for (MessagingChannel.Member member : item.getMessagingChannel().getMembers())

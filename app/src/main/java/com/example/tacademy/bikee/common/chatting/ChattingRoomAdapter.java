@@ -66,7 +66,8 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<ChattingRoomViewHo
                 newItem = new ChattingRoomItem(
                         messagingChannel,
                         item.getReservationState(),
-                        item.getBicycleName()
+                        item.getBicycleName(),
+                        item.getBicycleId()
                 );
 
                 list.remove(item);

@@ -21,10 +21,12 @@ import android.widget.TextView;
 
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.etc.dao.GetChannelResInfoReceiveObject;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.SendBirdSendObject;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.etc.utils.ImageUtil;
+import com.example.tacademy.bikee.etc.utils.RefinementUtil;
 import com.sendbird.android.MessageListQuery;
 import com.sendbird.android.SendBird;
 import com.sendbird.android.SendBirdEventHandler;
@@ -40,9 +42,11 @@ import com.sendbird.android.model.ReadStatus;
 import com.sendbird.android.model.SystemMessage;
 import com.sendbird.android.model.TypeStatus;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -53,17 +57,19 @@ import retrofit2.Response;
 
 public class ConversationActivity extends AppCompatActivity {
     @Bind(R.id.conversation_toolbar_target_user_name_text_view)
-    TextView targetUserName;
+    TextView targetUserNameTextView;
     @Bind(R.id.activity_conversation_bicycle_image_image_view)
-    ImageView bicycleImage;
+    ImageView bicycleImageImageView;
     @Bind(R.id.activity_conversation_bicycle_name_text_view)
-    TextView bicycleName;
+    TextView bicycleNameTextView;
+    @Bind(R.id.activity_conversation_clock_image_image_view)
+    ImageView clockImageImageView;
     @Bind(R.id.activity_conversation_reservation_period_text_view)
-    TextView reservationPeriod;
+    TextView reservationPeriodTextView;
     @Bind(R.id.activity_conversation_reservation_state_image_view)
-    ImageView reservationStateImage;
+    ImageView reservationStateImageImageView;
     @Bind(R.id.activity_conversation_reservation_state_text_view)
-    TextView reservationState;
+    TextView reservationStateTextView;
     @Bind(R.id.activity_conversation_recycler_view)
     RecyclerView recyclerView;
     @Bind(R.id.activity_conversation_writing_bar_layout)
@@ -71,17 +77,21 @@ public class ConversationActivity extends AppCompatActivity {
     @Bind(R.id.activity_conversation_writing_bar_message_edit_text)
     EditText messageEditText;
     @Bind(R.id.activity_conversation_writing_bar_send_message_button)
-    Button sendMessage;
+    Button sendMessageButton;
 
     private ConversationAdapter conversationAdapter;
     private LinearLayoutManager linearLayoutManager;
     private boolean lastVisibleItem;
     private SoftKeyboardDetectorView softKeyboardDetector;
-    private String messageChannelURL;
     private MessagingChannel mMessagingChannel;
     private CountDownTimer mTimer;
-    String bicycleId;
 
+    private String userId;
+    private String targetUserId;
+    private String targetUserName;
+    private String bicycleId;
+    private String bicycleName;
+    private String channelUrl;
 
     private static final String TAG = "CONVERSATION_ACTIVITY";
 
@@ -100,13 +110,39 @@ public class ConversationActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        targetUserName.setText(intent.getStringExtra("TARGET_USER_NAME"));
-        final String userId = intent.getStringExtra("USER_ID");
+        userId = intent.getStringExtra("USER_ID");
+        targetUserId = intent.getStringExtra("TARGET_USER_ID");
+        targetUserName = intent.getStringExtra("TARGET_USER_NAME");
         bicycleId = intent.getStringExtra("BICYCLE_ID");
-        // TODO : SharedPreperence에서 찾아와야 한다.
-        messageChannelURL = intent.getStringExtra("messageChannelUrl");
+        bicycleName = intent.getStringExtra("BICYCLE_NAME");
+        channelUrl = intent.getStringExtra("CHANNEL_URL");
 
         messageEditText.addTextChangedListener(tw);
+
+        linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        conversationAdapter = new ConversationAdapter();
+        init();
+        recyclerView.setAdapter(conversationAdapter);
+
+        recyclerView.addItemDecoration(
+                new ConversationDecoration(
+                        getResources().getDimensionPixelSize(R.dimen.view_holder_conversation_item_bottom_space)
+                )
+        );
+
+        lastVisibleItem = true;
+
+        softKeyboardDetector = new SoftKeyboardDetectorView(this);
+        addContentView(softKeyboardDetector, new FrameLayout.LayoutParams(-1, -1));
+        softKeyboardDetector.setOnShownKeyboard(new SoftKeyboardDetectorView.OnShownKeyboardListener() {
+            @Override
+            public void onShowSoftKeyboard() {
+                if (lastVisibleItem)
+                    recyclerView.scrollToPosition(conversationAdapter.getItemCount() - 1);
+            }
+        });
 
         SendBird.registerNotificationHandler(new SendBirdNotificationHandler() {
             @Override
@@ -205,36 +241,33 @@ public class ConversationActivity extends AppCompatActivity {
 
             @Override
             public void onMessagingStarted(final MessagingChannel messagingChannel) {
-                // TODO : 채팅방 생성 알림
-                SendBirdSendObject sendBirdSendObject = new SendBirdSendObject();
-                sendBirdSendObject.setRenter(userId);
-                for (MessagingChannel.Member member : messagingChannel.getMembers())
-                    if (!member.getId().equals(userId)) {
-                        sendBirdSendObject.setLister(member.getId());
-                        break;
-                    }
-                sendBirdSendObject.setChannel_url(messagingChannel.getUrl());
-                sendBirdSendObject.setBike(bicycleId);
+                if (getIntent().getBooleanExtra("START", false)) {
+                    SendBirdSendObject sendBirdSendObject = new SendBirdSendObject();
+                    sendBirdSendObject.setRenter(userId);
+                    sendBirdSendObject.setLister(targetUserId);
+                    sendBirdSendObject.setChannel_url(messagingChannel.getUrl());
+                    sendBirdSendObject.setBike(bicycleId);
 
-                NetworkManager.getInstance().createChannel(
-                        sendBirdSendObject,
-                        null,
-                        new Callback<ReceiveObject>() {
-                            @Override
-                            public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
-                                ReceiveObject receiveObject = response.body();
-                                if (BuildConfig.DEBUG)
-                                    Log.d(TAG, "createChannel success");
-                            }
+                    NetworkManager.getInstance().createChannel(
+                            sendBirdSendObject,
+                            null,
+                            new Callback<ReceiveObject>() {
+                                @Override
+                                public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                                    if (BuildConfig.DEBUG)
+                                        Log.d(TAG, "createChannel onResponse");
+                                }
 
-                            @Override
-                            public void onFailure(Call<ReceiveObject> call, Throwable t) {
-                                if (BuildConfig.DEBUG)
-                                    Log.d(TAG, "onFailure Error : " + t.toString());
-                            }
-                        });
+                                @Override
+                                public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                                    if (BuildConfig.DEBUG)
+                                        Log.d(TAG, "createChannel onFailure Error : " + t.toString());
+                                }
+                            });
+                }
 
                 updateReadStatus(messagingChannel);
+
                 SendBird.queryMessageList(messagingChannel.getUrl()).load(
                         Long.MAX_VALUE,
                         30,
@@ -242,9 +275,10 @@ public class ConversationActivity extends AppCompatActivity {
                         new MessageListQuery.MessageListQueryResult() {
                             @Override
                             public void onResult(List<MessageModel> messageModels) {
-                                Log.i(TAG, "onMessagingStarted onResult");
-                                for (MessageModel model : messageModels) {
+                                if (BuildConfig.DEBUG)
+                                    Log.d(TAG, "onMessagingStarted onResult");
 
+                                for (MessageModel model : messageModels) {
                                     conversationAdapter.add(
                                             new ConversationItem(
                                                     model,
@@ -266,7 +300,8 @@ public class ConversationActivity extends AppCompatActivity {
 
                             @Override
                             public void onError(Exception e) {
-
+                                if (BuildConfig.DEBUG)
+                                    Log.d(TAG, "onMessagingStarted onError", e);
                             }
                         });
             }
@@ -297,20 +332,6 @@ public class ConversationActivity extends AppCompatActivity {
             }
         });
 
-        linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-        conversationAdapter = new ConversationAdapter();
-        init();
-        recyclerView.setAdapter(conversationAdapter);
-
-        recyclerView.addItemDecoration(
-                new ConversationDecoration(
-                        getResources().getDimensionPixelSize(R.dimen.view_holder_conversation_item_bottom_space)
-                )
-        );
-
-        lastVisibleItem = true;
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -334,6 +355,9 @@ public class ConversationActivity extends AppCompatActivity {
                                 new MessageListQuery.MessageListQueryResult() {
                                     @Override
                                     public void onResult(List<MessageModel> messageModels) {
+                                        if (BuildConfig.DEBUG)
+                                            Log.d(TAG, "onScrollStateChanged onResult");
+
                                         if (messageModels.size() <= 0) {
                                             return;
                                         }
@@ -344,17 +368,21 @@ public class ConversationActivity extends AppCompatActivity {
                                                     new ConversationItem(
                                                             model,
                                                             new Date(model.getTimestamp()),
-                                                            ((Message) model).getSenderId().equals(SendBird.getUserId()) ? ConversationAdapter.SEND : ConversationAdapter.RECEIVE
+                                                            ((Message) model).getSenderId().equals(SendBird.getUserId())
+                                                                    ? ConversationAdapter.SEND
+                                                                    : ConversationAdapter.RECEIVE
                                                     )
                                             );
                                         conversationAdapter.notifyDataSetChanged();
 
+                                        // TODO : 정말 필요한 것인 지 생각해볼 것
                                         recyclerView.scrollToPosition(messageModels.size() - 1 + completeVisiblePosition + 1);
                                     }
 
                                     @Override
                                     public void onError(Exception e) {
-
+                                        if (BuildConfig.DEBUG)
+                                            Log.d(TAG, "onScrollStateChanged onError", e);
                                     }
                                 });
                     }
@@ -366,6 +394,9 @@ public class ConversationActivity extends AppCompatActivity {
                             new MessageListQuery.MessageListQueryResult() {
                                 @Override
                                 public void onResult(List<MessageModel> messageModels) {
+                                    if (BuildConfig.DEBUG)
+                                        Log.d(TAG, "onScrollStateChanged onResult");
+
                                     if (messageModels.size() <= 0) {
                                         return;
                                     }
@@ -375,7 +406,9 @@ public class ConversationActivity extends AppCompatActivity {
                                                 new ConversationItem(
                                                         model,
                                                         new Date(model.getTimestamp()),
-                                                        ((Message) model).getSenderId().equals(SendBird.getUserId()) ? ConversationAdapter.SEND : ConversationAdapter.RECEIVE
+                                                        ((Message) model).getSenderId().equals(SendBird.getUserId())
+                                                                ? ConversationAdapter.SEND
+                                                                : ConversationAdapter.RECEIVE
                                                 )
                                         );
                                     conversationAdapter.notifyDataSetChanged();
@@ -384,46 +417,14 @@ public class ConversationActivity extends AppCompatActivity {
 
                                 @Override
                                 public void onError(Exception e) {
-
+                                    if (BuildConfig.DEBUG)
+                                        Log.d(TAG, "onScrollStateChanged onError", e);
                                 }
                             });
                 }
             }
         });
-
-        softKeyboardDetector = new SoftKeyboardDetectorView(this);
-        addContentView(softKeyboardDetector, new FrameLayout.LayoutParams(-1, -1));
-        softKeyboardDetector.setOnShownKeyboard(new SoftKeyboardDetectorView.OnShownKeyboardListener() {
-            @Override
-            public void onShowSoftKeyboard() {
-                if (lastVisibleItem)
-                    recyclerView.scrollToPosition(conversationAdapter.getItemCount() - 1);
-            }
-        });
     }
-
-    private TextWatcher tw = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            sendMessage.setEnabled(s.length() > 0);
-
-            if (s.length() > 0) {
-                SendBird.typeStart();
-            } else {
-                SendBird.typeEnd();
-            }
-        }
-    };
 
     @Override
     protected void onResume() {
@@ -450,7 +451,7 @@ public class ConversationActivity extends AppCompatActivity {
         conversationAdapter.notifyDataSetChanged();
 
         if (getIntent().getBooleanExtra("JOIN", false)) {
-            SendBird.joinMessaging(messageChannelURL);
+            SendBird.joinMessaging(channelUrl);
         } else if (getIntent().getBooleanExtra("START", false)) {
             SendBird.startMessaging(getIntent().getStringExtra("TARGET_USER_ID"));
         }
@@ -466,6 +467,29 @@ public class ConversationActivity extends AppCompatActivity {
         SendBird.disconnect();
     }
 
+    private TextWatcher tw = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            sendMessageButton.setEnabled(s.length() > 0);
+
+            if (s.length() > 0) {
+                SendBird.typeStart();
+            } else {
+                SendBird.typeEnd();
+            }
+        }
+    };
+
     @OnClick(R.id.conversation_toolbar_back_button_layout)
     void back(View view) {
         super.onBackPressed();
@@ -473,35 +497,116 @@ public class ConversationActivity extends AppCompatActivity {
 
     @OnClick(R.id.activity_conversation_writing_bar_send_message_button)
     void sendMessage(View view) {
-
         SendBird.send(messageEditText.getText().toString());
-        /*conversationAdapter.add(new ConversationItem(
-                "aaa",
-                "" + (++i),
-                new Date(),
-                ConversationAdapter.SEND
-        ));
-        recyclerView.scrollToPosition(conversationAdapter.getItemCount()-1);*/
+
         messageEditText.setText("");
-        sendMessage.setEnabled(false);
+        sendMessageButton.setEnabled(false);
     }
 
     private void init() {
-        ImageUtil.setRoundRectangleImageFromURL(
-                this,
-                "",
-                R.drawable.detailpage_bike_image_noneimage,
-                bicycleImage,
-                getResources().getDimensionPixelOffset(R.dimen.activity_conversation_bicycle_image_image_view_radius)
-        );
-        bicycleName.setText("2015 아메리칸이글 CY 픽시 블랙");
-        reservationPeriod.setText("10.25 17:00 ~ 10.26 19:00");
-        reservationStateImage.setImageResource(R.drawable.icon_step3);
-        reservationState.setText("예약승인");
-        if (Build.VERSION.SDK_INT < 23)
-            reservationState.setTextColor(getResources().getColor(R.color.bikeeBlue));
-        else
-            reservationState.setTextColor(getResources().getColor(R.color.bikeeBlue, null));
+        targetUserNameTextView.setText(targetUserName);
+
+        SendBirdSendObject sendBirdSendObject = new SendBirdSendObject();
+        sendBirdSendObject.setRenter(userId);
+        sendBirdSendObject.setLister(targetUserId);
+        sendBirdSendObject.setBike(bicycleId);
+
+        NetworkManager.getInstance().getChannelResInfo(
+                sendBirdSendObject,
+                null,
+                new Callback<GetChannelResInfoReceiveObject>() {
+                    @Override
+                    public void onResponse(Call<GetChannelResInfoReceiveObject> call, Response<GetChannelResInfoReceiveObject> response) {
+                        GetChannelResInfoReceiveObject receiveObject = response.body();
+                        if (receiveObject.getResult().size() == 0) {
+                            NetworkManager.getInstance().selectBicycleDetail(
+                                    bicycleId,
+                                    null,
+                                    new Callback<ReceiveObject>() {
+                                        @Override
+                                        public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                                            if (BuildConfig.DEBUG)
+                                                Log.d(TAG, "selectBicycleDetail onResponse");
+
+                                            ReceiveObject receiveObject = response.body();
+
+                                            bicycleNameTextView.setText(receiveObject.getResult().get(0).getTitle());
+                                            ImageUtil.setRoundRectangleImageFromURL(
+                                                    ConversationActivity.this,
+                                                    RefinementUtil.getBicycleImageURLStringFromResult(receiveObject.getResult().get(0)),
+                                                    R.drawable.detailpage_bike_image_noneimage,
+                                                    bicycleImageImageView,
+                                                    getResources().getDimensionPixelOffset(R.dimen.activity_conversation_bicycle_image_image_view_radius)
+                                            );
+                                            clockImageImageView.setVisibility(View.INVISIBLE);
+                                            reservationPeriodTextView.setVisibility(View.INVISIBLE);
+                                            reservationStateImageImageView.setVisibility(View.INVISIBLE);
+                                            reservationStateTextView.setVisibility(View.INVISIBLE);
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                                            if (BuildConfig.DEBUG)
+                                                Log.d(TAG, "selectBicycleDetail onFailure", t);
+                                        }
+                                    });
+                        } else {
+                            bicycleNameTextView.setText(receiveObject.getResult().get(0).getBike().getTitle());
+                            ImageUtil.setRoundRectangleImageFromURL(
+                                    ConversationActivity.this,
+                                    RefinementUtil.getBicycleImageURLStringFromSendBirdResult(receiveObject.getResult().get(0)),
+                                    R.drawable.detailpage_bike_image_noneimage,
+                                    bicycleImageImageView,
+                                    getResources().getDimensionPixelOffset(R.dimen.activity_conversation_bicycle_image_image_view_radius)
+                            );
+                            clockImageImageView.setVisibility(View.VISIBLE);
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM.dd hh:mm", Locale.getDefault());
+                            String reservationPeriod = simpleDateFormat.format(receiveObject.getResult().get(0).getReserve().getRentStart())
+                                    + " ~ "
+                                    + simpleDateFormat.format(receiveObject.getResult().get(0).getReserve().getRentEnd());
+                            reservationPeriodTextView.setText(reservationPeriod);
+                            // TODO : 예약 상태에 따라 아이콘과 텍스트 컬러가 바뀜
+                            switch (receiveObject.getResult().get(0).getReserve().getStatus()) {
+                                case "RR":
+                                    reservationStateImageImageView.setImageResource(R.drawable.icon_step1);
+                                    reservationStateTextView.setText("예약승인");
+                                    if (Build.VERSION.SDK_INT < 23)
+                                        reservationStateTextView.setTextColor(getResources().getColor(R.color.bikeeYellow));
+                                    else
+                                        reservationStateTextView.setTextColor(getResources().getColor(R.color.bikeeYellow, null));
+                                    break;
+                                case "RS":
+                                    reservationStateImageImageView.setImageResource(R.drawable.icon_step2);
+                                    reservationStateTextView.setText("예약승인");
+                                    if (Build.VERSION.SDK_INT < 23)
+                                        reservationStateTextView.setTextColor(getResources().getColor(R.color.bikeeRed));
+                                    else
+                                        reservationStateTextView.setTextColor(getResources().getColor(R.color.bikeeRed, null));
+                                    break;
+                                case "RC":
+                                    reservationStateImageImageView.setImageResource(R.drawable.icon_step3);
+                                    reservationStateTextView.setText("예약승인");
+                                    if (Build.VERSION.SDK_INT < 23)
+                                        reservationStateTextView.setTextColor(getResources().getColor(R.color.bikeeBlue));
+                                    else
+                                        reservationStateTextView.setTextColor(getResources().getColor(R.color.bikeeBlue, null));
+                                    break;
+                                default:
+                                    clockImageImageView.setVisibility(View.INVISIBLE);
+                                    reservationPeriodTextView.setVisibility(View.INVISIBLE);
+                                    reservationStateImageImageView.setVisibility(View.INVISIBLE);
+                                    reservationStateTextView.setVisibility(View.INVISIBLE);
+                                    break;
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<GetChannelResInfoReceiveObject> call, Throwable t) {
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "getChannelResInfo onFailure Error : " + t.toString());
+                    }
+                });
     }
 
     private void updateReadStatus(MessagingChannel messagingChannel) {

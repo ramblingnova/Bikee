@@ -293,8 +293,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void getRegistrationID() {
         String storedToken = PropertyManager.getInstance().getGCMToken();
-        if (!storedToken.equals(""))
-            registrationID = storedToken;
+        registrationID = storedToken;
     }
 
     private void saveRegistrationID() {
@@ -312,6 +311,7 @@ public class SplashActivity extends AppCompatActivity {
                 if (!registrationID.equals(token)) {
                     registrationID = token;
                     saveRegistrationID();
+                    sendGCMToken();
                 }
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "GCM Token : " + token);
