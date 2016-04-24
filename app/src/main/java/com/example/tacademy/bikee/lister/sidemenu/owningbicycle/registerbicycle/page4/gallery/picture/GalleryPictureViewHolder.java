@@ -14,7 +14,7 @@ import butterknife.OnClick;
 /**
  * Created by User on 2016-02-24.
  */
-public class GalleryPictureViewHolder extends RecyclerView.ViewHolder {
+public class    GalleryPictureViewHolder extends RecyclerView.ViewHolder {
     private OnGalleryPictureClickListener onGalleryPictureClickListener;
     @Bind(R.id.view_holder_gallery_picture_item_image_view)
     ImageView itemImageVIew;

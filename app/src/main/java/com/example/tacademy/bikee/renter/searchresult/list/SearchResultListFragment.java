@@ -1,5 +1,6 @@
 package com.example.tacademy.bikee.renter.searchresult.list;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,12 +15,14 @@ import android.widget.ListView;
 
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.etc.dao.FilterSendObject;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.example.tacademy.bikee.renter.searchresult.SearchResultListItem;
 import com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.FilteredBicycleDetailInformationActivity;
+import com.example.tacademy.bikee.renter.searchresult.filter.FilterActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -42,6 +45,8 @@ public class SearchResultListFragment extends Fragment implements SwipeRefreshLa
     private String latitude = null;
     private String longitude = null;
     private int index;
+    private FilterSendObject filterSendObject;
+    private String filter;
 
     private static final String TAG = "SEARCH_R...T_ACTIVITY";
 
@@ -64,9 +69,14 @@ public class SearchResultListFragment extends Fragment implements SwipeRefreshLa
 
         index = 0;
 
-        requestData();
-
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.clear();
+        requestData();
     }
 
     @Override
@@ -93,8 +103,30 @@ public class SearchResultListFragment extends Fragment implements SwipeRefreshLa
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK && requestCode == FilterActivity.FILTER_ACTIVITY) {
+            Log.d(TAG, "onActivityResult");
+            // TODO
+            filterSendObject = new FilterSendObject();
+            latitude = data.getStringExtra("LATITUDE");
+            longitude = data.getStringExtra("LONGITUDE");
+            filterSendObject.setType(data.getStringExtra("TYPE"));
+            filterSendObject.setHeight(data.getStringExtra("HEIGHT"));
+            filterSendObject.setSmartlock(data.getBooleanExtra("SMART_LOCK", false));
+            filterSendObject.setSort(data.getStringExtra("ORDER"));
+            filterSendObject.setStart(data.getStringExtra("START_DATE"));
+            filterSendObject.setEnd(data.getStringExtra("END_DATE"));
 
+            filter = "{\"start\":\"" + data.getStringExtra("START_DATE")
+                    + "\",\"end\":\"" + data.getStringExtra("END_DATE")
+                    + "\",\"type\":\"" + data.getStringExtra("TYPE")
+                    + "\",\"height\":\"" + data.getStringExtra("HEIGHT")
+                    + "\",\"smartlock\":\"" + data.getBooleanExtra("SMART_LOCK", false)
+                    + "\",\"sort\":\"" + data.getStringExtra("ORDER")
+                    + "\"}";
+        }
     }
+
+
 
     @OnItemClick(R.id.view_search_result_item_list_view)
     void onClickItem(AdapterView<?> parent, View view, int position, long id) {
@@ -119,17 +151,7 @@ public class SearchResultListFragment extends Fragment implements SwipeRefreshLa
         }
         String lat = latitude;
         String lon = longitude;
-        String filter = "";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm");
-        String start = simpleDateFormat.format(new Date());
-        String end = simpleDateFormat.format(new Date());
-        String type = "";
-        String height = "";
-        String component = "";
-        Boolean smartlock = new Boolean(true);
-//        filter = "{\"start\":\"" + start + "\",\"end\":\"" + end + "\",\"type\":\"B\",\"height\":\"04\"" + "}";
-        // TODO : last index -1 입력 해결 필요
-        filter = null;
+        // TODO : last index -1 입력 해결 필요 처음 0 넘기면 -1을 받음...
         NetworkManager.getInstance().selectAllListBicycle(
                 lon,
                 lat,

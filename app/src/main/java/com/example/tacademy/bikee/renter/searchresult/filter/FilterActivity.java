@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
@@ -21,6 +22,10 @@ import com.example.tacademy.bikee.etc.utils.RefinementUtil;
 import com.google.android.gms.maps.model.LatLng;
 import com.squareup.timessquare.CalendarPickerView;
 import com.tsengvn.typekit.TypekitContextWrapper;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+import com.wdullaer.materialdatetimepicker.date.OnDateSelectedListener;
+import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -31,7 +36,7 @@ import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
-public class FilterActivity extends AppCompatActivity {
+public class FilterActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
     // TODO : handle filter and send filter result, handle renew button
     @Bind(R.id.bicycle_location_address_text_view)
     TextView address;
@@ -69,12 +74,16 @@ public class FilterActivity extends AppCompatActivity {
     CheckBox distanceOrderCheckBox;
 
     private Intent intent;
-    private double latitude;
-    private double longitude;
+    private String latitude;
+    private String longitude;
     private String type;
     private String height;
     private boolean smartLock;
     private String order;
+    private String startDate;
+    private String endDate;
+
+    public static final int FILTER_ACTIVITY = 2;
 
     private static final String TAG = "FILTER_ACTIVITY";
 
@@ -100,8 +109,8 @@ public class FilterActivity extends AppCompatActivity {
             // TODO : what?
             Toast.makeText(FilterActivity.this, "address : " + RefinementUtil.findGeoPoint(MyApplication.getmContext(), addressString), Toast.LENGTH_SHORT).show();
             LatLng latLng = RefinementUtil.findGeoPoint(MyApplication.getmContext(), addressString);
-            latitude = latLng.latitude;
-            longitude = latLng.longitude;
+            latitude = "" + latLng.latitude;
+            longitude = "" + latLng.longitude;
         }
     }
 
@@ -113,6 +122,59 @@ public class FilterActivity extends AppCompatActivity {
     @OnClick(R.id.filter_backable_tool_bar_reset_text_view)
     void reset(View view) {
         Toast.makeText(FilterActivity.this, "RESET!", Toast.LENGTH_SHORT).show();
+    }
+
+    @OnClick({R.id.calendar_start_date_summary,
+            R.id.calendar_end_date_summary})
+    void onClickCalendar(View view) {
+        Calendar now = Calendar.getInstance();
+        DatePickerDialog dpd = DatePickerDialog.newInstance(
+                FilterActivity.this,
+                now.get(Calendar.YEAR),
+                now.get(Calendar.MONTH),
+                now.get(Calendar.DAY_OF_MONTH)
+        );
+        switch (view.getId()) {
+            case R.id.calendar_start_date_summary:
+                dpd.setOnDateSelectedListener(new OnDateSelectedListener() {
+                    @Override
+                    public void onDateSelected(View view, Date date) {
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm", java.util.Locale.getDefault());
+                        Log.d(TAG, "calendar_start_date_summary yyyy-MM-dd hh:mm : " + simpleDateFormat.format(date.getTime()));
+                        startDate = simpleDateFormat.format(date.getTime());
+                    }
+                });
+                break;
+            case R.id.calendar_end_date_summary:
+                dpd.setOnDateSelectedListener(new OnDateSelectedListener() {
+                    @Override
+                    public void onDateSelected(View view, Date date) {
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm", java.util.Locale.getDefault());
+                        Log.d(TAG, "calendar_end_date_summary yyyy-MM-dd hh:mm : " + simpleDateFormat.format(date.getTime()));
+                        endDate = simpleDateFormat.format(date.getTime());
+                    }
+                });
+                break;
+        }
+        dpd.show(getFragmentManager(), "Datepickerdialog");
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+
+    }
+
+    @Override
+    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        DatePickerDialog dpd = (DatePickerDialog) getFragmentManager().findFragmentByTag("Datepickerdialog");
+
+        if (dpd != null) dpd.setOnDateSetListener(this);
     }
 
     @OnClick({R.id.bicycle_type_check_box1,
@@ -239,7 +301,15 @@ public class FilterActivity extends AppCompatActivity {
 
     @OnClick(R.id.activity_filter_search_button)
     void searchDetail() {
-        // TODO : need putExtra for filtered searching
+        intent = new Intent();
+        intent.putExtra("LATITUDE", latitude);
+        intent.putExtra("LONGITUDE", longitude);
+        intent.putExtra("TYPE", type);
+        intent.putExtra("HEIGHT", height);
+        intent.putExtra("SMART_LOCK", smartLock);
+        intent.putExtra("ORDER", order);
+        intent.putExtra("START_DATE", startDate);
+        intent.putExtra("END_DATE", endDate);
         setResult(RESULT_OK, intent);
         finish();
     }

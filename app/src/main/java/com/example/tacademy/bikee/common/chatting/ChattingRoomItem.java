@@ -2,6 +2,8 @@ package com.example.tacademy.bikee.common.chatting;
 
 import com.sendbird.android.model.MessagingChannel;
 
+import java.util.Date;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +17,12 @@ public class ChattingRoomItem {
     MessagingChannel messagingChannel;
     @Getter
     @Setter(AccessLevel.PUBLIC)
+    Date rentStart;
+    @Getter
+    @Setter(AccessLevel.PUBLIC)
+    Date rentEnd;
+    @Getter
+    @Setter(AccessLevel.PUBLIC)
     String reservationState;
     @Getter
     @Setter(AccessLevel.PUBLIC)
@@ -22,6 +30,9 @@ public class ChattingRoomItem {
     @Getter
     @Setter(AccessLevel.PUBLIC)
     String bicycleId;
+    @Getter
+    @Setter(AccessLevel.PUBLIC)
+    boolean amILister;
 
     public ChattingRoomItem() {
 
@@ -29,13 +40,19 @@ public class ChattingRoomItem {
 
     public ChattingRoomItem(
             MessagingChannel messagingChannel,
+            Date rentStart,
+            Date rentEnd,
             String reservationState,
             String bicycleName,
-            String bicycleId
+            String bicycleId,
+            boolean amILister
     ) {
         this.messagingChannel = messagingChannel;
+        this.rentStart = rentStart;
+        this.rentEnd = rentEnd;
         this.reservationState = reservationState;
         this.bicycleName = bicycleName;
         this.bicycleId = bicycleId;
+        this.amILister = amILister;
     }
 }

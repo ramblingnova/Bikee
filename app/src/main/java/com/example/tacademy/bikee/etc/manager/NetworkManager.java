@@ -3,6 +3,7 @@ package com.example.tacademy.bikee.etc.manager;
 import com.example.tacademy.bikee.etc.dao.Bike;
 import com.example.tacademy.bikee.etc.dao.Comment;
 import com.example.tacademy.bikee.etc.dao.Facebook;
+import com.example.tacademy.bikee.etc.dao.FilterSendObject;
 import com.example.tacademy.bikee.etc.dao.GetChannelResInfoReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Inquires;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
@@ -75,7 +76,7 @@ public class NetworkManager {
 //        String baseUrl = "http://192.168.0.14:3000";
 //        String baseUrl = "http://1.255.51.120";
 //        String baseUrl = "http://192.168.0.8:3000";
-        String baseUrl = "https://bi-kee.xyz";
+        String baseUrl = "https://api.bikee.kr";
 
         // 회원 정보 조회하기
         @GET("/users/{userId}")
@@ -184,12 +185,6 @@ public class NetworkManager {
                                                  @Path("lat") String lat,
                                                  @Path("lastindex") String lastindex,
                                                  @Query("filter") String filter);
-//                                  @Query("start") String start,
-//                                  @Query("end") String end,
-//                                  @Query("type") String type,
-//                                  @Query("height") String height,
-//                                  @Query("component") String component,
-//                                  @Query("smartlock") Boolean smartlock,
 
         // 전체 자전거(맵) 조회하기
         @GET("/bikes/map/{lon}/{lat}")
@@ -485,12 +480,6 @@ public class NetworkManager {
                                      String lat,
                                      String lastindex,
                                      String filter,
-//                                     String start,
-//                                     String end,
-//                                     String type,
-//                                     String height,
-//                                     String component,
-//                                     Boolean smartlock,
                                      Stack<Call> callStack,
                                      Callback<ReceiveObject> callback) {
         Call<ReceiveObject> call = serverUrl.selectAllListBicycle(lon, lat, lastindex, filter);

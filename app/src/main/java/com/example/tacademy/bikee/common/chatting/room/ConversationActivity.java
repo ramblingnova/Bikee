@@ -94,6 +94,7 @@ public class ConversationActivity extends AppCompatActivity {
     private String bicycleId;
     private String bicycleName;
     private String channelUrl;
+    private boolean amILister;
 
     private static final String TAG = "CONVERSATION_ACTIVITY";
 
@@ -118,6 +119,7 @@ public class ConversationActivity extends AppCompatActivity {
         bicycleId = intent.getStringExtra("BICYCLE_ID");
         bicycleName = intent.getStringExtra("BICYCLE_NAME");
         channelUrl = intent.getStringExtra("CHANNEL_URL");
+        amILister = intent.getBooleanExtra("AM_I_LISTER", false);
 
         messageEditText.addTextChangedListener(tw);
 
@@ -509,8 +511,13 @@ public class ConversationActivity extends AppCompatActivity {
         targetUserNameTextView.setText(targetUserName);
 
         SendBirdSendObject sendBirdSendObject = new SendBirdSendObject();
-        sendBirdSendObject.setRenter(userId);
-        sendBirdSendObject.setLister(targetUserId);
+        if (amILister) {
+            sendBirdSendObject.setRenter(targetUserId);
+            sendBirdSendObject.setLister(userId);
+        } else {
+            sendBirdSendObject.setRenter(userId);
+            sendBirdSendObject.setLister(targetUserId);
+        }
         sendBirdSendObject.setBike(bicycleId);
 
         NetworkManager.getInstance().getChannelResInfo(
@@ -520,6 +527,7 @@ public class ConversationActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<GetChannelResInfoReceiveObject> call, Response<GetChannelResInfoReceiveObject> response) {
                         GetChannelResInfoReceiveObject receiveObject = response.body();
+
                         if (receiveObject.getResult().size() == 0) {
                             NetworkManager.getInstance().selectBicycleDetail(
                                     bicycleId,
@@ -567,31 +575,31 @@ public class ConversationActivity extends AppCompatActivity {
                                     + " ~ "
                                     + simpleDateFormat.format(receiveObject.getResult().get(0).getReserve().getRentEnd());
                             reservationPeriodTextView.setText(reservationPeriod);
-                            // TODO : 예약 상태에 따라 아이콘과 텍스트 컬러가 바뀜
+                            Date currentDate = new Date();
                             switch (receiveObject.getResult().get(0).getReserve().getStatus()) {
                                 case "RR":
-                                    reservationStateImageImageView.setImageResource(R.drawable.icon_step1);
-                                    reservationStateTextView.setText("예약승인");
-                                    if (Build.VERSION.SDK_INT < 23)
-                                        reservationStateTextView.setTextColor(getResources().getColor(R.color.bikeeYellow));
+                                    if (currentDate.after(receiveObject.getResult().get(0).getReserve().getRentStart()))
+                                        initReserveStatus(R.drawable.icon_step4, "예약취소", R.color.bikeeLightGray);
                                     else
-                                        reservationStateTextView.setTextColor(getResources().getColor(R.color.bikeeYellow, null));
+                                        initReserveStatus(R.drawable.icon_step1, "예약요청", R.color.bikeeYellow);
                                     break;
                                 case "RS":
-                                    reservationStateImageImageView.setImageResource(R.drawable.icon_step2);
-                                    reservationStateTextView.setText("예약승인");
-                                    if (Build.VERSION.SDK_INT < 23)
-                                        reservationStateTextView.setTextColor(getResources().getColor(R.color.bikeeRed));
+                                    if (currentDate.after(receiveObject.getResult().get(0).getReserve().getRentStart()))
+                                        initReserveStatus(R.drawable.icon_step4, "예약취소", R.color.bikeeLightGray);
                                     else
-                                        reservationStateTextView.setTextColor(getResources().getColor(R.color.bikeeRed, null));
+                                        initReserveStatus(R.drawable.icon_step2, "예약승인", R.color.bikeeRed);
+                                    break;
+                                case "PS":
+                                    if (currentDate.after(receiveObject.getResult().get(0).getReserve().getRentStart())) {
+                                        if (currentDate.after(receiveObject.getResult().get(0).getReserve().getRentEnd()))
+                                            initReserveStatus(R.drawable.icon_step4, "대여완료", R.color.bikeeLightGray);
+                                        else
+                                            initReserveStatus(R.drawable.icon_step3, "대여중", R.color.bikeeBlue);
+                                    } else
+                                        initReserveStatus(R.drawable.icon_step3, "결제완료", R.color.bikeeBlue);
                                     break;
                                 case "RC":
-                                    reservationStateImageImageView.setImageResource(R.drawable.icon_step3);
-                                    reservationStateTextView.setText("예약승인");
-                                    if (Build.VERSION.SDK_INT < 23)
-                                        reservationStateTextView.setTextColor(getResources().getColor(R.color.bikeeBlue));
-                                    else
-                                        reservationStateTextView.setTextColor(getResources().getColor(R.color.bikeeBlue, null));
+                                    initReserveStatus(R.drawable.icon_step4, "예약취소", R.color.bikeeLightGray);
                                     break;
                                 default:
                                     clockImageImageView.setVisibility(View.INVISIBLE);
@@ -609,6 +617,15 @@ public class ConversationActivity extends AppCompatActivity {
                             Log.d(TAG, "getChannelResInfo onFailure Error : " + t.toString());
                     }
                 });
+    }
+
+    private void initReserveStatus(int imageResource, String text, int textColor) {
+        reservationStateImageImageView.setImageResource(imageResource);
+        reservationStateTextView.setText(text);
+        if (Build.VERSION.SDK_INT < 23)
+            reservationStateTextView.setTextColor(getResources().getColor(textColor));
+        else
+            reservationStateTextView.setTextColor(getResources().getColor(textColor, null));
     }
 
     private void updateReadStatus(MessagingChannel messagingChannel) {

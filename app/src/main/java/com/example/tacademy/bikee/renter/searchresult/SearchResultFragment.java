@@ -192,6 +192,16 @@ public class SearchResultFragment extends Fragment implements SearchSwitchView.O
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK && requestCode == FilterActivity.FILTER_ACTIVITY) {
+            for (Fragment uploadType : getChildFragmentManager()
+                    .getFragments()) {
+                if (uploadType != null) {
+                    uploadType.onActivityResult(requestCode, resultCode, data);
+                }
+                super.onActivityResult(requestCode, resultCode, data);
+            }
+        }
+
         switch (resultCode) {
             case FilterActivity.RESULT_OK:
                 b = true;
@@ -220,7 +230,7 @@ public class SearchResultFragment extends Fragment implements SearchSwitchView.O
     void adjustFilter() {
         intent = new Intent(getActivity(), FilterActivity.class);
         intent.putExtra("ADDRESS", address.getText().toString());
-        getActivity().startActivityForResult(intent, 0);
+        getActivity().startActivityForResult(intent, FilterActivity.FILTER_ACTIVITY);
     }
 
     private void fragmentChange(boolean isChecked) {
@@ -228,13 +238,15 @@ public class SearchResultFragment extends Fragment implements SearchSwitchView.O
         Fragment old = getChildFragmentManager().findFragmentByTag(CURRENT_TAG);
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
 
-        if (currentFragment != null && currentFragment != old) {
+        if (currentFragment != null && currentFragment != old && old != null) {
             ft.detach(currentFragment);
         }
 
         if (old == null) {
             currentFragment = (isChecked) ? searchResultListFragment : searchResultMapFragment;
-            ft.add(R.id.container, currentFragment, CURRENT_TAG);
+            ft.add(R.id.fragment_search_result_container, searchResultListFragment, SEARCH_RESULT_LIST_FRAGMENT_TAG);
+            ft.detach(searchResultListFragment);
+            ft.add(R.id.fragment_search_result_container, searchResultMapFragment, SEARCH_RESULT_MAP_FRAGMENT_TAG);
         } else if (currentFragment != old) {
             ft.attach(currentFragment = old);
         }

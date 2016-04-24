@@ -57,7 +57,7 @@ public class NoChoiceDialogFragment extends DialogFragment {
     private String reserveId;
     private String status;
 
-    private static final String TAG = "NO_CHOICE_DIALOG_FRAGMENT";
+    private static final String TAG = "NO_C_D_FRAGMENT";
 
     public static NoChoiceDialogFragment newInstance(int param1) {
         NoChoiceDialogFragment fragment = new NoChoiceDialogFragment();

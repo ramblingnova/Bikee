@@ -218,6 +218,7 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
 
                         intent = new Intent(FilteredBicycleDetailInformationActivity.this, ConversationActivity.class);
                         intent.putExtra("TARGET_USER_NAME", listerName.getText().toString());
+                        // TODO : 콘텐츠 페이지 통합 시, 혹은 리스터 모드일 경우에 콘텐츠 페이지 작업시 amILister 설정해야 함... SendBird.getUserId() equal listerId ? i am lister : i am renter
                         intent.putExtra("TARGET_USER_ID", listerId);
                         intent.putExtra("APP_ID", "2E377FE1-E1AD-4484-A66F-696AF1306F58");
                         intent.putExtra("USER_ID", PropertyManager.getInstance().get_id());

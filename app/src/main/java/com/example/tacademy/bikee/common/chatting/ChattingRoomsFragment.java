@@ -165,6 +165,7 @@ public class ChattingRoomsFragment extends Fragment implements OnChattingRoomAda
         intent.putExtra("BICYCLE_ID", item.getBicycleId());
         intent.putExtra("BICYCLE_NAME", item.getBicycleName());
         intent.putExtra("CHANNEL_URL", item.getMessagingChannel().getUrl());
+        intent.putExtra("AM_I_LISTER", item.isAmILister());
         intent.putExtra("JOIN", true);
         startActivity(intent);
     }
@@ -217,6 +218,7 @@ public class ChattingRoomsFragment extends Fragment implements OnChattingRoomAda
                             sendBirdSendObject.setLister(getChannelInfoReceiveObject.getResult().get(0).getLister());
                             sendBirdSendObject.setBike(getChannelInfoReceiveObject.getResult().get(0).getBike());
                             final String bicycleId = getChannelInfoReceiveObject.getResult().get(0).getBike();
+                            final boolean amILister = SendBird.getUserId().equals(getChannelInfoReceiveObject.getResult().get(0).getLister());
 
                             NetworkManager.getInstance().getChannelResInfo(
                                     sendBirdSendObject,
@@ -238,9 +240,12 @@ public class ChattingRoomsFragment extends Fragment implements OnChattingRoomAda
                                                                 chattingRoomAdapter.add(
                                                                         new ChattingRoomItem(
                                                                                 messagingChannel,
+                                                                                null,
+                                                                                null,
                                                                                 "",
                                                                                 receiveObject.getResult().get(0).getTitle(),
-                                                                                bicycleId
+                                                                                bicycleId,
+                                                                                amILister
                                                                         )
                                                                 );
                                                             }
@@ -255,9 +260,12 @@ public class ChattingRoomsFragment extends Fragment implements OnChattingRoomAda
                                                 chattingRoomAdapter.add(
                                                         new ChattingRoomItem(
                                                                 messagingChannel,
+                                                                receiveObject.getResult().get(0).getReserve().getRentStart(),
+                                                                receiveObject.getResult().get(0).getReserve().getRentEnd(),
                                                                 receiveObject.getResult().get(0).getReserve().getStatus(),
                                                                 receiveObject.getResult().get(0).getBike().getTitle(),
-                                                                bicycleId
+                                                                bicycleId,
+                                                                amILister
                                                         )
                                                 );
                                             }

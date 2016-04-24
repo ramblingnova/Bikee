@@ -13,6 +13,7 @@ import com.example.tacademy.bikee.etc.dao.GetChannelResInfoReceiveObject;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.SendBirdSendObject;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
+import com.sendbird.android.SendBird;
 import com.sendbird.android.model.MessagingChannel;
 
 import java.util.ArrayList;
@@ -82,9 +83,12 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<ChattingRoomViewHo
         for (ChattingRoomItem item : list)
             if (item.getMessagingChannel().getId() == messagingChannel.getId()) {
                 newItem.setMessagingChannel(messagingChannel);
+                newItem.setRentStart(item.getRentStart());
+                newItem.setRentEnd(item.getRentEnd());
                 newItem.setReservationState(item.getReservationState());
                 newItem.setBicycleName(item.getBicycleName());
                 newItem.setBicycleId(item.getBicycleId());
+                newItem.setAmILister(item.isAmILister());
 
                 list.remove(item);
                 list.add(0, newItem);
@@ -105,6 +109,7 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<ChattingRoomViewHo
                         sendBirdSendObject.setLister(getChannelInfoReceiveObject.getResult().get(0).getLister());
                         sendBirdSendObject.setBike(getChannelInfoReceiveObject.getResult().get(0).getBike());
                         final String bicycleId = getChannelInfoReceiveObject.getResult().get(0).getBike();
+                        final boolean amILister = SendBird.getUserId().equals(getChannelInfoReceiveObject.getResult().get(0).getLister());
 
                         NetworkManager.getInstance().getChannelResInfo(
                                 sendBirdSendObject,
@@ -124,9 +129,12 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<ChattingRoomViewHo
                                                             ReceiveObject receiveObject = response.body();
 
                                                             newItem.setMessagingChannel(messagingChannel);
+                                                            newItem.setRentStart(null);
+                                                            newItem.setRentEnd(null);
                                                             newItem.setReservationState("");
                                                             newItem.setBicycleName(receiveObject.getResult().get(0).getTitle());
                                                             newItem.setBicycleId(bicycleId);
+                                                            newItem.setAmILister(amILister);
 
                                                             list.add(0, newItem);
                                                             notifyDataSetChanged();
@@ -141,9 +149,12 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<ChattingRoomViewHo
                                                     });
                                         } else {
                                             newItem.setMessagingChannel(messagingChannel);
+                                            newItem.setRentStart(receiveObject.getResult().get(0).getReserve().getRentStart());
+                                            newItem.setRentEnd(receiveObject.getResult().get(0).getReserve().getRentEnd());
                                             newItem.setReservationState(receiveObject.getResult().get(0).getReserve().getStatus());
                                             newItem.setBicycleName(receiveObject.getResult().get(0).getBike().getTitle());
                                             newItem.setBicycleId(bicycleId);
+                                            newItem.setAmILister(amILister);
 
                                             list.add(0, newItem);
                                             notifyDataSetChanged();

@@ -134,5 +134,6 @@
     <orderEntry type="library" exported="" name="play-services-basement-8.3.0" level="project" />
     <orderEntry type="library" exported="" name="retrofit-2.0.2" level="project" />
     <orderEntry type="module" module-name="SquareCalenderLibrary" exported="" />
+    <orderEntry type="module" module-name="ArsenalCalendarLibrary" exported="" />
   </component>
 </module>

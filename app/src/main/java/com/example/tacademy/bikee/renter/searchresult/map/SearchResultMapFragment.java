@@ -1,5 +1,6 @@
 package com.example.tacademy.bikee.renter.searchresult.map;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -23,6 +24,7 @@ import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.example.tacademy.bikee.renter.searchresult.SearchResultMapItem;
 import com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.FilteredBicycleDetailInformationActivity;
+import com.example.tacademy.bikee.renter.searchresult.filter.FilterActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdate;
@@ -118,7 +120,9 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        if (resultCode == Activity.RESULT_OK && requestCode == FilterActivity.FILTER_ACTIVITY) {
+            Log.d(TAG, "onActivityResult");
+        }
     }
 
     @Override

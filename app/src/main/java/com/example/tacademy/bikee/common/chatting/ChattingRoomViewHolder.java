@@ -59,24 +59,41 @@ public class ChattingRoomViewHolder extends RecyclerView.ViewHolder {
                 userImage
         );
 
+        Date currentDate = new Date();
         switch (item.getReservationState()) {
-            // TODO : 예약 상태에 따라 아이콘이 바뀜
             case "RR":
                 reservationState.setVisibility(View.VISIBLE);
-                reservationState.setImageResource(R.drawable.chatting_icon_step1);
+                if (currentDate.after(item.getRentStart()))
+                    reservationState.setImageResource(R.drawable.chatting_icon_step4);
+                else
+                    reservationState.setImageResource(R.drawable.chatting_icon_step1);
                 break;
             case "RS":
                 reservationState.setVisibility(View.VISIBLE);
-                reservationState.setImageResource(R.drawable.chatting_icon_step2);
+                if (currentDate.after(item.getRentStart()))
+                    reservationState.setImageResource(R.drawable.chatting_icon_step4);
+                else
+                    reservationState.setImageResource(R.drawable.chatting_icon_step2);
+                break;
+            case "PS":
+                reservationState.setVisibility(View.VISIBLE);
+                if (currentDate.after(item.getRentStart())) {
+                    if (currentDate.after(item.getRentEnd()))
+                        reservationState.setImageResource(R.drawable.chatting_icon_step4);
+                    else
+                        reservationState.setImageResource(R.drawable.chatting_icon_step3);
+                } else
+                    reservationState.setImageResource(R.drawable.chatting_icon_step3);
                 break;
             case "RC":
                 reservationState.setVisibility(View.VISIBLE);
-                reservationState.setImageResource(R.drawable.chatting_icon_step3);
+                reservationState.setImageResource(R.drawable.chatting_icon_step4);
                 break;
             default:
                 reservationState.setVisibility(View.INVISIBLE);
                 break;
         }
+
         for (MessagingChannel.Member member : item.getMessagingChannel().getMembers())
             if (!member.getId().equals(SendBird.getUserId())) {
                 userName.setText(member.getName());

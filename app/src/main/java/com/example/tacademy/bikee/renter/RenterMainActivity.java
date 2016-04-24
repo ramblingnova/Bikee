@@ -3,6 +3,7 @@ package com.example.tacademy.bikee.renter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -31,6 +32,7 @@ import com.example.tacademy.bikee.common.smartkey.SmartKeyFragment;
 import com.example.tacademy.bikee.renter.reservationbicycle.RenterReservationBicycleListFragment;
 import com.example.tacademy.bikee.renter.searchresult.SearchResultFragment;
 import com.example.tacademy.bikee.common.sidemenu.AuthenticationInformationActivity;
+import com.example.tacademy.bikee.renter.searchresult.filter.FilterActivity;
 import com.example.tacademy.bikee.renter.sidemenu.cardmanagement.CardManagementActivity;
 import com.example.tacademy.bikee.renter.sidemenu.evaluatingbicycle.EvaluatingBicyclePostScriptListActivity;
 import com.example.tacademy.bikee.common.sidemenu.InputInquiryActivity;
@@ -98,6 +100,17 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == SignInActivity.SIGN_IN_ACTIVITY) {
             initProfile();
+        } else if (resultCode == RESULT_OK && requestCode == FilterActivity.FILTER_ACTIVITY) {
+            Log.d(TAG, "onActivityResult");
+            for (Fragment uploadType : getSupportFragmentManager()
+                    .findFragmentById(R.id.realtabcontent)
+                    .getFragmentManager()
+                    .getFragments()) {
+                if (uploadType != null) {
+                    uploadType.onActivityResult(requestCode, resultCode, data);
+                }
+                super.onActivityResult(requestCode, resultCode, data);
+            }
         }
     }
 
