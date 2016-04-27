@@ -83,7 +83,7 @@ public class ListerRequestedBicycleListFragment extends Fragment implements Adap
                                         || (null == reserve.getRenter().getImage().getFiles())) {
                                     renterImageURL = "";
                                 } else {
-                                    renterImageURL = "https://" + reserve.getRenter().getImage().getCdnUri() + "/detail_" + reserve.getRenter().getImage().getFiles().get(0);
+                                    renterImageURL = "https://" + reserve.getRenter().getImage().getCdnUri() + reserve.getRenter().getImage().getFiles().get(0);
                                 }
                                 String bicycleImageURL;
                                 if ((null == result.getBike().getImage())
@@ -91,7 +91,7 @@ public class ListerRequestedBicycleListFragment extends Fragment implements Adap
                                         || (null == result.getBike().getImage().getFiles())) {
                                     bicycleImageURL = "";
                                 } else {
-                                    bicycleImageURL = result.getBike().getImage().getCdnUri() + "/detail_" + result.getBike().getImage().getFiles().get(0);
+                                    bicycleImageURL = result.getBike().getImage().getCdnUri() + result.getBike().getImage().getFiles().get(0);
                                 }
                                 Log.i("result", "onResponse Renter Image : " + renterImageURL
                                                 + ", Status : " + reserve.getStatus()

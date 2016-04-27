@@ -1,31 +1,39 @@
 package com.example.tacademy.bikee.etc.manager;
 
 import com.example.tacademy.bikee.etc.dao.Bike;
+import com.example.tacademy.bikee.etc.dao.CardReceiveObject;
+import com.example.tacademy.bikee.etc.dao.CardSendObject;
+import com.example.tacademy.bikee.etc.dao.CardTokenReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Comment;
 import com.example.tacademy.bikee.etc.dao.Facebook;
-import com.example.tacademy.bikee.etc.dao.FilterSendObject;
 import com.example.tacademy.bikee.etc.dao.GetChannelResInfoReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Inquires;
+import com.example.tacademy.bikee.etc.dao.PaymentSendObject;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
-import com.example.tacademy.bikee.etc.dao.ReceiveObject1;
+import com.example.tacademy.bikee.etc.dao.ReservationReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Reserve;
 import com.example.tacademy.bikee.etc.dao.SendBirdSendObject;
 import com.example.tacademy.bikee.etc.dao.GetChannelInfoReceiveObject;
 import com.example.tacademy.bikee.etc.dao.User;
+import com.example.tacademy.bikee.etc.dao.UserCommentReceiveObject;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
+import com.squareup.okhttp.RequestBody;
 
 import java.lang.reflect.Type;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Stack;
 
 import okhttp3.JavaNetCookieJar;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,6 +48,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -72,11 +81,10 @@ public class NetworkManager {
     }
 
     public interface ServerUrl {
-//        String baseUrl = "http://bikee.kr.pe";
-//        String baseUrl = "http://192.168.0.14:3000";
-//        String baseUrl = "http://1.255.51.120";
-//        String baseUrl = "http://192.168.0.8:3000";
         String baseUrl = "https://api.bikee.kr";
+//        String baseUrl = "http://bikee.kr.pe";
+//        String baseUrl = "http://1.255.51.120";
+//        String baseUrl = "http://192.168.0.8:9000";
 
         // 회원 정보 조회하기
         @GET("/users/{userId}")
@@ -147,22 +155,12 @@ public class NetworkManager {
         @POST("/sendbird")
         Call<ReceiveObject> createChannel(@Body SendBirdSendObject sendBirdSendObject);
 
-//        @Multipart
-//        @POST("/bikes/users")
-//        void insertBicycle(@PartMap Map<String, TypedFile> files,
-//                           @Part("bike") Bike bike,
-//                           @Part("size") int size,
-//                           Callback<ReceiveObject> callback);
-
-//        @POST("/images")
-//        void tempInsertBicycle(@Body MultipartTypedOutput multipartTypedOutput,
-//                               Callback<String> callback);
-
-//        // 자전거 등록하기(리스터)
+        // 자전거 등록하기
+        @Multipart
+        @POST("/bikes")
 //        @POST("/bikes")
-//        void insertBicycle(@Part("image") List<TypedFile> list,
-//                           @Part("bike") Bike bike,
-//                           Call<ReceiveObject> callback);
+        Call<ReceiveObject> insertBicycle(@Part List<MultipartBody.Part> filePart,
+                                          @Part("bike") Bike bike);
 
         // 보유하고 있는 자전거 조회하기(리스터)
         @GET("/bikes")
@@ -189,7 +187,8 @@ public class NetworkManager {
         // 전체 자전거(맵) 조회하기
         @GET("/bikes/map/{lon}/{lat}")
         Call<ReceiveObject> selectAllMapBicycle(@Path("lon") String lon,
-                                                @Path("lat") String lat);
+                                                @Path("lat") String lat,
+                                                @Query("filter") String filter);
 
         // 자전거 상세 조회하기
         @GET("/bikes/{bikeId}")
@@ -216,7 +215,7 @@ public class NetworkManager {
 
         // 평가한 자전거 후기 보기(렌터)
         @GET("/comments")
-        Call<ReceiveObject> selectUserComment();
+        Call<UserCommentReceiveObject> selectUserComment();
 
         // 자전거 한 대에 평가된 후기 보기(공통)
         @GET("/comments/{bikeId}")
@@ -233,13 +232,13 @@ public class NetworkManager {
 
         // 예약한 자전거 목록 보기(렌터)
         @GET("/reserves/me")
-        Call<ReceiveObject1> selectReservationBicycle();
+        Call<ReservationReceiveObject> selectReservationBicycle();
 
         // 예약된 자전거 목록 보기(리스터)
         @GET("/reserves")
         Call<ReceiveObject> selectRequestedBicycle();
 
-        // 예약 상태 가져오기
+        // 예약 상태 변경하기
         @FormUrlEncoded
         @PUT("/reserves/{bikeId}/{reserveId}")
         Call<ReceiveObject> reserveStatus(@Path("bikeId") String bike_id,
@@ -250,9 +249,26 @@ public class NetworkManager {
         @POST("/inquiry")
         Call<ReceiveObject> insertInquiry(@Body Inquires inquires);
 
-        // 결제 요청하기
-        @GET("/import")
-        Call<ReceiveObject> requestPayment();
+        // 카드 정보 가져오기
+        @GET("/api/credits/customers")
+        Call<CardReceiveObject> receiveCard();
+
+        // 카드 등록하기
+        @POST("/api/credits/customers")
+        Call<CardReceiveObject> registerCard(@Body CardSendObject cardSendObject);
+
+        // 결제하기
+        @POST("/api/credits/customers/{creditid}")
+        Call<CardReceiveObject> payment(@Path("creditid") String creditid,
+                                        @Body PaymentSendObject paymentSendObject);
+
+        // 카드 삭제하기
+        @DELETE("/api/credits/customers/{creditid}")
+        Call<CardReceiveObject> deleteCard(@Path("creditid") String creditid);
+
+        // 카드 토큰 가져오기
+        @GET("/api/credits/token")
+        Call<CardTokenReceiveObject> receiveCardToken();
 
         // GCM 토큰 전송하기
         @FormUrlEncoded
@@ -436,18 +452,15 @@ public class NetworkManager {
         call.enqueue(callback);
     }
 
-//    public void insertBicycle(Map<String, TypedFile> file, Bike bike, int size, Callback<ReceiveObject> callback) {
-//        serverUrl.insertBicycle(file, bike, size, callback);
-//    }
-
-//    public void tempInsertBicycle(MultipartTypedOutput multipartTypedOutput, Callback<String> callback) {
-//        serverUrl.tempInsertBicycle(multipartTypedOutput, callback);
-//    }
-
-//    // 자전거 등록하기(리스터)
-//    public void insertBicycle(List<TypedFile> list, Bike bike, Callback<ReceiveObject> callback) {
-//        serverUrl.insertBicycle(list, bike, callback);
-//    }
+    public void insertBicycle(List<MultipartBody.Part> filePart,
+                              Bike bike,
+                              Stack<Call> callStack,
+                              Callback<ReceiveObject> callback) {
+        Call<ReceiveObject> call = serverUrl.insertBicycle(filePart, bike);
+        if (callStack != null)
+            callStack.push(call);
+        call.enqueue(callback);
+    }
 
     // 보유하고 있는 자전거 조회하기(리스터)
     public void selectBicycle(Stack<Call> callStack,
@@ -491,9 +504,10 @@ public class NetworkManager {
     // 전체 자전거(맵) 조회하기
     public void selectAllMapBicycle(String lon,
                                     String lat,
+                                    String filter,
                                     Stack<Call> callStack,
                                     Callback<ReceiveObject> callback) {
-        Call<ReceiveObject> call = serverUrl.selectAllMapBicycle(lon, lat);
+        Call<ReceiveObject> call = serverUrl.selectAllMapBicycle(lon, lat, filter);
         if (callStack != null)
             callStack.push(call);
         call.enqueue(callback);
@@ -553,8 +567,8 @@ public class NetworkManager {
 
     // 평가한 자전거 후기 보기(렌터)
     public void selectUserComment(Stack<Call> callStack,
-                                  Callback<ReceiveObject> callback) {
-        Call<ReceiveObject> call = serverUrl.selectUserComment();
+                                  Callback<UserCommentReceiveObject> callback) {
+        Call<UserCommentReceiveObject> call = serverUrl.selectUserComment();
         if (callStack != null)
             callStack.push(call);
         call.enqueue(callback);
@@ -593,8 +607,8 @@ public class NetworkManager {
 
     // 예약한 자전거 목록 보기(렌터)
     public void selectReservationBicycle(Stack<Call> callStack,
-                                         Callback<ReceiveObject1> callback) {
-        Call<ReceiveObject1> call = serverUrl.selectReservationBicycle();
+                                         Callback<ReservationReceiveObject> callback) {
+        Call<ReservationReceiveObject> call = serverUrl.selectReservationBicycle();
         if (callStack != null)
             callStack.push(call);
         call.enqueue(callback);
@@ -609,7 +623,7 @@ public class NetworkManager {
         call.enqueue(callback);
     }
 
-    // 예약 상태 가져오기
+    // 예약 상태 변경하기
     public void reserveStatus(String bike_id,
                               String reserveId,
                               String status,
@@ -631,10 +645,50 @@ public class NetworkManager {
         call.enqueue(callback);
     }
 
-    // 결제 요청하기
-    public void requestPayment(Stack<Call> callStack,
-                               Callback<ReceiveObject> callback) {
-        Call<ReceiveObject> call = serverUrl.requestPayment();
+    // 카드 정보 가져오기
+    public void receiveCard(Stack<Call> callStack,
+                            Callback<CardReceiveObject> callback) {
+        Call<CardReceiveObject> call = serverUrl.receiveCard();
+        if (callStack != null)
+            callStack.push(call);
+        call.enqueue(callback);
+    }
+
+    // 카드 등록하기
+    public void registerCard(CardSendObject cardSendObject,
+                             Stack<Call> callStack,
+                             Callback<CardReceiveObject> callback) {
+        Call<CardReceiveObject> call = serverUrl.registerCard(cardSendObject);
+        if (callStack != null)
+            callStack.push(call);
+        call.enqueue(callback);
+    }
+
+    // 결제하기
+    public void payment(String creditid,
+                        PaymentSendObject paymentSendObject,
+                        Stack<Call> callStack,
+                        Callback<CardReceiveObject> callback) {
+        Call<CardReceiveObject> call = serverUrl.payment(creditid, paymentSendObject);
+        if (callStack != null)
+            callStack.push(call);
+        call.enqueue(callback);
+    }
+
+    // 카드 삭제하기
+    public void deleteCard(String creditid,
+                           Stack<Call> callStack,
+                           Callback<CardReceiveObject> callback) {
+        Call<CardReceiveObject> call = serverUrl.deleteCard(creditid);
+        if (callStack != null)
+            callStack.push(call);
+        call.enqueue(callback);
+    }
+
+    // 카드 토큰 가져오기
+    public void receiveCardToken(Stack<Call> callStack,
+                                 Callback<CardTokenReceiveObject> callback) {
+        Call<CardTokenReceiveObject> call = serverUrl.receiveCardToken();
         if (callStack != null)
             callStack.push(call);
         call.enqueue(callback);

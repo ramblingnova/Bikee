@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.tacademy.bikee.renter.sidemenu.cardmanagement.CardManagementActivity">
+    tools:context=".renter.sidemenu.card.CardsActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -26,10 +26,10 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <ListView
-            android:id="@+id/activity_card_management_list_view"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/activity_card_management_recycler_view"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
         <Button
             android:id="@+id/activity_card_management_add_button"
@@ -37,6 +37,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|bottom"
-            android:text="@string/activity_card_management_add_button_string" />
+            android:text="카드 등록하러 가기" />
+
+        <Button
+            android:id="@+id/activity_card_management_prepayment_button"
+            style="@style/Widget.AppCompat.Button.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|bottom"
+            android:text="사전 결제하러 가기" />
     </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>

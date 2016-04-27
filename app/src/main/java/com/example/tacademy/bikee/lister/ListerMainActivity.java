@@ -24,11 +24,11 @@ import com.example.tacademy.bikee.common.chatting.ChattingRoomsFragment;
 import com.example.tacademy.bikee.common.sidemenu.SignInActivity;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.sidemenu.InputInquiryActivity;
+import com.example.tacademy.bikee.common.sidemenu.comment.CommentsActivity;
 import com.example.tacademy.bikee.common.smartkey.SmartKeyFragment;
 import com.example.tacademy.bikee.etc.utils.ImageUtil;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.example.tacademy.bikee.lister.requestedbicycle.ListerRequestedBicycleListFragment;
-import com.example.tacademy.bikee.lister.sidemenu.evaluatedbicycle.EvaluatedBicyclePostScriptListActivity;
 import com.example.tacademy.bikee.lister.sidemenu.owningbicycle.OwningBicycleListActivity;
 import com.example.tacademy.bikee.renter.RenterMainActivity;
 import com.tsengvn.typekit.TypekitContextWrapper;
@@ -152,7 +152,8 @@ public class ListerMainActivity extends AppCompatActivity implements TabHost.OnT
             case R.id.lister_side_menu_receive_payment_information_text_view:
                 break;
             case R.id.lister_side_menu_evaluated_bicycle_script_text_view: {
-                intent = new Intent(ListerMainActivity.this, EvaluatedBicyclePostScriptListActivity.class);
+                intent = new Intent(ListerMainActivity.this, CommentsActivity.class);
+                intent.putExtra("FROM", from);
                 startActivity(intent);
                 break;
             }

@@ -15,7 +15,6 @@ import android.widget.ListView;
 
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
-import com.example.tacademy.bikee.etc.dao.FilterSendObject;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
@@ -24,8 +23,7 @@ import com.example.tacademy.bikee.renter.searchresult.SearchResultListItem;
 import com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.FilteredBicycleDetailInformationActivity;
 import com.example.tacademy.bikee.renter.searchresult.filter.FilterActivity;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -45,10 +43,9 @@ public class SearchResultListFragment extends Fragment implements SwipeRefreshLa
     private String latitude = null;
     private String longitude = null;
     private int index;
-    private FilterSendObject filterSendObject;
     private String filter;
 
-    private static final String TAG = "SEARCH_R...T_ACTIVITY";
+    private static final String TAG = "SEARCH_R_L_ACTIVITY";
 
     public SearchResultListFragment() {
 
@@ -76,6 +73,7 @@ public class SearchResultListFragment extends Fragment implements SwipeRefreshLa
     public void onResume() {
         super.onResume();
         adapter.clear();
+        index = 0;
         requestData();
     }
 
@@ -106,26 +104,28 @@ public class SearchResultListFragment extends Fragment implements SwipeRefreshLa
         if (resultCode == Activity.RESULT_OK && requestCode == FilterActivity.FILTER_ACTIVITY) {
             Log.d(TAG, "onActivityResult");
             // TODO
-            filterSendObject = new FilterSendObject();
+
+            List<String> f = new ArrayList<String>();
             latitude = data.getStringExtra("LATITUDE");
             longitude = data.getStringExtra("LONGITUDE");
-            filterSendObject.setType(data.getStringExtra("TYPE"));
-            filterSendObject.setHeight(data.getStringExtra("HEIGHT"));
-            filterSendObject.setSmartlock(data.getBooleanExtra("SMART_LOCK", false));
-            filterSendObject.setSort(data.getStringExtra("ORDER"));
-            filterSendObject.setStart(data.getStringExtra("START_DATE"));
-            filterSendObject.setEnd(data.getStringExtra("END_DATE"));
 
-            filter = "{\"start\":\"" + data.getStringExtra("START_DATE")
-                    + "\",\"end\":\"" + data.getStringExtra("END_DATE")
-                    + "\",\"type\":\"" + data.getStringExtra("TYPE")
-                    + "\",\"height\":\"" + data.getStringExtra("HEIGHT")
-                    + "\",\"smartlock\":\"" + data.getBooleanExtra("SMART_LOCK", false)
-                    + "\",\"sort\":\"" + data.getStringExtra("ORDER")
-                    + "\"}";
+            filter = "{";
+            if (data.getStringExtra("START_DATE") != null)
+                f.add("\"start\":\"" + data.getStringExtra("START_DATE") + "\"");
+            if (data.getStringExtra("END_DATE") != null)
+                f.add("\"end\":\"" + data.getStringExtra("END_DATE") + "\"");
+            if (data.getStringExtra("TYPE") != null)
+                f.add("\"type\":\"" + data.getStringExtra("TYPE") + "\"");
+            if (data.getStringExtra("HEIGHT") != null)
+                f.add("\"height\":\"" + data.getStringExtra("HEIGHT") + "\"");
+            f.add("\"smartlock\":" + data.getBooleanExtra("SMART_LOCK", false));
+            for (int i = 0; i < f.size(); i++)
+                filter += (i == 0 ? "" : ",") + f.get(i);
+            filter += "}";
+
+            index = 0;
         }
     }
-
 
 
     @OnItemClick(R.id.view_search_result_item_list_view)
@@ -169,15 +169,15 @@ public class SearchResultListFragment extends Fragment implements SwipeRefreshLa
                                             + ", Msg : " + receiveObject.getMsg()
                                             + ", Error : "
                             );
-                        index = receiveObject.getLastindex();
                         List<Result> results = receiveObject.getResult();
                         String imageURL;
                         for (Result result : results) {
+                            index++;
                             if ((null == result.getImage().getCdnUri())
                                     || (null == result.getImage().getFiles())) {
                                 imageURL = "";
                             } else {
-                                imageURL = result.getImage().getCdnUri() + "/detail_" + result.getImage().getFiles().get(0);
+                                imageURL = result.getImage().getCdnUri() + result.getImage().getFiles().get(0);
                             }
                             if (BuildConfig.DEBUG)
                                 Log.d(TAG, "List!! onResponse Id : " + result.get_id()

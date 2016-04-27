@@ -62,7 +62,7 @@
         </service>
         <service
             android:name=".etc.gcm.RegistrationIntentService"
-            android:exported="false"/>
+            android:exported="false" />
 
         <activity
             android:name=".common.SplashActivity"
@@ -105,7 +105,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".renter.reservationbicycle.InputBicyclePostScriptActivity"
+            android:name=".renter.reservation.content.popup.InputBicyclePostScriptActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -113,15 +113,15 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".renter.reservationbicycle.RenterReservationBicycleDetailInformationActivity"
+            android:name=".renter.reservation.content.RenterReservationContentActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".renter.sidemenu.cardmanagement.CardManagementActivity"
+            android:name=".renter.sidemenu.card.CardsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".renter.sidemenu.evaluatingbicycle.EvaluatingBicyclePostScriptListActivity"
+            android:name=".common.sidemenu.comment.CommentsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -133,7 +133,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".renter.sidemenu.cardmanagement.RegisterCardActivity"
+            android:name=".renter.sidemenu.card.register.RegisterCardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -169,8 +169,8 @@
         <activity
             android:name=".common.SmallMapActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".renter.reservationbicycle.RequestPaymentActivity" />
-        <activity android:name=".lister.sidemenu.owningbicycle.registerbicycle.page2.TempActivity"></activity>
+        <activity android:name=".renter.reservation.content.popup.RequestPaymentActivity" />
+        <activity android:name=".lister.sidemenu.owningbicycle.registerbicycle.page2.TempActivity" />
         <activity
             android:name=".lister.sidemenu.owningbicycle.registerbicycle.page4.camera.CameraActivity"
             android:screenOrientation="portrait"
@@ -183,6 +183,7 @@
             android:name=".common.chatting.room.ConversationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".renter.reservation.content.popup.CardSelectionActivity"></activity>
     </application>
 
 </manifest>

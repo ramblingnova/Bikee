@@ -38,6 +38,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,9 +57,10 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     private GoogleMap googleMap;
     private LocationManager locationManager;
     private View view;
-    BicycleInfoWindowView bicycleInfoWindowView;
+    private BicycleInfoWindowView bicycleInfoWindowView;
     private String userLatitude = null;
     private String userLongitude = null;
+    private String filter;
 
     private static final String TAG = "SEARCH_R_M_ACTIVITY";
 
@@ -86,8 +88,6 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
             // e.printStackTrace();
         }
 
-        requestData();
-
         return view;
     }
 
@@ -106,6 +106,12 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     @Override
     public void onResume() {
         super.onResume();
+
+//        googleMap.clear();
+//        mMarkerResolver.clear();
+//        mPOIResolver.clear();
+
+        requestData();
     }
 
     @Override
@@ -122,6 +128,25 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK && requestCode == FilterActivity.FILTER_ACTIVITY) {
             Log.d(TAG, "onActivityResult");
+            // TODO
+
+            List<String> f = new ArrayList<String>();
+            userLatitude = data.getStringExtra("LATITUDE");
+            userLongitude = data.getStringExtra("LONGITUDE");
+
+            filter = "{";
+            if (data.getStringExtra("START_DATE") != null)
+                f.add("\"start\":\"" + data.getStringExtra("START_DATE") + "\"");
+            if (data.getStringExtra("END_DATE") != null)
+                f.add("\"end\":\"" + data.getStringExtra("END_DATE") + "\"");
+            if (data.getStringExtra("TYPE") != null)
+                f.add("\"type\":\"" + data.getStringExtra("TYPE") + "\"");
+            if (data.getStringExtra("HEIGHT") != null)
+                f.add("\"height\":\"" + data.getStringExtra("HEIGHT") + "\"");
+            f.add("\"smartlock\":" + data.getBooleanExtra("SMART_LOCK", false));
+            for (int i = 0; i < f.size(); i++)
+                filter += (i == 0 ? "" : ",") + f.get(i);
+            filter += "}";
         }
     }
 
@@ -266,6 +291,7 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
         NetworkManager.getInstance().selectAllMapBicycle(
                 lon,
                 lat,
+                filter,
                 null,
                 new Callback<ReceiveObject>() {
                     @Override
@@ -282,7 +308,7 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
                             if ((null == result.getImage().getCdnUri()) || (null == result.getImage().getFiles())) {
                                 imageURL = "";
                             } else {
-                                imageURL = result.getImage().getCdnUri() + "/detail_" + result.getImage().getFiles().get(0);
+                                imageURL = result.getImage().getCdnUri() + result.getImage().getFiles().get(0);
                             }
                             Log.i("result", "onResponse : " + result.get_id()
                                             + ", ImageURL : " + imageURL

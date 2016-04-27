@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.tacademy.bikee.renter.reservationbicycle.RenterReservationBicycleDetailInformationActivity">
+    tools:context=".renter.reservation.content.RenterReservationContentActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -57,8 +57,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/activity_renter_reservation_bicycle_detail_information_bicycle_picture_name_introduction_layout"
-                android:paddingBottom="21dp"
-                android:background="@color/bikeeWhite">
+                android:background="@color/bikeeWhite"
+                android:paddingBottom="21dp">
 
                 <View
                     android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_picture_name_introduction_bicycle_type_line"
@@ -151,78 +151,31 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/activity_renter_reservation_bicycle_detail_information_cancel_button"
+                    android:id="@+id/activity_renter_reservation_content_bottom_buttons_left_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="8dp"
+                    android:layout_marginStart="16dp"
                     android:layout_weight="0.5"
-                    android:background="@drawable/detailpage_button2"
-                    android:text="@string/activity_renter_reservation_bicycle_detail_information_cancel_button_string"
-                    android:visibility="gone" />
+                    android:background="@drawable/detailpage_button1"
+                    android:text="뒤로가기"
+                    android:textColor="@color/bikeeWhite" />
 
                 <Button
-                    android:id="@+id/activity_renter_reservation_bicycle_detail_information_pay_button"
+                    android:id="@+id/activity_renter_reservation_content_bottom_buttons_right_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="16dp"
-                    android:layout_toRightOf="@id/activity_renter_reservation_bicycle_detail_information_cancel_button"
+                    android:layout_marginStart="8dp"
                     android:layout_weight="0.5"
                     android:background="@drawable/detailpage_button2"
-                    android:text="@string/activity_renter_reservation_bicycle_detail_information_pay_button_string"
+                    android:textColor="@color/bikeeWhite"
                     android:visibility="gone" />
             </LinearLayout>
-
-            <Button
-                android:id="@+id/activity_renter_reservation_bicycle_detail_information_cancel_button2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_information_layout"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="26dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="42dp"
-                android:background="@drawable/detailpage_button2"
-                android:text="@string/activity_renter_reservation_bicycle_detail_information_cancel_button2_string"
-                android:visibility="gone" />
-
-            <Button
-                android:id="@+id/activity_renter_reservation_bicycle_detail_information_input_post_scription_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_information_layout"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="26dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="42dp"
-                android:background="@drawable/detailpage_button2"
-                android:text="@string/activity_renter_reservation_bicycle_detail_information_input_post_scription_button_string"
-                android:visibility="gone" />
         </RelativeLayout>
     </ScrollView>
-</android.support.design.widget.CoordinatorLayout><!--<Button
-        android:id="@+id/activity_renter_reservation_bicycle_detail_information_small_map_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_rental_place"
-        android:background="@drawable/detailpage_button2"
-        android:text="@string/activity_renter_reservation_bicycle_detail_information_small_map_button_string" />
-
-    <include
-        android:id="@+id/activity_renter_reservation_bicycle_detail_information_reservation_period"
-        layout="@layout/reservation_period"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_small_map_button"
-        android:layout_centerHorizontal="true" />
-
-    <include
-        android:id="@+id/activity_renter_reservation_bicycle_detail_information_payment"
-        layout="@layout/payment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_reservation_period"
-        android:layout_centerHorizontal="true" />-->
+</android.support.design.widget.CoordinatorLayout>

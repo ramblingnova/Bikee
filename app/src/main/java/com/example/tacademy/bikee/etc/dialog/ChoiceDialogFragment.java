@@ -20,7 +20,7 @@ import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.MyApplication;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
-import com.example.tacademy.bikee.renter.reservationbicycle.RequestPaymentActivity;
+import com.example.tacademy.bikee.renter.reservation.content.popup.RequestPaymentActivity;
 
 import retrofit2.Call;
 import retrofit2.Callback;

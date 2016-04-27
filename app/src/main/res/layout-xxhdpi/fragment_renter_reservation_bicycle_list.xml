@@ -2,13 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.tacademy.bikee.renter.reservationbicycle.RenterReservationBicycleListFragment">
+    tools:context=".renter.reservation.RenterReservationsFragment">
 
-    <ListView
-        android:id="@+id/view_renter_reservation_bicycle_item_list_view"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/fragment_renter_reservation_bicycle_list_recycler_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/bikeeBackground"
-        android:divider="@null"
-        android:dividerHeight="0dp" />
+        android:background="@color/bikeeBackground" />
 </FrameLayout>

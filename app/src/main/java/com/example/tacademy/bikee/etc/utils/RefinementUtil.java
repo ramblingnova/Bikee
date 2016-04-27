@@ -29,7 +29,7 @@ public class RefinementUtil {
                 || (0 >= result.getImage().getFiles().size())) {
             return "";
         } else {
-            return result.getImage().getCdnUri() + "/detail_" + result.getImage().getFiles().get(0);
+            return result.getImage().getCdnUri() + result.getImage().getFiles().get(0);
         }
     }
 
@@ -41,7 +41,6 @@ public class RefinementUtil {
             return "";
         } else {
             return result.getBike().getImage().getCdnUri()
-                    + "/detail_"
                     + result.getBike().getImage().getFiles().get(0);
         }
     }
@@ -55,7 +54,7 @@ public class RefinementUtil {
             return list;
         } else {
             for (String s : result.getImage().getFiles()) {
-                list.add(result.getImage().getCdnUri() + "/detail_" + s);
+                list.add(result.getImage().getCdnUri() + s);
             }
             return list;
         }
@@ -68,7 +67,7 @@ public class RefinementUtil {
                 || (0 >= result.getUser().getImage().getFiles().size())) {
             return "";
         } else {
-            return result.getUser().getImage().getCdnUri() + "/detail_" + result.getUser().getImage().getFiles().get(0);
+            return result.getUser().getImage().getCdnUri() + result.getUser().getImage().getFiles().get(0);
         }
     }
 
@@ -79,7 +78,7 @@ public class RefinementUtil {
                 || (0 >= comment.getWriter().getImage().getFiles().size())) {
             return "";
         } else {
-            return comment.getWriter().getImage().getCdnUri() + "/detail_" + comment.getWriter().getImage().getFiles().get(0);
+            return comment.getWriter().getImage().getCdnUri() + comment.getWriter().getImage().getFiles().get(0);
         }
     }
 

@@ -29,12 +29,12 @@ import com.example.tacademy.bikee.lister.ListerMainActivity;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.sidemenu.SignInActivity;
 import com.example.tacademy.bikee.common.smartkey.SmartKeyFragment;
-import com.example.tacademy.bikee.renter.reservationbicycle.RenterReservationBicycleListFragment;
+import com.example.tacademy.bikee.renter.reservation.RenterReservationsFragment;
 import com.example.tacademy.bikee.renter.searchresult.SearchResultFragment;
 import com.example.tacademy.bikee.common.sidemenu.AuthenticationInformationActivity;
 import com.example.tacademy.bikee.renter.searchresult.filter.FilterActivity;
-import com.example.tacademy.bikee.renter.sidemenu.cardmanagement.CardManagementActivity;
-import com.example.tacademy.bikee.renter.sidemenu.evaluatingbicycle.EvaluatingBicyclePostScriptListActivity;
+import com.example.tacademy.bikee.renter.sidemenu.card.CardsActivity;
+import com.example.tacademy.bikee.common.sidemenu.comment.CommentsActivity;
 import com.example.tacademy.bikee.common.sidemenu.InputInquiryActivity;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
@@ -85,7 +85,7 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
         tabHost = (FragmentTabHost) findViewById(R.id.tabHost);
         tabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
         tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator(btt_iv1), SearchResultFragment.class, null);
-        tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator(btt_iv2), RenterReservationBicycleListFragment.class, null);
+        tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator(btt_iv2), RenterReservationsFragment.class, null);
         tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator(btt_iv3), ChattingRoomsFragment.class, null);
         tabHost.addTab(tabHost.newTabSpec("tab4").setIndicator(btt_iv4), SmartKeyFragment.class, null);
         tabHost.setOnTabChangedListener(this);
@@ -184,11 +184,12 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
                 startActivityForResult(intent, SignInActivity.SIGN_IN_ACTIVITY);
                 break;
             case R.id.renter_side_menu_fragment_register_card_text_view:
-                intent = new Intent(RenterMainActivity.this, CardManagementActivity.class);
+                intent = new Intent(RenterMainActivity.this, CardsActivity.class);
                 startActivity(intent);
                 break;
             case R.id.renter_side_menu_evaluation_bicycle_script_text_view:
-                intent = new Intent(RenterMainActivity.this, EvaluatingBicyclePostScriptListActivity.class);
+                intent = new Intent(RenterMainActivity.this, CommentsActivity.class);
+                intent.putExtra("FROM", from);
                 startActivity(intent);
                 break;
             case R.id.renter_side_menu_authentication_information_text_view:
