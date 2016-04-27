@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/C:/Users/User/AndroidStudioProjects/Bikee/ArsenalCalendarLibrary/build/intermediates/bundles/debug/res/values-h330dp/values-h330dp.xml -->
+    <eat-comment/>
+    <dimen name="mdtp_date_picker_view_animator_height">252dp</dimen>
+    <dimen name="mdtp_time_picker_height">300dip</dimen>
+</resources>

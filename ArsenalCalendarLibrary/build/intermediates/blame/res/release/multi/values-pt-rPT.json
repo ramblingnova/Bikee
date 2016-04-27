@@ -1,0 +1,235 @@
+[
+    {
+        "outputFile": "C:\\Users\\User\\AndroidStudioProjects\\MyApplication3\\library\\build\\intermediates\\res\\merged\\release\\values-pt-rPT\\values-pt-rPT.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 105,
+                    "endColumn": 67,
+                    "endOffset": 168
+                },
+                "from": {
+                    "file": "C:\\Users\\User\\AndroidStudioProjects\\MyApplication3\\library\\src\\main\\res\\values-pt-rPT\\strings.xml",
+                    "position": {
+                        "startLine": 30,
+                        "startColumn": 4,
+                        "startOffset": 2007,
+                        "endColumn": 67,
+                        "endOffset": 2070
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 173,
+                    "endColumn": 107,
+                    "endOffset": 276
+                },
+                "from": {
+                    "file": "C:\\Users\\User\\AndroidStudioProjects\\MyApplication3\\library\\src\\main\\res\\values-pt-rPT\\strings.xml",
+                    "position": {
+                        "startLine": 24,
+                        "startColumn": 4,
+                        "startOffset": 1363,
+                        "endColumn": 107,
+                        "endOffset": 1466
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 4,
+                    "startColumn": 4,
+                    "startOffset": 281,
+                    "endColumn": 113,
+                    "endOffset": 390
+                },
+                "from": {
+                    "file": "C:\\Users\\User\\AndroidStudioProjects\\MyApplication3\\library\\src\\main\\res\\values-pt-rPT\\strings.xml",
+                    "position": {
+                        "startLine": 29,
+                        "startColumn": 4,
+                        "startOffset": 1888,
+                        "endColumn": 117,
+                        "endOffset": 2001
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 5,
+                    "startColumn": 4,
+                    "startOffset": 395,
+                    "endColumn": 83,
+                    "endOffset": 474
+                },
+                "from": {
+                    "file": "C:\\Users\\User\\AndroidStudioProjects\\MyApplication3\\library\\src\\main\\res\\values-pt-rPT\\strings.xml",
+                    "position": {
+                        "startLine": 19,
+                        "startColumn": 4,
+                        "startOffset": 828,
+                        "endColumn": 83,
+                        "endOffset": 907
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 6,
+                    "startColumn": 4,
+                    "startOffset": 479,
+                    "endColumn": 125,
+                    "endOffset": 600
+                },
+                "from": {
+                    "file": "C:\\Users\\User\\AndroidStudioProjects\\MyApplication3\\library\\src\\main\\res\\values-pt-rPT\\strings.xml",
+                    "position": {
+                        "startLine": 20,
+                        "startColumn": 4,
+                        "startOffset": 913,
+                        "endColumn": 125,
+                        "endOffset": 1034
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 7,
+                    "startColumn": 4,
+                    "startOffset": 605,
+                    "endColumn": 121,
+                    "endOffset": 722
+                },
+                "from": {
+                    "file": "C:\\Users\\User\\AndroidStudioProjects\\MyApplication3\\library\\src\\main\\res\\values-pt-rPT\\strings.xml",
+                    "position": {
+                        "startLine": 28,
+                        "startColumn": 4,
+                        "startOffset": 1761,
+                        "endColumn": 125,
+                        "endOffset": 1882
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 8,
+                    "startColumn": 4,
+                    "startOffset": 727,
+                    "endColumn": 129,
+                    "endOffset": 852
+                },
+                "from": {
+                    "file": "C:\\Users\\User\\AndroidStudioProjects\\MyApplication3\\library\\src\\main\\res\\values-pt-rPT\\strings.xml",
+                    "position": {
+                        "startLine": 21,
+                        "startColumn": 4,
+                        "startOffset": 1040,
+                        "endColumn": 129,
+                        "endOffset": 1165
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 9,
+                    "startColumn": 4,
+                    "startOffset": 857,
+                    "endColumn": 94,
+                    "endOffset": 947
+                },
+                "from": {
+                    "file": "C:\\Users\\User\\AndroidStudioProjects\\MyApplication3\\library\\src\\main\\res\\values-pt-rPT\\strings.xml",
+                    "position": {
+                        "startLine": 26,
+                        "startColumn": 4,
+                        "startOffset": 1574,
+                        "endColumn": 94,
+                        "endOffset": 1664
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 10,
+                    "startColumn": 4,
+                    "startOffset": 952,
+                    "endColumn": 92,
+                    "endOffset": 1040
+                },
+                "from": {
+                    "file": "C:\\Users\\User\\AndroidStudioProjects\\MyApplication3\\library\\src\\main\\res\\values-pt-rPT\\strings.xml",
+                    "position": {
+                        "startLine": 22,
+                        "startColumn": 4,
+                        "startOffset": 1171,
+                        "endColumn": 92,
+                        "endOffset": 1259
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 11,
+                    "startColumn": 4,
+                    "startOffset": 1045,
+                    "endColumn": 96,
+                    "endOffset": 1137
+                },
+                "from": {
+                    "file": "C:\\Users\\User\\AndroidStudioProjects\\MyApplication3\\library\\src\\main\\res\\values-pt-rPT\\strings.xml",
+                    "position": {
+                        "startLine": 23,
+                        "startColumn": 4,
+                        "startOffset": 1265,
+                        "endColumn": 96,
+                        "endOffset": 1357
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 12,
+                    "startColumn": 4,
+                    "startOffset": 1142,
+                    "endColumn": 89,
+                    "endOffset": 1227
+                },
+                "from": {
+                    "file": "C:\\Users\\User\\AndroidStudioProjects\\MyApplication3\\library\\src\\main\\res\\values-pt-rPT\\strings.xml",
+                    "position": {
+                        "startLine": 27,
+                        "startColumn": 4,
+                        "startOffset": 1670,
+                        "endColumn": 89,
+                        "endOffset": 1755
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 13,
+                    "startColumn": 4,
+                    "startOffset": 1232,
+                    "endColumn": 100,
+                    "endOffset": 1328
+                },
+                "from": {
+                    "file": "C:\\Users\\User\\AndroidStudioProjects\\MyApplication3\\library\\src\\main\\res\\values-pt-rPT\\strings.xml",
+                    "position": {
+                        "startLine": 25,
+                        "startColumn": 4,
+                        "startOffset": 1472,
+                        "endColumn": 100,
+                        "endOffset": 1568
+                    }
+                }
+            }
+        ]
+    }
+]

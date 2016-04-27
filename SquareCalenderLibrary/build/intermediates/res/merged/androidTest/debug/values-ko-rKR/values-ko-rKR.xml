@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- From: file:/C:/Users/User/AndroidStudioProjects/Bikee/SquareCalenderLibrary/build/intermediates/bundles/debug/res/values-ko-rKR/values-ko-rKR.xml -->
-    <eat-comment/>
-    <string name="day_name_format">EEE</string>
-    <string name="invalid_date">Date must be between %1$s and %2$s.</string>
-    <string name="month_name_format">yyyy.MM</string>
-</resources>

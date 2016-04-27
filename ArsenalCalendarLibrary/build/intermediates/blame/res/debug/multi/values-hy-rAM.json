@@ -1,0 +1,235 @@
+[
+    {
+        "outputFile": "C:\\Users\\User\\AndroidStudioProjects\\MyApplication3\\library\\build\\intermediates\\res\\merged\\debug\\values-hy-rAM\\values-hy-rAM.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 105,
+                    "endColumn": 62,
+                    "endOffset": 163
+                },
+                "from": {
+                    "file": "C:\\Users\\User\\AndroidStudioProjects\\MyApplication3\\library\\src\\main\\res\\values-hy-rAM\\strings.xml",
+                    "position": {
+                        "startLine": 30,
+                        "startColumn": 4,
+                        "startOffset": 1983,
+                        "endColumn": 62,
+                        "endOffset": 2041
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 168,
+                    "endColumn": 113,
+                    "endOffset": 277
+                },
+                "from": {
+                    "file": "C:\\Users\\User\\AndroidStudioProjects\\MyApplication3\\library\\src\\main\\res\\values-hy-rAM\\strings.xml",
+                    "position": {
+                        "startLine": 24,
+                        "startColumn": 4,
+                        "startOffset": 1342,
+                        "endColumn": 113,
+                        "endOffset": 1451
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 4,
+                    "startColumn": 4,
+                    "startOffset": 282,
+                    "endColumn": 110,
+                    "endOffset": 388
+                },
+                "from": {
+                    "file": "C:\\Users\\User\\AndroidStudioProjects\\MyApplication3\\library\\src\\main\\res\\values-hy-rAM\\strings.xml",
+                    "position": {
+                        "startLine": 29,
+                        "startColumn": 4,
+                        "startOffset": 1867,
+                        "endColumn": 114,
+                        "endOffset": 1977
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 5,
+                    "startColumn": 4,
+                    "startOffset": 393,
+                    "endColumn": 84,
+                    "endOffset": 473
+                },
+                "from": {
+                    "file": "C:\\Users\\User\\AndroidStudioProjects\\MyApplication3\\library\\src\\main\\res\\values-hy-rAM\\strings.xml",
+                    "position": {
+                        "startLine": 19,
+                        "startColumn": 4,
+                        "startOffset": 828,
+                        "endColumn": 84,
+                        "endOffset": 908
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 6,
+                    "startColumn": 4,
+                    "startOffset": 478,
+                    "endColumn": 117,
+                    "endOffset": 591
+                },
+                "from": {
+                    "file": "C:\\Users\\User\\AndroidStudioProjects\\MyApplication3\\library\\src\\main\\res\\values-hy-rAM\\strings.xml",
+                    "position": {
+                        "startLine": 20,
+                        "startColumn": 4,
+                        "startOffset": 914,
+                        "endColumn": 117,
+                        "endOffset": 1027
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 7,
+                    "startColumn": 4,
+                    "startOffset": 596,
+                    "endColumn": 117,
+                    "endOffset": 709
+                },
+                "from": {
+                    "file": "C:\\Users\\User\\AndroidStudioProjects\\MyApplication3\\library\\src\\main\\res\\values-hy-rAM\\strings.xml",
+                    "position": {
+                        "startLine": 28,
+                        "startColumn": 4,
+                        "startOffset": 1744,
+                        "endColumn": 121,
+                        "endOffset": 1861
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 8,
+                    "startColumn": 4,
+                    "startOffset": 714,
+                    "endColumn": 121,
+                    "endOffset": 831
+                },
+                "from": {
+                    "file": "C:\\Users\\User\\AndroidStudioProjects\\MyApplication3\\library\\src\\main\\res\\values-hy-rAM\\strings.xml",
+                    "position": {
+                        "startLine": 21,
+                        "startColumn": 4,
+                        "startOffset": 1033,
+                        "endColumn": 121,
+                        "endOffset": 1150
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 9,
+                    "startColumn": 4,
+                    "startOffset": 836,
+                    "endColumn": 93,
+                    "endOffset": 925
+                },
+                "from": {
+                    "file": "C:\\Users\\User\\AndroidStudioProjects\\MyApplication3\\library\\src\\main\\res\\values-hy-rAM\\strings.xml",
+                    "position": {
+                        "startLine": 26,
+                        "startColumn": 4,
+                        "startOffset": 1560,
+                        "endColumn": 93,
+                        "endOffset": 1649
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 10,
+                    "startColumn": 4,
+                    "startOffset": 930,
+                    "endColumn": 89,
+                    "endOffset": 1015
+                },
+                "from": {
+                    "file": "C:\\Users\\User\\AndroidStudioProjects\\MyApplication3\\library\\src\\main\\res\\values-hy-rAM\\strings.xml",
+                    "position": {
+                        "startLine": 22,
+                        "startColumn": 4,
+                        "startOffset": 1156,
+                        "endColumn": 89,
+                        "endOffset": 1241
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 11,
+                    "startColumn": 4,
+                    "startOffset": 1020,
+                    "endColumn": 93,
+                    "endOffset": 1109
+                },
+                "from": {
+                    "file": "C:\\Users\\User\\AndroidStudioProjects\\MyApplication3\\library\\src\\main\\res\\values-hy-rAM\\strings.xml",
+                    "position": {
+                        "startLine": 23,
+                        "startColumn": 4,
+                        "startOffset": 1247,
+                        "endColumn": 93,
+                        "endOffset": 1336
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 12,
+                    "startColumn": 4,
+                    "startOffset": 1114,
+                    "endColumn": 87,
+                    "endOffset": 1197
+                },
+                "from": {
+                    "file": "C:\\Users\\User\\AndroidStudioProjects\\MyApplication3\\library\\src\\main\\res\\values-hy-rAM\\strings.xml",
+                    "position": {
+                        "startLine": 27,
+                        "startColumn": 4,
+                        "startOffset": 1655,
+                        "endColumn": 87,
+                        "endOffset": 1738
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 13,
+                    "startColumn": 4,
+                    "startOffset": 1202,
+                    "endColumn": 101,
+                    "endOffset": 1299
+                },
+                "from": {
+                    "file": "C:\\Users\\User\\AndroidStudioProjects\\MyApplication3\\library\\src\\main\\res\\values-hy-rAM\\strings.xml",
+                    "position": {
+                        "startLine": 25,
+                        "startColumn": 4,
+                        "startOffset": 1457,
+                        "endColumn": 101,
+                        "endOffset": 1554
+                    }
+                }
+            }
+        ]
+    }
+]

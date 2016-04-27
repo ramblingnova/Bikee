@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "C:\\Users\\User\\AndroidStudioProjects\\MyApplication3\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-land\\mdtp_done_background_color.xml",
+        "source": "C:\\Users\\User\\AndroidStudioProjects\\MyApplication3\\library\\build\\intermediates\\bundles\\debug\\res\\drawable-land\\mdtp_done_background_color.xml"
+    },
+    {
+        "merged": "C:\\Users\\User\\AndroidStudioProjects\\MyApplication3\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-land\\mdtp_done_background_color_dark.xml",
+        "source": "C:\\Users\\User\\AndroidStudioProjects\\MyApplication3\\library\\build\\intermediates\\bundles\\debug\\res\\drawable-land\\mdtp_done_background_color_dark.xml"
+    }
+]
