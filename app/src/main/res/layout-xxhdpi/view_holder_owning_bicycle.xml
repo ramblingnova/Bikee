@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="111dp"
+    android:layout_marginBottom="15dp"
+    android:id="@+id/view_holder_owning_bicycle"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:background="@drawable/bike_listbox"
+    android:paddingBottom="3px"
+    android:paddingLeft="5px"
+    android:paddingStart="5px"
+    android:paddingTop="3px">
+
+    <ImageView
+        android:id="@+id/view_owning_bicycle_item_bicycle_picture_image_view"
+        android:layout_width="157dp"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/detailpage_bike_image_noneimage" />
+
+    <TextView
+        android:id="@+id/view_owning_bicycle_item_bicycle_name_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="15dp"
+        android:layout_toEndOf="@id/view_owning_bicycle_item_bicycle_picture_image_view"
+        android:layout_toRightOf="@id/view_owning_bicycle_item_bicycle_picture_image_view"
+        android:textColor="@color/bikeePanelGrayText"
+        android:textSize="13dp" />
+
+    <TextView
+        android:id="@+id/view_owning_bicycle_item_register_date_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/view_owning_bicycle_item_bicycle_name_text_view"
+        android:layout_alignStart="@id/view_owning_bicycle_item_bicycle_name_text_view"
+        android:layout_below="@id/view_owning_bicycle_item_bicycle_name_text_view"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/bikeeLightGray"
+        android:textSize="10dp" />
+</RelativeLayout>

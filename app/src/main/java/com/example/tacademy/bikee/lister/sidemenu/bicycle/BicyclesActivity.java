@@ -1,0 +1,156 @@
+package com.example.tacademy.bikee.lister.sidemenu.bicycle;
+
+import android.content.Context;
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+
+import com.example.tacademy.bikee.BuildConfig;
+import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.common.interfaces.OnAdapterClickListener;
+import com.example.tacademy.bikee.etc.dao.ReceiveObject;
+import com.example.tacademy.bikee.etc.dao.Result;
+import com.example.tacademy.bikee.etc.manager.NetworkManager;
+import com.example.tacademy.bikee.lister.sidemenu.bicycle.content.BicycleContentActivity;
+import com.example.tacademy.bikee.lister.sidemenu.bicycle.register.RegisterBicycleActivity;
+import com.tsengvn.typekit.TypekitContextWrapper;
+
+import java.text.SimpleDateFormat;
+import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class BicyclesActivity extends AppCompatActivity implements OnAdapterClickListener {
+    private Intent intent;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager layoutManager;
+    private BicycleAdapter adapter;
+    final private static int REGISTER_BICYCLE_ACTIVITY = 1;
+    final public static String ID_TAG = "ID";
+
+    private static final String TAG = "OWNING_B_L_ACTIVITY";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_owning_bicycle_list);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_owning_bicycle_list_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setCustomView(R.layout.lister_backable_addable_tool_bar);
+
+        ButterKnife.bind(this);
+
+        recyclerView = (RecyclerView) findViewById(R.id.activity_owning_bicycle_list_list_view);
+
+        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+
+        recyclerView.setLayoutManager(layoutManager);
+
+        adapter = new BicycleAdapter();
+        adapter.setOnAdapterClickListener(this);
+
+        recyclerView.setAdapter(adapter);
+
+        init();
+    }
+
+    @OnClick(R.id.lister_backable_addable_tool_bar_back_button_layout)
+    void back() {
+        super.onBackPressed();
+    }
+
+    @OnClick(R.id.lister_backable_addable_tool_bar_register_bicycle_button_layout)
+    void register() {
+        Intent intent = new Intent(BicyclesActivity.this, RegisterBicycleActivity.class);
+        startActivityForResult(intent, REGISTER_BICYCLE_ACTIVITY);
+    }
+
+    @Override
+    public void onAdapterClick(View view, Object item) {
+        intent = new Intent(BicyclesActivity.this, BicycleContentActivity.class);
+        intent.putExtra(ID_TAG, ((BicycleItem) item).getId());
+        startActivity(intent);
+    }
+
+    private void init() {
+        // 보유자전거조회
+        NetworkManager.getInstance().selectBicycle(
+                null,
+                new Callback<ReceiveObject>() {
+                    @Override
+                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                        ReceiveObject receiveObject = response.body();
+                        Log.i("result", "onResponse Code : " + receiveObject.getCode()
+                                        + ", Success : " + receiveObject.isSuccess()
+                        );
+                        List<Result> results = receiveObject.getResult();
+                        for (Result result : results) {
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM.dd HH:mm");
+                            String imageURL;
+                            if ((null == result.getImage().getCdnUri())
+                                    || (null == result.getImage().getCdnUri())
+                                    || (null == result.getImage().getFiles().get(0))) {
+                                imageURL = "";
+                            } else {
+                                imageURL = result.getImage().getCdnUri() + result.getImage().getFiles().get(0);
+                            }
+                            Log.i("result", "onResponse Id : " + result.get_id()
+                                            + ", ImageURL : " + imageURL
+                                            + ", Title : " + result.getTitle()
+                                            + ", CreateAt : " + simpleDateFormat.format(result.getCreatedAt())
+                            );
+                            adapter.add(
+                                    new BicycleItem(
+                                            result.get_id(),
+                                            imageURL,
+                                            result.getTitle(),
+                                            result.getCreatedAt()
+                                    )
+                            );
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "onFailure Error : " + t.toString());
+                    }
+                });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == REGISTER_BICYCLE_ACTIVITY) {
+            adapter.clear();
+            init();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+    }
+}
