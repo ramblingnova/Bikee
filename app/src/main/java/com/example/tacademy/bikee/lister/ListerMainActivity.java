@@ -28,8 +28,8 @@ import com.example.tacademy.bikee.common.sidemenu.comment.CommentsActivity;
 import com.example.tacademy.bikee.common.smartkey.SmartKeyFragment;
 import com.example.tacademy.bikee.etc.utils.ImageUtil;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
-import com.example.tacademy.bikee.lister.requestedbicycle.ListerRequestedBicycleListFragment;
-import com.example.tacademy.bikee.lister.sidemenu.owningbicycle.OwningBicycleListActivity;
+import com.example.tacademy.bikee.lister.reservation.ListerReservationsFragment;
+import com.example.tacademy.bikee.lister.sidemenu.bicycle.BicyclesActivity;
 import com.example.tacademy.bikee.renter.RenterMainActivity;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
@@ -79,7 +79,7 @@ public class ListerMainActivity extends AppCompatActivity implements TabHost.OnT
         setBottomTabImage();
         tabHost = (FragmentTabHost) findViewById(R.id.tabHost);
         tabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
-        tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator(btt_iv1), ListerRequestedBicycleListFragment.class, null);
+        tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator(btt_iv1), ListerReservationsFragment.class, null);
         tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator(btt_iv2), ChattingRoomsFragment.class, null);
         tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator(btt_iv3), SmartKeyFragment.class, null);
         tabHost.setOnTabChangedListener(this);
@@ -143,7 +143,7 @@ public class ListerMainActivity extends AppCompatActivity implements TabHost.OnT
                 startActivityForResult(intent, SignInActivity.SIGN_IN_ACTIVITY);
                 break;
             case R.id.lister_side_menu_see_my_bicycle_text_view: {
-                intent = new Intent(ListerMainActivity.this, OwningBicycleListActivity.class);
+                intent = new Intent(ListerMainActivity.this, BicyclesActivity.class);
                 startActivity(intent);
                 break;
             }

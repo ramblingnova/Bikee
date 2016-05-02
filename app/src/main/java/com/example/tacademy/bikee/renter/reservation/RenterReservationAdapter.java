@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.common.interfaces.OnAdapterClickListener;
+import com.example.tacademy.bikee.common.interfaces.OnViewHolderClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +17,7 @@ import java.util.List;
  */
 public class RenterReservationAdapter extends RecyclerView.Adapter<RenterReservationViewHolder> {
     private List<RenterReservationItem> list;
-    private OnRenterReservationAdapterClickListener listener;
+    private OnAdapterClickListener onAdapterClickListener;
 
     private static final String TAG = "RENTER_RESERVATION_ADAPTER";
 
@@ -35,10 +37,11 @@ public class RenterReservationAdapter extends RecyclerView.Adapter<RenterReserva
     @Override
     public void onBindViewHolder(RenterReservationViewHolder holder, final int position) {
         holder.setView(list.get(position));
-        holder.setOnRenterReservationViewClickListener(new OnRenterReservationViewClickListener() {
+        holder.setOnViewHolderClickListener(new OnViewHolderClickListener() {
             @Override
-            public void onRenterReservationClick(View view) {
-                listener.onRenterReservationAdapterClick(view, list.get(position));
+            public void onViewHolderClick(View view) {
+                if (onAdapterClickListener != null)
+                    onAdapterClickListener.onAdapterClick(view, list.get(position));
             }
         });
     }
@@ -48,8 +51,8 @@ public class RenterReservationAdapter extends RecyclerView.Adapter<RenterReserva
         return list.size();
     }
 
-    public void setOnRenterReservationAdapterClickListener(OnRenterReservationAdapterClickListener listener) {
-        this.listener = listener;
+    public void setOnAdapterClickListener(OnAdapterClickListener onAdapterClickListener) {
+        this.onAdapterClickListener = onAdapterClickListener;
     }
 
     public void add(RenterReservationItem item) {

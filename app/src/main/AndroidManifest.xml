@@ -97,11 +97,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".renter.searchresult.bicycledetailinformation.FilteredBicycleDetailInformationActivity"
+            android:name=".renter.searchresult.content.FilteredBicycleDetailInformationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".renter.searchresult.bicycledetailinformation.postscription.BicyclePostScriptListActivity"
+            android:name=".renter.searchresult.content.postscription.BicyclePostScriptListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -109,7 +109,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".renter.searchresult.bicycledetailinformation.finallyrequestreservation.FinallyRequestReservationActivity"
+            android:name=".renter.searchresult.content.finallyrequestreservation.FinallyRequestReservationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -142,7 +142,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".lister.requestedbicycle.ListerRequestedBicycleDetailInformationActivity"
+            android:name=".lister.reservation.content.ListerReservationContentActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -150,33 +150,33 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".lister.sidemenu.owningbicycle.OwningBicycleDetailInformationActivity"
+            android:name=".lister.sidemenu.bicycle.content.BicycleContentActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".lister.sidemenu.owningbicycle.OwningBicycleListActivity"
+            android:name=".lister.sidemenu.bicycle.BicyclesActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".lister.sidemenu.owningbicycle.registerbicycle.RegisterBicycleActivity"
+            android:name=".lister.sidemenu.bicycle.register.RegisterBicycleActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".lister.sidemenu.owningbicycle.registerbicycle.FinallyRegisterBicycleActivity"
+            android:name=".lister.sidemenu.bicycle.register.FinallyRegisterBicycleActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".common.SmallMapActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".renter.reservation.content.popup.RequestPaymentActivity" />
-        <activity android:name=".lister.sidemenu.owningbicycle.registerbicycle.page2.TempActivity" />
+        <activity android:name=".lister.sidemenu.bicycle.register.page2.TempActivity" />
         <activity
-            android:name=".lister.sidemenu.owningbicycle.registerbicycle.page4.camera.CameraActivity"
+            android:name=".lister.sidemenu.bicycle.register.page4.camera.CameraActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".lister.sidemenu.owningbicycle.registerbicycle.page4.gallery.GalleryActivity"
+            android:name=".lister.sidemenu.bicycle.register.page4.gallery.GalleryActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

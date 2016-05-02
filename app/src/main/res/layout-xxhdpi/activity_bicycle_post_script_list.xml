@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.postscription.BicyclePostScriptListActivity">
+    tools:context="com.example.tacademy.bikee.renter.searchresult.content.postscription.BicyclePostScriptListActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -26,12 +26,10 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <ListView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/activity_bicycle_post_script_list_list_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/bikeeBackground"
-            android:divider="@null"
-            android:dividerHeight="0dp" />
+            android:background="@color/bikeeBackground" />
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

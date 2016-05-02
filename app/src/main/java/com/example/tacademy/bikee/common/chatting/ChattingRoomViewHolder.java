@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.common.interfaces.OnViewHolderClickListener;
 import com.example.tacademy.bikee.etc.MyApplication;
 import com.example.tacademy.bikee.etc.utils.ImageUtil;
 import com.sendbird.android.SendBird;
@@ -22,7 +23,6 @@ import butterknife.OnClick;
  * Created by User on 2016-03-11.
  */
 public class ChattingRoomViewHolder extends RecyclerView.ViewHolder {
-    private OnChattingRoomClickListener onChattingRoomClickListener;
     @Bind(R.id.view_chatting_room_item_user_image_image_view)
     ImageView userImage;
     @Bind(R.id.view_chatting_room_item_reservation_state_image_view)
@@ -37,6 +37,8 @@ public class ChattingRoomViewHolder extends RecyclerView.ViewHolder {
     TextView lastConversation;
     @Bind(R.id.view_chatting_room_item_num_of_stacked_conversation_text_view)
     TextView numOfStackedConversation;
+
+    private OnViewHolderClickListener onViewHolderClickListener;
 
     public ChattingRoomViewHolder(View view) {
         super(view);
@@ -83,9 +85,9 @@ public class ChattingRoomViewHolder extends RecyclerView.ViewHolder {
                     else
                         reservationState.setImageResource(R.drawable.chatting_icon_step3);
                 } else
-                    reservationState.setImageResource(R.drawable.chatting_icon_step3);
+                    reservationState.setImageResource(R.drawable.chatting_icon_step2);
                 break;
-            case "RC":
+            case "RC":case "PC":
                 reservationState.setVisibility(View.VISIBLE);
                 reservationState.setImageResource(R.drawable.chatting_icon_step4);
                 break;
@@ -115,13 +117,13 @@ public class ChattingRoomViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    public void setOnChattingRoomClickListener(OnChattingRoomClickListener onChattingRoomClickListener) {
-        this.onChattingRoomClickListener = onChattingRoomClickListener;
+    public void setOnViewHolderClickListener(OnViewHolderClickListener onViewHolderClickListener) {
+        this.onViewHolderClickListener = onViewHolderClickListener;
     }
 
     @OnClick(R.id.view_chatting_room_item_layout)
     void onClick(View view) {
-        if (onChattingRoomClickListener != null)
-            onChattingRoomClickListener.onChattingRoomClick(view);
+        if (onViewHolderClickListener != null)
+            onViewHolderClickListener.onViewHolderClick(view);
     }
 }

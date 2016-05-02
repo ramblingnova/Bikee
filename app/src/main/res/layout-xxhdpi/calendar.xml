@@ -138,128 +138,110 @@
         android:visibility="gone">
 
         <RelativeLayout
+            android:id="@+id/calendar_time_layout"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <com.squareup.timessquare.CalendarPickerView
-                android:id="@+id/old_calendar_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/bikeeWhite" />
-
-            <com.squareup.timessquare.CalendarPickerView
-                android:id="@+id/current_calendar_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/bikeeWhite" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
 
             <RelativeLayout
-                android:id="@+id/calendar_time_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_below="@id/current_calendar_view">
+                android:id="@+id/calendar_am_layout"
+                android:layout_width="19dp"
+                android:layout_height="19dp"
+                android:layout_marginLeft="34dp"
+                android:layout_marginStart="34dp"
+                android:layout_marginTop="20dp">
 
-                <RelativeLayout
-                    android:id="@+id/calendar_am_layout"
+                <ImageView
+                    android:id="@+id/calendar_am_icon_image_view"
                     android:layout_width="19dp"
                     android:layout_height="19dp"
-                    android:layout_marginLeft="34dp"
-                    android:layout_marginStart="34dp"
-                    android:layout_marginTop="20dp">
-
-                    <ImageView
-                        android:id="@+id/calendar_am_icon_image_view"
-                        android:layout_width="19dp"
-                        android:layout_height="19dp"
-                        android:src="@drawable/icon_am1" />
-
-                    <TextView
-                        android:id="@+id/calendar_am_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_toEndOf="@id/calendar_am_icon_image_view"
-                        android:layout_toRightOf="@id/calendar_am_icon_image_view"
-                        android:text="am"
-                        android:textColor="@color/bikeeBlue"
-                        android:textSize="14sp" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/calendar_pm_layout"
-                    android:layout_width="19dp"
-                    android:layout_height="19dp"
-                    android:layout_alignTop="@id/calendar_am_layout"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_toEndOf="@id/calendar_am_layout"
-                    android:layout_toRightOf="@id/calendar_am_layout">
-
-                    <ImageView
-                        android:id="@+id/calendar_pm_icon_image_view"
-                        android:layout_width="13dp"
-                        android:layout_height="19dp"
-                        android:src="@drawable/icon_pm1" />
-
-                    <TextView
-                        android:id="@+id/calendar_pm_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_toEndOf="@id/calendar_pm_icon_image_view"
-                        android:layout_toRightOf="@id/calendar_pm_icon_image_view"
-                        android:text="pm"
-                        android:textColor="@color/bikeeBlue"
-                        android:textSize="14sp" />
-                </RelativeLayout>
-
-                <EditText
-                    android:id="@+id/calendar_hour"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="39dp"
-                    android:layout_marginStart="39dp"
-                    android:layout_toEndOf="@id/calendar_pm_layout"
-                    android:layout_toRightOf="@id/calendar_pm_layout"
-                    android:hint="00"
-                    android:imeOptions="actionNext"
-                    android:maxLength="2"
-                    android:textColor="@color/bikeeBlue"
-                    android:textColorHint="@color/bikeeBlue"
-                    android:textSize="25sp" />
+                    android:src="@drawable/icon_am1" />
 
                 <TextView
-                    android:id="@+id/calendar_hour_time_division_text_view"
+                    android:id="@+id/calendar_am_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
-                    android:layout_marginStart="11dp"
-                    android:layout_toEndOf="@id/calendar_hour"
-                    android:layout_toRightOf="@id/calendar_hour"
-                    android:text=":"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@id/calendar_am_icon_image_view"
+                    android:layout_toRightOf="@id/calendar_am_icon_image_view"
+                    android:text="am"
                     android:textColor="@color/bikeeBlue"
-                    android:textSize="25sp" />
-
-                <EditText
-                    android:id="@+id/calendar_minute"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"
-                    android:layout_marginStart="11dp"
-                    android:layout_toEndOf="@id/calendar_hour_time_division_text_view"
-                    android:layout_toRightOf="@id/calendar_hour_time_division_text_view"
-                    android:hint="00"
-                    android:imeOptions="actionPrevious"
-                    android:maxLength="2"
-                    android:textColor="@color/bikeeBlue"
-                    android:textColorHint="@color/bikeeBlue"
-                    android:textSize="25sp" />
+                    android:textSize="14sp" />
             </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/calendar_pm_layout"
+                android:layout_width="19dp"
+                android:layout_height="19dp"
+                android:layout_alignTop="@id/calendar_am_layout"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_toEndOf="@id/calendar_am_layout"
+                android:layout_toRightOf="@id/calendar_am_layout">
+
+                <ImageView
+                    android:id="@+id/calendar_pm_icon_image_view"
+                    android:layout_width="13dp"
+                    android:layout_height="19dp"
+                    android:src="@drawable/icon_pm1" />
+
+                <TextView
+                    android:id="@+id/calendar_pm_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@id/calendar_pm_icon_image_view"
+                    android:layout_toRightOf="@id/calendar_pm_icon_image_view"
+                    android:text="pm"
+                    android:textColor="@color/bikeeBlue"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/calendar_hour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="39dp"
+                android:layout_marginStart="39dp"
+                android:layout_toEndOf="@id/calendar_pm_layout"
+                android:layout_toRightOf="@id/calendar_pm_layout"
+                android:hint="00"
+                android:imeOptions="actionNext"
+                android:maxLength="2"
+                android:textColor="@color/bikeeBlue"
+                android:textColorHint="@color/bikeeBlue"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/calendar_hour_time_division_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp"
+                android:layout_marginStart="11dp"
+                android:layout_toEndOf="@id/calendar_hour"
+                android:layout_toRightOf="@id/calendar_hour"
+                android:text=":"
+                android:textColor="@color/bikeeBlue"
+                android:textSize="25sp" />
+
+            <EditText
+                android:id="@+id/calendar_minute"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp"
+                android:layout_marginStart="11dp"
+                android:layout_toEndOf="@id/calendar_hour_time_division_text_view"
+                android:layout_toRightOf="@id/calendar_hour_time_division_text_view"
+                android:hint="00"
+                android:imeOptions="actionPrevious"
+                android:maxLength="2"
+                android:textColor="@color/bikeeBlue"
+                android:textColorHint="@color/bikeeBlue"
+                android:textSize="25sp" />
         </RelativeLayout>
 
         <RelativeLayout

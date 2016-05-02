@@ -1,4 +1,4 @@
-package com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.finallyrequestreservation;
+package com.example.tacademy.bikee.renter.searchresult.content.finallyrequestreservation;
 
 import android.content.Context;
 import android.content.Intent;
@@ -76,10 +76,11 @@ public class FinallyRequestReservationActivity extends AppCompatActivity {
     void confirm() {
         Reserve reserve = new Reserve();
         Date date = new Date();
-        date.setTime(System.currentTimeMillis());
+        date.setTime(System.currentTimeMillis() + 1000*60*60);
         reserve.setRentStart(date);
-        date.setTime(System.currentTimeMillis());
-        reserve.setRentEnd(date);
+        Date date1 = new Date();
+        date1.setTime(System.currentTimeMillis() + 1000*60*60*3);
+        reserve.setRentEnd(date1);
         NetworkManager.getInstance().insertReservation(
                 id,
                 reserve,
@@ -88,10 +89,12 @@ public class FinallyRequestReservationActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
                         ReceiveObject receiveObject = response.body();
-                        Log.i("result", "onResponse Success : " + receiveObject.isSuccess()
-                                        + ", Code : " + receiveObject.getCode()
-                                        + ", Msg : " + receiveObject.getMsg()
-                        );
+                        if (receiveObject.isSuccess()) {
+                            Log.i("result", "onResponse Success : " + receiveObject.isSuccess()
+                                            + ", Code : " + receiveObject.getCode()
+                                            + ", Msg : " + receiveObject.getMsg()
+                            );
+                        }
                     }
 
                     @Override

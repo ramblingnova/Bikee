@@ -16,12 +16,11 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
-import com.example.tacademy.bikee.common.POI;
 import com.example.tacademy.bikee.etc.MyApplication;
 import com.example.tacademy.bikee.etc.utils.ImageUtil;
 import com.example.tacademy.bikee.etc.manager.FontManager;
 import com.example.tacademy.bikee.etc.utils.RefinementUtil;
-import com.example.tacademy.bikee.renter.searchresult.SearchResultMapItem;
+import com.example.tacademy.bikee.renter.searchresult.SearchResultItem;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
@@ -133,7 +132,7 @@ public class BicycleInfoWindowView extends FrameLayout implements GoogleMap.Info
                 });
     }
 
-    public void setView(SearchResultMapItem item) {
+    public void setView(SearchResultItem item) {
         ImageUtil.setRoundRectangleImageFromURL(
                 MyApplication.getmContext(),
                 item.getImageURL(),

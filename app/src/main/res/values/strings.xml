@@ -72,11 +72,6 @@
     <string name="activity_register_check_box_string">아래 약관 내용에 모두 동의합니다.</string>
     <string name="activity_register_card_register_button">등록하기</string>
 
-    <!-- view_holder_commentname="view_evaluating_bicycle_post_script_item_bicycle_name_text_view_string">자전거이름</string>
-    <string name="view_evaluating_bicycle_post_script_item_mail_address_text_view_string">메일주소</string>
-    <string name="view_evaluating_bicycle_post_script_item_post_script_text_view_string">멋진 자전거에요. 다음에 또 이용하겠습니다.</string>
-    <string name="view_evaluating_bicycle_post_script_item_date_time_text_view_string">11.03 00:05</string> -->
-
     <!-- activity_input_inquiry.xml -->
     <string name="activity_input_inquiry_title_text_view_string">제목</string>
     <string name="activity_input_inquiry_title_edit_text_string">제목</string>
@@ -84,7 +79,7 @@
     <string name="activity_input_inquiry_description_edit_text_string">200자 이내</string>
     <string name="activity_input_inquiry_button_string">등록</string>
 
-    <!-- view_search_result_item -->
+    <!-- view_holder_search_result -->
     <string name="view_search_result_item_bicycle_name_text_view_string">자전거 이름</string>
     <string name="view_search_result_item_height_text_view_string">신장</string>
     <string name="view_search_result_item_height_real_text_view_string">신장</string>
@@ -170,13 +165,4 @@
     <string name="view_evaluated_bicycle_post_script_item_mail_address_text_view_string">메일주소</string>
     <string name="view_evaluated_bicycle_post_script_item_post_script_text_view_string">멋진 자전거에요. 다음에 또 이용하겠습니다.</string>
     <string name="view_evaluated_bicycle_post_script_item_date_time_text_view_string">11.03 00:05</string>
-
-    <!-- view_lister_requested_bicycle_item.xml -->
-    <string name="view_lister_requested_bicycle_item_renter_name_text_view_string">Bruno Mars</string>
-    <string name="view_lister_requested_bicycle_item_create_date_text_view_string">10.24 am07:30</string>
-    <string name="view_lister_requested_bicycle_item_bicycle_name_text_view_string">2015 아메리칸이글 브라이튼 픽시 자전거</string>
-    <string name="view_lister_requested_bicycle_item_start_date_text_view_string">10.25 am10:30</string>
-    <string name="view_lister_requested_bicycle_item_end_date_text_view_string">10.26 am11:30</string>
-    <string name="view_lister_requested_bicycle_item_time_text_view_string">1일 1시간</string>
-    <string name="view_lister_requested_bicycle_item_price_text_view_string">13,000</string>
 </resources>

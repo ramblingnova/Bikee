@@ -1,14 +1,15 @@
-package com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.postscription;
+package com.example.tacademy.bikee.renter.searchresult.content.postscription;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
@@ -21,8 +22,8 @@ import com.tsengvn.typekit.TypekitContextWrapper;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,8 +33,8 @@ import retrofit2.Response;
  */
 public class BicyclePostScriptListActivity extends AppCompatActivity {
     private Intent intent;
-    @Bind(R.id.activity_bicycle_post_script_list_list_view)
-    ListView lv;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager layoutManager;
     private BicyclePostScriptAdapter adapter;
     private String bicycleId;
 
@@ -48,31 +49,32 @@ public class BicyclePostScriptListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        View cView = getLayoutInflater().inflate(R.layout.post_script_backable_tool_bar, null);
-        cView.findViewById(R.id.post_script_backable_tool_bar_back_button_layout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.post_script_backable_tool_bar_back_button_layout:
-                        finish();
-                        break;
-                }
-            }
-        });
-        getSupportActionBar().setCustomView(cView);
+        getSupportActionBar().setCustomView(R.layout.post_script_backable_tool_bar);
 
         ButterKnife.bind(this);
 
+        recyclerView = (RecyclerView) findViewById(R.id.activity_bicycle_post_script_list_list_view);
+
+        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+
+        recyclerView.setLayoutManager(layoutManager);
+
         adapter = new BicyclePostScriptAdapter();
-        lv.setAdapter(adapter);
+
+        recyclerView.setAdapter(adapter);
 
         intent = getIntent();
         bicycleId = intent.getStringExtra("ID");
 
-        initData();
+        init();
     }
 
-    private void initData() {
+    @OnClick(R.id.post_script_backable_tool_bar_back_button_layout)
+    void back(View view) {
+        super.onBackPressed();
+    }
+
+    private void init() {
         NetworkManager.getInstance().selectBicycleComment(
                 bicycleId,
                 null,
@@ -101,7 +103,15 @@ public class BicyclePostScriptListActivity extends AppCompatActivity {
                                                     + ", PostScript : " + comment.getBody()
                                                     + ", CreateAt : " + simpleDateFormat.format(comment.getCreatedAt())
                                     );
-                                    adapter.add(imageURL, comment.getWriter().getName(), comment.getPoint(), comment.getBody(), simpleDateFormat.format(comment.getCreatedAt()));
+                                    adapter.add(
+                                            new BicyclePostScriptItem(
+                                                    imageURL,
+                                                    comment.getWriter().getName(),
+                                                    comment.getPoint(),
+                                                    comment.getBody(),
+                                                    comment.getCreatedAt()
+                                            )
+                                    );
                                 }
                             }
                         }

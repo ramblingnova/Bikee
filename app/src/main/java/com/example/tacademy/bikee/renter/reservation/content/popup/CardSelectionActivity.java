@@ -16,6 +16,7 @@ import com.example.tacademy.bikee.etc.dao.CardTokenReceiveObject;
 import com.example.tacademy.bikee.etc.dao.IAmPortReceiveObject;
 import com.example.tacademy.bikee.etc.dao.IAmPortSendObject;
 import com.example.tacademy.bikee.etc.dao.PaymentSendObject;
+import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.manager.IAmPortNetworkManager;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
@@ -36,6 +37,7 @@ public class CardSelectionActivity extends AppCompatActivity implements AdapterV
     private CardAdapter adapter;
     private String bicycleId;
     private String listerId;
+    private String reservationId;
     private String bicycleName;
     private String renterEmail;
     private String renterName;
@@ -53,6 +55,7 @@ public class CardSelectionActivity extends AppCompatActivity implements AdapterV
         intent = getIntent();
         bicycleId = intent.getStringExtra("BICYCLE_ID");
         listerId = intent.getStringExtra("LISTER_ID");
+        reservationId = intent.getStringExtra("RESERVATION_ID");
         bicycleName = intent.getStringExtra("BICYCLE_NAME");
         renterEmail = PropertyManager.getInstance().getEmail();
         renterName = PropertyManager.getInstance().getName();
@@ -116,6 +119,26 @@ public class CardSelectionActivity extends AppCompatActivity implements AdapterV
                                                         public void onResponse(Call<CardReceiveObject> call, Response<CardReceiveObject> response) {
                                                             if (BuildConfig.DEBUG)
                                                                 Log.d(TAG, "payment onResponse");
+
+                                                            String reservationId = intent.getStringExtra("RESERVATION_ID");
+                                                            NetworkManager.getInstance().reserveStatus(
+                                                                    bicycleId,
+                                                                    reservationId,
+                                                                    "PS",
+                                                                    null,
+                                                                    new Callback<ReceiveObject>() {
+                                                                        @Override
+                                                                        public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                                                                            if (BuildConfig.DEBUG)
+                                                                                Log.d(TAG, "reserveStatus onResponse");
+                                                                        }
+
+                                                                        @Override
+                                                                        public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                                                                            if (BuildConfig.DEBUG)
+                                                                                Log.d(TAG, "reserveStatus onFailure", t);
+                                                                        }
+                                                                    });
                                                         }
 
                                                         @Override

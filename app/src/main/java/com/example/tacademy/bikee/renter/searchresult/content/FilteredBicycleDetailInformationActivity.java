@@ -1,8 +1,9 @@
-package com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation;
+package com.example.tacademy.bikee.renter.searchresult.content;
 
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -12,13 +13,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.common.adapters.BicycleImageViewPagerAdapter;
 import com.example.tacademy.bikee.common.chatting.room.ConversationActivity;
 import com.example.tacademy.bikee.etc.MyApplication;
-import com.example.tacademy.bikee.etc.SendBirdHelper;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.example.tacademy.bikee.etc.utils.ImageUtil;
 import com.example.tacademy.bikee.etc.dao.Comment;
@@ -26,8 +28,8 @@ import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.etc.utils.RefinementUtil;
-import com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.finallyrequestreservation.FinallyRequestReservationActivity;
-import com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.postscription.BicyclePostScriptListActivity;
+import com.example.tacademy.bikee.renter.searchresult.content.finallyrequestreservation.FinallyRequestReservationActivity;
+import com.example.tacademy.bikee.renter.searchresult.content.postscription.BicyclePostScriptListActivity;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -52,7 +54,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FilteredBicycleDetailInformationActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class FilteredBicycleDetailInformationActivity extends AppCompatActivity implements OnMapReadyCallback, ViewPager.OnPageChangeListener {
     // TODO : handle filter result, modify UI, need UnFilteredBycycleDetailInformation activity
     private Intent intent;
     private String listerEmail;
@@ -66,8 +68,12 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
     private double longitude;
     private int price;
     private String listerId;
-    @Bind(R.id.bicycle_picture_lister_information_bicycle_picture_image_view)
-    ImageView bicyclePicture;
+    @Bind(R.id.bicycle_pictures_user_information_view_pager)
+    ViewPager viewPager;
+    private int state;
+    private int position = 0;
+    @Bind(R.id.bicycle_pictures_layout)
+    RelativeLayout bicyclePicturesLayout;
     @Bind(R.id.lister_information_lister_picture_image_view)
     ImageView listerPicture;
     @Bind(R.id.lister_information_lister_name_text_view)
@@ -107,6 +113,7 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
     private boolean hasTargetId;
     private boolean hasMyIdTargetId;
     private String messageChannelURL;
+    private BicycleImageViewPagerAdapter bicycleImageViewPagerAdapter;
 
     private static final String TAG = "FILTERED_B_D_I_ACTIVITY";
 
@@ -127,6 +134,8 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
                 .findFragmentById(R.id.activity_filtered_bicycle_detail_information_small_map);
         mapFragment.getMapAsync(this);
         init();
+
+        bicycleImageViewPagerAdapter = new BicycleImageViewPagerAdapter();
     }
 
     @Override
@@ -260,6 +269,30 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
         }
     }
 
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        if ((state != ViewPager.SCROLL_STATE_DRAGGING) && (this.position != position)) {
+            if (BuildConfig.DEBUG)
+                Log.d(TAG, "state : " + state + ", old position : " + this.position + ", new position : " + position);
+
+            ImageView imageVIew = (ImageView) bicyclePicturesLayout.findViewById(R.id.indicator + this.position);
+            imageVIew.setImageResource(R.drawable.detailpage_image_scroll_icon_w);
+            this.position = position;
+            imageVIew = (ImageView) bicyclePicturesLayout.findViewById(R.id.indicator + position);
+            imageVIew.setImageResource(R.drawable.detailpage_image_scroll_icon_b);
+        }
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+        this.state = state;
+    }
+
     private void init() {
         bicycleId = intent.getStringExtra("ID");
         NetworkManager.getInstance().selectBicycleDetail(
@@ -281,13 +314,13 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
                                             + ", BicycleLongitude : " + result.getLoc().getCoordinates().get(0)
                                             + ", BicyclePrice : " + result.getPrice().getMonth()
                             );
-                        bicycleImageURL = RefinementUtil.getBicycleImageURLStringFromResult(result);
-                        ImageUtil.setRoundRectangleImageFromURL(
+                        bicycleImageViewPagerAdapter.addAll(RefinementUtil.getBicycleImageURLListFromResult(result));
+                        viewPager.setAdapter(bicycleImageViewPagerAdapter);
+                        viewPager.addOnPageChangeListener(FilteredBicycleDetailInformationActivity.this);
+                        ImageUtil.initIndicators(
                                 MyApplication.getmContext(),
-                                RefinementUtil.getBicycleImageURLStringFromResult(result),
-                                R.drawable.detailpage_bike_image_noneimage,
-                                bicyclePicture,
-                                6
+                                bicycleImageViewPagerAdapter.getCount(),
+                                bicyclePicturesLayout
                         );
                         ImageUtil.setCircleImageFromURL(
                                 MyApplication.getmContext(),

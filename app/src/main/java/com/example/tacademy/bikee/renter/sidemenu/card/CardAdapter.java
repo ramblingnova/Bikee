@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.common.interfaces.OnAdapterClickListener;
 import com.example.tacademy.bikee.etc.dao.CardReceiveObject;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
 
@@ -23,7 +24,7 @@ import retrofit2.Response;
  */
 public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> {
     private List<CardItem> list;
-    private OnCardAdapterClickListener onCardAdapterClickListener;
+    private OnAdapterClickListener onAdapterClickListener;
 
     private static final String TAG = "CARD_ADAPTER";
 
@@ -46,16 +47,14 @@ public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> {
         holder.setOnCardViewClickListener(new OnCardViewClickListener() {
             @Override
             public void onCardImageClick(View view) {
-                if (BuildConfig.DEBUG)
-                    Log.d(TAG, "onCardImageClick");
-                onCardAdapterClickListener.onCardAdapterClick(view, list.get(position));
+                if (onAdapterClickListener != null)
+                    onAdapterClickListener.onAdapterClick(view, list.get(position));
             }
 
             @Override
             public void onDeleteCardClick(View view) {
-                if (BuildConfig.DEBUG)
-                    Log.d(TAG, "onDeleteCardClick");
-                onCardAdapterClickListener.onCardAdapterClick(view, list.get(position));
+                if (onAdapterClickListener != null)
+                    onAdapterClickListener.onAdapterClick(view, list.get(position));
 
                 NetworkManager.getInstance().deleteCard(
                         list.get(position).get_id(),
@@ -88,6 +87,10 @@ public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> {
         return list.size();
     }
 
+    public void setOnAdapterClickListener(OnAdapterClickListener onAdapterClickListener) {
+        this.onAdapterClickListener = onAdapterClickListener;
+    }
+
     public void add(CardItem item) {
         list.add(item);
         notifyDataSetChanged();
@@ -101,9 +104,5 @@ public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> {
     public void clear() {
         list.clear();
         notifyDataSetChanged();
-    }
-
-    public void setOnCardAdapterClickListener(OnCardAdapterClickListener onCardAdapterClickListener) {
-        this.onCardAdapterClickListener = onCardAdapterClickListener;
     }
 }

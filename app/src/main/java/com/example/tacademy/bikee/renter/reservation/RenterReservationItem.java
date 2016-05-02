@@ -41,6 +41,9 @@ public class RenterReservationItem implements Serializable {
     @Getter
     @Setter(AccessLevel.PUBLIC)
     double longitude;
+    /*@Getter
+    @Setter(AccessLevel.PUBLIC)
+    double distance;*/
 
     public RenterReservationItem(
             String bicycleId,
@@ -53,6 +56,7 @@ public class RenterReservationItem implements Serializable {
             String reserveId,
             double latitude,
             double longitude
+//            double distance
     ) {
         this.bicycleId = bicycleId;
         this.imageURL = imageURL;
@@ -64,5 +68,6 @@ public class RenterReservationItem implements Serializable {
         this.reserveId = reserveId;
         this.latitude = latitude;
         this.longitude = longitude;
+//        this.distance = distance;
     }
 }

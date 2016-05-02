@@ -8,25 +8,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.tacademy.bikee.BuildConfig;
-import com.example.tacademy.bikee.common.bicycleImages.BicycleImageViewPagerAdapter;
+import com.example.tacademy.bikee.common.adapters.BicycleImageViewPagerAdapter;
+import com.example.tacademy.bikee.common.views.AdditoryComponentView;
 import com.example.tacademy.bikee.etc.MyApplication;
-import com.example.tacademy.bikee.etc.dao.CardTokenReceiveObject;
-import com.example.tacademy.bikee.etc.dao.IAmPortReceiveObject;
-import com.example.tacademy.bikee.etc.dao.IAmPortSendObject;
-import com.example.tacademy.bikee.etc.manager.IAmPortNetworkManager;
-import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.example.tacademy.bikee.etc.utils.ImageUtil;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Result;
-import com.example.tacademy.bikee.etc.dialog.ChoiceDialogFragment;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.etc.utils.RefinementUtil;
@@ -54,21 +50,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RenterReservationContentActivity extends AppCompatActivity implements OnMapReadyCallback, ViewPager.OnPageChangeListener {
-    private Intent intent;
-    private String bicycleId;
-    private String reserveId;
     @Bind(R.id.bicycle_pictures_user_information_view_pager)
     ViewPager viewPager;
-    private int state;
-    private int position = 0;
     @Bind(R.id.bicycle_pictures_layout)
     RelativeLayout bicyclePicturesLayout;
-    private String listerId;
     @Bind(R.id.lister_information_lister_picture_image_view)
     ImageView listerPicture;
     @Bind(R.id.lister_information_lister_name_text_view)
     TextView listerName;
-    private String listerPhone;
     @Bind(R.id.bicycle_description_bicycle_name_text_view)
     TextView bicycleName;
     @Bind(R.id.bicycle_description_bicycle_introduction_text_view)
@@ -79,15 +68,31 @@ public class RenterReservationContentActivity extends AppCompatActivity implemen
     TextView bicycleHeight;
     @Bind(R.id.bicycle_detail_information_bicycle_location_text_view)
     TextView rentalPlaceText;
-    private String status;
-    private Date startDate;
-    private Date endDate;
-    private int price;
-    private ChoiceDialogFragment dialog;
     @Bind(R.id.activity_renter_reservation_content_bottom_buttons_left_button)
     Button bottomLeftButton;
     @Bind(R.id.activity_renter_reservation_content_bottom_buttons_right_button)
     Button bottomRightButton;
+    BicycleImageViewPagerAdapter bicycleImageViewPagerAdapter;
+    @Bind(R.id.additory_component_layout)
+    LinearLayout linearLayout;
+    @Bind(R.id.activity_renter_reservation_bicycle_detail_information_additory_component)
+    FrameLayout frameLayout;
+    @Bind(R.id.activity_renter_reservation_bicycle_detail_information_bicycle_component_bicycle_rental_place_line)
+    View additoryComponentBottomLine;
+
+    private Intent intent;
+    private String bicycleId;
+    private double bicycleLatitude;
+    private double bicycleLongitude;
+    private String listerId;
+    private String listerPhone;
+    private String reservationId;
+    private String reservationStatus;
+    private Date reservationStartDate;
+    private Date reservationEndDate;
+    private int pagePosition;
+    private int price;
+    private int pageScrollState;
 
     private static final String TAG = "RENTER_R_B_D_I_ACTIVITY";
 
@@ -103,10 +108,23 @@ public class RenterReservationContentActivity extends AppCompatActivity implemen
         getSupportActionBar().setCustomView(R.layout.renter_backable_tool_bar);
         ButterKnife.bind(this);
 
-        intent = getIntent();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.activity_renter_reservation_bicycle_detail_information_small_map);
         mapFragment.getMapAsync(this);
+
+        bicycleImageViewPagerAdapter = new BicycleImageViewPagerAdapter();
+
+        intent = getIntent();
+        bicycleId = intent.getStringExtra("BICYCLE_ID");
+        bicycleLatitude = intent.getDoubleExtra("BICYCLE_LATITUDE", 1.0);
+        bicycleLongitude = intent.getDoubleExtra("BICYCLE_LONGITUDE", 1.0);
+        reservationId = intent.getStringExtra("RESERVATION_ID");
+        reservationStatus = intent.getStringExtra("RESERVATION_STATUS");
+        reservationStartDate = (Date) intent.getSerializableExtra("RESERVATION_START_DATE");
+        reservationEndDate = (Date) intent.getSerializableExtra("RESERVATION_END_DATE");
+
+        pagePosition = 0;
+
         init();
     }
 
@@ -117,24 +135,14 @@ public class RenterReservationContentActivity extends AppCompatActivity implemen
         gm.getUiSettings().setZoomControlsEnabled(true);
 
         CameraPosition.Builder builder = new CameraPosition.Builder();
-        builder.target(
-                new LatLng(
-                        intent.getDoubleExtra("BICYCLE_LATITUDE", 1.0),
-                        intent.getDoubleExtra("BICYCLE_LONGITUDE", 1.0)
-                )
-        );
+        builder.target(new LatLng(bicycleLatitude, bicycleLongitude));
         builder.zoom(15);
         CameraPosition position = builder.build();
         CameraUpdate update = CameraUpdateFactory.newCameraPosition(position);
         gm.moveCamera(update);
 
         MarkerOptions options = new MarkerOptions();
-        options.position(
-                new LatLng(
-                        intent.getDoubleExtra("BICYCLE_LATITUDE", 1.0),
-                        intent.getDoubleExtra("BICYCLE_LONGITUDE", 1.0)
-                )
-        );
+        options.position(new LatLng(bicycleLatitude, bicycleLongitude));
         options.icon(BitmapDescriptorFactory.fromResource(R.drawable.rider_main_bike_b_icon));
         options.anchor(0.5f, 0.5f);
         gm.addMarker(options);
@@ -163,39 +171,58 @@ public class RenterReservationContentActivity extends AppCompatActivity implemen
             case R.id.activity_renter_reservation_content_bottom_buttons_right_button:
                 // TODO : 버튼 이벤트, 뒤로가기 제외하고 모두 팝업을 거쳐야 한다.
                 switch ((String) bottomRightButton.getTag(R.id.TAG_ONLINE_ID)) {
+                    case "결제취소하기": {
+                        NetworkManager.getInstance().reserveStatus(
+                                bicycleId,
+                                reservationId,
+                                "PC",
+                                null,
+                                new Callback<ReceiveObject>() {
+                                    @Override
+                                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                                        if (BuildConfig.DEBUG)
+                                            Log.d(TAG, "reserveStatus onResponse");
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                                        if (BuildConfig.DEBUG)
+                                            Log.d(TAG, "reserveStatus onFailure", t);
+                                    }
+                                });
+                    }
+                    break;
                     case "예약취소하기":
-                        String reservationId = intent.getStringExtra("RESERVATION_ID");
                         NetworkManager.getInstance().reserveStatus(
                                 bicycleId,
                                 reservationId,
                                 "RC",
                                 null,
                                 new Callback<ReceiveObject>() {
-                            @Override
-                            public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
-                                if (BuildConfig.DEBUG)
-                                    Log.d(TAG, "reserveStatus onResponse");
-                            }
+                                    @Override
+                                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                                        if (BuildConfig.DEBUG)
+                                            Log.d(TAG, "reserveStatus onResponse");
+                                    }
 
-                            @Override
-                            public void onFailure(Call<ReceiveObject> call, Throwable t) {
-                                if (BuildConfig.DEBUG)
-                                    Log.d(TAG, "reserveStatus onFailure", t);
-                            }
-                        });
+                                    @Override
+                                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                                        if (BuildConfig.DEBUG)
+                                            Log.d(TAG, "reserveStatus onFailure", t);
+                                    }
+                                });
                         break;
                     case "결제하기":
                         intent = new Intent(this, CardSelectionActivity.class);
                         intent.putExtra("BICYCLE_ID", bicycleId);
                         intent.putExtra("LISTER_ID", listerId);
+                        intent.putExtra("RESERVATION_ID", reservationId);
                         intent.putExtra("BICYCLE_NAME", bicycleName.getText().toString());
                         startActivity(intent);
                         break;
                     case "후기작성":
                         intent = new Intent(this, InputBicyclePostScriptActivity.class);
                         startActivity(intent);
-                        break;
-                    case "결제취소하기":
                         break;
                     default:
                         break;
@@ -206,13 +233,13 @@ public class RenterReservationContentActivity extends AppCompatActivity implemen
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        if ((state != ViewPager.SCROLL_STATE_DRAGGING) && (this.position != position)) {
+        if ((pageScrollState != ViewPager.SCROLL_STATE_DRAGGING) && (this.pagePosition != position)) {
             if (BuildConfig.DEBUG)
-                Log.d(TAG, "state : " + state + ", old position : " + this.position + ", new position : " + position);
+                Log.d(TAG, "pageScrollState : " + pageScrollState + ", old pagePosition : " + this.pagePosition + ", new pagePosition : " + position);
 
-            ImageView imageVIew = (ImageView) bicyclePicturesLayout.findViewById(R.id.indicator + this.position);
+            ImageView imageVIew = (ImageView) bicyclePicturesLayout.findViewById(R.id.indicator + this.pagePosition);
             imageVIew.setImageResource(R.drawable.detailpage_image_scroll_icon_w);
-            this.position = position;
+            this.pagePosition = position;
             imageVIew = (ImageView) bicyclePicturesLayout.findViewById(R.id.indicator + position);
             imageVIew.setImageResource(R.drawable.detailpage_image_scroll_icon_b);
         }
@@ -225,12 +252,11 @@ public class RenterReservationContentActivity extends AppCompatActivity implemen
 
     @Override
     public void onPageScrollStateChanged(int state) {
-        this.state = state;
+        this.pageScrollState = state;
     }
 
     private void init() {
         // TODO : Network를 굳이 타지 않게끔 해야 한다.
-        bicycleId = intent.getStringExtra("BICYCLE_ID");
         NetworkManager.getInstance().selectBicycleDetail(
                 bicycleId,
                 null,
@@ -252,10 +278,9 @@ public class RenterReservationContentActivity extends AppCompatActivity implemen
                                                 + ", Longitude : " + result.getLoc().getCoordinates().get(0)
                                                 + ", Price : " + result.getPrice().getMonth()
                                 );
-                            BicycleImageViewPagerAdapter bicycleImageViewPagerAdapter = new BicycleImageViewPagerAdapter(
-                                    RefinementUtil.getBicycleImageURLListFromResult(result)
-                            );
+                            bicycleImageViewPagerAdapter.addAll(RefinementUtil.getBicycleImageURLListFromResult(result));
                             viewPager.setAdapter(bicycleImageViewPagerAdapter);
+                            viewPager.addOnPageChangeListener(RenterReservationContentActivity.this);
                             ImageUtil.initIndicators(
                                     MyApplication.getmContext(),
                                     bicycleImageViewPagerAdapter.getCount(),
@@ -283,6 +308,19 @@ public class RenterReservationContentActivity extends AppCompatActivity implemen
                                             result.getHeight()
                                     )
                             );
+                            if (result.getComponents().size() == 0) {
+                                frameLayout.setVisibility(View.GONE);
+                                additoryComponentBottomLine.setVisibility(View.GONE);
+                            } else {
+                                for (String component : result.getComponents()) {
+                                    AdditoryComponentView additoryComponentView = new AdditoryComponentView(RenterReservationContentActivity.this);
+                                    additoryComponentView.setView(component);
+                                    additoryComponentView.setLayoutParams(
+                                            new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                                    );
+                                    linearLayout.addView(additoryComponentView);
+                                }
+                            }
                             rentalPlaceText.setText(
                                     RefinementUtil.findAddress(
                                             MyApplication.getmContext(),
@@ -291,6 +329,7 @@ public class RenterReservationContentActivity extends AppCompatActivity implemen
                                     )
                             );
                             price = result.getPrice().getMonth();
+                            break;
                         }
                     }
 
@@ -301,14 +340,10 @@ public class RenterReservationContentActivity extends AppCompatActivity implemen
                     }
                 });
 
-        status = intent.getStringExtra("RESERVATION_STATUS");
-        startDate = (Date) intent.getSerializableExtra("RESERVATION_START_DATE");
-        endDate = (Date) intent.getSerializableExtra("RESERVATION_END_DATE");
-
         Date currentDate = new Date();
-        switch (status) {
+        switch (reservationStatus) {
             case "RR":
-                if (currentDate.after(startDate)) {
+                if (currentDate.after(reservationStartDate)) {
                     bottomRightButton.setVisibility(View.INVISIBLE);
                 } else {
                     bottomRightButton.setVisibility(View.VISIBLE);
@@ -317,7 +352,7 @@ public class RenterReservationContentActivity extends AppCompatActivity implemen
                 }
                 break;
             case "RS":
-                if (currentDate.after(startDate)) {
+                if (currentDate.after(reservationStartDate)) {
                     bottomRightButton.setVisibility(View.INVISIBLE);
                 } else {
                     bottomRightButton.setVisibility(View.VISIBLE);
@@ -326,8 +361,8 @@ public class RenterReservationContentActivity extends AppCompatActivity implemen
                 }
                 break;
             case "PS":
-                if (currentDate.after(startDate)) {
-                    if (currentDate.after(endDate)) {
+                if (currentDate.after(reservationStartDate)) {
+                    if (currentDate.after(reservationEndDate)) {
                         bottomRightButton.setVisibility(View.VISIBLE);
                         bottomRightButton.setText("후기작성");
                         bottomRightButton.setTag(R.id.TAG_ONLINE_ID, "후기작성");
@@ -343,22 +378,13 @@ public class RenterReservationContentActivity extends AppCompatActivity implemen
                 }
                 break;
             case "RC":
+            case "PC":
                 bottomRightButton.setVisibility(View.INVISIBLE);
                 break;
             default:
+
                 break;
         }
-
-        reserveId = intent.getStringExtra("RESERVATION_ID");
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

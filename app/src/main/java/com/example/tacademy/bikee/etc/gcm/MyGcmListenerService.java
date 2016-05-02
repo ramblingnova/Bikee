@@ -24,7 +24,7 @@ public class MyGcmListenerService extends GcmListenerService {
    @Override
    public void onMessageReceived(String from, Bundle data) {
       String title = data.getString("title");
-      String message = data.getString("message");
+      String message = data.getString("body");
 
       Log.d(TAG, "GCMListener - onMessageReceived");
        if (PropertyManager.getInstance().isPushEnable())

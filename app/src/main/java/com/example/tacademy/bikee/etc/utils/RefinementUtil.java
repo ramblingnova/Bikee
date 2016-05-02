@@ -150,6 +150,40 @@ public class RefinementUtil {
         return retVal;
     }
 
+    public static String getBicycleComponentStringFromBicycleComponent(String component) {
+        String retVal;
+        switch (component) {
+            case "A":
+                retVal = "자물쇠";
+                break;
+            case "B":
+                retVal = "라이트";
+                break;
+            case "C":
+                retVal = "반사판";
+                break;
+            case "D":
+                retVal = "장갑";
+                break;
+            case "E":
+                retVal = "바구니";
+                break;
+            case "F":
+                retVal = "트레일러";
+                break;
+            case "G":
+                retVal = "백미러";
+                break;
+            case "H":
+                retVal = "헬멧";
+                break;
+            default:
+                retVal = "";
+                break;
+        }
+        return retVal;
+    }
+
     public static String findAddress(Context context, double lat, double lng) {
         StringBuffer bf = new StringBuffer();
         Geocoder geocoder = new Geocoder(context, Locale.KOREA);

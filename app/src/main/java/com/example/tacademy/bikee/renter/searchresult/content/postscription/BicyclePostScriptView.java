@@ -1,7 +1,7 @@
-package com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.postscription;
+package com.example.tacademy.bikee.renter.searchresult.content.postscription;
 
-import android.content.Context;
-import android.widget.FrameLayout;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -10,13 +10,15 @@ import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.MyApplication;
 import com.example.tacademy.bikee.etc.utils.ImageUtil;
 
+import java.text.SimpleDateFormat;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
  * Created by Tacademy on 2015-11-02.
  */
-public class BicyclePostScriptView extends FrameLayout {
+public class BicyclePostScriptView extends RecyclerView.ViewHolder{
     @Bind(R.id.view_bicycle_post_script_item_user_image1)
     ImageView renterImage;
     @Bind(R.id.view_bicycle_post_script_item_user_name1)
@@ -28,14 +30,9 @@ public class BicyclePostScriptView extends FrameLayout {
     @Bind(R.id.view_bicycle_post_script_item_date1)
     TextView createAt;
 
-    public BicyclePostScriptView(Context context) {
-        super(context);
-        init();
-    }
-
-    private void init() {
-        inflate(getContext(), R.layout.view_bicycle_post_script_item, this);
-        ButterKnife.bind(this);
+    public BicyclePostScriptView(View view) {
+        super(view);
+        ButterKnife.bind(this, view);
         point.setClickable(false);
     }
 
@@ -50,6 +47,7 @@ public class BicyclePostScriptView extends FrameLayout {
         renterName.setText("" + item.getRenterName());
         point.setRating(item.getPoint());
         postscript.setText("" + item.getPostScript());
-        createAt.setText("" + item.getCreateAt());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM.dd HH:mm");
+        createAt.setText(simpleDateFormat.format(item.getCreateAt()));
     }
 }

@@ -94,5 +94,5 @@ public class Result {
     String id = null;
     @Getter
     @Setter(AccessLevel.PUBLIC)
-    String distance = null;
+    double distance = -1.0;
 }

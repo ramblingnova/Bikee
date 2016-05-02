@@ -37,12 +37,15 @@ public class ReservationReceiveObject {
         @Getter
         @Setter(AccessLevel.PUBLIC)
         Lister lister = null;
+        /*@Getter
+        @Setter(AccessLevel.PUBLIC)
+        Renter renter = null;*/
         @Getter
         @Setter(AccessLevel.PUBLIC)
-        Renter renter = null;
-        @Getter
+        Reserve reserve = null;
+        /*@Getter
         @Setter(AccessLevel.PUBLIC)
-        List<Reserve> reserve = null;
+        double distance = -1.0;*/
 
         public class Reserve {
             @Getter

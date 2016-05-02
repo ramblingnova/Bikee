@@ -2,15 +2,21 @@ package com.example.tacademy.bikee.etc.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
+import android.os.Build;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.text.Layout;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.etc.MyApplication;
 
 import java.io.File;
 
@@ -75,6 +81,46 @@ public class ImageUtil {
             final float radius) {
         Glide.with(context)
                 .load(imageURL)
+                .asBitmap()
+                .placeholder(placeHolderResourceId)
+                .fitCenter()
+                .thumbnail(0.0001f)
+                .into(new BitmapImageViewTarget(targetView) {
+                    @Override
+                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                        super.onLoadFailed(e, errorDrawable);
+                        BitmapDrawable bitmapDrawable;
+                        if (Build.VERSION.SDK_INT < 23) {
+                            bitmapDrawable = (BitmapDrawable) context.getResources()
+                                    .getDrawable(R.drawable.detailpage_bike_image_noneimage);
+                        } else {
+                            bitmapDrawable = (BitmapDrawable) context.getResources()
+                                    .getDrawable(R.drawable.detailpage_bike_image_noneimage, MyApplication.getmContext().getTheme());
+                        }
+                        RoundedBitmapDrawable circularBitmapDrawable =
+                                RoundedBitmapDrawableFactory.create(context.getResources(), bitmapDrawable.getBitmap());
+                        circularBitmapDrawable.setCornerRadius(radius);
+                        targetView.setImageDrawable(circularBitmapDrawable);
+                    }
+
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        RoundedBitmapDrawable circularBitmapDrawable =
+                                RoundedBitmapDrawableFactory.create(context.getResources(), resource);
+                        circularBitmapDrawable.setCornerRadius(radius);
+                        targetView.setImageDrawable(circularBitmapDrawable);
+                    }
+                });
+    }
+
+    public static void setRoundRectangleImageFromResourceId(
+            final Context context,
+            Integer resourceId,
+            int placeHolderResourceId,
+            final ImageView targetView,
+            final float radius) {
+        Glide.with(context)
+                .load(resourceId)
                 .asBitmap()
                 .placeholder(placeHolderResourceId)
                 .fitCenter()

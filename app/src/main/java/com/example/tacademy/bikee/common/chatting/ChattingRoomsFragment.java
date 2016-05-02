@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.chatting.room.ConversationActivity;
+import com.example.tacademy.bikee.common.interfaces.OnAdapterClickListener;
 import com.example.tacademy.bikee.etc.dao.GetChannelResInfoReceiveObject;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.SendBirdSendObject;
@@ -26,7 +27,6 @@ import com.sendbird.android.SendBirdNotificationHandler;
 import com.sendbird.android.model.Mention;
 import com.sendbird.android.model.MessagingChannel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -38,7 +38,7 @@ import retrofit2.Response;
 /**
  * Created by User on 2016-03-11.
  */
-public class ChattingRoomsFragment extends Fragment implements OnChattingRoomAdapterClickListener {
+public class ChattingRoomsFragment extends Fragment implements OnAdapterClickListener {
     @Bind(R.id.fragment_chatting_rooms_recycler_view)
     RecyclerView recyclerView;
 
@@ -49,6 +49,8 @@ public class ChattingRoomsFragment extends Fragment implements OnChattingRoomAda
     private String userId;
     private String userName;
     private String gcmRegToken;
+    private ChattingRoomItem[] waitingList;
+    private int waitingCount = 0;
 
     private static final String TAG = "CHATTING_ROOMS_FRAGMENT";
 
@@ -63,7 +65,7 @@ public class ChattingRoomsFragment extends Fragment implements OnChattingRoomAda
         recyclerView.setLayoutManager(linearLayoutManager);
 
         chattingRoomAdapter = new ChattingRoomAdapter();
-        chattingRoomAdapter.setOnChattingRoomAdapterClickListener(this);
+        chattingRoomAdapter.setOnAdapterClickListener(this);
         recyclerView.setAdapter(chattingRoomAdapter);
 
         recyclerView.addItemDecoration(
@@ -78,6 +80,7 @@ public class ChattingRoomsFragment extends Fragment implements OnChattingRoomAda
     @Override
     public void onResume() {
         super.onResume();
+        waitingCount = 0;
 
         if (PropertyManager.getInstance().getSignInState() != PropertyManager.SIGN_OUT_STATE) {
             appId = "2E377FE1-E1AD-4484-A66F-696AF1306F58";
@@ -151,21 +154,21 @@ public class ChattingRoomsFragment extends Fragment implements OnChattingRoomAda
     }
 
     @Override
-    public void onChattingRoomAdapterClick(View view, ChattingRoomItem item, int position) {
+    public void onAdapterClick(View view, Object item) {
         Intent intent = new Intent(getActivity(), ConversationActivity.class);
         intent.putExtra("APP_ID", appId);
         intent.putExtra("USER_ID", userId);
         intent.putExtra("USER_NAME", userName);
-        for (MessagingChannel.Member member : item.getMessagingChannel().getMembers())
+        for (MessagingChannel.Member member : ((ChattingRoomItem)item).getMessagingChannel().getMembers())
             if (!member.getId().equals(SendBird.getUserId())) {
                 intent.putExtra("TARGET_USER_ID", member.getId());
                 intent.putExtra("TARGET_USER_NAME", member.getName());
                 break;
             }
-        intent.putExtra("BICYCLE_ID", item.getBicycleId());
-        intent.putExtra("BICYCLE_NAME", item.getBicycleName());
-        intent.putExtra("CHANNEL_URL", item.getMessagingChannel().getUrl());
-        intent.putExtra("AM_I_LISTER", item.isAmILister());
+        intent.putExtra("BICYCLE_ID", ((ChattingRoomItem)item).getBicycleId());
+        intent.putExtra("BICYCLE_NAME", ((ChattingRoomItem)item).getBicycleName());
+        intent.putExtra("CHANNEL_URL", ((ChattingRoomItem)item).getMessagingChannel().getUrl());
+        intent.putExtra("AM_I_LISTER", ((ChattingRoomItem)item).isAmILister());
         intent.putExtra("JOIN", true);
         startActivity(intent);
     }
@@ -202,8 +205,20 @@ public class ChattingRoomsFragment extends Fragment implements OnChattingRoomAda
         }
     };
 
+    public void addAll(int index, ChattingRoomItem chattingRoomItem) {
+        waitingList[index] = chattingRoomItem;
+        waitingCount++;
+
+        if (waitingCount == waitingList.length)
+            for (ChattingRoomItem item : waitingList)
+                chattingRoomAdapter.add(item);
+    }
+
     private void addItemsToAdapter(List<MessagingChannel> list) {
-        for (final MessagingChannel messagingChannel : list) {
+        waitingList = new ChattingRoomItem[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            final int index = i;
+            final MessagingChannel messagingChannel = list.get(i);
             NetworkManager.getInstance().getChannelInfo(
                     messagingChannel.getUrl(),
                     null,
@@ -213,7 +228,6 @@ public class ChattingRoomsFragment extends Fragment implements OnChattingRoomAda
                             GetChannelInfoReceiveObject getChannelInfoReceiveObject = response.body();
 
                             SendBirdSendObject sendBirdSendObject = new SendBirdSendObject();
-                            // TODO : 없는 경우는 어떤 경우인가?
                             sendBirdSendObject.setRenter(getChannelInfoReceiveObject.getResult().get(0).getRenter());
                             sendBirdSendObject.setLister(getChannelInfoReceiveObject.getResult().get(0).getLister());
                             sendBirdSendObject.setBike(getChannelInfoReceiveObject.getResult().get(0).getBike());
@@ -236,8 +250,8 @@ public class ChattingRoomsFragment extends Fragment implements OnChattingRoomAda
                                                             @Override
                                                             public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
                                                                 ReceiveObject receiveObject = response.body();
-
-                                                                chattingRoomAdapter.add(
+                                                                addAll(
+                                                                        index,
                                                                         new ChattingRoomItem(
                                                                                 messagingChannel,
                                                                                 null,
@@ -257,7 +271,8 @@ public class ChattingRoomsFragment extends Fragment implements OnChattingRoomAda
                                                             }
                                                         });
                                             } else {
-                                                chattingRoomAdapter.add(
+                                                addAll(
+                                                        index,
                                                         new ChattingRoomItem(
                                                                 messagingChannel,
                                                                 receiveObject.getResult().get(0).getReserve().getRentStart(),

@@ -101,19 +101,59 @@
                     android:layout_marginRight="16dp"
                     android:background="@color/bikeeLightGray" />
 
-                <include
+                <!--<include
                     android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_additory_component"
                     layout="@layout/bicycle_detail_information_bicycle_component"
                     android:layout_width="match_parent"
                     android:layout_height="47dp"
                     android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_height_bicycle_component_line"
-                    android:layout_centerHorizontal="true" />
+                    android:layout_centerHorizontal="true" />&lt;!&ndash;old&ndash;&gt;-->
+
+                <FrameLayout
+                    android:id="@+id/activity_renter_reservation_bicycle_detail_information_additory_component"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_height_bicycle_component_line"
+                    android:layout_centerHorizontal="true">
+
+                    <LinearLayout
+                        android:id="@+id/additory_component_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_gravity="top|left">
+
+                        <ImageView
+                            android:id="@+id/bicycle_detail_information_bicycle_component_icon_image_view"
+                            android:layout_width="26dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/detailpage_icon3" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="11dp"
+                            android:layout_marginStart="11dp"
+                            android:layout_toEndOf="@id/bicycle_detail_information_bicycle_component_icon_image_view"
+                            android:layout_toRightOf="@id/bicycle_detail_information_bicycle_component_icon_image_view"
+                            android:text="추가구성품"
+                            android:textColor="@color/bikeeGray"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+                </FrameLayout>
 
                 <View
                     android:id="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_component_bicycle_rental_place_line"
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_additory_component"
+                    android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_additory_component"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:background="@color/bikeeLightGray" />
@@ -145,7 +185,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/activity_renter_reservation_bicycle_detail_information_bicycle_information_layout"
+                android:layout_below="@id/activity_renter_reservation_bicycle_detail_information_bicycle_information_layout"
                 android:layout_marginBottom="26dp"
                 android:layout_marginTop="42dp"
                 android:orientation="horizontal">

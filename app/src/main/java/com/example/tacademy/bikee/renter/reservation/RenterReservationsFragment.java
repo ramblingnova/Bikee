@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.common.interfaces.OnAdapterClickListener;
 import com.example.tacademy.bikee.etc.dao.ReservationReceiveObject;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.renter.reservation.content.RenterReservationContentActivity;
@@ -23,7 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RenterReservationsFragment extends Fragment implements OnRenterReservationAdapterClickListener {
+public class RenterReservationsFragment extends Fragment implements OnAdapterClickListener {
     private Intent intent;
     private RenterReservationAdapter adapter;
 
@@ -44,7 +45,7 @@ public class RenterReservationsFragment extends Fragment implements OnRenterRese
         recycler.setLayoutManager(layoutManager);
 
         adapter = new RenterReservationAdapter();
-        adapter.setOnRenterReservationAdapterClickListener(this);
+        adapter.setOnAdapterClickListener(this);
 
         recycler.setAdapter(adapter);
 
@@ -54,15 +55,15 @@ public class RenterReservationsFragment extends Fragment implements OnRenterRese
     }
 
     @Override
-    public void onRenterReservationAdapterClick(View view, RenterReservationItem item) {
+    public void onAdapterClick(View view, Object item) {
         intent = new Intent(getActivity(), RenterReservationContentActivity.class);
-        intent.putExtra("BICYCLE_ID", item.getBicycleId());
-        intent.putExtra("BICYCLE_LATITUDE", item.getLatitude());
-        intent.putExtra("BICYCLE_LONGITUDE", item.getLongitude());
-        intent.putExtra("RESERVATION_ID", item.getReserveId());
-        intent.putExtra("RESERVATION_STATUS", item.getStatus());
-        intent.putExtra("RESERVATION_START_DATE", item.getStartDate());
-        intent.putExtra("RESERVATION_END_DATE", item.getEndDate());
+        intent.putExtra("BICYCLE_ID", ((RenterReservationItem) item).getBicycleId());
+        intent.putExtra("BICYCLE_LATITUDE", ((RenterReservationItem) item).getLatitude());
+        intent.putExtra("BICYCLE_LONGITUDE", ((RenterReservationItem) item).getLongitude());
+        intent.putExtra("RESERVATION_ID", ((RenterReservationItem) item).getReserveId());
+        intent.putExtra("RESERVATION_STATUS", ((RenterReservationItem) item).getStatus());
+        intent.putExtra("RESERVATION_START_DATE", ((RenterReservationItem) item).getStartDate());
+        intent.putExtra("RESERVATION_END_DATE", ((RenterReservationItem) item).getEndDate());
         getActivity().startActivity(intent);
     }
 
@@ -76,30 +77,20 @@ public class RenterReservationsFragment extends Fragment implements OnRenterRese
                         Log.i("result", "selectReservationBicycle onResponse");
                         List<ReservationReceiveObject.Result> results = receiveObject.getResult();
                         for (ReservationReceiveObject.Result result : results)
-                            for (ReservationReceiveObject.Result.Reserve reserve : result.getReserve()) {
-                                Log.i("result", "onResponse Bike ID : " + result.getBike().get_id()
-                                                + ", Bike Image : " + result.getBike().getImage().getCdnUri() + result.getBike().getImage().getFiles().get(0)
-                                                + ", Status : " + reserve.getStatus()
-                                                + ", Bike Name : " + result.getBike().getTitle()
-                                                + ", Start Date : " + reserve.getRentStart()
-                                                + ", End Date : " + reserve.getRentEnd()
-                                                + ", Payment : " + result.getBike().getPrice().getMonth()
-                                );
-                                adapter.add(
-                                        new RenterReservationItem(
-                                                result.getBike().get_id(),
-                                                result.getBike().getImage().getCdnUri() + result.getBike().getImage().getFiles().get(0),
-                                                result.getBike().getTitle(),
-                                                reserve.getStatus(),
-                                                reserve.getRentStart(),
-                                                reserve.getRentEnd(),
-                                                result.getBike().getPrice().getMonth(),
-                                                reserve.get_id(),
-                                                result.getBike().getLoc().getCoordinates().get(1),
-                                                result.getBike().getLoc().getCoordinates().get(0)
-                                        )
-                                );
-                            }
+                            adapter.add(
+                                    new RenterReservationItem(
+                                            result.getBike().get_id(),
+                                            result.getBike().getImage().getCdnUri() + result.getBike().getImage().getFiles().get(0),
+                                            result.getBike().getTitle(),
+                                            result.getReserve().getStatus(),
+                                            result.getReserve().getRentStart(),
+                                            result.getReserve().getRentEnd(),
+                                            result.getBike().getPrice().getMonth(),
+                                            result.getReserve().get_id(),
+                                            result.getBike().getLoc().getCoordinates().get(1),
+                                            result.getBike().getLoc().getCoordinates().get(0)
+                                    )
+                            );
                     }
 
                     @Override

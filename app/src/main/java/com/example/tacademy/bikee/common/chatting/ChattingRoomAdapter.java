@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.common.interfaces.OnAdapterClickListener;
+import com.example.tacademy.bikee.common.interfaces.OnViewHolderClickListener;
 import com.example.tacademy.bikee.etc.dao.GetChannelInfoReceiveObject;
 import com.example.tacademy.bikee.etc.dao.GetChannelResInfoReceiveObject;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
@@ -28,7 +30,7 @@ import retrofit2.Response;
  */
 public class ChattingRoomAdapter extends RecyclerView.Adapter<ChattingRoomViewHolder> {
     private List<ChattingRoomItem> list;
-    private OnChattingRoomAdapterClickListener onChattingRoomAdapterClickListener;
+    private OnAdapterClickListener onAdapterClickListener;
 
     private static final String TAG = "CHATTING_ROOM_ADAPTER";
 
@@ -48,12 +50,11 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<ChattingRoomViewHo
     @Override
     public void onBindViewHolder(ChattingRoomViewHolder holder, final int position) {
         holder.setView(list.get(position));
-        holder.setOnChattingRoomClickListener(new OnChattingRoomClickListener() {
+        holder.setOnViewHolderClickListener(new OnViewHolderClickListener() {
             @Override
-            public void onChattingRoomClick(View view) {
-                notifyDataSetChanged();
-                if (onChattingRoomAdapterClickListener != null)
-                    onChattingRoomAdapterClickListener.onChattingRoomAdapterClick(view, list.get(position), position);
+            public void onViewHolderClick(View view) {
+                if (onAdapterClickListener != null)
+                    onAdapterClickListener.onAdapterClick(view, list.get(position));
             }
         });
     }
@@ -65,11 +66,6 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<ChattingRoomViewHo
 
     public void add(ChattingRoomItem item) {
         list.add(item);
-        notifyDataSetChanged();
-    }
-
-    public void addAll(List<ChattingRoomItem> listForAddAll) {
-        list.addAll(listForAddAll);
         notifyDataSetChanged();
     }
 
@@ -178,7 +174,7 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<ChattingRoomViewHo
                 });
     }
 
-    public void setOnChattingRoomAdapterClickListener(OnChattingRoomAdapterClickListener onChattingRoomAdapterClickListener) {
-        this.onChattingRoomAdapterClickListener = onChattingRoomAdapterClickListener;
+    public void setOnAdapterClickListener(OnAdapterClickListener onAdapterClickListener) {
+        this.onAdapterClickListener = onAdapterClickListener;
     }
 }

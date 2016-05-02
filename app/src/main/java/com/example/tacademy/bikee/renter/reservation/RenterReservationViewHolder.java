@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.common.interfaces.OnViewHolderClickListener;
 import com.example.tacademy.bikee.etc.MyApplication;
 import com.example.tacademy.bikee.etc.utils.ImageUtil;
 
@@ -22,14 +23,8 @@ import butterknife.OnClick;
 public class RenterReservationViewHolder extends RecyclerView.ViewHolder {
     @Bind(R.id.view_renter_reservation_bicycle_item_bicycle_picture_image_view)
     ImageView bicyclePicture;
-    @Bind(R.id.view_holder_renter_reservation_step1_image_view)
-    ImageView step1ImageView;
-    @Bind(R.id.view_holder_renter_reservation_step2_image_view)
-    ImageView step2ImageView;
-    @Bind(R.id.view_holder_renter_reservation_step3_image_view)
-    ImageView step3ImageView;
-    @Bind(R.id.view_holder_renter_reservation_step4_image_view)
-    ImageView step4ImageView;
+    @Bind(R.id.view_holder_renter_reservation_step_image_view)
+    ImageView stepImageView;
     @Bind(R.id.view_renter_reservation_bicycle_item_bicycle_name_text_view)
     TextView bicycleName;
     @Bind(R.id.view_renter_reservation_bicycle_item_start_date_text_view)
@@ -39,7 +34,7 @@ public class RenterReservationViewHolder extends RecyclerView.ViewHolder {
     @Bind(R.id.view_renter_reservation_bicycle_item_payment_text_view)
     TextView bicyclePrice;
 
-    private OnRenterReservationViewClickListener listener;
+    private OnViewHolderClickListener onViewHolderClickListener;
 
     public RenterReservationViewHolder(View view) {
         super(view);
@@ -49,11 +44,12 @@ public class RenterReservationViewHolder extends RecyclerView.ViewHolder {
 
     @OnClick(R.id.view_holder_renter_reservation)
     void onClick(View view) {
-        listener.onRenterReservationClick(view);
+        if (onViewHolderClickListener != null)
+            onViewHolderClickListener.onViewHolderClick(view);
     }
 
-    public void setOnRenterReservationViewClickListener(OnRenterReservationViewClickListener listener) {
-        this.listener = listener;
+    public void setOnViewHolderClickListener(OnViewHolderClickListener onViewHolderClickListener) {
+        this.onViewHolderClickListener = onViewHolderClickListener;
     }
 
     public void setView(RenterReservationItem item) {
@@ -65,47 +61,32 @@ public class RenterReservationViewHolder extends RecyclerView.ViewHolder {
                 6
         );
 
-        step1ImageView.setVisibility(View.INVISIBLE);
-        step2ImageView.setVisibility(View.INVISIBLE);
-        step3ImageView.setVisibility(View.INVISIBLE);
-        step4ImageView.setVisibility(View.INVISIBLE);
         Date currentDate = new Date();
         switch (item.getStatus()) {
             case "RR":
-                if (currentDate.after(item.getStartDate())) {
-                    step4ImageView.setVisibility(View.VISIBLE);
-                    step4ImageView.setImageResource(R.drawable.reservation_step4_1);
-                } else {
-                    step1ImageView.setVisibility(View.VISIBLE);
-                    step1ImageView.setImageResource(R.drawable.reservation_step1);
-                }
+                if (currentDate.after(item.getStartDate()))
+                    stepImageView.setImageResource(R.drawable.reservation_step4);
+                else
+                    stepImageView.setImageResource(R.drawable.reservation_step1);
                 break;
             case "RS":
-                if (currentDate.after(item.getStartDate())) {
-                    step4ImageView.setVisibility(View.VISIBLE);
-                    step4ImageView.setImageResource(R.drawable.reservation_step4_1);
-                } else {
-                    step2ImageView.setVisibility(View.VISIBLE);
-                    step2ImageView.setImageResource(R.drawable.reservation_step2);
-                }
+                if (currentDate.after(item.getStartDate()))
+                    stepImageView.setImageResource(R.drawable.reservation_step4);
+                else
+                    stepImageView.setImageResource(R.drawable.reservation_step2);
                 break;
             case "PS":
                 if (currentDate.after(item.getStartDate())) {
-                    if (currentDate.after(item.getEndDate())) {
-                        step4ImageView.setVisibility(View.VISIBLE);
-                        step4ImageView.setImageResource(R.drawable.reservation_step4_2);
-                    } else {
-                        step3ImageView.setVisibility(View.VISIBLE);
-                        step3ImageView.setImageResource(R.drawable.reservation_step3);
-                    }
+                    if (currentDate.after(item.getEndDate()))
+                        stepImageView.setImageResource(R.drawable.reservation_step4_2);
+                    else
+                        stepImageView.setImageResource(R.drawable.reservation_step3);
                 } else {
-                    step3ImageView.setVisibility(View.VISIBLE);
-                    step3ImageView.setImageResource(R.drawable.reservation_step3);
+                    stepImageView.setImageResource(R.drawable.reservation_step2_2);
                 }
                 break;
-            case "RC":
-                step4ImageView.setVisibility(View.VISIBLE);
-                step4ImageView.setImageResource(R.drawable.reservation_step4_1);
+            case "RC":case "PC":
+                stepImageView.setImageResource(R.drawable.reservation_step4);
                 break;
             default:
                 break;

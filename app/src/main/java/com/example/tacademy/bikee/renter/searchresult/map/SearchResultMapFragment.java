@@ -16,14 +16,13 @@ import android.view.ViewGroup;
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
 
-import com.example.tacademy.bikee.common.POI;
 import com.example.tacademy.bikee.etc.MyApplication;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
-import com.example.tacademy.bikee.renter.searchresult.SearchResultMapItem;
-import com.example.tacademy.bikee.renter.searchresult.bicycledetailinformation.FilteredBicycleDetailInformationActivity;
+import com.example.tacademy.bikee.renter.searchresult.SearchResultItem;
+import com.example.tacademy.bikee.renter.searchresult.content.FilteredBicycleDetailInformationActivity;
 import com.example.tacademy.bikee.renter.searchresult.filter.FilterActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -51,7 +50,6 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
         GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMapClickListener,
         GoogleMap.OnMarkerDragListener, GoogleMap.OnCameraChangeListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
-    // TODO : handle filter result, when click icon move to center, modify click area
     final private Map<POI, Marker> mMarkerResolver = new HashMap<POI, Marker>();
     final private Map<Marker, POI> mPOIResolver = new HashMap<Marker, POI>();
     private GoogleMap googleMap;
@@ -61,6 +59,7 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     private String userLatitude = null;
     private String userLongitude = null;
     private String filter;
+    private Marker current_marker;
 
     private static final String TAG = "SEARCH_R_M_ACTIVITY";
 
@@ -165,7 +164,6 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
 
         this.googleMap.setOnInfoWindowClickListener(this);
         this.googleMap.setInfoWindowAdapter(bicycleInfoWindowView = BicycleInfoWindowView.getInstance(MyApplication.getmContext(), mPOIResolver));
-//        this.googleMap.setInfoWindowAdapter(bicycleInfoWindowView = new BicycleInfoWindowView(MyApplication.getmContext(), mPOIResolver));
         bicycleInfoWindowView.setOnImageLoadListener(onImageLoadListener);
 
         this.googleMap.setOnMapClickListener(this);
@@ -247,13 +245,12 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     @Override
     public boolean onMarkerClick(Marker marker) {
         POI poi = mPOIResolver.get(marker);
-        SearchResultMapItem searchResultMapItem = poi.getItem();
+        SearchResultItem searchResultItem = poi.getItem();
         current_marker = marker;
-        bicycleInfoWindowView.setImageView(getActivity(), searchResultMapItem.getImageURL());
+        bicycleInfoWindowView.setImageView(getActivity(), searchResultItem.getImageURL());
         return true;
     }
 
-    Marker current_marker;
     BicycleInfoWindowView.OnImageLoadListener onImageLoadListener = new BicycleInfoWindowView.OnImageLoadListener() {
         @Override
         public void onImageLoad() {
@@ -328,13 +325,14 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
 
                             POI poi = new POI();
                             poi.setItem(
-                                    new SearchResultMapItem(
+                                    new SearchResultItem(
                                             result.get_id(),
                                             imageURL,
                                             result.getTitle(),
-                                            result.getType(),
                                             result.getHeight(),
+                                            result.getType(),
                                             "" + result.getPrice().getMonth(),
+                                            result.getDistance(),
                                             result.getLoc().getCoordinates().get(1),
                                             result.getLoc().getCoordinates().get(0)
                                     )

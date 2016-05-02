@@ -13,6 +13,7 @@ import android.view.View;
 
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.common.interfaces.OnAdapterClickListener;
 import com.example.tacademy.bikee.etc.dao.CardReceiveObject;
 import com.example.tacademy.bikee.etc.dao.CardResult;
 import com.example.tacademy.bikee.etc.dao.CardSendObject;
@@ -35,7 +36,7 @@ import retrofit2.Response;
 /**
  * Created by Tacademy on 2015-11-03.
  */
-public class CardsActivity extends AppCompatActivity implements OnCardAdapterClickListener {
+public class CardsActivity extends AppCompatActivity implements OnAdapterClickListener {
     private Intent intent;
     private RecyclerView recyclerView;
     private CardAdapter cardAdapter;
@@ -61,7 +62,7 @@ public class CardsActivity extends AppCompatActivity implements OnCardAdapterCli
         recyclerView.setLayoutManager(gridLayoutManager);
 
         cardAdapter = new CardAdapter();
-        cardAdapter.setOnCardAdapterClickListener(this);
+        cardAdapter.setOnAdapterClickListener(this);
 
         recyclerView.setAdapter(cardAdapter);
 
@@ -203,9 +204,9 @@ public class CardsActivity extends AppCompatActivity implements OnCardAdapterCli
     }
 
     @Override
-    public void onCardAdapterClick(View view, CardItem item) {
+    public void onAdapterClick(View view, Object item) {
         if (BuildConfig.DEBUG)
-            Log.d(TAG, item.getCardName() + "/" + item.getNickname());
+            Log.d(TAG, ((CardItem) item).getCardName() + "/" + ((CardItem) item).getNickname());
     }
 
     private void init() {

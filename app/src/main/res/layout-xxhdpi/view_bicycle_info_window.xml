@@ -17,8 +17,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="28dp"
             android:layout_marginTop="16dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/rider_main_miniinfo_image" />
+            android:scaleType="fitXY" />
 
         <TextView
             android:id="@+id/view_bicycle_info_window_bicycle_name_text_view"

@@ -144,15 +144,15 @@ public class NetworkManager {
         Call<ReceiveObject> isSignedInFacebook(@Path("id") String id);
 
         // 채팅방 목록 정보 가져오기
-        @GET("/sendbird/{channel_url}")
+        @GET("/api/sendbird/{channel_url}")
         Call<GetChannelInfoReceiveObject> getChannelInfo(@Path("channel_url") String channelUrl);
 
         // 채팅방 예약 정보 조회
-        @POST("/sendbird/reserves")
+        @POST("/api/sendbird/reserves")
         Call<GetChannelResInfoReceiveObject> getChannelResInfo(@Body SendBirdSendObject sendBirdSendObject);
 
         // 채팅방 등록
-        @POST("/sendbird")
+        @POST("/api/sendbird")
         Call<ReceiveObject> createChannel(@Body SendBirdSendObject sendBirdSendObject);
 
         // 자전거 등록하기
