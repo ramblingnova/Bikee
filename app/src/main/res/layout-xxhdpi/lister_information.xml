@@ -4,7 +4,7 @@
     android:layout_height="87dp">
 
     <ImageView
-        android:id="@+id/lister_information_lister_picture_image_view"
+        android:id="@+id/activity_content_user_information_user_picture_image_view"
         android:layout_width="58dp"
         android:layout_height="58dp"
         android:layout_alignParentBottom="true"
@@ -15,20 +15,20 @@
         android:src="@drawable/noneimage" />
 
     <TextView
-        android:id="@+id/lister_information_lister_name_text_view"
+        android:id="@+id/activity_content_user_information_user_name_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="39dp"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
-        android:layout_toEndOf="@id/lister_information_lister_picture_image_view"
-        android:layout_toRightOf="@id/lister_information_lister_picture_image_view"
+        android:layout_toEndOf="@id/activity_content_user_information_user_picture_image_view"
+        android:layout_toRightOf="@id/activity_content_user_information_user_picture_image_view"
         android:textColor="@color/bikeeBlack"
         android:textSize="12sp" />
 
     <Button
-        android:id="@+id/lister_information_chat_with_lister_button"
+        android:id="@+id/activity_content_user_information_chatting_button"
         android:layout_width="27dp"
         android:layout_height="27dp"
         android:layout_alignParentBottom="true"
@@ -41,14 +41,14 @@
         android:scaleType="fitXY" />
 
     <Button
-        android:id="@+id/lister_information_call_with_lister_button"
+        android:id="@+id/activity_content_user_information_call_button"
         android:layout_width="27dp"
         android:layout_height="27dp"
-        android:layout_alignBottom="@id/lister_information_chat_with_lister_button"
+        android:layout_alignBottom="@id/activity_content_user_information_chatting_button"
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
-        android:layout_toLeftOf="@id/lister_information_chat_with_lister_button"
-        android:layout_toStartOf="@id/lister_information_chat_with_lister_button"
+        android:layout_toLeftOf="@id/activity_content_user_information_chatting_button"
+        android:layout_toStartOf="@id/activity_content_user_information_chatting_button"
         android:background="@drawable/detailpage_icon_call"
         android:scaleType="fitXY" />
 </RelativeLayout>

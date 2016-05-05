@@ -12,49 +12,74 @@ import lombok.Setter;
 public class ListerReservationItem {
     @Getter
     @Setter(AccessLevel.PUBLIC)
-    String bikeId;
+    String bicycleId;
     @Getter
     @Setter(AccessLevel.PUBLIC)
-    String imageURL;
+    String bicycleTitle;
     @Getter
     @Setter(AccessLevel.PUBLIC)
-    String status;
+    double bicycleLatitude;
+    @Getter
+    @Setter(AccessLevel.PUBLIC)
+    double bicycleLongitude;
+    @Getter
+    @Setter(AccessLevel.PUBLIC)
+    String renterImageURL;
     @Getter
     @Setter(AccessLevel.PUBLIC)
     String renterName;
     @Getter
     @Setter(AccessLevel.PUBLIC)
-    String bicycleName;
+    String renterPhone;
     @Getter
     @Setter(AccessLevel.PUBLIC)
-    Date startDate;
+    String reservationId;
     @Getter
     @Setter(AccessLevel.PUBLIC)
-    Date endDate;
+    String reservationStatus;
     @Getter
     @Setter(AccessLevel.PUBLIC)
-    String price;
+    Date reservationStartDate;
     @Getter
     @Setter(AccessLevel.PUBLIC)
-    String reserveId;
+    Date reservationEndDate;
+    @Getter
+    @Setter(AccessLevel.PUBLIC)
+    int pricePerMonth;
+    @Getter
+    @Setter(AccessLevel.PUBLIC)
+    int pricePerDay;
+    @Getter
+    @Setter(AccessLevel.PUBLIC)
+    int pricePerHour;
 
-    public ListerReservationItem(String bikeId,
-                                 String imageURL,
-                                 String status,
+    public ListerReservationItem(String bicycleId,
+                                 String bicycleTitle,
+                                 double bicycleLatitude,
+                                 double bicycleLongitude,
+                                 String renterImageURL,
                                  String renterName,
-                                 String bicycleName,
-                                 Date startDate,
-                                 Date endDate,
-                                 String price,
-                                 String reserveId) {
-        this.bikeId = bikeId;
-        this.imageURL = imageURL;
-        this.status = status;
+                                 String renterPhone,
+                                 String reservationId,
+                                 String reservationStatus,
+                                 Date reservationStartDate,
+                                 Date reservationEndDate,
+                                 int pricePerMonth,
+                                 int pricePerDay,
+                                 int pricePerHour) {
+        this.bicycleId = bicycleId;
+        this.bicycleTitle = bicycleTitle;
+        this.bicycleLatitude = bicycleLatitude;
+        this.bicycleLongitude = bicycleLongitude;
+        this.renterImageURL = renterImageURL;
         this.renterName = renterName;
-        this.bicycleName = bicycleName;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.price = price;
-        this.reserveId = reserveId;
+        this.renterPhone = renterPhone;
+        this.reservationId = reservationId;
+        this.reservationStatus = reservationStatus;
+        this.reservationStartDate = reservationStartDate;
+        this.reservationEndDate = reservationEndDate;
+        this.pricePerMonth = pricePerMonth;
+        this.pricePerDay = pricePerDay;
+        this.pricePerHour = pricePerHour;
     }
 }

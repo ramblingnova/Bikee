@@ -130,8 +130,8 @@ public class NoChoiceDialogFragment extends DialogFragment {
         } else if ((getArguments().getInt(ARG_PARAM1, LISTER_APPROVE_RESERVATION) == LISTER_APPROVE_RESERVATION)
                 && (getArguments().getInt(ARG_PARAM2, LISTER_MOVE_TO_LISTER_REQUESTED) == LISTER_MOVE_TO_LISTER_REQUESTED)) {
             NetworkManager.getInstance().reserveStatus(
-                    bicycleId,
                     reserveId,
+                    bicycleId,
                     status,
                     null,
                     new Callback<ReceiveObject>() {

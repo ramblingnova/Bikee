@@ -60,8 +60,7 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
     private FragmentTabHost tabHost;
     private ImageView btt_iv1, btt_iv2, btt_iv3, btt_iv4;
 
-    public static final String from = "RENTER";
-    private static final String TAG = "RENTER_MAIN_ACTIVITY";
+    public static final String TAG = "RENTER_MAIN_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,7 +179,7 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
             case R.id.renter_side_menu_member_name_text_view:
             case R.id.renter_side_menu_mail_address_text_view:
                 intent = new Intent(RenterMainActivity.this, SignInActivity.class);
-                intent.putExtra("FROM", from);
+                intent.putExtra("FROM", TAG);
                 startActivityForResult(intent, SignInActivity.SIGN_IN_ACTIVITY);
                 break;
             case R.id.renter_side_menu_fragment_register_card_text_view:
@@ -189,7 +188,7 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
                 break;
             case R.id.renter_side_menu_evaluation_bicycle_script_text_view:
                 intent = new Intent(RenterMainActivity.this, CommentsActivity.class);
-                intent.putExtra("FROM", from);
+                intent.putExtra("FROM", TAG);
                 startActivity(intent);
                 break;
             case R.id.renter_side_menu_authentication_information_text_view:
@@ -200,7 +199,7 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
                 break;
             case R.id.renter_side_menu_input_inquiry_text_view:
                 intent = new Intent(RenterMainActivity.this, InputInquiryActivity.class);
-                intent.putExtra("FROM", from);
+                intent.putExtra("FROM", TAG);
                 startActivity(intent);
                 break;
             case R.id.renter_side_menu_version_information_text_view:

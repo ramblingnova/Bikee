@@ -10,6 +10,7 @@ import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.interfaces.OnViewHolderClickListener;
 import com.example.tacademy.bikee.etc.MyApplication;
 import com.example.tacademy.bikee.etc.utils.ImageUtil;
+import com.example.tacademy.bikee.etc.utils.RefinementUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,6 +35,8 @@ public class ListerReservationViewHolder extends RecyclerView.ViewHolder {
     TextView startDate;
     @Bind(R.id.view_lister_requested_bicycle_item_end_date_text_view)
     TextView endDate;
+    @Bind(R.id.view_lister_requested_bicycle_item_time_text_view)
+    TextView totalTIme;
     @Bind(R.id.view_lister_requested_bicycle_item_price_text_view)
     TextView price;
 
@@ -53,16 +56,16 @@ public class ListerReservationViewHolder extends RecyclerView.ViewHolder {
     public void setView(ListerReservationItem item) {
         ImageUtil.setCircleImageFromURL(
                 MyApplication.getmContext(),
-                item.getImageURL(),
+                item.getRenterImageURL(),
                 R.drawable.noneimage,
                 0,
                 renterImage
         );
 
         Date currentDate = new Date();
-        switch (item.getStatus()) {
+        switch (item.getReservationStatus()) {
             case "RR":
-                if (currentDate.after(item.getStartDate())) {
+                if (currentDate.after(item.getReservationStartDate())) {
                     requestReservationImage.setImageResource(R.drawable.lister_reservation_step4_1);
                     if (Build.VERSION.SDK_INT < 23) {
                         price.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeLightGray));
@@ -79,7 +82,7 @@ public class ListerReservationViewHolder extends RecyclerView.ViewHolder {
                 }
                 break;
             case "RS":
-                if (currentDate.after(item.getStartDate())) {
+                if (currentDate.after(item.getReservationStartDate())) {
                     requestReservationImage.setImageResource(R.drawable.lister_reservation_step4_1);
                     if (Build.VERSION.SDK_INT < 23) {
                         price.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeLightGray));
@@ -96,8 +99,8 @@ public class ListerReservationViewHolder extends RecyclerView.ViewHolder {
                 }
                 break;
             case "PS":
-                if (currentDate.after(item.getStartDate())) {
-                    if (currentDate.after(item.getEndDate())) {
+                if (currentDate.after(item.getReservationStartDate())) {
+                    if (currentDate.after(item.getReservationEndDate())) {
                         requestReservationImage.setImageResource(R.drawable.lister_reservation_step4_2);
                         if (Build.VERSION.SDK_INT < 23) {
                             price.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeLightGray));
@@ -135,11 +138,25 @@ public class ListerReservationViewHolder extends RecyclerView.ViewHolder {
         }
 
         renterName.setText(item.getRenterName());
-        bicycleName.setText(item.getBicycleName());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy.MM.dd. HH:mm", java.util.Locale.getDefault());
-        startDate.setText(simpleDateFormat.format(item.getStartDate()));
-        endDate.setText(simpleDateFormat.format(item.getEndDate()));
-        price.setText(item.getPrice() + "원");
+        bicycleName.setText(item.getBicycleTitle());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM.dd. HH:mm", java.util.Locale.getDefault());
+        startDate.setText(simpleDateFormat.format(item.getReservationStartDate()));
+        endDate.setText(simpleDateFormat.format(item.getReservationEndDate()));
+        totalTIme.setText(
+                RefinementUtil.calculateRentPeriod(
+                        item.getReservationStartDate(),
+                        item.getReservationEndDate()
+                )
+        );
+        price.setText(
+                RefinementUtil.calculatePrice(
+                        item.getReservationStartDate(),
+                        item.getReservationEndDate(),
+                        item.getPricePerMonth(),
+                        item.getPricePerDay(),
+                        item.getPricePerHour()
+                ) + "원"
+        );
     }
 
     public void setOnViewHolderClickListener(OnViewHolderClickListener onViewHolderClickListener) {

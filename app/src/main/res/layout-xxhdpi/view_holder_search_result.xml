@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/view_holder_search_result"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/contents_box_margin_bottom_5dp"
-    android:id="@+id/view_holder_search_result"
     android:background="@drawable/renter_list_contents_box"
     android:paddingBottom="24dp"
     android:paddingLeft="16dp"
@@ -22,10 +22,11 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/view_search_result_item_bicycle_picture_image_view"
         android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_toEndOf="@id/view_search_result_item_bicycle_picture_image_view"
         android:layout_toRightOf="@id/view_search_result_item_bicycle_picture_image_view"
-        android:text="@string/view_search_result_item_bicycle_name_text_view_string"
         android:textColor="@color/bikeeGray"
-        android:textSize="14sp" />
+        android:textSize="14dp" />
 
     <RelativeLayout
         android:id="@+id/view_search_result_item_height_type_layout"
@@ -33,27 +34,30 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/view_search_result_item_bicycle_name_text_view"
         android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="15dp"
+        android:layout_toEndOf="@id/view_search_result_item_bicycle_picture_image_view"
         android:layout_toRightOf="@id/view_search_result_item_bicycle_picture_image_view">
 
         <TextView
             android:id="@+id/view_search_result_item_height_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/view_search_result_item_height_text_view_string"
             android:textColor="@color/bikeeLightGray"
-            android:textSize="11sp" />
+            android:text="신장"
+            android:textSize="11dp" />
 
         <TextView
             android:id="@+id/view_search_result_item_height_real_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/view_search_result_item_height_text_view"
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="9dp"
+            android:layout_marginStart="9dp"
+            android:layout_toEndOf="@id/view_search_result_item_height_text_view"
             android:layout_toRightOf="@id/view_search_result_item_height_text_view"
-            android:text="@string/view_search_result_item_height_real_text_view_string"
             android:textColor="@color/bikeeGray"
-            android:textSize="11sp" />
+            android:textSize="11dp" />
 
         <ImageView
             android:id="@+id/view_search_result_item_division"
@@ -61,6 +65,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="9dp"
+            android:layout_marginStart="9dp"
+            android:layout_toEndOf="@id/view_search_result_item_height_real_text_view"
             android:layout_toRightOf="@id/view_search_result_item_height_real_text_view"
             android:src="@drawable/icon_division" />
 
@@ -70,10 +76,12 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/view_search_result_item_height_text_view"
             android:layout_marginLeft="9dp"
+            android:layout_marginStart="9dp"
+            android:layout_toEndOf="@id/view_search_result_item_division"
             android:layout_toRightOf="@id/view_search_result_item_division"
-            android:text="@string/view_search_result_item_type_text_view_string"
             android:textColor="@color/bikeeLightGray"
-            android:textSize="11sp" />
+            android:text="종류"
+            android:textSize="11dp" />
 
         <TextView
             android:id="@+id/view_search_result_item_type_real_text_view"
@@ -81,10 +89,12 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/view_search_result_item_height_text_view"
             android:layout_marginLeft="9dp"
+            android:layout_marginStart="9dp"
+            android:singleLine="true"
+            android:layout_toEndOf="@id/view_search_result_item_type_text_view"
             android:layout_toRightOf="@id/view_search_result_item_type_text_view"
-            android:text="@string/view_search_result_item_type_real_text_view_string"
             android:textColor="@color/bikeeGray"
-            android:textSize="11sp" />
+            android:textSize="11dp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -93,6 +103,8 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/view_search_result_item_bicycle_picture_image_view"
         android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_toEndOf="@id/view_search_result_item_bicycle_picture_image_view"
         android:layout_toRightOf="@id/view_search_result_item_bicycle_picture_image_view">
 
         <ImageView
@@ -108,20 +120,22 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="6dp"
+            android:layout_marginStart="6dp"
+            android:layout_toEndOf="@id/view_search_result_item_payment_image_view"
             android:layout_toRightOf="@id/view_search_result_item_payment_image_view"
-            android:text="@string/view_search_result_item_payment_real_text_view_string"
             android:textColor="@color/bikeeBlue"
-            android:textSize="15sp" />
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/view_search_result_item_per_duration_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/view_search_result_item_payment_real_text_view"
+            android:layout_toEndOf="@id/view_search_result_item_payment_real_text_view"
             android:layout_toRightOf="@id/view_search_result_item_payment_real_text_view"
-            android:text="@string/view_search_result_item_per_duration_text_view_string"
+            android:text="일당"
             android:textColor="@color/bikeeBlack"
-            android:textSize="11sp" />
+            android:textSize="11dp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -129,24 +143,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/view_search_result_item_bicycle_picture_image_view"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true">
+
+        <TextView
+            android:id="@+id/view_search_result_item_distance_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/bikeeRed"
+            android:textSize="15dp" />
 
         <ImageView
             android:id="@+id/view_search_result_item_distance_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="6dp"
             android:layout_marginRight="6dp"
-            android:layout_toLeftOf="@+id/view_search_result_item_distance_text_view"
+            android:layout_toLeftOf="@id/view_search_result_item_distance_text_view"
+            android:layout_toStartOf="@id/view_search_result_item_distance_text_view"
             android:src="@drawable/place_icon" />
-
-        <TextView
-            android:id="@+id/view_search_result_item_distance_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="@string/view_search_result_item_distance_text_view_string"
-            android:textColor="@color/bikeeRed"
-            android:textSize="15sp" />
     </RelativeLayout>
 </RelativeLayout>

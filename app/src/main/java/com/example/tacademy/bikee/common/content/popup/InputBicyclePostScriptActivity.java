@@ -1,4 +1,4 @@
-package com.example.tacademy.bikee.renter.reservation.content.popup;
+package com.example.tacademy.bikee.common.content.popup;
 
 import android.content.Context;
 import android.content.Intent;
@@ -49,7 +49,7 @@ public class InputBicyclePostScriptActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         intent = getIntent();
-        bicycleId = intent.getStringExtra("ID");
+        bicycleId = intent.getStringExtra("BICYCLE_ID");
     }
 
     @OnClick(R.id.renter_backable_tool_bar_back_button_layout)

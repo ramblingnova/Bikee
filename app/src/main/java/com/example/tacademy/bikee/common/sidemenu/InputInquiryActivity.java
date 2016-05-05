@@ -45,7 +45,7 @@ public class InputInquiryActivity extends AppCompatActivity implements View.OnCl
         intent = getIntent();
         from = intent.getStringExtra("FROM");
         View cView = null;
-        if (from.equals(RenterMainActivity.from)) {
+        if (from.equals(RenterMainActivity.TAG)) {
             cView = getLayoutInflater().inflate(R.layout.renter_backable_tool_bar, null);
             cView.findViewById(R.id.renter_backable_tool_bar_back_button_layout).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -57,7 +57,7 @@ public class InputInquiryActivity extends AppCompatActivity implements View.OnCl
                     }
                 }
             });
-        } else if (from.equals(ListerMainActivity.from)) {
+        } else if (from.equals(ListerMainActivity.TAG)) {
             cView = getLayoutInflater().inflate(R.layout.lister_backable_tool_bar, null);
             cView.findViewById(R.id.lister_backable_tool_bar_back_button_layout).setOnClickListener(new View.OnClickListener() {
                 @Override

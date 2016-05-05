@@ -55,7 +55,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class FilteredBicycleDetailInformationActivity extends AppCompatActivity implements OnMapReadyCallback, ViewPager.OnPageChangeListener {
-    // TODO : handle filter result, modify UI, need UnFilteredBycycleDetailInformation activity
     private Intent intent;
     private String listerEmail;
     private String bicycleId;
@@ -68,45 +67,45 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
     private double longitude;
     private int price;
     private String listerId;
-    @Bind(R.id.bicycle_pictures_user_information_view_pager)
+    @Bind(R.id.activity_content_bicycle_pictures_view_pager)
     ViewPager viewPager;
     private int state;
     private int position = 0;
-    @Bind(R.id.bicycle_pictures_layout)
+    @Bind(R.id.activity_content_bicycle_pictures_layout)
     RelativeLayout bicyclePicturesLayout;
-    @Bind(R.id.lister_information_lister_picture_image_view)
+    @Bind(R.id.activity_content_user_information_user_picture_image_view)
     ImageView listerPicture;
-    @Bind(R.id.lister_information_lister_name_text_view)
+    @Bind(R.id.activity_content_user_information_user_name_text_view)
     TextView listerName;
-    @Bind(R.id.bicycle_description_bicycle_name_text_view)
+    @Bind(R.id.activity_content_bicycle_title_text_view)
     TextView bicycleName;
-    @Bind(R.id.bicycle_description_bicycle_introduction_text_view)
+    @Bind(R.id.activity_content_bicycle_introduction_text_view)
     TextView bicycleIntro;
-    @Bind(R.id.bicycle_detail_information_bicycle_type_text_view)
+    @Bind(R.id.activity_content_bicycle_type_text_view)
     TextView bicycleType;
-    @Bind(R.id.bicycle_detail_information_bicycle_height_text_view)
+    @Bind(R.id.activity_content_bicycle_height_text_view)
     TextView bicycleHeight;
     @Bind(R.id.bicycle_detail_information_bicycle_component_text_view)
     TextView bicycleComponent;
-    @Bind(R.id.bicycle_detail_information_bicycle_location_text_view)
+    @Bind(R.id.activity_content_bicycle_location_text_view)
     TextView rentalPlaceText;
-    @Bind(R.id.bicycle_detail_information_reservation_period_start_date_text_view)
+    @Bind(R.id.activity_content_content_bicycle_rental_period_start_date_text_view)
     TextView startDate;
-    @Bind(R.id.bicycle_detail_information_reservation_period_end_date_text_view)
+    @Bind(R.id.activity_content_bicycle_rental_period_end_date_text_view)
     TextView endDate;
-    @Bind(R.id.bicycle_detail_information_bicycle_postscript_renter_picture_image_view)
+    @Bind(R.id.activity_content_bicycle_comment_renter_picture_image_view)
     ImageView postscriptPicture;
-    @Bind(R.id.bicycle_detail_information_bicycle_postscript_renter_name_text_view)
+    @Bind(R.id.activity_content_bicycle_comment_renter_name_text_view)
     TextView postscriptName;
-    @Bind(R.id.bicycle_detail_information_bicycle_postscript_create_date_text_view)
+    @Bind(R.id.activity_content_bicycle_comment_create_date_text_view)
     TextView postscriptDate;
-    @Bind(R.id.bicycle_detail_information_bicycle_postscript_renter_comment_text_view)
+    @Bind(R.id.activity_content_bicycle_comment_body_text_view)
     TextView postscriptComment;
-    @Bind(R.id.bicycle_detail_information_bicycle_postscript_rating_bar)
+    @Bind(R.id.activity_content_bicycle_comment_rating_bar)
     RatingBar postscriptPoint;
     @Bind(R.id.activity_filtered_bicycle_detail_information_bicycle_post_script_layout)
     View postScriptView;
-    @Bind(R.id.lister_information_chat_with_lister_button)
+    @Bind(R.id.activity_content_user_information_chatting_button)
     Button chatting;
     private MessagingChannelListQuery mMessagingChannelListQuery;
     private boolean hasMyId;
@@ -158,8 +157,8 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
         CameraPosition.Builder builder = new CameraPosition.Builder();
         builder.target(
                 new LatLng(
-                        intent.getDoubleExtra("LATITUDE", 1.0),
-                        intent.getDoubleExtra("LONGITUDE", 1.0)
+                        intent.getDoubleExtra("BICYCLE_LATITUDE", 1.0),
+                        intent.getDoubleExtra("BICYCLE_LONGITUDE", 1.0)
                 )
         );
         builder.zoom(15);
@@ -170,8 +169,8 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
         MarkerOptions options = new MarkerOptions();
         options.position(
                 new LatLng(
-                        intent.getDoubleExtra("LATITUDE", 1.0),
-                        intent.getDoubleExtra("LONGITUDE", 1.0)
+                        intent.getDoubleExtra("BICYCLE_LATITUDE", 1.0),
+                        intent.getDoubleExtra("BICYCLE_LONGITUDE", 1.0)
                 )
         );
         options.icon(BitmapDescriptorFactory.fromResource(R.drawable.rider_main_bike_b_icon));
@@ -182,20 +181,20 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
     }
 
     @OnClick({R.id.renter_backable_tool_bar_back_button_layout,
-            R.id.lister_information_call_with_lister_button,
-            R.id.lister_information_chat_with_lister_button,
-            R.id.bicycle_detail_information_bicycle_postscript_button,
+            R.id.activity_content_user_information_call_button,
+            R.id.activity_content_user_information_chatting_button,
+            R.id.activity_content_bicycle_comment_button,
             R.id.activity_filtered_bicycle_detail_information_button})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.renter_backable_tool_bar_back_button_layout:
                 super.onBackPressed();
                 break;
-            case R.id.lister_information_call_with_lister_button:
+            case R.id.activity_content_user_information_call_button:
                 intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + listerPhone));
                 startActivity(intent);
                 break;
-            case R.id.lister_information_chat_with_lister_button:
+            case R.id.activity_content_user_information_chatting_button:
                 // TODO : chatting start
 
                 if (mMessagingChannelListQuery == null) {
@@ -250,9 +249,9 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
                     }
                 });
                 break;
-            case R.id.bicycle_detail_information_bicycle_postscript_button:
+            case R.id.activity_content_bicycle_comment_button:
                 intent = new Intent(FilteredBicycleDetailInformationActivity.this, BicyclePostScriptListActivity.class);
-                intent.putExtra("ID", bicycleId);
+                intent.putExtra("BICYCLE_ID", bicycleId);
                 startActivity(intent);
                 break;
             case R.id.activity_filtered_bicycle_detail_information_button:
@@ -294,7 +293,7 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
     }
 
     private void init() {
-        bicycleId = intent.getStringExtra("ID");
+        bicycleId = intent.getStringExtra("BICYCLE_ID");
         NetworkManager.getInstance().selectBicycleDetail(
                 bicycleId,
                 null,

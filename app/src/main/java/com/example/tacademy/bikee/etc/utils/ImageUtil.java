@@ -44,6 +44,23 @@ public class ImageUtil {
                         circularBitmapDrawable.setCircular(true);
                         targetVIew.setImageDrawable(circularBitmapDrawable);
                     }
+
+                    @Override
+                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                        super.onLoadFailed(e, errorDrawable);
+                        BitmapDrawable bitmapDrawable;
+                        if (Build.VERSION.SDK_INT < 23) {
+                            bitmapDrawable = (BitmapDrawable) context.getResources()
+                                    .getDrawable(R.drawable.noneimage);
+                        } else {
+                            bitmapDrawable = (BitmapDrawable) context.getResources()
+                                    .getDrawable(R.drawable.noneimage, MyApplication.getmContext().getTheme());
+                        }
+                        RoundedBitmapDrawable circularBitmapDrawable =
+                                RoundedBitmapDrawableFactory.create(context.getResources(), bitmapDrawable.getBitmap());
+                        circularBitmapDrawable.setCircular(true);
+                        targetVIew.setImageDrawable(circularBitmapDrawable);
+                    }
                 });
     }
 
@@ -87,6 +104,14 @@ public class ImageUtil {
                 .thumbnail(0.0001f)
                 .into(new BitmapImageViewTarget(targetView) {
                     @Override
+                    protected void setResource(Bitmap resource) {
+                        RoundedBitmapDrawable roundedBitmapDrawable =
+                                RoundedBitmapDrawableFactory.create(context.getResources(), resource);
+                        roundedBitmapDrawable.setCornerRadius(radius);
+                        targetView.setImageDrawable(roundedBitmapDrawable);
+                    }
+
+                    @Override
                     public void onLoadFailed(Exception e, Drawable errorDrawable) {
                         super.onLoadFailed(e, errorDrawable);
                         BitmapDrawable bitmapDrawable;
@@ -97,18 +122,10 @@ public class ImageUtil {
                             bitmapDrawable = (BitmapDrawable) context.getResources()
                                     .getDrawable(R.drawable.detailpage_bike_image_noneimage, MyApplication.getmContext().getTheme());
                         }
-                        RoundedBitmapDrawable circularBitmapDrawable =
+                        RoundedBitmapDrawable roundedBitmapDrawable =
                                 RoundedBitmapDrawableFactory.create(context.getResources(), bitmapDrawable.getBitmap());
-                        circularBitmapDrawable.setCornerRadius(radius);
-                        targetView.setImageDrawable(circularBitmapDrawable);
-                    }
-
-                    @Override
-                    protected void setResource(Bitmap resource) {
-                        RoundedBitmapDrawable circularBitmapDrawable =
-                                RoundedBitmapDrawableFactory.create(context.getResources(), resource);
-                        circularBitmapDrawable.setCornerRadius(radius);
-                        targetView.setImageDrawable(circularBitmapDrawable);
+                        roundedBitmapDrawable.setCornerRadius(radius);
+                        targetView.setImageDrawable(roundedBitmapDrawable);
                     }
                 });
     }
@@ -151,10 +168,10 @@ public class ImageUtil {
                 .into(new BitmapImageViewTarget(targetView) {
                     @Override
                     protected void setResource(Bitmap resource) {
-                        RoundedBitmapDrawable circularBitmapDrawable =
+                        RoundedBitmapDrawable roundedBitmapDrawable =
                                 RoundedBitmapDrawableFactory.create(context.getResources(), resource);
-                        circularBitmapDrawable.setCornerRadius(radius);
-                        targetView.setImageDrawable(circularBitmapDrawable);
+                        roundedBitmapDrawable.setCornerRadius(radius);
+                        targetView.setImageDrawable(roundedBitmapDrawable);
                     }
                 });
     }

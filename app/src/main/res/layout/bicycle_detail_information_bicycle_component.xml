@@ -5,7 +5,7 @@
     android:paddingRight="16dp">
 
     <ImageView
-        android:id="@+id/bicycle_detail_information_bicycle_component_icon_image_view"
+        android:id="@+id/activity_content_bicycle_components_icon_image_view"
         android:layout_width="26dp"
         android:layout_height="20dp"
         android:layout_centerVertical="true"
@@ -17,8 +17,8 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="11dp"
         android:layout_marginStart="11dp"
-        android:layout_toEndOf="@id/bicycle_detail_information_bicycle_component_icon_image_view"
-        android:layout_toRightOf="@id/bicycle_detail_information_bicycle_component_icon_image_view"
+        android:layout_toEndOf="@id/activity_content_bicycle_components_icon_image_view"
+        android:layout_toRightOf="@id/activity_content_bicycle_components_icon_image_view"
         android:text="추가구성품"
         android:textColor="@color/bikeeGray"
         android:textSize="16sp" />

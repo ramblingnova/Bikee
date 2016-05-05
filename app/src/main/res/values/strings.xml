@@ -122,7 +122,6 @@
     <string name="view_renter_reservation_bicycle_item_payment_type_height_text_view_string">3000원 / 종류 / 신장</string>
     <string name="view_renter_reservation_bicycle_item_distance_tex_view_string">3시간</string>
 
-    <!-- activity_renter_reservation_bicycle_detail_information.xml -->
     <string name="activity_renter_reservation_bicycle_detail_information_bicycle_title_text_view_string">여성이 타기 좋은 픽시 자전거</string>
     <string name="activity_renter_reservation_bicycle_detail_information_small_map_button_string">지도보기</string>
     <string name="activity_renter_reservation_bicycle_detail_information_cancel_button_string">취소하기</string>

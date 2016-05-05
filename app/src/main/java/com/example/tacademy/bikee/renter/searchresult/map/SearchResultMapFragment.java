@@ -231,9 +231,9 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     public void onInfoWindowClick(Marker marker) {
         marker.hideInfoWindow();
         Intent intent = new Intent(getActivity(), FilteredBicycleDetailInformationActivity.class);
-        intent.putExtra("ID", mPOIResolver.get(marker).getItem().getBicycleId());
-        intent.putExtra("LATITUDE", mPOIResolver.get(marker).getItem().getLatitude());
-        intent.putExtra("LONGITUDE", mPOIResolver.get(marker).getItem().getLongitude());
+        intent.putExtra("BICYCLE_ID", mPOIResolver.get(marker).getItem().getBicycleId());
+        intent.putExtra("BICYCLE_LATITUDE", mPOIResolver.get(marker).getItem().getLatitude());
+        intent.putExtra("BICYCLE_LONGITUDE", mPOIResolver.get(marker).getItem().getLongitude());
         getActivity().startActivity(intent);
     }
 

@@ -17,26 +17,29 @@ import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Reserve;
 import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
-import com.example.tacademy.bikee.lister.reservation.content.ListerReservationContentActivity;
+import com.example.tacademy.bikee.common.content.ContentActivity;
+import com.example.tacademy.bikee.etc.utils.RefinementUtil;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ListerReservationsFragment extends Fragment implements OnAdapterClickListener {
+    @Bind(R.id.fragment_lister_requested_bicycle_list_list_view)
+    RecyclerView recyclerView;
+
     private Intent intent;
-    private RecyclerView recyclerView;
-    private LinearLayoutManager layoutManager;
     private ListerReservationAdapter adapter;
 
-    private static final String TAG = "LISTER_R_B_L_FRAGMENT";
+    public static final int from = 6;
+    private static final String TAG = "LISTER_RESERVATIONS_F";
 
     public ListerReservationsFragment() {
-        // Required empty public constructor
+
     }
 
     @Override
@@ -45,30 +48,33 @@ public class ListerReservationsFragment extends Fragment implements OnAdapterCli
 
         ButterKnife.bind(this, view);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.fragment_lister_requested_bicycle_list_list_view);
-
-        layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-
-        recyclerView.setLayoutManager(layoutManager);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
 
         adapter = new ListerReservationAdapter();
         adapter.setOnAdapterClickListener(this);
 
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-        initData();
+        init();
 
         return view;
     }
 
     @Override
     public void onAdapterClick(View view, Object item) {
-        intent = new Intent(getActivity(), ListerReservationContentActivity.class);
-        intent.putExtra("ID", ((ListerReservationItem) item).getBikeId());
-        intent.putExtra("RESERVATION_ID", ((ListerReservationItem) item).getReserveId());
-        intent.putExtra("STATUS", ((ListerReservationItem) item).getStatus());
-        intent.putExtra("START_DATE", ((ListerReservationItem) item).getStartDate());
-        intent.putExtra("END_DATE", ((ListerReservationItem) item).getEndDate());
+        intent = new Intent(getActivity(), ContentActivity.class);
+        intent.putExtra("FROM", from);
+        intent.putExtra("BICYCLE_ID", ((ListerReservationItem) item).getBicycleId());
+        intent.putExtra("BICYCLE_LATITUDE", ((ListerReservationItem) item).getBicycleLatitude());
+        intent.putExtra("BICYCLE_LONGITUDE", ((ListerReservationItem) item).getBicycleLongitude());
+        intent.putExtra("RENTER_IMAGE", ((ListerReservationItem) item).getRenterImageURL());
+        intent.putExtra("RENTER_NAME", ((ListerReservationItem) item).getRenterName());
+        intent.putExtra("RENTER_PHONE", ((ListerReservationItem) item).getRenterPhone());
+        intent.putExtra("RESERVATION_ID", ((ListerReservationItem) item).getReservationId());
+        intent.putExtra("RESERVATION_STATUS", ((ListerReservationItem) item).getReservationStatus());
+        intent.putExtra("RESERVATION_START_DATE", ((ListerReservationItem) item).getReservationStartDate());
+        intent.putExtra("RESERVATION_END_DATE", ((ListerReservationItem) item).getReservationEndDate());
         getActivity().startActivity(intent);
     }
 
@@ -77,69 +83,50 @@ public class ListerReservationsFragment extends Fragment implements OnAdapterCli
 
     }
 
-    private void initData() {
+    private void init() {
         NetworkManager.getInstance().selectRequestedBicycle(
                 null,
                 new Callback<ReceiveObject>() {
                     @Override
                     public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
                         ReceiveObject receiveObject = response.body();
-                        Log.i("result", "onResponse Success");
-                        List<Result> results = receiveObject.getResult();
-                        for (Result result : results)
-                            for (Reserve reserve : result.getReserve()) {
-                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
-                                String renterImageURL;
-                                if ((null == reserve.getRenter().getImage())
-                                        || (null == reserve.getRenter().getImage().getCdnUri())
-                                        || (null == reserve.getRenter().getImage().getFiles())) {
-                                    renterImageURL = "";
-                                } else {
-                                    renterImageURL = "https://" + reserve.getRenter().getImage().getCdnUri() + reserve.getRenter().getImage().getFiles().get(0);
-                                }
-                                String bicycleImageURL;
-                                if ((null == result.getBike().getImage())
-                                        || (null == result.getBike().getImage().getCdnUri())
-                                        || (null == result.getBike().getImage().getFiles())) {
-                                    bicycleImageURL = "";
-                                } else {
-                                    bicycleImageURL = result.getBike().getImage().getCdnUri() + result.getBike().getImage().getFiles().get(0);
-                                }
-                                Log.i("result", "onResponse Renter Image : " + renterImageURL
-                                                + ", Status : " + reserve.getStatus()
-                                                + ", Renter Name : " + reserve.getRenter().getName()
-                                                + ", Bike Name : " + result.getBike().getTitle()
-                                                + ", Start Date : " + simpleDateFormat.format(reserve.getRentStart())
-                                                + ", End Date : " + simpleDateFormat.format(reserve.getRentEnd())
-                                                + ", Payment : " + result.getBike().getPrice().getMonth()
-                                                + ", Bike Image : " + bicycleImageURL
-                                                + ", Type : " + result.getBike().getType()
-                                                + ", Height : " + result.getBike().getHeight()
-                                                + ", Latitude : " + result.getBike().getLoc().getCoordinates().get(1)
-                                                + ", Longitude : " + result.getBike().getLoc().getCoordinates().get(0)
-                                );
 
-                                // TODO : 거꾸로 보여줄 것
-                                adapter.addFirst(
-                                        new ListerReservationItem(
-                                                result.get_id(),
-                                                renterImageURL,
-                                                reserve.getStatus(),
-                                                reserve.getRenter().getName(),
-                                                result.getBike().getTitle(),
-                                                reserve.getRentStart(),
-                                                reserve.getRentEnd(),
-                                                "" + result.getBike().getPrice().getMonth(),
-                                                reserve.get_id()
-                                        )
-                                );
-                            }
+                        if (receiveObject.isSuccess()) {
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "selectRequestedBicycle onResponse success : " + receiveObject.isSuccess());
+                            List<Result> results = receiveObject.getResult();
+                            for (Result result : results)
+                                for (Reserve reserve : result.getReserve()) {
+                                    adapter.addFirst(
+                                            new ListerReservationItem(
+                                                    result.getBike().get_id(),
+                                                    result.getBike().getTitle(),
+                                                    result.getBike().getLoc().getCoordinates().get(1),
+                                                    result.getBike().getLoc().getCoordinates().get(0),
+                                                    RefinementUtil.getUserImageURLStringFromReserve(reserve),
+                                                    reserve.getRenter().getName(),
+                                                    // reserve.getRenter().getPhone() // TODO : 렌터의 전화번호 가져오기
+                                                    "010-1234-1234",
+                                                    reserve.get_id(),
+                                                    reserve.getStatus(),
+                                                    reserve.getRentStart(),
+                                                    reserve.getRentEnd(),
+                                                    result.getBike().getPrice().getMonth(),
+                                                    result.getBike().getPrice().getDay(),
+                                                    result.getBike().getPrice().getHour()
+                                            )
+                                    );
+                                }
+                        } else {
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "selectRequestedBicycle onResponse success : " + receiveObject.isSuccess());
+                        }
                     }
 
                     @Override
                     public void onFailure(Call<ReceiveObject> call, Throwable t) {
                         if (BuildConfig.DEBUG)
-                            Log.d(TAG, "onFailure Error : " + t.toString());
+                            Log.d(TAG, "selectRequestedBicycle onFailure", t);
                     }
                 });
     }

@@ -16,58 +16,61 @@ public class RenterReservationItem implements Serializable {
     String bicycleId;
     @Getter
     @Setter(AccessLevel.PUBLIC)
-    String imageURL;
+    String bicycleImageURL;
     @Getter
     @Setter(AccessLevel.PUBLIC)
-    String bicycleName;
+    String bicycleTitle;
     @Getter
     @Setter(AccessLevel.PUBLIC)
-    String status;
+    double bicycleLatitude;
     @Getter
     @Setter(AccessLevel.PUBLIC)
-    Date startDate;
+    double bicycleLongitude;
     @Getter
     @Setter(AccessLevel.PUBLIC)
-    Date endDate;
+    String reservationId;
     @Getter
     @Setter(AccessLevel.PUBLIC)
-    int payment;
+    String reservationStatus;
     @Getter
     @Setter(AccessLevel.PUBLIC)
-    String reserveId;
+    Date reservationStartDate;
     @Getter
     @Setter(AccessLevel.PUBLIC)
-    double latitude;
+    Date reservationEndDate;
     @Getter
     @Setter(AccessLevel.PUBLIC)
-    double longitude;
-    /*@Getter
+    int pricePerMonth;
+    @Getter
     @Setter(AccessLevel.PUBLIC)
-    double distance;*/
+    int pricePerDay;
+    @Getter
+    @Setter(AccessLevel.PUBLIC)
+    int pricePerHour;
 
-    public RenterReservationItem(
-            String bicycleId,
-            String imageURL,
-            String bicycleName,
-            String status,
-            Date startDate,
-            Date endDate,
-            int payment,
-            String reserveId,
-            double latitude,
-            double longitude
-//            double distance
-    ) {
+    public RenterReservationItem(String bicycleId,
+                                 String bicycleImageURL,
+                                 String bicycleTitle,
+                                 double bicycleLatitude,
+                                 double bicycleLongitude,
+                                 String reservationId,
+                                 String reservationStatus,
+                                 Date reservationStartDate,
+                                 Date reservationEndDate,
+                                 int pricePerMonth,
+                                 int pricePerDay,
+                                 int pricePerHour) {
         this.bicycleId = bicycleId;
-        this.imageURL = imageURL;
-        this.bicycleName = bicycleName;
-        this.status = status;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.payment = payment;
-        this.reserveId = reserveId;
-        this.latitude = latitude;
-        this.longitude = longitude;
-//        this.distance = distance;
+        this.bicycleImageURL = bicycleImageURL;
+        this.bicycleTitle = bicycleTitle;
+        this.bicycleLatitude = bicycleLatitude;
+        this.bicycleLongitude = bicycleLongitude;
+        this.reservationId = reservationId;
+        this.reservationStatus = reservationStatus;
+        this.reservationStartDate = reservationStartDate;
+        this.reservationEndDate = reservationEndDate;
+        this.pricePerMonth = pricePerMonth;
+        this.pricePerDay = pricePerDay;
+        this.pricePerHour = pricePerHour;
     }
 }

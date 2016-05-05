@@ -73,7 +73,7 @@ public class CommentsActivity extends AppCompatActivity {
     }
 
     private void init() {
-        if (from.equals(RenterMainActivity.from)) {
+        if (from.equals(RenterMainActivity.TAG)) {
             NetworkManager.getInstance().selectUserComment(
                     null,
                     new Callback<UserCommentReceiveObject>() {
@@ -112,7 +112,7 @@ public class CommentsActivity extends AppCompatActivity {
                                 Log.d(TAG, "selectUserComment onFailure", t);
                         }
                     });
-        } else if (from.equals(ListerMainActivity.from)) {
+        } else if (from.equals(ListerMainActivity.TAG)) {
             NetworkManager.getInstance().selectMyBicycleComment(
                     null,
                     new Callback<ReceiveObject>() {

@@ -11,26 +11,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.common.content.ContentActivity;
 import com.example.tacademy.bikee.common.interfaces.OnAdapterClickListener;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.example.tacademy.bikee.renter.searchresult.SearchResultItem;
-import com.example.tacademy.bikee.renter.searchresult.SearchResultListItem;
-import com.example.tacademy.bikee.renter.searchresult.content.FilteredBicycleDetailInformationActivity;
 import com.example.tacademy.bikee.renter.searchresult.filter.FilterActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import butterknife.OnItemClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,7 +42,8 @@ public class SearchResultListFragment extends Fragment implements SwipeRefreshLa
     private int index;
     private String filter;
 
-    private static final String TAG = "SEARCH_R_L_ACTIVITY";
+    public static final int from = 4;
+    private static final String TAG = "SEARCH_RESULT_LIST_F";
 
     public SearchResultListFragment() {
 
@@ -123,8 +120,9 @@ public class SearchResultListFragment extends Fragment implements SwipeRefreshLa
             longitude = data.getStringExtra("LONGITUDE");
 
             filter = "{";
-            if (data.getStringExtra("START_DATE") != null)
+            if (data.getStringExtra("START_DATE") != null) {
                 f.add("\"start\":\"" + data.getStringExtra("START_DATE") + "\"");
+            }
             if (data.getStringExtra("END_DATE") != null)
                 f.add("\"end\":\"" + data.getStringExtra("END_DATE") + "\"");
             if (data.getStringExtra("TYPE") != null)
@@ -142,10 +140,11 @@ public class SearchResultListFragment extends Fragment implements SwipeRefreshLa
 
     @Override
     public void onAdapterClick(View view, Object item) {
-        Intent intent = new Intent(getActivity(), FilteredBicycleDetailInformationActivity.class);
-        intent.putExtra("ID", ((SearchResultItem) item).getBicycleId());
-        intent.putExtra("LATITUDE", ((SearchResultItem) item).getLatitude());
-        intent.putExtra("LONGITUDE", ((SearchResultItem) item).getLongitude());
+        Intent intent = new Intent(getActivity(), ContentActivity.class);
+        intent.putExtra("FROM", from);
+        intent.putExtra("BICYCLE_ID", ((SearchResultItem) item).getBicycleId());
+        intent.putExtra("BICYCLE_LATITUDE", ((SearchResultItem) item).getLatitude());
+        intent.putExtra("BICYCLE_LONGITUDE", ((SearchResultItem) item).getLongitude());
         getActivity().startActivity(intent);
     }
 
@@ -195,7 +194,7 @@ public class SearchResultListFragment extends Fragment implements SwipeRefreshLa
                                                 + ", Name : " + result.getTitle()
                                                 + ", Type : " + result.getType()
                                                 + ", Height : " + result.getHeight()
-                                                + ", Price.month : " + result.getPrice().getMonth()
+                                                + ", Price.day : " + result.getPrice().getDay()
                                                 + ", lat : " + result.getLoc().getCoordinates().get(1)
                                                 + ", lon : " + result.getLoc().getCoordinates().get(0)
                                                 + ", distance : " + result.getDistance()
@@ -207,7 +206,7 @@ public class SearchResultListFragment extends Fragment implements SwipeRefreshLa
                                             result.getTitle(),
                                             result.getHeight(),
                                             result.getType(),
-                                            "" + result.getPrice().getMonth(),
+                                            "" + result.getPrice().getDay(),
                                             result.getDistance(),
                                             result.getLoc().getCoordinates().get(1),
                                             result.getLoc().getCoordinates().get(0)

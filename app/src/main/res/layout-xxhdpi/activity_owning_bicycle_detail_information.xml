@@ -89,7 +89,7 @@
                 android:id="@+id/activity_owning_bicycle_detail_information_approval_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/activity_lister_requested_bicycle_detail_information_small_map_button"
+                android:layout_below="@id/activity_owning_bicycle_detail_information_small_map_button"
                 android:layout_toRightOf="@id/activity_owning_bicycle_detail_information_back_button"
                 android:text="확인"
                 android:visibility="gone" />

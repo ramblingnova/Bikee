@@ -104,7 +104,7 @@ public class SignUpActivity extends AppCompatActivity {
         requestCode = intent.getIntExtra("REQUEST_CODE", SIGN_UP_ABNORMAL);
 
         View cView = null;
-        if (from.equals(RenterMainActivity.from)) {
+        if (from.equals(RenterMainActivity.TAG)) {
             cView = getLayoutInflater().inflate(R.layout.renter_backable_tool_bar, null);
             cView.findViewById(R.id.renter_backable_tool_bar_back_button_layout).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -113,7 +113,7 @@ public class SignUpActivity extends AppCompatActivity {
                     finish();
                 }
             });
-        } else if (from.equals(ListerMainActivity.from)) {
+        } else if (from.equals(ListerMainActivity.TAG)) {
             cView = getLayoutInflater().inflate(R.layout.lister_backable_tool_bar, null);
             cView.findViewById(R.id.lister_backable_tool_bar_back_button_layout).setOnClickListener(new View.OnClickListener() {
                 @Override

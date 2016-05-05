@@ -55,8 +55,7 @@ public class ListerMainActivity extends AppCompatActivity implements TabHost.OnT
     private FragmentTabHost tabHost;
     private ImageView btt_iv1, btt_iv2, btt_iv3;
 
-    public static final String from = "LISTER";
-    private static final String TAG = "LISTER_MAIN_ACTIVITY";
+    public static final String TAG = "LISTER_MAIN_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +138,7 @@ public class ListerMainActivity extends AppCompatActivity implements TabHost.OnT
             case R.id.lister_side_menu_member_name_text_view:
             case R.id.lister_side_menu_mail_address_text_view:
                 intent = new Intent(ListerMainActivity.this, SignInActivity.class);
-                intent.putExtra("FROM", from);
+                intent.putExtra("FROM", TAG);
                 startActivityForResult(intent, SignInActivity.SIGN_IN_ACTIVITY);
                 break;
             case R.id.lister_side_menu_see_my_bicycle_text_view: {
@@ -153,7 +152,7 @@ public class ListerMainActivity extends AppCompatActivity implements TabHost.OnT
                 break;
             case R.id.lister_side_menu_evaluated_bicycle_script_text_view: {
                 intent = new Intent(ListerMainActivity.this, CommentsActivity.class);
-                intent.putExtra("FROM", from);
+                intent.putExtra("FROM", TAG);
                 startActivity(intent);
                 break;
             }
@@ -163,7 +162,7 @@ public class ListerMainActivity extends AppCompatActivity implements TabHost.OnT
                 break;
             case R.id.lister_side_menu_input_inquiry_text_view:
                 intent = new Intent(ListerMainActivity.this, InputInquiryActivity.class);
-                intent.putExtra("FROM", from);
+                intent.putExtra("FROM", TAG);
                 startActivity(intent);
                 break;
             case R.id.lister_side_menu_version_information_text_view:

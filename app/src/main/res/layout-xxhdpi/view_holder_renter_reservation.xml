@@ -94,34 +94,22 @@
         android:src="@drawable/rider_icon_time" />
 
     <TextView
-        android:id="@+id/view_renter_reservation_bicycle_item_time_tex_view"
+        android:id="@+id/view_renter_reservation_bicycle_item_time_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/view_renter_reservation_bicycle_item_clock_image_view"
         android:layout_marginLeft="6dp"
         android:layout_toRightOf="@id/view_renter_reservation_bicycle_item_clock_image_view"
-        android:text="@string/view_renter_reservation_bicycle_item_distance_tex_view_string"
         android:textColor="@color/bikeePanelGrayText" />
-
-    <TextView
-        android:id="@+id/view_renter_reservation_bicycle_item_payment_unit_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@id/view_holder_renter_reservation_step_image_view"
-        android:layout_below="@id/view_renter_reservation_bicycle_item_bicycle_picture_image_view"
-        android:layout_marginTop="12dp"
-        android:text="원"
-        android:textColor="@color/bikeeRed"
-        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/view_renter_reservation_bicycle_item_payment_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/view_renter_reservation_bicycle_item_payment_unit_text_view"
+        android:layout_below="@id/view_renter_reservation_bicycle_item_bicycle_picture_image_view"
         android:layout_marginTop="12dp"
-        android:layout_toLeftOf="@id/view_renter_reservation_bicycle_item_payment_unit_text_view"
-        android:text="12000"
+        android:layout_alignRight="@id/view_holder_renter_reservation_step_image_view"
+        android:layout_alignEnd="@id/view_holder_renter_reservation_step_image_view"
         android:textColor="@color/bikeeRed"
-        android:textSize="16sp" />
+        android:textSize="16dp" />
 </RelativeLayout>

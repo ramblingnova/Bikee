@@ -10,11 +10,14 @@ import android.widget.Toast;
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.etc.dao.Comment;
 import com.example.tacademy.bikee.etc.dao.GetChannelResInfoReceiveObject;
+import com.example.tacademy.bikee.etc.dao.Reserve;
 import com.example.tacademy.bikee.etc.dao.Result;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -69,6 +72,18 @@ public class RefinementUtil {
         } else {
             return result.getUser().getImage().getCdnUri() + result.getUser().getImage().getFiles().get(0);
         }
+    }
+
+    public static String getUserImageURLStringFromReserve(Reserve reserve) {
+        String renterImageURL;
+        if ((null == reserve.getRenter().getImage())
+                || (null == reserve.getRenter().getImage().getCdnUri())
+                || (null == reserve.getRenter().getImage().getFiles())) {
+            renterImageURL = "";
+        } else {
+            renterImageURL = "https://" + reserve.getRenter().getImage().getCdnUri() + reserve.getRenter().getImage().getFiles().get(0);
+        }
+        return renterImageURL;
     }
 
     public static String getUserImageURLStringFromComment(Comment comment) {
@@ -184,6 +199,14 @@ public class RefinementUtil {
         return retVal;
     }
 
+    public List<String> getBicycleComponentListFromResult(Result result) {
+        List<String> list = new ArrayList<>();
+        for (String component : result.getComponents()) {
+            list.add(component);
+        }
+        return list;
+    }
+
     public static String findAddress(Context context, double lat, double lng) {
         StringBuffer bf = new StringBuffer();
         Geocoder geocoder = new Geocoder(context, Locale.KOREA);
@@ -195,7 +218,6 @@ public class RefinementUtil {
                 // 설정한 데이터로 주소가 리턴된 데이터가 있으면
                 if (address != null && address.size() > 0) {
                     bf.append(address.get(0).getAdminArea())
-                            .append(" " + address.get(0).getLocality())
                             .append(" " + address.get(0).getLocality())
                             .append(" " + address.get(0).getThoroughfare());
                 }
@@ -225,6 +247,71 @@ public class RefinementUtil {
             e.printStackTrace();
         }
         return latLng;
+    }
 
+    public static String calculateRentPeriod(Date startDate,
+                                             Date endDate) {
+        Calendar startCalendar = Calendar.getInstance();
+        Calendar endCalendar = Calendar.getInstance();
+
+        startCalendar.setTime(startDate);
+        endCalendar.setTime(endDate);
+
+        long diffMillis = endCalendar.getTimeInMillis() - startCalendar.getTimeInMillis();
+
+        int hour = (int) (diffMillis / (60 * 60 * 1000));
+        int hourExtraTime = hour % 24;
+        int dayExtraTime = (hour / 24) % 30;
+        int monthExtraTime = hour / (24 * 30);
+
+        StringBuilder builder = new StringBuilder();
+        boolean chain = false;
+
+        if (monthExtraTime > 0) {
+            builder.append(monthExtraTime).append("개월");
+            chain = true;
+        }
+        if (dayExtraTime > 0) {
+            if (chain)
+                builder.append(" ");
+            builder.append(dayExtraTime).append("일");
+            chain = true;
+        }
+        if (hourExtraTime > 0) {
+            if (chain)
+                builder.append(" ");
+            builder.append(hourExtraTime).append("시간");
+        }
+
+        return builder.toString();
+    }
+
+    public static int calculatePrice(Date startDate,
+                                     Date endDate,
+                                     int pricePerMonth,
+                                     int pricePerDay,
+                                     int pricePerHour) {
+        int retVal = 0;
+        Calendar startCalendar = Calendar.getInstance();
+        Calendar endCalendar = Calendar.getInstance();
+
+        startCalendar.setTime(startDate);
+        endCalendar.setTime(endDate);
+
+        long diffMillis = endCalendar.getTimeInMillis() - startCalendar.getTimeInMillis();
+
+        int hour = (int) (diffMillis / (60 * 60 * 1000));
+        int hourExtraTime = hour % 24;
+        int dayExtraTime = (hour / 24) % 30;
+        int monthExtraTime = hour / (24 * 30);
+
+        if (monthExtraTime > 0)
+            retVal += pricePerMonth * monthExtraTime;
+        if (dayExtraTime > 0)
+            retVal += pricePerDay * dayExtraTime;
+        if (hourExtraTime > 0)
+            retVal += pricePerHour * hourExtraTime;
+
+        return retVal;
     }
 }

@@ -20,7 +20,7 @@ import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.MyApplication;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
-import com.example.tacademy.bikee.renter.reservation.content.popup.RequestPaymentActivity;
+import com.example.tacademy.bikee.common.content.popup.RequestPaymentActivity;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -132,8 +132,8 @@ public class ChoiceDialogFragment extends DialogFragment implements View.OnClick
                     case RENTER_CANCEL_ALREADY_RESERVATION:
                         // RC
                         NetworkManager.getInstance().reserveStatus(
-                                bicycleId,
                                 reserveId,
+                                bicycleId,
                                 status,
                                 null,
                                 new Callback<ReceiveObject>() {
@@ -158,8 +158,8 @@ public class ChoiceDialogFragment extends DialogFragment implements View.OnClick
                     case LISTER_CANCEL_RESERVATION:
                         // RC
                         NetworkManager.getInstance().reserveStatus(
-                                bicycleId,
                                 reserveId,
+                                bicycleId,
                                 status,
                                 null,
                                 new Callback<ReceiveObject>() {

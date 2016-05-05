@@ -64,7 +64,7 @@ public class BicyclePostScriptListActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         intent = getIntent();
-        bicycleId = intent.getStringExtra("ID");
+        bicycleId = intent.getStringExtra("BICYCLE_ID");
 
         init();
     }

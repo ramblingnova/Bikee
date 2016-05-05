@@ -43,6 +43,12 @@ public class ReservationReceiveObject {
         @Getter
         @Setter(AccessLevel.PUBLIC)
         Reserve reserve = null;
+        @Getter
+        @Setter(AccessLevel.PUBLIC)
+        Date createAt = null;
+        @Getter
+        @Setter(AccessLevel.PUBLIC)
+        int __v = -1;
         /*@Getter
         @Setter(AccessLevel.PUBLIC)
         double distance = -1.0;*/
@@ -59,7 +65,7 @@ public class ReservationReceiveObject {
             String _id = null;
             @Getter
             @Setter(AccessLevel.PUBLIC)
-            String renter = null;
+            Renter renter = null;
             @Getter
             @Setter(AccessLevel.PUBLIC)
             Date updatedAt = null;

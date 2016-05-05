@@ -598,7 +598,9 @@ public class ConversationActivity extends AppCompatActivity {
                                     } else
                                         initReserveStatus(R.drawable.icon_step2, "결제완료", R.color.bikeeRed);
                                     break;
-                                case "RC":case "PC":
+                                case "RC":
+                                case "PC":
+                                case "LC":
                                     initReserveStatus(R.drawable.icon_step4, "예약취소", R.color.bikeeLightGray);
                                     break;
                                 default:

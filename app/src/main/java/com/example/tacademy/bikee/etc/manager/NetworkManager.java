@@ -158,7 +158,6 @@ public class NetworkManager {
         // 자전거 등록하기
         @Multipart
         @POST("/bikes")
-//        @POST("/bikes")
         Call<ReceiveObject> insertBicycle(@Part List<MultipartBody.Part> filePart,
                                           @Part("bike") Bike bike);
 
@@ -226,23 +225,23 @@ public class NetworkManager {
         Call<ReceiveObject> selectMyBicycleComment();
 
         // 자전거 예약 요청하기(렌터)
-        @POST("/reserves/{bikeId}")
+        @POST("/reserves/bike/{bikeId}")
         Call<ReceiveObject> insertReservation(@Path("bikeId") String bike_id,
                                               @Body Reserve reserve);
 
         // 예약한 자전거 목록 보기(렌터)
-        @GET("/reserves/me")
+        @GET("/reserves/renter")
         Call<ReservationReceiveObject> selectReservationBicycle();
 
         // 예약된 자전거 목록 보기(리스터)
-        @GET("/reserves")
+        @GET("/reserves/lister")
         Call<ReceiveObject> selectRequestedBicycle();
 
         // 예약 상태 변경하기
         @FormUrlEncoded
-        @PUT("/reserves/{bikeId}/{reserveId}")
-        Call<ReceiveObject> reserveStatus(@Path("bikeId") String bike_id,
-                                          @Path("reserveId") String reserveId,
+        @PUT("/reserves/{reserveId}/bike/{bikeId}")
+        Call<ReceiveObject> reserveStatus(@Path("reserveId") String reserveId,
+                                          @Path("bikeId") String bike_id,
                                           @Field("status") String status);
 
         // 고객 문의 등록하기
@@ -574,7 +573,6 @@ public class NetworkManager {
         call.enqueue(callback);
     }
 
-    // TODO
     // 자전거 한 대에 평가된 후기 보기(공통)
     public void selectBicycleComment(String bike_id,
                                      Stack<Call> callStack,
@@ -624,12 +622,12 @@ public class NetworkManager {
     }
 
     // 예약 상태 변경하기
-    public void reserveStatus(String bike_id,
-                              String reserveId,
+    public void reserveStatus(String reserveId,
+                              String bike_id,
                               String status,
                               Stack<Call> callStack,
                               Callback<ReceiveObject> callback) {
-        Call<ReceiveObject> call = serverUrl.reserveStatus(bike_id, reserveId, status);
+        Call<ReceiveObject> call = serverUrl.reserveStatus(reserveId, bike_id, status);
         if (callStack != null)
             callStack.push(call);
         call.enqueue(callback);

@@ -9,30 +9,23 @@
     android:paddingTop="31dp">
 
     <TextView
-        android:id="@+id/payment_text_view2"
+        android:id="@+id/activity_content_bicycle_rental_price_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:text="원"
-        android:textColor="@color/bikeeBlue"
-        android:textSize="22sp" />
-
-    <TextView
-        android:id="@+id/payment_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@id/payment_text_view2"
         android:text="5000"
         android:textColor="@color/bikeeBlue"
-        android:textSize="22sp" />
+        android:textSize="22dp" />
 
     <ImageView
         android:layout_width="18dp"
         android:layout_height="18dp"
         android:layout_centerVertical="true"
+        android:layout_marginEnd="11dp"
         android:layout_marginRight="11dp"
-        android:layout_toLeftOf="@id/payment_text_view"
+        android:layout_toLeftOf="@id/activity_content_bicycle_rental_price_text_view"
+        android:layout_toStartOf="@id/activity_content_bicycle_rental_price_text_view"
         android:src="@drawable/detailpage_icon8" />
 </RelativeLayout>

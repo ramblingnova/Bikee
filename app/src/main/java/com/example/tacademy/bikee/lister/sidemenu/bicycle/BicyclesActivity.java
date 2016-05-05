@@ -14,10 +14,10 @@ import android.view.View;
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.interfaces.OnAdapterClickListener;
+import com.example.tacademy.bikee.common.content.ContentActivity;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
-import com.example.tacademy.bikee.lister.sidemenu.bicycle.content.BicycleContentActivity;
 import com.example.tacademy.bikee.lister.sidemenu.bicycle.register.RegisterBicycleActivity;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
@@ -38,7 +38,8 @@ public class BicyclesActivity extends AppCompatActivity implements OnAdapterClic
     final private static int REGISTER_BICYCLE_ACTIVITY = 1;
     final public static String ID_TAG = "ID";
 
-    private static final String TAG = "OWNING_B_L_ACTIVITY";
+    public static final int from = 7;
+    private static final String TAG = "BICYCLES_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +81,12 @@ public class BicyclesActivity extends AppCompatActivity implements OnAdapterClic
 
     @Override
     public void onAdapterClick(View view, Object item) {
-        intent = new Intent(BicyclesActivity.this, BicycleContentActivity.class);
-        intent.putExtra(ID_TAG, ((BicycleItem) item).getId());
+        intent = new Intent(BicyclesActivity.this, ContentActivity.class);
+        intent.putExtra("FROM", from);
+        intent.putExtra("BICYCLE_ID", ((BicycleItem) item).getId());
+        intent.putExtra("BICYCLE_LATITUDE", (double)126.9203671);
+        intent.putExtra("BICYCLE_LONGITUDE", (double)37.4666033);
+
         startActivity(intent);
     }
 
