@@ -109,7 +109,7 @@ public class NoChoiceDialogFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_no_choice_dialog, container, false);
+        View view = inflater.inflate(R.layout.fragment_no_choice_dialog1, container, false);
 
         tv = (TextView) view.findViewById(R.id.fragment_no_choice_dialog_message_text_view);
         tv.setText(message);

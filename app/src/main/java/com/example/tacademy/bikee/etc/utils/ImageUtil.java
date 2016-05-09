@@ -79,6 +79,20 @@ public class ImageUtil {
                 .into(targetView);
     }
 
+    public static void setRectangleImageFromFile(
+            Context context,
+            File file,
+            int placeHolderResourceId,
+            ImageView targetView) {
+        Glide.with(context)
+                .load(file)
+                .asBitmap()
+                .placeholder(placeHolderResourceId)
+                .fitCenter()
+                .thumbnail(0.0001f)
+                .into(targetView);
+    }
+
     public static void setRectangleImageFromURL(
             Context context,
             String imageURL,

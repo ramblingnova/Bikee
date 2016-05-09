@@ -21,9 +21,13 @@ import android.widget.TextView;
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.common.adapters.BicycleImageViewPagerAdapter;
 import com.example.tacademy.bikee.common.chatting.room.ConversationActivity;
+import com.example.tacademy.bikee.common.content.popup.CalendarDialogFragment;
 import com.example.tacademy.bikee.common.views.AdditoryComponentView;
 import com.example.tacademy.bikee.etc.MyApplication;
+import com.example.tacademy.bikee.etc.dao.Bike;
 import com.example.tacademy.bikee.etc.dao.Comment;
+import com.example.tacademy.bikee.etc.dao.Loc;
+import com.example.tacademy.bikee.etc.dao.Price;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.example.tacademy.bikee.etc.utils.ImageUtil;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
@@ -33,11 +37,14 @@ import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.etc.utils.RefinementUtil;
 import com.example.tacademy.bikee.lister.reservation.ListerReservationsFragment;
 import com.example.tacademy.bikee.lister.sidemenu.bicycle.BicyclesActivity;
+import com.example.tacademy.bikee.lister.sidemenu.bicycle.register.RegisterBicycleActivity;
+import com.example.tacademy.bikee.lister.sidemenu.bicycle.register.RegisterBicycleItem;
 import com.example.tacademy.bikee.renter.reservation.RenterReservationsFragment;
 import com.example.tacademy.bikee.common.content.popup.CardSelectionActivity;
 import com.example.tacademy.bikee.common.content.popup.InputBicyclePostScriptActivity;
-import com.example.tacademy.bikee.renter.searchresult.content.postscription.BicyclePostScriptListActivity;
+import com.example.tacademy.bikee.common.content.postscription.BicyclePostScriptListActivity;
 import com.example.tacademy.bikee.renter.searchresult.list.SearchResultListFragment;
+import com.example.tacademy.bikee.renter.searchresult.map.SearchResultMapFragment;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -52,13 +59,18 @@ import com.sendbird.android.SendBird;
 import com.sendbird.android.model.MessagingChannel;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -148,6 +160,7 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
     private int pagePosition;
     private int rentalPrice;
     private int pageScrollState;
+    private CalendarDialogFragment calendarDialogFragment;
 
     private MessagingChannelListQuery mMessagingChannelListQuery;
     private boolean hasMyId;
@@ -172,7 +185,8 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
 
         View cView = null;
         if ((from == RenterReservationsFragment.from)
-                || (from == SearchResultListFragment.from)) {
+                || (from == SearchResultListFragment.from)
+                || (from == SearchResultMapFragment.from)) {
             cView = getLayoutInflater().inflate(R.layout.renter_backable_tool_bar, null);
             cView.findViewById(R.id.renter_backable_tool_bar_back_button_layout).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -189,6 +203,16 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                     onBackPressed();
                 }
             });
+        } else if (from == RegisterBicycleActivity.from) {
+            cView = getLayoutInflater().inflate(R.layout.lister_backable_page_movable_tool_bar, null);
+            cView.findViewById(R.id.lister_backable_page_movable_tool_bar_back_button_layout).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    intent = new Intent();
+                    intent.putExtra("close", false);
+                    finish();
+                }
+            });
         }
         getSupportActionBar().setCustomView(cView);
 
@@ -201,7 +225,8 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
         bicycleImageViewPagerAdapter = new BicycleImageViewPagerAdapter();
         pagePosition = 0;
 
-        bicycleId = intent.getStringExtra("BICYCLE_ID");
+        if (from != RegisterBicycleActivity.from)
+            bicycleId = intent.getStringExtra("BICYCLE_ID");
         bicycleLatitude = intent.getDoubleExtra("BICYCLE_LATITUDE", 1.0);
         bicycleLongitude = intent.getDoubleExtra("BICYCLE_LONGITUDE", 1.0);
         if ((from == ListerReservationsFragment.from)
@@ -282,7 +307,8 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                         intent = new Intent(ContentActivity.this, ConversationActivity.class);
                         intent.putExtra("TARGET_USER_NAME", userName);
                         if ((from == RenterReservationsFragment.from)
-                                || (from == SearchResultListFragment.from))
+                                || (from == SearchResultListFragment.from)
+                                || (from == SearchResultMapFragment.from))
                             intent.putExtra("AM_I_LISTER", false);
                         else if (from == ListerReservationsFragment.from)
                             intent.putExtra("AM_I_LISTER", true);
@@ -441,6 +467,54 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                         startActivity(intent);
                         break;
                     case "예약날짜선택":
+                        calendarDialogFragment = new CalendarDialogFragment().newInstance(bicycleId);
+                        calendarDialogFragment.show(getSupportFragmentManager(), TAG);
+                        break;
+                    case "자전거등록":
+                        RegisterBicycleItem item = (RegisterBicycleItem) intent.getSerializableExtra(RegisterBicycleActivity.ITEM_TAG);
+                        Bike bike = new Bike();
+
+                        bike.setType(item.getType());
+                        bike.setComponents(item.getComponents());
+                        bike.setHeight(item.getHeight());
+
+                        List<Double> coordinates = new ArrayList<>();
+                        coordinates.add(item.getLongitude());
+                        coordinates.add(item.getLatitude());
+                        Loc loc = new Loc();
+                        loc.setCoordinates(coordinates);
+                        bike.setLoc(loc);
+
+                        bike.setTitle(item.getName());
+                        bike.setIntro(item.getIntroduction());
+
+                        List<MultipartBody.Part> multi = new ArrayList<>();
+                        for (File file : item.getFiles()) {
+                            RequestBody fileReqBody = RequestBody.create(MediaType.parse("image/*"), file);
+                            multi.add(MultipartBody.Part.createFormData("files", file.getName(), fileReqBody));
+                        }
+
+                        Price price = new Price();
+                        price.setHour(item.getHour());
+                        price.setDay(item.getDay());
+                        price.setMonth(item.getMonth());
+                        bike.setPrice(price);
+
+                        NetworkManager.getInstance().insertBicycle(
+                                multi,
+                                bike,
+                                null,
+                                new Callback<ReceiveObject>() {
+                                    @Override
+                                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                                        Log.d(TAG, "insertBicycle onResponse");
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                                        Log.d(TAG, "insertBicycle onFailure", t);
+                                    }
+                                });
                         break;
                     default:
                         break;
@@ -479,237 +553,346 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
     }
 
     private void init() {
-        NetworkManager.getInstance().selectBicycleDetail(
-                bicycleId,
-                null,
-                new Callback<ReceiveObject>() {
-                    @Override
-                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
-                        ReceiveObject receiveObject = response.body();
+        if (from != RegisterBicycleActivity.from) {
+            NetworkManager.getInstance().selectBicycleDetail(
+                    bicycleId,
+                    null,
+                    new Callback<ReceiveObject>() {
+                        @Override
+                        public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                            ReceiveObject receiveObject = response.body();
 
-                        if (receiveObject.isSuccess()) {
-                            if (BuildConfig.DEBUG)
-                                Log.d(TAG, "selectBicycleDetail onResponse success : " + receiveObject.isSuccess());
+                            if (receiveObject.isSuccess()) {
+                                if (BuildConfig.DEBUG)
+                                    Log.d(TAG, "selectBicycleDetail onResponse success : " + receiveObject.isSuccess());
 
-                            if ((receiveObject.getResult() != null)
-                                    && (receiveObject.getResult().size() > 0)) {
-                                Result result = receiveObject.getResult().get(0);
+                                if ((receiveObject.getResult() != null)
+                                        && (receiveObject.getResult().size() > 0)) {
+                                    Result result = receiveObject.getResult().get(0);
 
 //                                printLog(result);
 
                                 /* 자전거 이미지 */
-                                bicycleImageViewPagerAdapter.addAll(RefinementUtil.getBicycleImageURLListFromResult(result));
-                                bicyclePicturesViewPager.setAdapter(bicycleImageViewPagerAdapter);
-                                bicyclePicturesViewPager.addOnPageChangeListener(ContentActivity.this);
-                                ImageUtil.initIndicators(
-                                        MyApplication.getmContext(),
-                                        bicycleImageViewPagerAdapter.getCount(),
-                                        bicyclePicturesLayout
-                                );
+                                    bicycleImageViewPagerAdapter.addAllURLs(RefinementUtil.getBicycleImageURLListFromResult(result));
+                                    bicyclePicturesViewPager.setAdapter(bicycleImageViewPagerAdapter);
+                                    bicyclePicturesViewPager.addOnPageChangeListener(ContentActivity.this);
+                                    ImageUtil.initIndicators(
+                                            MyApplication.getmContext(),
+                                            bicycleImageViewPagerAdapter.getCount(),
+                                            bicyclePicturesLayout
+                                    );
 
-                                /* 유저 아이디 */ // TODO
-                                if ((from == RenterReservationsFragment.from)
-                                        || (from == SearchResultListFragment.from))
-                                    userId = result.getUser().get_id();
+                                /* 유저 아이디 */
+                                    if ((from == RenterReservationsFragment.from)
+                                            || (from == SearchResultListFragment.from)
+                                            || (from == SearchResultMapFragment.from))
+                                        userId = result.getUser().get_id();
 
                                 /* 유저 이미지 */
-                                if ((from == RenterReservationsFragment.from)
-                                        || (from == SearchResultListFragment.from)
-                                        || (from == BicyclesActivity.from))
-                                    ImageUtil.setCircleImageFromURL(
-                                            MyApplication.getmContext(),
-                                            RefinementUtil.getUserImageURLStringFromResult(result),
-                                            R.drawable.noneimage,
-                                            0,
-                                            userPictureImageView
-                                    );
-                                else if (from == ListerReservationsFragment.from)
-                                    ImageUtil.setCircleImageFromURL(
-                                            MyApplication.getmContext(),
-                                            userImageURL,
-                                            R.drawable.noneimage,
-                                            0,
-                                            userPictureImageView
-                                    );
+                                    if ((from == RenterReservationsFragment.from)
+                                            || (from == SearchResultListFragment.from)
+                                            || (from == SearchResultMapFragment.from)
+                                            || (from == BicyclesActivity.from))
+                                        ImageUtil.setCircleImageFromURL(
+                                                MyApplication.getmContext(),
+                                                RefinementUtil.getUserImageURLStringFromResult(result),
+                                                R.drawable.noneimage,
+                                                0,
+                                                userPictureImageView
+                                        );
+                                    else if (from == ListerReservationsFragment.from)
+                                        ImageUtil.setCircleImageFromURL(
+                                                MyApplication.getmContext(),
+                                                userImageURL,
+                                                R.drawable.noneimage,
+                                                0,
+                                                userPictureImageView
+                                        );
 
                                 /* 유저 이름 */
-                                if ((from == RenterReservationsFragment.from)
-                                        || (from == SearchResultListFragment.from)
-                                        || (from == BicyclesActivity.from)) {
-                                    userNameTextView.setText(result.getUser().getName());
-                                    userName = result.getUser().getName();
-                                } else if (from == ListerReservationsFragment.from)
-                                    userNameTextView.setText(userName);
+                                    if ((from == RenterReservationsFragment.from)
+                                            || (from == SearchResultListFragment.from)
+                                            || (from == SearchResultMapFragment.from)
+                                            || (from == BicyclesActivity.from)) {
+                                        userNameTextView.setText(result.getUser().getName());
+                                        userName = result.getUser().getName();
+                                    } else if (from == ListerReservationsFragment.from)
+                                        userNameTextView.setText(userName);
 
                                 /* 유저 폰 */
-                                if ((from == RenterReservationsFragment.from)
-                                        || (from == SearchResultListFragment.from))
-                                    userPhone = result.getUser().getPhone();
-                                else if (from == BicyclesActivity.from)
-                                    callButton.setVisibility(View.GONE);
+                                    if ((from == RenterReservationsFragment.from)
+                                            || (from == SearchResultListFragment.from)
+                                            || (from == SearchResultMapFragment.from))
+                                        userPhone = result.getUser().getPhone();
+                                    else if (from == BicyclesActivity.from)
+                                        callButton.setVisibility(View.GONE);
 
                                 /* 유저 채팅 */
-                                if (from == BicyclesActivity.from)
-                                    chattingButton.setVisibility(View.GONE);
+                                    if (from == BicyclesActivity.from)
+                                        chattingButton.setVisibility(View.GONE);
 
                                 /* 자전거 제목 */
-                                bicycleTitleTextView.setText(result.getTitle());
+                                    bicycleTitleTextView.setText(result.getTitle());
 
                                 /* 자전거 설명 */
-                                bicycleIntroductionTextView.setText(result.getIntro());
+                                    bicycleIntroductionTextView.setText(result.getIntro());
 
                                 /* 자전거 타입 */
-                                bicycleTypeTextView.setText(
-                                        RefinementUtil.getBicycleTypeStringFromBicycleType(
-                                                result.getType()
-                                        )
-                                );
-
-                                /* 자전거 권장 신장 */
-                                bicycleHeightTextView.setText(
-                                        RefinementUtil.getBicycleHeightStringFromBicycleHeight(
-                                                result.getHeight()
-                                        )
-                                );
-
-                                /* 자전거 추가 구성품 */
-                                if (result.getComponents().size() == 0) {
-                                    bicycleComponentsLayout.setVisibility(View.GONE);
-                                } else {
-                                    for (String component : result.getComponents()) {
-                                        AdditoryComponentView additoryComponentView = new AdditoryComponentView(ContentActivity.this);
-                                        additoryComponentView.setView(component);
-                                        additoryComponentView.setLayoutParams(
-                                                new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-                                        );
-                                        bicycleComponentsRealComponentsLayout.addView(additoryComponentView);
-                                    }
-                                }
-
-                                /* 자전거 위치 */
-                                bicycleLocationTextView.setText(
-                                        RefinementUtil.findAddress(
-                                                MyApplication.getmContext(),
-                                                result.getLoc().getCoordinates().get(1),
-                                                result.getLoc().getCoordinates().get(0)
-                                        )
-                                );
-
-                                if ((from == ListerReservationsFragment.from)
-                                        || (from == RenterReservationsFragment.from)) {
-                                /* 대여 날짜 */
-                                    SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd aahh:mm", java.util.Locale.getDefault());
-                                    bicycleRentalPeriodStartDateTextView.setText(dateFormat.format(reservationStartDate));
-                                    bicycleRentalPeriodEndDateTextView.setText(dateFormat.format(reservationEndDate));
-
-                                /* 총 시간 */
-                                    bicycleRentalPeriodTotalTimeTextView.setText(
-                                            RefinementUtil.calculateRentPeriod(
-                                                    reservationStartDate,
-                                                    reservationEndDate
+                                    bicycleTypeTextView.setText(
+                                            RefinementUtil.getBicycleTypeStringFromBicycleType(
+                                                    result.getType()
                                             )
                                     );
 
-                                /* 자전거 가격 */
-                                    rentalPrice = RefinementUtil.calculatePrice(
-                                            reservationStartDate,
-                                            reservationEndDate,
-                                            result.getPrice().getMonth(),
-                                            result.getPrice().getDay(),
-                                            result.getPrice().getHour()
+                                /* 자전거 권장 신장 */
+                                    bicycleHeightTextView.setText(
+                                            RefinementUtil.getBicycleHeightStringFromBicycleHeight(
+                                                    result.getHeight()
+                                            )
                                     );
-                                    bicycleRentalPriceTextView.setText(rentalPrice + "원");
-                                } else if ((from == BicyclesActivity.from)
-                                        || (from == SearchResultListFragment.from)) {
-                                    bicycleRentalPeriodLayout.setVisibility(View.GONE);
-                                    bicycleRentalPeriodTotalTimeLayout.setVisibility(View.GONE);
-                                    bicycleRentalPriceLayout.setVisibility(View.GONE);
-                                    bicyclePriceDecisionLayout.setVisibility(View.VISIBLE);
-                                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bicycleCommentLayout.getLayoutParams();
-                                    params.addRule(RelativeLayout.BELOW, R.id.activity_content_bicycle_location_map_layout);
-                                    bicycleCommentLayout.setLayoutParams(params);
-                                    pricePerHourTextView.setText(result.getPrice().getHour() + "원");
-                                    pricePerDayTextView.setText(result.getPrice().getDay() + "원");
-                                    pricePerMonthTextView.setText(result.getPrice().getMonth() + "원");
-                                }
+
+                                /* 자전거 추가 구성품 */
+                                    if (result.getComponents().size() == 0) {
+                                        bicycleComponentsLayout.setVisibility(View.GONE);
+                                    } else {
+                                        for (String component : result.getComponents()) {
+                                            AdditoryComponentView additoryComponentView = new AdditoryComponentView(ContentActivity.this);
+                                            additoryComponentView.setView(component);
+                                            additoryComponentView.setLayoutParams(
+                                                    new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                                            );
+                                            bicycleComponentsRealComponentsLayout.addView(additoryComponentView);
+                                        }
+                                    }
+
+                                /* 자전거 위치 */
+                                    bicycleLocationTextView.setText(
+                                            RefinementUtil.findAddress(
+                                                    MyApplication.getmContext(),
+                                                    result.getLoc().getCoordinates().get(1),
+                                                    result.getLoc().getCoordinates().get(0)
+                                            )
+                                    );
+
+                                    if ((from == ListerReservationsFragment.from)
+                                            || (from == RenterReservationsFragment.from)) {
+                                /* 대여 날짜 */
+                                        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd aahh:mm", java.util.Locale.getDefault());
+                                        bicycleRentalPeriodStartDateTextView.setText(dateFormat.format(reservationStartDate));
+                                        bicycleRentalPeriodEndDateTextView.setText(dateFormat.format(reservationEndDate));
+
+                                /* 총 시간 */
+                                        bicycleRentalPeriodTotalTimeTextView.setText(
+                                                RefinementUtil.calculateRentPeriod(
+                                                        reservationStartDate,
+                                                        reservationEndDate
+                                                )
+                                        );
+
+                                /* 자전거 가격 */
+                                        rentalPrice = RefinementUtil.calculatePrice(
+                                                reservationStartDate,
+                                                reservationEndDate,
+                                                result.getPrice().getMonth(),
+                                                result.getPrice().getDay(),
+                                                result.getPrice().getHour()
+                                        );
+                                        bicycleRentalPriceTextView.setText(rentalPrice + "원");
+                                    } else if ((from == BicyclesActivity.from)
+                                            || (from == SearchResultListFragment.from)
+                                            || (from == SearchResultMapFragment.from)) {
+                                        bicycleRentalPeriodLayout.setVisibility(View.GONE);
+                                        bicycleRentalPeriodTotalTimeLayout.setVisibility(View.GONE);
+                                        bicycleRentalPriceLayout.setVisibility(View.GONE);
+                                        bicyclePriceDecisionLayout.setVisibility(View.VISIBLE);
+                                        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bicycleCommentLayout.getLayoutParams();
+                                        params.addRule(RelativeLayout.BELOW, R.id.activity_content_bicycle_location_map_layout);
+                                        bicycleCommentLayout.setLayoutParams(params);
+                                        pricePerHourTextView.setText(result.getPrice().getHour() + "원");
+                                        pricePerDayTextView.setText(result.getPrice().getDay() + "원");
+                                        pricePerMonthTextView.setText(result.getPrice().getMonth() + "원");
+                                    }
 
                                 /* 자전거 후기 */
-                                NetworkManager.getInstance().selectBicycleComment(
-                                        bicycleId,
-                                        null,
-                                        new Callback<ReceiveObject>() {
-                                            @Override
-                                            public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
-                                                ReceiveObject receiveObject = response.body();
-                                                if (receiveObject.isSuccess()) {
-                                                    if (BuildConfig.DEBUG)
-                                                        Log.d(TAG, "selectBicycleComment onResponse success : " + receiveObject.isSuccess());
+                                    NetworkManager.getInstance().selectBicycleComment(
+                                            bicycleId,
+                                            null,
+                                            new Callback<ReceiveObject>() {
+                                                @Override
+                                                public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                                                    ReceiveObject receiveObject = response.body();
+                                                    if (receiveObject.isSuccess()) {
+                                                        if (BuildConfig.DEBUG)
+                                                            Log.d(TAG, "selectBicycleComment onResponse success : " + receiveObject.isSuccess());
 
-                                                    if ((receiveObject.getResult() != null)
-                                                            && (receiveObject.getResult().size() > 0)
-                                                            && (receiveObject.getResult().get(0) != null)
-                                                            && (receiveObject.getResult().get(0).getComments() != null)
-                                                            && (receiveObject.getResult().get(0).getComments().size() > 0)) {
-                                                        bicycleCommentLayout.setVisibility(View.VISIBLE);
-                                                        for (Comment comment : receiveObject.getResult().get(0).getComments()) {
-                                                            if (comment.getWriter().getImage() != null) {
-                                                                ImageUtil.setCircleImageFromURL(
-                                                                        ContentActivity.this,
-                                                                        RefinementUtil.getUserImageURLStringFromComment(comment),
-                                                                        R.drawable.noneimage,
-                                                                        6,
-                                                                        bicycleCommentRenterPictureImageView
-                                                                );
+                                                        if ((receiveObject.getResult() != null)
+                                                                && (receiveObject.getResult().size() > 0)
+                                                                && (receiveObject.getResult().get(0) != null)
+                                                                && (receiveObject.getResult().get(0).getComments() != null)
+                                                                && (receiveObject.getResult().get(0).getComments().size() > 0)) {
+                                                            bicycleCommentLayout.setVisibility(View.VISIBLE);
+                                                            for (Comment comment : receiveObject.getResult().get(0).getComments()) {
+                                                                if (comment.getWriter().getImage() != null) {
+                                                                    ImageUtil.setCircleImageFromURL(
+                                                                            ContentActivity.this,
+                                                                            RefinementUtil.getUserImageURLStringFromComment(comment),
+                                                                            R.drawable.noneimage,
+                                                                            6,
+                                                                            bicycleCommentRenterPictureImageView
+                                                                    );
+                                                                }
+                                                                bicycleCommentRenterNameTextView.setText("" + comment.getWriter().getName());
+                                                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy.MM.dd. HH:mm");
+                                                                bicycleCommentCreateDateTextView.setText("" + simpleDateFormat.format(comment.getCreatedAt()));
+                                                                bicycleCommentBodyTextView.setText("" + comment.getBody());
+                                                                bicycleCommentRatingBar.setRating((null != comment.getPoint()) ? comment.getPoint() : 0);
                                                             }
-                                                            bicycleCommentRenterNameTextView.setText("" + comment.getWriter().getName());
-                                                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy.MM.dd. HH:mm");
-                                                            bicycleCommentCreateDateTextView.setText("" + simpleDateFormat.format(comment.getCreatedAt()));
-                                                            bicycleCommentBodyTextView.setText("" + comment.getBody());
-                                                            bicycleCommentRatingBar.setRating((null != comment.getPoint()) ? comment.getPoint() : 0);
-                                                        }
 
-                                                        if ((from == BicyclesActivity.from)
-                                                                || (from == SearchResultListFragment.from)) {
-                                                            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bicycleCommentLayout.getLayoutParams();
-                                                            params.addRule(RelativeLayout.BELOW, R.id.activity_content_bicycle_price_decision_layout);
-                                                            bicycleCommentLayout.setLayoutParams(params);
+                                                            if ((from == BicyclesActivity.from)
+                                                                    || (from == SearchResultListFragment.from)
+                                                                    || (from == SearchResultMapFragment.from)) {
+                                                                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bicycleCommentLayout.getLayoutParams();
+                                                                params.addRule(RelativeLayout.BELOW, R.id.activity_content_bicycle_price_decision_layout);
+                                                                bicycleCommentLayout.setLayoutParams(params);
+                                                            }
+                                                        } else {
+                                                            if ((from == BicyclesActivity.from)
+                                                                    || (from == SearchResultListFragment.from)
+                                                                    || (from == SearchResultMapFragment.from)) {
+                                                                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bottomButtonsLayout.getLayoutParams();
+                                                                params.addRule(RelativeLayout.BELOW, R.id.activity_content_bicycle_price_decision_layout);
+                                                                bottomButtonsLayout.setLayoutParams(params);
+                                                                bicyclePriceDecisionLayout.setBackgroundResource(R.drawable.detailpage_back_img2);
+                                                            }
+                                                            bicycleCommentLayout.setVisibility(View.GONE);
                                                         }
                                                     } else {
-                                                        if ((from == BicyclesActivity.from)
-                                                                || (from == SearchResultListFragment.from)) {
-                                                            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bottomButtonsLayout.getLayoutParams();
-                                                            params.addRule(RelativeLayout.BELOW, R.id.activity_content_bicycle_price_decision_layout);
-                                                            bottomButtonsLayout.setLayoutParams(params);
-                                                            bicyclePriceDecisionLayout.setBackgroundResource(R.drawable.detailpage_back_img2);
-                                                        }
-                                                        bicycleCommentLayout.setVisibility(View.GONE);
+                                                        if (BuildConfig.DEBUG)
+                                                            Log.d(TAG, "selectBicycleComment onResponse success : " + receiveObject.isSuccess());
                                                     }
-                                                } else {
+                                                }
+
+                                                @Override
+                                                public void onFailure(Call<ReceiveObject> call, Throwable t) {
                                                     if (BuildConfig.DEBUG)
-                                                        Log.d(TAG, "selectBicycleComment onResponse success : " + receiveObject.isSuccess());
+                                                        Log.d(TAG, "selectBicycleComment onFailure", t);
                                                 }
                                             }
-
-                                            @Override
-                                            public void onFailure(Call<ReceiveObject> call, Throwable t) {
-                                                if (BuildConfig.DEBUG)
-                                                    Log.d(TAG, "selectBicycleComment onFailure", t);
-                                            }
-                                        }
-                                );
+                                    );
+                                }
+                            } else {
+                                if (BuildConfig.DEBUG)
+                                    Log.d(TAG, "selectBicycleDetail onResponse success : " + receiveObject.isSuccess());
                             }
-                        } else {
-                            if (BuildConfig.DEBUG)
-                                Log.d(TAG, "selectBicycleDetail onResponse success : " + receiveObject.isSuccess());
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
-                        if (BuildConfig.DEBUG)
-                            Log.d(TAG, "selectBicycleDetail onFailure", t);
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "selectBicycleDetail onFailure", t);
+                        }
+                    });
+        } else if (from == RegisterBicycleActivity.from) {
+            // TODO : RegisterBicycleActivity
+            RegisterBicycleItem item = (RegisterBicycleItem) intent.getSerializableExtra(RegisterBicycleActivity.ITEM_TAG);
+
+            /* 자전거 이미지 */
+            item.getFiles();
+            bicycleImageViewPagerAdapter.addAllFiles(item.getFiles());
+            bicyclePicturesViewPager.setAdapter(bicycleImageViewPagerAdapter);
+            bicyclePicturesViewPager.addOnPageChangeListener(ContentActivity.this);
+            ImageUtil.initIndicators(
+                    MyApplication.getmContext(),
+                    bicycleImageViewPagerAdapter.getCount(),
+                    bicyclePicturesLayout
+            );
+
+            /* 유저 아이디 */
+
+            /* 유저 이미지 */
+            ImageUtil.setCircleImageFromURL(
+                    MyApplication.getmContext(),
+                    PropertyManager.getInstance().getImage(),
+                    R.drawable.noneimage,
+                    0,
+                    userPictureImageView
+            );
+
+            /* 유저 이름 */
+            userNameTextView.setText(PropertyManager.getInstance().getName());
+
+            /* 유저 폰 */
+            callButton.setVisibility(View.GONE);
+
+            /* 유저 채팅 */
+            chattingButton.setVisibility(View.GONE);
+
+            /* 자전거 제목 */
+            bicycleTitleTextView.setText(item.getName());
+
+            /* 자전거 설명 */
+            bicycleIntroductionTextView.setText(item.getIntroduction());
+
+            /* 자전거 타입 */
+            bicycleTypeTextView.setText(
+                    RefinementUtil.getBicycleTypeStringFromBicycleType(
+                            item.getType()
+                    )
+            );
+
+            /* 자전거 권장 신장 */
+            bicycleHeightTextView.setText(
+                    RefinementUtil.getBicycleHeightStringFromBicycleHeight(
+                            item.getHeight()
+                    )
+            );
+
+            /* 자전거 추가 구성품 */
+            if (item.getComponents().size() == 0) {
+                bicycleComponentsLayout.setVisibility(View.GONE);
+            } else {
+                for (String component : item.getComponents()) {
+                    AdditoryComponentView additoryComponentView = new AdditoryComponentView(ContentActivity.this);
+                    additoryComponentView.setView(component);
+                    additoryComponentView.setLayoutParams(
+                            new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                    );
+                    bicycleComponentsRealComponentsLayout.addView(additoryComponentView);
+                }
+            }
+
+            /* 자전거 위치 */
+            bicycleLocationTextView.setText(
+                    RefinementUtil.findAddress(
+                            MyApplication.getmContext(),
+                            item.getLatitude(),
+                            item.getLongitude()
+                    )
+            );
+
+            /* 대여 날짜 */
+            // View.GONE
+            bicycleRentalPeriodLayout.setVisibility(View.GONE);
+
+            /* 총 시간 */
+            bicycleRentalPeriodTotalTimeLayout.setVisibility(View.GONE);
+
+            /* 자전거 가격 */
+            bicycleRentalPriceLayout.setVisibility(View.GONE);
+            bicyclePriceDecisionLayout.setVisibility(View.VISIBLE);
+
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bottomButtonsLayout.getLayoutParams();
+            params.addRule(RelativeLayout.BELOW, R.id.activity_content_bicycle_price_decision_layout);
+            bottomButtonsLayout.setLayoutParams(params);
+            bicyclePriceDecisionLayout.setBackgroundResource(R.drawable.detailpage_back_img2);
+
+            pricePerHourTextView.setText(item.getHour() + "원");
+            pricePerDayTextView.setText(item.getDay() + "원");
+            pricePerMonthTextView.setText(item.getMonth() + "원");
+
+            /* 자전거 후기 */
+            bicycleCommentLayout.setVisibility(View.GONE);
+        }
 
         /* 하단 버튼 */
         if ((from == ListerReservationsFragment.from)
@@ -803,10 +986,15 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                 params.setMarginEnd(0);
             params.setMargins(0, 0, 0, 0);
             bottomButtonsLeftButton.setLayoutParams(params);
-        } else if (from == SearchResultListFragment.from) {
+        } else if ((from == SearchResultListFragment.from)
+                || (from == SearchResultMapFragment.from)) {
             bottomButtonsRightButton.setVisibility(View.VISIBLE);
             bottomButtonsRightButton.setText("예약날짜선택");
             bottomButtonsRightButton.setTag(R.id.TAG_ONLINE_ID, "예약날짜선택");
+        } else if (from == RegisterBicycleActivity.from) {
+            bottomButtonsRightButton.setVisibility(View.VISIBLE);
+            bottomButtonsRightButton.setText("자전거등록");
+            bottomButtonsRightButton.setTag(R.id.TAG_ONLINE_ID, "자전거등록");
         }
     }
 

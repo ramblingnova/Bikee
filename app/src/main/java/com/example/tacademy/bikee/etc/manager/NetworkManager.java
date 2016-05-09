@@ -12,6 +12,7 @@ import com.example.tacademy.bikee.etc.dao.PaymentSendObject;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.ReservationReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Reserve;
+import com.example.tacademy.bikee.etc.dao.SelectReservationReceiveObject;
 import com.example.tacademy.bikee.etc.dao.SendBirdSendObject;
 import com.example.tacademy.bikee.etc.dao.GetChannelInfoReceiveObject;
 import com.example.tacademy.bikee.etc.dao.User;
@@ -223,6 +224,9 @@ public class NetworkManager {
         // 평가된 자전거 후기 보기(리스터)
         @GET("/comments/me")
         Call<ReceiveObject> selectMyBicycleComment();
+
+        @GET("/reserves/bike/{bikeId}")
+        Call<SelectReservationReceiveObject> selectReservation(@Path("bikeId") String bike_id);
 
         // 자전거 예약 요청하기(렌터)
         @POST("/reserves/bike/{bikeId}")
@@ -587,6 +591,15 @@ public class NetworkManager {
     public void selectMyBicycleComment(Stack<Call> callStack,
                                        Callback<ReceiveObject> callback) {
         Call<ReceiveObject> call = serverUrl.selectMyBicycleComment();
+        if (callStack != null)
+            callStack.push(call);
+        call.enqueue(callback);
+    }
+
+    public void selectReservation(String bike_id,
+                                  Stack<Call> callStack,
+                                  Callback<SelectReservationReceiveObject> callback) {
+        Call<SelectReservationReceiveObject> call = serverUrl.selectReservation(bike_id);
         if (callStack != null)
             callStack.push(call);
         call.enqueue(callback);

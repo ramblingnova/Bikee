@@ -101,7 +101,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".renter.searchresult.content.postscription.BicyclePostScriptListActivity"
+            android:name=".common.content.postscription.BicyclePostScriptListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

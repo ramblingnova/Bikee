@@ -1,4 +1,4 @@
-package com.example.tacademy.bikee.renter.searchresult.content.postscription;
+package com.example.tacademy.bikee.common.content.postscription;
 
 import android.content.Context;
 import android.content.Intent;

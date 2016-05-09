@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.common.chatting.ChattingRoomsFragment;
+import com.example.tacademy.bikee.common.content.popup.PlainDialogFragment;
 import com.example.tacademy.bikee.etc.utils.ImageUtil;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.example.tacademy.bikee.lister.ListerMainActivity;
@@ -110,6 +111,10 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
                 }
                 super.onActivityResult(requestCode, resultCode, data);
             }
+        } else if (requestCode == PlainDialogFragment.PLAIN_DIALOG_F) {
+            if (BuildConfig.DEBUG)
+                Log.d(TAG, "PlainDialogFragment.PLAIN_DIALOG_F");
+            tabHost.setCurrentTab(2);
         }
     }
 

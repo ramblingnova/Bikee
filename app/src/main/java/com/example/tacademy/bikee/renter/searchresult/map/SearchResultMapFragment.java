@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
 
+import com.example.tacademy.bikee.common.content.ContentActivity;
 import com.example.tacademy.bikee.etc.MyApplication;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Result;
@@ -61,6 +62,7 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     private String filter;
     private Marker current_marker;
 
+    public static int from = 2;
     private static final String TAG = "SEARCH_R_M_ACTIVITY";
 
     public SearchResultMapFragment() {
@@ -230,7 +232,8 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     @Override
     public void onInfoWindowClick(Marker marker) {
         marker.hideInfoWindow();
-        Intent intent = new Intent(getActivity(), FilteredBicycleDetailInformationActivity.class);
+        Intent intent = new Intent(getActivity(), ContentActivity.class);
+        intent.putExtra("FROM", from);
         intent.putExtra("BICYCLE_ID", mPOIResolver.get(marker).getItem().getBicycleId());
         intent.putExtra("BICYCLE_LATITUDE", mPOIResolver.get(marker).getItem().getLatitude());
         intent.putExtra("BICYCLE_LONGITUDE", mPOIResolver.get(marker).getItem().getLongitude());

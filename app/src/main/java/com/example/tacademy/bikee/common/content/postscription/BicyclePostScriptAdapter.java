@@ -1,4 +1,4 @@
-package com.example.tacademy.bikee.renter.searchresult.content.postscription;
+package com.example.tacademy.bikee.common.content.postscription;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

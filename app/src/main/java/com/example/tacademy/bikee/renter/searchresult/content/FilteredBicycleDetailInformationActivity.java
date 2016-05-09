@@ -29,7 +29,7 @@ import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.etc.utils.RefinementUtil;
 import com.example.tacademy.bikee.renter.searchresult.content.finallyrequestreservation.FinallyRequestReservationActivity;
-import com.example.tacademy.bikee.renter.searchresult.content.postscription.BicyclePostScriptListActivity;
+import com.example.tacademy.bikee.common.content.postscription.BicyclePostScriptListActivity;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -313,7 +313,7 @@ public class FilteredBicycleDetailInformationActivity extends AppCompatActivity 
                                             + ", BicycleLongitude : " + result.getLoc().getCoordinates().get(0)
                                             + ", BicyclePrice : " + result.getPrice().getMonth()
                             );
-                        bicycleImageViewPagerAdapter.addAll(RefinementUtil.getBicycleImageURLListFromResult(result));
+                        bicycleImageViewPagerAdapter.addAllURLs(RefinementUtil.getBicycleImageURLListFromResult(result));
                         viewPager.setAdapter(bicycleImageViewPagerAdapter);
                         viewPager.addOnPageChangeListener(FilteredBicycleDetailInformationActivity.this);
                         ImageUtil.initIndicators(

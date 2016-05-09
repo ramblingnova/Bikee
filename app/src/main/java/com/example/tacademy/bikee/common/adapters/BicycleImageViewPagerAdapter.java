@@ -10,6 +10,7 @@ import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.MyApplication;
 import com.example.tacademy.bikee.etc.utils.ImageUtil;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,15 +18,17 @@ import java.util.List;
  * Created by User on 2016-03-09.
  */
 public class BicycleImageViewPagerAdapter extends PagerAdapter {
-    private List<String> list;
+    private List<String> URLList;
+    private List<File> fileList;
 
     public BicycleImageViewPagerAdapter() {
-        this.list = new ArrayList<>();
+        this.URLList = new ArrayList<>();
+        this.fileList = new ArrayList<>();
     }
 
     @Override
     public int getCount() {
-        return list.size();
+        return (URLList.size() > 0) ? URLList.size() : fileList.size();
     }
 
     @Override
@@ -39,12 +42,20 @@ public class BicycleImageViewPagerAdapter extends PagerAdapter {
 
         ImageView imageVIew = (ImageView) view.findViewById(R.id.view_bicycle_image_view_pager);
 
-        ImageUtil.setRectangleImageFromURL(
-                MyApplication.getmContext(),
-                list.get(position),
-                R.drawable.detailpage_bike_image_noneimage,
-                imageVIew
-        );
+        if (URLList.size() > 0)
+            ImageUtil.setRectangleImageFromURL(
+                    MyApplication.getmContext(),
+                    URLList.get(position),
+                    R.drawable.detailpage_bike_image_noneimage,
+                    imageVIew
+            );
+        else if (fileList.size() > 0)
+            ImageUtil.setRectangleImageFromFile(
+                    MyApplication.getmContext(),
+                    fileList.get(position),
+                    R.drawable.detailpage_bike_image_noneimage,
+                    imageVIew
+            );
 
         container.addView(view);
 
@@ -56,8 +67,13 @@ public class BicycleImageViewPagerAdapter extends PagerAdapter {
         container.removeView((View) object);
     }
 
-    public void addAll(List<String> list) {
-        this.list.addAll(list);
+    public void addAllURLs(List<String> list) {
+        this.URLList.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public void addAllFiles(List<File> list) {
+        this.fileList.addAll(list);
         notifyDataSetChanged();
     }
 }

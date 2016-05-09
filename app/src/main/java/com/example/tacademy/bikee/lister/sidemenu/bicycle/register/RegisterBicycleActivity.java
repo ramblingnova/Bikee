@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.common.content.ContentActivity;
 import com.example.tacademy.bikee.lister.sidemenu.bicycle.register.page1.RegisterBicycleInformationFragment;
 import com.example.tacademy.bikee.lister.sidemenu.bicycle.register.page2.RegisterBicycleLocationFragment;
 import com.example.tacademy.bikee.lister.sidemenu.bicycle.register.page3.RegisterBicycleIntroductionFragment;
@@ -49,8 +50,10 @@ public class RegisterBicycleActivity extends AppCompatActivity {
     private RegisterBicycleINF registerBicycleINF;
 
     private RegisterBicycleItem item;
+
     public static final String ITEM_TAG = "ITEM";
-    final static private int FINALLY_REGISTER_BICYCLE_ACTIVITY = 1;
+    public static final int from = 8;
+    private static final String TAG = "REGISTER_BICYCLE_A";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,9 +154,13 @@ public class RegisterBicycleActivity extends AppCompatActivity {
                     item.setDay(((RegisterBicycleFeeFragment) list[4]).getDay());
                     item.setMonth(((RegisterBicycleFeeFragment) list[4]).getMonth());
 
-                    intent = new Intent(RegisterBicycleActivity.this, FinallyRegisterBicycleActivity.class);
+                    intent = new Intent(RegisterBicycleActivity.this, ContentActivity.class);
                     intent.putExtra(ITEM_TAG, item);
-                    startActivityForResult(intent, FINALLY_REGISTER_BICYCLE_ACTIVITY);
+                    intent.putExtra("FROM", from);
+                    intent.putExtra("BICYCLE_LATITUDE", ((RegisterBicycleLocationFragment) list[1]).getLatitude());
+                    intent.putExtra("BICYCLE_LONGITUDE", ((RegisterBicycleLocationFragment) list[1]).getLongitude());
+
+                    startActivityForResult(intent, from);
                 }
                 break;
         }
@@ -200,7 +207,7 @@ public class RegisterBicycleActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == FINALLY_REGISTER_BICYCLE_ACTIVITY) {
+        if (resultCode == RESULT_OK && requestCode == from) {
             setResult(RESULT_OK, data);
             finish();
         }
