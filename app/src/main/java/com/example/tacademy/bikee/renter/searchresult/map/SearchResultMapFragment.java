@@ -23,7 +23,6 @@ import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.example.tacademy.bikee.renter.searchresult.SearchResultItem;
-import com.example.tacademy.bikee.renter.searchresult.content.FilteredBicycleDetailInformationActivity;
 import com.example.tacademy.bikee.renter.searchresult.filter.FilterActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;

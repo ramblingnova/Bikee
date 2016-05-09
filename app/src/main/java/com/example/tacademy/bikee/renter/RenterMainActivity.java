@@ -111,10 +111,6 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
                 }
                 super.onActivityResult(requestCode, resultCode, data);
             }
-        } else if (requestCode == PlainDialogFragment.PLAIN_DIALOG_F) {
-            if (BuildConfig.DEBUG)
-                Log.d(TAG, "PlainDialogFragment.PLAIN_DIALOG_F");
-            tabHost.setCurrentTab(2);
         }
     }
 

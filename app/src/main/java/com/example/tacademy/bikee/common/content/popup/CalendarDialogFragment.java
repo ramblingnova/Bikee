@@ -69,7 +69,6 @@ public class CalendarDialogFragment extends DialogFragment implements TimePicker
     int end__rent_minute = 50;
     private DatePickerDialog dpd;
 
-    public static final int from = 10;
     private static final String TAG = "CALENDAR_DIALOG_F";
 
     public static CalendarDialogFragment newInstance(String bicycleId) {
@@ -493,7 +492,7 @@ public class CalendarDialogFragment extends DialogFragment implements TimePicker
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd hh:mm");
         try {
             ChoiceDialogFragment choiceDialogFragment = ChoiceDialogFragment.newInstance(
-                    from,
+                    ChoiceDialogFragment.RENTER_RESERVATION_DATE_CHOICE,
                     bicycleId,
                     format.parse(startDateTime),
                     format.parse(endDateTime)

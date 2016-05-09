@@ -16,8 +16,8 @@ import android.widget.TextView;
 
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.lister.ListerMainActivity;
+import com.example.tacademy.bikee.lister.sidemenu.bicycle.BicyclesActivity;
 import com.example.tacademy.bikee.renter.RenterMainActivity;
-import com.example.tacademy.bikee.renter.reservation.RenterReservationsFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -30,17 +30,19 @@ public class PlainDialogFragment extends DialogFragment {
     TextView dialogTextView;
 
     private Intent intent;
-    private int from;
+    private int destination;
     private String message;
 
-    public static final int PLAIN_DIALOG_F = 11;
+    public static final int DESTINATION_IS_RENTER_MAIN_ACTIVITY = 1;
+    public static final int DESTINATION_IS_LISTER_MAIN_ACTIVITY = 2;
+    public static final int DESTINATION_IS_BICYCLES_ACTIVITY = 3;
     private static final String TAG = "PLAIN_DIALOG_F";
 
-    public static PlainDialogFragment newInstance(int from, String message) {
+    public static PlainDialogFragment newInstance(int destination, String message) {
         PlainDialogFragment plainDialogFragment = new PlainDialogFragment();
 
         Bundle args = new Bundle();
-        args.putInt("FROM", from);
+        args.putInt("DESTINATION", destination);
         args.putString("MESSAGE", message);
         plainDialogFragment.setArguments(args);
 
@@ -53,7 +55,7 @@ public class PlainDialogFragment extends DialogFragment {
         setStyle(android.support.v4.app.DialogFragment.STYLE_NO_TITLE, R.style.AppTheme);
 
         Bundle args = getArguments();
-        from = args.getInt("FROM");
+        destination = args.getInt("DESTINATION");
         message = args.getString("MESSAGE");
     }
 
@@ -84,13 +86,35 @@ public class PlainDialogFragment extends DialogFragment {
     }
 
     public void init() {
-        switch (from) {
-            case CalendarDialogFragment.from:
+        switch (destination) {
+            case DESTINATION_IS_RENTER_MAIN_ACTIVITY:
                 dialogTextView.setText(message);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         intent = new Intent(getContext().getApplicationContext(), RenterMainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    }
+                }, 1500);
+                break;
+            case DESTINATION_IS_LISTER_MAIN_ACTIVITY:
+                dialogTextView.setText(message);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        intent = new Intent(getContext().getApplicationContext(), ListerMainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    }
+                }, 1500);
+                break;
+            case DESTINATION_IS_BICYCLES_ACTIVITY:
+                dialogTextView.setText(message);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        intent = new Intent(getContext().getApplicationContext(), BicyclesActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     }

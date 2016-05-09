@@ -22,6 +22,7 @@ import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.common.adapters.BicycleImageViewPagerAdapter;
 import com.example.tacademy.bikee.common.chatting.room.ConversationActivity;
 import com.example.tacademy.bikee.common.content.popup.CalendarDialogFragment;
+import com.example.tacademy.bikee.common.content.popup.ChoiceDialogFragment;
 import com.example.tacademy.bikee.common.views.AdditoryComponentView;
 import com.example.tacademy.bikee.etc.MyApplication;
 import com.example.tacademy.bikee.etc.dao.Bike;
@@ -59,18 +60,13 @@ import com.sendbird.android.SendBird;
 import com.sendbird.android.model.MessagingChannel;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -347,24 +343,14 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                 if (bottomButtonsLeftButton.getTag(R.id.TAG_ONLINE_ID) != null) {
                     switch ((String) bottomButtonsLeftButton.getTag(R.id.TAG_ONLINE_ID)) {
                         case "예약취소하기":
-                            NetworkManager.getInstance().reserveStatus(
+                            ChoiceDialogFragment choiceDialogFragment
+                                    = new ChoiceDialogFragment().newInstance(
+                                    ChoiceDialogFragment.LISTER_RESERVATION_CANCEL,
                                     reservationId,
                                     bicycleId,
-                                    "LC",
-                                    null,
-                                    new Callback<ReceiveObject>() {
-                                        @Override
-                                        public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
-                                            if (BuildConfig.DEBUG)
-                                                Log.d(TAG, "reserveStatus onResponse");
-                                        }
-
-                                        @Override
-                                        public void onFailure(Call<ReceiveObject> call, Throwable t) {
-                                            if (BuildConfig.DEBUG)
-                                                Log.d(TAG, "reserveStatus onFailure", t);
-                                        }
-                                    });
+                                    "LC"
+                            );
+                            choiceDialogFragment.show(getSupportFragmentManager(), TAG);
                             break;
                     }
                 } else {
@@ -374,84 +360,48 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
             case R.id.activity_content_bottom_buttons_right_button:
                 // TODO : 버튼 이벤트, 뒤로가기 제외하고 모두 팝업을 거쳐야 한다.
                 switch ((String) bottomButtonsRightButton.getTag(R.id.TAG_ONLINE_ID)) {
-                    case "예약승인하기":
-                        NetworkManager.getInstance().reserveStatus(
+                    case "예약승인하기": {
+                        ChoiceDialogFragment choiceDialogFragment
+                                = new ChoiceDialogFragment().newInstance(
+                                ChoiceDialogFragment.LISTER_RESERVATION_APPROVAL,
                                 reservationId,
                                 bicycleId,
-                                "RS",
-                                null,
-                                new Callback<ReceiveObject>() {
-                                    @Override
-                                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
-                                        if (BuildConfig.DEBUG)
-                                            Log.d(TAG, "reserveStatus onResponse");
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
-                                        if (BuildConfig.DEBUG)
-                                            Log.d(TAG, "reserveStatus onFailure", t);
-                                    }
-                                });
+                                "RS"
+                        );
+                        choiceDialogFragment.show(getSupportFragmentManager(), TAG);
                         break;
-                    case "결제취소하기":
-                        NetworkManager.getInstance().reserveStatus(
+                    }
+                    case "결제취소하기": {
+                        ChoiceDialogFragment choiceDialogFragment
+                                = new ChoiceDialogFragment().newInstance(
+                                ChoiceDialogFragment.RENTER_RESERVATION_PAYMENT_CANCEL,
                                 reservationId,
                                 bicycleId,
-                                "PC",
-                                null,
-                                new Callback<ReceiveObject>() {
-                                    @Override
-                                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
-                                        ReceiveObject receiveObject = response.body();
-
-                                        if (receiveObject.isSuccess()) {
-                                            if (BuildConfig.DEBUG)
-                                                Log.d(TAG, "reserveStatus onResponse success : " + receiveObject.isSuccess());
-                                        } else {
-                                            if (BuildConfig.DEBUG)
-                                                Log.d(TAG, "reserveStatus onResponse success : " + receiveObject.isSuccess());
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
-                                        if (BuildConfig.DEBUG)
-                                            Log.d(TAG, "reserveStatus onFailure", t);
-                                    }
-                                });
+                                "PC"
+                        );
+                        choiceDialogFragment.show(getSupportFragmentManager(), TAG);
                         break;
+                    }
                     case "예약취소하기":
-                        String requestStatus = "";
-                        if ((from == RenterReservationsFragment.from))
-                            requestStatus = "RC";
-                        else if ((from == ListerReservationsFragment.from))
-                            requestStatus = "LC";
-                        NetworkManager.getInstance().reserveStatus(
-                                reservationId,
-                                bicycleId,
-                                requestStatus,
-                                null,
-                                new Callback<ReceiveObject>() {
-                                    @Override
-                                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
-                                        ReceiveObject receiveObject = response.body();
-
-                                        if (receiveObject.isSuccess()) {
-                                            if (BuildConfig.DEBUG)
-                                                Log.d(TAG, "reserveStatus onResponse success : " + receiveObject.isSuccess());
-                                        } else {
-                                            if (BuildConfig.DEBUG)
-                                                Log.d(TAG, "reserveStatus onResponse success : " + receiveObject.isSuccess());
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
-                                        if (BuildConfig.DEBUG)
-                                            Log.d(TAG, "reserveStatus onFailure", t);
-                                    }
-                                });
+                        if ((from == RenterReservationsFragment.from)) {
+                            ChoiceDialogFragment choiceDialogFragment
+                                    = new ChoiceDialogFragment().newInstance(
+                                    ChoiceDialogFragment.RENTER_RESERVATION_CANCEL,
+                                    reservationId,
+                                    bicycleId,
+                                    "RC"
+                            );
+                            choiceDialogFragment.show(getSupportFragmentManager(), TAG);
+                        } else if ((from == ListerReservationsFragment.from)) {
+                            ChoiceDialogFragment choiceDialogFragment
+                                    = new ChoiceDialogFragment().newInstance(
+                                    ChoiceDialogFragment.LISTER_RESERVATION_CANCEL,
+                                    reservationId,
+                                    bicycleId,
+                                    "LC"
+                            );
+                            choiceDialogFragment.show(getSupportFragmentManager(), TAG);
+                        }
                         break;
                     case "결제하기":
                         intent = new Intent(this, CardSelectionActivity.class);
@@ -470,52 +420,16 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                         calendarDialogFragment = new CalendarDialogFragment().newInstance(bicycleId);
                         calendarDialogFragment.show(getSupportFragmentManager(), TAG);
                         break;
-                    case "자전거등록":
+                    case "자전거등록": {
                         RegisterBicycleItem item = (RegisterBicycleItem) intent.getSerializableExtra(RegisterBicycleActivity.ITEM_TAG);
-                        Bike bike = new Bike();
-
-                        bike.setType(item.getType());
-                        bike.setComponents(item.getComponents());
-                        bike.setHeight(item.getHeight());
-
-                        List<Double> coordinates = new ArrayList<>();
-                        coordinates.add(item.getLongitude());
-                        coordinates.add(item.getLatitude());
-                        Loc loc = new Loc();
-                        loc.setCoordinates(coordinates);
-                        bike.setLoc(loc);
-
-                        bike.setTitle(item.getName());
-                        bike.setIntro(item.getIntroduction());
-
-                        List<MultipartBody.Part> multi = new ArrayList<>();
-                        for (File file : item.getFiles()) {
-                            RequestBody fileReqBody = RequestBody.create(MediaType.parse("image/*"), file);
-                            multi.add(MultipartBody.Part.createFormData("files", file.getName(), fileReqBody));
-                        }
-
-                        Price price = new Price();
-                        price.setHour(item.getHour());
-                        price.setDay(item.getDay());
-                        price.setMonth(item.getMonth());
-                        bike.setPrice(price);
-
-                        NetworkManager.getInstance().insertBicycle(
-                                multi,
-                                bike,
-                                null,
-                                new Callback<ReceiveObject>() {
-                                    @Override
-                                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
-                                        Log.d(TAG, "insertBicycle onResponse");
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
-                                        Log.d(TAG, "insertBicycle onFailure", t);
-                                    }
-                                });
+                        ChoiceDialogFragment choiceDialogFragment
+                                = new ChoiceDialogFragment().newInstance(
+                                ChoiceDialogFragment.LISTER_BICYCLE_REGISTER,
+                                item
+                        );
+                        choiceDialogFragment.show(getSupportFragmentManager(), TAG);
                         break;
+                    }
                     default:
                         break;
                 }
