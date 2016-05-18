@@ -4,7 +4,7 @@ package com.example.tacademy.bikee.etc.utils;
  * Created by User on 2016-03-09.
  */
 public class RegExUtil {
-    // TODO : validation check
+    // TODO : 유효성 체크
     public final static String REGEX_HANGUL = "^[가-힣]{2,30}$";
     public final static String REGEX_ADDRESS = "[[가-힣]*[0-9]*[가-힣]*[0-9]*\\s?]$";
     public final static String REGEX_EMAIL = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";

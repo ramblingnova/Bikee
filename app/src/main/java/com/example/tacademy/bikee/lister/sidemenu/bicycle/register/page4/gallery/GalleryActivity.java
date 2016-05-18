@@ -174,7 +174,7 @@ public class GalleryActivity extends AppCompatActivity implements GetGalleryPict
 
     @OnClick(R.id.gallery_tool_bar_back_button_layout)
     void back(View view) {
-        // TODO : show popup
+        // TODO : 팝업?
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -335,7 +335,7 @@ public class GalleryActivity extends AppCompatActivity implements GetGalleryPict
 
     @Override
     public void onBackPressed() {
-        // TODO : show popup
+        // TODO : 팝업?
         setResult(RESULT_OK, intent);
         finish();
     }

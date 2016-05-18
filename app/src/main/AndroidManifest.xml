@@ -97,10 +97,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".renter.searchresult.content.FilteredBicycleDetailInformationActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".common.content.postscription.BicyclePostScriptListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -109,15 +105,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".renter.searchresult.content.finallyrequestreservation.FinallyRequestReservationActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".common.content.ContentActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".renter.sidemenu.card.CardsActivity"
+            android:name=".renter.sidemenu.creditcard.CreditCardsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -133,24 +125,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".renter.sidemenu.card.register.RegisterCardActivity"
+            android:name=".renter.sidemenu.creditcard.register.RegisterCreditCardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".lister.ListerMainActivity"
             android:label="@string/title_activity_lister_main"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".lister.reservation.content.ListerReservationContentActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".lister.sidemenu.evaluatedbicycle.EvaluatedBicyclePostScriptListActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".lister.sidemenu.bicycle.content.BicycleContentActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -162,10 +142,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".lister.sidemenu.bicycle.register.FinallyRegisterBicycleActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".common.SmallMapActivity"
             android:screenOrientation="portrait" />
@@ -183,7 +159,8 @@
             android:name=".common.chatting.room.ConversationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".common.content.popup.CardSelectionActivity"></activity>
+        <activity android:name=".common.content.popup.CardSelectionActivity" />
+        <activity android:name=".common.content.popup.FinallyPayment"></activity>
     </application>
 
 </manifest>

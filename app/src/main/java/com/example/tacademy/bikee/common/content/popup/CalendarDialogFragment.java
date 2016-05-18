@@ -68,6 +68,10 @@ public class CalendarDialogFragment extends DialogFragment implements TimePicker
     int end_rent_hour = 21;
     int end__rent_minute = 50;
     private DatePickerDialog dpd;
+    TimePickerDialog tpd;
+    Calendar start_cal;
+    Calendar end_cal;
+    Date start_day;
 
     private static final String TAG = "CALENDAR_DIALOG_F";
 
@@ -127,6 +131,11 @@ public class CalendarDialogFragment extends DialogFragment implements TimePicker
             R.id.calendar_end_date_summary})
     void onClick(View view) {
         final Calendar now = Calendar.getInstance();
+        switch (view.getId()) {
+            case R.id.calendar_end_date_summary: {
+                now.setTime(start_day);
+            }
+        }
         dpd = DatePickerDialog.newInstance(
                 CalendarDialogFragment.this,
                 now.get(Calendar.YEAR),
@@ -136,11 +145,18 @@ public class CalendarDialogFragment extends DialogFragment implements TimePicker
         abledates = new ArrayList<>();
         disabledates = new ArrayList<>();
 
+        int now_days = now.get(Calendar.DAY_OF_YEAR);
+        for (int i = now_days; i < now_days + 60; i++) {
+            Calendar ableday = Calendar.getInstance();
+            ableday.set(Calendar.DAY_OF_YEAR, i);
+            abledates.add(ableday);
+        }
+
         final TimePickerDialog tpd = TimePickerDialog.newInstance(
                 CalendarDialogFragment.this,
                 now.get(Calendar.HOUR_OF_DAY),
                 now.get(Calendar.MINUTE),
-                true //24시간으로 세팅.
+                true
         );
 
         switch (view.getId()) {
@@ -157,7 +173,8 @@ public class CalendarDialogFragment extends DialogFragment implements TimePicker
                             startDateTextView.setTextColor(getResources().getColor(R.color.bikeeBlue, getActivity().getTheme()));
                         }
 
-                        openTimePicker(tpd, now, date);
+                        start_day = date;
+                        openTimePicker(now, date, true);
                         isStartDate = true;
                     }
                 });
@@ -176,7 +193,7 @@ public class CalendarDialogFragment extends DialogFragment implements TimePicker
                             endDateTextView.setTextColor(getResources().getColor(R.color.bikeeBlue, getActivity().getTheme()));
                         }
 
-                        openTimePicker(tpd, now, date);
+                        openTimePicker(now, date, false);
                         isStartDate = false;
                     }
                 });
@@ -198,7 +215,6 @@ public class CalendarDialogFragment extends DialogFragment implements TimePicker
                         dpd.setAccentColor(Color.parseColor("#1993F7"));
 
                         SelectReservationReceiveObject bikes = response.body();
-                        /*List<Result> results = bikes.getResult();*/
                         results = bikes.getResult();
 
                         Calendar today = Calendar.getInstance();
@@ -240,15 +256,13 @@ public class CalendarDialogFragment extends DialogFragment implements TimePicker
                                         disableday.set(Calendar.DAY_OF_YEAR, i);
                                         disabledates.add(disableday);
                                     }
-//                                    disabletime.add(new Timepoint(i+3,0));
-
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                             }
                             if (flag) {
                                 albeday.set(Calendar.DAY_OF_YEAR, i);
-                                abledates.add(albeday);//disable ?????? ??? ????
+                                abledates.add(albeday);
                             }
                         }
                         dpd.setSelectableDays(abledates.toArray(new Calendar[abledates.size()]));
@@ -293,9 +307,39 @@ public class CalendarDialogFragment extends DialogFragment implements TimePicker
         }
     }
 
-    public void openTimePicker(TimePickerDialog tpd, Calendar now, Date date) {
+    public void openTimePicker(Calendar now, Date date, boolean flag) {
         abletime = new ArrayList<>();
         now = Calendar.getInstance();
+
+        Calendar tempSelDay = Calendar.getInstance();
+        int temp_now_min, temp_now_hour;
+        if (!flag) {
+            now.setTime(start_day);
+            now.add(Calendar.MINUTE, 30);
+            if (now.get(Calendar.AM_PM) == 0) {
+                temp_now_min = now.get(Calendar.MINUTE);
+                temp_now_hour = now.get(Calendar.HOUR_OF_DAY) + 12;
+            } else {
+                temp_now_min = now.get(Calendar.MINUTE);
+                temp_now_hour = now.get(Calendar.HOUR_OF_DAY);
+            }
+        } else {
+            temp_now_min = now.get(Calendar.MINUTE);
+            temp_now_hour = now.get(Calendar.HOUR_OF_DAY);
+        }
+
+
+        temp_now_min = (int) Math.ceil((double) temp_now_min / 10) * 10;
+        tempSelDay.setTime(date);
+        if (!(now.get(Calendar.DAY_OF_YEAR) == tempSelDay.get(Calendar.DAY_OF_YEAR))) {
+            temp_now_hour = 7;
+            temp_now_min = 0;
+        }
+
+        if (temp_now_hour > 21 || temp_now_hour < 7) {
+            temp_now_hour = 7;
+            temp_now_min = 0;
+        }
         int now_h = now.get(Calendar.HOUR_OF_DAY);
         int now_m = now.get(Calendar.MINUTE);
         if (now_h > 21 || now_h < 7) {
@@ -307,7 +351,7 @@ public class CalendarDialogFragment extends DialogFragment implements TimePicker
                 CalendarDialogFragment.this,
                 now_h,
                 now_m,
-                true //24시간으로 세팅.
+                true
         );
         tpd.setThemeDark(true);
         tpd.setAccentColor(Color.parseColor("#1993F7"));
@@ -319,10 +363,6 @@ public class CalendarDialogFragment extends DialogFragment implements TimePicker
         sel.setTime(date);
 
         try {
-            /*Context context = getActivity();
-            SharedPreferences p = context.getSharedPreferences("pref", context.MODE_PRIVATE);
-            p = context.getSharedPreferences("pref", context.MODE_PRIVATE);*/
-            /*String sel = p.getString("selDay", "");*/
             int selDay = sel.get(Calendar.DAY_OF_YEAR);
 
             Log.d("SELDAY ", "" + selDay);
@@ -354,9 +394,7 @@ public class CalendarDialogFragment extends DialogFragment implements TimePicker
                 end_min = (int) Math.ceil((double) end_min / 10) * 10;
                 Log.d("START ", "" + start_day);
                 Log.d("END ", "" + end_day);
-                    /*
-                    * 시작, 종료, 현재 같은경우.
-                    * */
+
                 if (selDay == now_day && start_day == now_day && end_day == now_day && start_day == end_day) {
                     time_flag = false;
                     if (today.getTimeInMillis() > start.getTimeInMillis()) {
@@ -408,10 +446,6 @@ public class CalendarDialogFragment extends DialogFragment implements TimePicker
                         }
                     }
                 }
-
-                    /*
-                    * 현재 , 시작, 종료 다른경우.
-                    * */
 
                 if (selDay == start_day) {
                     time_flag = false;

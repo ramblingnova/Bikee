@@ -23,7 +23,6 @@ import android.widget.TextView;
 
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.common.chatting.ChattingRoomsFragment;
-import com.example.tacademy.bikee.common.content.popup.PlainDialogFragment;
 import com.example.tacademy.bikee.etc.utils.ImageUtil;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.example.tacademy.bikee.lister.ListerMainActivity;
@@ -34,7 +33,7 @@ import com.example.tacademy.bikee.renter.reservation.RenterReservationsFragment;
 import com.example.tacademy.bikee.renter.searchresult.SearchResultFragment;
 import com.example.tacademy.bikee.common.sidemenu.AuthenticationInformationActivity;
 import com.example.tacademy.bikee.renter.searchresult.filter.FilterActivity;
-import com.example.tacademy.bikee.renter.sidemenu.card.CardsActivity;
+import com.example.tacademy.bikee.renter.sidemenu.creditcard.CreditCardsActivity;
 import com.example.tacademy.bikee.common.sidemenu.comment.CommentsActivity;
 import com.example.tacademy.bikee.common.sidemenu.InputInquiryActivity;
 import com.tsengvn.typekit.TypekitContextWrapper;
@@ -184,7 +183,7 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
                 startActivityForResult(intent, SignInActivity.SIGN_IN_ACTIVITY);
                 break;
             case R.id.renter_side_menu_fragment_register_card_text_view:
-                intent = new Intent(RenterMainActivity.this, CardsActivity.class);
+                intent = new Intent(RenterMainActivity.this, CreditCardsActivity.class);
                 startActivity(intent);
                 break;
             case R.id.renter_side_menu_evaluation_bicycle_script_text_view:

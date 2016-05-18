@@ -21,15 +21,35 @@
     <dimen name="view_holder_gallery_picture_item_space">4dp</dimen>
     <dimen name="view_holder_gallery_folder_item_space">6dp</dimen>
 
-    <dimen name="indicator_width">6dp</dimen>
-    <dimen name="indicator_height">6dp</dimen>
-    <dimen name="first_indicator_right_margin">16dp</dimen>
-    <dimen name="other_indicator_right_margin">6dp</dimen>
-    <dimen name="indicator_top_margin">16dp</dimen>
+    <dimen name="bicycle_image_view_pager_indicator_width">6dp</dimen>
+    <dimen name="bicycle_image_view_pager_indicator_height">6dp</dimen>
+    <dimen name="bicycle_image_view_pager_first_indicator_right_margin">16dp</dimen>
+    <dimen name="bicycle_image_view_pager_other_indicator_right_margin">6dp</dimen>
+    <dimen name="bicycle_image_view_pager_indicator_top_margin">16dp</dimen>
+
+    <dimen name="card_view_pager_indicator_width">8dp</dimen>
+    <dimen name="card_view_pager_indicator_height">8dp</dimen>
+    <dimen name="card_view_pager_indicator_left_margin">10dp</dimen>
+    <dimen name="card_view_pager_indicator_bottom_margin">31dp</dimen>
+    <dimen name="activity_card_management_page_margin">33dp</dimen>
+    <dimen name="activity_card_management_view_pager_left_padding">49dp</dimen>
+    <dimen name="activity_card_management_view_pager_top_padding">33dp</dimen>
+    <dimen name="activity_card_management_view_pager_right_padding">49dp</dimen>
+    <dimen name="activity_card_management_view_pager_bottom_padding">57dp</dimen>
 
     <dimen name="view_holder_chatting_room_item_space">1dp</dimen>
     <dimen name="view_holder_conversation_item_bottom_space">10dp</dimen>
     <dimen name="view_holder_conversation_first_item_top_space">12dp</dimen>
 
     <dimen name="activity_conversation_bicycle_image_image_view_radius">4dp</dimen>
+
+    <dimen name="dialog_fragment_width1">59dp</dimen>
+    <dimen name="dialog_fragment_width2">73dp</dimen>
+    <dimen name="dialog_fragment_height">200dp</dimen>
+
+    <dimen name="fragment_choice_dialog_width">300dp</dimen>
+    <dimen name="fragment_choice_dialog_height">200dp</dimen>
+
+    <dimen name="fragment_plain_dialog_width">300dp</dimen>
+    <dimen name="fragment_plain_dialog_height">200dp</dimen>
 </resources>

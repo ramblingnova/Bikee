@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/view_holder_card"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/card_image">
+
+    <TextView
+        android:id="@+id/view_credit_card_nickname_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:textColor="@color/bikeeBlack"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/view_credit_card_representation_card_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="27dp"
+        android:text="대표카드"
+        android:textColor="@color/bikeeBlue"
+        android:textSize="13dp"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/view_credit_card_setting_image_view"
+        android:layout_width="23dp"
+        android:layout_height="23dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="14dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginEnd="24dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/edit_icon" />
+
+    <RelativeLayout
+        android:id="@+id/view_credit_card_setting_layout"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone">
+
+        <CheckBox
+            android:id="@+id/view_credit_card_set_representation_check_box"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="18dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
+            android:button="@null"
+            android:background="@drawable/view_credit_card_set_representation_check_selector" />
+
+        <TextView
+            android:id="@+id/view_credit_card_set_representation_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="6dp"
+            android:layout_marginStart="6dp"
+            android:layout_toEndOf="@id/view_credit_card_set_representation_check_box"
+            android:layout_toRightOf="@id/view_credit_card_set_representation_check_box"
+            android:text="대표카드"
+            android:textColor="@color/bikeeBlack"
+            android:textSize="12dp" />
+
+        <ImageView
+            android:id="@+id/view_credit_card_delete_image_view"
+            android:layout_width="15dp"
+            android:layout_height="19dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="14dp"
+            android:layout_marginStart="14dp"
+            android:layout_toEndOf="@id/view_credit_card_set_representation_text_view"
+            android:layout_toRightOf="@id/view_credit_card_set_representation_text_view"
+            android:src="@drawable/delete_icon" />
+
+        <Button
+            android:id="@+id/view_credit_card_setting_complete_button"
+            android:layout_width="36dp"
+            android:layout_height="19dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/finish_button" />
+    </RelativeLayout>
+</RelativeLayout>

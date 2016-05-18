@@ -56,14 +56,14 @@
     <string name="activity_sign_up_terms_information_gathering_agreement_check_box_string">개인정보 수집 이용에 동의합니다.</string>
     <string name="activity_sign_up_sign_up_button_string">가입하기</string>
 
-    <!-- activity_card_management.xml -->
+    <!-- activity_credit_cards.xml-->
     <string name="activity_card_management_add_button_string">+</string>
 
-    <!-- view_holder_card.xmlml -->
+    <!-- view_credit_card.xml -->
     <string name="view_card_item_delete_button_string">삭제하기</string>
     <string name="view_card_item_card_number_text_view_string">카드번호</string>
 
-    <!-- activity_register_card.xml -->
+    <!-- activity_register_credit_card.xml -->
     <string name="activity_register_card_card_sort_text_view_string">카드종류</string>
     <string name="activity_register_card_card_number_text_view_string">카드번호</string>
     <string name="activity_register_card_valid_date_text_view_string">유효기간</string>

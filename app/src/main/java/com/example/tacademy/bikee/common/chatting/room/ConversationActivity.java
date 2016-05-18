@@ -379,7 +379,7 @@ public class ConversationActivity extends AppCompatActivity {
                                             );
                                         conversationAdapter.notifyDataSetChanged();
 
-                                        // TODO : 정말 필요한 것인 지 생각해볼 것
+                                        // TODO : DELME?
                                         recyclerView.scrollToPosition(messageModels.size() - 1 + completeVisiblePosition + 1);
                                     }
 

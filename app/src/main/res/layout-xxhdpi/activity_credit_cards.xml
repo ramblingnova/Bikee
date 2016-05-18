@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".renter.sidemenu.creditcard.CreditCardsActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/activity_credit_cards_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <RelativeLayout
+            android:id="@+id/activity_credit_cards_cards_layout"
+            android:layout_width="match_parent"
+            android:layout_height="275dp">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/activity_credit_cards_cards_view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#CECECE" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/activity_credit_cards_add_card_layout"
+            android:layout_width="170dp"
+            android:layout_height="119dp"
+            android:layout_below="@id/activity_credit_cards_cards_layout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="83dp"
+            android:background="@drawable/card_add">
+
+            <ImageView
+                android:id="@+id/activity_credit_cards_add_card_image_view"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="43dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/card_add_icon" />
+
+            <TextView
+                android:id="@+id/activity_credit_cards_add_card_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_credit_cards_add_card_image_view"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="결제카드 추가하기"
+                android:textColor="@color/bikeeBlack"
+                android:textSize="13dp" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/activity_credit_cards_add_card_prepayment_button"
+            style="@style/Widget.AppCompat.Button.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="사전 결제하러 가기" />
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

@@ -128,7 +128,7 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK && requestCode == FilterActivity.FILTER_ACTIVITY) {
             Log.d(TAG, "onActivityResult");
-            // TODO
+            // TODO : 필터 적용해서 마커 그릴 것
 
             List<String> f = new ArrayList<String>();
             userLatitude = data.getStringExtra("LATITUDE");

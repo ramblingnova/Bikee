@@ -25,10 +25,7 @@ import com.example.tacademy.bikee.common.content.popup.CalendarDialogFragment;
 import com.example.tacademy.bikee.common.content.popup.ChoiceDialogFragment;
 import com.example.tacademy.bikee.common.views.AdditoryComponentView;
 import com.example.tacademy.bikee.etc.MyApplication;
-import com.example.tacademy.bikee.etc.dao.Bike;
 import com.example.tacademy.bikee.etc.dao.Comment;
-import com.example.tacademy.bikee.etc.dao.Loc;
-import com.example.tacademy.bikee.etc.dao.Price;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.example.tacademy.bikee.etc.utils.ImageUtil;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
@@ -272,7 +269,6 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
         switch (view.getId()) {
             case R.id.activity_content_user_information_chatting_button:
                 // TODO : 채팅 시작
-                // TODO : chatting start
                 if (mMessagingChannelListQuery == null) {
                     mMessagingChannelListQuery = SendBird.queryMessagingChannelList();
                     mMessagingChannelListQuery.setLimit(30);
@@ -463,7 +459,7 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
 
     @Override
     public void onPageScrollStateChanged(int state) {
-        this.pageScrollState = state;
+        pageScrollState = state;
     }
 
     private void init() {
@@ -490,7 +486,7 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                                     bicycleImageViewPagerAdapter.addAllURLs(RefinementUtil.getBicycleImageURLListFromResult(result));
                                     bicyclePicturesViewPager.setAdapter(bicycleImageViewPagerAdapter);
                                     bicyclePicturesViewPager.addOnPageChangeListener(ContentActivity.this);
-                                    ImageUtil.initIndicators(
+                                    ImageUtil.initBicycleImageViewPagerIndicators(
                                             MyApplication.getmContext(),
                                             bicycleImageViewPagerAdapter.getCount(),
                                             bicyclePicturesLayout
@@ -715,7 +711,7 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
             bicycleImageViewPagerAdapter.addAllFiles(item.getFiles());
             bicyclePicturesViewPager.setAdapter(bicycleImageViewPagerAdapter);
             bicyclePicturesViewPager.addOnPageChangeListener(ContentActivity.this);
-            ImageUtil.initIndicators(
+            ImageUtil.initBicycleImageViewPagerIndicators(
                     MyApplication.getmContext(),
                     bicycleImageViewPagerAdapter.getCount(),
                     bicyclePicturesLayout
@@ -815,12 +811,7 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
             switch (reservationStatus) {
                 case "RR":
                     if (currentDate.after(reservationStartDate)) {
-                        bottomButtonsRightButton.setVisibility(View.GONE);
-                        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) bottomButtonsLeftButton.getLayoutParams();
-                        if (Build.VERSION.SDK_INT >= 17)
-                            params.setMarginEnd(0);
-                        params.setMargins(0, 0, 0, 0);
-                        bottomButtonsLeftButton.setLayoutParams(params);
+                        hideRightButton();
                     } else {
                         bottomButtonsRightButton.setVisibility(View.VISIBLE);
                         if (from == RenterReservationsFragment.from) {
@@ -836,12 +827,7 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                     break;
                 case "RS":
                     if (currentDate.after(reservationStartDate)) {
-                        bottomButtonsRightButton.setVisibility(View.GONE);
-                        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) bottomButtonsLeftButton.getLayoutParams();
-                        if (Build.VERSION.SDK_INT >= 17)
-                            params.setMarginEnd(0);
-                        params.setMargins(0, 0, 0, 0);
-                        bottomButtonsLeftButton.setLayoutParams(params);
+                        hideRightButton();
                     } else {
                         bottomButtonsRightButton.setVisibility(View.VISIBLE);
                         if (from == RenterReservationsFragment.from) {
@@ -856,16 +842,30 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                 case "PS":
                     if (currentDate.after(reservationStartDate)) {
                         if (currentDate.after(reservationEndDate)) {
-                            bottomButtonsRightButton.setVisibility(View.VISIBLE);
                             if (from == RenterReservationsFragment.from) {
+                                bottomButtonsRightButton.setVisibility(View.VISIBLE);
                                 bottomButtonsRightButton.setText("후기작성");
                                 bottomButtonsRightButton.setTag(R.id.TAG_ONLINE_ID, "후기작성");
+                            } else if (from == ListerReservationsFragment.from) {
+                                if (BuildConfig.DEBUG)
+                                    Log.d(TAG, "PS"
+                                            + "\ncurrentDate.after(reservationStartDate) == true"
+                                            + "\ncurrentDate.after(reservationEndDate) == true"
+                                            + "\nfrom == RenterReservationsFragment.from");
+                                hideRightButton();
                             }
                         } else {
-                            bottomButtonsRightButton.setVisibility(View.VISIBLE);
                             if (from == RenterReservationsFragment.from) {
+                                bottomButtonsRightButton.setVisibility(View.VISIBLE);
                                 bottomButtonsRightButton.setText("후기작성");
                                 bottomButtonsRightButton.setTag(R.id.TAG_ONLINE_ID, "후기작성");
+                            } else if (from == ListerReservationsFragment.from) {
+                                if (BuildConfig.DEBUG)
+                                    Log.d(TAG, "PS"
+                                            + "\ncurrentDate.after(reservationStartDate) == true"
+                                            + "\ncurrentDate.after(reservationEndDate) == false"
+                                            + "\nfrom == RenterReservationsFragment.from");
+                                hideRightButton();
                             }
                         }
                     } else {
@@ -881,25 +881,14 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                     break;
                 case "RC":
                 case "LC":
-                case "PC": {
-                    bottomButtonsRightButton.setVisibility(View.GONE);
-                    ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) bottomButtonsLeftButton.getLayoutParams();
-                    if (Build.VERSION.SDK_INT >= 17)
-                        params.setMarginEnd(0);
-                    params.setMargins(0, 0, 0, 0);
-                    bottomButtonsLeftButton.setLayoutParams(params);
+                case "PC":
+                    hideRightButton();
                     break;
-                }
                 default:
                     break;
             }
         } else if (from == BicyclesActivity.from) {
-            bottomButtonsRightButton.setVisibility(View.GONE);
-            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) bottomButtonsLeftButton.getLayoutParams();
-            if (Build.VERSION.SDK_INT >= 17)
-                params.setMarginEnd(0);
-            params.setMargins(0, 0, 0, 0);
-            bottomButtonsLeftButton.setLayoutParams(params);
+            hideRightButton();
         } else if ((from == SearchResultListFragment.from)
                 || (from == SearchResultMapFragment.from)) {
             bottomButtonsRightButton.setVisibility(View.VISIBLE);
@@ -910,6 +899,15 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
             bottomButtonsRightButton.setText("자전거등록");
             bottomButtonsRightButton.setTag(R.id.TAG_ONLINE_ID, "자전거등록");
         }
+    }
+
+    public void hideRightButton() {
+        bottomButtonsRightButton.setVisibility(View.GONE);
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) bottomButtonsLeftButton.getLayoutParams();
+        if (Build.VERSION.SDK_INT >= 17)
+            params.setMarginEnd(0);
+        params.setMargins(0, 0, 0, 0);
+        bottomButtonsLeftButton.setLayoutParams(params);
     }
 
     private void printLog(Result result) {

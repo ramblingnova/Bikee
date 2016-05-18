@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class RegisterBicycleLocationFragment extends Fragment implements TextWatcher, OnMapReadyCallback {
-    // TODO : handle address
+    // TODO : UI 작업 필요
     private View view;
     @Bind(R.id.fragment_register_bicycle_location_location_edit_text)
     EditText address;
@@ -96,7 +96,7 @@ public class RegisterBicycleLocationFragment extends Fragment implements TextWat
 
     }
 
-    // TODO : delete me
+    // TODO : DELME?
     @OnClick(R.id.fragment_register_bicycle_location_text_view)
     void spinner() {
         Intent intent = new Intent(getActivity(), TempActivity.class);

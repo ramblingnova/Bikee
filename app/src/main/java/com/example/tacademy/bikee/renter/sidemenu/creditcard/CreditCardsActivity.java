@@ -1,15 +1,16 @@
-package com.example.tacademy.bikee.renter.sidemenu.card;
+package com.example.tacademy.bikee.renter.sidemenu.creditcard;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
@@ -22,11 +23,13 @@ import com.example.tacademy.bikee.etc.dao.IAmPortReceiveObject;
 import com.example.tacademy.bikee.etc.dao.IAmPortSendObject;
 import com.example.tacademy.bikee.etc.manager.IAmPortNetworkManager;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
-import com.example.tacademy.bikee.renter.sidemenu.card.register.RegisterCardActivity;
+import com.example.tacademy.bikee.etc.utils.ImageUtil;
+import com.example.tacademy.bikee.renter.sidemenu.creditcard.register.RegisterCreditCardActivity;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
 import java.util.Date;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Call;
@@ -36,18 +39,23 @@ import retrofit2.Response;
 /**
  * Created by Tacademy on 2015-11-03.
  */
-public class CardsActivity extends AppCompatActivity implements OnAdapterClickListener {
-    private Intent intent;
-    private RecyclerView recyclerView;
-    private CardAdapter cardAdapter;
+public class CreditCardsActivity extends AppCompatActivity implements OnAdapterClickListener, ViewPager.OnPageChangeListener {
+    @Bind(R.id.activity_credit_cards_cards_layout)
+    RelativeLayout cardsLayout;
 
-    private static final String TAG = "MAIN_ACTIVITY";
+    private Intent intent;
+    private ViewPager viewPager;
+    private CreditCardViewPagerAdapter viewPagerAdapter;
+    private int pageScrollState;
+    private int pagePosition;
+
+    private static final String TAG = "CARDS_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_card_management);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_card_management_toolbar);
+        setContentView(R.layout.activity_credit_cards);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_credit_cards_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
@@ -55,23 +63,40 @@ public class CardsActivity extends AppCompatActivity implements OnAdapterClickLi
         getSupportActionBar().setCustomView(R.layout.renter_backable_tool_bar);
         ButterKnife.bind(this);
 
-        recyclerView = (RecyclerView) findViewById(R.id.activity_card_management_recycler_view);
+        viewPager = (ViewPager) findViewById(R.id.activity_credit_cards_cards_view_pager);
+        viewPager.setClipToPadding(false);
+        viewPager.setPadding(
+                getResources().getDimensionPixelSize(
+                        R.dimen.activity_card_management_view_pager_left_padding
+                ),
+                getResources().getDimensionPixelSize(
+                        R.dimen.activity_card_management_view_pager_top_padding
+                ),
+                getResources().getDimensionPixelSize(
+                        R.dimen.activity_card_management_view_pager_left_padding
+                ),
+                getResources().getDimensionPixelSize(
+                        R.dimen.activity_card_management_view_pager_bottom_padding
+                )
+        );
+        viewPager.setPageMargin(
+                getResources().getDimensionPixelSize(
+                        R.dimen.activity_card_management_page_margin
+                )
+        );
+        viewPager.addOnPageChangeListener(CreditCardsActivity.this);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
+        viewPagerAdapter = new CreditCardViewPagerAdapter(this);
 
-        recyclerView.setLayoutManager(gridLayoutManager);
+        viewPager.setAdapter(viewPagerAdapter);
 
-        cardAdapter = new CardAdapter();
-        cardAdapter.setOnAdapterClickListener(this);
-
-        recyclerView.setAdapter(cardAdapter);
+        pagePosition = 0;
 
         init();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK) {
             CardSendObject cardSendObject = new CardSendObject();
@@ -87,13 +112,15 @@ public class CardsActivity extends AppCompatActivity implements OnAdapterClickLi
                         @Override
                         public void onResponse(Call<CardReceiveObject> call, Response<CardReceiveObject> response) {
                             CardReceiveObject cardReceiveObject = response.body();
-                            Log.d(TAG, cardReceiveObject.getMsg());
                             if (cardReceiveObject.getCode() == 200) {
-                                cardAdapter.clear();
+                                if (BuildConfig.DEBUG)
+                                    Log.d(TAG, "registerCard onResponse getCode : " + cardReceiveObject.getCode()
+                                            + "\ngetMsg : " + cardReceiveObject.getMsg());
+                                viewPagerAdapter.clear();
                                 init();
                             } else {
-                                if (BuildConfig.DEBUG)
-                                    Log.d(TAG, cardReceiveObject.getMsg());
+                                Log.d(TAG, "registerCard onResponse getCode : " + cardReceiveObject.getCode()
+                                        + "\ngetMsg : " + cardReceiveObject.getMsg());
                             }
                         }
 
@@ -112,15 +139,16 @@ public class CardsActivity extends AppCompatActivity implements OnAdapterClickLi
         super.onBackPressed();
     }
 
-    @OnClick({R.id.activity_card_management_add_button,
-            R.id.activity_card_management_prepayment_button})
+    @OnClick({R.id.activity_credit_cards_add_card_layout,
+            R.id.activity_credit_cards_add_card_prepayment_button})
     void onClick(View view) {
         switch (view.getId()) {
-            case R.id.activity_card_management_add_button:
-                intent = new Intent(this, RegisterCardActivity.class);
+            case R.id.activity_credit_cards_add_card_layout:
+                intent = new Intent(this, RegisterCreditCardActivity.class);
                 startActivityForResult(intent, 1);
                 break;
-            case R.id.activity_card_management_prepayment_button:
+            case R.id.activity_credit_cards_add_card_prepayment_button:
+                // TODO : DELME 사전결제는 여기에 있으면 안됨
                 NetworkManager.getInstance().receiveCardToken(
                         null,
                         new Callback<CardTokenReceiveObject>() {
@@ -206,7 +234,36 @@ public class CardsActivity extends AppCompatActivity implements OnAdapterClickLi
     @Override
     public void onAdapterClick(View view, Object item) {
         if (BuildConfig.DEBUG)
-            Log.d(TAG, ((CardItem) item).getCardName() + "/" + ((CardItem) item).getNickname());
+            Log.d(TAG, ((CreditCardItem) item).getCardName() + "/" + ((CreditCardItem) item).getNickname());
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        if ((pageScrollState != ViewPager.SCROLL_STATE_DRAGGING) && (pagePosition != position)) {
+            if (BuildConfig.DEBUG)
+                Log.d(TAG, "pageScrollState : " + pageScrollState
+                                + "\nold pagePosition : " + pagePosition
+                                + "\nnew pagePosition : " + position
+                );
+
+            ImageView imageVIew = (ImageView) cardsLayout.findViewById(R.id.indicator + pagePosition);
+            imageVIew.setImageResource(R.drawable.scroll_black);
+
+            pagePosition = position;
+
+            imageVIew = (ImageView) cardsLayout.findViewById(R.id.indicator + position);
+            imageVIew.setImageResource(R.drawable.scroll_blue);
+        }
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+        pageScrollState = state;
     }
 
     private void init() {
@@ -223,16 +280,20 @@ public class CardsActivity extends AppCompatActivity implements OnAdapterClickLi
                         for (CardResult result : cardReceiveObject.getResult()) {
                             if (BuildConfig.DEBUG)
                                 Log.d(TAG, "_id : " + result.get_id());
-                            cardAdapter.add(
-                                    new CardItem(
-                                            R.mipmap.ic_launcher,
+
+                            viewPagerAdapter.add(
+                                    new CreditCardItem(
                                             result.get_id(),
                                             result.getCard_name(),
                                             result.getCard_nick()
                                     )
                             );
                         }
-
+                        ImageUtil.initCardViewPagerIndicators(
+                                CreditCardsActivity.this,
+                                viewPagerAdapter.getCount(),
+                                cardsLayout
+                        );
                     }
 
                     @Override

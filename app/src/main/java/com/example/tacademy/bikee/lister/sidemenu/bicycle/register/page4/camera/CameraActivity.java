@@ -250,7 +250,7 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
                 break;
             case R.id.activity_camera_back_save_button:
                 if (state == BACK_STATE) {
-                    // TODO : show popup
+                    // TODO : 팝업?
                     setResult(RESULT_OK, intent);
                     finish();
                 } else {
@@ -500,7 +500,7 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
 
     @Override
     public void onBackPressed() {
-        // TODO : show popup
+        // TODO : 팝업?
         setResult(RESULT_OK, intent);
         finish();
     }
