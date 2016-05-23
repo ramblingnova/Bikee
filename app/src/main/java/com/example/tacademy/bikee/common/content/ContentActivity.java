@@ -23,6 +23,7 @@ import com.example.tacademy.bikee.common.adapters.BicycleImageViewPagerAdapter;
 import com.example.tacademy.bikee.common.chatting.room.ConversationActivity;
 import com.example.tacademy.bikee.common.content.popup.CalendarDialogFragment;
 import com.example.tacademy.bikee.common.content.popup.ChoiceDialogFragment;
+import com.example.tacademy.bikee.common.sidemenu.comment.CommentsActivity;
 import com.example.tacademy.bikee.common.views.AdditoryComponentView;
 import com.example.tacademy.bikee.etc.MyApplication;
 import com.example.tacademy.bikee.etc.dao.Comment;
@@ -40,7 +41,6 @@ import com.example.tacademy.bikee.lister.sidemenu.bicycle.register.RegisterBicyc
 import com.example.tacademy.bikee.renter.reservation.RenterReservationsFragment;
 import com.example.tacademy.bikee.common.content.popup.CardSelectionActivity;
 import com.example.tacademy.bikee.common.content.popup.InputBicyclePostScriptActivity;
-import com.example.tacademy.bikee.common.content.postscription.BicyclePostScriptListActivity;
 import com.example.tacademy.bikee.renter.searchresult.list.SearchResultListFragment;
 import com.example.tacademy.bikee.renter.searchresult.map.SearchResultMapFragment;
 import com.google.android.gms.maps.CameraUpdate;
@@ -140,6 +140,7 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
     private Intent intent;
     private int from;
     private String bicycleId;
+    private String bicycleImage;
     private double bicycleLatitude;
     private double bicycleLongitude;
     private String userId;
@@ -161,7 +162,7 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
     private boolean hasMyIdTargetId;
     private String messageChannelURL;
 
-    private static final String TAG = "CONTENT_ACTIVITY";
+    public static final String TAG = "CONTENT_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,33 +181,75 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
         if ((from == RenterReservationsFragment.from)
                 || (from == SearchResultListFragment.from)
                 || (from == SearchResultMapFragment.from)) {
-            cView = getLayoutInflater().inflate(R.layout.renter_backable_tool_bar, null);
-            cView.findViewById(R.id.renter_backable_tool_bar_back_button_layout).setOnClickListener(new View.OnClickListener() {
+            cView = getLayoutInflater().inflate(R.layout.toolbar, null);
+            cView.findViewById(R.id.toolbar_left_icon_layout).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onBackPressed();
                 }
             });
+
+            /* 툴바 배경 */
+            if (Build.VERSION.SDK_INT < 23)
+                (cView.findViewById(R.id.toolbar_layout))
+                        .setBackgroundColor(getResources().getColor(R.color.bikeeBlue));
+            else
+                (cView.findViewById(R.id.toolbar_layout))
+                        .setBackgroundColor(getResources().getColor(R.color.bikeeBlue, getTheme()));
+
+            /* 툴바 왼쪽 */
+            (cView.findViewById(R.id.toolbar_left_icon_back_image_view))
+                    .setVisibility(View.VISIBLE);
+
+            /* 툴바 가운데 */
+            (cView.findViewById(R.id.toolbar_center_icon_image_view))
+                    .setVisibility(View.VISIBLE);
+
+            /* 툴바 오른쪽 */
+            ((ImageView) cView.findViewById(R.id.toolbar_right_icon_image_view))
+                    .setImageResource(R.drawable.rider_main_icon);
         } else if ((from == ListerReservationsFragment.from)
-                || (from == BicyclesActivity.from)) {
-            cView = getLayoutInflater().inflate(R.layout.lister_backable_tool_bar, null);
-            cView.findViewById(R.id.lister_backable_tool_bar_back_button_layout).setOnClickListener(new View.OnClickListener() {
+                || (from == BicyclesActivity.from)
+                || (from == RegisterBicycleActivity.from)) {
+            cView = getLayoutInflater().inflate(R.layout.toolbar, null);
+            cView.findViewById(R.id.toolbar_left_icon_layout).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onBackPressed();
                 }
             });
-        } else if (from == RegisterBicycleActivity.from) {
-            cView = getLayoutInflater().inflate(R.layout.lister_backable_page_movable_tool_bar, null);
-            cView.findViewById(R.id.lister_backable_page_movable_tool_bar_back_button_layout).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    intent = new Intent();
-                    intent.putExtra("close", false);
-                    finish();
-                }
-            });
+
+            /* 툴바 배경 */
+            if (Build.VERSION.SDK_INT < 23)
+                (cView.findViewById(R.id.toolbar_layout))
+                        .setBackgroundColor(getResources().getColor(R.color.bikeeBlue));
+            else
+                (cView.findViewById(R.id.toolbar_layout))
+                        .setBackgroundColor(getResources().getColor(R.color.bikeeBlue, getTheme()));
+
+            /* 툴바 왼쪽 */
+            (cView.findViewById(R.id.toolbar_left_icon_back_image_view))
+                    .setVisibility(View.VISIBLE);
+
+            /* 툴바 가운데 */
+            (cView.findViewById(R.id.toolbar_center_icon_image_view))
+                    .setVisibility(View.VISIBLE);
+
+            /* 툴바 오른쪽 */
+            ((ImageView) cView.findViewById(R.id.toolbar_right_icon_image_view))
+                    .setImageResource(R.drawable.lister_main_icon);
         }
+//        else if (from == RegisterBicycleActivity.from) {
+//            cView = getLayoutInflater().inflate(R.layout.lister_backable_page_number_toolbar, null);
+//            cView.findViewById(R.id.lister_backable_page_number_toolbar_back_button_layout).setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    intent = new Intent();
+//                    intent.putExtra("close", false);
+//                    finish();
+//                }
+//            });
+//        }
         getSupportActionBar().setCustomView(cView);
 
         ButterKnife.bind(this);
@@ -331,7 +374,8 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                 startActivity(intent);
                 break;
             case R.id.activity_content_bicycle_comment_button:
-                intent = new Intent(ContentActivity.this, BicyclePostScriptListActivity.class);
+                intent = new Intent(ContentActivity.this, CommentsActivity.class);
+                intent.putExtra("FROM", TAG);
                 intent.putExtra("BICYCLE_ID", bicycleId);
                 startActivity(intent);
                 break;
@@ -402,9 +446,15 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                     case "결제하기":
                         intent = new Intent(this, CardSelectionActivity.class);
                         intent.putExtra("BICYCLE_ID", bicycleId);
-                        intent.putExtra("LISTER_ID", userId);
-                        intent.putExtra("RESERVATION_ID", reservationId);
+                        intent.putExtra("BICYCLE_IMAGE", bicycleImage);
                         intent.putExtra("BICYCLE_NAME", bicycleTitleTextView.getText().toString());
+                        intent.putExtra("LISTER_ID", userId);
+                        intent.putExtra("LISTER_NAME", userName);
+                        intent.putExtra("RESERVATION_ID", reservationId);
+                        intent.putExtra("RENTAL_START_DATE", reservationEndDate);
+                        intent.putExtra("RENTAL_END_DATE", reservationStartDate);
+                        intent.putExtra("RENTAL_PERIOD", bicycleRentalPeriodTotalTimeTextView.getText().toString());
+                        intent.putExtra("RENTAL_PRICE", rentalPrice);
                         startActivity(intent);
                         break;
                     case "후기작성":
@@ -482,7 +532,9 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
 
 //                                printLog(result);
 
-                                /* 자전거 이미지 */
+                                    /* 자전거 이미지 */
+                                    // TODO : exception
+//                                    bicycleImage = RefinementUtil.getBicycleImageURLListFromResult(result).get(0);
                                     bicycleImageViewPagerAdapter.addAllURLs(RefinementUtil.getBicycleImageURLListFromResult(result));
                                     bicyclePicturesViewPager.setAdapter(bicycleImageViewPagerAdapter);
                                     bicyclePicturesViewPager.addOnPageChangeListener(ContentActivity.this);
@@ -492,13 +544,13 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                                             bicyclePicturesLayout
                                     );
 
-                                /* 유저 아이디 */
+                                    /* 유저 아이디 */
                                     if ((from == RenterReservationsFragment.from)
                                             || (from == SearchResultListFragment.from)
                                             || (from == SearchResultMapFragment.from))
                                         userId = result.getUser().get_id();
 
-                                /* 유저 이미지 */
+                                    /* 유저 이미지 */
                                     if ((from == RenterReservationsFragment.from)
                                             || (from == SearchResultListFragment.from)
                                             || (from == SearchResultMapFragment.from)
@@ -507,7 +559,6 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                                                 MyApplication.getmContext(),
                                                 RefinementUtil.getUserImageURLStringFromResult(result),
                                                 R.drawable.noneimage,
-                                                0,
                                                 userPictureImageView
                                         );
                                     else if (from == ListerReservationsFragment.from)
@@ -515,11 +566,10 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                                                 MyApplication.getmContext(),
                                                 userImageURL,
                                                 R.drawable.noneimage,
-                                                0,
                                                 userPictureImageView
                                         );
 
-                                /* 유저 이름 */
+                                    /* 유저 이름 */
                                     if ((from == RenterReservationsFragment.from)
                                             || (from == SearchResultListFragment.from)
                                             || (from == SearchResultMapFragment.from)
@@ -529,7 +579,7 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                                     } else if (from == ListerReservationsFragment.from)
                                         userNameTextView.setText(userName);
 
-                                /* 유저 폰 */
+                                    /* 유저 폰 */
                                     if ((from == RenterReservationsFragment.from)
                                             || (from == SearchResultListFragment.from)
                                             || (from == SearchResultMapFragment.from))
@@ -537,31 +587,31 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                                     else if (from == BicyclesActivity.from)
                                         callButton.setVisibility(View.GONE);
 
-                                /* 유저 채팅 */
+                                    /* 유저 채팅 */
                                     if (from == BicyclesActivity.from)
                                         chattingButton.setVisibility(View.GONE);
 
-                                /* 자전거 제목 */
+                                    /* 자전거 제목 */
                                     bicycleTitleTextView.setText(result.getTitle());
 
-                                /* 자전거 설명 */
+                                    /* 자전거 설명 */
                                     bicycleIntroductionTextView.setText(result.getIntro());
 
-                                /* 자전거 타입 */
+                                    /* 자전거 타입 */
                                     bicycleTypeTextView.setText(
                                             RefinementUtil.getBicycleTypeStringFromBicycleType(
                                                     result.getType()
                                             )
                                     );
 
-                                /* 자전거 권장 신장 */
+                                    /* 자전거 권장 신장 */
                                     bicycleHeightTextView.setText(
                                             RefinementUtil.getBicycleHeightStringFromBicycleHeight(
                                                     result.getHeight()
                                             )
                                     );
 
-                                /* 자전거 추가 구성품 */
+                                    /* 자전거 추가 구성품 */
                                     if (result.getComponents().size() == 0) {
                                         bicycleComponentsLayout.setVisibility(View.GONE);
                                     } else {
@@ -575,7 +625,7 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                                         }
                                     }
 
-                                /* 자전거 위치 */
+                                    /* 자전거 위치 */
                                     bicycleLocationTextView.setText(
                                             RefinementUtil.findAddress(
                                                     MyApplication.getmContext(),
@@ -586,12 +636,12 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
 
                                     if ((from == ListerReservationsFragment.from)
                                             || (from == RenterReservationsFragment.from)) {
-                                /* 대여 날짜 */
+                                        /* 대여 날짜 */
                                         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd aahh:mm", java.util.Locale.getDefault());
                                         bicycleRentalPeriodStartDateTextView.setText(dateFormat.format(reservationStartDate));
                                         bicycleRentalPeriodEndDateTextView.setText(dateFormat.format(reservationEndDate));
 
-                                /* 총 시간 */
+                                        /* 총 시간 */
                                         bicycleRentalPeriodTotalTimeTextView.setText(
                                                 RefinementUtil.calculateRentPeriod(
                                                         reservationStartDate,
@@ -599,7 +649,7 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                                                 )
                                         );
 
-                                /* 자전거 가격 */
+                                        /* 자전거 가격 */
                                         rentalPrice = RefinementUtil.calculatePrice(
                                                 reservationStartDate,
                                                 reservationEndDate,
@@ -623,7 +673,7 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                                         pricePerMonthTextView.setText(result.getPrice().getMonth() + "원");
                                     }
 
-                                /* 자전거 후기 */
+                                    /* 자전거 후기 */
                                     NetworkManager.getInstance().selectBicycleComment(
                                             bicycleId,
                                             null,
@@ -647,7 +697,6 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                                                                             ContentActivity.this,
                                                                             RefinementUtil.getUserImageURLStringFromComment(comment),
                                                                             R.drawable.noneimage,
-                                                                            6,
                                                                             bicycleCommentRenterPictureImageView
                                                                     );
                                                                 }
@@ -724,7 +773,6 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                     MyApplication.getmContext(),
                     PropertyManager.getInstance().getImage(),
                     R.drawable.noneimage,
-                    0,
                     userPictureImageView
             );
 

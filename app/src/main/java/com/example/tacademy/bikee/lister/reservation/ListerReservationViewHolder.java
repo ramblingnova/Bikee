@@ -23,22 +23,22 @@ import butterknife.OnClick;
  * Created by Tacademy on 2015-11-03.
  */
 public class ListerReservationViewHolder extends RecyclerView.ViewHolder {
-    @Bind(R.id.view_lister_requested_bicycle_item_step_image_view)
-    ImageView requestReservationImage;
-    @Bind(R.id.view_lister_requested_bicycle_item_image_view)
-    ImageView renterImage;
-    @Bind(R.id.view_lister_requested_bicycle_item_renter_name_text_view)
-    TextView renterName;
-    @Bind(R.id.view_lister_requested_bicycle_item_bicycle_name_text_view)
-    TextView bicycleName;
-    @Bind(R.id.view_lister_requested_bicycle_item_start_date_text_view)
-    TextView startDate;
-    @Bind(R.id.view_lister_requested_bicycle_item_end_date_text_view)
-    TextView endDate;
-    @Bind(R.id.view_lister_requested_bicycle_item_time_text_view)
-    TextView totalTIme;
-    @Bind(R.id.view_lister_requested_bicycle_item_price_text_view)
-    TextView price;
+    @Bind(R.id.view_holder_lister_reservation_step_image_view)
+    ImageView stepImageView;
+    @Bind(R.id.view_holder_lister_reservation_renter_picture_image_view)
+    ImageView renterPictureImageView;
+    @Bind(R.id.view_holder_lister_reservation_renter_name_text_view)
+    TextView renterNameTextView;
+    @Bind(R.id.view_holder_lister_reservation_bicycle_title_text_view)
+    TextView bicycleTitleTextView;
+    @Bind(R.id.view_holder_lister_reservation_start_date_text_view)
+    TextView startDateTextView;
+    @Bind(R.id.view_holder_lister_reservation_end_date_text_view)
+    TextView endDateTextView;
+    @Bind(R.id.view_holder_lister_reservation_total_period_text_view)
+    TextView totalPeriodTextView;
+    @Bind(R.id.view_holder_lister_reservation_price_text_view)
+    TextView priceTextView;
 
     private OnViewHolderClickListener onViewHolderClickListener;
 
@@ -58,97 +58,96 @@ public class ListerReservationViewHolder extends RecyclerView.ViewHolder {
                 MyApplication.getmContext(),
                 item.getRenterImageURL(),
                 R.drawable.noneimage,
-                0,
-                renterImage
+                renterPictureImageView
         );
 
         Date currentDate = new Date();
         switch (item.getReservationStatus()) {
             case "RR":
                 if (currentDate.after(item.getReservationStartDate())) {
-                    requestReservationImage.setImageResource(R.drawable.lister_reservation_step4_1);
+                    stepImageView.setImageResource(R.drawable.lister_reservation_step4_1);
                     if (Build.VERSION.SDK_INT < 23) {
-                        price.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeLightGray));
+                        priceTextView.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeLightGray));
                     } else {
-                        price.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeLightGray, null));
+                        priceTextView.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeLightGray, null));
                     }
                 } else {
-                    requestReservationImage.setImageResource(R.drawable.lister_reservation_step1);
+                    stepImageView.setImageResource(R.drawable.lister_reservation_step1);
                     if (Build.VERSION.SDK_INT < 23) {
-                        price.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeYellow));
+                        priceTextView.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeYellow));
                     } else {
-                        price.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeYellow, null));
+                        priceTextView.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeYellow, null));
                     }
                 }
                 break;
             case "RS":
                 if (currentDate.after(item.getReservationStartDate())) {
-                    requestReservationImage.setImageResource(R.drawable.lister_reservation_step4_1);
+                    stepImageView.setImageResource(R.drawable.lister_reservation_step4_1);
                     if (Build.VERSION.SDK_INT < 23) {
-                        price.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeLightGray));
+                        priceTextView.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeLightGray));
                     } else {
-                        price.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeLightGray, null));
+                        priceTextView.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeLightGray, null));
                     }
                 } else {
-                    requestReservationImage.setImageResource(R.drawable.lister_reservation_step2);
+                    stepImageView.setImageResource(R.drawable.lister_reservation_step2);
                     if (Build.VERSION.SDK_INT < 23) {
-                        price.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeRed));
+                        priceTextView.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeRed));
                     } else {
-                        price.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeRed, null));
+                        priceTextView.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeRed, null));
                     }
                 }
                 break;
             case "PS":
                 if (currentDate.after(item.getReservationStartDate())) {
                     if (currentDate.after(item.getReservationEndDate())) {
-                        requestReservationImage.setImageResource(R.drawable.lister_reservation_step4_2);
+                        stepImageView.setImageResource(R.drawable.lister_reservation_step4_2);
                         if (Build.VERSION.SDK_INT < 23) {
-                            price.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeLightGray));
+                            priceTextView.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeLightGray));
                         } else {
-                            price.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeLightGray, null));
+                            priceTextView.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeLightGray, null));
                         }
                     } else {
-                        requestReservationImage.setImageResource(R.drawable.lister_reservation_step3);
+                        stepImageView.setImageResource(R.drawable.lister_reservation_step3);
                         if (Build.VERSION.SDK_INT < 23) {
-                            price.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeBlue));
+                            priceTextView.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeBlue));
                         } else {
-                            price.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeBlue, null));
+                            priceTextView.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeBlue, null));
                         }
                     }
                 } else {
-                    requestReservationImage.setImageResource(R.drawable.lister_reservation_step2_2);
+                    stepImageView.setImageResource(R.drawable.lister_reservation_step2_2);
                     if (Build.VERSION.SDK_INT < 23) {
-                        price.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeRed));
+                        priceTextView.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeRed));
                     } else {
-                        price.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeRed, null));
+                        priceTextView.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeRed, null));
                     }
                 }
                 break;
             case "RC":
             case "PC":
-                requestReservationImage.setImageResource(R.drawable.lister_reservation_step4_1);
+                stepImageView.setImageResource(R.drawable.lister_reservation_step4_1);
                 if (Build.VERSION.SDK_INT < 23) {
-                    price.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeLightGray));
+                    priceTextView.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeLightGray));
                 } else {
-                    price.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeLightGray, null));
+                    priceTextView.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeLightGray, null));
                 }
                 break;
             default:
                 break;
         }
 
-        renterName.setText(item.getRenterName());
-        bicycleName.setText(item.getBicycleTitle());
+        renterNameTextView.setText(item.getRenterName());
+        bicycleTitleTextView.setText(item.getBicycleTitle());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM.dd. HH:mm", java.util.Locale.getDefault());
-        startDate.setText(simpleDateFormat.format(item.getReservationStartDate()));
-        endDate.setText(simpleDateFormat.format(item.getReservationEndDate()));
-        totalTIme.setText(
+        startDateTextView.setText(simpleDateFormat.format(item.getReservationStartDate()));
+        endDateTextView.setText(simpleDateFormat.format(item.getReservationEndDate()));
+        totalPeriodTextView.setText(
                 RefinementUtil.calculateRentPeriod(
                         item.getReservationStartDate(),
                         item.getReservationEndDate()
                 )
         );
-        price.setText(
+        priceTextView.setText(
                 RefinementUtil.calculatePrice(
                         item.getReservationStartDate(),
                         item.getReservationEndDate(),

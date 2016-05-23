@@ -18,13 +18,14 @@
     <application
         android:name=".etc.MyApplication"
         android:allowBackup="true"
+        android:allowClearUserData="true"
         android:icon="@drawable/icon_a"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAgzFLJmOeRZX_RkomOPgs8ceG-bYy3lmg" />
+            android:value="AIzaSyB0yKm74PURyRr2FFlgMgmKRFNQcxumOGc" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -97,10 +98,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".common.content.postscription.BicyclePostScriptListActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".common.content.popup.InputBicyclePostScriptActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -145,7 +142,6 @@
         <activity
             android:name=".common.SmallMapActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".common.content.popup.RequestPaymentActivity" />
         <activity android:name=".lister.sidemenu.bicycle.register.page2.TempActivity" />
         <activity
             android:name=".lister.sidemenu.bicycle.register.page4.camera.CameraActivity"
@@ -159,8 +155,13 @@
             android:name=".common.chatting.room.ConversationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".common.content.popup.CardSelectionActivity" />
-        <activity android:name=".common.content.popup.FinallyPayment"></activity>
+        <activity
+            android:name=".common.content.popup.CardSelectionActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".common.content.popup.FinallyPaymentActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
-
 </manifest>

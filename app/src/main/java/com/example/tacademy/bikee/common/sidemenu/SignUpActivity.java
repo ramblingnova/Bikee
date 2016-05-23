@@ -20,7 +20,6 @@ import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.dao.Facebook;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
-import com.example.tacademy.bikee.etc.dao.Result;
 import com.example.tacademy.bikee.etc.dao.User;
 import com.example.tacademy.bikee.etc.manager.FacebookNetworkManager;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
@@ -44,6 +43,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SignUpActivity extends AppCompatActivity {
+    @Bind(R.id.toolbar_layout)
+    RelativeLayout toolbarLayout;
+    @Bind(R.id.toolbar_left_icon_back_image_view)
+    ImageView toolbarLeftIconBackImageView;
+    @Bind(R.id.toolbar_center_icon_image_view)
+    ImageView toolbarCenterIconImageView;
+    @Bind(R.id.toolbar_right_icon_image_view)
+    ImageView toolbarRightIconImageView;
     @Bind(R.id.activity_sign_up_input_name_edit_text)
     EditText nameEditText;
     @Bind(R.id.activity_sign_up_input_mail_address_edit_text)
@@ -92,38 +99,37 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.activity_sign_up_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setCustomView(R.layout.toolbar);
+
         ButterKnife.bind(this);
 
         intent = getIntent();
         from = intent.getStringExtra("FROM");
         requestCode = intent.getIntExtra("REQUEST_CODE", SIGN_UP_ABNORMAL);
 
-        View cView = null;
-        if (from.equals(RenterMainActivity.TAG)) {
-            cView = getLayoutInflater().inflate(R.layout.renter_backable_tool_bar, null);
-            cView.findViewById(R.id.renter_backable_tool_bar_back_button_layout).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    setResult(RESULT_CANCELED, intent);
-                    finish();
-                }
-            });
-        } else if (from.equals(ListerMainActivity.TAG)) {
-            cView = getLayoutInflater().inflate(R.layout.lister_backable_tool_bar, null);
-            cView.findViewById(R.id.lister_backable_tool_bar_back_button_layout).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    setResult(RESULT_CANCELED, intent);
-                    finish();
-                }
-            });
-        }
-        getSupportActionBar().setCustomView(cView);
+        /* 툴바 배경 */
+        if (Build.VERSION.SDK_INT < 23)
+            toolbarLayout.setBackgroundColor(getResources().getColor(R.color.bikeeBlue));
+        else
+            toolbarLayout.setBackgroundColor(getResources().getColor(R.color.bikeeBlue, getTheme()));
+
+        /* 툴바 왼쪽 */
+        toolbarLeftIconBackImageView.setVisibility(View.VISIBLE);
+
+        /* 툴바 가운데 */
+        toolbarCenterIconImageView.setVisibility(View.VISIBLE);
+
+        /* 툴바 오른쪽 */
+        if (from.equals(RenterMainActivity.TAG))
+            toolbarRightIconImageView.setImageResource(R.drawable.rider_main_icon);
+        else if (from.equals(ListerMainActivity.TAG))
+            toolbarRightIconImageView.setImageResource(R.drawable.lister_main_icon);
 
         emailEditText.addTextChangedListener(tw);
         phoneEditText.addTextChangedListener(tw);
@@ -137,6 +143,12 @@ public class SignUpActivity extends AppCompatActivity {
             passwordEditText.addTextChangedListener(tw);
             passwordConfirmEditText.addTextChangedListener(tw);
         }
+    }
+
+    @OnClick(R.id.toolbar_left_icon_layout)
+    void back(View view) {
+        setResult(RESULT_CANCELED, intent);
+        finish();
     }
 
     private TextWatcher tw = new TextWatcher() {

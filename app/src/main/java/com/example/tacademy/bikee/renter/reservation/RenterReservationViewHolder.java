@@ -62,7 +62,11 @@ public class RenterReservationViewHolder extends RecyclerView.ViewHolder {
                 item.getBicycleImageURL(),
                 R.drawable.detailpage_bike_image_noneimage,
                 bicyclePicture,
-                6
+                MyApplication.getmContext()
+                        .getResources()
+                        .getDimension(
+                                R.dimen.view_renter_reservation_bicycle_item_bicycle_picture_image_view_round_radius
+                        )
         );
 
         Date currentDate = new Date();

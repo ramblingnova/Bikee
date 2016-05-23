@@ -31,6 +31,7 @@
     <dimen name="card_view_pager_indicator_height">8dp</dimen>
     <dimen name="card_view_pager_indicator_left_margin">10dp</dimen>
     <dimen name="card_view_pager_indicator_bottom_margin">31dp</dimen>
+
     <dimen name="activity_card_management_page_margin">33dp</dimen>
     <dimen name="activity_card_management_view_pager_left_padding">49dp</dimen>
     <dimen name="activity_card_management_view_pager_top_padding">33dp</dimen>
@@ -41,7 +42,7 @@
     <dimen name="view_holder_conversation_item_bottom_space">10dp</dimen>
     <dimen name="view_holder_conversation_first_item_top_space">12dp</dimen>
 
-    <dimen name="activity_conversation_bicycle_image_image_view_radius">4dp</dimen>
+    <dimen name="activity_conversation_bicycle_image_image_view_round_radius">4dp</dimen>
 
     <dimen name="dialog_fragment_width1">59dp</dimen>
     <dimen name="dialog_fragment_width2">73dp</dimen>
@@ -52,4 +53,19 @@
 
     <dimen name="fragment_plain_dialog_width">300dp</dimen>
     <dimen name="fragment_plain_dialog_height">200dp</dimen>
+
+    <dimen name="view_holder_comment_picture_image_view_width">74dp</dimen>
+    <dimen name="view_holder_comment_picture_image_view_height">51dp</dimen>
+    <dimen name="view_holder_comment_picture_image_view_round_radius">7dp</dimen>
+    <dimen name="view_holder_comment_bicycle_title_text_view_left_margin">15dp</dimen>
+
+    <dimen name="view_bicycle_info_window_bicycle_picture_image_view_round_radius">12dp</dimen>
+
+    <dimen name="view_owning_bicycle_item_bicycle_picture_image_view_round_radius">6dp</dimen>
+
+    <dimen name="activity_finally_payment_bicycle_information_bicycle_picture_image_view_round_radius">5dp</dimen>
+
+    <dimen name="view_renter_reservation_bicycle_item_bicycle_picture_image_view_round_radius">6dp</dimen>
+
+    <dimen name="view_search_result_item_bicycle_picture_image_view_round_radius">6dp</dimen>
 </resources>

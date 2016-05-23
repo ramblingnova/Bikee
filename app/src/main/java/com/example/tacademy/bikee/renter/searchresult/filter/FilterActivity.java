@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -106,12 +107,14 @@ public class FilterActivity extends AppCompatActivity implements TimePickerDialo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.activity_filter_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setCustomView(R.layout.filter_backable_tool_bar);
+        getSupportActionBar().setCustomView(R.layout.filter_backable_toolbar);
+
         ButterKnife.bind(this);
 
         intent = getIntent();
@@ -128,12 +131,12 @@ public class FilterActivity extends AppCompatActivity implements TimePickerDialo
         }
     }
 
-    @OnClick(R.id.filter_backable_tool_bar_back_button_layout)
+    @OnClick(R.id.filter_backable_toolbar_back_button_layout)
     void back(View view) {
         finish();
     }
 
-    @OnClick(R.id.filter_backable_tool_bar_reset_text_view)
+    @OnClick(R.id.filter_backable_toolbar_reset_text_view)
     void reset(View view) {
         // TODO : 재설정 적용
         Toast.makeText(FilterActivity.this, "RESET!", Toast.LENGTH_SHORT).show();

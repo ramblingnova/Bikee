@@ -2,6 +2,7 @@ package com.example.tacademy.bikee.renter.sidemenu.creditcard;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
@@ -40,11 +42,20 @@ import retrofit2.Response;
  * Created by Tacademy on 2015-11-03.
  */
 public class CreditCardsActivity extends AppCompatActivity implements OnAdapterClickListener, ViewPager.OnPageChangeListener {
+    @Bind(R.id.toolbar_layout)
+    RelativeLayout toolbarLayout;
+    @Bind(R.id.toolbar_left_icon_back_image_view)
+    ImageView toolbarLeftIconBackImageView;
+    @Bind(R.id.toolbar_center_text_view)
+    TextView toolbarCenterTextView;
+    @Bind(R.id.toolbar_right_icon_image_view)
+    ImageView toolbarRightIconImageView;
     @Bind(R.id.activity_credit_cards_cards_layout)
     RelativeLayout cardsLayout;
+    @Bind(R.id.activity_credit_cards_cards_view_pager)
+    ViewPager viewPager;
 
     private Intent intent;
-    private ViewPager viewPager;
     private CreditCardViewPagerAdapter viewPagerAdapter;
     private int pageScrollState;
     private int pagePosition;
@@ -55,15 +66,36 @@ public class CreditCardsActivity extends AppCompatActivity implements OnAdapterC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_credit_cards);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.activity_credit_cards_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setCustomView(R.layout.renter_backable_tool_bar);
+        getSupportActionBar().setCustomView(R.layout.toolbar);
+
         ButterKnife.bind(this);
 
-        viewPager = (ViewPager) findViewById(R.id.activity_credit_cards_cards_view_pager);
+        /* 툴바 배경 */
+        if (Build.VERSION.SDK_INT < 23)
+            toolbarLayout.setBackgroundColor(getResources().getColor(R.color.bikeeBlue));
+        else
+            toolbarLayout.setBackgroundColor(getResources().getColor(R.color.bikeeBlue));
+
+        /* 툴바 왼쪽 */
+        toolbarLeftIconBackImageView.setVisibility(View.VISIBLE);
+
+        /* 툴바 가운데 */
+        toolbarCenterTextView.setVisibility(View.VISIBLE);
+        if (Build.VERSION.SDK_INT < 23)
+            toolbarCenterTextView.setTextColor(getResources().getColor(R.color.bikeeWhite));
+        else
+            toolbarCenterTextView.setTextColor(getResources().getColor(R.color.bikeeWhite, getTheme()));
+        toolbarCenterTextView.setText("결제관리");
+
+        /* 툴바 오른쪽 */
+        toolbarRightIconImageView.setImageResource(R.drawable.rider_main_icon);
+
         viewPager.setClipToPadding(false);
         viewPager.setPadding(
                 getResources().getDimensionPixelSize(
@@ -134,15 +166,14 @@ public class CreditCardsActivity extends AppCompatActivity implements OnAdapterC
         }
     }
 
-    @OnClick(R.id.renter_backable_tool_bar_back_button_layout)
-    void back(View view) {
-        super.onBackPressed();
-    }
-
-    @OnClick({R.id.activity_credit_cards_add_card_layout,
+    @OnClick({R.id.toolbar_left_icon_layout,
+            R.id.activity_credit_cards_add_card_layout,
             R.id.activity_credit_cards_add_card_prepayment_button})
     void onClick(View view) {
         switch (view.getId()) {
+            case R.id.toolbar_left_icon_layout:
+                onBackPressed();
+                break;
             case R.id.activity_credit_cards_add_card_layout:
                 intent = new Intent(this, RegisterCreditCardActivity.class);
                 startActivityForResult(intent, 1);

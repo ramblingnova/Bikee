@@ -10,7 +10,7 @@
     android:paddingBottom="14dp">
 
     <ImageView
-        android:id="@+id/view_lister_requested_bicycle_item_step_image_view"
+        android:id="@+id/view_holder_lister_reservation_step_image_view"
         android:layout_width="match_parent"
         android:layout_height="13dp"
         android:layout_marginEnd="3px"
@@ -20,111 +20,110 @@
         android:layout_marginTop="4px" />
 
     <ImageView
-        android:id="@+id/view_lister_requested_bicycle_item_image_view"
+        android:id="@+id/view_holder_lister_reservation_renter_picture_image_view"
         android:layout_width="58dp"
         android:layout_height="58dp"
-        android:layout_below="@id/view_lister_requested_bicycle_item_step_image_view"
+        android:layout_below="@id/view_holder_lister_reservation_step_image_view"
         android:layout_marginLeft="19dp"
         android:layout_marginTop="21dp"
         android:scaleType="fitXY"
         android:src="@drawable/detailpage_bike_image_noneimage" />
 
     <TextView
-        android:id="@+id/view_lister_requested_bicycle_item_renter_name_text_view"
+        android:id="@+id/view_holder_lister_reservation_renter_name_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/view_lister_requested_bicycle_item_image_view"
+        android:layout_alignTop="@id/view_holder_lister_reservation_renter_picture_image_view"
         android:layout_marginLeft="19dp"
-        android:layout_toRightOf="@id/view_lister_requested_bicycle_item_image_view"
+        android:layout_toRightOf="@id/view_holder_lister_reservation_renter_picture_image_view"
         android:textColor="@color/bikeeBlack"
         android:textSize="14sp" />
 
     <TextView
-        android:id="@+id/view_lister_requested_bicycle_item_create_date_text_view"
+        android:id="@+id/view_holder_lister_reservation_create_date_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/view_lister_requested_bicycle_item_renter_name_text_view"
+        android:layout_alignBottom="@id/view_holder_lister_reservation_renter_name_text_view"
         android:layout_marginLeft="14dp"
-        android:layout_toRightOf="@id/view_lister_requested_bicycle_item_renter_name_text_view"
+        android:layout_toRightOf="@id/view_holder_lister_reservation_renter_name_text_view"
         android:textColor="@color/bikeeLightGray"
         android:textSize="10sp" />
 
     <TextView
-        android:id="@+id/view_lister_requested_bicycle_item_bicycle_name_text_view"
+        android:id="@+id/view_holder_lister_reservation_bicycle_title_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/view_lister_requested_bicycle_item_renter_name_text_view"
-        android:layout_below="@id/view_lister_requested_bicycle_item_renter_name_text_view"
+        android:layout_alignLeft="@id/view_holder_lister_reservation_renter_name_text_view"
+        android:layout_below="@id/view_holder_lister_reservation_renter_name_text_view"
         android:layout_marginTop="18dp"
         android:singleLine="true"
         android:textColor="#616161"
         android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/view_lister_requested_bicycle_item_start_date_text_view"
+        android:id="@+id/view_holder_lister_reservation_start_date_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/view_lister_requested_bicycle_item_renter_name_text_view"
-        android:layout_below="@id/view_lister_requested_bicycle_item_bicycle_name_text_view"
+        android:layout_alignLeft="@id/view_holder_lister_reservation_renter_name_text_view"
+        android:layout_below="@id/view_holder_lister_reservation_bicycle_title_text_view"
         android:layout_marginTop="9dp"
         android:textColor="#616161"
         android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/view_lister_requested_bicycle_item_date_wave_text_view"
+        android:id="@+id/view_holder_lister_reservation_date_wave_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/view_lister_requested_bicycle_item_start_date_text_view"
-        android:layout_toRightOf="@id/view_lister_requested_bicycle_item_start_date_text_view"
+        android:layout_alignBottom="@id/view_holder_lister_reservation_start_date_text_view"
+        android:layout_toRightOf="@id/view_holder_lister_reservation_start_date_text_view"
         android:text=" ~ "
         android:textColor="#616161"
         android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/view_lister_requested_bicycle_item_end_date_text_view"
+        android:id="@+id/view_holder_lister_reservation_end_date_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/view_lister_requested_bicycle_item_start_date_text_view"
-        android:layout_toRightOf="@id/view_lister_requested_bicycle_item_date_wave_text_view"
+        android:layout_alignBottom="@id/view_holder_lister_reservation_start_date_text_view"
+        android:layout_toRightOf="@id/view_holder_lister_reservation_date_wave_text_view"
         android:textColor="#616161"
         android:textSize="12sp" />
 
     <ImageView
-        android:id="@+id/view_lister_requested_bicycle_item_line_image_view"
+        android:id="@+id/view_holder_lister_reservation_line_image_view"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/view_lister_requested_bicycle_item_image_view"
+        android:layout_below="@id/view_holder_lister_reservation_renter_picture_image_view"
         android:layout_marginTop="14dp"
         android:background="@color/bikeeLine" />
 
     <ImageView
-        android:id="@+id/view_lister_requested_bicycle_item_clock_image_view"
+        android:id="@+id/view_holder_lister_reservation_clock_image_view"
         android:layout_width="12dp"
         android:layout_height="12dp"
-        android:layout_alignLeft="@id/view_lister_requested_bicycle_item_image_view"
-        android:layout_below="@id/view_lister_requested_bicycle_item_line_image_view"
+        android:layout_alignLeft="@id/view_holder_lister_reservation_renter_picture_image_view"
+        android:layout_below="@id/view_holder_lister_reservation_line_image_view"
         android:layout_marginTop="17dp"
         android:src="@drawable/rider_icon_time" />
 
     <TextView
-        android:id="@+id/view_lister_requested_bicycle_item_time_text_view"
+        android:id="@+id/view_holder_lister_reservation_total_period_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/view_lister_requested_bicycle_item_clock_image_view"
+        android:layout_alignBottom="@id/view_holder_lister_reservation_clock_image_view"
         android:layout_marginLeft="6dp"
-        android:layout_toRightOf="@id/view_lister_requested_bicycle_item_clock_image_view"
+        android:layout_toRightOf="@id/view_holder_lister_reservation_clock_image_view"
         android:textColor="#616161"
         android:textSize="11sp" />
 
     <TextView
-        android:id="@+id/view_lister_requested_bicycle_item_price_text_view"
+        android:id="@+id/view_holder_lister_reservation_price_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/view_lister_requested_bicycle_item_line_image_view"
+        android:layout_below="@id/view_holder_lister_reservation_line_image_view"
         android:layout_marginEnd="19dp"
         android:layout_marginRight="19dp"
-        android:layout_marginTop="17dp"
-        android:textColor="@color/bikeeRed" />
+        android:layout_marginTop="17dp" />
 </RelativeLayout>

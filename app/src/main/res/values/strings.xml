@@ -138,7 +138,7 @@
     <string name="activity_chatting_room_chatting_input_bar_transfer_button_string">전송</string>
     <string name="activity_chatting_room_chatting_input_bar_add_button_string">+</string>
 
-    <!-- view_chatting_room_item.xml -->
+    <!-- view_holder_chatting_room.xmlml -->
     <string name="view_chatting_room_item_bicycle_name_text_view_string">자전거 이름</string>
     <string name="view_chatting_room_item_payment_text_view_string">3000원</string>
     <string name="view_chatting_room_item_type_text_view_string">종류</string>

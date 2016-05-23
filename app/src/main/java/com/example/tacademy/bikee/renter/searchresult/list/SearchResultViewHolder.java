@@ -61,7 +61,11 @@ public class SearchResultViewHolder extends RecyclerView.ViewHolder {
                 item.getImageURL(),
                 R.drawable.detailpage_bike_image_noneimage,
                 bicycle_picture,
-                6
+                MyApplication.getmContext()
+                        .getResources()
+                        .getDimension(
+                                R.dimen.view_search_result_item_bicycle_picture_image_view_round_radius
+                        )
         );
         bicycle_name.setText(item.getBicycle_name().toString());
         String heightString = "~145cm";

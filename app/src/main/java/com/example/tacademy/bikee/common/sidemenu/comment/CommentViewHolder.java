@@ -1,10 +1,10 @@
 package com.example.tacademy.bikee.common.sidemenu.comment;
 
-import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.tacademy.bikee.R;
@@ -20,12 +20,12 @@ import butterknife.ButterKnife;
  * Created by Tacademy on 2015-11-03.
  */
 public class CommentViewHolder extends RecyclerView.ViewHolder {
-    @Bind(R.id.view_holder_comment_user_picture_image_view)
-    ImageView userPictureImageView;
+    @Bind(R.id.view_holder_comment_picture_image_view)
+    ImageView pictureImageView;
     @Bind(R.id.view_holder_comment_user_name_text_view)
     TextView userNameTextView;
-    @Bind(R.id.view_holder_comment_bicycle_name_text_view)
-    TextView bicycleNameTextView;
+    @Bind(R.id.view_holder_comment_bicycle_title_text_view)
+    TextView bicycleTitleTextView;
     @Bind(R.id.view_holder_comment_date_text_view)
     TextView dateTextView;
     @Bind(R.id.view_holder_comment_comment_text_view)
@@ -39,53 +39,70 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setView(CommentItem item) {
-        ImageUtil.setCircleImageFromURL(
-                MyApplication.getmContext(),
-                item.getUserImageURL(),
-                R.drawable.noneimage,
-                7,
-                userPictureImageView
-        );
-        userNameTextView.setText(item.getUserName());
-        if (item.getBicycleName() == null) {
-            if (Build.VERSION.SDK_INT < 23) {
-                userNameTextView.setTextColor(
+        switch (item.getType()) {
+            case CommentsActivity.RENTER_COMMENT:
+                pictureImageView.getLayoutParams().width
+                        = MyApplication.getmContext()
+                        .getResources()
+                        .getDimensionPixelSize(
+                                R.dimen.view_holder_comment_picture_image_view_width
+                        );
+                pictureImageView.getLayoutParams().height
+                        = MyApplication.getmContext()
+                        .getResources()
+                        .getDimensionPixelSize(
+                                R.dimen.view_holder_comment_picture_image_view_height
+                        );
+                ImageUtil.setRoundRectangleImageFromURL(
+                        MyApplication.getmContext(),
+                        item.getImageURL(),
+                        R.drawable.detailpage_bike_image_noneimage,
+                        pictureImageView,
                         MyApplication.getmContext()
                                 .getResources()
-                                .getColor(R.color.bikeeBlack)
-                );
-            } else {
-                userNameTextView.setTextColor(
-                        MyApplication.getmContext()
-                                .getResources()
-                                .getColor(
-                                        R.color.bikeeBlack,
-                                        MyApplication.getmContext().getTheme()
+                                .getDimension(
+                                        R.dimen.view_holder_comment_picture_image_view_round_radius
                                 )
                 );
-            }
-            bicycleNameTextView.setVisibility(View.GONE);
-        } else {
-            if (Build.VERSION.SDK_INT < 23) {
-                userNameTextView.setTextColor(
+                userNameTextView.setVisibility(View.GONE);
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bicycleTitleTextView.getLayoutParams();
+                params.addRule(RelativeLayout.ALIGN_TOP, R.id.view_holder_comment_picture_image_view);
+                params.setMargins(
                         MyApplication.getmContext()
                                 .getResources()
-                                .getColor(R.color.bikeeBlue)
+                                .getDimensionPixelOffset(
+                                        R.dimen.view_holder_comment_bicycle_title_text_view_left_margin
+                                ),
+                        0,
+                        0,
+                        0
                 );
-            } else {
-                userNameTextView.setTextColor(
-                        MyApplication.getmContext()
-                                .getResources()
-                                .getColor(
-                                        R.color.bikeeBlue,
-                                        MyApplication.getmContext().getTheme()
-                                )
+                params.addRule(RelativeLayout.END_OF, R.id.view_holder_comment_picture_image_view);
+                params.addRule(RelativeLayout.RIGHT_OF, R.id.view_holder_comment_picture_image_view);
+                bicycleTitleTextView.setText(item.getTitle1());
+                break;
+            case CommentsActivity.BICYCLE_COMMENT:
+                ImageUtil.setCircleImageFromURL(
+                        MyApplication.getmContext(),
+                        item.getImageURL(),
+                        R.drawable.noneimage,
+                        pictureImageView
                 );
-            }
-            bicycleNameTextView.setVisibility(View.VISIBLE);
-            bicycleNameTextView.setText(item.getBicycleName());
+                userNameTextView.setText(item.getTitle1());
+                bicycleTitleTextView.setVisibility(View.GONE);
+                break;
+            case CommentsActivity.LISTER_COMMENT:
+                ImageUtil.setCircleImageFromURL(
+                        MyApplication.getmContext(),
+                        item.getImageURL(),
+                        R.drawable.noneimage,
+                        pictureImageView
+                );
+                userNameTextView.setText(item.getTitle1());
+                bicycleTitleTextView.setText(item.getTitle2());
+                break;
         }
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM.dd HH:mm", java.util.Locale.getDefault());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM.dd hh:mm", java.util.Locale.getDefault());
         dateTextView.setText(simpleDateFormat.format(item.getDate()));
         commentTextView.setText(item.getComment());
         pointRatingBar.setRating(item.getPoint());

@@ -144,5 +144,11 @@
                 android:textColorHint="@color/bikeeLightGray"
                 android:textSize="14sp" />
         </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/shadow" />
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

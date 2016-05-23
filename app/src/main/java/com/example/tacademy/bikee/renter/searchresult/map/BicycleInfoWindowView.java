@@ -138,7 +138,11 @@ public class BicycleInfoWindowView extends FrameLayout implements GoogleMap.Info
                 item.getImageURL(),
                 R.drawable.detailpage_bike_image_noneimage,
                 bicycleImage,
-                12
+                MyApplication.getmContext()
+                        .getResources()
+                        .getDimension(
+                                R.dimen.view_bicycle_info_window_bicycle_picture_image_view_round_radius
+                        )
         );
         bicycle_name.setText(item.getBicycle_name());
         type.setText(RefinementUtil.getBicycleTypeStringFromBicycleType(item.getType()));

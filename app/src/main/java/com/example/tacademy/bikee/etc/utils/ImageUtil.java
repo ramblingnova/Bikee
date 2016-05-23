@@ -25,7 +25,6 @@ public class ImageUtil {
             final Context context,
             String imageURL,
             int placeHolderResourceId,
-            int imageSize,
             final ImageView targetVIew) {
         Glide.with(context)
                 .load(imageURL)
@@ -70,7 +69,6 @@ public class ImageUtil {
                 .load(imageURL)
                 .asBitmap()
                 .placeholder(placeHolderResourceId)
-//                .centerCrop()
                 .fitCenter()
                 .thumbnail(0.0001f)
                 .into(targetView);

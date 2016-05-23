@@ -64,7 +64,6 @@ public class ConversationViewHolder extends RecyclerView.ViewHolder {
                             MyApplication.getmContext(),
                             ((Message) item.getMessageModel()).getSenderImageUrl(),
                             R.drawable.noneimage,
-                            0,
                             userImage
                     );
                     receiveMessageTime.setText(simpleDateFormat.format(item.getConversationTime()));
@@ -76,7 +75,6 @@ public class ConversationViewHolder extends RecyclerView.ViewHolder {
                             MyApplication.getmContext(),
                             ((Message) item.getMessageModel()).getSenderImageUrl(),
                             R.drawable.noneimage,
-                            0,
                             userImage
                     );
                 } else if (item.getMultiMessageType() == ConversationAdapter.MID) {

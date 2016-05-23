@@ -225,15 +225,23 @@ public class SignInActivity extends AppCompatActivity {
                     public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
                         ReceiveObject receiveObject = response.body();
 
-                        if (BuildConfig.DEBUG)
-                            Log.d(TAG, "logout onResponse Success : " + receiveObject.isSuccess()
-                                    + "\nCode : " + receiveObject.getCode()
-                                    + "\nMsg : " + receiveObject.getMsg());
+                        if (receiveObject.isSuccess()) {
+                            // TODO : null pointer exception -> receive object == null ???
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "logout onResponse Success : " + receiveObject.isSuccess()
+                                        + "\nCode : " + receiveObject.getCode()
+                                        + "\nMsg : " + receiveObject.getMsg());
 
-                        PropertyManager.getInstance().setSignInState(PropertyManager.SIGN_OUT_STATE);
-                        if (signInState == PropertyManager.SIGN_IN_FACEBOOK_STATE)
-                            mLoginManager.logOut();
-                        initView();
+                            PropertyManager.getInstance().setSignInState(PropertyManager.SIGN_OUT_STATE);
+                            if (signInState == PropertyManager.SIGN_IN_FACEBOOK_STATE)
+                                mLoginManager.logOut();
+                            initView();
+                        } else {
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "logout onResponse Success : " + receiveObject.isSuccess()
+                                        + "\nCode : " + receiveObject.getCode()
+                                        + "\nMsg : " + receiveObject.getMsg());
+                        }
                     }
 
                     @Override

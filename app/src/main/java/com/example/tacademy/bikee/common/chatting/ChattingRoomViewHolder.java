@@ -23,19 +23,19 @@ import butterknife.OnClick;
  * Created by User on 2016-03-11.
  */
 public class ChattingRoomViewHolder extends RecyclerView.ViewHolder {
-    @Bind(R.id.view_chatting_room_item_user_image_image_view)
+    @Bind(R.id.view_holder_chatting_room_user_picture_image_view)
     ImageView userImage;
-    @Bind(R.id.view_chatting_room_item_reservation_state_image_view)
+    @Bind(R.id.view_holder_chatting_room_reservation_status_image_view)
     ImageView reservationState;
-    @Bind(R.id.view_chatting_room_item_user_name_text_view)
+    @Bind(R.id.view_holder_chatting_room_user_name_text_view)
     TextView userName;
-    @Bind(R.id.view_chatting_room_item_last_conversation_time_text_view)
+    @Bind(R.id.view_holder_chatting_room_last_conversation_time_text_view)
     TextView lastConversationTime;
-    @Bind(R.id.view_chatting_room_item_bicycle_name_text_view)
+    @Bind(R.id.view_holder_chatting_room_bicycle_title_text_view)
     TextView bicycleName;
-    @Bind(R.id.view_chatting_room_item_last_conversation_text_view)
+    @Bind(R.id.view_holder_chatting_room_last_conversation_text_view)
     TextView lastConversation;
-    @Bind(R.id.view_chatting_room_item_num_of_stacked_conversation_text_view)
+    @Bind(R.id.view_holder_chatting_room_num_of_stacked_conversation_text_view)
     TextView numOfStackedConversation;
 
     private OnViewHolderClickListener onViewHolderClickListener;
@@ -57,7 +57,6 @@ public class ChattingRoomViewHolder extends RecyclerView.ViewHolder {
                 MyApplication.getmContext(),
                 opponentImageUrl,
                 R.drawable.noneimage,
-                0,
                 userImage
         );
 

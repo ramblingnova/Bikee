@@ -24,657 +24,668 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F2F2F2"
-        android:paddingBottom="22dp"
-        android:paddingEnd="15dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingStart="15dp"
-        android:paddingTop="22dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <RelativeLayout
-            android:id="@+id/activity_register_credit_card_number_layout"
             android:layout_width="match_parent"
-            android:layout_height="99dp"
-            android:background="@drawable/roundbox">
-
-            <TextView
-                android:id="@+id/activity_register_credit_card_number_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="21dp"
-                android:layout_marginStart="21dp"
-                android:layout_marginTop="21dp"
-                android:text="카드번호"
-                android:textColor="@color/bikeeDarkGray"
-                android:textSize="12dp" />
-
-            <!--<Spinner
-                android:id="@+id/activity_register_card_temp_spinner"
-                android:layout_width="50dp"
-                android:spinnerMode="dialog"
-                android:layout_height="20dp"/>
-
-            <Spinner
-                android:id="@+id/activity_register_card_temp_spinner2"
-                android:layout_width="50dp"
-                android:layout_toRightOf="@id/activity_register_card_temp_spinner"
-                android:layout_toEndOf="@id/activity_register_card_temp_spinner"
-                android:layout_height="20dp"/>
-
-            <Spinner
-                android:id="@+id/activity_register_card_temp_spinner3"
-                android:layout_width="50dp"
-                android:layout_toRightOf="@id/activity_register_card_temp_spinner2"
-                android:layout_toEndOf="@id/activity_register_card_temp_spinner2"
-                android:layout_height="20dp"/>
-
-            <Spinner
-                android:id="@+id/activity_register_card_temp_spinner4"
-                android:layout_width="50dp"
-                android:layout_toRightOf="@id/activity_register_card_temp_spinner3"
-                android:layout_toEndOf="@id/activity_register_card_temp_spinner3"
-                android:layout_height="20dp"/>
-
-            <Spinner
-                android:id="@+id/activity_register_card_temp_spinner5"
-                android:layout_width="50dp"
-                android:layout_toRightOf="@id/activity_register_card_temp_spinner4"
-                android:layout_toEndOf="@id/activity_register_card_temp_spinner4"
-                android:layout_height="20dp"/>-->
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/activity_register_credit_card_number_text_view"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginEnd="21dp"
-                android:layout_marginRight="21dp"
-                android:text="본인 명의의 카드만 등록 가능합니다."
-                android:textColor="@color/bikeeBlue"
-                android:textSize="11dp" />
+            android:layout_height="match_parent"
+            android:background="#F2F2F2"
+            android:paddingBottom="22dp"
+            android:paddingEnd="15dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingStart="15dp"
+            android:paddingTop="22dp">
 
             <RelativeLayout
-                android:id="@+id/activity_register_credit_card_number_edit_layout"
-                android:layout_width="228dp"
-                android:layout_height="32dp"
+                android:id="@+id/activity_register_credit_card_number_layout"
+                android:layout_width="match_parent"
+                android:layout_height="99dp"
+                android:background="@drawable/roundbox">
+
+                <TextView
+                    android:id="@+id/activity_register_credit_card_number_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="21dp"
+                    android:layout_marginStart="21dp"
+                    android:layout_marginTop="21dp"
+                    android:text="카드번호"
+                    android:textColor="@color/bikeeDarkGray"
+                    android:textSize="12dp" />
+
+                <!--<Spinner
+                    android:id="@+id/activity_register_card_temp_spinner"
+                    android:layout_width="50dp"
+                    android:spinnerMode="dialog"
+                    android:layout_height="20dp"/>
+
+                <Spinner
+                    android:id="@+id/activity_register_card_temp_spinner2"
+                    android:layout_width="50dp"
+                    android:layout_toRightOf="@id/activity_register_card_temp_spinner"
+                    android:layout_toEndOf="@id/activity_register_card_temp_spinner"
+                    android:layout_height="20dp"/>
+
+                <Spinner
+                    android:id="@+id/activity_register_card_temp_spinner3"
+                    android:layout_width="50dp"
+                    android:layout_toRightOf="@id/activity_register_card_temp_spinner2"
+                    android:layout_toEndOf="@id/activity_register_card_temp_spinner2"
+                    android:layout_height="20dp"/>
+
+                <Spinner
+                    android:id="@+id/activity_register_card_temp_spinner4"
+                    android:layout_width="50dp"
+                    android:layout_toRightOf="@id/activity_register_card_temp_spinner3"
+                    android:layout_toEndOf="@id/activity_register_card_temp_spinner3"
+                    android:layout_height="20dp"/>
+
+                <Spinner
+                    android:id="@+id/activity_register_card_temp_spinner5"
+                    android:layout_width="50dp"
+                    android:layout_toRightOf="@id/activity_register_card_temp_spinner4"
+                    android:layout_toEndOf="@id/activity_register_card_temp_spinner4"
+                    android:layout_height="20dp"/>-->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/activity_register_credit_card_number_text_view"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginEnd="21dp"
+                    android:layout_marginRight="21dp"
+                    android:text="본인 명의의 카드만 등록 가능합니다."
+                    android:textColor="@color/bikeeBlue"
+                    android:textSize="11dp" />
+
+                <RelativeLayout
+                    android:id="@+id/activity_register_credit_card_number_edit_layout"
+                    android:layout_width="228dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="22dp"
+                    android:layout_marginEnd="21dp"
+                    android:layout_marginRight="21dp"
+                    android:background="@drawable/inputbox_before"
+                    android:gravity="center">
+
+                    <EditText
+                        android:id="@+id/activity_register_credit_card_number_block1_edit_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:background="@null"
+                        android:gravity="center_horizontal"
+                        android:hint="1234"
+                        android:inputType="number"
+                        android:maxLength="4"
+                        android:nextFocusDown="@+id/activity_register_credit_card_number_block2_edit_text"
+                        android:nextFocusForward="@+id/activity_register_credit_card_number_block2_edit_text"
+                        android:nextFocusLeft="@+id/activity_register_credit_card_number_block2_edit_text"
+                        android:nextFocusRight="@+id/activity_register_credit_card_number_block2_edit_text"
+                        android:nextFocusUp="@+id/activity_register_credit_card_number_block2_edit_text"
+                        android:textColor="@color/bikeeBlack"
+                        android:textColorHint="@color/bikeeLightGray"
+                        android:textSize="18dp" />
+
+                    <TextView
+                        android:id="@+id/activity_register_credit_card_number_block1_block2_separator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_toEndOf="@id/activity_register_credit_card_number_block1_edit_text"
+                        android:layout_toRightOf="@id/activity_register_credit_card_number_block1_edit_text"
+                        android:text="-"
+                        android:textColor="@color/bikeeBlack"
+                        android:textSize="18dp" />
+
+                    <EditText
+                        android:id="@+id/activity_register_credit_card_number_block2_edit_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/activity_register_credit_card_number_block1_block2_separator"
+                        android:layout_toRightOf="@id/activity_register_credit_card_number_block1_block2_separator"
+                        android:background="@null"
+                        android:gravity="center_horizontal"
+                        android:hint="5678"
+                        android:inputType="number"
+                        android:maxLength="4"
+                        android:nextFocusDown="@+id/activity_register_credit_card_number_block3_edit_text"
+                        android:nextFocusForward="@+id/activity_register_credit_card_number_block3_edit_text"
+                        android:nextFocusLeft="@+id/activity_register_credit_card_number_block3_edit_text"
+                        android:nextFocusRight="@+id/activity_register_credit_card_number_block3_edit_text"
+                        android:nextFocusUp="@+id/activity_register_credit_card_number_block3_edit_text"
+                        android:textColor="@color/bikeeBlack"
+                        android:textColorHint="@color/bikeeLightGray"
+                        android:textSize="18dp" />
+
+                    <TextView
+                        android:id="@+id/activity_register_credit_card_number_block2_block3_separator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_toEndOf="@id/activity_register_credit_card_number_block2_edit_text"
+                        android:layout_toRightOf="@id/activity_register_credit_card_number_block2_edit_text"
+                        android:text="-"
+                        android:textColor="@color/bikeeBlack"
+                        android:textSize="18dp" />
+
+                    <EditText
+                        android:id="@+id/activity_register_credit_card_number_block3_edit_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/activity_register_credit_card_number_block2_block3_separator"
+                        android:layout_toRightOf="@id/activity_register_credit_card_number_block2_block3_separator"
+                        android:background="@null"
+                        android:gravity="center_horizontal"
+                        android:hint="9021"
+                        android:inputType="numberPassword"
+                        android:maxLength="4"
+                        android:nextFocusDown="@+id/activity_register_credit_card_number_block4_edit_text"
+                        android:nextFocusForward="@+id/activity_register_credit_card_number_block4_edit_text"
+                        android:nextFocusLeft="@+id/activity_register_credit_card_number_block4_edit_text"
+                        android:nextFocusRight="@+id/activity_register_credit_card_number_block4_edit_text"
+                        android:nextFocusUp="@+id/activity_register_credit_card_number_block4_edit_text"
+                        android:textColor="@color/bikeeBlack"
+                        android:textColorHint="@color/bikeeLightGray"
+                        android:textSize="18dp" />
+
+                    <TextView
+                        android:id="@+id/activity_register_credit_card_number_block3_block4_separator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_toEndOf="@id/activity_register_credit_card_number_block3_edit_text"
+                        android:layout_toRightOf="@id/activity_register_credit_card_number_block3_edit_text"
+                        android:text="-"
+                        android:textColor="@color/bikeeBlack"
+                        android:textSize="18dp" />
+
+                    <EditText
+                        android:id="@+id/activity_register_credit_card_number_block4_edit_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/activity_register_credit_card_number_block3_block4_separator"
+                        android:layout_toRightOf="@id/activity_register_credit_card_number_block3_block4_separator"
+                        android:background="@null"
+                        android:gravity="center_horizontal"
+                        android:hint="3456"
+                        android:inputType="numberPassword"
+                        android:maxLength="4"
+                        android:nextFocusDown="@+id/activity_register_credit_card_expiration_date_month_edit_text"
+                        android:nextFocusForward="@+id/activity_register_credit_card_expiration_date_month_edit_text"
+                        android:nextFocusLeft="@+id/activity_register_credit_card_expiration_date_month_edit_text"
+                        android:nextFocusRight="@+id/activity_register_credit_card_expiration_date_month_edit_text"
+                        android:nextFocusUp="@+id/activity_register_credit_card_expiration_date_month_edit_text"
+                        android:textColor="@color/bikeeBlack"
+                        android:textColorHint="@color/bikeeLightGray"
+                        android:textSize="18dp" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/activity_register_credit_card_expiration_date_layout"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:layout_below="@id/activity_register_credit_card_number_layout"
+                android:layout_marginTop="11dp"
+                android:background="@drawable/roundbox">
+
+                <TextView
+                    android:id="@+id/activity_register_credit_card_expiration_date_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="21dp"
+                    android:layout_marginStart="21dp"
+                    android:text="유효기간"
+                    android:textColor="@color/bikeeDarkGray"
+                    android:textSize="12dp" />
+
+                <RelativeLayout
+                    android:id="@+id/activity_register_credit_card_expiration_date_year_layout"
+                    android:layout_width="72dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="21dp"
+                    android:layout_marginRight="21dp"
+                    android:background="@drawable/inputbox_before"
+                    android:gravity="center">
+
+                    <EditText
+                        android:id="@+id/activity_register_credit_card_expiration_date_year_edit_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:background="@null"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:gravity="center"
+                        android:hint="YYYY"
+                        android:inputType="number"
+                        android:maxLength="4"
+                        android:nextFocusDown="@+id/activity_register_credit_card_birth_date_year_edit_text"
+                        android:nextFocusForward="@+id/activity_register_credit_card_birth_date_year_edit_text"
+                        android:nextFocusLeft="@+id/activity_register_credit_card_birth_date_year_edit_text"
+                        android:nextFocusRight="@+id/activity_register_credit_card_birth_date_year_edit_text"
+                        android:nextFocusUp="@+id/activity_register_credit_card_birth_date_year_edit_text"
+                        android:textColor="@color/bikeeBlack"
+                        android:textColorHint="@color/bikeeLightGray" />
+
+                    <ImageView
+                        android:id="@+id/activity_register_credit_card_expiration_date_year_extension_image_view"
+                        android:layout_width="18dp"
+                        android:layout_height="23dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/activity_register_credit_card_expiration_date_year_edit_text"
+                        android:layout_toRightOf="@+id/activity_register_credit_card_expiration_date_year_edit_text"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="8dp"
+                        android:paddingStart="8dp"
+                        android:paddingTop="8dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/scroll_icon_down" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/activity_register_credit_card_expiration_date_separator_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_toLeftOf="@id/activity_register_credit_card_expiration_date_year_layout"
+                    android:layout_toStartOf="@id/activity_register_credit_card_expiration_date_year_layout"
+                    android:text="/"
+                    android:textColor="#424242"
+                    android:textSize="18dp" />
+
+                <RelativeLayout
+                    android:id="@+id/activity_register_credit_card_expiration_date_month_layout"
+                    android:layout_width="59dp"
+                    android:layout_height="32dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_toLeftOf="@id/activity_register_credit_card_expiration_date_separator_text_view"
+                    android:layout_toStartOf="@id/activity_register_credit_card_expiration_date_separator_text_view"
+                    android:background="@drawable/inputbox_before"
+                    android:gravity="center">
+
+                    <EditText
+                        android:id="@+id/activity_register_credit_card_expiration_date_month_edit_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:background="@null"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:gravity="center"
+                        android:hint="MM"
+                        android:inputType="number"
+                        android:maxLength="2"
+                        android:nextFocusDown="@id/activity_register_credit_card_expiration_date_year_edit_text"
+                        android:nextFocusForward="@id/activity_register_credit_card_expiration_date_year_edit_text"
+                        android:nextFocusLeft="@id/activity_register_credit_card_expiration_date_year_edit_text"
+                        android:nextFocusRight="@id/activity_register_credit_card_expiration_date_year_edit_text"
+                        android:nextFocusUp="@id/activity_register_credit_card_expiration_date_year_edit_text"
+                        android:textColor="@color/bikeeBlack"
+                        android:textColorHint="@color/bikeeLightGray" />
+
+                    <ImageView
+                        android:id="@+id/activity_register_credit_card_expiration_date_month_extension_image_view"
+                        android:layout_width="18dp"
+                        android:layout_height="23dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/activity_register_credit_card_expiration_date_month_edit_text"
+                        android:layout_toRightOf="@+id/activity_register_credit_card_expiration_date_month_edit_text"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="8dp"
+                        android:paddingStart="8dp"
+                        android:paddingTop="8dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/scroll_icon_down" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/activity_register_credit_card_birth_date_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="57dp"
+                android:layout_below="@id/activity_register_credit_card_expiration_date_layout"
+                android:layout_marginTop="11dp"
+                android:background="@drawable/roundbox">
+
+                <TextView
+                    android:id="@+id/activity_register_credit_card_birth_date_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="21dp"
+                    android:layout_marginStart="21dp"
+                    android:text="생년월일"
+                    android:textColor="@color/bikeeDarkGray"
+                    android:textSize="12dp" />
+
+                <RelativeLayout
+                    android:id="@+id/activity_register_credit_card_birth_date_day_layout"
+                    android:layout_width="59dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="21dp"
+                    android:layout_marginRight="21dp"
+                    android:background="@drawable/inputbox_before"
+                    android:gravity="center">
+
+                    <EditText
+                        android:id="@+id/activity_register_credit_card_birth_date_day_edit_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:background="@null"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:gravity="center"
+                        android:hint="DD"
+                        android:inputType="number"
+                        android:maxLength="2"
+                        android:nextFocusDown="@+id/activity_register_credit_card_password_first_edit_text"
+                        android:nextFocusForward="@+id/activity_register_credit_card_password_first_edit_text"
+                        android:nextFocusLeft="@+id/activity_register_credit_card_password_first_edit_text"
+                        android:nextFocusRight="@+id/activity_register_credit_card_password_first_edit_text"
+                        android:nextFocusUp="@+id/activity_register_credit_card_password_first_edit_text"
+                        android:textColorHint="@color/bikeeLightGray" />
+
+                    <ImageView
+                        android:id="@+id/activity_register_credit_card_birth_date_day_extension_image_view"
+                        android:layout_width="18dp"
+                        android:layout_height="23dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/activity_register_credit_card_birth_date_day_edit_text"
+                        android:layout_toRightOf="@id/activity_register_credit_card_birth_date_day_edit_text"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="8dp"
+                        android:paddingStart="8dp"
+                        android:paddingTop="8dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/scroll_icon_down" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/activity_register_credit_card_birth_date_month_day_separator"
+                    android:layout_width="11dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/activity_register_credit_card_birth_date_day_layout"
+                    android:layout_toStartOf="@id/activity_register_credit_card_birth_date_day_layout"
+                    android:gravity="center"
+                    android:text="-"
+                    android:textColor="#424242"
+                    android:textSize="18dp" />
+
+                <RelativeLayout
+                    android:id="@+id/activity_register_credit_card_birth_date_month_layout"
+                    android:layout_width="59dp"
+                    android:layout_height="32dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/activity_register_credit_card_birth_date_month_day_separator"
+                    android:layout_toStartOf="@id/activity_register_credit_card_birth_date_month_day_separator"
+                    android:background="@drawable/inputbox_before"
+                    android:gravity="center">
+
+                    <EditText
+                        android:id="@+id/activity_register_credit_card_birth_date_month_edit_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:background="@null"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:gravity="center"
+                        android:hint="MM"
+                        android:inputType="number"
+                        android:maxLength="2"
+                        android:nextFocusDown="@id/activity_register_credit_card_birth_date_day_edit_text"
+                        android:nextFocusForward="@id/activity_register_credit_card_birth_date_day_edit_text"
+                        android:nextFocusLeft="@id/activity_register_credit_card_birth_date_day_edit_text"
+                        android:nextFocusRight="@id/activity_register_credit_card_birth_date_day_edit_text"
+                        android:nextFocusUp="@id/activity_register_credit_card_birth_date_day_edit_text"
+                        android:textColorHint="@color/bikeeLightGray" />
+
+                    <ImageView
+                        android:id="@+id/activity_register_credit_card_birth_date_month_extension_image_view"
+                        android:layout_width="18dp"
+                        android:layout_height="23dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/activity_register_credit_card_birth_date_month_edit_text"
+                        android:layout_toRightOf="@id/activity_register_credit_card_birth_date_month_edit_text"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="8dp"
+                        android:paddingStart="8dp"
+                        android:paddingTop="8dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/scroll_icon_down" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/activity_register_credit_card_birth_date_year_month_separator"
+                    android:layout_width="11dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/activity_register_credit_card_birth_date_month_layout"
+                    android:layout_toStartOf="@id/activity_register_credit_card_birth_date_month_layout"
+                    android:gravity="center"
+                    android:text="-"
+                    android:textColor="#424242"
+                    android:textSize="18dp" />
+
+                <RelativeLayout
+                    android:id="@+id/activity_register_credit_card_birth_date_year_layout"
+                    android:layout_width="73dp"
+                    android:layout_height="32dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/activity_register_credit_card_birth_date_year_month_separator"
+                    android:layout_toStartOf="@id/activity_register_credit_card_birth_date_year_month_separator"
+                    android:background="@drawable/inputbox_before"
+                    android:gravity="center">
+
+                    <EditText
+                        android:id="@+id/activity_register_credit_card_birth_date_year_edit_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:background="@null"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:gravity="center"
+                        android:hint="YYYY"
+                        android:inputType="number"
+                        android:maxLength="4"
+                        android:nextFocusDown="@id/activity_register_credit_card_birth_date_month_edit_text"
+                        android:nextFocusForward="@id/activity_register_credit_card_birth_date_month_edit_text"
+                        android:nextFocusLeft="@id/activity_register_credit_card_birth_date_month_edit_text"
+                        android:nextFocusRight="@id/activity_register_credit_card_birth_date_month_edit_text"
+                        android:nextFocusUp="@id/activity_register_credit_card_birth_date_month_edit_text"
+                        android:textColor="@color/bikeeBlack"
+                        android:textColorHint="@color/bikeeLightGray" />
+
+                    <ImageView
+                        android:id="@+id/activity_register_credit_card_birth_date_year_extension_image_view"
+                        android:layout_width="18dp"
+                        android:layout_height="23dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/activity_register_credit_card_birth_date_year_edit_text"
+                        android:layout_toRightOf="@id/activity_register_credit_card_birth_date_year_edit_text"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="8dp"
+                        android:paddingStart="8dp"
+                        android:paddingTop="8dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/scroll_icon_down" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/activity_register_credit_card_password_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="57dp"
+                android:layout_below="@id/activity_register_credit_card_birth_date_layout"
+                android:layout_marginTop="11dp"
+                android:background="@drawable/roundbox">
+
+                <TextView
+                    android:id="@+id/activity_register_credit_card_password_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="21dp"
+                    android:layout_marginStart="21dp"
+                    android:text="비밀번호"
+                    android:textColor="@color/bikeeDarkGray"
+                    android:textSize="12dp" />
+
+                <View
+                    android:id="@+id/activity_register_credit_card_password_firth_edit_text"
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="21dp"
+                    android:layout_marginRight="21dp"
+                    android:background="@drawable/password" />
+
+                <View
+                    android:id="@+id/activity_register_credit_card_password_third_edit_text"
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_toLeftOf="@id/activity_register_credit_card_password_firth_edit_text"
+                    android:layout_toStartOf="@id/activity_register_credit_card_password_firth_edit_text"
+                    android:background="@drawable/password" />
+
+                <EditText
+                    android:id="@+id/activity_register_password_second_edit_text"
+                    android:layout_width="25dp"
+                    android:layout_height="32dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_toLeftOf="@id/activity_register_credit_card_password_third_edit_text"
+                    android:layout_toStartOf="@id/activity_register_credit_card_password_third_edit_text"
+                    android:background="@drawable/inputbox_before"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:nextFocusDown="@+id/activity_register_credit_card_card_nickname_edit_text"
+                    android:nextFocusForward="@+id/activity_register_credit_card_card_nickname_edit_text"
+                    android:nextFocusLeft="@+id/activity_register_credit_card_card_nickname_edit_text"
+                    android:nextFocusRight="@+id/activity_register_credit_card_card_nickname_edit_text"
+                    android:nextFocusUp="@+id/activity_register_credit_card_card_nickname_edit_text"
+                    android:textColor="@color/bikeeBlack"
+                    android:textSize="18dp" />
+
+                <EditText
+                    android:id="@+id/activity_register_credit_card_password_first_edit_text"
+                    android:layout_width="25dp"
+                    android:layout_height="32dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginRight="6dp"
+                    android:layout_toLeftOf="@id/activity_register_password_second_edit_text"
+                    android:layout_toStartOf="@id/activity_register_password_second_edit_text"
+                    android:background="@drawable/inputbox_before"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:nextFocusDown="@+id/activity_register_credit_card_password_second_edit_text"
+                    android:nextFocusForward="@+id/activity_register_credit_card_password_second_edit_text"
+                    android:nextFocusLeft="@+id/activity_register_credit_card_password_second_edit_text"
+                    android:nextFocusRight="@+id/activity_register_credit_card_password_second_edit_text"
+                    android:nextFocusUp="@+id/activity_register_credit_card_password_second_edit_text"
+                    android:textColor="@color/bikeeBlack"
+                    android:textSize="18dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/activity_register_credit_card_card_nickname_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="57dp"
+                android:layout_below="@id/activity_register_credit_card_password_layout"
+                android:layout_marginTop="11dp"
+                android:background="@drawable/roundbox">
+
+                <TextView
+                    android:id="@+id/activity_register_credit_card_card_nickname_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="21dp"
+                    android:layout_marginStart="21dp"
+                    android:text="카드 별명"
+                    android:textColor="@color/bikeeDarkGray"
+                    android:textSize="12dp" />
+
+                <EditText
+                    android:id="@+id/activity_register_credit_card_card_nickname_edit_text"
+                    android:layout_width="201dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="21dp"
+                    android:layout_marginRight="21dp"
+                    android:background="@drawable/inputbox_before"
+                    android:gravity="start|center_vertical"
+                    android:paddingEnd="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingStart="10dp"
+                    android:singleLine="true"
+                    android:textColor="@color/bikeeBlack"
+                    android:textSize="18dp" />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/activity_register_credit_card_register_card_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="22dp"
-                android:layout_marginEnd="21dp"
-                android:layout_marginRight="21dp"
-                android:background="@drawable/inputbox_before"
-                android:gravity="center">
-
-                <EditText
-                    android:id="@+id/activity_register_credit_card_number_block1_edit_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:background="@null"
-                    android:gravity="center_horizontal"
-                    android:hint="1234"
-                    android:inputType="number"
-                    android:maxLength="4"
-                    android:nextFocusDown="@+id/activity_register_credit_card_number_block2_edit_text"
-                    android:nextFocusForward="@+id/activity_register_credit_card_number_block2_edit_text"
-                    android:nextFocusLeft="@+id/activity_register_credit_card_number_block2_edit_text"
-                    android:nextFocusRight="@+id/activity_register_credit_card_number_block2_edit_text"
-                    android:nextFocusUp="@+id/activity_register_credit_card_number_block2_edit_text"
-                    android:textColor="@color/bikeeBlack"
-                    android:textColorHint="@color/bikeeLightGray"
-                    android:textSize="18dp" />
-
-                <TextView
-                    android:id="@+id/activity_register_credit_card_number_block1_block2_separator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_toEndOf="@id/activity_register_credit_card_number_block1_edit_text"
-                    android:layout_toRightOf="@id/activity_register_credit_card_number_block1_edit_text"
-                    android:text="-"
-                    android:textColor="@color/bikeeBlack"
-                    android:textSize="18dp" />
-
-                <EditText
-                    android:id="@+id/activity_register_credit_card_number_block2_edit_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@id/activity_register_credit_card_number_block1_block2_separator"
-                    android:layout_toRightOf="@id/activity_register_credit_card_number_block1_block2_separator"
-                    android:background="@null"
-                    android:gravity="center_horizontal"
-                    android:hint="5678"
-                    android:inputType="number"
-                    android:maxLength="4"
-                    android:nextFocusDown="@+id/activity_register_credit_card_number_block3_edit_text"
-                    android:nextFocusForward="@+id/activity_register_credit_card_number_block3_edit_text"
-                    android:nextFocusLeft="@+id/activity_register_credit_card_number_block3_edit_text"
-                    android:nextFocusRight="@+id/activity_register_credit_card_number_block3_edit_text"
-                    android:nextFocusUp="@+id/activity_register_credit_card_number_block3_edit_text"
-                    android:textColor="@color/bikeeBlack"
-                    android:textColorHint="@color/bikeeLightGray"
-                    android:textSize="18dp" />
-
-                <TextView
-                    android:id="@+id/activity_register_credit_card_number_block2_block3_separator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_toEndOf="@id/activity_register_credit_card_number_block2_edit_text"
-                    android:layout_toRightOf="@id/activity_register_credit_card_number_block2_edit_text"
-                    android:text="-"
-                    android:textColor="@color/bikeeBlack"
-                    android:textSize="18dp" />
-
-                <EditText
-                    android:id="@+id/activity_register_credit_card_number_block3_edit_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@id/activity_register_credit_card_number_block2_block3_separator"
-                    android:layout_toRightOf="@id/activity_register_credit_card_number_block2_block3_separator"
-                    android:background="@null"
-                    android:gravity="center_horizontal"
-                    android:hint="9021"
-                    android:inputType="numberPassword"
-                    android:maxLength="4"
-                    android:nextFocusDown="@+id/activity_register_credit_card_number_block4_edit_text"
-                    android:nextFocusForward="@+id/activity_register_credit_card_number_block4_edit_text"
-                    android:nextFocusLeft="@+id/activity_register_credit_card_number_block4_edit_text"
-                    android:nextFocusRight="@+id/activity_register_credit_card_number_block4_edit_text"
-                    android:nextFocusUp="@+id/activity_register_credit_card_number_block4_edit_text"
-                    android:textColor="@color/bikeeBlack"
-                    android:textColorHint="@color/bikeeLightGray"
-                    android:textSize="18dp" />
-
-                <TextView
-                    android:id="@+id/activity_register_credit_card_number_block3_block4_separator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_toEndOf="@id/activity_register_credit_card_number_block3_edit_text"
-                    android:layout_toRightOf="@id/activity_register_credit_card_number_block3_edit_text"
-                    android:text="-"
-                    android:textColor="@color/bikeeBlack"
-                    android:textSize="18dp" />
-
-                <EditText
-                    android:id="@+id/activity_register_credit_card_number_block4_edit_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@id/activity_register_credit_card_number_block3_block4_separator"
-                    android:layout_toRightOf="@id/activity_register_credit_card_number_block3_block4_separator"
-                    android:background="@null"
-                    android:gravity="center_horizontal"
-                    android:hint="3456"
-                    android:inputType="numberPassword"
-                    android:maxLength="4"
-                    android:nextFocusDown="@+id/activity_register_credit_card_expiration_date_month_edit_text"
-                    android:nextFocusForward="@+id/activity_register_credit_card_expiration_date_month_edit_text"
-                    android:nextFocusLeft="@+id/activity_register_credit_card_expiration_date_month_edit_text"
-                    android:nextFocusRight="@+id/activity_register_credit_card_expiration_date_month_edit_text"
-                    android:nextFocusUp="@+id/activity_register_credit_card_expiration_date_month_edit_text"
-                    android:textColor="@color/bikeeBlack"
-                    android:textColorHint="@color/bikeeLightGray"
-                    android:textSize="18dp" />
-            </RelativeLayout>
+                android:background="@drawable/detailpage_button2"
+                android:text="등록하기"
+                android:textColor="@color/bikeeWhite"
+                android:textSize="19dp" />
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/activity_register_credit_card_expiration_date_layout"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="57dp"
-            android:layout_below="@id/activity_register_credit_card_number_layout"
-            android:layout_marginTop="11dp"
-            android:background="@drawable/roundbox">
-
-            <TextView
-                android:id="@+id/activity_register_credit_card_expiration_date_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="21dp"
-                android:layout_marginStart="21dp"
-                android:text="유효기간"
-                android:textColor="@color/bikeeDarkGray"
-                android:textSize="12dp" />
-
-            <RelativeLayout
-                android:id="@+id/activity_register_credit_card_expiration_date_year_layout"
-                android:layout_width="72dp"
-                android:layout_height="32dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="21dp"
-                android:layout_marginRight="21dp"
-                android:background="@drawable/inputbox_before"
-                android:gravity="center">
-
-                <EditText
-                    android:id="@+id/activity_register_credit_card_expiration_date_year_edit_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:background="@null"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:gravity="center"
-                    android:hint="YYYY"
-                    android:inputType="number"
-                    android:maxLength="4"
-                    android:nextFocusDown="@+id/activity_register_credit_card_birth_date_year_edit_text"
-                    android:nextFocusForward="@+id/activity_register_credit_card_birth_date_year_edit_text"
-                    android:nextFocusLeft="@+id/activity_register_credit_card_birth_date_year_edit_text"
-                    android:nextFocusRight="@+id/activity_register_credit_card_birth_date_year_edit_text"
-                    android:nextFocusUp="@+id/activity_register_credit_card_birth_date_year_edit_text"
-                    android:textColor="@color/bikeeBlack"
-                    android:textColorHint="@color/bikeeLightGray" />
-
-                <ImageView
-                    android:id="@+id/activity_register_credit_card_expiration_date_year_extension_image_view"
-                    android:layout_width="18dp"
-                    android:layout_height="23dp"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/activity_register_credit_card_expiration_date_year_edit_text"
-                    android:layout_toRightOf="@+id/activity_register_credit_card_expiration_date_year_edit_text"
-                    android:paddingBottom="8dp"
-                    android:paddingLeft="8dp"
-                    android:paddingStart="8dp"
-                    android:paddingTop="8dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/scroll_icon_down" />
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/activity_register_credit_card_expiration_date_separator_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@id/activity_register_credit_card_expiration_date_year_layout"
-                android:layout_toStartOf="@id/activity_register_credit_card_expiration_date_year_layout"
-                android:text="/"
-                android:textColor="#424242"
-                android:textSize="18dp" />
-
-            <RelativeLayout
-                android:id="@+id/activity_register_credit_card_expiration_date_month_layout"
-                android:layout_width="59dp"
-                android:layout_height="32dp"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@id/activity_register_credit_card_expiration_date_separator_text_view"
-                android:layout_toStartOf="@id/activity_register_credit_card_expiration_date_separator_text_view"
-                android:background="@drawable/inputbox_before"
-                android:gravity="center">
-
-                <EditText
-                    android:id="@+id/activity_register_credit_card_expiration_date_month_edit_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:background="@null"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:gravity="center"
-                    android:hint="MM"
-                    android:inputType="number"
-                    android:maxLength="2"
-                    android:nextFocusDown="@id/activity_register_credit_card_expiration_date_year_edit_text"
-                    android:nextFocusForward="@id/activity_register_credit_card_expiration_date_year_edit_text"
-                    android:nextFocusLeft="@id/activity_register_credit_card_expiration_date_year_edit_text"
-                    android:nextFocusRight="@id/activity_register_credit_card_expiration_date_year_edit_text"
-                    android:nextFocusUp="@id/activity_register_credit_card_expiration_date_year_edit_text"
-                    android:textColor="@color/bikeeBlack"
-                    android:textColorHint="@color/bikeeLightGray" />
-
-                <ImageView
-                    android:id="@+id/activity_register_credit_card_expiration_date_month_extension_image_view"
-                    android:layout_width="18dp"
-                    android:layout_height="23dp"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/activity_register_credit_card_expiration_date_month_edit_text"
-                    android:layout_toRightOf="@+id/activity_register_credit_card_expiration_date_month_edit_text"
-                    android:paddingBottom="8dp"
-                    android:paddingLeft="8dp"
-                    android:paddingStart="8dp"
-                    android:paddingTop="8dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/scroll_icon_down" />
-            </RelativeLayout>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/activity_register_credit_card_birth_date_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="57dp"
-            android:layout_below="@id/activity_register_credit_card_expiration_date_layout"
-            android:layout_marginTop="11dp"
-            android:background="@drawable/roundbox">
-
-            <TextView
-                android:id="@+id/activity_register_credit_card_birth_date_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="21dp"
-                android:layout_marginStart="21dp"
-                android:text="생년월일"
-                android:textColor="@color/bikeeDarkGray"
-                android:textSize="12dp" />
-
-            <RelativeLayout
-                android:id="@+id/activity_register_credit_card_birth_date_day_layout"
-                android:layout_width="59dp"
-                android:layout_height="32dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="21dp"
-                android:layout_marginRight="21dp"
-                android:background="@drawable/inputbox_before"
-                android:gravity="center">
-
-                <EditText
-                    android:id="@+id/activity_register_credit_card_birth_date_day_edit_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:background="@null"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:gravity="center"
-                    android:hint="DD"
-                    android:inputType="number"
-                    android:maxLength="2"
-                    android:nextFocusDown="@+id/activity_register_credit_card_password_first_edit_text"
-                    android:nextFocusForward="@+id/activity_register_credit_card_password_first_edit_text"
-                    android:nextFocusLeft="@+id/activity_register_credit_card_password_first_edit_text"
-                    android:nextFocusRight="@+id/activity_register_credit_card_password_first_edit_text"
-                    android:nextFocusUp="@+id/activity_register_credit_card_password_first_edit_text"
-                    android:textColorHint="@color/bikeeLightGray" />
-
-                <ImageView
-                    android:id="@+id/activity_register_credit_card_birth_date_day_extension_image_view"
-                    android:layout_width="18dp"
-                    android:layout_height="23dp"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@id/activity_register_credit_card_birth_date_day_edit_text"
-                    android:layout_toRightOf="@id/activity_register_credit_card_birth_date_day_edit_text"
-                    android:paddingBottom="8dp"
-                    android:paddingLeft="8dp"
-                    android:paddingStart="8dp"
-                    android:paddingTop="8dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/scroll_icon_down" />
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/activity_register_credit_card_birth_date_month_day_separator"
-                android:layout_width="11dp"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@id/activity_register_credit_card_birth_date_day_layout"
-                android:layout_toStartOf="@id/activity_register_credit_card_birth_date_day_layout"
-                android:gravity="center"
-                android:text="-"
-                android:textColor="#424242"
-                android:textSize="18dp" />
-
-            <RelativeLayout
-                android:id="@+id/activity_register_credit_card_birth_date_month_layout"
-                android:layout_width="59dp"
-                android:layout_height="32dp"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@id/activity_register_credit_card_birth_date_month_day_separator"
-                android:layout_toStartOf="@id/activity_register_credit_card_birth_date_month_day_separator"
-                android:background="@drawable/inputbox_before"
-                android:gravity="center">
-
-                <EditText
-                    android:id="@+id/activity_register_credit_card_birth_date_month_edit_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:background="@null"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:gravity="center"
-                    android:hint="MM"
-                    android:inputType="number"
-                    android:maxLength="2"
-                    android:nextFocusDown="@id/activity_register_credit_card_birth_date_day_edit_text"
-                    android:nextFocusForward="@id/activity_register_credit_card_birth_date_day_edit_text"
-                    android:nextFocusLeft="@id/activity_register_credit_card_birth_date_day_edit_text"
-                    android:nextFocusRight="@id/activity_register_credit_card_birth_date_day_edit_text"
-                    android:nextFocusUp="@id/activity_register_credit_card_birth_date_day_edit_text"
-                    android:textColorHint="@color/bikeeLightGray" />
-
-                <ImageView
-                    android:id="@+id/activity_register_credit_card_birth_date_month_extension_image_view"
-                    android:layout_width="18dp"
-                    android:layout_height="23dp"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@id/activity_register_credit_card_birth_date_month_edit_text"
-                    android:layout_toRightOf="@id/activity_register_credit_card_birth_date_month_edit_text"
-                    android:paddingBottom="8dp"
-                    android:paddingLeft="8dp"
-                    android:paddingStart="8dp"
-                    android:paddingTop="8dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/scroll_icon_down" />
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/activity_register_credit_card_birth_date_year_month_separator"
-                android:layout_width="11dp"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@id/activity_register_credit_card_birth_date_month_layout"
-                android:layout_toStartOf="@id/activity_register_credit_card_birth_date_month_layout"
-                android:gravity="center"
-                android:text="-"
-                android:textColor="#424242"
-                android:textSize="18dp" />
-
-            <RelativeLayout
-                android:id="@+id/activity_register_credit_card_birth_date_year_layout"
-                android:layout_width="73dp"
-                android:layout_height="32dp"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@id/activity_register_credit_card_birth_date_year_month_separator"
-                android:layout_toStartOf="@id/activity_register_credit_card_birth_date_year_month_separator"
-                android:background="@drawable/inputbox_before"
-                android:gravity="center">
-
-                <EditText
-                    android:id="@+id/activity_register_credit_card_birth_date_year_edit_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:background="@null"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:gravity="center"
-                    android:hint="YYYY"
-                    android:inputType="number"
-                    android:maxLength="4"
-                    android:nextFocusDown="@id/activity_register_credit_card_birth_date_month_edit_text"
-                    android:nextFocusForward="@id/activity_register_credit_card_birth_date_month_edit_text"
-                    android:nextFocusLeft="@id/activity_register_credit_card_birth_date_month_edit_text"
-                    android:nextFocusRight="@id/activity_register_credit_card_birth_date_month_edit_text"
-                    android:nextFocusUp="@id/activity_register_credit_card_birth_date_month_edit_text"
-                    android:textColor="@color/bikeeBlack"
-                    android:textColorHint="@color/bikeeLightGray" />
-
-                <ImageView
-                    android:id="@+id/activity_register_credit_card_birth_date_year_extension_image_view"
-                    android:layout_width="18dp"
-                    android:layout_height="23dp"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@id/activity_register_credit_card_birth_date_year_edit_text"
-                    android:layout_toRightOf="@id/activity_register_credit_card_birth_date_year_edit_text"
-                    android:paddingBottom="8dp"
-                    android:paddingLeft="8dp"
-                    android:paddingStart="8dp"
-                    android:paddingTop="8dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/scroll_icon_down" />
-            </RelativeLayout>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/activity_register_credit_card_password_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="57dp"
-            android:layout_below="@id/activity_register_credit_card_birth_date_layout"
-            android:layout_marginTop="11dp"
-            android:background="@drawable/roundbox">
-
-            <TextView
-                android:id="@+id/activity_register_credit_card_password_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="21dp"
-                android:layout_marginStart="21dp"
-                android:text="비밀번호"
-                android:textColor="@color/bikeeDarkGray"
-                android:textSize="12dp" />
-
-            <View
-                android:id="@+id/activity_register_credit_card_password_firth_edit_text"
-                android:layout_width="6dp"
-                android:layout_height="6dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="21dp"
-                android:layout_marginRight="21dp"
-                android:background="@drawable/password" />
-
-            <View
-                android:id="@+id/activity_register_credit_card_password_third_edit_text"
-                android:layout_width="6dp"
-                android:layout_height="6dp"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_toLeftOf="@id/activity_register_credit_card_password_firth_edit_text"
-                android:layout_toStartOf="@id/activity_register_credit_card_password_firth_edit_text"
-                android:background="@drawable/password" />
-
-            <EditText
-                android:id="@+id/activity_register_password_second_edit_text"
-                android:layout_width="25dp"
-                android:layout_height="32dp"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_toLeftOf="@id/activity_register_credit_card_password_third_edit_text"
-                android:layout_toStartOf="@id/activity_register_credit_card_password_third_edit_text"
-                android:background="@drawable/inputbox_before"
-                android:gravity="center"
-                android:inputType="number"
-                android:maxLength="1"
-                android:nextFocusDown="@+id/activity_register_credit_card_card_nickname_edit_text"
-                android:nextFocusForward="@+id/activity_register_credit_card_card_nickname_edit_text"
-                android:nextFocusLeft="@+id/activity_register_credit_card_card_nickname_edit_text"
-                android:nextFocusRight="@+id/activity_register_credit_card_card_nickname_edit_text"
-                android:nextFocusUp="@+id/activity_register_credit_card_card_nickname_edit_text"
-                android:textColor="@color/bikeeBlack"
-                android:textSize="18dp" />
-
-            <EditText
-                android:id="@+id/activity_register_credit_card_password_first_edit_text"
-                android:layout_width="25dp"
-                android:layout_height="32dp"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="6dp"
-                android:layout_marginRight="6dp"
-                android:layout_toLeftOf="@id/activity_register_password_second_edit_text"
-                android:layout_toStartOf="@id/activity_register_password_second_edit_text"
-                android:background="@drawable/inputbox_before"
-                android:gravity="center"
-                android:inputType="number"
-                android:maxLength="1"
-                android:nextFocusDown="@+id/activity_register_credit_card_password_second_edit_text"
-                android:nextFocusForward="@+id/activity_register_credit_card_password_second_edit_text"
-                android:nextFocusLeft="@+id/activity_register_credit_card_password_second_edit_text"
-                android:nextFocusRight="@+id/activity_register_credit_card_password_second_edit_text"
-                android:nextFocusUp="@+id/activity_register_credit_card_password_second_edit_text"
-                android:textColor="@color/bikeeBlack"
-                android:textSize="18dp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/activity_register_credit_card_card_nickname_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="57dp"
-            android:layout_below="@id/activity_register_credit_card_password_layout"
-            android:layout_marginTop="11dp"
-            android:background="@drawable/roundbox">
-
-            <TextView
-                android:id="@+id/activity_register_credit_card_card_nickname_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="21dp"
-                android:layout_marginStart="21dp"
-                android:text="카드 별명"
-                android:textColor="@color/bikeeDarkGray"
-                android:textSize="12dp" />
-
-            <EditText
-                android:id="@+id/activity_register_credit_card_card_nickname_edit_text"
-                android:layout_width="201dp"
-                android:layout_height="32dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="21dp"
-                android:layout_marginRight="21dp"
-                android:background="@drawable/inputbox_before"
-                android:gravity="start|center_vertical"
-                android:paddingEnd="10dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingStart="10dp"
-                android:singleLine="true"
-                android:textColor="@color/bikeeBlack"
-                android:textSize="18dp" />
-        </RelativeLayout>
-
-        <Button
-            android:id="@+id/activity_register_credit_card_register_card_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/detailpage_button2"
-            android:text="등록하기"
-            android:textColor="@color/bikeeWhite"
-            android:textSize="19dp" />
+            android:layout_height="4dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/shadow" />
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

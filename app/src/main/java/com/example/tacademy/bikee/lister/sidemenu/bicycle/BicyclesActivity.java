@@ -50,7 +50,7 @@ public class BicyclesActivity extends AppCompatActivity implements OnAdapterClic
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setCustomView(R.layout.lister_backable_addable_tool_bar);
+        getSupportActionBar().setCustomView(R.layout.lister_backable_addable_toolbar);
 
         ButterKnife.bind(this);
 
@@ -68,12 +68,12 @@ public class BicyclesActivity extends AppCompatActivity implements OnAdapterClic
         init();
     }
 
-    @OnClick(R.id.lister_backable_addable_tool_bar_back_button_layout)
+    @OnClick(R.id.lister_backable_addable_toolbar_back_button_layout)
     void back() {
         super.onBackPressed();
     }
 
-    @OnClick(R.id.lister_backable_addable_tool_bar_register_bicycle_button_layout)
+    @OnClick(R.id.lister_backable_addable_toolbar_register_bicycle_button_layout)
     void register() {
         Intent intent = new Intent(BicyclesActivity.this, RegisterBicycleActivity.class);
         startActivityForResult(intent, REGISTER_BICYCLE_ACTIVITY);

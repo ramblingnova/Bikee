@@ -12,13 +12,13 @@ import lombok.Setter;
 public class CommentItem {
     @Getter
     @Setter(AccessLevel.PUBLIC)
-    String userImageURL;
+    String imageURL;
     @Getter
     @Setter(AccessLevel.PUBLIC)
-    String userName;
+    String title1;
     @Getter
     @Setter(AccessLevel.PUBLIC)
-    String bicycleName;
+    String title2;
     @Getter
     @Setter(AccessLevel.PUBLIC)
     Date date;
@@ -28,31 +28,38 @@ public class CommentItem {
     @Getter
     @Setter(AccessLevel.PUBLIC)
     int point;
+    @Getter
+    @Setter(AccessLevel.PUBLIC)
+    int type;
 
-    public CommentItem(String userImageURL,
-                       String userName,
+    public CommentItem(String imageURL,
+                       String title1,
                        Date date,
                        String comment,
-                       int point) {
-        this.userImageURL = userImageURL;
-        this.userName = userName;
-        this.bicycleName = null;
+                       int point,
+                       int type) {
+        this.imageURL = imageURL;
+        this.title1 = title1;
+        this.title2 = null;
         this.date = date;
         this.comment = comment;
         this.point = point;
+        this.type = type;
     }
 
-    public CommentItem(String userImageURL,
-                       String userName,
-                       String bicycleName,
+    public CommentItem(String imageURL,
+                       String title1,
+                       String title2,
                        Date date,
                        String comment,
-                       int point) {
-        this.userImageURL = userImageURL;
-        this.userName = userName;
-        this.bicycleName = bicycleName;
+                       int point,
+                       int type) {
+        this.imageURL = imageURL;
+        this.title1 = title1;
+        this.title2 = title2;
         this.date = date;
         this.comment = comment;
         this.point = point;
+        this.type = type;
     }
 }

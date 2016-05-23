@@ -2,6 +2,7 @@ package com.example.tacademy.bikee.common.sidemenu.comment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,9 +10,13 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.common.content.ContentActivity;
 import com.example.tacademy.bikee.etc.dao.Comment;
 import com.example.tacademy.bikee.etc.dao.ReceiveObject;
 import com.example.tacademy.bikee.etc.dao.Result;
@@ -24,6 +29,7 @@ import com.tsengvn.typekit.TypekitContextWrapper;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Call;
@@ -31,43 +37,108 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CommentsActivity extends AppCompatActivity {
+    @Bind(R.id.toolbar_layout)
+    RelativeLayout toolbarLayout;
+    @Bind(R.id.toolbar_left_icon_back_image_view)
+    ImageView toolbarLeftIconBackImageView;
+    @Bind(R.id.toolbar_center_text_view)
+    TextView toolbarCenterTextView;
+    @Bind(R.id.toolbar_right_icon_image_view)
+    ImageView toolbarRightIconImageView;
+    @Bind(R.id.activity_comments_recycler_view)
+    RecyclerView recyclerView;
+
     private Intent intent;
-    private RecyclerView recycler;
     private LinearLayoutManager layoutManager;
     private CommentAdapter adapter;
     private String from;
+    private String bicycleId;
 
+    public static final int RENTER_COMMENT = 1;
+    public static final int BICYCLE_COMMENT = 2;
+    public static final int LISTER_COMMENT = 3;
     private static final String TAG = "COMMENTS_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comments);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.activity_evaluating_bicycle_post_script_list_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setCustomView(R.layout.post_script_backable_tool_bar);
+        getSupportActionBar().setCustomView(R.layout.toolbar);
+
         ButterKnife.bind(this);
 
         intent = getIntent();
         from = intent.getStringExtra("FROM");
+        if (from.equals(ContentActivity.TAG))
+            bicycleId = intent.getStringExtra("BICYCLE_ID");
 
-        recycler = (RecyclerView) findViewById(R.id.activity_comments_recycler_view);
+        if (from.equals(RenterMainActivity.TAG)
+                || from.equals(ListerMainActivity.TAG)) {
+            /* 툴바 배경색 */
+            if (Build.VERSION.SDK_INT < 23)
+                toolbarLayout.setBackgroundColor(getResources().getColor(R.color.bikeeBlue));
+            else
+                toolbarLayout.setBackgroundColor(getResources().getColor(R.color.bikeeBlue, getTheme()));
+
+            /* 툴바 왼쪽 */
+            toolbarLeftIconBackImageView.setVisibility(View.VISIBLE);
+            toolbarLeftIconBackImageView.setImageResource(R.drawable.icon_before_w);
+
+            /* 툴바 가운데 */
+            toolbarCenterTextView.setVisibility(View.VISIBLE);
+            if (Build.VERSION.SDK_INT < 23)
+                toolbarCenterTextView.setTextColor(getResources().getColor(R.color.bikeeWhite));
+            else
+                toolbarCenterTextView.setTextColor(getResources().getColor(R.color.bikeeWhite, getTheme()));
+            if (from.equals(RenterMainActivity.TAG)) {
+                toolbarCenterTextView.setText("내가 쓴 후기");
+
+                /* 툴바 오른쪽 */
+                toolbarRightIconImageView.setImageResource(R.drawable.rider_main_icon);
+            } else if (from.equals(ListerMainActivity.TAG)) {
+                toolbarCenterTextView.setText("내 자전거 후기");
+
+                /* 툴바 오른쪽 */
+                toolbarRightIconImageView.setImageResource(R.drawable.lister_main_icon);
+            }
+        } else if (from.equals(ContentActivity.TAG)) {
+            /* 툴바 배경색 */
+            if (Build.VERSION.SDK_INT < 23)
+                toolbarLayout.setBackgroundColor(getResources().getColor(R.color.bikeeWhite));
+            else
+                toolbarLayout.setBackgroundColor(getResources().getColor(R.color.bikeeWhite, getTheme()));
+
+            /* 툴바 왼쪽 */
+            toolbarLeftIconBackImageView.setVisibility(View.VISIBLE);
+            toolbarLeftIconBackImageView.setImageResource(R.drawable.icon_before);
+
+            /* 툴바 가운데 */
+            toolbarCenterTextView.setVisibility(View.VISIBLE);
+            if (Build.VERSION.SDK_INT < 23)
+                toolbarCenterTextView.setTextColor(getResources().getColor(R.color.bikeeBlack));
+            else
+                toolbarCenterTextView.setTextColor(getResources().getColor(R.color.bikeeBlack, getTheme()));
+            toolbarCenterTextView.setText("후기");
+        }
 
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
-        recycler.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(layoutManager);
 
         adapter = new CommentAdapter();
 
-        recycler.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
 
         init();
     }
 
-    @OnClick(R.id.post_script_backable_tool_bar_back_button_layout)
+    @OnClick(R.id.toolbar_left_icon_layout)
     void back(View view) {
         super.onBackPressed();
     }
@@ -100,7 +171,8 @@ public class CommentsActivity extends AppCompatActivity {
                                                     result.getBike().getTitle(),
                                                     comment.getCreatedAt(),
                                                     comment.getBody(),
-                                                    point
+                                                    point,
+                                                    RENTER_COMMENT
                                             )
                                     );
                                 }
@@ -110,6 +182,56 @@ public class CommentsActivity extends AppCompatActivity {
                         public void onFailure(Call<UserCommentReceiveObject> call, Throwable t) {
                             if (BuildConfig.DEBUG)
                                 Log.d(TAG, "selectUserComment onFailure", t);
+                        }
+                    });
+        } else if (from.equals(ContentActivity.TAG)){
+            NetworkManager.getInstance().selectBicycleComment(
+                    bicycleId,
+                    null,
+                    new Callback<ReceiveObject>() {
+                        @Override
+                        public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                            ReceiveObject receiveObject = response.body();
+                            Log.i("result", "onResponse Success");
+                            List<Result> results = receiveObject.getResult();
+                            for (Result result : results) {
+                                if (null != result) {
+                                    for (Comment comment : result.getComments()) {
+                                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM.dd HH:mm");
+                                        String imageURL;
+                                        if ((null == comment.getWriter().getImage())
+                                                || (null == comment.getWriter().getImage().getCdnUri())
+                                                || (null == comment.getWriter().getImage().getFiles())
+                                                || (null == comment.getWriter().getImage().getFiles().get(0))) {
+                                            imageURL = "";
+                                        } else {
+                                            imageURL = comment.getWriter().getImage().getCdnUri() + comment.getWriter().getImage().getFiles().get(0);
+                                        }
+                                        Log.d(TAG, "onResponse ImageURL : " + imageURL
+                                                        + ", WriterName : " + comment.getWriter().getName()
+                                                        + ", Point : " + comment.getPoint()
+                                                        + ", PostScript : " + comment.getBody()
+                                                        + ", CreateAt : " + simpleDateFormat.format(comment.getCreatedAt())
+                                        );
+                                        adapter.add(
+                                                new CommentItem(
+                                                        imageURL,
+                                                        comment.getWriter().getName(),
+                                                        comment.getCreatedAt(),
+                                                        comment.getBody(),
+                                                        comment.getPoint(),
+                                                        BICYCLE_COMMENT
+                                                )
+                                        );
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "onFailure Error : " + t.toString());
                         }
                     });
         } else if (from.equals(ListerMainActivity.TAG)) {
@@ -149,7 +271,8 @@ public class CommentsActivity extends AppCompatActivity {
                                                     result.getBike().getTitle(),
                                                     comment.getCreatedAt(),
                                                     comment.getBody(),
-                                                    comment.getPoint()
+                                                    comment.getPoint(),
+                                                    LISTER_COMMENT
                                             )
                                     );
                                 }

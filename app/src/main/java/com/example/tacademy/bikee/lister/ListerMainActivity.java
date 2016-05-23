@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
@@ -39,6 +40,16 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 public class ListerMainActivity extends AppCompatActivity implements TabHost.OnTabChangeListener {
+    @Bind(R.id.toolbar_layout)
+    RelativeLayout toolbarLayout;
+    @Bind(R.id.toolbar_left_icon_drawer_image_view)
+    ImageView toolbarLeftIconDrawerImageView;
+    @Bind(R.id.toolbar_center_icon_image_view)
+    ImageView toolbarCenterIconImageView;
+    @Bind(R.id.toolbar_right_icon_image_view)
+    ImageView toolbarRightIconImageView;
+    @Bind(R.id.lister_activity_main_drawer_layout)
+    DrawerLayout drawerLayout;
     @Bind(R.id.lister_side_menu_lister_image_image_view)
     ImageView listerImage;
     @Bind(R.id.lister_side_menu_member_name_text_view)
@@ -49,8 +60,6 @@ public class ListerMainActivity extends AppCompatActivity implements TabHost.OnT
     CheckBox push;
 
     private Intent intent;
-    private Toolbar toolbar;
-    private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
     private FragmentTabHost tabHost;
     private ImageView btt_iv1, btt_iv2, btt_iv3;
@@ -62,17 +71,32 @@ public class ListerMainActivity extends AppCompatActivity implements TabHost.OnT
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lister_activity_main);
 
-        toolbar = (Toolbar) findViewById(R.id.lister_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.lister_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setCustomView(R.layout.lister_main_tool_bar);
+        getSupportActionBar().setCustomView(R.layout.toolbar);
 
-        drawer = (DrawerLayout) findViewById(R.id.lister_activity_main_drawer_layout);
+        ButterKnife.bind(this);
 
-        toggle = new ActionBarDrawerToggle(this, drawer, null, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        /* 툴바 배경 */
+        if (Build.VERSION.SDK_INT < 23)
+            toolbarLayout.setBackgroundColor(getResources().getColor(R.color.bikeeBlue));
+        else
+            toolbarLayout.setBackgroundColor(getResources().getColor(R.color.bikeeBlue, getTheme()));
+
+        /* 툴바 왼쪽 */
+        toolbarLeftIconDrawerImageView.setVisibility(View.VISIBLE);
+
+        /* 툴바 가운데 */
+        toolbarCenterIconImageView.setVisibility(View.VISIBLE);
+
+        /* 툴바 오른쪽 */
+        toolbarRightIconImageView.setImageResource(R.drawable.lister_main_icon);
+
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, null, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
 
         setBottomTabImage();
@@ -82,8 +106,6 @@ public class ListerMainActivity extends AppCompatActivity implements TabHost.OnT
         tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator(btt_iv2), ChattingRoomsFragment.class, null);
         tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator(btt_iv3), SmartKeyFragment.class, null);
         tabHost.setOnTabChangedListener(this);
-
-        ButterKnife.bind(this);
 
         initProfile();
     }
@@ -114,9 +136,9 @@ public class ListerMainActivity extends AppCompatActivity implements TabHost.OnT
         }
     }
 
-    @OnClick(R.id.lister_main_tool_bar_hamburger_icon_layout)
+    @OnClick(R.id.toolbar_left_icon_layout)
     void clickHamburgerIcon() {
-        drawer.openDrawer(Gravity.LEFT);
+        drawerLayout.openDrawer(Gravity.LEFT);
     }
 
     @OnClick({R.id.lister_side_menu_lister_image_image_view,
@@ -218,7 +240,6 @@ public class ListerMainActivity extends AppCompatActivity implements TabHost.OnT
                         this,
                         PropertyManager.getInstance().getImage(),
                         R.drawable.noneimage,
-                        0,
                         listerImage
                 );
                 nameTextView.setText(PropertyManager.getInstance().getName());
@@ -229,7 +250,6 @@ public class ListerMainActivity extends AppCompatActivity implements TabHost.OnT
                         this,
                         "https://s3-ap-northeast-1.amazonaws.com/bikee/KakaoTalk_20151128_194521490.png",
                         R.drawable.noneimage,
-                        0,
                         listerImage
                 );
                 nameTextView.setText(R.string.renter_side_menu_member_name_text_view_string);

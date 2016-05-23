@@ -1,5 +1,6 @@
 package com.example.tacademy.bikee.common.content.popup;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,7 +14,9 @@ import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.etc.dao.CardReceiveObject;
 import com.example.tacademy.bikee.etc.dao.CardResult;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
-import com.example.tacademy.bikee.etc.manager.PropertyManager;
+import com.tsengvn.typekit.TypekitContextWrapper;
+
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -29,11 +32,15 @@ public class CardSelectionActivity extends AppCompatActivity implements AdapterV
     private Intent intent;
     private CardAdapter adapter;
     private String bicycleId;
-    private String listerId;
-    private String reservationId;
+    private String bicycleImage;
     private String bicycleName;
-    private String renterEmail;
-    private String renterName;
+    private String listerId;
+    private String listerName;
+    private String reservationId;
+    private Date rentalStartDate;
+    private Date rentalEndDate;
+    private String rentalPeriod;
+    private int rentalPrice;
     private String cardId;
 
 
@@ -48,11 +55,15 @@ public class CardSelectionActivity extends AppCompatActivity implements AdapterV
 
         intent = getIntent();
         bicycleId = intent.getStringExtra("BICYCLE_ID");
-        listerId = intent.getStringExtra("LISTER_ID");
-        reservationId = intent.getStringExtra("RESERVATION_ID");
+        bicycleImage = intent.getStringExtra("BICYCLE_IMAGE");
         bicycleName = intent.getStringExtra("BICYCLE_NAME");
-        renterEmail = PropertyManager.getInstance().getEmail();
-        renterName = PropertyManager.getInstance().getName();
+        listerId = intent.getStringExtra("LISTER_ID");
+        listerName = intent.getStringExtra("LISTER_NAME");
+        reservationId = intent.getStringExtra("RESERVATION_ID");
+        rentalStartDate = (Date) intent.getSerializableExtra("RENTAL_START_DATE");
+        rentalEndDate = (Date) intent.getSerializableExtra("RENTAL_END_DATE");
+        rentalPeriod = intent.getStringExtra("RENTAL_PERIOD");
+        rentalPrice = intent.getIntExtra("RENTAL_PRICE", -1);
 
         adapter = new CardAdapter();
         adapter.setOnCardAdapterCheckedChangeListener(this);
@@ -65,110 +76,14 @@ public class CardSelectionActivity extends AppCompatActivity implements AdapterV
 
     @Override
     public void onCardAdapterCheckedChanged(CardItem item) {
-        Log.d(TAG, "onCardAdapterCheckedChanged");
+        if (BuildConfig.DEBUG)
+            Log.d(TAG, "onCardAdapterCheckedChanged");
         cardId = item.getId();
     }
 
     @Override
     public void onItemClick(final AdapterView<?> parent, View view, final int position, long id) {
-//        NetworkManager.getInstance().receiveCardToken(
-//                null,
-//                new Callback<CardTokenReceiveObject>() {
-//                    @Override
-//                    public void onResponse(Call<CardTokenReceiveObject> call, Response<CardTokenReceiveObject> response) {
-//                        if (BuildConfig.DEBUG)
-//                            Log.d(TAG, "receiveCardToken onResponse");
-//
-//                        CardTokenReceiveObject cardTokenReceiveObject = response.body();
-//                        cardTokenReceiveObject.getToken();
-//
-//                        IAmPortSendObject iAmPortSendObject = new IAmPortSendObject();
-//                        iAmPortSendObject.setMerchant_uid("bikee_" + new Date().getTime());
-//                        iAmPortSendObject.setAmount(1000);
-//
-//                        IAmPortNetworkManager.getInstance().prepayment(
-//                                cardTokenReceiveObject.getToken(),
-//                                iAmPortSendObject,
-//                                null,
-//                                new Callback<IAmPortReceiveObject>() {
-//                                    @Override
-//                                    public void onResponse(Call<IAmPortReceiveObject> call, Response<IAmPortReceiveObject> response) {
-//                                        IAmPortReceiveObject iAmPortReceiveObject = response.body();
-//
-//                                        if (BuildConfig.DEBUG)
-//                                            Log.d(TAG, "prepayment onResponse");
-//
-//                                        if (iAmPortReceiveObject.getCode().equals("0")) {
-//                                            if (BuildConfig.DEBUG)
-//                                                Log.d(TAG, "prepayment 사전 결제 성공");
-//
-//                                            PaymentSendObject paymentSendObject = new PaymentSendObject();
-//                                            paymentSendObject.setAmount(iAmPortReceiveObject.getResponse().getAmount());
-//                                            paymentSendObject.setMerchant_uid(iAmPortReceiveObject.getResponse().getMerchant_uid());
-//                                            paymentSendObject.setLister(listerId);
-//                                            paymentSendObject.setBike(bicycleId);
-//                                            paymentSendObject.setName(bicycleName);
-//                                            paymentSendObject.setBuyer_email(renterEmail);
-//                                            paymentSendObject.setBuyer_name(renterName);
-//
-//                                            NetworkManager.getInstance().payment(
-//                                                    ((CardItem) parent.getItemAtPosition(position)).getId(),
-//                                                    paymentSendObject,
-//                                                    null,
-//                                                    new Callback<CardReceiveObject>() {
-//                                                        @Override
-//                                                        public void onResponse(Call<CardReceiveObject> call, Response<CardReceiveObject> response) {
-//                                                            if (BuildConfig.DEBUG)
-//                                                                Log.d(TAG, "payment onResponse");
-//
-//                                                            String reservationId = intent.getStringExtra("RESERVATION_ID");
-//                                                            NetworkManager.getInstance().reserveStatus(
-//                                                                    reservationId,
-//                                                                    bicycleId,
-//                                                                    "PS",
-//                                                                    null,
-//                                                                    new Callback<ReceiveObject>() {
-//                                                                        @Override
-//                                                                        public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
-//                                                                            if (BuildConfig.DEBUG)
-//                                                                                Log.d(TAG, "reserveStatus onResponse");
-//                                                                        }
-//
-//                                                                        @Override
-//                                                                        public void onFailure(Call<ReceiveObject> call, Throwable t) {
-//                                                                            if (BuildConfig.DEBUG)
-//                                                                                Log.d(TAG, "reserveStatus onFailure", t);
-//                                                                        }
-//                                                                    });
-//                                                        }
-//
-//                                                        @Override
-//                                                        public void onFailure(Call<CardReceiveObject> call, Throwable t) {
-//                                                            if (BuildConfig.DEBUG)
-//                                                                Log.d(TAG, "payment onFailure", t);
-//                                                        }
-//                                                    }
-//                                            );
-//                                        } else {
-//                                            if (BuildConfig.DEBUG)
-//                                                Log.d(TAG, "prepayment 사전 결제 실패");
-//                                        }
-//                                    }
-//
-//                                    @Override
-//                                    public void onFailure(Call<IAmPortReceiveObject> call, Throwable t) {
-//                                        if (BuildConfig.DEBUG)
-//                                            Log.d(TAG, "prepayment onFailure", t);
-//                                    }
-//                                });
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<CardTokenReceiveObject> call, Throwable t) {
-//                        if (BuildConfig.DEBUG)
-//                            Log.d(TAG, "receiveCardToken onFailure", t);
-//                    }
-//                });
+
     }
 
     @OnClick({R.id.activity_card_selection_cancel_button,
@@ -179,11 +94,17 @@ public class CardSelectionActivity extends AppCompatActivity implements AdapterV
                 onBackPressed();
                 break;
             case R.id.activity_card_selection_confirm_button:
-                intent = new Intent(CardSelectionActivity.this, FinallyPayment.class);
+                intent = new Intent(CardSelectionActivity.this, FinallyPaymentActivity.class);
                 intent.putExtra("BICYCLE_ID", bicycleId);
-                intent.putExtra("BICYCLE_ID", listerId);
-                intent.putExtra("BICYCLE_ID", reservationId);
-                intent.putExtra("BICYCLE_ID", bicycleName);
+                intent.putExtra("BICYCLE_IMAGE", bicycleImage);
+                intent.putExtra("BICYCLE_NAME", bicycleName);
+                intent.putExtra("LISTER_ID", listerId);
+                intent.putExtra("LISTER_NAME", listerName);
+                intent.putExtra("RESERVATION_ID", reservationId);
+                intent.putExtra("RENTAL_START_DATE", rentalStartDate);
+                intent.putExtra("RENTAL_END_DATE", rentalEndDate);
+                intent.putExtra("RENTAL_PERIOD", rentalPeriod);
+                intent.putExtra("RENTAL_PRICE", rentalPrice);
                 intent.putExtra("CARD_ID", cardId);
                 startActivity(intent);
                 break;
@@ -222,5 +143,10 @@ public class CardSelectionActivity extends AppCompatActivity implements AdapterV
                     }
                 }
         );
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 }

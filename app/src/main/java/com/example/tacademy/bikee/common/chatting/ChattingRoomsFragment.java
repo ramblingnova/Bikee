@@ -228,6 +228,22 @@ public class ChattingRoomsFragment extends Fragment implements OnAdapterClickLis
                             GetChannelInfoReceiveObject getChannelInfoReceiveObject = response.body();
 
                             SendBirdSendObject sendBirdSendObject = new SendBirdSendObject();
+                            // TODO : out of bounds exception 발생
+                            if (getChannelInfoReceiveObject != null)
+                                if (BuildConfig.DEBUG)
+                                    Log.d(TAG, "getChannelInfoReceiveObject");
+                            if (getChannelInfoReceiveObject.getResult() != null)
+                                if (BuildConfig.DEBUG)
+                                    Log.d(TAG, "getChannelInfoReceiveObject.getResult()");
+                            if (getChannelInfoReceiveObject.getResult().get(0) != null)
+                                if (BuildConfig.DEBUG)
+                                    Log.d(TAG, "getChannelInfoReceiveObject.getResult().get(0)");
+                            if (getChannelInfoReceiveObject.getResult().get(0).getRenter() != null)
+                                if (BuildConfig.DEBUG)
+                                    Log.d(TAG, "getChannelInfoReceiveObject.getResult().get(0).getRenter()");
+                            if (sendBirdSendObject != null)
+                                if (BuildConfig.DEBUG)
+                                    Log.d(TAG, "sendBirdSendObject");
                             sendBirdSendObject.setRenter(getChannelInfoReceiveObject.getResult().get(0).getRenter());
                             sendBirdSendObject.setLister(getChannelInfoReceiveObject.getResult().get(0).getLister());
                             sendBirdSendObject.setBike(getChannelInfoReceiveObject.getResult().get(0).getBike());

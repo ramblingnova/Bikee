@@ -1,116 +1,303 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".common.content.popup.FinallyPayment">
+    android:fitsSystemWindows="true"
+    tools:context=".common.content.popup.FinallyPaymentActivity">
 
-    <RelativeLayout
-        android:id="@+id/activity_finally_payment_information_layout"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/back_paper">
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/activity_finally_payment_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/back_paper">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <RelativeLayout
+                android:id="@+id/activity_finally_payment_bicycle_information_layout"
+                android:layout_width="match_parent"
+                android:layout_height="135dp"
+                android:paddingEnd="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingStart="20dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <View
+                    android:id="@+id/activity_finally_payment_bicycle_information_top_line_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="38dp"
+                    android:background="#B3B3B3" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/activity_finally_payment_bicycle_information_bicycle_picture_image_view"
+                    android:layout_width="89dp"
+                    android:layout_height="61dp"
+                    android:layout_below="@id/activity_finally_payment_bicycle_information_top_line_view"
+                    android:layout_marginTop="18dp"
+                    android:scaleType="fitXY" />
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/activity_finally_payment_bicycle_information_bicycle_title_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/activity_finally_payment_bicycle_information_bicycle_picture_image_view"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_toEndOf="@id/activity_finally_payment_bicycle_information_bicycle_picture_image_view"
+                    android:layout_toRightOf="@id/activity_finally_payment_bicycle_information_bicycle_picture_image_view"
+                    android:singleLine="true"
+                    android:textColor="@color/bikeeBlack"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/activity_finally_payment_bicycle_information_lister_name_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/activity_finally_payment_bicycle_information_bicycle_picture_image_view"
+                    android:layout_alignLeft="@id/activity_finally_payment_bicycle_information_bicycle_title_text_view"
+                    android:layout_alignStart="@id/activity_finally_payment_bicycle_information_bicycle_title_text_view"
+                    android:textColor="#9B9B9B"
+                    android:textSize="11dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="18dp"
+                    android:background="@color/bikeeLine" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/activity_finally_payment_rental_date_layout"
+                android:layout_width="match_parent"
+                android:layout_height="76dp"
+                android:layout_below="@id/activity_finally_payment_bicycle_information_layout"
+                android:paddingEnd="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingStart="20dp">
+
+                <ImageView
+                    android:id="@+id/activity_finally_payment_rental_date_icon_image_view"
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="18dp"
+                    android:src="@drawable/payment_icon1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/activity_finally_payment_rental_date_icon_image_view"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_toEndOf="@id/activity_finally_payment_rental_date_icon_image_view"
+                    android:layout_toRightOf="@id/activity_finally_payment_rental_date_icon_image_view"
+                    android:text="대여날짜"
+                    android:textColor="#9B9B9B"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/activity_finally_payment_rental_start_date_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/activity_finally_payment_rental_date_icon_image_view"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginRight="12dp"
+                    android:textColor="#9B9B9B"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/activity_finally_payment_rental_end_date_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/activity_finally_payment_rental_start_date_text_view"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#9B9B9B"
+                    android:textSize="14dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="19dp"
+                    android:background="@color/bikeeLine" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/activity_finally_payment_rental_period_layout"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_below="@id/activity_finally_payment_rental_date_layout"
+                android:paddingEnd="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingStart="20dp">
+
+                <ImageView
+                    android:id="@+id/activity_finally_payment_rental_period_icon_image_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="18dp"
+                    android:src="@drawable/payment_icon2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/activity_finally_payment_rental_period_icon_image_view"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_toEndOf="@id/activity_finally_payment_rental_period_icon_image_view"
+                    android:layout_toRightOf="@id/activity_finally_payment_rental_period_icon_image_view"
+                    android:text="대여시간"
+                    android:textColor="#9B9B9B"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/activity_finally_payment_rental_period_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/activity_finally_payment_rental_period_icon_image_view"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginRight="12dp"
+                    android:textColor="#9B9B9B"
+                    android:textSize="14dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="19dp"
+                    android:background="#B3B3B3" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="146dp"
+                android:layout_below="@id/activity_finally_payment_rental_period_layout"
+                android:paddingEnd="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingStart="20dp">
+
+                <ImageView
+                    android:id="@+id/activity_finally_payment_payment_icon_image_view"
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="48dp"
+                    android:src="@drawable/payment_icon3" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/activity_finally_payment_payment_icon_image_view"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_toEndOf="@id/activity_finally_payment_payment_icon_image_view"
+                    android:layout_toRightOf="@id/activity_finally_payment_payment_icon_image_view"
+                    android:text="결제금액"
+                    android:textColor="@color/bikeeBlack"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/activity_finally_payment_payment_unit_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/activity_finally_payment_payment_icon_image_view"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginRight="12dp"
+                    android:text="원"
+                    android:textColor="@color/bikeeBlack"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/activity_finally_payment_payment_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/activity_finally_payment_payment_icon_image_view"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginRight="3dp"
+                    android:layout_toLeftOf="@id/activity_finally_payment_payment_unit_text_view"
+                    android:layout_toStartOf="@id/activity_finally_payment_payment_unit_text_view"
+                    android:textColor="@color/bikeeBlack"
+                    android:textSize="27dp" />
+            </RelativeLayout>
         </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="26dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/activity_finally_payment_cancel_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:background="@drawable/detailpage_button1"
+                android:text="취소하기"
+                android:textColor="@color/bikeeWhite"
+                android:textSize="19dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/activity_finally_payment_payment_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_weight="0.5"
+                android:background="@drawable/detailpage_button2"
+                android:text="결제하기"
+                android:textColor="@color/bikeeWhite"
+                android:textSize="19dp" />
+        </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/shadow" />
     </RelativeLayout>
-
-    <Button
-        android:id="@+id/activity_finally_payment_cancel_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:text="취소하기" />
-
-    <Button
-        android:id="@+id/activity_finally_payment_payment_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:text="결제하기" />
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

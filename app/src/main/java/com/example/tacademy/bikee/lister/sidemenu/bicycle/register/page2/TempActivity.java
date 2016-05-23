@@ -39,7 +39,7 @@ public class TempActivity extends AppCompatActivity implements GoogleApiClient.C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_temp);
 
-        mGoogleApiClient = new GoogleApiClient
+        /*mGoogleApiClient = new GoogleApiClient
                 .Builder(this)
                 .addApi(Places.GEO_DATA_API)
                 .addApi(Places.PLACE_DETECTION_API)
@@ -58,7 +58,7 @@ public class TempActivity extends AppCompatActivity implements GoogleApiClient.C
 
         southwest = new LatLng(33.0, 124.5);
         northeast = new LatLng(38.9, 132.0);
-        bounds = new LatLngBounds(southwest, northeast);
+        bounds = new LatLngBounds(southwest, northeast);*/
     }
 
     @Override
@@ -96,7 +96,7 @@ public class TempActivity extends AppCompatActivity implements GoogleApiClient.C
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            Log.i("TEXTWATCHER", "ONCHANGE");
+            /*Log.i("TEXTWATCHER", "ONCHANGE");
 //            if (s.toString().matches(ImageUtil.REGEX_ADDRESS)) {
                 result = Places.GeoDataApi.getAutocompletePredictions(
                         mGoogleApiClient,
@@ -120,7 +120,7 @@ public class TempActivity extends AppCompatActivity implements GoogleApiClient.C
                         autocompletePredictions.release();
                     }
                 });
-//            }
+//            }*/
         }
 
         @Override

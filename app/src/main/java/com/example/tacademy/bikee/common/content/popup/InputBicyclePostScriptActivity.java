@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 
 import com.example.tacademy.bikee.BuildConfig;
@@ -26,11 +27,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class InputBicyclePostScriptActivity extends AppCompatActivity {
-    private Intent intent;
     @Bind(R.id.activity_input_bicycle_post_script_input_post_script_edit_text)
     EditText et;
     @Bind(R.id.activity_input_bicycle_post_script_rating_bar)
     RatingBar rb;
+
+    private Intent intent;
     private String bicycleId;
 
     private static final String TAG = "INPUT_B_P_S_ACTIVITY";
@@ -44,15 +46,18 @@ public class InputBicyclePostScriptActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setCustomView(R.layout.renter_backable_tool_bar);
+        getSupportActionBar().setCustomView(R.layout.toolbar);
 
         ButterKnife.bind(this);
+
+        ((ImageView) findViewById(R.id.toolbar_left_icon_back_image_view))
+                .setVisibility(View.VISIBLE);
 
         intent = getIntent();
         bicycleId = intent.getStringExtra("BICYCLE_ID");
     }
 
-    @OnClick(R.id.renter_backable_tool_bar_back_button_layout)
+    @OnClick(R.id.toolbar_left_icon_layout)
     void back(View view) {
         super.onBackPressed();
     }

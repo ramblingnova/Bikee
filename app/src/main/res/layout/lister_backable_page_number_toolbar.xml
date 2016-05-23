@@ -5,7 +5,7 @@
     android:background="@color/bikeeBlue">
 
     <RelativeLayout
-        android:id="@+id/lister_backable_page_movable_tool_bar_back_button_layout"
+        android:id="@+id/lister_backable_page_number_toolbar_back_button_layout"
         android:layout_width="?attr/actionBarSize"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentLeft="true"
@@ -39,7 +39,7 @@
         android:paddingRight="16dp">
 
         <ImageView
-            android:id="@+id/lister_backable_addable_tool_bar_top_num5_image_view"
+            android:id="@+id/lister_backable_page_number_toolbar_top_num5_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -48,47 +48,47 @@
             android:src="@drawable/topnum_4" />
 
         <ImageView
-            android:id="@+id/lister_backable_addable_tool_bar_top_num4_image_view"
+            android:id="@+id/lister_backable_page_number_toolbar_top_num4_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginEnd="3dp"
             android:layout_marginRight="3dp"
-            android:layout_toLeftOf="@id/lister_backable_addable_tool_bar_top_num5_image_view"
-            android:layout_toStartOf="@id/lister_backable_addable_tool_bar_top_num5_image_view"
+            android:layout_toLeftOf="@id/lister_backable_page_number_toolbar_top_num5_image_view"
+            android:layout_toStartOf="@id/lister_backable_page_number_toolbar_top_num5_image_view"
             android:src="@drawable/topnum_5" />
 
         <ImageView
-            android:id="@+id/lister_backable_addable_tool_bar_top_num3_image_view"
+            android:id="@+id/lister_backable_page_number_toolbar_top_num3_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginEnd="3dp"
             android:layout_marginRight="3dp"
-            android:layout_toLeftOf="@id/lister_backable_addable_tool_bar_top_num4_image_view"
-            android:layout_toStartOf="@id/lister_backable_addable_tool_bar_top_num4_image_view"
+            android:layout_toLeftOf="@id/lister_backable_page_number_toolbar_top_num4_image_view"
+            android:layout_toStartOf="@id/lister_backable_page_number_toolbar_top_num4_image_view"
             android:src="@drawable/topnum_3" />
 
         <ImageView
-            android:id="@+id/lister_backable_addable_tool_bar_top_num2_image_view"
+            android:id="@+id/lister_backable_page_number_toolbar_top_num2_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginEnd="3dp"
             android:layout_marginRight="3dp"
-            android:layout_toLeftOf="@id/lister_backable_addable_tool_bar_top_num3_image_view"
-            android:layout_toStartOf="@id/lister_backable_addable_tool_bar_top_num3_image_view"
+            android:layout_toLeftOf="@id/lister_backable_page_number_toolbar_top_num3_image_view"
+            android:layout_toStartOf="@id/lister_backable_page_number_toolbar_top_num3_image_view"
             android:src="@drawable/topnum_2" />
 
         <ImageView
-            android:id="@+id/lister_backable_addable_tool_bar_top_num1_image_view"
+            android:id="@+id/lister_backable_page_number_toolbar_top_num1_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginEnd="3dp"
             android:layout_marginRight="3dp"
-            android:layout_toLeftOf="@id/lister_backable_addable_tool_bar_top_num2_image_view"
-            android:layout_toStartOf="@id/lister_backable_addable_tool_bar_top_num2_image_view"
+            android:layout_toLeftOf="@id/lister_backable_page_number_toolbar_top_num2_image_view"
+            android:layout_toStartOf="@id/lister_backable_page_number_toolbar_top_num2_image_view"
             android:src="@drawable/topnum_1" />
     </RelativeLayout>
 </RelativeLayout>

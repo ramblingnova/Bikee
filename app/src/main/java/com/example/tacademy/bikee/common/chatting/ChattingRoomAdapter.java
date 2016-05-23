@@ -40,7 +40,7 @@ public class ChattingRoomAdapter extends RecyclerView.Adapter<ChattingRoomViewHo
 
     @Override
     public ChattingRoomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_chatting_room_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_chatting_room, parent, false);
 
         ChattingRoomViewHolder chattingRoomViewHolder = new ChattingRoomViewHolder(view);
 

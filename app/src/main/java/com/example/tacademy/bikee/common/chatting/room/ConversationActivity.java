@@ -58,8 +58,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ConversationActivity extends AppCompatActivity {
-    @Bind(R.id.conversation_toolbar_target_user_name_text_view)
-    TextView targetUserNameTextView;
+    @Bind(R.id.toolbar_layout)
+    RelativeLayout toolbarLayout;
+    @Bind(R.id.toolbar_left_icon_back_image_view)
+    ImageView toolbarLeftIconBackImageView;
+    @Bind(R.id.toolbar_center_text_view)
+    TextView toolbarCenterTextView;
+
     @Bind(R.id.activity_conversation_bicycle_image_image_view)
     ImageView bicycleImageImageView;
     @Bind(R.id.activity_conversation_bicycle_name_text_view)
@@ -108,7 +113,7 @@ public class ConversationActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setCustomView(R.layout.conversation_toolbar);
+        getSupportActionBar().setCustomView(R.layout.toolbar);
 
         ButterKnife.bind(this);
 
@@ -120,6 +125,23 @@ public class ConversationActivity extends AppCompatActivity {
         bicycleName = intent.getStringExtra("BICYCLE_NAME");
         channelUrl = intent.getStringExtra("CHANNEL_URL");
         amILister = intent.getBooleanExtra("AM_I_LISTER", false);
+
+        /* 툴바 배경 */
+        if (Build.VERSION.SDK_INT < 23)
+            toolbarLayout.setBackgroundColor(getResources().getColor(R.color.bikeeBlue));
+        else
+            toolbarLayout.setBackgroundColor(getResources().getColor(R.color.bikeeBlue, getTheme()));
+
+        /* 툴바 왼쪽 */
+        toolbarLeftIconBackImageView.setVisibility(View.VISIBLE);
+
+        /* 툴바 가운데 */
+        toolbarCenterTextView.setVisibility(View.VISIBLE);
+        if (Build.VERSION.SDK_INT < 23)
+            toolbarCenterTextView.setTextColor(getResources().getColor(R.color.bikeeWhite));
+        else
+            toolbarCenterTextView.setTextColor(getResources().getColor(R.color.bikeeWhite, getTheme()));
+        toolbarCenterTextView.setText(targetUserName);
 
         messageEditText.addTextChangedListener(tw);
 
@@ -494,7 +516,7 @@ public class ConversationActivity extends AppCompatActivity {
         }
     };
 
-    @OnClick(R.id.conversation_toolbar_back_button_layout)
+    @OnClick(R.id.toolbar_left_icon_layout)
     void back(View view) {
         super.onBackPressed();
     }
@@ -508,8 +530,6 @@ public class ConversationActivity extends AppCompatActivity {
     }
 
     private void init() {
-        targetUserNameTextView.setText(targetUserName);
-
         SendBirdSendObject sendBirdSendObject = new SendBirdSendObject();
         if (amILister) {
             sendBirdSendObject.setRenter(targetUserId);
@@ -546,7 +566,9 @@ public class ConversationActivity extends AppCompatActivity {
                                                     RefinementUtil.getBicycleImageURLStringFromResult(receiveObject.getResult().get(0)),
                                                     R.drawable.detailpage_bike_image_noneimage,
                                                     bicycleImageImageView,
-                                                    getResources().getDimensionPixelOffset(R.dimen.activity_conversation_bicycle_image_image_view_radius)
+                                                    getResources().getDimension(
+                                                            R.dimen.activity_conversation_bicycle_image_image_view_round_radius
+                                                    )
                                             );
                                             clockImageImageView.setVisibility(View.INVISIBLE);
                                             reservationPeriodTextView.setVisibility(View.INVISIBLE);
@@ -567,7 +589,9 @@ public class ConversationActivity extends AppCompatActivity {
                                     RefinementUtil.getBicycleImageURLStringFromSendBirdResult(receiveObject.getResult().get(0)),
                                     R.drawable.detailpage_bike_image_noneimage,
                                     bicycleImageImageView,
-                                    getResources().getDimensionPixelOffset(R.dimen.activity_conversation_bicycle_image_image_view_radius)
+                                    getResources().getDimension(
+                                            R.dimen.activity_conversation_bicycle_image_image_view_round_radius
+                                    )
                             );
                             clockImageImageView.setVisibility(View.VISIBLE);
                             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM.dd hh:mm", Locale.getDefault());

@@ -2,6 +2,7 @@ package com.example.tacademy.bikee.renter.sidemenu.creditcard.register;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -29,6 +30,12 @@ import butterknife.OnClick;
 import butterknife.OnEditorAction;
 
 public class RegisterCreditCardActivity extends AppCompatActivity implements TextWatcher, GetDialogResultListener {
+    @Bind(R.id.toolbar_layout)
+    RelativeLayout toolbarLayout;
+    @Bind(R.id.toolbar_left_icon_back_image_view)
+    ImageView toolbarLeftIconBackImageView;
+    @Bind(R.id.toolbar_center_text_view)
+    TextView toolbarCenterTextView;
     @Bind(R.id.activity_register_credit_card_number_edit_layout)
     RelativeLayout cardNumberEditLayout;
     @Bind(R.id.activity_register_credit_card_number_block1_edit_text)
@@ -102,14 +109,33 @@ public class RegisterCreditCardActivity extends AppCompatActivity implements Tex
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_credit_card);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.activity_register_credit_card_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setCustomView(R.layout.renter_backable_tool_bar);
+        getSupportActionBar().setCustomView(R.layout.toolbar);
 
         ButterKnife.bind(this);
+
+        /* 툴바 배경 */
+        if (Build.VERSION.SDK_INT < 23)
+            toolbarLayout.setBackgroundColor(getResources().getColor(R.color.bikeeWhite));
+        else
+            toolbarLayout.setBackgroundColor(getResources().getColor(R.color.bikeeWhite, getTheme()));
+
+        /* 툴바 왼쪽 */
+        toolbarLeftIconBackImageView.setVisibility(View.VISIBLE);
+        toolbarLeftIconBackImageView.setImageResource(R.drawable.icon_before);
+
+        /* 툴바 가운데 */
+        toolbarCenterTextView.setVisibility(View.VISIBLE);
+        if (Build.VERSION.SDK_INT < 23)
+            toolbarCenterTextView.setTextColor(getResources().getColor(R.color.bikeeBlack));
+        else
+            toolbarCenterTextView.setTextColor(getResources().getColor(R.color.bikeeBlack, getTheme()));
+        toolbarCenterTextView.setText("결제카드 등록");
 
         intent = getIntent();
 
@@ -248,7 +274,7 @@ public class RegisterCreditCardActivity extends AppCompatActivity implements Tex
         }
     }
 
-    @OnClick({R.id.renter_backable_tool_bar_back_button_layout,
+    @OnClick({R.id.toolbar_left_icon_layout,
             R.id.activity_register_credit_card_expiration_date_month_layout,
             R.id.activity_register_credit_card_expiration_date_month_edit_text,
             R.id.activity_register_credit_card_expiration_date_month_extension_image_view,
@@ -267,7 +293,7 @@ public class RegisterCreditCardActivity extends AppCompatActivity implements Tex
             R.id.activity_register_credit_card_register_card_button})
     void onClick(View view) {
         switch (view.getId()) {
-            case R.id.renter_backable_tool_bar_back_button_layout:
+            case R.id.toolbar_left_icon_layout:
                 super.onBackPressed();
                 break;
             case R.id.activity_register_credit_card_expiration_date_month_layout:

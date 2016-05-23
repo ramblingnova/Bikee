@@ -9,7 +9,7 @@
     android:paddingTop="27dp">
 
     <ImageView
-        android:id="@+id/view_holder_comment_user_picture_image_view"
+        android:id="@+id/view_holder_comment_picture_image_view"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:scaleType="fitXY"
@@ -19,15 +19,16 @@
         android:id="@+id/view_holder_comment_user_name_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/view_holder_comment_user_picture_image_view"
+        android:layout_alignTop="@id/view_holder_comment_picture_image_view"
         android:layout_marginLeft="11dp"
         android:layout_marginStart="11dp"
-        android:layout_toEndOf="@id/view_holder_comment_user_picture_image_view"
-        android:layout_toRightOf="@id/view_holder_comment_user_picture_image_view"
+        android:layout_toEndOf="@id/view_holder_comment_picture_image_view"
+        android:layout_toRightOf="@id/view_holder_comment_picture_image_view"
+        android:textColor="@color/bikeeBlue"
         android:textSize="13dp" />
 
     <TextView
-        android:id="@+id/view_holder_comment_bicycle_name_text_view"
+        android:id="@+id/view_holder_comment_bicycle_title_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/view_holder_comment_user_name_text_view"
@@ -41,9 +42,9 @@
         android:id="@+id/view_holder_comment_date_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/view_holder_comment_user_name_text_view"
-        android:layout_alignStart="@id/view_holder_comment_user_name_text_view"
-        android:layout_below="@id/view_holder_comment_bicycle_name_text_view"
+        android:layout_alignLeft="@id/view_holder_comment_bicycle_title_text_view"
+        android:layout_alignStart="@id/view_holder_comment_bicycle_title_text_view"
+        android:layout_below="@id/view_holder_comment_bicycle_title_text_view"
         android:layout_marginTop="10dp"
         android:textColor="@color/bikeeLightGray"
         android:textSize="10dp" />
@@ -52,8 +53,8 @@
         android:id="@+id/view_holder_comment_comment_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/view_holder_comment_user_name_text_view"
-        android:layout_alignStart="@id/view_holder_comment_user_name_text_view"
+        android:layout_alignLeft="@id/view_holder_comment_bicycle_title_text_view"
+        android:layout_alignStart="@id/view_holder_comment_bicycle_title_text_view"
         android:layout_below="@id/view_holder_comment_date_text_view"
         android:layout_marginTop="24dp"
         android:textColor="@color/bikeeLightGray"
@@ -64,8 +65,8 @@
         style="@style/BikeeRatingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/view_holder_comment_user_name_text_view"
-        android:layout_alignStart="@id/view_holder_comment_user_name_text_view"
+        android:layout_alignLeft="@id/view_holder_comment_bicycle_title_text_view"
+        android:layout_alignStart="@id/view_holder_comment_bicycle_title_text_view"
         android:layout_below="@id/view_holder_comment_comment_text_view"
         android:layout_marginTop="12dp"
         android:isIndicator="true" />

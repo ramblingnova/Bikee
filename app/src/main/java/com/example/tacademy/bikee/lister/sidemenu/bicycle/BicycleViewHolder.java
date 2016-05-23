@@ -47,7 +47,11 @@ public class BicycleViewHolder extends RecyclerView.ViewHolder {
                 item.getImageURL(),
                 R.drawable.detailpage_bike_image_noneimage,
                 bicycleImage,
-                6
+                MyApplication.getmContext()
+                        .getResources()
+                        .getDimension(
+                                R.dimen.view_owning_bicycle_item_bicycle_picture_image_view_round_radius
+                        )
         );
         nameTextView.setText("" + item.getName());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM.dd HH:mm", java.util.Locale.getDefault());

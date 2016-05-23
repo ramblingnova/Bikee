@@ -5,7 +5,7 @@
     android:background="@color/bikeeBlue">
 
     <RelativeLayout
-        android:id="@+id/conversation_toolbar_back_button_layout"
+        android:id="@+id/lister_backable_addable_toolbar_back_button_layout"
         android:layout_width="?attr/actionBarSize"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentLeft="true"
@@ -14,8 +14,8 @@
         android:paddingStart="16dp">
 
         <ImageView
-            android:layout_width="14dp"
-            android:layout_height="22dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
@@ -23,16 +23,24 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/conversation_toolbar_target_user_name_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:text="내 자전거 보기"
         android:textColor="@color/bikeeWhite"
-        android:textSize="18sp" />
+        android:textSize="19sp" />
 
-    <View
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:id="@+id/lister_backable_addable_toolbar_register_bicycle_button_layout"
+        android:layout_width="?attr/actionBarSize"
+        android:layout_height="?attr/actionBarSize"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/add_icon" />
+    </RelativeLayout>
 </RelativeLayout>

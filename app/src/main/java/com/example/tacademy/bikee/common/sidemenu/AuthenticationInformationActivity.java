@@ -15,12 +15,13 @@ public class AuthenticationInformationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authentication_information);
+
         Toolbar toolbar = (Toolbar)findViewById(R.id.activity_authentication_information_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setCustomView(R.layout.renter_main_tool_bar);
+        getSupportActionBar().setCustomView(R.layout.toolbar);
     }
 
     @Override

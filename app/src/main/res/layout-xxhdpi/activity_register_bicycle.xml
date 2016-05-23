@@ -47,5 +47,11 @@
             android:text="다음"
             android:textColor="@color/bikeeWhite"
             android:textSize="19sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/shadow" />
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>
