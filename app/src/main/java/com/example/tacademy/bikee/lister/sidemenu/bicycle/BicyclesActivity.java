@@ -64,6 +64,7 @@ public class BicyclesActivity extends AppCompatActivity implements OnAdapterClic
         adapter.setOnAdapterClickListener(this);
 
         recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new BicycleDecoration());
 
         init();
     }

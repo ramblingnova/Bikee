@@ -48,12 +48,6 @@
     <dimen name="dialog_fragment_width2">73dp</dimen>
     <dimen name="dialog_fragment_height">200dp</dimen>
 
-    <dimen name="fragment_choice_dialog_width">300dp</dimen>
-    <dimen name="fragment_choice_dialog_height">200dp</dimen>
-
-    <dimen name="fragment_plain_dialog_width">300dp</dimen>
-    <dimen name="fragment_plain_dialog_height">200dp</dimen>
-
     <dimen name="view_holder_comment_picture_image_view_width">74dp</dimen>
     <dimen name="view_holder_comment_picture_image_view_height">51dp</dimen>
     <dimen name="view_holder_comment_picture_image_view_round_radius">7dp</dimen>
@@ -68,4 +62,10 @@
     <dimen name="view_renter_reservation_bicycle_item_bicycle_picture_image_view_round_radius">6dp</dimen>
 
     <dimen name="view_search_result_item_bicycle_picture_image_view_round_radius">6dp</dimen>
+
+    <dimen name="view_holder_renter_reservation_first_item_top_space">15dp</dimen>
+
+    <dimen name="view_holder_bicycle_first_item_top_space">15dp</dimen>
+
+    <dimen name="view_holder_lister_reservation_item_top_space">15dp</dimen>
 </resources>

@@ -1,5 +1,6 @@
 package com.example.tacademy.bikee.lister;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -22,6 +23,8 @@ import android.widget.TextView;
 
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.common.chatting.ChattingRoomsFragment;
+import com.example.tacademy.bikee.common.popup.ChoiceDialogFragment;
+import com.example.tacademy.bikee.common.popup.OnApplicationFinish;
 import com.example.tacademy.bikee.common.sidemenu.SignInActivity;
 import com.example.tacademy.bikee.R;
 import com.example.tacademy.bikee.common.sidemenu.InputInquiryActivity;
@@ -269,8 +272,19 @@ public class ListerMainActivity extends AppCompatActivity implements TabHost.OnT
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            ChoiceDialogFragment choiceDialogFragment = ChoiceDialogFragment.newInstance(ChoiceDialogFragment.LISTER_APPLICATION_FINISH);
+            choiceDialogFragment.setOnApplicationFinish(new OnApplicationFinish() {
+                @Override
+                public void onApplicationFinish() {
+                    finishApplication();
+                }
+            });
+            choiceDialogFragment.show(getSupportFragmentManager(), TAG);
         }
+    }
+
+    private void finishApplication() {
+        super.onBackPressed();
     }
 
     @Override

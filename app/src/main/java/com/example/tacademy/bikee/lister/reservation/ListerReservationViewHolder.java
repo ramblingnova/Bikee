@@ -12,6 +12,7 @@ import com.example.tacademy.bikee.etc.MyApplication;
 import com.example.tacademy.bikee.etc.utils.ImageUtil;
 import com.example.tacademy.bikee.etc.utils.RefinementUtil;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -41,6 +42,7 @@ public class ListerReservationViewHolder extends RecyclerView.ViewHolder {
     TextView priceTextView;
 
     private OnViewHolderClickListener onViewHolderClickListener;
+    private DecimalFormat decimalFormat = new DecimalFormat("###,###.####");
 
     public ListerReservationViewHolder(View view) {
         super(view);
@@ -147,14 +149,19 @@ public class ListerReservationViewHolder extends RecyclerView.ViewHolder {
                         item.getReservationEndDate()
                 )
         );
-        priceTextView.setText(
+        int unDecimalPointedPrice =
                 RefinementUtil.calculatePrice(
                         item.getReservationStartDate(),
                         item.getReservationEndDate(),
                         item.getPricePerMonth(),
                         item.getPricePerDay(),
                         item.getPricePerHour()
-                ) + "원"
+                );
+        String decimalPointedPrice = unDecimalPointedPrice == 0 ? "0" : decimalFormat.format(
+                Long.parseLong(unDecimalPointedPrice + "")
+        );
+        priceTextView.setText(
+                decimalPointedPrice + "원"
         );
     }
 

@@ -13,6 +13,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -29,7 +30,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnEditorAction;
 
-public class RegisterCreditCardActivity extends AppCompatActivity implements TextWatcher, GetDialogResultListener {
+public class RegisterCreditCardActivity extends AppCompatActivity implements GetDialogResultListener {
     @Bind(R.id.toolbar_layout)
     RelativeLayout toolbarLayout;
     @Bind(R.id.toolbar_left_icon_back_image_view)
@@ -78,10 +79,12 @@ public class RegisterCreditCardActivity extends AppCompatActivity implements Tex
     ImageView birthDateYearExtensionImageView;
     @Bind(R.id.activity_register_credit_card_password_first_edit_text)
     EditText passwordFirstEditText;
-    @Bind(R.id.activity_register_password_second_edit_text)
+    @Bind(R.id.activity_register_credit_card_password_second_edit_text)
     EditText passwordSecondEditText;
     @Bind(R.id.activity_register_credit_card_card_nickname_edit_text)
     EditText nicknameEditText;
+    @Bind(R.id.activity_register_credit_card_register_card_button)
+    Button registerCardButton;
 
     /*@Bind(R.id.activity_register_card_temp_spinner)
     Spinner tempSpinner;
@@ -102,7 +105,9 @@ public class RegisterCreditCardActivity extends AppCompatActivity implements Tex
     private String birthDateYear;
     private String birthDateMonth;
     private String birthDateDay;
+    private boolean conditions[];
 
+    private static final int MAX_CONDITION = 9;
     private static final String TAG = "REGISTER_CARD_ACTIVITY";
 
     @Override
@@ -145,94 +150,17 @@ public class RegisterCreditCardActivity extends AppCompatActivity implements Tex
     }
 
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if ((s.hashCode() == cardNumberBlock1EditText.getText().hashCode())
-                || (s.hashCode() == cardNumberBlock2EditText.getText().hashCode())
-                || (s.hashCode() == cardNumberBlock3EditText.getText().hashCode())
-                || (s.hashCode() == cardNumberBlock4EditText.getText().hashCode())) {
-            if (16 == cardNumberBlock1EditText.length()
-                    + cardNumberBlock2EditText.length()
-                    + cardNumberBlock3EditText.length()
-                    + cardNumberBlock4EditText.length())
-                cardNumberEditLayout.setBackgroundResource(R.drawable.inputbox_after);
-            else
-                cardNumberEditLayout.setBackgroundResource(R.drawable.inputbox_before);
-        } else if (s.hashCode() == expirationDateMonthEditText.getText().hashCode()) {
-            if (expirationDateMonthEditText.length() == 2)
-                expirationDateMonthLayout.setBackgroundResource(R.drawable.inputbox_after);
-            else
-                expirationDateMonthLayout.setBackgroundResource(R.drawable.inputbox_before);
-        } else if (s.hashCode() == expirationDateYearEditText.getText().hashCode()) {
-            if (expirationDateYearEditText.length() == 4)
-                expirationDateYearLayout.setBackgroundResource(R.drawable.inputbox_after);
-            else
-                expirationDateYearLayout.setBackgroundResource(R.drawable.inputbox_before);
-        } else if (s.hashCode() == birthDateDayEditText.getText().hashCode()) {
-            if (birthDateDayEditText.length() == 2) {
-                birthDateDayLayout.setBackgroundResource(R.drawable.inputbox_after);
-                birthDateDay = birthDateDayEditText.getText().toString();
-            } else {
-                birthDateDayLayout.setBackgroundResource(R.drawable.inputbox_before);
-                birthDateDay = null;
-            }
-        } else if (s.hashCode() == birthDateMonthEditText.getText().hashCode()) {
-            if (birthDateMonthEditText.length() == 2) {
-                birthDateMonthLayout.setBackgroundResource(R.drawable.inputbox_after);
-                birthDateMonth = birthDateMonthEditText.getText().toString();
-            } else {
-                birthDateMonthLayout.setBackgroundResource(R.drawable.inputbox_before);
-                birthDateMonth = null;
-            }
-        } else if (s.hashCode() == birthDateYearEditText.getText().hashCode()) {
-            if (birthDateYearEditText.length() == 4) {
-                birthDateYearLayout.setBackgroundResource(R.drawable.inputbox_after);
-                birthDateYear = birthDateYearEditText.getText().toString();
-            } else {
-                birthDateYearLayout.setBackgroundResource(R.drawable.inputbox_before);
-                birthDateYear = null;
-            }
-        } else if (s.hashCode() == passwordFirstEditText.getText().hashCode()) {
-            if (passwordFirstEditText.length() == 1)
-                passwordFirstEditText.setBackgroundResource(R.drawable.inputbox_after);
-            else
-                passwordFirstEditText.setBackgroundResource(R.drawable.inputbox_before);
-        } else if (s.hashCode() == passwordSecondEditText.getText().hashCode()) {
-            if (passwordSecondEditText.length() == 1)
-                passwordSecondEditText.setBackgroundResource(R.drawable.inputbox_after);
-            else
-                passwordSecondEditText.setBackgroundResource(R.drawable.inputbox_before);
-        } else if (s.hashCode() == nicknameEditText.getText().hashCode()) {
-            if (nicknameEditText.length() > 0)
-                nicknameEditText.setBackgroundResource(R.drawable.inputbox_after);
-            else
-                nicknameEditText.setBackgroundResource(R.drawable.inputbox_before);
-        }
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-
-    }
-
-    @Override
     public void getDialogResult(int mode, String result) {
         if (BuildConfig.DEBUG)
             Log.d(TAG, "result : " + result);
         switch (mode) {
             case SelectDateDialogFragment.EXPIRATION_DATE_MONTH:
                 if (result.equals("직접입력")) {
+                    // TODO : 직접입력했을 경우에 soft-keyboard를 자동적으로 띄워야 함
                     openEditTextBlock(expirationDateMonthEditText);
                     expirationDateMonthExtensionImageView.setVisibility(View.GONE);
-//                  expirationDateMonthEditText.requestFocusFromTouch();
-//                  imm.showSoftInput(expirationDateMonthEditText, InputMethodManager.SHOW_FORCED);
                 } else {
                     expirationDateMonthEditText.setText(result);
-                    expirationDateMonthLayout.setBackgroundResource(R.drawable.inputbox_after);
                 }
                 break;
             case SelectDateDialogFragment.EXPIRATION_DATE_YEAR:
@@ -241,7 +169,6 @@ public class RegisterCreditCardActivity extends AppCompatActivity implements Tex
                     expirationDateYearExtensionImageView.setVisibility(View.GONE);
                 } else {
                     expirationDateYearEditText.setText(result);
-                    expirationDateYearLayout.setBackgroundResource(R.drawable.inputbox_after);
                 }
                 break;
             case SelectDateDialogFragment.BIRTH_DATE_YEAR:
@@ -446,26 +373,72 @@ public class RegisterCreditCardActivity extends AppCompatActivity implements Tex
         return true;
     }
 
-    public void openEditTextBlock(EditText editText) {
-        editText.setFocusable(true);
-        editText.setFocusableInTouchMode(true);
-        editText.setSelection(editText.length());
-        editText.requestFocus();
-    }
-
     public void init() {
-        cardNumberBlock1EditText.addTextChangedListener(this);
-        cardNumberBlock2EditText.addTextChangedListener(this);
-        cardNumberBlock3EditText.addTextChangedListener(this);
-        cardNumberBlock4EditText.addTextChangedListener(this);
-        expirationDateMonthEditText.addTextChangedListener(this);
-        expirationDateYearEditText.addTextChangedListener(this);
-        birthDateYearEditText.addTextChangedListener(this);
-        birthDateMonthEditText.addTextChangedListener(this);
-        birthDateDayEditText.addTextChangedListener(this);
-        passwordFirstEditText.addTextChangedListener(this);
-        passwordSecondEditText.addTextChangedListener(this);
-        nicknameEditText.addTextChangedListener(this);
+        conditions = new boolean[MAX_CONDITION];
+
+        for (int i = 0; i < MAX_CONDITION; i++)
+            conditions[i] = false;
+
+        cardNumberBlock1EditText.addTextChangedListener(
+                new CustomedTextWatcher(
+                        cardNumberBlock1EditText.getId())
+
+        );
+        cardNumberBlock2EditText.addTextChangedListener(
+                new CustomedTextWatcher(
+                        cardNumberBlock2EditText.getId()
+                )
+        );
+        cardNumberBlock3EditText.addTextChangedListener(
+                new CustomedTextWatcher(
+                        cardNumberBlock3EditText.getId()
+                )
+        );
+        cardNumberBlock4EditText.addTextChangedListener(
+                new CustomedTextWatcher(
+                        cardNumberBlock4EditText.getId()
+                )
+        );
+        expirationDateMonthEditText.addTextChangedListener(
+                new CustomedTextWatcher(
+                        expirationDateMonthEditText.getId()
+                )
+        );
+        expirationDateYearEditText.addTextChangedListener(
+                new CustomedTextWatcher(
+                        expirationDateYearEditText.getId()
+                )
+        );
+        birthDateYearEditText.addTextChangedListener(
+                new CustomedTextWatcher(
+                        birthDateYearEditText.getId()
+                )
+        );
+        birthDateMonthEditText.addTextChangedListener(
+                new CustomedTextWatcher(
+                        birthDateMonthEditText.getId()
+                )
+        );
+        birthDateDayEditText.addTextChangedListener(
+                new CustomedTextWatcher(
+                        birthDateDayEditText.getId()
+                )
+        );
+        passwordFirstEditText.addTextChangedListener(
+                new CustomedTextWatcher(
+                        passwordFirstEditText.getId()
+                )
+        );
+        passwordSecondEditText.addTextChangedListener(
+                new CustomedTextWatcher(
+                        passwordSecondEditText.getId()
+                )
+        );
+        nicknameEditText.addTextChangedListener(
+                new CustomedTextWatcher(
+                        nicknameEditText.getId()
+                )
+        );
 
         birthDateYear = null;
         birthDateMonth = null;
@@ -476,6 +449,142 @@ public class RegisterCreditCardActivity extends AppCompatActivity implements Tex
 //        tempSpinner3.setAdapter(new SelectDateSpinnerAdapter());
 //        tempSpinner4.setAdapter(new SelectDateSpinnerAdapter());
 //        tempSpinner5.setAdapter(new SelectDateSpinnerAdapter());
+    }
+
+    public class CustomedTextWatcher implements TextWatcher {
+        int id;
+
+        public CustomedTextWatcher(int id) {
+            this.id = id;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            switch (id) {
+                case R.id.activity_register_credit_card_number_block1_edit_text:
+                case R.id.activity_register_credit_card_number_block2_edit_text:
+                case R.id.activity_register_credit_card_number_block3_edit_text:
+                case R.id.activity_register_credit_card_number_block4_edit_text:
+                    if (16 == cardNumberBlock1EditText.length()
+                            + cardNumberBlock2EditText.length()
+                            + cardNumberBlock3EditText.length()
+                            + cardNumberBlock4EditText.length()) {
+                        cardNumberEditLayout.setBackgroundResource(R.drawable.inputbox_after);
+                        conditions[0] = true;
+                    } else {
+                        cardNumberEditLayout.setBackgroundResource(R.drawable.inputbox_before);
+                        conditions[0] = false;
+                    }
+                    break;
+                case R.id.activity_register_credit_card_expiration_date_month_edit_text:
+                    if (expirationDateMonthEditText.length() == 2) {
+                        expirationDateMonthLayout.setBackgroundResource(R.drawable.inputbox_after);
+                        conditions[1] = true;
+                    } else {
+                        expirationDateMonthLayout.setBackgroundResource(R.drawable.inputbox_before);
+                        conditions[1] = false;
+                    }
+                    break;
+                case R.id.activity_register_credit_card_expiration_date_year_edit_text:
+                    if (expirationDateYearEditText.length() == 4) {
+                        expirationDateYearLayout.setBackgroundResource(R.drawable.inputbox_after);
+                        conditions[2] = true;
+                    } else {
+                        expirationDateYearLayout.setBackgroundResource(R.drawable.inputbox_before);
+                        conditions[2] = false;
+                    }
+                    break;
+                case R.id.activity_register_credit_card_birth_date_day_edit_text:
+                    if (birthDateDayEditText.length() == 2) {
+                        birthDateDayLayout.setBackgroundResource(R.drawable.inputbox_after);
+                        birthDateDay = birthDateDayEditText.getText().toString();
+                        conditions[3] = true;
+                    } else {
+                        birthDateDayLayout.setBackgroundResource(R.drawable.inputbox_before);
+                        birthDateDay = null;
+                        conditions[3] = false;
+                    }
+                    break;
+                case R.id.activity_register_credit_card_birth_date_month_edit_text:
+                    if (birthDateMonthEditText.length() == 2) {
+                        birthDateMonthLayout.setBackgroundResource(R.drawable.inputbox_after);
+                        birthDateMonth = birthDateMonthEditText.getText().toString();
+                        conditions[4] = true;
+                    } else {
+                        birthDateMonthLayout.setBackgroundResource(R.drawable.inputbox_before);
+                        birthDateMonth = null;
+                        conditions[4] = false;
+                    }
+                    break;
+                case R.id.activity_register_credit_card_birth_date_year_edit_text:
+                    if (birthDateYearEditText.length() == 4) {
+                        birthDateYearLayout.setBackgroundResource(R.drawable.inputbox_after);
+                        birthDateYear = birthDateYearEditText.getText().toString();
+                        conditions[5] = true;
+                    } else {
+                        birthDateYearLayout.setBackgroundResource(R.drawable.inputbox_before);
+                        birthDateYear = null;
+                        conditions[5] = false;
+                    }
+                    break;
+                case R.id.activity_register_credit_card_password_first_edit_text:
+                    if (passwordFirstEditText.length() == 1) {
+                        passwordFirstEditText.setBackgroundResource(R.drawable.inputbox_after);
+                        conditions[6] = true;
+                    } else {
+                        passwordFirstEditText.setBackgroundResource(R.drawable.inputbox_before);
+                        conditions[6] = false;
+                    }
+                    break;
+                case R.id.activity_register_credit_card_password_second_edit_text:
+                    if (passwordSecondEditText.length() == 1) {
+                        passwordSecondEditText.setBackgroundResource(R.drawable.inputbox_after);
+                        conditions[7] = true;
+                    } else {
+                        passwordSecondEditText.setBackgroundResource(R.drawable.inputbox_before);
+                        conditions[7] = false;
+                    }
+                    break;
+                case R.id.activity_register_credit_card_card_nickname_edit_text:
+                    if (nicknameEditText.length() > 0) {
+                        nicknameEditText.setBackgroundResource(R.drawable.inputbox_after);
+                        conditions[8] = true;
+                    } else {
+                        nicknameEditText.setBackgroundResource(R.drawable.inputbox_before);
+                        conditions[8] = false;
+                    }
+                    break;
+            }
+            enableButton();
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    }
+
+    public void enableButton() {
+        for (int i = MAX_CONDITION - 1; i >= 0; i++)
+            if (!conditions[i]) {
+                registerCardButton.setEnabled(false);
+                registerCardButton.setBackgroundResource(R.drawable.detailpage_button1);
+                return;
+            }
+        registerCardButton.setEnabled(true);
+        registerCardButton.setBackgroundResource(R.drawable.detailpage_button2);
+    }
+
+    public void openEditTextBlock(EditText editText) {
+        editText.setFocusable(true);
+        editText.setFocusableInTouchMode(true);
+        editText.setSelection(editText.length());
+        editText.requestFocus();
     }
 
     @Override

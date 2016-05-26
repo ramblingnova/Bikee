@@ -1,4 +1,4 @@
-package com.example.tacademy.bikee.common.content.popup;
+package com.example.tacademy.bikee.common.popup;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,7 +51,7 @@ public class PlainDialogFragment extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(android.support.v4.app.DialogFragment.STYLE_NO_TITLE, R.style.AppTheme);
+        setStyle(android.support.v4.app.DialogFragment.STYLE_NO_TITLE, R.style.BikeeDialog);
 
         Bundle args = getArguments();
         destination = args.getInt("DESTINATION");
@@ -74,18 +73,14 @@ public class PlainDialogFragment extends DialogFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Dialog d = getDialog();
-        d.getWindow().setLayout(
-                getResources().getDimensionPixelSize(R.dimen.fragment_plain_dialog_width),
-                getResources().getDimensionPixelSize(R.dimen.fragment_plain_dialog_height)
-        );
-        WindowManager.LayoutParams params = d.getWindow().getAttributes();
+
+        Dialog dialog = getDialog();
+        dialog.getWindow().setBackgroundDrawableResource(R.color.bikeeTransParent);
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
         params.gravity = Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL;
-        DisplayMetrics metrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         params.x = 0;
         params.y = 0;
-        d.getWindow().setAttributes(params);
+        dialog.getWindow().setAttributes(params);
     }
 
     public void init() {

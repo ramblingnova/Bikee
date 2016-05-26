@@ -57,7 +57,7 @@ public class CreditCardViewPagerAdapter extends PagerAdapter {
             public void onCompleteClick(CheckBox representationCheckBox) {
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "onCompleteClick");
-                // TODO : 설정한 대표 카드를 SharedPreference에 저장해야 함
+                // TODO : 설정한 대표 카드를 SharedPreference에 저장해야 하는 문제가 있음
                 if (representationCheckBox.isChecked())
                     for (int i = 0; (i != position) && (i < itemList.size()); i++) {
                         itemList.get(i).setRepresentation(false);

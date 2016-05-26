@@ -52,6 +52,7 @@ public class RenterReservationsFragment extends Fragment implements OnAdapterCli
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new RenterReservationDecoration());
 
         init();
 

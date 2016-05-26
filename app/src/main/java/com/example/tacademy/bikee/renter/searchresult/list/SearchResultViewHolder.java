@@ -11,6 +11,8 @@ import com.example.tacademy.bikee.etc.MyApplication;
 import com.example.tacademy.bikee.etc.utils.ImageUtil;
 import com.example.tacademy.bikee.renter.searchresult.SearchResultItem;
 
+import java.text.DecimalFormat;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -39,6 +41,7 @@ public class SearchResultViewHolder extends RecyclerView.ViewHolder {
     TextView distance;
 
     private OnViewHolderClickListener onViewHolderClickListener;
+    private DecimalFormat decimalFormat = new DecimalFormat("###,###.####");
 
     public SearchResultViewHolder(View view) {
         super(view);
@@ -115,7 +118,11 @@ public class SearchResultViewHolder extends RecyclerView.ViewHolder {
                 break;
         }
         type.setText(typeString);
-        payment.setText(item.getPayment().toString());
+        payment.setText(
+                decimalFormat.format(
+                        Long.parseLong(item.getPayment())
+                ) + "원"
+        );
         distance.setText((Math.round(item.getDistance() * 10.0) / 10.0) + "km");
     }
 }

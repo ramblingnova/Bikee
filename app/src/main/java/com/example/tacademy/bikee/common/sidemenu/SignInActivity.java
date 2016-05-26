@@ -95,7 +95,7 @@ public class SignInActivity extends AppCompatActivity {
 
         emailEditText.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 
-        // TODO : SharedPreferences에 정보가 있더라도 인터넷 연결 여부에 따라 처리해야 한다.
+        // TODO : SharedPreferences에 정보가 있더라도 인터넷 연결 여부에 따라 처리해야 함
         initView();
     }
 

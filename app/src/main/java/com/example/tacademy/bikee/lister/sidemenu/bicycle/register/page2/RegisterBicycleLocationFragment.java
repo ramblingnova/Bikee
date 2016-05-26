@@ -1,6 +1,5 @@
 package com.example.tacademy.bikee.lister.sidemenu.bicycle.register.page2;
 
-import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -26,7 +25,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class RegisterBicycleLocationFragment extends Fragment implements TextWatcher, OnMapReadyCallback {
     // TODO : UI 작업 필요
@@ -94,13 +92,6 @@ public class RegisterBicycleLocationFragment extends Fragment implements TextWat
     @Override
     public void afterTextChanged(Editable s) {
 
-    }
-
-    // TODO : DELME?
-    @OnClick(R.id.fragment_register_bicycle_location_text_view)
-    void spinner() {
-        Intent intent = new Intent(getActivity(), TempActivity.class);
-        startActivity(intent);
     }
 
     @Override

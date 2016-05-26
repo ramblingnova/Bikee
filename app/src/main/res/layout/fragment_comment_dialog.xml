@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/fragment_comment_dialog_dismiss_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <RelativeLayout
+        android:layout_width="341dp"
+        android:layout_height="360dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/renter_review_background1"
+        android:clickable="true"
+        android:focusable="true">
+
+        <TextView
+            android:id="@+id/fragment_comment_dialog_title_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="34dp"
+            android:text="후기입력"
+            android:textColor="@color/bikeeBlue"
+            android:textSize="20dp" />
+
+        <View
+            android:id="@+id/fragment_comment_dialog_line_view"
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:layout_below="@id/fragment_comment_dialog_title_text_view"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="17dp"
+            android:background="@color/bikeeLine" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/fragment_comment_dialog_line_view"
+            android:layout_marginBottom="17dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/fragment_comment_dialog_some_part_background">
+
+            <TextView
+                android:id="@+id/fragment_comment_dialog_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="19dp"
+                android:text="자전거 사용은 어떠셨나요?"
+                android:textColor="@color/bikeeBlack"
+                android:textSize="17dp" />
+
+            <RatingBar
+                android:id="@+id/fragment_comment_dialog_rating_bar"
+                style="@style/BikeeRatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fragment_comment_dialog_text_view"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:rating="3"
+                android:stepSize="1" />
+
+            <EditText
+                android:id="@+id/fragment_comment_dialog_edit_text"
+                android:layout_width="276dp"
+                android:layout_height="96dp"
+                android:layout_below="@id/fragment_comment_dialog_rating_bar"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/fragment_comment_dialog_edit_text_background"
+                android:gravity="top|start"
+                android:textColor="#616161" />
+
+            <Button
+                android:id="@+id/fragment_comment_dialog_button"
+                android:layout_width="276dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/detailpage_button1"
+                android:enabled="false"
+                android:text="올리기"
+                android:textColor="@color/bikeeWhite"
+                android:textSize="19dp" />
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

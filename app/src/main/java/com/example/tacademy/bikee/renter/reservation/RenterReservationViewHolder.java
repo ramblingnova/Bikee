@@ -12,6 +12,7 @@ import com.example.tacademy.bikee.etc.MyApplication;
 import com.example.tacademy.bikee.etc.utils.ImageUtil;
 import com.example.tacademy.bikee.etc.utils.RefinementUtil;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -39,6 +40,7 @@ public class RenterReservationViewHolder extends RecyclerView.ViewHolder {
     TextView bicyclePrice;
 
     private OnViewHolderClickListener onViewHolderClickListener;
+    private DecimalFormat decimalFormat = new DecimalFormat("###,###.####");
 
     public RenterReservationViewHolder(View view) {
         super(view);
@@ -131,7 +133,8 @@ public class RenterReservationViewHolder extends RecyclerView.ViewHolder {
                     }
                 }
                 break;
-            case "RC":case "PC":
+            case "RC":
+            case "PC":
                 stepImageView.setImageResource(R.drawable.reservation_step4);
                 if (Build.VERSION.SDK_INT < 23) {
                     bicyclePrice.setTextColor(MyApplication.getmContext().getResources().getColor(R.color.bikeeLightGray));
@@ -154,12 +157,16 @@ public class RenterReservationViewHolder extends RecyclerView.ViewHolder {
                 )
         );
         bicyclePrice.setText(
-                RefinementUtil.calculatePrice(
-                        item.getReservationStartDate(),
-                        item.getReservationEndDate(),
-                        item.getPricePerMonth(),
-                        item.getPricePerDay(),
-                        item.getPricePerHour()
+                decimalFormat.format(
+                        Long.parseLong(
+                                RefinementUtil.calculatePrice(
+                                        item.getReservationStartDate(),
+                                        item.getReservationEndDate(),
+                                        item.getPricePerMonth(),
+                                        item.getPricePerDay(),
+                                        item.getPricePerHour()
+                                ) + ""
+                        )
                 ) + "원"
         );
     }

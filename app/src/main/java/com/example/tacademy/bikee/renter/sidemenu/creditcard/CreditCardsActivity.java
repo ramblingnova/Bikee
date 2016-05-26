@@ -167,8 +167,7 @@ public class CreditCardsActivity extends AppCompatActivity implements OnAdapterC
     }
 
     @OnClick({R.id.toolbar_left_icon_layout,
-            R.id.activity_credit_cards_add_card_layout,
-            R.id.activity_credit_cards_add_card_prepayment_button})
+            R.id.activity_credit_cards_add_card_layout})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.toolbar_left_icon_layout:
@@ -177,87 +176,6 @@ public class CreditCardsActivity extends AppCompatActivity implements OnAdapterC
             case R.id.activity_credit_cards_add_card_layout:
                 intent = new Intent(this, RegisterCreditCardActivity.class);
                 startActivityForResult(intent, 1);
-                break;
-            case R.id.activity_credit_cards_add_card_prepayment_button:
-                // TODO : DELME 사전결제는 여기에 있으면 안됨
-                NetworkManager.getInstance().receiveCardToken(
-                        null,
-                        new Callback<CardTokenReceiveObject>() {
-                            @Override
-                            public void onResponse(Call<CardTokenReceiveObject> call, Response<CardTokenReceiveObject> response) {
-                                if (BuildConfig.DEBUG)
-                                    Log.d(TAG, "receiveCardToken onResponse");
-
-                                CardTokenReceiveObject cardTokenReceiveObject = response.body();
-                                cardTokenReceiveObject.getToken();
-
-                                IAmPortSendObject iAmPortSendObject = new IAmPortSendObject();
-                                iAmPortSendObject.setMerchant_uid("bikee_" + new Date().getTime());
-                                iAmPortSendObject.setAmount(1000);
-
-                                IAmPortNetworkManager.getInstance().prepayment(
-                                        cardTokenReceiveObject.getToken(),
-                                        iAmPortSendObject,
-                                        null,
-                                        new Callback<IAmPortReceiveObject>() {
-                                            @Override
-                                            public void onResponse(Call<IAmPortReceiveObject> call, Response<IAmPortReceiveObject> response) {
-                                                IAmPortReceiveObject iAmPortReceiveObject = response.body();
-
-                                                if (BuildConfig.DEBUG)
-                                                    Log.d(TAG, "prepayment onResponse");
-
-                                                if (iAmPortReceiveObject.getCode().equals("0")) {
-                                                    if (BuildConfig.DEBUG)
-                                                        Log.d(TAG, "prepayment 사전 결제 성공");
-
-//                                                    PaymentSendObject paymentSendObject = new PaymentSendObject();
-//                                                    paymentSendObject.setAmount(iAmPortReceiveObject.getResponse().getAmount());
-//                                                    paymentSendObject.setMerchant_uid(iAmPortReceiveObject.getResponse().getMerchant_uid());
-//                                                    paymentSendObject.setLister("");
-//                                                    paymentSendObject.setBike("");
-//                                                    paymentSendObject.setName("");
-//                                                    paymentSendObject.setBuyer_email("");
-//                                                    paymentSendObject.setBuyer_name("");
-//
-//                                                    NetworkManager.getInstance().payment(
-//                                                            "571ded7f6ccbb1b02a114570",
-//                                                            paymentSendObject,
-//                                                            null,
-//                                                            new Callback<CardReceiveObject>() {
-//                                                                @Override
-//                                                                public void onResponse(Call<CardReceiveObject> call, Response<CardReceiveObject> response) {
-//                                                                    if (BuildConfig.DEBUG)
-//                                                                        Log.d(TAG, "payment onResponse");
-//                                                                }
-//
-//                                                                @Override
-//                                                                public void onFailure(Call<CardReceiveObject> call, Throwable t) {
-//                                                                    if (BuildConfig.DEBUG)
-//                                                                        Log.d(TAG, "payment onFailure", t);
-//                                                                }
-//                                                            }
-//                                                    );
-                                                } else {
-                                                    if (BuildConfig.DEBUG)
-                                                        Log.d(TAG, "prepayment 사전 결제 실패");
-                                                }
-                                            }
-
-                                            @Override
-                                            public void onFailure(Call<IAmPortReceiveObject> call, Throwable t) {
-                                                if (BuildConfig.DEBUG)
-                                                    Log.d(TAG, "prepayment onFailure", t);
-                                            }
-                                        });
-                            }
-
-                            @Override
-                            public void onFailure(Call<CardTokenReceiveObject> call, Throwable t) {
-                                if (BuildConfig.DEBUG)
-                                    Log.d(TAG, "receiveCardToken onFailure", t);
-                            }
-                        });
                 break;
         }
     }

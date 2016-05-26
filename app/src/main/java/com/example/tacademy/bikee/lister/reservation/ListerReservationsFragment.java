@@ -55,6 +55,7 @@ public class ListerReservationsFragment extends Fragment implements OnAdapterCli
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new ListerReservationDecoration());
 
         init();
 
@@ -105,7 +106,8 @@ public class ListerReservationsFragment extends Fragment implements OnAdapterCli
                                                     result.getBike().getLoc().getCoordinates().get(0),
                                                     RefinementUtil.getUserImageURLStringFromReserve(reserve),
                                                     reserve.getRenter().getName(),
-                                                    // reserve.getRenter().getPhone() // TODO : 렌터의 전화번호 가져오기, 요청 필요
+                                                    // TODO : 렌터의 전화번호 가져오기, 요청 필요
+                                                    // reserve.getRenter().getPhone()
                                                     "010-1234-1234",
                                                     reserve.get_id(),
                                                     reserve.getStatus(),

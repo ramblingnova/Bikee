@@ -47,7 +47,8 @@ public class RegisterBicycleFeeFragment extends Fragment implements TextWatcher 
     TextView monthHint1;
     @Bind(R.id.fragment_register_bicycle_fee_month_hint_text_view1)
     TextView monthHint2;
-    private DecimalFormat df = new DecimalFormat("###,###.####");
+
+    private DecimalFormat decimalFormat = new DecimalFormat("###,###.####");
     private String result;
     private RegisterBicycleINF registerBicycleINF;
     private InputMethodManager imm;
@@ -85,6 +86,7 @@ public class RegisterBicycleFeeFragment extends Fragment implements TextWatcher 
             monthHint1.setVisibility(View.GONE);
             monthHint2.setVisibility(View.GONE);
         }
+
         super.onResume();
     }
 
@@ -96,7 +98,8 @@ public class RegisterBicycleFeeFragment extends Fragment implements TextWatcher 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         if (!s.toString().equals(result)) {
-            result = s.toString().replace(",", "").equals("") ? "" : df.format(Long.parseLong(s.toString().replaceAll(",", "")));
+            if(s.length() > 0)
+                result = decimalFormat.format(Long.parseLong(s.toString().replaceAll(",", "")));
             if (s.hashCode() == hour.getText().hashCode()) {
                 hour.setText(result);
                 hour.setSelection(result.length());
@@ -174,7 +177,7 @@ public class RegisterBicycleFeeFragment extends Fragment implements TextWatcher 
                 break;
             case R.id.fragment_register_bicycle_fee_day_edit_text:
                 if (hasFocus) {
-                        imm.showSoftInput(day, InputMethodManager.SHOW_FORCED);
+                    imm.showSoftInput(day, InputMethodManager.SHOW_FORCED);
                     dayHint1.setVisibility(View.GONE);
                     dayHint2.setVisibility(View.GONE);
                     if (hour.getText().toString().equals("")) {

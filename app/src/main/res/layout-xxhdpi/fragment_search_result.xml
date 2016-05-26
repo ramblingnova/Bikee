@@ -58,6 +58,7 @@
                 android:layout_marginRight="13dp"
                 android:layout_toLeftOf="@id/fragment_search_result_filter_image_view"
                 android:layout_toRightOf="@id/fragment_search_result_search_image_view"
+                android:background="@null"
                 android:singleLine="true" />
         </RelativeLayout>
 

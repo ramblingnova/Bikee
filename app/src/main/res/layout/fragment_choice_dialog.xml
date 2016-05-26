@@ -1,30 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
 
-    <TextView
-        android:id="@+id/fragment_choice_dialog_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <View
+        android:id="@+id/fragment_choice_dialog_dismiss_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-    <LinearLayout
-        android:id="@+id/fragment_choice_dialog_bottom_buttons_layout"
-        android:layout_below="@id/fragment_choice_dialog_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+    <RelativeLayout
+        android:layout_width="284dp"
+        android:layout_height="259dp"
+        android:layout_centerInParent="true"
+        android:clickable="true"
+        android:focusable="true">
 
-        <Button
-            android:id="@+id/fragment_choice_dialog_bottom_buttons_left_button"
-            android:layout_width="0dp"
-            android:layout_weight="0.5"
-            android:layout_height="wrap_content" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="239dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/popup2">
 
-        <Button
-            android:id="@+id/fragment_choice_dialog_bottom_buttons_right_button"
-            android:layout_width="0dp"
-            android:layout_weight="0.5"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/fragment_choice_dialog_text_view"
+                android:layout_width="218dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="89dp"
+                android:gravity="center"
+                android:textColor="@color/bikeeBlack"
+                android:textSize="17dp" />
+
+            <LinearLayout
+                android:id="@+id/fragment_choice_dialog_bottom_buttons_layout"
+                android:layout_width="218dp"
+                android:layout_height="39dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="35dp"
+                android:layout_marginEnd="33dp"
+                android:layout_marginLeft="33dp"
+                android:layout_marginRight="33dp"
+                android:layout_marginStart="33dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/fragment_choice_dialog_bottom_buttons_left_button"
+                    android:layout_width="0dp"
+                    android:layout_height="39dp"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/button_no"
+                    android:textColor="@color/bikeeWhite"
+                    android:textSize="14dp" />
+
+                <Button
+                    android:id="@+id/fragment_choice_dialog_bottom_buttons_right_button"
+                    android:layout_width="0dp"
+                    android:layout_height="39dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/button_yes"
+                    android:textColor="@color/bikeeWhite"
+                    android:textSize="14dp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="95dp"
+            android:layout_height="88dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/icon_question" />
+    </RelativeLayout>
 </RelativeLayout>

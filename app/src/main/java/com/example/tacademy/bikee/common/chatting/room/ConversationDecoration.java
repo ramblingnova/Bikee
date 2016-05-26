@@ -19,7 +19,6 @@ public class ConversationDecoration extends RecyclerView.ItemDecoration {
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-        super.getItemOffsets(outRect, view, parent, state);
         int position = parent.getChildLayoutPosition(view);
         ConversationItem conversationItem = ((ConversationAdapter)parent.getAdapter()).getItemList().get(position);
 

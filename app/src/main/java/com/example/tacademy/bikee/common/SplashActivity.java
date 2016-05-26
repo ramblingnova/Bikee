@@ -61,6 +61,9 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        // TODO : android api 버전 15이하는 걸러야 함
+        // TODO : 자체 버전을 체크해야 함
+
         if (PropertyManager.getInstance().isInitCoordinates()) {
             PropertyManager.getInstance().setLatitude("37.565596");
             PropertyManager.getInstance().setLongitude("126.978013");
@@ -219,7 +222,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     public void afterSignIn() {
-        // TODO : SignInActivity에서 로그인 후에 _id를 저장했다면, 여기서 receiveProfile을 호출할 필요가 없는 것 같다.
+        // TODO : SignInActivity에서 로그인 후에 _id를 저장했다면, 여기서 receiveProfile을 호출할 필요가 없는 것으로 판단됨
         NetworkManager.getInstance().receiveProfile(
                 null,
                 new Callback<ReceiveObject>() {

@@ -38,6 +38,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class FinallyPaymentActivity extends AppCompatActivity {
+    @Bind(R.id.toolbar_layout)
+    RelativeLayout toolbarLayout;
+    @Bind(R.id.toolbar_left_icon_back_image_view)
+    ImageView toolbarLeftIconBackImageView;
+    @Bind(R.id.toolbar_center_text_view)
+    TextView toolbarCenterTextView;
     @Bind(R.id.activity_finally_payment_bicycle_information_bicycle_picture_image_view)
     ImageView bicyclePictureImageView;
     @Bind(R.id.activity_finally_payment_bicycle_information_bicycle_title_text_view)
@@ -80,8 +86,27 @@ public class FinallyPaymentActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setCustomView(R.layout.toolbar);
 
         ButterKnife.bind(this);
+
+        /* 툴바 배경 */
+        if (Build.VERSION.SDK_INT < 23)
+            toolbarLayout.setBackgroundColor(getResources().getColor(R.color.bikeeWhite));
+        else
+            toolbarLayout.setBackgroundColor(getResources().getColor(R.color.bikeeWhite, getTheme()));
+
+        /* 툴바 왼쪽 */
+        toolbarLeftIconBackImageView.setVisibility(View.VISIBLE);
+        toolbarLeftIconBackImageView.setImageResource(R.drawable.icon_before);
+
+        /* 툴바 가운데 */
+        toolbarCenterTextView.setVisibility(View.VISIBLE);
+        if (Build.VERSION.SDK_INT < 23)
+            toolbarCenterTextView.setTextColor(getResources().getColor(R.color.bikeeBlack));
+        else
+            toolbarCenterTextView.setTextColor(getResources().getColor(R.color.bikeeBlack, getTheme()));
+        toolbarCenterTextView.setText("결제하기");
 
         intent = getIntent();
         bicycleId = intent.getStringExtra("BICYCLE_ID");
@@ -128,7 +153,7 @@ public class FinallyPaymentActivity extends AppCompatActivity {
 
                         IAmPortSendObject iAmPortSendObject = new IAmPortSendObject();
                         iAmPortSendObject.setMerchant_uid("bikee_" + new Date().getTime());
-                        // TODO : 가격 입력
+                        // TODO : 가격 입력, 현재 하드코딩됨
                         iAmPortSendObject.setAmount(1000);
 
                         IAmPortNetworkManager.getInstance().prepayment(
@@ -177,10 +202,12 @@ public class FinallyPaymentActivity extends AppCompatActivity {
                 });
     }
 
-    @OnClick({R.id.activity_finally_payment_cancel_button,
+    @OnClick({R.id.toolbar_left_icon_layout,
+            R.id.activity_finally_payment_cancel_button,
             R.id.activity_finally_payment_payment_button})
     void onClick(View view) {
         switch (view.getId()) {
+            case R.id.toolbar_left_icon_layout:
             case R.id.activity_finally_payment_cancel_button:
                 onBackPressed();
                 break;

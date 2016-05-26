@@ -125,7 +125,7 @@ public class ConversationViewHolder extends RecyclerView.ViewHolder {
             case ConversationAdapter.DATE:
                 TextView conversationDate = (TextView) map.get("CONVERSATION_DATE");
 
-                SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy년 MM월 dd일 HH:mm", java.util.Locale.getDefault());
+                SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy년 MM월 dd일", java.util.Locale.getDefault());
                 conversationDate.setText(simpleDateFormat2.format(item.getConversationTime()));
                 break;
         }

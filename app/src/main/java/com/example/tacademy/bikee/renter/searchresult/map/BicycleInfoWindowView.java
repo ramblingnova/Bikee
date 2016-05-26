@@ -24,6 +24,7 @@ import com.example.tacademy.bikee.renter.searchresult.SearchResultItem;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
+import java.text.DecimalFormat;
 import java.util.Map;
 
 import butterknife.Bind;
@@ -33,8 +34,6 @@ import butterknife.ButterKnife;
  * Created by Tacademy on 2015-11-18.
  */
 public class BicycleInfoWindowView extends FrameLayout implements GoogleMap.InfoWindowAdapter {
-    private OnImageLoadListener onImageLoadListener;
-    private View infoWindow;
     @Bind(R.id.view_bicycle_info_window_bicycle_picture_image_view)
     ImageView bicycleImage;
     @Bind(R.id.view_bicycle_info_window_bicycle_name_text_view)
@@ -53,7 +52,11 @@ public class BicycleInfoWindowView extends FrameLayout implements GoogleMap.Info
     TextView payment;
     @Bind(R.id.view_bicycle_info_window_bicycle_payment_text_view2)
     TextView perDuration;
+
+    private OnImageLoadListener onImageLoadListener;
+    private View infoWindow;
     private Map<Marker, POI> mPOIResolver;
+    private DecimalFormat decimalFormat = new DecimalFormat("###,###.####");
 
     public BicycleInfoWindowView(Context context, Map<Marker, POI> poiResolver) {
         super(context);
@@ -147,6 +150,10 @@ public class BicycleInfoWindowView extends FrameLayout implements GoogleMap.Info
         bicycle_name.setText(item.getBicycle_name());
         type.setText(RefinementUtil.getBicycleTypeStringFromBicycleType(item.getType()));
         height.setText(RefinementUtil.getBicycleHeightStringFromBicycleHeight(item.getHeight()));
-        payment.setText(item.getPayment());
+        payment.setText(
+                decimalFormat.format(
+                        Long.parseLong(item.getPayment())
+                ).toString()
+        );
     }
 }

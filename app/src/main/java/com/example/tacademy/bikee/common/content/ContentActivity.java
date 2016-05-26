@@ -22,7 +22,8 @@ import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.common.adapters.BicycleImageViewPagerAdapter;
 import com.example.tacademy.bikee.common.chatting.room.ConversationActivity;
 import com.example.tacademy.bikee.common.content.popup.CalendarDialogFragment;
-import com.example.tacademy.bikee.common.content.popup.ChoiceDialogFragment;
+import com.example.tacademy.bikee.common.popup.ChoiceDialogFragment;
+import com.example.tacademy.bikee.common.popup.CommentDialogFragment;
 import com.example.tacademy.bikee.common.sidemenu.comment.CommentsActivity;
 import com.example.tacademy.bikee.common.views.AdditoryComponentView;
 import com.example.tacademy.bikee.etc.MyApplication;
@@ -40,7 +41,6 @@ import com.example.tacademy.bikee.lister.sidemenu.bicycle.register.RegisterBicyc
 import com.example.tacademy.bikee.lister.sidemenu.bicycle.register.RegisterBicycleItem;
 import com.example.tacademy.bikee.renter.reservation.RenterReservationsFragment;
 import com.example.tacademy.bikee.common.content.popup.CardSelectionActivity;
-import com.example.tacademy.bikee.common.content.popup.InputBicyclePostScriptActivity;
 import com.example.tacademy.bikee.renter.searchresult.list.SearchResultListFragment;
 import com.example.tacademy.bikee.renter.searchresult.map.SearchResultMapFragment;
 import com.google.android.gms.maps.CameraUpdate;
@@ -57,6 +57,7 @@ import com.sendbird.android.SendBird;
 import com.sendbird.android.model.MessagingChannel;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -114,6 +115,8 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
     TextView pricePerDayTextView;
     @Bind(R.id.activity_content_bicycle_price_decision_price_per_month_text_view)
     TextView pricePerMonthTextView;
+    @Bind(R.id.activity_content_bicycle_price_decision_line_view)
+    View priceDecisionLineView;
     @Bind(R.id.activity_content_bicycle_rental_price_layout)
     RelativeLayout bicycleRentalPriceLayout;
     @Bind(R.id.activity_content_bicycle_rental_price_text_view)
@@ -155,6 +158,7 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
     private int rentalPrice;
     private int pageScrollState;
     private CalendarDialogFragment calendarDialogFragment;
+    private DecimalFormat decimalFormat = new DecimalFormat("###,###.####");
 
     private MessagingChannelListQuery mMessagingChannelListQuery;
     private boolean hasMyId;
@@ -176,6 +180,8 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
 
         intent = getIntent();
         from = intent.getIntExtra("FROM", -1);
+        if (BuildConfig.DEBUG)
+            Log.d(TAG, "FROM : " + from);
 
         View cView = null;
         if ((from == RenterReservationsFragment.from)
@@ -239,17 +245,6 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
             ((ImageView) cView.findViewById(R.id.toolbar_right_icon_image_view))
                     .setImageResource(R.drawable.lister_main_icon);
         }
-//        else if (from == RegisterBicycleActivity.from) {
-//            cView = getLayoutInflater().inflate(R.layout.lister_backable_page_number_toolbar, null);
-//            cView.findViewById(R.id.lister_backable_page_number_toolbar_back_button_layout).setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    intent = new Intent();
-//                    intent.putExtra("close", false);
-//                    finish();
-//                }
-//            });
-//        }
         getSupportActionBar().setCustomView(cView);
 
         ButterKnife.bind(this);
@@ -261,21 +256,36 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
         bicycleImageViewPagerAdapter = new BicycleImageViewPagerAdapter();
         pagePosition = 0;
 
-        if (from != RegisterBicycleActivity.from)
+        if (from != RegisterBicycleActivity.from) {
             bicycleId = intent.getStringExtra("BICYCLE_ID");
+            if (BuildConfig.DEBUG)
+                Log.d(TAG, "BICYCLE_ID : " + bicycleId);
+        }
         bicycleLatitude = intent.getDoubleExtra("BICYCLE_LATITUDE", 1.0);
         bicycleLongitude = intent.getDoubleExtra("BICYCLE_LONGITUDE", 1.0);
+        if (BuildConfig.DEBUG)
+            Log.d(TAG, "BICYCLE_LATITUDE : " + bicycleLatitude
+                    + "\nBICYCLE_LONGITUDE : " + bicycleLongitude);
         if ((from == ListerReservationsFragment.from)
                 || (from == RenterReservationsFragment.from)) {
             reservationId = intent.getStringExtra("RESERVATION_ID");
             reservationStatus = intent.getStringExtra("RESERVATION_STATUS");
             reservationStartDate = (Date) intent.getSerializableExtra("RESERVATION_START_DATE");
             reservationEndDate = (Date) intent.getSerializableExtra("RESERVATION_END_DATE");
+            if (BuildConfig.DEBUG)
+                Log.d(TAG, "RESERVATION_ID : " + reservationId
+                        + "\nRESERVATION_STATUS : " + reservationStatus
+                        + "\nRESERVATION_START_DATE : " + reservationStartDate
+                        + "\nRESERVATION_END_DATE : " + reservationEndDate);
         }
         if (from == ListerReservationsFragment.from) {
             userImageURL = intent.getStringExtra("RENTER_IMAGE");
             userName = intent.getStringExtra("RENTER_NAME");
             userPhone = intent.getStringExtra("RENTER_PHONE");
+            if (BuildConfig.DEBUG)
+                Log.d(TAG, "RENTER_IMAGE : " + userImageURL
+                        + "\nRENTER_NAME : " + userName
+                        + "\nRENTER_PHONE : " + userPhone);
         }
 
         init();
@@ -311,7 +321,7 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.activity_content_user_information_chatting_button:
-                // TODO : 채팅 시작
+                // TODO : 채팅 시작, 사용자 불러오기 문제
                 if (mMessagingChannelListQuery == null) {
                     mMessagingChannelListQuery = SendBird.queryMessagingChannelList();
                     mMessagingChannelListQuery.setLimit(30);
@@ -398,7 +408,6 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                 }
                 break;
             case R.id.activity_content_bottom_buttons_right_button:
-                // TODO : 버튼 이벤트, 뒤로가기 제외하고 모두 팝업을 거쳐야 한다.
                 switch ((String) bottomButtonsRightButton.getTag(R.id.TAG_ONLINE_ID)) {
                     case "예약승인하기": {
                         ChoiceDialogFragment choiceDialogFragment
@@ -458,9 +467,8 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                         startActivity(intent);
                         break;
                     case "후기작성":
-                        intent = new Intent(this, InputBicyclePostScriptActivity.class);
-                        intent.putExtra("BICYCLE_ID", bicycleId);
-                        startActivity(intent);
+                        CommentDialogFragment commentDialogFragment = new CommentDialogFragment().newInstance(bicycleId);
+                        commentDialogFragment.show(getSupportFragmentManager(), TAG);
                         break;
                     case "예약날짜선택":
                         calendarDialogFragment = new CalendarDialogFragment().newInstance(bicycleId);
@@ -637,7 +645,7 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                                     if ((from == ListerReservationsFragment.from)
                                             || (from == RenterReservationsFragment.from)) {
                                         /* 대여 날짜 */
-                                        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd aahh:mm", java.util.Locale.getDefault());
+                                        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd a h:mm", java.util.Locale.getDefault());
                                         bicycleRentalPeriodStartDateTextView.setText(dateFormat.format(reservationStartDate));
                                         bicycleRentalPeriodEndDateTextView.setText(dateFormat.format(reservationEndDate));
 
@@ -657,7 +665,11 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                                                 result.getPrice().getDay(),
                                                 result.getPrice().getHour()
                                         );
-                                        bicycleRentalPriceTextView.setText(rentalPrice + "원");
+                                        bicycleRentalPriceTextView.setText(
+                                                decimalFormat.format(
+                                                        Long.parseLong("" + rentalPrice)
+                                                ) + "원"
+                                        );
                                     } else if ((from == BicyclesActivity.from)
                                             || (from == SearchResultListFragment.from)
                                             || (from == SearchResultMapFragment.from)) {
@@ -668,9 +680,21 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                                         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bicycleCommentLayout.getLayoutParams();
                                         params.addRule(RelativeLayout.BELOW, R.id.activity_content_bicycle_location_map_layout);
                                         bicycleCommentLayout.setLayoutParams(params);
-                                        pricePerHourTextView.setText(result.getPrice().getHour() + "원");
-                                        pricePerDayTextView.setText(result.getPrice().getDay() + "원");
-                                        pricePerMonthTextView.setText(result.getPrice().getMonth() + "원");
+                                        pricePerHourTextView.setText(
+                                                decimalFormat.format(
+                                                        Long.parseLong("" + result.getPrice().getHour())
+                                                ) + "원"
+                                        );
+                                        pricePerDayTextView.setText(
+                                                decimalFormat.format(
+                                                        Long.parseLong("" + result.getPrice().getDay())
+                                                ) + "원"
+                                        );
+                                        pricePerMonthTextView.setText(
+                                                decimalFormat.format(
+                                                        Long.parseLong("" + result.getPrice().getMonth())
+                                                ) + "원"
+                                        );
                                     }
 
                                     /* 자전거 후기 */
@@ -713,6 +737,10 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                                                                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bicycleCommentLayout.getLayoutParams();
                                                                 params.addRule(RelativeLayout.BELOW, R.id.activity_content_bicycle_price_decision_layout);
                                                                 bicycleCommentLayout.setLayoutParams(params);
+                                                                if (Build.VERSION.SDK_INT < 23)
+                                                                    bicycleCommentLayout.setBackgroundColor(getResources().getColor(R.color.bikeeWhite));
+                                                                else
+                                                                    bicycleCommentLayout.setBackgroundColor(getResources().getColor(R.color.bikeeWhite, getTheme()));
                                                             }
                                                         } else {
                                                             if ((from == BicyclesActivity.from)
@@ -721,7 +749,11 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                                                                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bottomButtonsLayout.getLayoutParams();
                                                                 params.addRule(RelativeLayout.BELOW, R.id.activity_content_bicycle_price_decision_layout);
                                                                 bottomButtonsLayout.setLayoutParams(params);
-                                                                bicyclePriceDecisionLayout.setBackgroundResource(R.drawable.detailpage_back_img2);
+                                                                if (Build.VERSION.SDK_INT < 23)
+                                                                    bicyclePriceDecisionLayout.setBackgroundColor(getResources().getColor(R.color.bikeeWhite));
+                                                                else
+                                                                    bicyclePriceDecisionLayout.setBackgroundColor(getResources().getColor(R.color.bikeeWhite, getTheme()));
+                                                                priceDecisionLineView.setVisibility(View.GONE);
                                                             }
                                                             bicycleCommentLayout.setVisibility(View.GONE);
                                                         }
@@ -842,7 +874,12 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bottomButtonsLayout.getLayoutParams();
             params.addRule(RelativeLayout.BELOW, R.id.activity_content_bicycle_price_decision_layout);
             bottomButtonsLayout.setLayoutParams(params);
-            bicyclePriceDecisionLayout.setBackgroundResource(R.drawable.detailpage_back_img2);
+
+            if (Build.VERSION.SDK_INT < 23)
+                bicyclePriceDecisionLayout.setBackgroundColor(getResources().getColor(R.color.bikeeWhite));
+            else
+                bicyclePriceDecisionLayout.setBackgroundColor(getResources().getColor(R.color.bikeeWhite, getTheme()));
+            priceDecisionLineView.setVisibility(View.GONE);
 
             pricePerHourTextView.setText(item.getHour() + "원");
             pricePerDayTextView.setText(item.getDay() + "원");

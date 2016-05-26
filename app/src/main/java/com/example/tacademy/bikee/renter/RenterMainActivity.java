@@ -24,6 +24,8 @@ import android.widget.TextView;
 
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.common.chatting.ChattingRoomsFragment;
+import com.example.tacademy.bikee.common.popup.ChoiceDialogFragment;
+import com.example.tacademy.bikee.common.popup.OnApplicationFinish;
 import com.example.tacademy.bikee.etc.utils.ImageUtil;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
 import com.example.tacademy.bikee.lister.ListerMainActivity;
@@ -308,8 +310,19 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            ChoiceDialogFragment choiceDialogFragment = ChoiceDialogFragment.newInstance(ChoiceDialogFragment.RENTER_APPLICATION_FINISH);
+            choiceDialogFragment.setOnApplicationFinish(new OnApplicationFinish() {
+                @Override
+                public void onApplicationFinish() {
+                    finishApplication();
+                }
+            });
+            choiceDialogFragment.show(getSupportFragmentManager(), TAG);
         }
+    }
+
+    private void finishApplication() {
+        super.onBackPressed();
     }
 
     @Override

@@ -259,7 +259,7 @@ public class SignUpActivity extends AppCompatActivity {
     };
 
     private void signUpFacebook() {
-        // TODO : 가입하기 버튼을 누르기전에 signupFacebook을 실행해도 되는 지 모르겠다.
+        // TODO : 가입하기 버튼을 누르기전에 signupFacebook을 실행해도 되는 지 모름
         FacebookNetworkManager.getInstance().signupFacebook(
                 SignUpActivity.this,
                 "message",
@@ -311,7 +311,6 @@ public class SignUpActivity extends AppCompatActivity {
     void clickEmailDuplicationCheck(View view) {
         if (BuildConfig.DEBUG)
             Log.d(TAG, "emailDuplicationTextView");
-        // TODO : Email 중복 확인 작업이 필요함
         User user = new User();
         user.setEmail(emailEditText.getText().toString());
         NetworkManager.getInstance().checkEmailDuplication(

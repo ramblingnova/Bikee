@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
+import com.example.tacademy.bikee.common.popup.ChoiceDialogFragment;
 import com.example.tacademy.bikee.etc.dao.SelectReservationReceiveObject;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;

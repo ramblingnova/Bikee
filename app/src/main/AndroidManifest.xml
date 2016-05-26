@@ -98,10 +98,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".common.content.popup.InputBicyclePostScriptActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".common.content.ContentActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -139,10 +135,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".common.SmallMapActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".lister.sidemenu.bicycle.register.page2.TempActivity" />
         <activity
             android:name=".lister.sidemenu.bicycle.register.page4.camera.CameraActivity"
             android:screenOrientation="portrait"

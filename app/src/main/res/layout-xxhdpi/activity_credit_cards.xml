@@ -68,14 +68,6 @@
                 android:textSize="13dp" />
         </RelativeLayout>
 
-        <Button
-            android:id="@+id/activity_credit_cards_add_card_prepayment_button"
-            style="@style/Widget.AppCompat.Button.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:text="사전 결제하러 가기" />
-
         <View
             android:layout_width="match_parent"
             android:layout_height="4dp"

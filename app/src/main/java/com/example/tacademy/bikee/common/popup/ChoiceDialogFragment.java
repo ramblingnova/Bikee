@@ -1,10 +1,9 @@
-package com.example.tacademy.bikee.common.content.popup;
+package com.example.tacademy.bikee.common.popup;
 
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -58,6 +57,7 @@ public class ChoiceDialogFragment extends DialogFragment {
     private RegisterBicycleItem registerBicycleItem;
     private Date startDate;
     private Date endDate;
+    private OnApplicationFinish onApplicationFinish;
 
     public static final int RENTER_RESERVATION_CANCEL = 1;
     public static final int LISTER_RESERVATION_CANCEL = 2;
@@ -66,6 +66,8 @@ public class ChoiceDialogFragment extends DialogFragment {
     public static final int RENTER_RESERVATION_PAYMENT_CANCEL = 5;
     public static final int RENTER_RESERVATION_DATE_CHOICE = 6;
     public static final int LISTER_BICYCLE_REGISTER = 7;
+    public static final int RENTER_APPLICATION_FINISH = 8;
+    public static final int LISTER_APPLICATION_FINISH = 9;
     private static final String TAG = "CHOICE_DIALOG_F";
 
     public static ChoiceDialogFragment newInstance(
@@ -115,10 +117,22 @@ public class ChoiceDialogFragment extends DialogFragment {
         return choiceDialogFragment;
     }
 
+    public static ChoiceDialogFragment newInstance(
+            int from) {
+        ChoiceDialogFragment choiceDialogFragment = new ChoiceDialogFragment();
+
+        Bundle args = new Bundle();
+        args.putInt("FROM", from);
+        choiceDialogFragment.setArguments(args);
+
+        return choiceDialogFragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.AppTheme);
+
+        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.BikeeDialog);
 
         Bundle args = getArguments();
         from = args.getInt("FROM");
@@ -141,6 +155,9 @@ public class ChoiceDialogFragment extends DialogFragment {
             case LISTER_BICYCLE_REGISTER:
                 registerBicycleItem = (RegisterBicycleItem) args.getSerializable("ITEM");
                 break;
+            case RENTER_APPLICATION_FINISH:
+            case LISTER_APPLICATION_FINISH:
+                break;
         }
     }
 
@@ -159,64 +176,86 @@ public class ChoiceDialogFragment extends DialogFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Dialog d = getDialog();
-        d.getWindow().setLayout(
-                getResources().getDimensionPixelSize(R.dimen.fragment_choice_dialog_width),
-                getResources().getDimensionPixelSize(R.dimen.fragment_choice_dialog_height)
-        );
-        WindowManager.LayoutParams params = d.getWindow().getAttributes();
+
+        Dialog dialog = getDialog();
+        dialog.getWindow().setBackgroundDrawableResource(R.color.bikeeTransParent);
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
         params.gravity = Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL;
-        DisplayMetrics metrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         params.x = 0;
         params.y = 0;
-        d.getWindow().setAttributes(params);
+        dialog.getWindow().setAttributes(params);
     }
 
     public void init() {
         switch (from) {
             case RENTER_RESERVATION_CANCEL:
                 dialogTextView.setText("자전거 예약을 취소하시겠습니까?");
-                bottomButtonsLeftButton.setText("예");
-                bottomButtonsRightButton.setText("아니오");
+                bottomButtonsLeftButton.setText("아니오");
+                bottomButtonsRightButton.setText("예");
                 break;
             case LISTER_RESERVATION_CANCEL:
                 dialogTextView.setText("자전거 예약 요청을 거절하시겠습니까?");
-                bottomButtonsLeftButton.setText("예");
-                bottomButtonsRightButton.setText("아니오");
+                bottomButtonsLeftButton.setText("아니오");
+                bottomButtonsRightButton.setText("예");
                 break;
             case LISTER_RESERVATION_APPROVAL:
                 dialogTextView.setText("자전거 예약 요청을 승인하시겠습니까?");
-                bottomButtonsLeftButton.setText("예");
-                bottomButtonsRightButton.setText("아니오");
+                bottomButtonsLeftButton.setText("아니오");
+                bottomButtonsRightButton.setText("예");
                 break;
             case RENTER_RESERVATION_PAYMENT:
                 dialogTextView.setText("결제하시겠습니까?");
-                bottomButtonsLeftButton.setText("예");
-                bottomButtonsRightButton.setText("아니오");
+                bottomButtonsLeftButton.setText("아니오");
+                bottomButtonsRightButton.setText("예");
             case RENTER_RESERVATION_PAYMENT_CANCEL:
                 dialogTextView.setText("이미 결제된 자전거 예약을 취소하시겠습니까?");
-                bottomButtonsLeftButton.setText("예");
-                bottomButtonsRightButton.setText("아니오");
+                bottomButtonsLeftButton.setText("아니오");
+                bottomButtonsRightButton.setText("예");
                 break;
             case RENTER_RESERVATION_DATE_CHOICE:
                 dialogTextView.setText("자전거 주인장에게 예약 신청하시겠습니까?");
-                bottomButtonsLeftButton.setText("예");
-                bottomButtonsRightButton.setText("아니오");
+                bottomButtonsLeftButton.setText("아니오");
+                bottomButtonsRightButton.setText("예");
                 break;
             case LISTER_BICYCLE_REGISTER:
                 dialogTextView.setText("자전거를 등록하시겠습니까?");
-                bottomButtonsLeftButton.setText("예");
-                bottomButtonsRightButton.setText("아니오");
+                bottomButtonsLeftButton.setText("아니오");
+                bottomButtonsRightButton.setText("예");
+                break;
+            case RENTER_APPLICATION_FINISH:
+            case LISTER_APPLICATION_FINISH:
+                dialogTextView.setText("Bikee를 종료하시겠습니까?");
+                bottomButtonsLeftButton.setText("아니오");
+                bottomButtonsRightButton.setText("예");
                 break;
         }
     }
 
-    @OnClick({R.id.fragment_choice_dialog_bottom_buttons_left_button,
+    @OnClick({R.id.fragment_choice_dialog_dismiss_view,
+            R.id.fragment_choice_dialog_bottom_buttons_left_button,
             R.id.fragment_choice_dialog_bottom_buttons_right_button})
     void onClick(View view) {
         switch (view.getId()) {
+            case R.id.fragment_choice_dialog_dismiss_view:
+                dismiss();
+                break;
             case R.id.fragment_choice_dialog_bottom_buttons_left_button:
+                switch (from) {
+                    case RENTER_RESERVATION_CANCEL:
+                    case LISTER_RESERVATION_CANCEL:
+                    case LISTER_RESERVATION_APPROVAL:
+                    case RENTER_RESERVATION_PAYMENT:
+                    case RENTER_RESERVATION_PAYMENT_CANCEL:
+                    case RENTER_RESERVATION_DATE_CHOICE:
+                    case LISTER_BICYCLE_REGISTER:
+                    case RENTER_APPLICATION_FINISH:
+                    case LISTER_APPLICATION_FINISH: {
+                        dismiss();
+                        break;
+                    }
+                }
+                break;
+            case R.id.fragment_choice_dialog_bottom_buttons_right_button:
                 switch (from) {
                     case RENTER_RESERVATION_CANCEL:
                     case RENTER_RESERVATION_PAYMENT_CANCEL: {
@@ -386,22 +425,19 @@ public class ChoiceDialogFragment extends DialogFragment {
                                 });
                         break;
                     }
-                }
-                break;
-            case R.id.fragment_choice_dialog_bottom_buttons_right_button:
-                switch (from) {
-                    case RENTER_RESERVATION_CANCEL:
-                    case LISTER_RESERVATION_CANCEL:
-                    case LISTER_RESERVATION_APPROVAL:
-                    case RENTER_RESERVATION_PAYMENT:
-                    case RENTER_RESERVATION_PAYMENT_CANCEL:
-                    case RENTER_RESERVATION_DATE_CHOICE:
-                    case LISTER_BICYCLE_REGISTER: {
-                        dismiss();
+                    case RENTER_APPLICATION_FINISH:
+                    case LISTER_APPLICATION_FINISH:
+                        if (onApplicationFinish != null) {
+                            dismiss();
+                            onApplicationFinish.onApplicationFinish();
+                        }
                         break;
-                    }
                 }
                 break;
         }
+    }
+
+    public void setOnApplicationFinish(OnApplicationFinish onApplicationFinish) {
+        this.onApplicationFinish = onApplicationFinish;
     }
 }
