@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.example.tacademy.bikee.R;
-import com.example.tacademy.bikee.etc.utils.RegExUtil;
+import com.example.tacademy.bikee.etc.utils.CheckUtil;
 import com.example.tacademy.bikee.lister.sidemenu.bicycle.register.RegisterBicycleINF;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -77,7 +77,7 @@ public class RegisterBicycleLocationFragment extends Fragment implements TextWat
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (s.toString().matches(RegExUtil.REGEX_HANGUL))
+        if (s.toString().matches(CheckUtil.REGEX_HANGUL))
             findGeoPoint(s.toString());
         if ((latitude != 0) && (longitude != 0)) {
             if ((null != registerBicycleINF) && (!registerBicycleINF.getEnable())) {

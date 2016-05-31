@@ -24,7 +24,7 @@ import com.example.tacademy.bikee.etc.dao.User;
 import com.example.tacademy.bikee.etc.manager.FacebookNetworkManager;
 import com.example.tacademy.bikee.etc.manager.NetworkManager;
 import com.example.tacademy.bikee.etc.manager.PropertyManager;
-import com.example.tacademy.bikee.etc.utils.RegExUtil;
+import com.example.tacademy.bikee.etc.utils.CheckUtil;
 import com.example.tacademy.bikee.lister.ListerMainActivity;
 import com.example.tacademy.bikee.renter.RenterMainActivity;
 import com.facebook.AccessToken;
@@ -164,7 +164,7 @@ public class SignUpActivity extends AppCompatActivity {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (s.hashCode() == emailEditText.getText().hashCode()) {
-                if (s.toString().matches(RegExUtil.REGEX_EMAIL)) {
+                if (s.toString().matches(CheckUtil.REGEX_EMAIL)) {
                     if (Build.VERSION.SDK_INT < 23)
                         emailDuplicationTextView.setTextColor(getResources().getColor(R.color.bikeeBlue));
                     else
@@ -178,7 +178,7 @@ public class SignUpActivity extends AppCompatActivity {
                     emailDuplicationTextView.setClickable(false);
                 }
             } else if (s.hashCode() == passwordEditText.getText().hashCode()) {
-                if (s.toString().matches(RegExUtil.REGEX_PASSWORD)) {
+                if (s.toString().matches(CheckUtil.REGEX_PASSWORD)) {
                     password = s.toString();
                     passwordCheckImageView.setVisibility(View.VISIBLE);
                 } else {
@@ -187,7 +187,7 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             } else if (s.hashCode() == passwordConfirmEditText.getText().hashCode()) {
                 passwordConfirmCheckImageView.setVisibility(View.VISIBLE);
-                if (s.toString().matches(RegExUtil.REGEX_PASSWORD) && s.toString().equals(password)) {
+                if (s.toString().matches(CheckUtil.REGEX_PASSWORD) && s.toString().equals(password)) {
                     if (Build.VERSION.SDK_INT < 23)
                         passwordConfirmCheckImageView.setImageDrawable(getResources().getDrawable(R.drawable.signin_icon_ok));
                     else
@@ -226,7 +226,7 @@ public class SignUpActivity extends AppCompatActivity {
                 phoneEditText.setSelection(builder.length());
                 phoneEditText.addTextChangedListener(tw);
 
-                if (s.toString().replace("-", "").matches(RegExUtil.REGEX_PHONE)) {
+                if (s.toString().replace("-", "").matches(CheckUtil.REGEX_PHONE)) {
                     if (Build.VERSION.SDK_INT < 23)
                         reqAuthNumTextView.setTextColor(getResources().getColor(R.color.bikeeBlue));
                     else

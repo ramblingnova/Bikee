@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.provider.Settings;
@@ -14,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.tacademy.bikee.BuildConfig;
 import com.example.tacademy.bikee.R;
@@ -65,25 +67,72 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         if (Build.VERSION.SDK_INT < 15) {
-            // TODO : android api 버전 15이하는 걸러야 함, 메시지와 함께 앱 종료
+            // TODO : android api 버전 15이하는 걸러야 함, 메시지와 함께 앱 종료?
+        } else if ((Build.VERSION.SDK_INT >= 15)
+                && (Build.VERSION.SDK_INT < 23)) {
+            afterPermissionCheck();
         } else if (Build.VERSION.SDK_INT >= 23) {
             // TODO : android api 버전 23이상은 (필요한 권한 xor 모든 권한)을 체크해야 함
-            // READ_EXTERNAL_STORAGE : SharedPreference에서 데이터를 읽기 위함
-            // WRITE_EXTERNAL_STORAGE : SharedPreference에서 데이터를 쓰기 위함
-            // INTERNET : Network통신을 하기 위함
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED) {
-
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CONTACTS)) {
-
+                if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)
+                        && shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)
+                        && shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        && shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                    Toast.makeText(SplashActivity.this, "AA", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent();
+                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    intent.addCategory(Intent.CATEGORY_DEFAULT);
+                    intent.setData(Uri.parse("package:" + "com.example.tacademy.bikee"));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                    startActivityForResult(intent, 10);
                 } else {
-                    ActivityCompat.requestPermissions(this,
-                            new String[]{Manifest.permission.READ_CONTACTS},
-                            10);
+                    Toast.makeText(SplashActivity.this, "BB", Toast.LENGTH_SHORT).show();
+                    requestPermissions(
+                            new String[]{
+                                    Manifest.permission.ACCESS_FINE_LOCATION,
+                                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                    Manifest.permission.CAMERA
+                            },
+                            10
+                    );
                 }
+            } else {
+                afterPermissionCheck();
             }
         }
+    }
 
+    int a = 0;
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Toast.makeText(SplashActivity.this, "onRequestPermissionsResult", Toast.LENGTH_SHORT).show();
+        if (requestCode == 10)
+            afterPermissionCheck();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Toast.makeText(SplashActivity.this, "onActivityResult", Toast.LENGTH_SHORT).show();
+        if (requestCode == 10)
+            afterPermissionCheck();
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mTokenTracker != null)
+            mTokenTracker.stopTracking();
+    }
+
+    private void afterPermissionCheck() {
         if (PropertyManager.getInstance().isInitCoordinates()) {
             PropertyManager.getInstance().setLatitude("37.565596");
             PropertyManager.getInstance().setLongitude("126.978013");
@@ -114,24 +163,6 @@ public class SplashActivity extends AppCompatActivity {
                 closeSplash();
                 break;
         }
-    }
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mTokenTracker != null)
-            mTokenTracker.stopTracking();
     }
 
     private void signInFacebook() {
@@ -257,8 +288,8 @@ public class SplashActivity extends AppCompatActivity {
 
                         if (BuildConfig.DEBUG)
                             Log.d(TAG, "onResponse Success : " + receiveObject.isSuccess()
-                                            + ", Code : " + receiveObject.getCode()
-                                            + ", Msg : " + receiveObject.getMsg());
+                                    + ", Code : " + receiveObject.getCode()
+                                    + ", Msg : " + receiveObject.getMsg());
 
                         /* send gcm token to server */
                         checkPlayService();
@@ -359,8 +390,8 @@ public class SplashActivity extends AppCompatActivity {
 
         if (BuildConfig.DEBUG)
             Log.d(TAG, "deviceID : " + deviceID
-                            + "\nregistrationID(GCM Token) : " + registrationID
-                            + "\ndeviceOS : " + deviceID);
+                    + "\nregistrationID(GCM Token) : " + registrationID
+                    + "\ndeviceOS : " + deviceID);
         NetworkManager.getInstance().sendGCMToken(
                 deviceID,
                 registrationID,
