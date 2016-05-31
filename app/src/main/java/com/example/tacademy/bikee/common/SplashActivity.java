@@ -115,22 +115,20 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
 
-    int a = 0;
-
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         Toast.makeText(SplashActivity.this, "onRequestPermissionsResult", Toast.LENGTH_SHORT).show();
-        if (requestCode == 10)
-            afterPermissionCheck();
+//        if (requestCode == 10)
+//            afterPermissionCheck();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Toast.makeText(SplashActivity.this, "onActivityResult", Toast.LENGTH_SHORT).show();
-        if (requestCode == 10)
-            afterPermissionCheck();
+//        if (requestCode == 10)
+//            afterPermissionCheck();
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
