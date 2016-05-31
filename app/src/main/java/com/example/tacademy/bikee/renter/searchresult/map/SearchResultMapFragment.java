@@ -127,6 +127,17 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
 //        mMarkerResolver.clear();
 //        mPOIResolver.clear();
 
+        if (Build.VERSION.SDK_INT >= 23) {
+            if ((googleMap != null)
+                    && !googleMap.isMyLocationEnabled()
+                    && (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED))
+                googleMap.setMyLocationEnabled(true);
+            else if ((googleMap != null)
+                    && !googleMap.isMyLocationEnabled()
+                    && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                googleMap.setMyLocationEnabled(false);
+        }
+
         requestData();
     }
 
@@ -193,12 +204,14 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
+
                                         }
                                     })
                             .setCancelable(true)
                             .create()
                             .show();
                 } else {
+                    // TODO : DELME 도달할 수 없는 경로로 판단됨
                     requestPermissions(
                             new String[]{
                                     Manifest.permission.ACCESS_FINE_LOCATION

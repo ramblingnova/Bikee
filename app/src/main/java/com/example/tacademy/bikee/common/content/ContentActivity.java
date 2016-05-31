@@ -261,7 +261,6 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
 
         ButterKnife.bind(this);
 
-        // TODO
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.activity_content_bicycle_location_map_container);
         mapFragment.getMapAsync(this);
@@ -324,12 +323,6 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
         gm.addMarker(options);
 
         gm.getUiSettings().setZoomGesturesEnabled(false);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == PERMISSION_REQUEST_CODE)
     }
 
     @OnClick({R.id.activity_content_user_information_chatting_button,

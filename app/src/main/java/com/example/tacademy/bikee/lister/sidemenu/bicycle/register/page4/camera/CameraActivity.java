@@ -1,7 +1,9 @@
 package com.example.tacademy.bikee.lister.sidemenu.bicycle.register.page4.camera;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -184,11 +186,11 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
             item4TextView.setTextColor(getResources().getColor(R.color.bikeeWhite));
             item5TextView.setTextColor(getResources().getColor(R.color.bikeeWhite));
         } else {
-            item1TextView.setTextColor(getResources().getColor(R.color.bikeeWhite, null));
-            item2TextView.setTextColor(getResources().getColor(R.color.bikeeWhite, null));
-            item3TextView.setTextColor(getResources().getColor(R.color.bikeeWhite, null));
-            item4TextView.setTextColor(getResources().getColor(R.color.bikeeWhite, null));
-            item5TextView.setTextColor(getResources().getColor(R.color.bikeeWhite, null));
+            item1TextView.setTextColor(getResources().getColor(R.color.bikeeWhite, getTheme()));
+            item2TextView.setTextColor(getResources().getColor(R.color.bikeeWhite, getTheme()));
+            item3TextView.setTextColor(getResources().getColor(R.color.bikeeWhite, getTheme()));
+            item4TextView.setTextColor(getResources().getColor(R.color.bikeeWhite, getTheme()));
+            item5TextView.setTextColor(getResources().getColor(R.color.bikeeWhite, getTheme()));
         }
 
         intent = getIntent();
@@ -239,6 +241,15 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
             freezeButton.setEnabled(false);
             freezeButton.setBackgroundResource(R.drawable.camera_inactive_button);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (Build.VERSION.SDK_INT >= 23)
+            if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+                onBackPressed();
     }
 
     @OnClick({R.id.activity_camera_surface_view,
