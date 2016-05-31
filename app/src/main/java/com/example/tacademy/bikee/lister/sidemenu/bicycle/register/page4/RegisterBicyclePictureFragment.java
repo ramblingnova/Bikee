@@ -201,6 +201,18 @@ public class RegisterBicyclePictureFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (((requestCode == 2) || (requestCode == 1)) && (resultCode == Activity.RESULT_OK)) {
+            list = (ArrayList) data.getSerializableExtra("LIST");
+        }
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            intent = new Intent(getActivity(), CameraActivity.class);
+            intent.putExtra("LIST", list);
+            startActivityForResult(intent, 1);
+        }
+    }
+
     @OnClick({R.id.fragment_register_bicycle_picture_camera_image_view,
             R.id.fragment_register_bicycle_picture_gallery_image_view})
     void onClick(View view) {
@@ -221,7 +233,7 @@ public class RegisterBicyclePictureFragment extends Fragment {
                                                     intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                                                     intent.addCategory(Intent.CATEGORY_DEFAULT);
                                                     intent.setData(Uri.parse("package:" + "com.example.tacademy.bikee"));
-                                                    startActivityForResult(intent, PERMISSION_REQUEST_CODE);
+                                                    getActivity().startActivityForResult(intent, PERMISSION_REQUEST_CODE);
                                                 }
                                             })
                                     .setNegativeButton(
@@ -238,7 +250,7 @@ public class RegisterBicyclePictureFragment extends Fragment {
                         } else {
                             requestPermissions(
                                     new String[]{
-                                            Manifest.permission.ACCESS_FINE_LOCATION
+                                            Manifest.permission.CAMERA
                                     },
                                     PERMISSION_REQUEST_CODE
                             );
@@ -301,13 +313,6 @@ public class RegisterBicyclePictureFragment extends Fragment {
                     list.set(4, null);
                 }
                 break;
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (((requestCode == 2) || (requestCode == 1)) && (resultCode == Activity.RESULT_OK)) {
-            list = (ArrayList) data.getSerializableExtra("LIST");
         }
     }
 
