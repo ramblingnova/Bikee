@@ -1,13 +1,21 @@
 package com.example.tacademy.bikee.renter.searchresult.map;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,8 +65,8 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     // READ_GSERVICES : Google map을 사용하기 위함
     // ACCESS_FINE_LOCATION : Google map을 사용하기 위함
     // ACCESS_COARSE_LOCATION : Google map을 사용하기 위함
-    final private Map<POI, Marker> mMarkerResolver = new HashMap<POI, Marker>();
-    final private Map<Marker, POI> mPOIResolver = new HashMap<Marker, POI>();
+    private final Map<POI, Marker> mMarkerResolver = new HashMap<POI, Marker>();
+    private final Map<Marker, POI> mPOIResolver = new HashMap<Marker, POI>();
     private GoogleMap googleMap;
     private LocationManager locationManager;
     private View view;
@@ -69,6 +77,7 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     private Marker current_marker;
 
     public static int from = 2;
+    private static final int PERMISSION_REQUEST_CODE = 101;
     private static final String TAG = "SEARCH_R_M_ACTIVITY";
 
     public SearchResultMapFragment() {
@@ -160,7 +169,47 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
-        this.googleMap.setMyLocationEnabled(true);
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle("권한 요청")
+                            .setMessage("위치정보 권한이 있어야 앱이 올바르게 작동합니다.")
+                            .setPositiveButton(
+                                    "설정",
+                                    new AlertDialog.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Intent intent = new Intent();
+                                            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                            intent.addCategory(Intent.CATEGORY_DEFAULT);
+                                            intent.setData(Uri.parse("package:" + "com.example.tacademy.bikee"));
+                                            startActivityForResult(intent, PERMISSION_REQUEST_CODE);
+                                        }
+                                    })
+                            .setNegativeButton(
+                                    "취소",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                        }
+                                    })
+                            .setCancelable(true)
+                            .create()
+                            .show();
+                } else {
+                    requestPermissions(
+                            new String[]{
+                                    Manifest.permission.ACCESS_FINE_LOCATION
+                            },
+                            PERMISSION_REQUEST_CODE
+                    );
+                }
+            } else {
+                this.googleMap.setMyLocationEnabled(true);
+            }
+        }
 
         this.googleMap.setIndoorEnabled(true);
         this.googleMap.setTrafficEnabled(true);

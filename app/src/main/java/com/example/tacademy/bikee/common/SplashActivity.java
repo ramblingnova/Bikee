@@ -1,6 +1,8 @@
 package com.example.tacademy.bikee.common;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -54,11 +56,12 @@ public class SplashActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
     private LoginManager mLoginManager;
     private AccessTokenTracker mTokenTracker;
-    private final String appId = "2E377FE1-E1AD-4484-A66F-696AF1306F58";
     private String userId;
     private String userName;
     private String gcmRegToken;
 
+    private static final int PERMISSION_REQUEST_CODE = 100;
+    private static final String appId = "2E377FE1-E1AD-4484-A66F-696AF1306F58";
     private static final String TAG = "SPLASH_ACTIVITY";
 
     @Override
@@ -67,37 +70,73 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         if (Build.VERSION.SDK_INT < 15) {
-            // TODO : android api 버전 15이하는 걸러야 함, 메시지와 함께 앱 종료?
+            new AlertDialog.Builder(this)
+                    .setTitle("안드로이드 버전")
+                    .setMessage("죄송합니다. 안드로이드 버전 15이하는 지원하지 않습니다.")
+                    .setPositiveButton(
+                            "나가기",
+                            new AlertDialog.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finishApplication();
+                                }
+                            })
+                    .create()
+                    .show();
         } else if ((Build.VERSION.SDK_INT >= 15)
                 && (Build.VERSION.SDK_INT < 23)) {
             afterPermissionCheck();
         } else if (Build.VERSION.SDK_INT >= 23) {
-            // TODO : android api 버전 23이상은 (필요한 권한 xor 모든 권한)을 체크해야 함
             if ((checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
                     || (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
                     || (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
                     || (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)) {
-                Toast.makeText(SplashActivity.this, "AA", Toast.LENGTH_SHORT).show();
-
                 if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)
                         || shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)
                         || shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         || shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-                    // 거절한 경우
-                    Toast.makeText(SplashActivity.this, "BB", Toast.LENGTH_SHORT).show();
+                    StringBuilder stringBuilder = new StringBuilder();
+                    if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                        stringBuilder.append("위치정보");
+                    }
+                    if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)
+                            || shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                        if (stringBuilder.length() > 0)
+                            stringBuilder.append(", ");
+                        stringBuilder.append("저장소 읽기/쓰기");
+                    }
+                    if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                        if (stringBuilder.length() > 0)
+                            stringBuilder.append(", ");
+                        stringBuilder.append("카메라");
+                    }
+                    stringBuilder.append(" 권한이 있어야 앱이 올바르게 작동합니다.");
 
-                    Intent intent = new Intent();
-                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                    intent.addCategory(Intent.CATEGORY_DEFAULT);
-                    intent.setData(Uri.parse("package:" + "com.example.tacademy.bikee"));
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-                    startActivityForResult(intent, 10);
+                    new AlertDialog.Builder(this)
+                            .setTitle("권한 요청")
+                            .setMessage(stringBuilder)
+                            .setPositiveButton(
+                                    "설정",
+                                    new AlertDialog.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Intent intent = new Intent();
+                                            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                            intent.addCategory(Intent.CATEGORY_DEFAULT);
+                                            intent.setData(Uri.parse("package:" + "com.example.tacademy.bikee"));
+                                            startActivityForResult(intent, PERMISSION_REQUEST_CODE);
+                                        }
+                                    })
+                            .setNegativeButton(
+                                    "취소",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            afterPermissionCheck();
+                                        }
+                                    })
+                            .setCancelable(true)
+                            .create()
+                            .show();
                 } else {
-                    // 최초
-                    Toast.makeText(SplashActivity.this, "CC", Toast.LENGTH_SHORT).show();
-
                     requestPermissions(
                             new String[]{
                                     Manifest.permission.ACCESS_FINE_LOCATION,
@@ -105,11 +144,10 @@ public class SplashActivity extends AppCompatActivity {
                                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
                                     Manifest.permission.CAMERA
                             },
-                            10
+                            PERMISSION_REQUEST_CODE
                     );
                 }
             } else {
-                // 승인된 경우
                 afterPermissionCheck();
             }
         }
@@ -118,16 +156,13 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        Toast.makeText(SplashActivity.this, "onRequestPermissionsResult", Toast.LENGTH_SHORT).show();
-//        if (requestCode == 10)
-//            afterPermissionCheck();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Toast.makeText(SplashActivity.this, "onActivityResult", Toast.LENGTH_SHORT).show();
-        afterPermissionCheck();
+        if (requestCode == PERMISSION_REQUEST_CODE)
+            afterPermissionCheck();
         if (callbackManager != null)
             callbackManager.onActivityResult(requestCode, resultCode, data);
     }
@@ -432,6 +467,10 @@ public class SplashActivity extends AppCompatActivity {
                 finish();
             }
         }, 1000);
+    }
+
+    private void finishApplication() {
+        super.onBackPressed();
     }
 
     private void getAppKeyHash() {

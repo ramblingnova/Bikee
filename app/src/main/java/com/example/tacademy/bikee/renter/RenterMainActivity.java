@@ -128,7 +128,8 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
         if (resultCode == RESULT_OK && requestCode == SignInActivity.SIGN_IN_ACTIVITY) {
             initProfile();
         } else if (resultCode == RESULT_OK && requestCode == FilterActivity.FILTER_ACTIVITY) {
-            Log.d(TAG, "onActivityResult");
+            if (BuildConfig.DEBUG)
+                Log.d(TAG, "onActivityResult");
             for (Fragment uploadType : getSupportFragmentManager()
                     .findFragmentById(R.id.realtabcontent)
                     .getFragmentManager()
@@ -185,12 +186,8 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
         }
     }
 
-    @OnClick(R.id.toolbar_left_icon_layout)
-    void clickHamburgerIcon() {
-        drawerLayout.openDrawer(Gravity.LEFT);
-    }
-
-    @OnClick({R.id.renter_side_menu_renter_image_image_view,
+    @OnClick({R.id.toolbar_left_icon_layout,
+            R.id.renter_side_menu_renter_image_image_view,
             R.id.renter_side_menu_member_name_text_view,
             R.id.renter_side_menu_mail_address_text_view,
             R.id.renter_side_menu_fragment_register_card_text_view,
@@ -201,8 +198,11 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
             R.id.renter_side_menu_version_information_text_view,
             R.id.renter_side_menu_change_mode_layout,
             R.id.renter_side_menu_change_mode_button})
-    void selectRenterSideMenu(View v) {
+    void onClick(View v) {
         switch (v.getId()) {
+            case R.id.toolbar_left_icon_layout:
+                drawerLayout.openDrawer(Gravity.LEFT);
+                break;
             case R.id.renter_side_menu_renter_image_image_view:
             case R.id.renter_side_menu_member_name_text_view:
             case R.id.renter_side_menu_mail_address_text_view:
@@ -242,7 +242,7 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
     }
 
     @OnCheckedChanged(R.id.renter_side_menu_push_alarm_switch)
-    void pushAlramCheckedChange(CompoundButton buttonView, boolean isChecked) {
+    void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
             case R.id.renter_side_menu_push_alarm_switch:
                 if (isChecked)
@@ -307,6 +307,10 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
             push.setChecked(false);
     }
 
+    private void finishApplication() {
+        super.onBackPressed();
+    }
+
     @Override
     public void onBackPressed() {
         drawerLayout = (DrawerLayout) findViewById(R.id.renter_activity_main_drawer_layout);
@@ -322,10 +326,6 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
             });
             choiceDialogFragment.show(getSupportFragmentManager(), TAG);
         }
-    }
-
-    private void finishApplication() {
-        super.onBackPressed();
     }
 
     @Override

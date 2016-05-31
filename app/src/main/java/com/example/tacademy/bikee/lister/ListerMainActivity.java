@@ -143,12 +143,8 @@ public class ListerMainActivity extends AppCompatActivity implements TabHost.OnT
         }
     }
 
-    @OnClick(R.id.toolbar_left_icon_layout)
-    void clickHamburgerIcon() {
-        drawerLayout.openDrawer(Gravity.LEFT);
-    }
-
-    @OnClick({R.id.lister_side_menu_lister_image_image_view,
+    @OnClick({R.id.toolbar_left_icon_layout,
+            R.id.lister_side_menu_lister_image_image_view,
             R.id.lister_side_menu_member_name_text_view,
             R.id.lister_side_menu_mail_address_text_view,
             R.id.lister_side_menu_see_my_bicycle_text_view,
@@ -161,8 +157,11 @@ public class ListerMainActivity extends AppCompatActivity implements TabHost.OnT
             R.id.lister_side_menu_version_information_text_view,
             R.id.lister_side_menu_change_mode_layout,
             R.id.lister_side_menu_change_mode_button})
-    void selectListerSideMenu(View v) {
+    void onClick(View v) {
         switch (v.getId()) {
+            case R.id.toolbar_left_icon_layout:
+                drawerLayout.openDrawer(Gravity.LEFT);
+                break;
             case R.id.lister_side_menu_lister_image_image_view:
             case R.id.lister_side_menu_member_name_text_view:
             case R.id.lister_side_menu_mail_address_text_view:
@@ -207,7 +206,7 @@ public class ListerMainActivity extends AppCompatActivity implements TabHost.OnT
     }
 
     @OnCheckedChanged(R.id.lister_side_menu_push_alarm_switch)
-    void pushAlramCheckedChange(CompoundButton buttonView, boolean isChecked) {
+    void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
             case R.id.lister_side_menu_push_alarm_switch:
                 if (isChecked) {
@@ -270,6 +269,10 @@ public class ListerMainActivity extends AppCompatActivity implements TabHost.OnT
             push.setChecked(false);
     }
 
+    private void finishApplication() {
+        super.onBackPressed();
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.lister_activity_main_drawer_layout);
@@ -285,10 +288,6 @@ public class ListerMainActivity extends AppCompatActivity implements TabHost.OnT
             });
             choiceDialogFragment.show(getSupportFragmentManager(), TAG);
         }
-    }
-
-    private void finishApplication() {
-        super.onBackPressed();
     }
 
     @Override

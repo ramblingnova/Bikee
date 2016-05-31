@@ -1,9 +1,14 @@
 package com.example.tacademy.bikee.common.content;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.Settings;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -166,13 +171,13 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
     private int pageScrollState;
     private CalendarDialogFragment calendarDialogFragment;
     private DecimalFormat decimalFormat = new DecimalFormat("###,###.####");
-
     private MessagingChannelListQuery mMessagingChannelListQuery;
     private boolean hasMyId;
     private boolean hasTargetId;
     private boolean hasMyIdTargetId;
     private String messageChannelURL;
 
+    private static final int PERMISSION_REQUEST_CODE = 102;
     public static final String TAG = "CONTENT_ACTIVITY";
 
     @Override
@@ -256,6 +261,7 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
 
         ButterKnife.bind(this);
 
+        // TODO
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.activity_content_bicycle_location_map_container);
         mapFragment.getMapAsync(this);
@@ -318,6 +324,12 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
         gm.addMarker(options);
 
         gm.getUiSettings().setZoomGesturesEnabled(false);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == PERMISSION_REQUEST_CODE)
     }
 
     @OnClick({R.id.activity_content_user_information_chatting_button,
