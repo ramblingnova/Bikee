@@ -73,14 +73,19 @@ public class SplashActivity extends AppCompatActivity {
             afterPermissionCheck();
         } else if (Build.VERSION.SDK_INT >= 23) {
             // TODO : android api 버전 23이상은 (필요한 권한 xor 모든 권한)을 체크해야 함
-            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED) {
+            if ((checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                    || (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                    || (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                    || (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)) {
+                Toast.makeText(SplashActivity.this, "AA", Toast.LENGTH_SHORT).show();
+
                 if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)
                         || shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)
                         || shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         || shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
                     // 거절한 경우
-                    Toast.makeText(SplashActivity.this, "AA", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SplashActivity.this, "BB", Toast.LENGTH_SHORT).show();
+
                     Intent intent = new Intent();
                     intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                     intent.addCategory(Intent.CATEGORY_DEFAULT);
@@ -91,7 +96,8 @@ public class SplashActivity extends AppCompatActivity {
                     startActivityForResult(intent, 10);
                 } else {
                     // 최초
-                    Toast.makeText(SplashActivity.this, "BB", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SplashActivity.this, "CC", Toast.LENGTH_SHORT).show();
+
                     requestPermissions(
                             new String[]{
                                     Manifest.permission.ACCESS_FINE_LOCATION,
