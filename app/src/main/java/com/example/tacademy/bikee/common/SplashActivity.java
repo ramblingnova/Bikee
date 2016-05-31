@@ -1,5 +1,6 @@
 package com.example.tacademy.bikee.common;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -7,6 +8,8 @@ import android.content.pm.Signature;
 import android.os.Build;
 import android.os.Handler;
 import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -61,8 +64,25 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        // TODO : android api 버전 15이하는 걸러야 함
-        // TODO : 자체 버전을 체크해야 함
+        if (Build.VERSION.SDK_INT < 15) {
+            // TODO : android api 버전 15이하는 걸러야 함, 메시지와 함께 앱 종료
+        } else if (Build.VERSION.SDK_INT >= 23) {
+            // TODO : android api 버전 23이상은 (필요한 권한 xor 모든 권한)을 체크해야 함
+            // READ_EXTERNAL_STORAGE : SharedPreference에서 데이터를 읽기 위함
+            // WRITE_EXTERNAL_STORAGE : SharedPreference에서 데이터를 쓰기 위함
+            // INTERNET : Network통신을 하기 위함
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CONTACTS)) {
+
+                } else {
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.READ_CONTACTS},
+                            10);
+                }
+            }
+        }
 
         if (PropertyManager.getInstance().isInitCoordinates()) {
             PropertyManager.getInstance().setLatitude("37.565596");
@@ -95,6 +115,11 @@ public class SplashActivity extends AppCompatActivity {
                 break;
         }
     }
+
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

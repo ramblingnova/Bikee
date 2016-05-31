@@ -31,7 +31,12 @@ public class    GalleryPictureViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setView(GalleryPictureItem item) {
-        ImageUtil.setRectangleImageFromURL(view.getContext(), item.getPicturePath(), itemImageVIew);
+        ImageUtil.setRectangleImageFromURL(
+                view.getContext(),
+                item.getPicturePath(),
+                R.drawable.detailpage_bike_image_noneimage,
+                itemImageVIew
+        );
         if (item.isSelected())
             checkImageView.setVisibility(View.VISIBLE);
         else

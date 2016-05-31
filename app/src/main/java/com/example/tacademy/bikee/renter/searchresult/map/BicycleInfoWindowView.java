@@ -34,6 +34,8 @@ import butterknife.ButterKnife;
  * Created by Tacademy on 2015-11-18.
  */
 public class BicycleInfoWindowView extends FrameLayout implements GoogleMap.InfoWindowAdapter {
+    // TODO : android api 버전 23이상은 필요한 권한을 체크해야 함
+    // INTERNET : Glide를 통해 이미지를 받기 위함
     @Bind(R.id.view_bicycle_info_window_bicycle_picture_image_view)
     ImageView bicycleImage;
     @Bind(R.id.view_bicycle_info_window_bicycle_name_text_view)

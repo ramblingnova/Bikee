@@ -39,6 +39,9 @@ import retrofit2.Response;
  * Created by User on 2016-03-11.
  */
 public class ChattingRoomsFragment extends Fragment implements OnAdapterClickListener {
+    // TODO : android api 버전 23이상은 필요한 권한을 체크해야 함
+    // INTERNET : Network통신을 하기 위함, Glide를 통해 이미지를 받기 위함
+    // READ_EXTERNAL_STORAGE : SharedPreference에서 데이터를 읽기 위함
     @Bind(R.id.fragment_chatting_rooms_recycler_view)
     RecyclerView recyclerView;
 

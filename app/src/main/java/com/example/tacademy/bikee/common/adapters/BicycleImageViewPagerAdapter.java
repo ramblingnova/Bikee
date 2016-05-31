@@ -50,9 +50,9 @@ public class BicycleImageViewPagerAdapter extends PagerAdapter {
                     imageVIew
             );
         else if (fileList.size() > 0)
-            ImageUtil.setRectangleImageFromFile(
+            ImageUtil.setRectangleImageFromURL(
                     MyApplication.getmContext(),
-                    fileList.get(position),
+                    fileList.get(position).getPath(),
                     R.drawable.detailpage_bike_image_noneimage,
                     imageVIew
             );

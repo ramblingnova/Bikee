@@ -112,56 +112,66 @@ public class RegisterBicyclePictureFragment extends Fragment {
         int count = 0;
 
         if (list.get(0) != null) {
-            ImageUtil.setRoundRectangleImageFromFile(
+            ImageUtil.setRoundRectangleImageFromURL(
                     MyApplication.getmContext(),
-                    list.get(0),
+                    list.get(0).getPath(),
                     R.drawable.img_01,
                     item1ImageView,
-                    8
+                    getResources().getDimensionPixelSize(
+                            R.dimen.fragment_register_bicycle_picture_thumbnail_item_image_view_round_radius
+                    )
             );
             count++;
         } else
             item1ImageView.setImageResource(R.drawable.img_01);
         if (list.get(1) != null) {
-            ImageUtil.setRoundRectangleImageFromFile(
+            ImageUtil.setRoundRectangleImageFromURL(
                     MyApplication.getmContext(),
-                    list.get(1),
+                    list.get(1).getPath(),
                     R.drawable.img_02,
                     item2ImageView,
-                    8
+                    getResources().getDimensionPixelSize(
+                            R.dimen.fragment_register_bicycle_picture_thumbnail_item_image_view_round_radius
+                    )
             );
             count++;
         } else
             item2ImageView.setImageResource(R.drawable.img_02);
         if (list.get(2) != null) {
-            ImageUtil.setRoundRectangleImageFromFile(
+            ImageUtil.setRoundRectangleImageFromURL(
                     MyApplication.getmContext(),
-                    list.get(2),
+                    list.get(2).getPath(),
                     R.drawable.img_03,
                     item3ImageView,
-                    8
+                    getResources().getDimensionPixelSize(
+                            R.dimen.fragment_register_bicycle_picture_thumbnail_item_image_view_round_radius
+                    )
             );
             count++;
         } else
             item3ImageView.setImageResource(R.drawable.img_03);
         if (list.get(3) != null) {
-            ImageUtil.setRoundRectangleImageFromFile(
+            ImageUtil.setRoundRectangleImageFromURL(
                     MyApplication.getmContext(),
-                    list.get(3),
+                    list.get(3).getPath(),
                     R.drawable.img_04,
                     item4ImageView,
-                    8
+                    getResources().getDimensionPixelSize(
+                            R.dimen.fragment_register_bicycle_picture_thumbnail_item_image_view_round_radius
+                    )
             );
             count++;
         } else
             item4ImageView.setImageResource(R.drawable.img_04);
         if (list.get(4) != null) {
-            ImageUtil.setRoundRectangleImageFromFile(
+            ImageUtil.setRoundRectangleImageFromURL(
                     MyApplication.getmContext(),
-                    list.get(4),
+                    list.get(4).getPath(),
                     R.drawable.img_05,
                     item5ImageView,
-                    8
+                    getResources().getDimensionPixelSize(
+                            R.dimen.fragment_register_bicycle_picture_thumbnail_item_image_view_round_radius
+                    )
             );
             count++;
         } else

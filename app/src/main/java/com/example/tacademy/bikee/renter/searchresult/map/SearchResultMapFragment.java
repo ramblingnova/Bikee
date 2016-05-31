@@ -50,6 +50,13 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
         GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMapClickListener,
         GoogleMap.OnMarkerDragListener, GoogleMap.OnCameraChangeListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
+    // TODO : android api 버전 23이상은 필요한 권한을 체크해야 함
+    // READ_EXTERNAL_STORAGE : SharedPreference에서 데이터를 읽기 위함
+    // WRITE_EXTERNAL_STORAGE : SharedPreference에서 데이터를 쓰기 위함, Google map을 사용하기 위함
+    // INTERNET : Network통신을 하기 위함, Google map을 사용하기 위함
+    // READ_GSERVICES : Google map을 사용하기 위함
+    // ACCESS_FINE_LOCATION : Google map을 사용하기 위함
+    // ACCESS_COARSE_LOCATION : Google map을 사용하기 위함
     final private Map<POI, Marker> mMarkerResolver = new HashMap<POI, Marker>();
     final private Map<Marker, POI> mPOIResolver = new HashMap<Marker, POI>();
     private GoogleMap googleMap;

@@ -42,6 +42,8 @@ import retrofit2.Response;
  * Created by Tacademy on 2015-11-03.
  */
 public class CreditCardsActivity extends AppCompatActivity implements OnAdapterClickListener, ViewPager.OnPageChangeListener {
+    // TODO : android api 버전 23이상은 필요한 권한을 체크해야 함
+    // INTERNET : Network통신을 하기 위함
     @Bind(R.id.toolbar_layout)
     RelativeLayout toolbarLayout;
     @Bind(R.id.toolbar_left_icon_back_image_view)

@@ -58,13 +58,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ConversationActivity extends AppCompatActivity {
+    // TODO : android api 버전 23이상은 필요한 권한을 체크해야 함
+    // INTERNET : Network통신을 하기 위함, Glide를 통해 이미지를 받기 위함
     @Bind(R.id.toolbar_layout)
     RelativeLayout toolbarLayout;
     @Bind(R.id.toolbar_left_icon_back_image_view)
     ImageView toolbarLeftIconBackImageView;
     @Bind(R.id.toolbar_center_text_view)
     TextView toolbarCenterTextView;
-
     @Bind(R.id.activity_conversation_bicycle_image_image_view)
     ImageView bicycleImageImageView;
     @Bind(R.id.activity_conversation_bicycle_name_text_view)

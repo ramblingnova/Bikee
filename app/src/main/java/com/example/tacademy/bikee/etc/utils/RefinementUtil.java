@@ -229,7 +229,6 @@ public class RefinementUtil {
         return bf.toString();
     }
 
-
     public static LatLng findGeoPoint(Context context, String address) {
         Geocoder geocoder = new Geocoder(context, Locale.KOREA);
         Address addr;

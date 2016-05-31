@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -100,7 +99,6 @@ public class FilterActivity extends AppCompatActivity implements TimePickerDialo
     Date start_day;
 
     public static final int FILTER_ACTIVITY = 2;
-
     private static final String TAG = "FILTER_ACTIVITY";
 
     @Override
@@ -124,22 +122,174 @@ public class FilterActivity extends AppCompatActivity implements TimePickerDialo
             view.setVisibility(View.GONE);
         } else {
             address.setText(addressString);
-            Toast.makeText(FilterActivity.this, "address : " + RefinementUtil.findGeoPoint(MyApplication.getmContext(), addressString), Toast.LENGTH_SHORT).show();
+            Toast.makeText(FilterActivity.this, "address : " +
+                    "" + RefinementUtil.findGeoPoint(MyApplication.getmContext(), addressString),
+                    Toast.LENGTH_SHORT).show();
             LatLng latLng = RefinementUtil.findGeoPoint(MyApplication.getmContext(), addressString);
             latitude = "" + latLng.latitude;
             longitude = "" + latLng.longitude;
         }
     }
 
-    @OnClick(R.id.filter_backable_toolbar_back_button_layout)
-    void back(View view) {
-        finish();
+    @Override
+    public void onResume() {
+        super.onResume();
+        DatePickerDialog dpd = (DatePickerDialog) getFragmentManager().findFragmentByTag("Datepickerdialog");
+
+        if (dpd != null) dpd.setOnDateSetListener(this);
     }
 
-    @OnClick(R.id.filter_backable_toolbar_reset_text_view)
-    void reset(View view) {
-        // TODO : 재설정 적용
-        Toast.makeText(FilterActivity.this, "RESET!", Toast.LENGTH_SHORT).show();
+    @OnClick({R.id.filter_backable_toolbar_back_button_layout,
+            R.id.filter_backable_toolbar_reset_text_view,
+            R.id.bicycle_type_check_box1,
+            R.id.bicycle_type_check_box2,
+            R.id.bicycle_type_check_box3,
+            R.id.bicycle_type_check_box4,
+            R.id.bicycle_type_check_box5,
+            R.id.bicycle_type_check_box6,
+            R.id.bicycle_type_check_box7,
+            R.id.bicycle_recommendation_height_check_box1,
+            R.id.bicycle_recommendation_height_check_box2,
+            R.id.bicycle_recommendation_height_check_box3,
+            R.id.bicycle_recommendation_height_check_box4,
+            R.id.bicycle_recommendation_height_check_box5,
+            R.id.bicycle_recommendation_height_check_box6,
+            R.id.bicycle_order_price_order_check_box,
+            R.id.bicycle_order_distance_order_check_box,
+            R.id.activity_filter_search_button})
+    void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.filter_backable_toolbar_back_button_layout:
+                finish();
+                break;
+            case R.id.filter_backable_toolbar_reset_text_view:
+                // TODO : 재설정 적용
+                Toast.makeText(FilterActivity.this, "RESET!", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.bicycle_type_check_box1:
+            case R.id.bicycle_type_check_box2:
+            case R.id.bicycle_type_check_box3:
+            case R.id.bicycle_type_check_box4:
+            case R.id.bicycle_type_check_box5:
+            case R.id.bicycle_type_check_box6:
+            case R.id.bicycle_type_check_box7:
+                type1.setChecked(false);
+                type2.setChecked(false);
+                type3.setChecked(false);
+                type4.setChecked(false);
+                type5.setChecked(false);
+                type6.setChecked(false);
+                type7.setChecked(false);
+                switch (view.getId()) {
+                    case R.id.bicycle_type_check_box1:
+                        type1.setChecked(true);
+                        break;
+                    case R.id.bicycle_type_check_box2:
+                        type2.setChecked(true);
+                        type = "B";
+                        break;
+                    case R.id.bicycle_type_check_box3:
+                        type3.setChecked(true);
+                        type = "C";
+                        break;
+                    case R.id.bicycle_type_check_box4:
+                        type4.setChecked(true);
+                        type = "D";
+                        break;
+                    case R.id.bicycle_type_check_box5:
+                        type5.setChecked(true);
+                        type = "E";
+                        break;
+                    case R.id.bicycle_type_check_box6:
+                        type6.setChecked(true);
+                        type = "F";
+                        break;
+                    case R.id.bicycle_type_check_box7:
+                        type7.setChecked(true);
+                        type = "G";
+                        break;
+                }
+                break;
+            case R.id.bicycle_recommendation_height_check_box1:
+            case R.id.bicycle_recommendation_height_check_box2:
+            case R.id.bicycle_recommendation_height_check_box3:
+            case R.id.bicycle_recommendation_height_check_box4:
+            case R.id.bicycle_recommendation_height_check_box5:
+            case R.id.bicycle_recommendation_height_check_box6:
+                height1.setChecked(false);
+                height2.setChecked(false);
+                height3.setChecked(false);
+                height4.setChecked(false);
+                height5.setChecked(false);
+                height6.setChecked(false);
+                switch (view.getId()) {
+                    case R.id.bicycle_recommendation_height_check_box1:
+                        height1.setChecked(true);
+                        height = "01";
+                        break;
+                    case R.id.bicycle_recommendation_height_check_box2:
+                        height2.setChecked(true);
+                        height = "02";
+                        break;
+                    case R.id.bicycle_recommendation_height_check_box3:
+                        height3.setChecked(true);
+                        height = "03";
+                        break;
+                    case R.id.bicycle_recommendation_height_check_box4:
+                        height4.setChecked(true);
+                        height = "04";
+                        break;
+                    case R.id.bicycle_recommendation_height_check_box5:
+                        height5.setChecked(true);
+                        height = "05";
+                        break;
+                    case R.id.bicycle_recommendation_height_check_box6:
+                        height6.setChecked(true);
+                        height = "06";
+                        break;
+                }
+                break;
+            case R.id.bicycle_order_price_order_check_box:
+                priceOrderCheckBox.setChecked(true);
+                distanceOrderCheckBox.setChecked(false);
+                break;
+            case R.id.bicycle_order_distance_order_check_box:
+                priceOrderCheckBox.setChecked(false);
+                distanceOrderCheckBox.setChecked(true);
+                break;
+            case R.id.activity_filter_search_button:
+                intent = new Intent();
+                intent.putExtra("LATITUDE", latitude);
+                intent.putExtra("LONGITUDE", longitude);
+                intent.putExtra("TYPE", type);
+                intent.putExtra("HEIGHT", height);
+                intent.putExtra("SMART_LOCK", smartLock);
+                intent.putExtra("ORDER", order);
+                intent.putExtra("START_DATE", startDateTime);
+                intent.putExtra("END_DATE", endDateTime);
+                setResult(RESULT_OK, intent);
+                finish();
+                break;
+        }
+    }
+
+    @OnCheckedChanged({R.id.bicycle_smart_lock_check_box,
+            R.id.bicycle_order_distance_order_check_box,
+            R.id.bicycle_order_price_order_check_box})
+    void onCheckedChange(CompoundButton buttonView, boolean isChecked) {
+        switch (buttonView.getId()) {
+            case R.id.bicycle_smart_lock_check_box:
+                smartLock = isChecked;
+                break;
+            case R.id.bicycle_order_price_order_check_box:
+                if (isChecked)
+                    order = "price";
+                break;
+            case R.id.bicycle_order_distance_order_check_box:
+                if (isChecked)
+                    order = "distance";
+                break;
+        }
     }
 
     @OnClick({R.id.calendar_start_date_summary,
@@ -179,7 +329,7 @@ public class FilterActivity extends AppCompatActivity implements TimePickerDialo
                 FilterActivity.this,
                 now.get(Calendar.HOUR_OF_DAY),
                 now.get(Calendar.MINUTE),
-                true //24시간으로 세팅.
+                true
         );
 
         switch (view.getId()) {
@@ -210,11 +360,10 @@ public class FilterActivity extends AppCompatActivity implements TimePickerDialo
                         endDateTime = simpleDateFormat.format(date.getTime());
                         endDateTextView.setText(endDateTime);
 
-                        if (Build.VERSION.SDK_INT < 23) {
+                        if (Build.VERSION.SDK_INT < 23)
                             endDateTextView.setTextColor(getResources().getColor(R.color.bikeeBlue));
-                        } else {
+                        else
                             endDateTextView.setTextColor(getResources().getColor(R.color.bikeeBlue, getTheme()));
-                        }
 
                         openTimePicker(now, date, false);
 
@@ -230,16 +379,8 @@ public class FilterActivity extends AppCompatActivity implements TimePickerDialo
         Calendar selDay = Calendar.getInstance();
         int now_min, now_hour;
         if (!flag) {
-            /*start_cal.set(Calendar.MINUTE, 30);*/
-            /*now = start_cal;*/
             now.setTime(start_day);
             now.add(Calendar.MINUTE, 30);
-           /* tpd = TimePickerDialog.newInstance(
-                    FilterActivity.this,
-                    now.get(Calendar.HOUR_OF_DAY),
-                    now.get(Calendar.MINUTE),
-                    true //24시간으로 세팅.
-            );*/
             if (now.get(Calendar.AM_PM) == 0) {
                 now_min = now.get(Calendar.MINUTE);
                 now_hour = now.get(Calendar.HOUR_OF_DAY) + 12;
@@ -247,22 +388,7 @@ public class FilterActivity extends AppCompatActivity implements TimePickerDialo
                 now_min = now.get(Calendar.MINUTE);
                 now_hour = now.get(Calendar.HOUR_OF_DAY);
             }
-
-
-//            now.add(Calendar.MINUTE, 30);
-            /*now_min = start_cal.get(Calendar.MINUTE) +30;
-            now_hour = start_cal.get(Calendar.HOUR_OF_DAY);
-            if(now_min > 50){
-                now_hour += 1;
-                now_min -= 60;
-            }*/
         } else {
-          /*  tpd = TimePickerDialog.newInstance(
-                    FilterActivity.this,
-                    now.get(Calendar.HOUR_OF_DAY),
-                    now.get(Calendar.MINUTE),
-                    true //24시간으로 세팅.
-            );*/
             now_min = now.get(Calendar.MINUTE);
             now_hour = now.get(Calendar.HOUR_OF_DAY);
         }
@@ -283,7 +409,7 @@ public class FilterActivity extends AppCompatActivity implements TimePickerDialo
                 FilterActivity.this,
                 now_hour,
                 now_min,
-                true //24시간으로 세팅.
+                true
         );
         tpd.setThemeDark(true);
         tpd.setAccentColor(Color.parseColor("#1993F7"));
@@ -296,30 +422,22 @@ public class FilterActivity extends AppCompatActivity implements TimePickerDialo
 
         if (now.get(Calendar.DAY_OF_YEAR) == selDay.get(Calendar.DAY_OF_YEAR)) {
             if (now_min >= 50) {
-                for (int h = now_hour + 1; h <= 21; h++) {
-                    for (int m = 0; m <= 50; m += 10) {
+                for (int h = now_hour + 1; h <= 21; h++)
+                    for (int m = 0; m <= 50; m += 10)
                         abletime.add(new Timepoint(h, m));
-                    }
-                }
             } else {
-                for (int h = now_hour; h <= 21; h++) {
-                    if (h == now_hour) {
-                        for (int m = now_min; m <= 50; m += 10) {
+                for (int h = now_hour; h <= 21; h++)
+                    if (h == now_hour)
+                        for (int m = now_min; m <= 50; m += 10)
                             abletime.add(new Timepoint(h, m));
-                        }
-                    } else {
-                        for (int m = 0; m <= 50; m += 10) {
+                    else
+                        for (int m = 0; m <= 50; m += 10)
                             abletime.add(new Timepoint(h, m));
-                        }
-                    }
-                }
             }
         } else {
-            for (int h = 7; h <= 21; h++) {
-                for (int m = 0; m <= 50; m += 10) {
+            for (int h = 7; h <= 21; h++)
+                for (int m = 0; m <= 50; m += 10)
                     abletime.add(new Timepoint(h, m));
-                }
-            }
         }
         tpd.setSelectableTimes(abletime.toArray(new Timepoint[abletime.size()]));
 
@@ -362,9 +480,8 @@ public class FilterActivity extends AppCompatActivity implements TimePickerDialo
                 endTimeTextView.setTextColor(getResources().getColor(R.color.bikeeBlue, getTheme()));
             }
             endTimeTextView.setText(hourOfDay + ":" + minute);
-            SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd hh:mm");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd hh:mm", java.util.Locale.getDefault());
             try {
-
                 end_cal = Calendar.getInstance();
                 end_cal.setTime(format.parse(endDateTime));
                 if (start_cal.after(end_cal)) {
@@ -373,156 +490,10 @@ public class FilterActivity extends AppCompatActivity implements TimePickerDialo
                     Toast.makeText(FilterActivity.this, "날짜가 선택이 잘못됐습니다.", Toast.LENGTH_SHORT).show();
                 } else {
                     // 정상
-
                 }
             } catch (Exception e) {
             }
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        DatePickerDialog dpd = (DatePickerDialog) getFragmentManager().findFragmentByTag("Datepickerdialog");
-
-        if (dpd != null) dpd.setOnDateSetListener(this);
-    }
-
-    @OnClick({R.id.bicycle_type_check_box1,
-            R.id.bicycle_type_check_box2,
-            R.id.bicycle_type_check_box3,
-            R.id.bicycle_type_check_box4,
-            R.id.bicycle_type_check_box5,
-            R.id.bicycle_type_check_box6,
-            R.id.bicycle_type_check_box7})
-    void selectType(View view) {
-        type1.setChecked(false);
-        type2.setChecked(false);
-        type3.setChecked(false);
-        type4.setChecked(false);
-        type5.setChecked(false);
-        type6.setChecked(false);
-        type7.setChecked(false);
-        switch (view.getId()) {
-            case R.id.bicycle_type_check_box1:
-                type1.setChecked(true);
-                type = "A";
-                break;
-            case R.id.bicycle_type_check_box2:
-                type2.setChecked(true);
-                type = "B";
-                break;
-            case R.id.bicycle_type_check_box3:
-                type3.setChecked(true);
-                type = "C";
-                break;
-            case R.id.bicycle_type_check_box4:
-                type4.setChecked(true);
-                type = "D";
-                break;
-            case R.id.bicycle_type_check_box5:
-                type5.setChecked(true);
-                type = "E";
-                break;
-            case R.id.bicycle_type_check_box6:
-                type6.setChecked(true);
-                type = "F";
-                break;
-            case R.id.bicycle_type_check_box7:
-                type7.setChecked(true);
-                type = "G";
-                break;
-        }
-    }
-
-    @OnClick({R.id.bicycle_recommendation_height_check_box1,
-            R.id.bicycle_recommendation_height_check_box2,
-            R.id.bicycle_recommendation_height_check_box3,
-            R.id.bicycle_recommendation_height_check_box4,
-            R.id.bicycle_recommendation_height_check_box5,
-            R.id.bicycle_recommendation_height_check_box6})
-    void selectHeight(View view) {
-        height1.setChecked(false);
-        height2.setChecked(false);
-        height3.setChecked(false);
-        height4.setChecked(false);
-        height5.setChecked(false);
-        height6.setChecked(false);
-        switch (view.getId()) {
-            case R.id.bicycle_recommendation_height_check_box1:
-                height1.setChecked(true);
-                height = "01";
-                break;
-            case R.id.bicycle_recommendation_height_check_box2:
-                height2.setChecked(true);
-                height = "02";
-                break;
-            case R.id.bicycle_recommendation_height_check_box3:
-                height3.setChecked(true);
-                height = "03";
-                break;
-            case R.id.bicycle_recommendation_height_check_box4:
-                height4.setChecked(true);
-                height = "04";
-                break;
-            case R.id.bicycle_recommendation_height_check_box5:
-                height5.setChecked(true);
-                height = "05";
-                break;
-            case R.id.bicycle_recommendation_height_check_box6:
-                height6.setChecked(true);
-                height = "06";
-                break;
-        }
-    }
-
-    @OnClick({R.id.bicycle_order_price_order_check_box,
-            R.id.bicycle_order_distance_order_check_box})
-    void selectOrder(View view) {
-        switch (view.getId()) {
-            case R.id.bicycle_order_price_order_check_box:
-                priceOrderCheckBox.setChecked(true);
-                distanceOrderCheckBox.setChecked(false);
-                break;
-            case R.id.bicycle_order_distance_order_check_box:
-                priceOrderCheckBox.setChecked(false);
-                distanceOrderCheckBox.setChecked(true);
-                break;
-        }
-    }
-
-    @OnCheckedChanged({R.id.bicycle_smart_lock_check_box,
-            R.id.bicycle_order_distance_order_check_box,
-            R.id.bicycle_order_price_order_check_box})
-    void temp(CompoundButton buttonView, boolean isChecked) {
-        switch (buttonView.getId()) {
-            case R.id.bicycle_smart_lock_check_box:
-                smartLock = isChecked;
-                break;
-            case R.id.bicycle_order_price_order_check_box:
-                if (isChecked)
-                    order = "price";
-                break;
-            case R.id.bicycle_order_distance_order_check_box:
-                if (isChecked)
-                    order = "distance";
-                break;
-        }
-    }
-
-    @OnClick(R.id.activity_filter_search_button)
-    void searchDetail() {
-        intent = new Intent();
-        intent.putExtra("LATITUDE", latitude);
-        intent.putExtra("LONGITUDE", longitude);
-        intent.putExtra("TYPE", type);
-        intent.putExtra("HEIGHT", height);
-        intent.putExtra("SMART_LOCK", smartLock);
-        intent.putExtra("ORDER", order);
-        intent.putExtra("START_DATE", startDateTime);
-        intent.putExtra("END_DATE", endDateTime);
-        setResult(RESULT_OK, intent);
-        finish();
     }
 
     @Override

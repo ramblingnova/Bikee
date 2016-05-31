@@ -36,6 +36,7 @@ public class GalleryFolderViewHolder extends RecyclerView.ViewHolder {
         ImageUtil.setRectangleImageFromURL(
                 view.getContext(),
                 item.getRepresentativeFilePath(),
+                R.drawable.detailpage_bike_image_noneimage,
                 imageView
         );
         titleTextView.setText(item.getFolderName());

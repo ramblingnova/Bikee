@@ -68,4 +68,6 @@
     <dimen name="view_holder_bicycle_first_item_top_space">15dp</dimen>
 
     <dimen name="view_holder_lister_reservation_item_top_space">15dp</dimen>
+
+    <dimen name="fragment_register_bicycle_picture_thumbnail_item_image_view_round_radius">4dp</dimen>
 </resources>

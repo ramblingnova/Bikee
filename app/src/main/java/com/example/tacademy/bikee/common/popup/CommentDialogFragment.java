@@ -33,6 +33,8 @@ import retrofit2.Response;
  * Created by User on 2016-05-26.
  */
 public class CommentDialogFragment extends DialogFragment {
+    // TODO : android api 버전 23이상은 필요한 권한을 체크해야 함
+    // INTERNET : Network통신을 하기 위함
     @Bind(R.id.fragment_comment_dialog_rating_bar)
     RatingBar ratingBar;
     @Bind(R.id.fragment_comment_dialog_edit_text)

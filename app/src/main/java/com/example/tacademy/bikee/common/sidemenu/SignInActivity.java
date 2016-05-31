@@ -49,6 +49,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SignInActivity extends AppCompatActivity {
+    // TODO : android api 버전 23이상은 필요한 권한을 체크해야 함
+    // INTERNET : Network통신을 하기 위함
+    // READ_EXTERNAL_STORAGE : SharedPreference에서 데이터를 읽기 위함
+    // WRITE_EXTERNAL_STORAGE : SharedPreference에서 데이터를 쓰기 위함
     @Bind(R.id.activity_sign_in_user_email_edit_text)
     EditText emailEditText;
     @Bind(R.id.activity_sign_in_user_password_layout)

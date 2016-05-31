@@ -27,14 +27,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class GalleryActivity extends AppCompatActivity implements GetGalleryPicturePathListener, GetGalleryFolderNameListener {
-    private Intent intent;
-    private int currentFragmentState;
-    private final static int GALLERY_PICTURE_STATE = 1;
-    private final static int GALLERY_FOLDER_STATE = 2;
-    private GalleryPictureFragment galleryPictureFragment;
-    private GalleryFolderFragment galleryFolderFragment;
-    private ArrayList<File> list;
-    private final static int MAXIMUM_LIST_SIZE = 5;
     @Bind(R.id.gallery_backable_toolbar_picture_button_image_view)
     ImageView pictureImageView;
     @Bind(R.id.gallery_backable_toolbar_folder_button_image_view)
@@ -63,6 +55,16 @@ public class GalleryActivity extends AppCompatActivity implements GetGalleryPict
     TextView item4TextView;
     @Bind(R.id.thumbnail_item5_title_text_view)
     TextView item5TextView;
+
+    private Intent intent;
+    private int currentFragmentState;
+    private GalleryPictureFragment galleryPictureFragment;
+    private GalleryFolderFragment galleryFolderFragment;
+    private ArrayList<File> list;
+
+    private final static int GALLERY_PICTURE_STATE = 1;
+    private final static int GALLERY_FOLDER_STATE = 2;
+    private final static int MAXIMUM_LIST_SIZE = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,52 +105,62 @@ public class GalleryActivity extends AppCompatActivity implements GetGalleryPict
         ArrayList<String> checkedPathList = new ArrayList<>();
 
         if (list.get(0) != null) {
-            ImageUtil.setRoundRectangleImageFromFile(
+            ImageUtil.setRoundRectangleImageFromURL(
                     MyApplication.getmContext(),
-                    list.get(0),
+                    list.get(0).getPath(),
                     R.drawable.bike_img_01,
                     item1ImageView,
-                    8
+                    getResources().getDimensionPixelOffset(
+                            R.dimen.fragment_register_bicycle_picture_thumbnail_item_image_view_round_radius
+                    )
             );
             checkedPathList.add(list.get(0).getPath());
         }
         if (list.get(1) != null) {
-            ImageUtil.setRoundRectangleImageFromFile(
+            ImageUtil.setRoundRectangleImageFromURL(
                     MyApplication.getmContext(),
-                    list.get(1),
+                    list.get(1).getPath(),
                     R.drawable.bike_img_02,
                     item2ImageView,
-                    8
+                    getResources().getDimensionPixelOffset(
+                            R.dimen.fragment_register_bicycle_picture_thumbnail_item_image_view_round_radius
+                    )
             );
             checkedPathList.add(list.get(1).getPath());
         }
         if (list.get(2) != null) {
-            ImageUtil.setRoundRectangleImageFromFile(
+            ImageUtil.setRoundRectangleImageFromURL(
                     MyApplication.getmContext(),
-                    list.get(2),
+                    list.get(2).getPath(),
                     R.drawable.bike_img_03,
                     item3ImageView,
-                    8
+                    getResources().getDimensionPixelOffset(
+                            R.dimen.fragment_register_bicycle_picture_thumbnail_item_image_view_round_radius
+                    )
             );
             checkedPathList.add(list.get(2).getPath());
         }
         if (list.get(3) != null) {
-            ImageUtil.setRoundRectangleImageFromFile(
+            ImageUtil.setRoundRectangleImageFromURL(
                     MyApplication.getmContext(),
-                    list.get(3),
+                    list.get(3).getPath(),
                     R.drawable.bike_img_04,
                     item4ImageView,
-                    8
+                    getResources().getDimensionPixelOffset(
+                            R.dimen.fragment_register_bicycle_picture_thumbnail_item_image_view_round_radius
+                    )
             );
             checkedPathList.add(list.get(3).getPath());
         }
         if (list.get(4) != null) {
-            ImageUtil.setRoundRectangleImageFromFile(
+            ImageUtil.setRoundRectangleImageFromURL(
                     MyApplication.getmContext(),
-                    list.get(4),
+                    list.get(4).getPath(),
                     R.drawable.bike_img_05,
                     item5ImageView,
-                    8
+                    getResources().getDimensionPixelOffset(
+                            R.dimen.fragment_register_bicycle_picture_thumbnail_item_image_view_round_radius
+                    )
             );
             checkedPathList.add(list.get(4).getPath());
         }
@@ -258,48 +270,58 @@ public class GalleryActivity extends AppCompatActivity implements GetGalleryPict
             list.set(position, file);
             switch (position) {
                 case 0:
-                    ImageUtil.setRoundRectangleImageFromFile(
+                    ImageUtil.setRoundRectangleImageFromURL(
                             MyApplication.getmContext(),
-                            list.get(0),
+                            list.get(0).getPath(),
                             R.drawable.bike_img_01,
                             item1ImageView,
-                            8
+                            getResources().getDimensionPixelOffset(
+                                    R.dimen.fragment_register_bicycle_picture_thumbnail_item_image_view_round_radius
+                            )
                     );
                     break;
                 case 1:
-                    ImageUtil.setRoundRectangleImageFromFile(
+                    ImageUtil.setRoundRectangleImageFromURL(
                             MyApplication.getmContext(),
-                            list.get(1),
+                            list.get(1).getPath(),
                             R.drawable.bike_img_02,
                             item2ImageView,
-                            8
+                            getResources().getDimensionPixelOffset(
+                                    R.dimen.fragment_register_bicycle_picture_thumbnail_item_image_view_round_radius
+                            )
                     );
                     break;
                 case 2:
-                    ImageUtil.setRoundRectangleImageFromFile(
+                    ImageUtil.setRoundRectangleImageFromURL(
                             MyApplication.getmContext(),
-                            list.get(2),
+                            list.get(2).getPath(),
                             R.drawable.bike_img_03,
                             item3ImageView,
-                            8
+                            getResources().getDimensionPixelOffset(
+                                    R.dimen.fragment_register_bicycle_picture_thumbnail_item_image_view_round_radius
+                            )
                     );
                     break;
                 case 3:
-                    ImageUtil.setRoundRectangleImageFromFile(
+                    ImageUtil.setRoundRectangleImageFromURL(
                             MyApplication.getmContext(),
-                            list.get(3),
+                            list.get(3).getPath(),
                             R.drawable.bike_img_04,
                             item4ImageView,
-                            8
+                            getResources().getDimensionPixelOffset(
+                                    R.dimen.fragment_register_bicycle_picture_thumbnail_item_image_view_round_radius
+                            )
                     );
                     break;
                 case 4:
-                    ImageUtil.setRoundRectangleImageFromFile(
+                    ImageUtil.setRoundRectangleImageFromURL(
                             MyApplication.getmContext(),
-                            list.get(4),
+                            list.get(4).getPath(),
                             R.drawable.bike_img_05,
                             item5ImageView,
-                            8
+                            getResources().getDimensionPixelOffset(
+                                    R.dimen.fragment_register_bicycle_picture_thumbnail_item_image_view_round_radius
+                            )
                     );
                     break;
             }
