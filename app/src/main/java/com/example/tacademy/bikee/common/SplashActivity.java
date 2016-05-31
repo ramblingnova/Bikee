@@ -128,7 +128,8 @@ public class SplashActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Toast.makeText(SplashActivity.this, "onActivityResult", Toast.LENGTH_SHORT).show();
         afterPermissionCheck();
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+        if (callbackManager != null)
+            callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
