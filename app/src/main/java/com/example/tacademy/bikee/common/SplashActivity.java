@@ -76,9 +76,10 @@ public class SplashActivity extends AppCompatActivity {
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED) {
                 if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)
-                        && shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)
-                        && shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        && shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                        || shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)
+                        || shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        || shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                    // 거절한 경우
                     Toast.makeText(SplashActivity.this, "AA", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent();
                     intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
@@ -89,6 +90,7 @@ public class SplashActivity extends AppCompatActivity {
                     intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
                     startActivityForResult(intent, 10);
                 } else {
+                    // 최초
                     Toast.makeText(SplashActivity.this, "BB", Toast.LENGTH_SHORT).show();
                     requestPermissions(
                             new String[]{
@@ -101,6 +103,7 @@ public class SplashActivity extends AppCompatActivity {
                     );
                 }
             } else {
+                // 승인된 경우
                 afterPermissionCheck();
             }
         }
