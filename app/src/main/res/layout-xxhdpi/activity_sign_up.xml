@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/bikeeBackground"
     android:fitsSystemWindows="true"
-    tools:context="com.example.tacademy.bikee.common.sidemenu.SignUpActivity">
+    tools:context="com.bikee.www.common.sidemenu.SignUpActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package com.example.tacademy.bikee;
+package com.bikee.tacademy.bikee;
 
 import org.junit.Test;
 

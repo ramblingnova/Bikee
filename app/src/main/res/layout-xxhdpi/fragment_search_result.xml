@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.tacademy.bikee.renter.searchresult.SearchResultFragment">
+    tools:context="com.bikee.www.renter.searchresult.SearchResultFragment">
 
     <FrameLayout
         android:id="@+id/fragment_search_result_container"
@@ -62,7 +62,7 @@
                 android:singleLine="true" />
         </RelativeLayout>
 
-        <com.example.tacademy.bikee.renter.searchresult.SearchSwitchView
+        <com.bikee.www.renter.searchresult.SearchSwitchView
             android:id="@+id/search_bar_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
