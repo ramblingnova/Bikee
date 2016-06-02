@@ -42,10 +42,6 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 public class ListerMainActivity extends AppCompatActivity implements TabHost.OnTabChangeListener {
-    // TODO : android api 버전 23이상은 필요한 권한을 체크해야 함
-    // READ_EXTERNAL_STORAGE : SharedPreference에서 데이터를 읽기 위함
-    // WRITE_EXTERNAL_STORAGE : SharedPreference에서 데이터를 쓰기 위함
-    // INTERNET : Glide를 통해 이미지를 받아오기 위함
     @Bind(R.id.toolbar_layout)
     RelativeLayout toolbarLayout;
     @Bind(R.id.toolbar_left_icon_drawer_image_view)

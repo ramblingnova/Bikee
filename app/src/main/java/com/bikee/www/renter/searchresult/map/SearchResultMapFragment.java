@@ -58,13 +58,6 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
         GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMapClickListener,
         GoogleMap.OnMarkerDragListener, GoogleMap.OnCameraChangeListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
-    // TODO : android api 버전 23이상은 필요한 권한을 체크해야 함
-    // READ_EXTERNAL_STORAGE : SharedPreference에서 데이터를 읽기 위함
-    // WRITE_EXTERNAL_STORAGE : SharedPreference에서 데이터를 쓰기 위함, Google map을 사용하기 위함
-    // INTERNET : Network통신을 하기 위함, Google map을 사용하기 위함
-    // READ_GSERVICES : Google map을 사용하기 위함
-    // ACCESS_FINE_LOCATION : Google map을 사용하기 위함
-    // ACCESS_COARSE_LOCATION : Google map을 사용하기 위함
     private final Map<POI, Marker> mMarkerResolver = new HashMap<POI, Marker>();
     private final Map<Marker, POI> mPOIResolver = new HashMap<Marker, POI>();
     private GoogleMap googleMap;
@@ -195,7 +188,7 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
                                             Intent intent = new Intent();
                                             intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                                             intent.addCategory(Intent.CATEGORY_DEFAULT);
-                                            intent.setData(Uri.parse("package:" + "com.bikee.wwww"));
+                                            intent.setData(Uri.parse("package:" + getContext().getPackageName()));
                                             startActivityForResult(intent, PERMISSION_REQUEST_CODE);
                                         }
                                     })
@@ -222,6 +215,8 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
             } else {
                 this.googleMap.setMyLocationEnabled(true);
             }
+        } else if (Build.VERSION.SDK_INT < 23) {
+            this.googleMap.setMyLocationEnabled(true);
         }
 
         this.googleMap.setIndoorEnabled(true);

@@ -42,8 +42,6 @@ import retrofit2.Response;
  * Created by User on 2016-05-10.
  */
 public class ChoiceDialogFragment extends DialogFragment {
-    // TODO : android api 버전 23이상은 필요한 권한을 체크해야 함(주의 : 특수한 경우에 Network통신을 함)
-    // INTERNET : Network통신을 하기 위함
     @Bind(R.id.fragment_choice_dialog_text_view)
     TextView dialogTextView;
     @Bind(R.id.fragment_choice_dialog_bottom_buttons_left_button)

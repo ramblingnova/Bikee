@@ -58,6 +58,7 @@ public class RegisterBicyclePictureFragment extends Fragment {
     TextView item4TextView;
     @Bind(R.id.thumbnail_item5_title_text_view)
     TextView item5TextView;
+
     private Intent intent;
     private RegisterBicycleINF registerBicycleINF;
     private ArrayList<File> list;
@@ -214,17 +215,37 @@ public class RegisterBicyclePictureFragment extends Fragment {
     }
 
     @OnClick({R.id.fragment_register_bicycle_picture_camera_image_view,
-            R.id.fragment_register_bicycle_picture_gallery_image_view})
+            R.id.fragment_register_bicycle_picture_gallery_image_view,
+            R.id.thumbnail_item1_cancel_image_view,
+            R.id.thumbnail_item2_cancel_image_view,
+            R.id.thumbnail_item3_cancel_image_view,
+            R.id.thumbnail_item4_cancel_image_view,
+            R.id.thumbnail_item5_cancel_image_view})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.fragment_register_bicycle_picture_camera_image_view:
                 if (Build.VERSION.SDK_INT >= 23) {
-                    if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)
-                            != PackageManager.PERMISSION_GRANTED) {
-                        if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                    if ((ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                            || (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                            || (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)) {
+                        if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)
+                                || shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                || shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                            StringBuilder stringBuilder = new StringBuilder();
+                            if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)
+                                    || shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                                stringBuilder.append("저장소 읽기/쓰기");
+                            }
+                            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                                if (stringBuilder.length() > 0)
+                                    stringBuilder.append(", ");
+                                stringBuilder.append("카메라");
+                            }
+                            stringBuilder.append(" 권한이 있어야 앱이 올바르게 작동합니다.");
+
                             new AlertDialog.Builder(getActivity())
                                     .setTitle("권한 요청")
-                                    .setMessage("카메라 권한이 있어야 앱이 올바르게 작동합니다.")
+                                    .setMessage(stringBuilder)
                                     .setPositiveButton(
                                             "설정",
                                             new AlertDialog.OnClickListener() {
@@ -232,7 +253,7 @@ public class RegisterBicyclePictureFragment extends Fragment {
                                                     Intent intent = new Intent();
                                                     intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                                                     intent.addCategory(Intent.CATEGORY_DEFAULT);
-                                                    intent.setData(Uri.parse("package:" + "com.bikee.wwww"));
+                                                    intent.setData(Uri.parse("package:" + getContext().getPackageName()));
                                                     getActivity().startActivityForResult(intent, PERMISSION_REQUEST_CODE);
                                                 }
                                             })
@@ -260,54 +281,112 @@ public class RegisterBicyclePictureFragment extends Fragment {
                         intent.putExtra("LIST", list);
                         startActivityForResult(intent, 1);
                     }
+                } else if (Build.VERSION.SDK_INT < 23) {
+                    intent = new Intent(getActivity(), CameraActivity.class);
+                    intent.putExtra("LIST", list);
+                    startActivityForResult(intent, 1);
                 }
                 break;
             case R.id.fragment_register_bicycle_picture_gallery_image_view:
-                intent = new Intent(getActivity(), GalleryActivity.class);
-                intent.putExtra("LIST", list);
-                startActivityForResult(intent, 2);
+                if (Build.VERSION.SDK_INT >= 23) {
+                    if ((ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                            || (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
+                        if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)
+                                || shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                            new AlertDialog.Builder(getActivity())
+                                    .setTitle("권한 요청")
+                                    .setMessage("저장소 읽기/쓰기 권한이 있어야 앱이 올바르게 작동합니다.")
+                                    .setPositiveButton(
+                                            "설정",
+                                            new AlertDialog.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    Intent intent = new Intent();
+                                                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                                    intent.addCategory(Intent.CATEGORY_DEFAULT);
+                                                    intent.setData(Uri.parse("package:" + getContext().getPackageName()));
+                                                    getActivity().startActivityForResult(intent, PERMISSION_REQUEST_CODE);
+                                                }
+                                            })
+                                    .setNegativeButton(
+                                            "취소",
+                                            new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+
+                                                }
+                                            })
+                                    .setCancelable(true)
+                                    .create()
+                                    .show();
+                        } else {
+                            requestPermissions(
+                                    new String[]{
+                                            Manifest.permission.CAMERA
+                                    },
+                                    PERMISSION_REQUEST_CODE
+                            );
+                        }
+                    } else {
+                        intent = new Intent(getActivity(), GalleryActivity.class);
+                        intent.putExtra("LIST", list);
+                        startActivityForResult(intent, 2);
+                    }
+                } else if (Build.VERSION.SDK_INT < 23) {
+                    intent = new Intent(getActivity(), GalleryActivity.class);
+                    intent.putExtra("LIST", list);
+                    startActivityForResult(intent, 2);
+                }
                 break;
-        }
-    }
-
-    @OnClick({R.id.thumbnail_item1_cancel_image_view,
-            R.id.thumbnail_item2_cancel_image_view,
-            R.id.thumbnail_item3_cancel_image_view,
-            R.id.thumbnail_item4_cancel_image_view,
-            R.id.thumbnail_item5_cancel_image_view})
-    void cancel(View view) {
-        warningImageView.setVisibility(View.VISIBLE);
-        warningTextView.setVisibility(View.VISIBLE);
-        if ((null != registerBicycleINF) && (registerBicycleINF.getEnable())) {
-            registerBicycleINF.setEnable(false);
-        }
-
-        switch (view.getId()) {
             case R.id.thumbnail_item1_cancel_image_view:
+                warningImageView.setVisibility(View.VISIBLE);
+                warningTextView.setVisibility(View.VISIBLE);
+                if ((null != registerBicycleINF)
+                        && (registerBicycleINF.getEnable()))
+                    registerBicycleINF.setEnable(false);
                 if (list.get(0) != null) {
                     item1ImageView.setImageResource(R.drawable.img_01);
                     list.set(0, null);
                 }
                 break;
             case R.id.thumbnail_item2_cancel_image_view:
+                warningImageView.setVisibility(View.VISIBLE);
+                warningTextView.setVisibility(View.VISIBLE);
+                if ((null != registerBicycleINF)
+                        && (registerBicycleINF.getEnable()))
+                    registerBicycleINF.setEnable(false);
                 if (list.get(1) != null) {
                     item2ImageView.setImageResource(R.drawable.img_02);
                     list.set(1, null);
                 }
                 break;
             case R.id.thumbnail_item3_cancel_image_view:
+                warningImageView.setVisibility(View.VISIBLE);
+                warningTextView.setVisibility(View.VISIBLE);
+                if ((null != registerBicycleINF)
+                        && (registerBicycleINF.getEnable()))
+                    registerBicycleINF.setEnable(false);
                 if (list.get(2) != null) {
                     item3ImageView.setImageResource(R.drawable.img_03);
                     list.set(2, null);
                 }
                 break;
             case R.id.thumbnail_item4_cancel_image_view:
+                warningImageView.setVisibility(View.VISIBLE);
+                warningTextView.setVisibility(View.VISIBLE);
+                if ((null != registerBicycleINF)
+                        && (registerBicycleINF.getEnable()))
+                    registerBicycleINF.setEnable(false);
                 if (list.get(3) != null) {
                     item4ImageView.setImageResource(R.drawable.img_04);
                     list.set(3, null);
                 }
                 break;
             case R.id.thumbnail_item5_cancel_image_view:
+                warningImageView.setVisibility(View.VISIBLE);
+                warningTextView.setVisibility(View.VISIBLE);
+                if ((null != registerBicycleINF)
+                        && (registerBicycleINF.getEnable()))
+                    registerBicycleINF.setEnable(false);
                 if (list.get(4) != null) {
                     item5ImageView.setImageResource(R.drawable.img_05);
                     list.set(4, null);

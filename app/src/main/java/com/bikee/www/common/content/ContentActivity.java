@@ -70,13 +70,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ContentActivity extends AppCompatActivity implements OnMapReadyCallback, ViewPager.OnPageChangeListener {
-    // TODO : android api 버전 23이상은 필요한 권한을 체크해야 함
-    // READ_EXTERNAL_STORAGE : SharedPreference에서 데이터를 읽기 위함
-    // WRITE_EXTERNAL_STORAGE : Google map을 사용하기 위함
-    // INTERNET : Network통신을 하기 위함, Google map을 사용하기 위함, Glide를 통해 이미지를 받기 위함
-    // READ_GSERVICES : Google map을 사용하기 위함
-    // ACCESS_FINE_LOCATION : Google map을 사용하기 위함
-    // ACCESS_COARSE_LOCATION : Google map을 사용하기 위함
     @Bind(R.id.activity_content_bicycle_pictures_layout)
     RelativeLayout bicyclePicturesLayout;
     @Bind(R.id.activity_content_bicycle_pictures_view_pager)

@@ -4,6 +4,7 @@ import com.bikee.www.etc.dao.CardReceiveObject;
 import com.bikee.www.etc.dao.CardSendObject;
 import com.bikee.www.etc.dao.CardTokenReceiveObject;
 import com.bikee.www.etc.dao.Comment;
+import com.bikee.www.etc.dao.FindPasswordSendObject;
 import com.bikee.www.etc.dao.GetChannelInfoReceiveObject;
 import com.bikee.www.etc.dao.GetChannelResInfoReceiveObject;
 import com.bikee.www.etc.dao.ReservationReceiveObject;
@@ -124,6 +125,10 @@ public class NetworkManager {
         // 로그아웃하기
         @POST("/logout")
         Call<ReceiveObject> logout();
+
+        // 비밀번호 찾기
+        @POST("/forgot")
+        Call<ReceiveObject> findPassword(@Body FindPasswordSendObject findPasswordSendObject);
 
         // 세션클리어하기
         @GET("/first")
@@ -378,6 +383,16 @@ public class NetworkManager {
     public void logout(Stack<Call> callStack,
                        Callback<ReceiveObject> callback) {
         Call<ReceiveObject> call = serverUrl.logout();
+        if (callStack != null)
+            callStack.push(call);
+        call.enqueue(callback);
+    }
+
+    // 비밀번호 찾기
+    public void findPassword(FindPasswordSendObject findPasswordSendObject,
+                             Stack<Call> callStack,
+                             Callback<ReceiveObject> callback) {
+        Call<ReceiveObject> call = serverUrl.findPassword(findPasswordSendObject);
         if (callStack != null)
             callStack.push(call);
         call.enqueue(callback);

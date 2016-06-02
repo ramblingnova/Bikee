@@ -27,7 +27,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class RegisterBicycleLocationFragment extends Fragment implements TextWatcher, OnMapReadyCallback {
-    // TODO : android api 버전 23이상은 필요한 권한을 체크해야 함, 어떤 권한이 필요한 지 모름
     // TODO : UI 작업 필요
     private View view;
     @Bind(R.id.fragment_register_bicycle_location_location_edit_text)

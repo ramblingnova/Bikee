@@ -380,62 +380,62 @@ public class RegisterCreditCardActivity extends AppCompatActivity implements Get
             conditions[i] = false;
 
         cardNumberBlock1EditText.addTextChangedListener(
-                new CustomedTextWatcher(
+                new CustomizedTextWatcher(
                         cardNumberBlock1EditText.getId())
 
         );
         cardNumberBlock2EditText.addTextChangedListener(
-                new CustomedTextWatcher(
+                new CustomizedTextWatcher(
                         cardNumberBlock2EditText.getId()
                 )
         );
         cardNumberBlock3EditText.addTextChangedListener(
-                new CustomedTextWatcher(
+                new CustomizedTextWatcher(
                         cardNumberBlock3EditText.getId()
                 )
         );
         cardNumberBlock4EditText.addTextChangedListener(
-                new CustomedTextWatcher(
+                new CustomizedTextWatcher(
                         cardNumberBlock4EditText.getId()
                 )
         );
         expirationDateMonthEditText.addTextChangedListener(
-                new CustomedTextWatcher(
+                new CustomizedTextWatcher(
                         expirationDateMonthEditText.getId()
                 )
         );
         expirationDateYearEditText.addTextChangedListener(
-                new CustomedTextWatcher(
+                new CustomizedTextWatcher(
                         expirationDateYearEditText.getId()
                 )
         );
         birthDateYearEditText.addTextChangedListener(
-                new CustomedTextWatcher(
+                new CustomizedTextWatcher(
                         birthDateYearEditText.getId()
                 )
         );
         birthDateMonthEditText.addTextChangedListener(
-                new CustomedTextWatcher(
+                new CustomizedTextWatcher(
                         birthDateMonthEditText.getId()
                 )
         );
         birthDateDayEditText.addTextChangedListener(
-                new CustomedTextWatcher(
+                new CustomizedTextWatcher(
                         birthDateDayEditText.getId()
                 )
         );
         passwordFirstEditText.addTextChangedListener(
-                new CustomedTextWatcher(
+                new CustomizedTextWatcher(
                         passwordFirstEditText.getId()
                 )
         );
         passwordSecondEditText.addTextChangedListener(
-                new CustomedTextWatcher(
+                new CustomizedTextWatcher(
                         passwordSecondEditText.getId()
                 )
         );
         nicknameEditText.addTextChangedListener(
-                new CustomedTextWatcher(
+                new CustomizedTextWatcher(
                         nicknameEditText.getId()
                 )
         );
@@ -451,10 +451,10 @@ public class RegisterCreditCardActivity extends AppCompatActivity implements Get
 //        tempSpinner5.setAdapter(new SelectDateSpinnerAdapter());
     }
 
-    public class CustomedTextWatcher implements TextWatcher {
+    private class CustomizedTextWatcher implements TextWatcher {
         int id;
 
-        public CustomedTextWatcher(int id) {
+        public CustomizedTextWatcher(int id) {
             this.id = id;
         }
 
@@ -570,7 +570,7 @@ public class RegisterCreditCardActivity extends AppCompatActivity implements Get
     }
 
     public void enableButton() {
-        for (int i = MAX_CONDITION - 1; i >= 0; i++)
+        for (int i = MAX_CONDITION - 1; i >= 0; i--)
             if (!conditions[i]) {
                 registerCardButton.setEnabled(false);
                 registerCardButton.setBackgroundResource(R.drawable.detailpage_button1);

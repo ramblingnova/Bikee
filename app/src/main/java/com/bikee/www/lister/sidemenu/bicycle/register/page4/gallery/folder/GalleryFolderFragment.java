@@ -20,8 +20,6 @@ import java.util.List;
  * Created by User on 2016-02-23.
  */
 public class GalleryFolderFragment extends Fragment {
-    // TODO : android api 버전 23이상은 필요한 권한을 체크해야 함
-    // READ_EXTERNAL_STORAGE : 사진을 가져오기 위함
     private List<GalleryFolderItem> list;
     private GalleryFolderAdapter galleryFolderAdapter;
 

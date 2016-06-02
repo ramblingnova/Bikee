@@ -6,17 +6,21 @@ import android.os.Build;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bikee.www.etc.dao.Facebook;
+import com.bikee.www.etc.dao.FindPasswordSendObject;
 import com.bikee.www.etc.dao.ReceiveObject;
 import com.bikee.www.etc.dao.Result;
 import com.bikee.www.etc.manager.FacebookNetworkManager;
@@ -24,6 +28,7 @@ import com.bikee.www.etc.manager.NetworkManager;
 import com.bikee.www.etc.manager.PropertyManager;
 import com.bikee.www.BuildConfig;
 import com.bikee.www.R;
+import com.bikee.www.etc.utils.CheckUtil;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -49,24 +54,22 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SignInActivity extends AppCompatActivity {
-    // TODO : android api 버전 23이상은 필요한 권한을 체크해야 함
-    // INTERNET : Network통신을 하기 위함
-    // READ_EXTERNAL_STORAGE : SharedPreference에서 데이터를 읽기 위함
-    // WRITE_EXTERNAL_STORAGE : SharedPreference에서 데이터를 쓰기 위함
+    @Bind(R.id.activity_sign_in_user_email_icon_image_view)
+    ImageView emailIconImageView;
     @Bind(R.id.activity_sign_in_user_email_edit_text)
     EditText emailEditText;
+    @Bind(R.id.activity_sign_in_user_email_check_image_view)
+    ImageView emailCheckImageView;
     @Bind(R.id.activity_sign_in_user_password_layout)
     RelativeLayout passwordLayout;
+    @Bind(R.id.activity_sign_in_user_password_icon_image_view)
+    ImageView passwordIconImageView;
     @Bind(R.id.activity_sign_in_user_password_edit_text)
     EditText passwordEditText;
-    @Bind(R.id.activity_sign_in_user_email_text_view)
-    TextView emailTextView;
-    @Bind(R.id.activity_sign_in_user_password_text_view)
-    TextView passwordTextView;
-    @Bind(R.id.activity_sign_in_sign_in_button)
-    Button signInButton;
-    @Bind(R.id.activity_sign_in_sign_out_button)
-    Button signOutButton;
+    @Bind(R.id.activity_sign_in_user_password_check_image_view)
+    ImageView passwordCheckImageView;
+    @Bind(R.id.activity_sign_in_sign_button)
+    Button signButton;
     @Bind(R.id.activity_sign_in_facebook_button)
     Button facebookButton;
     @Bind(R.id.activity_sign_in_sign_up_string)
@@ -76,17 +79,20 @@ public class SignInActivity extends AppCompatActivity {
     private String from;
     private CallbackManager callbackManager = CallbackManager.Factory.create();
     private LoginManager mLoginManager = LoginManager.getInstance();
+
     private AccessToken token;
     private String deviceID;
     private String registrationID;
     private String deviceName;
     private String deviceOS = "Android";
-    final String appId = "2E377FE1-E1AD-4484-A66F-696AF1306F58";
     private String userId;
     private String userName;
     private String gcmRegToken;
+    private boolean conditions[];
 
     public static final int SIGN_IN_ACTIVITY = 1;
+    private static final int MAX_CONDITION = 2;
+    private static final String appId = "2E377FE1-E1AD-4484-A66F-696AF1306F58";
     private static final String TAG = "SIGN_IN_ACTIVITY";
 
     @Override
@@ -97,9 +103,23 @@ public class SignInActivity extends AppCompatActivity {
 
         intent = getIntent();
 
-        emailEditText.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+        conditions = new boolean[MAX_CONDITION];
 
-        // TODO : SharedPreferences에 정보가 있더라도 인터넷 연결 여부에 따라 처리해야 함
+        for (int i = 0; i < MAX_CONDITION; i++)
+            conditions[i] = false;
+
+        emailEditText.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+        emailEditText.addTextChangedListener(
+                new CustomizedTextWatcher(
+                        emailEditText.getId()
+                )
+        );
+        passwordEditText.addTextChangedListener(
+                new CustomizedTextWatcher(
+                        passwordEditText.getId()
+                )
+        );
+
         initView();
     }
 
@@ -116,7 +136,6 @@ public class SignInActivity extends AppCompatActivity {
         if (resultCode != RESULT_CANCELED) {
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "!RESULT_CANCELED" + " resultCode : " + resultCode + ", requestCode : " + requestCode);
-
             callbackManager.onActivityResult(requestCode, resultCode, data);
         }
 
@@ -124,34 +143,92 @@ public class SignInActivity extends AppCompatActivity {
                 && (requestCode == SignUpActivity.SIGN_UP_FACEBOOK)) {
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "resultCode : RESULT_CANCELED, requestCode : SIGN_UP_FACEBOOK");
-
             mLoginManager.logOut();
         } else if ((resultCode == RESULT_OK)
                 && (requestCode == SignUpActivity.SIGN_UP_FACEBOOK)) {
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "resultCode : RESULT_OK, requestCode : SIGN_UP_FACEBOOK");
-
             afterSignIn(PropertyManager.SIGN_IN_FACEBOOK_STATE);
-
             callbackManager.onActivityResult(requestCode, resultCode, data);
-
             finish();
         } else if ((resultCode == RESULT_OK)
                 && (requestCode == SignUpActivity.SIGN_UP_LOCAL)) {
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "resultCode : RESULT_OK, requestCode : SIGN_UP_LOCAL");
-
             String email = data.getStringExtra(SignUpActivity.ACTIVITY_SIGN_UP_EMAIL);
             String password = data.getStringExtra(SignUpActivity.ACTIVITY_SIGN_UP_PASSWORD);
-
             emailEditText.setText(email);
             passwordEditText.setText(password);
-
             PropertyManager.getInstance().setEmail(email);
             PropertyManager.getInstance().setPassword(password);
-
             signInLocal(email, password);
         }
+    }
+
+    private class CustomizedTextWatcher implements TextWatcher {
+        int id;
+
+        public CustomizedTextWatcher(int id) {
+            this.id = id;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            switch (id) {
+                case R.id.activity_sign_in_user_email_edit_text:
+                    if (s.length() > 0) {
+                        if (s.toString().matches(CheckUtil.REGEX_EMAIL)) {
+                            conditions[0] = true;
+                            emailCheckImageView.setVisibility(View.VISIBLE);
+                        } else {
+                            conditions[0] = false;
+                            emailCheckImageView.setVisibility(View.INVISIBLE);
+                        }
+                        emailIconImageView.setImageResource(R.drawable.login_email_icon_after);
+                    } else {
+                        conditions[0] = false;
+                        emailIconImageView.setImageResource(R.drawable.login_email_icon);
+                        emailCheckImageView.setVisibility(View.INVISIBLE);
+                    }
+                    break;
+                case R.id.activity_sign_in_user_password_edit_text:
+                    if (s.toString().length() > 0) {
+                        // TODO : 비밀번호 정규식 적용
+                        conditions[1] = true;
+                        passwordIconImageView.setImageResource(R.drawable.login_password_icon_after);
+                        passwordCheckImageView.setVisibility(View.VISIBLE);
+                    } else {
+                        conditions[1] = false;
+                        passwordIconImageView.setImageResource(R.drawable.login_password_icon);
+                        passwordCheckImageView.setVisibility(View.INVISIBLE);
+                    }
+                    break;
+            }
+            enableButton();
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    }
+
+    public void enableButton() {
+        for (int i = MAX_CONDITION - 1; i >= 0; i--)
+            if (!conditions[i]) {
+                signButton.setEnabled(false);
+                signButton.setClickable(false);
+                signButton.setBackgroundResource(R.drawable.detailpage_button1);
+                return;
+            }
+        signButton.setEnabled(true);
+        signButton.setClickable(true);
+        signButton.setBackgroundResource(R.drawable.detailpage_button2);
     }
 
     @OnEditorAction({R.id.activity_sign_in_user_email_edit_text,
@@ -168,9 +245,19 @@ public class SignInActivity extends AppCompatActivity {
         return true;
     }
 
-    @OnClick(R.id.activity_sign_in_sign_in_button)
-    void signInLocalButton() {
-        signInLocal(emailEditText.getText().toString().trim(), passwordEditText.getText().toString());
+    @OnClick(R.id.activity_sign_in_sign_button)
+    void signButton() {
+        switch (PropertyManager.getInstance().getSignInState()) {
+            case PropertyManager.SIGN_IN_FACEBOOK_STATE:
+                signOut(PropertyManager.SIGN_IN_FACEBOOK_STATE);
+                break;
+            case PropertyManager.SIGN_IN_LOCAL_STATE:
+                signOut(PropertyManager.SIGN_IN_LOCAL_STATE);
+                break;
+            case PropertyManager.SIGN_OUT_STATE:
+                signInLocal(emailEditText.getText().toString().trim(), passwordEditText.getText().toString());
+                break;
+        }
     }
 
     public void signInLocal(String email, String password) {
@@ -184,8 +271,8 @@ public class SignInActivity extends AppCompatActivity {
                         ReceiveObject receiveObject = response.body();
                         if (BuildConfig.DEBUG)
                             Log.d(TAG, "SignInActivity onResponse Success : " + receiveObject.isSuccess()
-                                            + ", Code : " + receiveObject.getCode()
-                                            + ", Msg : " + receiveObject.getMsg()
+                                            + "\nCode : " + receiveObject.getCode()
+                                            + "\nMsg : " + receiveObject.getMsg()
                             );
 
                         if (receiveObject.getCode() == 200) {
@@ -207,20 +294,6 @@ public class SignInActivity extends AppCompatActivity {
                 });
     }
 
-    @OnClick(R.id.activity_sign_in_sign_out_button)
-    void signOutButton() {
-        switch (PropertyManager.getInstance().getSignInState()) {
-            case PropertyManager.SIGN_IN_FACEBOOK_STATE:
-                signOut(PropertyManager.SIGN_IN_FACEBOOK_STATE);
-                break;
-            case PropertyManager.SIGN_IN_LOCAL_STATE:
-                signOut(PropertyManager.SIGN_IN_LOCAL_STATE);
-                break;
-            case PropertyManager.SIGN_OUT_STATE:
-                break;
-        }
-    }
-
     private void signOut(final int signInState) {
         NetworkManager.getInstance().logout(
                 null,
@@ -229,23 +302,23 @@ public class SignInActivity extends AppCompatActivity {
                     public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
                         ReceiveObject receiveObject = response.body();
 
-                        if (receiveObject.isSuccess()) {
-                            // TODO : null pointer exception -> receive object == null ???
-                            if (BuildConfig.DEBUG)
-                                Log.d(TAG, "logout onResponse Success : " + receiveObject.isSuccess()
-                                        + "\nCode : " + receiveObject.getCode()
-                                        + "\nMsg : " + receiveObject.getMsg());
+//                        if (receiveObject.isSuccess()) {
+//                            // TODO : null pointer exception -> receive object == null ???
+//                            if (BuildConfig.DEBUG)
+//                                Log.d(TAG, "logout onResponse Success : " + receiveObject.isSuccess()
+//                                        + "\nCode : " + receiveObject.getCode()
+//                                        + "\nMsg : " + receiveObject.getMsg());
 
-                            PropertyManager.getInstance().setSignInState(PropertyManager.SIGN_OUT_STATE);
-                            if (signInState == PropertyManager.SIGN_IN_FACEBOOK_STATE)
-                                mLoginManager.logOut();
-                            initView();
-                        } else {
-                            if (BuildConfig.DEBUG)
-                                Log.d(TAG, "logout onResponse Success : " + receiveObject.isSuccess()
-                                        + "\nCode : " + receiveObject.getCode()
-                                        + "\nMsg : " + receiveObject.getMsg());
-                        }
+                        PropertyManager.getInstance().setSignInState(PropertyManager.SIGN_OUT_STATE);
+                        if (signInState == PropertyManager.SIGN_IN_FACEBOOK_STATE)
+                            mLoginManager.logOut();
+                        initView();
+//                        } else {
+//                            if (BuildConfig.DEBUG)
+//                                Log.d(TAG, "logout onResponse Success : " + receiveObject.isSuccess()
+//                                        + "\nCode : " + receiveObject.getCode()
+//                                        + "\nMsg : " + receiveObject.getMsg());
+//                        }
                     }
 
                     @Override
@@ -256,13 +329,37 @@ public class SignInActivity extends AppCompatActivity {
                 });
     }
 
+    @OnClick(R.id.activity_sign_in_find_password_text_view)
+    void findPassword(View view) {
+        FindPasswordSendObject findPasswordSendObject = new FindPasswordSendObject();
+        findPasswordSendObject.setEmail(emailEditText.getText().toString());
+        NetworkManager.getInstance().findPassword(
+                findPasswordSendObject,
+                null,
+                new Callback<ReceiveObject>() {
+                    @Override
+                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                        ReceiveObject receiveObject = response.body();
+
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "findPassword onResponse isSuccess : " + receiveObject.isSuccess());
+                    }
+
+                    @Override
+                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "findPassword onFailure", t);
+                    }
+                });
+    }
+
     @OnClick(R.id.activity_sign_in_facebook_button)
     void signInFacebookButton(View view) {
         signInFacebook();
     }
 
     private void signInFacebook() {
-        sleepSignOutButton();
+        sleepSignButton();
         mLoginManager.logInWithReadPermissions(SignInActivity.this, Arrays.asList("public_profile", "email"));
         mLoginManager.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -318,15 +415,14 @@ public class SignInActivity extends AppCompatActivity {
                                                                         @Override
                                                                         public void onFailure(Call<ReceiveObject> call, Throwable t) {
                                                                             if (BuildConfig.DEBUG)
-                                                                                Log.d(TAG, "onFailure Error : " + t.toString());
+                                                                                Log.d(TAG, "onFailure Error", t);
                                                                         }
                                                                     });
                                                         } else {
-                                                            if (BuildConfig.DEBUG) {
-                                                                Log.d(TAG, "success : " + receiveObject.isSuccess());
-                                                                Log.d(TAG, "userID : " + token.getUserId());
-                                                                Log.d(TAG, "NOTREGISTER");
-                                                            }
+                                                            if (BuildConfig.DEBUG)
+                                                                Log.d(TAG, "success : " + receiveObject.isSuccess()
+                                                                        + "\nuserID : " + token.getUserId()
+                                                                        + "\nNOTREGISTER");
                                                             from = intent.getStringExtra("FROM");
                                                             intent = new Intent(SignInActivity.this, SignUpActivity.class);
                                                             intent.putExtra("FROM", from);
@@ -341,8 +437,8 @@ public class SignInActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onFailure(Call<ReceiveObject> call, Throwable t) {
                                                     if (BuildConfig.DEBUG)
-                                                        Log.d(TAG, "onFailure Error : " + t.toString());
-                                                    wakeSignOutButton();
+                                                        Log.d(TAG, "onFailure Error", t);
+                                                    wakeSignButton();
                                                 }
                                             });
                                 }
@@ -352,7 +448,7 @@ public class SignInActivity extends AppCompatActivity {
                             public void onFail(int code) {
                                 if (BuildConfig.DEBUG)
                                     Log.d(TAG, "onFail");
-                                wakeSignOutButton();
+                                wakeSignButton();
                             }
                         });
             }
@@ -361,14 +457,14 @@ public class SignInActivity extends AppCompatActivity {
             public void onCancel() {
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "onCancel");
-                wakeSignOutButton();
+                wakeSignButton();
             }
 
             @Override
             public void onError(FacebookException error) {
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "onError");
-                wakeSignOutButton();
+                wakeSignButton();
             }
         });
     }
@@ -383,8 +479,8 @@ public class SignInActivity extends AppCompatActivity {
 
                         if (BuildConfig.DEBUG)
                             Log.d(TAG, "onResponse Success : " + receiveObject.isSuccess()
-                                    + ", Code : " + receiveObject.getCode()
-                                    + ", Msg : " + receiveObject.getMsg());
+                                    + "\nCode : " + receiveObject.getCode()
+                                    + "\nMsg : " + receiveObject.getMsg());
 
                         /* sendGCMToken to server */
                         checkPlayService();
@@ -419,13 +515,13 @@ public class SignInActivity extends AppCompatActivity {
 
                         /* view initialization */
                         initView();
-                        wakeSignOutButton();
+                        wakeSignButton();
                     }
 
                     @Override
                     public void onFailure(Call<ReceiveObject> call, Throwable t) {
                         if (BuildConfig.DEBUG)
-                            Log.d(TAG, "onFailure Error : " + t.toString());
+                            Log.d(TAG, "onFailure Error", t);
                     }
                 });
     }
@@ -441,51 +537,95 @@ public class SignInActivity extends AppCompatActivity {
     private void initView() {
         switch (PropertyManager.getInstance().getSignInState()) {
             case PropertyManager.SIGN_IN_FACEBOOK_STATE:
-                emailTextView.setVisibility(View.VISIBLE);
-                emailTextView.setText(PropertyManager.getInstance().getEmail());
-                emailEditText.setVisibility(View.INVISIBLE);
+                /* 이메일 */
+                emailEditText.setEnabled(false);
+                emailEditText.setText(PropertyManager.getInstance().getEmail());
+                if (Build.VERSION.SDK_INT < 23)
+                    emailEditText.setTextColor(getResources().getColor(R.color.bikeeLightGray));
+                else
+                    emailEditText.setTextColor(getResources().getColor(R.color.bikeeLightGray, getTheme()));
+
+                /* 비밀번호 */
                 passwordLayout.setVisibility(View.GONE);
-                signInButton.setVisibility(View.GONE);
-                signOutButton.setVisibility(View.VISIBLE);
-                signUpTextView.setVisibility(View.INVISIBLE);
+
+                /* 로그인 버튼 */
+                signButton.setText("로그아웃");
+                signButton.setBackgroundResource(R.drawable.detailpage_button2);
+
+                /* 회원가입 */
+                signUpTextView.setVisibility(View.GONE);
                 break;
             case PropertyManager.SIGN_IN_LOCAL_STATE:
-                emailTextView.setVisibility(View.VISIBLE);
-                emailTextView.setText(PropertyManager.getInstance().getEmail());
-                emailEditText.setVisibility(View.INVISIBLE);
+                /* 이메일 */
+                emailEditText.setEnabled(false);
+                emailEditText.setText(PropertyManager.getInstance().getEmail());
+                if (Build.VERSION.SDK_INT < 23)
+                    emailEditText.setTextColor(getResources().getColor(R.color.bikeeLightGray));
+                else
+                    emailEditText.setTextColor(getResources().getColor(R.color.bikeeLightGray, getTheme()));
+
+                /* 비밀번호 */
                 passwordLayout.setVisibility(View.VISIBLE);
-                passwordTextView.setVisibility(View.VISIBLE);
-                passwordTextView.setText(PropertyManager.getInstance().getPassword());
-                passwordEditText.setVisibility(View.INVISIBLE);
-                signInButton.setVisibility(View.GONE);
-                signOutButton.setVisibility(View.VISIBLE);
-                signUpTextView.setVisibility(View.INVISIBLE);
+                passwordEditText.setEnabled(false);
+                passwordEditText.setText(PropertyManager.getInstance().getPassword());
+                if (Build.VERSION.SDK_INT < 23)
+                    passwordEditText.setTextColor(getResources().getColor(R.color.bikeeLightGray));
+                else
+                    passwordEditText.setTextColor(getResources().getColor(R.color.bikeeLightGray, getTheme()));
+
+                /* 로그인 버튼 */
+                signButton.setText("로그아웃");
+                signButton.setBackgroundResource(R.drawable.detailpage_button2);
+
+                /* 회원가입 */
+                signUpTextView.setVisibility(View.GONE);
+
+                /* 페이스북 */
                 facebookButton.setClickable(false);
                 facebookButton.setEnabled(false);
                 break;
             case PropertyManager.SIGN_OUT_STATE:
-                emailTextView.setVisibility(View.INVISIBLE);
-                emailEditText.setVisibility(View.VISIBLE);
+                /* 이메일 */
+                emailEditText.setEnabled(true);
+                if (Build.VERSION.SDK_INT < 23)
+                    emailEditText.setTextColor(getResources().getColor(R.color.bikeeBlue));
+                else
+                    emailEditText.setTextColor(getResources().getColor(R.color.bikeeBlue, getTheme()));
+
+                /* 비밀번호 */
                 passwordLayout.setVisibility(View.VISIBLE);
-                passwordTextView.setVisibility(View.INVISIBLE);
-                passwordEditText.setVisibility(View.VISIBLE);
-                signInButton.setVisibility(View.VISIBLE);
-                signOutButton.setVisibility(View.GONE);
+                passwordEditText.setEnabled(true);
+                if (Build.VERSION.SDK_INT < 23)
+                    passwordEditText.setTextColor(getResources().getColor(R.color.bikeeBlue));
+                else
+                    passwordEditText.setTextColor(getResources().getColor(R.color.bikeeBlue, getTheme()));
+
+                /* 로그인 버튼 */
+                signButton.setText("로그인");
+                if (emailEditText.getText().toString().matches(CheckUtil.REGEX_EMAIL)
+                        && passwordEditText.length() > 0)
+                    signButton.setBackgroundResource(R.drawable.detailpage_button2);
+                else
+                    signButton.setBackgroundResource(R.drawable.detailpage_button1);
+
+                /* 회원가입 */
                 signUpTextView.setVisibility(View.VISIBLE);
+
+                /* 페이스북 */
                 facebookButton.setClickable(true);
                 facebookButton.setEnabled(true);
                 break;
         }
     }
 
-    public void sleepSignOutButton() {
-        signOutButton.setEnabled(false);
-        signOutButton.setClickable(false);
+    public void sleepSignButton() {
+        signButton.setEnabled(false);
+        signButton.setClickable(false);
     }
 
-    public void wakeSignOutButton() {
-        signOutButton.setEnabled(true);
-        signOutButton.setClickable(true);
+    public void wakeSignButton() {
+        signButton.setEnabled(true);
+        signButton.setClickable(true);
     }
 
     private void checkPlayService() {
@@ -566,8 +706,8 @@ public class SignInActivity extends AppCompatActivity {
                         ReceiveObject receiveObject = response.body();
                         if (BuildConfig.DEBUG)
                             Log.d(TAG, "sendGCMToken onResponse Success : " + receiveObject.isSuccess()
-                                            + ", Code : " + receiveObject.getCode()
-                                            + ", Msg : " + receiveObject.getMsg()
+                                            + "\nCode : " + receiveObject.getCode()
+                                            + "\nMsg : " + receiveObject.getMsg()
                             );
 
                     }
@@ -575,7 +715,7 @@ public class SignInActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<ReceiveObject> call, Throwable t) {
                         if (BuildConfig.DEBUG)
-                            Log.d(TAG, "onFailure Error : " + t.toString());
+                            Log.d(TAG, "onFailure Error", t);
                     }
                 });
     }

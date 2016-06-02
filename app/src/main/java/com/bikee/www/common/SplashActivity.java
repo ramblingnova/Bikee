@@ -118,7 +118,7 @@ public class SplashActivity extends AppCompatActivity {
                                             Intent intent = new Intent();
                                             intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                                             intent.addCategory(Intent.CATEGORY_DEFAULT);
-                                            intent.setData(Uri.parse("package:" + "com.bikee.wwww"));
+                                            intent.setData(Uri.parse("package:" + getPackageName()));
                                             startActivityForResult(intent, PERMISSION_REQUEST_CODE);
                                         }
                                     })

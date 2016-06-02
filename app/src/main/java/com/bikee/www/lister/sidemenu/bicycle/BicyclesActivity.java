@@ -31,16 +31,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class BicyclesActivity extends AppCompatActivity implements OnAdapterClickListener {
-    // TODO : android api 버전 23이상은 필요한 권한을 체크해야 함
-    // INTERNET : Network통신을 하기 위함, Glide를 통해 이미지를 받기 위함
     private Intent intent;
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private BicycleAdapter adapter;
-    final private static int REGISTER_BICYCLE_ACTIVITY = 1;
-    final public static String ID_TAG = "ID";
 
     public static final int from = 7;
+    private static final int REGISTER_BICYCLE_ACTIVITY = 1;
     private static final String TAG = "BICYCLES_ACTIVITY";
 
     @Override

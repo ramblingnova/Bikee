@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bikee.www.R;
 import com.bikee.www.etc.MyApplication;
@@ -37,8 +38,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class CameraActivity extends AppCompatActivity implements SurfaceHolder.Callback {
-    // TODO : android api 버전 23이상은 필요한 권한을 체크해야 함
-    // CAMERA : 카메라를 사용하기 위함
     private Intent intent;
     @SuppressWarnings("deprecation")
     private Camera camera;
@@ -248,14 +247,36 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
         super.onResume();
 
         if (Build.VERSION.SDK_INT >= 23)
-            if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+            if ((checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                    || (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                    || (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)) {
+                StringBuilder stringBuilder = new StringBuilder();
+                if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)
+                        || shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    stringBuilder.append("저장소 읽기/쓰기");
+                }
+                if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                    if (stringBuilder.length() > 0)
+                        stringBuilder.append(", ");
+                    stringBuilder.append("카메라");
+                }
+                stringBuilder.append(" 권한이 있어야 앱이 올바르게 작동합니다.");
+
+                Toast.makeText(CameraActivity.this, stringBuilder, Toast.LENGTH_SHORT).show();
+
                 onBackPressed();
+            }
     }
 
     @OnClick({R.id.activity_camera_surface_view,
             R.id.activity_camera_back_save_button,
             R.id.activity_camera_freeze_button,
-            R.id.activity_camera_cancel_button})
+            R.id.activity_camera_cancel_button,
+            R.id.thumbnail_item1_cancel_image_view,
+            R.id.thumbnail_item2_cancel_image_view,
+            R.id.thumbnail_item3_cancel_image_view,
+            R.id.thumbnail_item4_cancel_image_view,
+            R.id.thumbnail_item5_cancel_image_view})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.activity_camera_surface_view:
@@ -378,43 +399,41 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
 
                 file.delete();
                 break;
-        }
-    }
-
-    @OnClick({R.id.thumbnail_item1_cancel_image_view,
-            R.id.thumbnail_item2_cancel_image_view,
-            R.id.thumbnail_item3_cancel_image_view,
-            R.id.thumbnail_item4_cancel_image_view,
-            R.id.thumbnail_item5_cancel_image_view})
-    void cancel(View view) {
-        freezeButton.setEnabled(true);
-        freezeButton.setBackgroundResource(R.drawable.camera_active_button);
-        switch (view.getId()) {
             case R.id.thumbnail_item1_cancel_image_view:
+                freezeButton.setEnabled(true);
+                freezeButton.setBackgroundResource(R.drawable.camera_active_button);
                 if (list.get(0) != null) {
                     item1ImageView.setImageResource(R.drawable.bike_img_01);
                     list.set(0, null);
                 }
                 break;
             case R.id.thumbnail_item2_cancel_image_view:
+                freezeButton.setEnabled(true);
+                freezeButton.setBackgroundResource(R.drawable.camera_active_button);
                 if (list.get(1) != null) {
                     item2ImageView.setImageResource(R.drawable.bike_img_02);
                     list.set(1, null);
                 }
                 break;
             case R.id.thumbnail_item3_cancel_image_view:
+                freezeButton.setEnabled(true);
+                freezeButton.setBackgroundResource(R.drawable.camera_active_button);
                 if (list.get(2) != null) {
                     item3ImageView.setImageResource(R.drawable.bike_img_03);
                     list.set(2, null);
                 }
                 break;
             case R.id.thumbnail_item4_cancel_image_view:
+                freezeButton.setEnabled(true);
+                freezeButton.setBackgroundResource(R.drawable.camera_active_button);
                 if (list.get(3) != null) {
                     item4ImageView.setImageResource(R.drawable.bike_img_04);
                     list.set(3, null);
                 }
                 break;
             case R.id.thumbnail_item5_cancel_image_view:
+                freezeButton.setEnabled(true);
+                freezeButton.setBackgroundResource(R.drawable.camera_active_button);
                 if (list.get(4) != null) {
                     item5ImageView.setImageResource(R.drawable.bike_img_05);
                     list.set(4, null);

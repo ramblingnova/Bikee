@@ -1,7 +1,9 @@
 package com.bikee.www.lister.sidemenu.bicycle.register.page4.gallery;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bikee.www.lister.sidemenu.bicycle.register.page4.gallery.folder.GetGalleryFolderNameListener;
 import com.bikee.www.R;
@@ -184,17 +187,34 @@ public class GalleryActivity extends AppCompatActivity implements GetGalleryPict
         }
     }
 
-    @OnClick(R.id.gallery_backable_toolbar_back_button_layout)
-    void back(View view) {
-        // TODO : 팝업?
-        setResult(RESULT_OK, intent);
-        finish();
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (Build.VERSION.SDK_INT >= 23)
+            if ((checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                    || (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
+                Toast.makeText(GalleryActivity.this, "저장소 읽기/쓰기 권한이 있어야 앱이 올바르게 작동합니다.", Toast.LENGTH_SHORT).show();
+
+                onBackPressed();
+            }
     }
 
-    @OnClick({R.id.gallery_backable_toolbar_picture_button_image_view,
-            R.id.gallery_backable_toolbar_folder_button_image_view})
-    void type(View view) {
+    @OnClick({R.id.gallery_backable_toolbar_back_button_layout,
+            R.id.gallery_backable_toolbar_picture_button_image_view,
+            R.id.gallery_backable_toolbar_folder_button_image_view,
+            R.id.thumbnail_item1_cancel_image_view,
+            R.id.thumbnail_item2_cancel_image_view,
+            R.id.thumbnail_item3_cancel_image_view,
+            R.id.thumbnail_item4_cancel_image_view,
+            R.id.thumbnail_item5_cancel_image_view})
+    void onClick(View view) {
         switch (view.getId()) {
+            case R.id.gallery_backable_toolbar_back_button_layout:
+                // TODO : 팝업?
+                setResult(RESULT_OK, intent);
+                finish();
+                break;
             case R.id.gallery_backable_toolbar_picture_button_image_view:
                 if (currentFragmentState == GALLERY_FOLDER_STATE) {
                     currentFragmentState = GALLERY_PICTURE_STATE;
@@ -211,20 +231,10 @@ public class GalleryActivity extends AppCompatActivity implements GetGalleryPict
                     getSupportFragmentManager().beginTransaction().replace(R.id.activity_gallery_container, galleryFolderFragment).commit();
                 }
                 break;
-        }
-    }
-
-    @OnClick({R.id.thumbnail_item1_cancel_image_view,
-            R.id.thumbnail_item2_cancel_image_view,
-            R.id.thumbnail_item3_cancel_image_view,
-            R.id.thumbnail_item4_cancel_image_view,
-            R.id.thumbnail_item5_cancel_image_view})
-    void cancel(View view) {
-        warningImageView.setVisibility(View.VISIBLE);
-        warningTextView.setVisibility(View.VISIBLE);
-        galleryPictureFragment.notifyListIsNotFull();
-        switch (view.getId()) {
             case R.id.thumbnail_item1_cancel_image_view:
+                warningImageView.setVisibility(View.VISIBLE);
+                warningTextView.setVisibility(View.VISIBLE);
+                galleryPictureFragment.notifyListIsNotFull();
                 if (list.get(0) != null) {
                     item1ImageView.setImageResource(R.drawable.bike_img_01);
                     galleryPictureFragment.unCheck(list.get(0).getPath());
@@ -232,6 +242,9 @@ public class GalleryActivity extends AppCompatActivity implements GetGalleryPict
                 }
                 break;
             case R.id.thumbnail_item2_cancel_image_view:
+                warningImageView.setVisibility(View.VISIBLE);
+                warningTextView.setVisibility(View.VISIBLE);
+                galleryPictureFragment.notifyListIsNotFull();
                 if (list.get(1) != null) {
                     item2ImageView.setImageResource(R.drawable.bike_img_02);
                     galleryPictureFragment.unCheck(list.get(1).getPath());
@@ -239,6 +252,9 @@ public class GalleryActivity extends AppCompatActivity implements GetGalleryPict
                 }
                 break;
             case R.id.thumbnail_item3_cancel_image_view:
+                warningImageView.setVisibility(View.VISIBLE);
+                warningTextView.setVisibility(View.VISIBLE);
+                galleryPictureFragment.notifyListIsNotFull();
                 if (list.get(2) != null) {
                     item3ImageView.setImageResource(R.drawable.bike_img_03);
                     galleryPictureFragment.unCheck(list.get(2).getPath());
@@ -246,6 +262,9 @@ public class GalleryActivity extends AppCompatActivity implements GetGalleryPict
                 }
                 break;
             case R.id.thumbnail_item4_cancel_image_view:
+                warningImageView.setVisibility(View.VISIBLE);
+                warningTextView.setVisibility(View.VISIBLE);
+                galleryPictureFragment.notifyListIsNotFull();
                 if (list.get(3) != null) {
                     item4ImageView.setImageResource(R.drawable.bike_img_04);
                     galleryPictureFragment.unCheck(list.get(3).getPath());
@@ -253,6 +272,9 @@ public class GalleryActivity extends AppCompatActivity implements GetGalleryPict
                 }
                 break;
             case R.id.thumbnail_item5_cancel_image_view:
+                warningImageView.setVisibility(View.VISIBLE);
+                warningTextView.setVisibility(View.VISIBLE);
+                galleryPictureFragment.notifyListIsNotFull();
                 if (list.get(4) != null) {
                     item5ImageView.setImageResource(R.drawable.bike_img_05);
                     galleryPictureFragment.unCheck(list.get(4).getPath());

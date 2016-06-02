@@ -26,8 +26,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CardSelectionActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, OnCardAdapterCheckedChangeListener {
-    // TODO : android api 버전 23이상은 필요한 권한을 체크해야 함
-    // INTERNET : Network통신을 하기 위함
     @Bind(R.id.activity_card_selection_list_view)
     ListView listView;
 
