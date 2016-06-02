@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.bikee.www.lister.sidemenu.bicycle.register.page2.RegisterBicycleLocationFragment">
+    tools:context="com.bigtion.bikee.lister.sidemenu.bicycle.register.page2.RegisterBicycleLocationFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,23 +14,34 @@
             android:layout_height="wrap_content"
             android:text="자전거가 있는 곳을 알려주세요!" />
 
+        <Button
+            android:id="@+id/fragment_register_bicycle_location_address_search_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/fragment_register_bicycle_location_text_view"
+            android:text="검색" />
+
         <EditText
-            android:id="@+id/fragment_register_bicycle_location_location_edit_text"
+            android:id="@+id/fragment_register_bicycle_location_address_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/fragment_register_bicycle_location_text_view"
-            android:textColorHint="@color/bikeeLightGray"
-            android:hint="주소를 입력해주세요" />
+            android:layout_toLeftOf="@id/fragment_register_bicycle_location_address_search_button"
+            android:layout_toStartOf="@id/fragment_register_bicycle_location_address_search_button"
+            android:hint="지번 혹은 도로명 주소를 입력해주세요"
+            android:textColorHint="@color/bikeeLightGray" />
 
         <fragment
             android:id="@+id/fragment_register_bicycle_location_small_map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:tag="fragment_register_bicycle_location_small_map"
             android:layout_width="match_parent"
             android:layout_height="217dp"
-            android:layout_below="@id/fragment_register_bicycle_location_location_edit_text"
+            android:layout_below="@id/fragment_register_bicycle_location_address_edit_text"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp" />
+            android:layout_marginRight="16dp"
+            android:tag="fragment_register_bicycle_location_small_map" />
     </RelativeLayout>
 </FrameLayout>

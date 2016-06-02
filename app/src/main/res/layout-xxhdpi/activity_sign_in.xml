@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.bikee.www.common.sidemenu.SignInActivity">
+    tools:context="com.bigtion.bikee.common.sidemenu.SignInActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

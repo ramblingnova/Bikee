@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.bikee.www.renter.sidemenu.creditcard.CreditCardsActivity">
+    tools:context="com.bigtion.bikee.renter.sidemenu.creditcard.CreditCardsActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
