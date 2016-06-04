@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bigtion.bikee.common.interfaces.OnAdapterClickListener;
+import com.bigtion.bikee.etc.interfaces.OnAdapterClickListener;
 import com.bigtion.bikee.etc.dao.CardResult;
 import com.bigtion.bikee.BuildConfig;
 import com.bigtion.bikee.R;
@@ -38,12 +38,12 @@ import retrofit2.Response;
 public class CreditCardsActivity extends AppCompatActivity implements OnAdapterClickListener, ViewPager.OnPageChangeListener {
     @Bind(R.id.toolbar_layout)
     RelativeLayout toolbarLayout;
-    @Bind(R.id.toolbar_left_icon_back_image_view)
-    ImageView toolbarLeftIconBackImageView;
+    @Bind(R.id.toolbar_left_back_icon_image_view)
+    ImageView toolbarLeftBackIconImageView;
     @Bind(R.id.toolbar_center_text_view)
     TextView toolbarCenterTextView;
-    @Bind(R.id.toolbar_right_icon_image_view)
-    ImageView toolbarRightIconImageView;
+    @Bind(R.id.toolbar_right_mode_icon_image_view)
+    ImageView toolbarRightModeIconImageView;
     @Bind(R.id.activity_credit_cards_cards_layout)
     RelativeLayout cardsLayout;
     @Bind(R.id.activity_credit_cards_cards_view_pager)
@@ -77,7 +77,7 @@ public class CreditCardsActivity extends AppCompatActivity implements OnAdapterC
             toolbarLayout.setBackgroundColor(getResources().getColor(R.color.bikeeBlue));
 
         /* 툴바 왼쪽 */
-        toolbarLeftIconBackImageView.setVisibility(View.VISIBLE);
+        toolbarLeftBackIconImageView.setVisibility(View.VISIBLE);
 
         /* 툴바 가운데 */
         toolbarCenterTextView.setVisibility(View.VISIBLE);
@@ -88,7 +88,8 @@ public class CreditCardsActivity extends AppCompatActivity implements OnAdapterC
         toolbarCenterTextView.setText("결제관리");
 
         /* 툴바 오른쪽 */
-        toolbarRightIconImageView.setImageResource(R.drawable.rider_main_icon);
+        toolbarRightModeIconImageView.setImageResource(R.drawable.rider_main_icon);
+        toolbarRightModeIconImageView.setVisibility(View.VISIBLE);
 
         viewPager.setClipToPadding(false);
         viewPager.setPadding(
@@ -160,11 +161,11 @@ public class CreditCardsActivity extends AppCompatActivity implements OnAdapterC
         }
     }
 
-    @OnClick({R.id.toolbar_left_icon_layout,
+    @OnClick({R.id.toolbar_left_layout,
             R.id.activity_credit_cards_add_card_layout})
     void onClick(View view) {
         switch (view.getId()) {
-            case R.id.toolbar_left_icon_layout:
+            case R.id.toolbar_left_layout:
                 onBackPressed();
                 break;
             case R.id.activity_credit_cards_add_card_layout:

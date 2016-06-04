@@ -1,4 +1,4 @@
-package com.bigtion.bikee.common.adapters;
+package com.bigtion.bikee.etc.adapters;
 
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;

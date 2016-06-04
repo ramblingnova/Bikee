@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/activity_owning_bicycle_list_toolbar"
+            android:id="@+id/activity_bicycles_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:contentInsetLeft="0dp"
@@ -27,9 +27,9 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/activity_owning_bicycle_list_list_view"
+            android:id="@+id/activity_bicycles_recycler_view"
             android:background="@color/bikeeBackground"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <View

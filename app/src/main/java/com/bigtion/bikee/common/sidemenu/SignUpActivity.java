@@ -45,12 +45,12 @@ import retrofit2.Response;
 public class SignUpActivity extends AppCompatActivity {
     @Bind(R.id.toolbar_layout)
     RelativeLayout toolbarLayout;
-    @Bind(R.id.toolbar_left_icon_back_image_view)
-    ImageView toolbarLeftIconBackImageView;
+    @Bind(R.id.toolbar_left_back_icon_image_view)
+    ImageView toolbarLeftBackIconImageView;
     @Bind(R.id.toolbar_center_icon_image_view)
     ImageView toolbarCenterIconImageView;
-    @Bind(R.id.toolbar_right_icon_image_view)
-    ImageView toolbarRightIconImageView;
+    @Bind(R.id.toolbar_right_mode_icon_image_view)
+    ImageView toolbarRightModeIconImageView;
     @Bind(R.id.activity_sign_up_input_name_edit_text)
     EditText nameEditText;
     @Bind(R.id.activity_sign_up_input_mail_address_edit_text)
@@ -120,16 +120,17 @@ public class SignUpActivity extends AppCompatActivity {
             toolbarLayout.setBackgroundColor(getResources().getColor(R.color.bikeeBlue, getTheme()));
 
         /* 툴바 왼쪽 */
-        toolbarLeftIconBackImageView.setVisibility(View.VISIBLE);
+        toolbarLeftBackIconImageView.setVisibility(View.VISIBLE);
 
         /* 툴바 가운데 */
         toolbarCenterIconImageView.setVisibility(View.VISIBLE);
 
         /* 툴바 오른쪽 */
         if (from.equals(RenterMainActivity.TAG))
-            toolbarRightIconImageView.setImageResource(R.drawable.rider_main_icon);
+            toolbarRightModeIconImageView.setImageResource(R.drawable.rider_main_icon);
         else if (from.equals(ListerMainActivity.TAG))
-            toolbarRightIconImageView.setImageResource(R.drawable.lister_main_icon);
+            toolbarRightModeIconImageView.setImageResource(R.drawable.lister_main_icon);
+        toolbarRightModeIconImageView.setVisibility(View.VISIBLE);
 
         emailEditText.addTextChangedListener(tw);
         phoneEditText.addTextChangedListener(tw);
@@ -145,7 +146,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.toolbar_left_icon_layout)
+    @OnClick(R.id.toolbar_left_layout)
     void back(View view) {
         setResult(RESULT_CANCELED, intent);
         finish();

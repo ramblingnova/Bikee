@@ -113,7 +113,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.bigtion.bikee.common.sidemenu.InputInquiryActivity"
+            android:name=".common.sidemenu.InquiryActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

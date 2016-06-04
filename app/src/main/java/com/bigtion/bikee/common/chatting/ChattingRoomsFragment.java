@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bigtion.bikee.common.chatting.room.ConversationActivity;
-import com.bigtion.bikee.common.interfaces.OnAdapterClickListener;
+import com.bigtion.bikee.etc.interfaces.OnAdapterClickListener;
 import com.bigtion.bikee.etc.dao.GetChannelInfoReceiveObject;
 import com.bigtion.bikee.etc.dao.GetChannelResInfoReceiveObject;
 import com.bigtion.bikee.etc.dao.SendBirdSendObject;

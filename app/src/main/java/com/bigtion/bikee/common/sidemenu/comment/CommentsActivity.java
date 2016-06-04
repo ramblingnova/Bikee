@@ -39,12 +39,12 @@ import retrofit2.Response;
 public class CommentsActivity extends AppCompatActivity {
     @Bind(R.id.toolbar_layout)
     RelativeLayout toolbarLayout;
-    @Bind(R.id.toolbar_left_icon_back_image_view)
-    ImageView toolbarLeftIconBackImageView;
+    @Bind(R.id.toolbar_left_back_icon_image_view)
+    ImageView toolbarLeftBackIconImageView;
     @Bind(R.id.toolbar_center_text_view)
     TextView toolbarCenterTextView;
-    @Bind(R.id.toolbar_right_icon_image_view)
-    ImageView toolbarRightIconImageView;
+    @Bind(R.id.toolbar_right_mode_icon_image_view)
+    ImageView toolbarRightModeIconImageView;
     @Bind(R.id.activity_comments_recycler_view)
     RecyclerView recyclerView;
 
@@ -87,8 +87,8 @@ public class CommentsActivity extends AppCompatActivity {
                 toolbarLayout.setBackgroundColor(getResources().getColor(R.color.bikeeBlue, getTheme()));
 
             /* 툴바 왼쪽 */
-            toolbarLeftIconBackImageView.setVisibility(View.VISIBLE);
-            toolbarLeftIconBackImageView.setImageResource(R.drawable.icon_before_w);
+            toolbarLeftBackIconImageView.setVisibility(View.VISIBLE);
+            toolbarLeftBackIconImageView.setImageResource(R.drawable.icon_before_w);
 
             /* 툴바 가운데 */
             toolbarCenterTextView.setVisibility(View.VISIBLE);
@@ -100,12 +100,14 @@ public class CommentsActivity extends AppCompatActivity {
                 toolbarCenterTextView.setText("내가 쓴 후기");
 
                 /* 툴바 오른쪽 */
-                toolbarRightIconImageView.setImageResource(R.drawable.rider_main_icon);
+                toolbarRightModeIconImageView.setImageResource(R.drawable.rider_main_icon);
+                toolbarRightModeIconImageView.setVisibility(View.VISIBLE);
             } else if (from.equals(ListerMainActivity.TAG)) {
                 toolbarCenterTextView.setText("내 자전거 후기");
 
                 /* 툴바 오른쪽 */
-                toolbarRightIconImageView.setImageResource(R.drawable.lister_main_icon);
+                toolbarRightModeIconImageView.setImageResource(R.drawable.lister_main_icon);
+                toolbarRightModeIconImageView.setVisibility(View.VISIBLE);
             }
         } else if (from.equals(ContentActivity.TAG)) {
             /* 툴바 배경색 */
@@ -115,8 +117,8 @@ public class CommentsActivity extends AppCompatActivity {
                 toolbarLayout.setBackgroundColor(getResources().getColor(R.color.bikeeWhite, getTheme()));
 
             /* 툴바 왼쪽 */
-            toolbarLeftIconBackImageView.setVisibility(View.VISIBLE);
-            toolbarLeftIconBackImageView.setImageResource(R.drawable.icon_before);
+            toolbarLeftBackIconImageView.setVisibility(View.VISIBLE);
+            toolbarLeftBackIconImageView.setImageResource(R.drawable.icon_before);
 
             /* 툴바 가운데 */
             toolbarCenterTextView.setVisibility(View.VISIBLE);
@@ -129,16 +131,15 @@ public class CommentsActivity extends AppCompatActivity {
 
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
-        recyclerView.setLayoutManager(layoutManager);
-
         adapter = new CommentAdapter();
 
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
         init();
     }
 
-    @OnClick(R.id.toolbar_left_icon_layout)
+    @OnClick(R.id.toolbar_left_layout)
     void back(View view) {
         super.onBackPressed();
     }

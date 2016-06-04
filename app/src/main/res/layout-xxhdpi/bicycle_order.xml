@@ -40,7 +40,7 @@
         android:layout_alignBottom="@id/bicycle_order_price_order_image_view"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/bicycle_order_price_order_image_view"
-        android:text="@string/activity_filter_price_order_check_box_string" />
+        android:text="가격순" />
 
     <CheckBox
         android:id="@+id/bicycle_order_price_order_check_box"
@@ -68,7 +68,7 @@
         android:layout_alignBottom="@id/bicycle_order_distance_order_image_view"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/bicycle_order_distance_order_image_view"
-        android:text="@string/activity_filter_distance_order_check_box_string" />
+        android:text="가까운 거리순" />
 
     <CheckBox
         android:id="@+id/bicycle_order_distance_order_check_box"

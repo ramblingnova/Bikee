@@ -5,14 +5,14 @@
     android:layout_height="?attr/actionBarSize">
 
     <RelativeLayout
-        android:id="@+id/toolbar_left_icon_layout"
+        android:id="@+id/toolbar_left_layout"
         android:layout_width="?attr/actionBarSize"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
         <ImageView
-            android:id="@+id/toolbar_left_icon_drawer_image_view"
+            android:id="@+id/toolbar_left_drawer_icon_image_view"
             android:layout_width="25dp"
             android:layout_height="18dp"
             android:layout_centerInParent="true"
@@ -20,7 +20,7 @@
             android:visibility="gone" />
 
         <ImageView
-            android:id="@+id/toolbar_left_icon_back_image_view"
+            android:id="@+id/toolbar_left_back_icon_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -48,12 +48,30 @@
         android:textSize="19dp"
         android:visibility="gone" />
 
-    <ImageView
-        android:id="@+id/toolbar_right_icon_image_view"
-        android:layout_width="?attr/actionBarSize"
+    <RelativeLayout
+        android:id="@+id/toolbar_right_layout"
+        android:layout_width="wrap_content"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:padding="16dp"
-        android:scaleType="fitXY" />
+        android:layout_alignParentRight="true">
+
+        <ImageView
+            android:id="@+id/toolbar_right_mode_icon_image_view"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:scaleType="fitXY"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/toolbar_right_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:text="재설정"
+            android:gravity="center_vertical"
+            android:textColor="@color/bikeeBlue"
+            android:textSize="16dp"
+            android:visibility="gone" />
+    </RelativeLayout>
 </RelativeLayout>

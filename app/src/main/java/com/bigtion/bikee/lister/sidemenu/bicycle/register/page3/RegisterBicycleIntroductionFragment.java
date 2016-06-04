@@ -19,10 +19,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class RegisterBicycleIntroductionFragment extends Fragment implements TextWatcher {
-    @Bind(R.id.fragment_register_bicycle_introduction_bicycle_name)
+    @Bind(R.id.fragment_register_bicycle_introduction_bicycle_title_edit_text)
     EditText nameEditText;
-    @Bind(R.id.fragment_register_bicycle_introduction_bicycle_introduction)
+    @Bind(R.id.fragment_register_bicycle_introduction_bicycle_introduction_edit_text)
     EditText introductionEditText;
+
     private RegisterBicycleINF registerBicycleINF;
     private InputMethodManager imm;
 
@@ -68,15 +69,15 @@ public class RegisterBicycleIntroductionFragment extends Fragment implements Tex
 
     }
 
-    @OnClick({R.id.fragment_register_bicycle_introduction_bicycle_name_layout,
-            R.id.fragment_register_bicycle_introduction_bicycle_introduction_layout})
+    @OnClick({R.id.fragment_register_bicycle_introduction_bicycle_title_edit_text,
+            R.id.fragment_register_bicycle_introduction_bicycle_introduction_edit_text})
     void onClick(View view) {
         switch (view.getId()) {
-            case R.id.fragment_register_bicycle_introduction_bicycle_name_layout:
+            case R.id.fragment_register_bicycle_introduction_bicycle_title_edit_text:
                 nameEditText.requestFocus();
                 imm.showSoftInput(nameEditText, InputMethodManager.SHOW_FORCED);
                 break;
-            case R.id.fragment_register_bicycle_introduction_bicycle_introduction_layout:
+            case R.id.fragment_register_bicycle_introduction_bicycle_introduction_edit_text:
                 introductionEditText.requestFocus();
                 imm.showSoftInput(introductionEditText, InputMethodManager.SHOW_FORCED);
                 break;

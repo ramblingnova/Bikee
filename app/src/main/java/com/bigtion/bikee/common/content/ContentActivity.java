@@ -21,12 +21,12 @@ import android.widget.TextView;
 import com.bigtion.bikee.common.chatting.room.ConversationActivity;
 import com.bigtion.bikee.lister.sidemenu.bicycle.register.RegisterBicycleActivity;
 import com.bigtion.bikee.BuildConfig;
-import com.bigtion.bikee.common.adapters.BicycleImageViewPagerAdapter;
+import com.bigtion.bikee.etc.adapters.BicycleImageViewPagerAdapter;
 import com.bigtion.bikee.common.content.popup.CalendarDialogFragment;
 import com.bigtion.bikee.common.popup.ChoiceDialogFragment;
 import com.bigtion.bikee.common.popup.CommentDialogFragment;
 import com.bigtion.bikee.common.sidemenu.comment.CommentsActivity;
-import com.bigtion.bikee.common.views.AdditoryComponentView;
+import com.bigtion.bikee.etc.views.AdditoryComponentView;
 import com.bigtion.bikee.etc.MyApplication;
 import com.bigtion.bikee.etc.dao.Comment;
 import com.bigtion.bikee.etc.manager.PropertyManager;
@@ -188,7 +188,7 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                 || (from == SearchResultListFragment.from)
                 || (from == SearchResultMapFragment.from)) {
             cView = getLayoutInflater().inflate(R.layout.toolbar, null);
-            cView.findViewById(R.id.toolbar_left_icon_layout).setOnClickListener(new View.OnClickListener() {
+            cView.findViewById(R.id.toolbar_left_layout).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onBackPressed();
@@ -204,7 +204,7 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                         .setBackgroundColor(getResources().getColor(R.color.bikeeBlue, getTheme()));
 
             /* 툴바 왼쪽 */
-            (cView.findViewById(R.id.toolbar_left_icon_back_image_view))
+            (cView.findViewById(R.id.toolbar_left_back_icon_image_view))
                     .setVisibility(View.VISIBLE);
 
             /* 툴바 가운데 */
@@ -212,13 +212,15 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                     .setVisibility(View.VISIBLE);
 
             /* 툴바 오른쪽 */
-            ((ImageView) cView.findViewById(R.id.toolbar_right_icon_image_view))
+            ((ImageView) cView.findViewById(R.id.toolbar_right_mode_icon_image_view))
                     .setImageResource(R.drawable.rider_main_icon);
+            (cView.findViewById(R.id.toolbar_right_mode_icon_image_view))
+                    .setVisibility(View.VISIBLE);
         } else if ((from == ListerReservationsFragment.from)
                 || (from == BicyclesActivity.from)
                 || (from == RegisterBicycleActivity.from)) {
             cView = getLayoutInflater().inflate(R.layout.toolbar, null);
-            cView.findViewById(R.id.toolbar_left_icon_layout).setOnClickListener(new View.OnClickListener() {
+            cView.findViewById(R.id.toolbar_left_layout).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onBackPressed();
@@ -234,7 +236,7 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                         .setBackgroundColor(getResources().getColor(R.color.bikeeBlue, getTheme()));
 
             /* 툴바 왼쪽 */
-            (cView.findViewById(R.id.toolbar_left_icon_back_image_view))
+            (cView.findViewById(R.id.toolbar_left_back_icon_image_view))
                     .setVisibility(View.VISIBLE);
 
             /* 툴바 가운데 */
@@ -242,8 +244,10 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
                     .setVisibility(View.VISIBLE);
 
             /* 툴바 오른쪽 */
-            ((ImageView) cView.findViewById(R.id.toolbar_right_icon_image_view))
+            ((ImageView) cView.findViewById(R.id.toolbar_right_mode_icon_image_view))
                     .setImageResource(R.drawable.lister_main_icon);
+            (cView.findViewById(R.id.toolbar_right_mode_icon_image_view))
+                    .setVisibility(View.VISIBLE);
         }
         getSupportActionBar().setCustomView(cView);
 
@@ -293,24 +297,24 @@ public class ContentActivity extends AppCompatActivity implements OnMapReadyCall
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        GoogleMap gm = googleMap;
-        gm.getUiSettings().setScrollGesturesEnabled(false);
-        gm.getUiSettings().setZoomControlsEnabled(true);
+        GoogleMap mGoogleMap = googleMap;
+        mGoogleMap.getUiSettings().setScrollGesturesEnabled(false);
+        mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
+
+        MarkerOptions options = new MarkerOptions();
+        options.position(new LatLng(bicycleLatitude, bicycleLongitude));
+        options.icon(BitmapDescriptorFactory.fromResource(R.drawable.rider_main_bike_b_icon));
+        options.anchor(0.5f, 0.5f);
+        mGoogleMap.addMarker(options);
 
         CameraPosition.Builder builder = new CameraPosition.Builder();
         builder.target(new LatLng(bicycleLatitude, bicycleLongitude));
         builder.zoom(15);
         CameraPosition position = builder.build();
         CameraUpdate update = CameraUpdateFactory.newCameraPosition(position);
-        gm.moveCamera(update);
+        mGoogleMap.moveCamera(update);
 
-        MarkerOptions options = new MarkerOptions();
-        options.position(new LatLng(bicycleLatitude, bicycleLongitude));
-        options.icon(BitmapDescriptorFactory.fromResource(R.drawable.rider_main_bike_b_icon));
-        options.anchor(0.5f, 0.5f);
-        gm.addMarker(options);
-
-        gm.getUiSettings().setZoomGesturesEnabled(false);
+        mGoogleMap.getUiSettings().setZoomGesturesEnabled(false);
     }
 
     @OnClick({R.id.activity_content_user_information_chatting_button,

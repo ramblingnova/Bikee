@@ -9,9 +9,20 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/fragment_register_bicycle_introduction_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:background="#EEEEEE"
+            android:gravity="center"
+            android:text="자전거 소개를 해주세요!"
+            android:textColor="@color/bikeeBlack"
+            android:textSize="16dp" />
+
+        <TextView
             android:id="@+id/fragment_register_bicycle_introduction_bicycle_name_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/fragment_register_bicycle_introduction_text_view"
             android:layout_marginLeft="31dp"
             android:layout_marginStart="31dp"
             android:layout_marginTop="23dp"
@@ -31,8 +42,8 @@
             android:textColor="#575757"
             android:textSize="12sp" />
 
-        <RelativeLayout
-            android:id="@+id/fragment_register_bicycle_introduction_bicycle_name_layout"
+        <EditText
+            android:id="@+id/fragment_register_bicycle_introduction_bicycle_title_edit_text"
             android:layout_width="match_parent"
             android:layout_height="46dp"
             android:layout_below="@id/fragment_register_bicycle_introduction_bicycle_name_text_view"
@@ -41,23 +52,21 @@
             android:layout_marginRight="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/price_box">
-
-            <EditText
-                android:id="@+id/fragment_register_bicycle_introduction_bicycle_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:singleLine="true"
-                android:textColor="@color/bikeeBlack"
-                android:textSize="15sp" />
-        </RelativeLayout>
+            android:background="@drawable/input_box"
+            android:gravity="start|center_vertical"
+            android:paddingEnd="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingStart="16dp"
+            android:singleLine="true"
+            android:textColor="@color/bikeeBlack"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/fragment_register_bicycle_introduction_bicycle_introduction_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/fragment_register_bicycle_introduction_bicycle_name_layout"
+            android:layout_below="@id/fragment_register_bicycle_introduction_bicycle_title_edit_text"
             android:layout_marginLeft="31dp"
             android:layout_marginStart="31dp"
             android:layout_marginTop="25dp"
@@ -77,29 +86,25 @@
             android:textColor="#575757"
             android:textSize="12sp" />
 
-        <RelativeLayout
-            android:id="@+id/fragment_register_bicycle_introduction_bicycle_introduction_layout"
-            android:layout_width="327dp"
+        <EditText
+            android:id="@+id/fragment_register_bicycle_introduction_bicycle_introduction_edit_text"
+            android:layout_width="match_parent"
             android:layout_height="242dp"
+            android:layout_alignEnd="@id/fragment_register_bicycle_introduction_bicycle_title_edit_text"
+            android:layout_alignLeft="@id/fragment_register_bicycle_introduction_bicycle_title_edit_text"
+            android:layout_alignRight="@id/fragment_register_bicycle_introduction_bicycle_title_edit_text"
+            android:layout_alignStart="@id/fragment_register_bicycle_introduction_bicycle_title_edit_text"
             android:layout_below="@id/fragment_register_bicycle_introduction_bicycle_introduction_text_view"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/price_box">
-
-            <EditText
-                android:id="@+id/fragment_register_bicycle_introduction_bicycle_introduction"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="top|left"
-                android:inputType="textMultiLine"
-                android:lineSpacingExtra="30dp"
-                android:lines="6"
-                android:maxLines="6"
-                android:minLines="6"
-                android:textColor="@color/bikeeBlack"
-                android:textCursorDrawable="@drawable/bikee_cursor"
-                android:textSize="15sp" />
-        </RelativeLayout>
+            android:background="@drawable/input_box"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"
+            android:lineSpacingExtra="26dp"
+            android:lines="6"
+            android:maxLines="6"
+            android:minLines="6"
+            android:padding="16dp"
+            android:textColor="@color/bikeeBlack"
+            android:textSize="15dp" />
     </RelativeLayout>
 </FrameLayout>

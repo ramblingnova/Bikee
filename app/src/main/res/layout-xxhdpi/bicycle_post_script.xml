@@ -15,7 +15,6 @@
         android:layout_below="@+id/bicycle_post_script_rating_bar"
         android:src="@drawable/noneimage" />
 
-
     <RatingBar
         android:id="@+id/bicycle_post_script_rating_bar"
         style="@style/BikeeRatingBar"
@@ -28,16 +27,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/bicycle_post_script_rating_bar"
-        android:layout_toRightOf="@id/bicycle_post_script_user_image_view"
-        android:text="문근영" />
+        android:layout_toRightOf="@id/bicycle_post_script_user_image_view" />
 
     <TextView
         android:id="@+id/bicycle_post_script_user_body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/bicycle_post_script_user_name"
-        android:layout_toRightOf="@id/bicycle_post_script_user_image_view"
-        android:text="자전거 깨끗하고 너무 좋아요" />
+        android:layout_toRightOf="@id/bicycle_post_script_user_image_view" />
 
     <Button
         android:id="@+id/bicycle_post_script_see_more_post_script"

@@ -551,6 +551,7 @@ public class SignInActivity extends AppCompatActivity {
                 /* 로그인 버튼 */
                 signButton.setText("로그아웃");
                 signButton.setBackgroundResource(R.drawable.detailpage_button2);
+                wakeSignButton();
 
                 /* 회원가입 */
                 signUpTextView.setVisibility(View.GONE);
@@ -576,6 +577,7 @@ public class SignInActivity extends AppCompatActivity {
                 /* 로그인 버튼 */
                 signButton.setText("로그아웃");
                 signButton.setBackgroundResource(R.drawable.detailpage_button2);
+                wakeSignButton();
 
                 /* 회원가입 */
                 signUpTextView.setVisibility(View.GONE);
@@ -607,6 +609,7 @@ public class SignInActivity extends AppCompatActivity {
                     signButton.setBackgroundResource(R.drawable.detailpage_button2);
                 else
                     signButton.setBackgroundResource(R.drawable.detailpage_button1);
+                wakeSignButton();
 
                 /* 회원가입 */
                 signUpTextView.setVisibility(View.VISIBLE);

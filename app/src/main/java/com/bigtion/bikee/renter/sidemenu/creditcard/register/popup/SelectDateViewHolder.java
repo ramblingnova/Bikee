@@ -5,7 +5,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
-import com.bigtion.bikee.common.interfaces.OnViewHolderClickListener;
+import com.bigtion.bikee.etc.interfaces.OnViewHolderClickListener;
 import com.bigtion.bikee.R;
 
 import butterknife.Bind;

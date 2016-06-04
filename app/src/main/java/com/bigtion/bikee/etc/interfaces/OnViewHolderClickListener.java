@@ -1,4 +1,4 @@
-package com.bigtion.bikee.common.interfaces;
+package com.bigtion.bikee.etc.interfaces;
 
 import android.view.View;
 

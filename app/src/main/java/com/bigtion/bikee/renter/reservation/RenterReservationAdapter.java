@@ -5,8 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bigtion.bikee.common.interfaces.OnAdapterClickListener;
-import com.bigtion.bikee.common.interfaces.OnViewHolderClickListener;
+import com.bigtion.bikee.etc.interfaces.OnAdapterClickListener;
+import com.bigtion.bikee.etc.interfaces.OnViewHolderClickListener;
 import com.bigtion.bikee.R;
 
 import java.util.ArrayList;

@@ -27,15 +27,15 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class RegisterBicycleActivity extends AppCompatActivity {
-    @Bind(R.id.lister_backable_page_number_toolbar_top_num1_image_view)
+    @Bind(R.id.register_bicycle_toolbar_page1_image_view)
     ImageView page0;
-    @Bind(R.id.lister_backable_page_number_toolbar_top_num2_image_view)
+    @Bind(R.id.register_bicycle_toolbar_page2_image_view)
     ImageView page1;
-    @Bind(R.id.lister_backable_page_number_toolbar_top_num3_image_view)
+    @Bind(R.id.register_bicycle_toolbar_page3_image_view)
     ImageView page2;
-    @Bind(R.id.lister_backable_page_number_toolbar_top_num4_image_view)
+    @Bind(R.id.register_bicycle_toolbar_page4_image_view)
     ImageView page3;
-    @Bind(R.id.lister_backable_page_number_toolbar_top_num5_image_view)
+    @Bind(R.id.register_bicycle_toolbar_page5_image_view)
     ImageView page4;
     @Bind(R.id.fragment_register_bicycle_next_button)
     Button nextButton;
@@ -65,7 +65,7 @@ public class RegisterBicycleActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setCustomView(R.layout.lister_backable_page_number_toolbar);
+        getSupportActionBar().setCustomView(R.layout.register_bicycle_toolbar);
 
         ButterKnife.bind(this);
 
@@ -98,7 +98,7 @@ public class RegisterBicycleActivity extends AppCompatActivity {
         refreshTopPageNumber(0);
     }
 
-    @OnClick(R.id.lister_backable_page_number_toolbar_back_button_layout)
+    @OnClick(R.id.register_bicycle_toolbar_back_button_layout)
     void back() {
         hideKeyboard(this);
         int page = getSupportFragmentManager().getBackStackEntryCount();

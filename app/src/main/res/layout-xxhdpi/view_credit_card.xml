@@ -24,7 +24,6 @@
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:layout_marginTop="27dp"
-        android:text="대표카드"
         android:textColor="@color/bikeeBlue"
         android:textSize="13dp"
         android:visibility="gone" />

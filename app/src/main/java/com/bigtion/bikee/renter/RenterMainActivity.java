@@ -38,7 +38,7 @@ import com.bigtion.bikee.common.sidemenu.AuthenticationInformationActivity;
 import com.bigtion.bikee.renter.searchresult.filter.FilterActivity;
 import com.bigtion.bikee.renter.sidemenu.creditcard.CreditCardsActivity;
 import com.bigtion.bikee.common.sidemenu.comment.CommentsActivity;
-import com.bigtion.bikee.common.sidemenu.InputInquiryActivity;
+import com.bigtion.bikee.common.sidemenu.InquiryActivity;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
 import butterknife.Bind;
@@ -49,12 +49,12 @@ import butterknife.OnClick;
 public class RenterMainActivity extends AppCompatActivity implements DrawerLayout.DrawerListener, TabHost.OnTabChangeListener {
     @Bind(R.id.toolbar_layout)
     RelativeLayout toolbarLayout;
-    @Bind(R.id.toolbar_left_icon_drawer_image_view)
-    ImageView toolbarLeftIconDrawerImageView;
+    @Bind(R.id.toolbar_left_drawer_icon_image_view)
+    ImageView toolbarLeftDrawerIconImageView;
     @Bind(R.id.toolbar_center_icon_image_view)
     ImageView toolbarCenterIconImageView;
-    @Bind(R.id.toolbar_right_icon_image_view)
-    ImageView toolbarRightIconImageView;
+    @Bind(R.id.toolbar_right_mode_icon_image_view)
+    ImageView toolbarRightModeIconImageView;
     @Bind(R.id.renter_activity_main_drawer_layout)
     DrawerLayout drawerLayout;
     @Bind(R.id.renter_side_menu_renter_image_image_view)
@@ -94,13 +94,14 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
             toolbarLayout.setBackgroundColor(getResources().getColor(R.color.bikeeBlue, getTheme()));
 
         /* 툴바 왼쪽 */
-        toolbarLeftIconDrawerImageView.setVisibility(View.VISIBLE);
+        toolbarLeftDrawerIconImageView.setVisibility(View.VISIBLE);
 
         /* 툴바 가운데 */
         toolbarCenterIconImageView.setVisibility(View.VISIBLE);
 
         /* 툴바 오른쪽 */
-        toolbarRightIconImageView.setImageResource(R.drawable.rider_main_icon);
+        toolbarRightModeIconImageView.setImageResource(R.drawable.rider_main_icon);
+        toolbarRightModeIconImageView.setVisibility(View.VISIBLE);
 
         toggle = new ActionBarDrawerToggle(this, drawerLayout, null, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.setDrawerListener(toggle);
@@ -182,7 +183,7 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
         }
     }
 
-    @OnClick({R.id.toolbar_left_icon_layout,
+    @OnClick({R.id.toolbar_left_layout,
             R.id.renter_side_menu_renter_image_image_view,
             R.id.renter_side_menu_member_name_text_view,
             R.id.renter_side_menu_mail_address_text_view,
@@ -196,7 +197,7 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
             R.id.renter_side_menu_change_mode_button})
     void onClick(View v) {
         switch (v.getId()) {
-            case R.id.toolbar_left_icon_layout:
+            case R.id.toolbar_left_layout:
                 drawerLayout.openDrawer(Gravity.LEFT);
                 break;
             case R.id.renter_side_menu_renter_image_image_view:
@@ -222,7 +223,7 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
             case R.id.renter_side_menu_push_alarm_text_view:
                 break;
             case R.id.renter_side_menu_input_inquiry_text_view:
-                intent = new Intent(RenterMainActivity.this, InputInquiryActivity.class);
+                intent = new Intent(RenterMainActivity.this, InquiryActivity.class);
                 intent.putExtra("FROM", TAG);
                 startActivity(intent);
                 break;

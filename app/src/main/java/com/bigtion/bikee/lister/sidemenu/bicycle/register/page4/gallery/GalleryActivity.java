@@ -30,9 +30,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class GalleryActivity extends AppCompatActivity implements GetGalleryPicturePathListener, GetGalleryFolderNameListener {
-    @Bind(R.id.gallery_backable_toolbar_picture_button_image_view)
+    @Bind(R.id.gallery_toolbar_picture_button_image_view)
     ImageView pictureImageView;
-    @Bind(R.id.gallery_backable_toolbar_folder_button_image_view)
+    @Bind(R.id.gallery_toolbar_folder_button_image_view)
     ImageView folderImageView;
     @Bind(R.id.activity_gallery_warning_image_view)
     ImageView warningImageView;
@@ -74,12 +74,12 @@ public class GalleryActivity extends AppCompatActivity implements GetGalleryPict
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_owning_bicycle_list_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_gallery_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setCustomView(R.layout.gallery_backable_toolbar);
+        getSupportActionBar().setCustomView(R.layout.gallery_toolbar);
 
         ButterKnife.bind(this);
 
@@ -200,9 +200,9 @@ public class GalleryActivity extends AppCompatActivity implements GetGalleryPict
             }
     }
 
-    @OnClick({R.id.gallery_backable_toolbar_back_button_layout,
-            R.id.gallery_backable_toolbar_picture_button_image_view,
-            R.id.gallery_backable_toolbar_folder_button_image_view,
+    @OnClick({R.id.gallery_toolbar_back_button_layout,
+            R.id.gallery_toolbar_picture_button_image_view,
+            R.id.gallery_toolbar_folder_button_image_view,
             R.id.thumbnail_item1_cancel_image_view,
             R.id.thumbnail_item2_cancel_image_view,
             R.id.thumbnail_item3_cancel_image_view,
@@ -210,12 +210,12 @@ public class GalleryActivity extends AppCompatActivity implements GetGalleryPict
             R.id.thumbnail_item5_cancel_image_view})
     void onClick(View view) {
         switch (view.getId()) {
-            case R.id.gallery_backable_toolbar_back_button_layout:
+            case R.id.gallery_toolbar_back_button_layout:
                 // TODO : 팝업?
                 setResult(RESULT_OK, intent);
                 finish();
                 break;
-            case R.id.gallery_backable_toolbar_picture_button_image_view:
+            case R.id.gallery_toolbar_picture_button_image_view:
                 if (currentFragmentState == GALLERY_FOLDER_STATE) {
                     currentFragmentState = GALLERY_PICTURE_STATE;
                     pictureImageView.setImageResource(R.drawable.image_icon_b);
@@ -223,7 +223,7 @@ public class GalleryActivity extends AppCompatActivity implements GetGalleryPict
                     getSupportFragmentManager().beginTransaction().replace(R.id.activity_gallery_container, galleryPictureFragment).commit();
                 }
                 break;
-            case R.id.gallery_backable_toolbar_folder_button_image_view:
+            case R.id.gallery_toolbar_folder_button_image_view:
                 if (currentFragmentState == GALLERY_PICTURE_STATE) {
                     currentFragmentState = GALLERY_FOLDER_STATE;
                     pictureImageView.setImageResource(R.drawable.image_icon_w);

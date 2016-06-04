@@ -167,7 +167,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="@string/bicycle_recommendation_height_text_view1_string"
+                android:text="~145cm"
                 android:textSize="10sp" />
         </RelativeLayout>
 
@@ -183,7 +183,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="@string/bicycle_recommendation_height_text_view2_string"
+                android:text="~155cm"
                 android:textSize="10sp" />
         </RelativeLayout>
 
@@ -199,7 +199,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="@string/bicycle_recommendation_height_text_view3_string"
+                android:text="~165cm"
                 android:textSize="10sp" />
         </RelativeLayout>
 
@@ -215,7 +215,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="@string/bicycle_recommendation_height_text_view4_string"
+                android:text="175cm"
                 android:textSize="10sp" />
         </RelativeLayout>
 
@@ -231,7 +231,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="@string/bicycle_recommendation_height_text_view5_string"
+                android:text="~185cm"
                 android:textSize="10sp" />
         </RelativeLayout>
     </RelativeLayout>

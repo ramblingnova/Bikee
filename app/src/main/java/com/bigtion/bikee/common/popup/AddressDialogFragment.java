@@ -15,7 +15,7 @@ import android.view.WindowManager;
 
 import com.bigtion.bikee.BuildConfig;
 import com.bigtion.bikee.R;
-import com.bigtion.bikee.common.interfaces.OnAdapterClickListener;
+import com.bigtion.bikee.etc.interfaces.OnAdapterClickListener;
 import com.bigtion.bikee.etc.dao.GetGeoLocationReceiveObject;
 import com.bigtion.bikee.etc.manager.DaumNetworkManager;
 

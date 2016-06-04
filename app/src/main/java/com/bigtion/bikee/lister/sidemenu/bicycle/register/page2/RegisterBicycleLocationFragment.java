@@ -5,8 +5,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,6 +29,7 @@ import com.bigtion.bikee.common.popup.OnAddressDialogFragmentClickListener;
 import com.bigtion.bikee.etc.dao.GetAddressReceiveObject;
 import com.bigtion.bikee.etc.manager.DaumNetworkManager;
 import com.bigtion.bikee.etc.manager.PropertyManager;
+import com.bigtion.bikee.etc.utils.CheckUtil;
 import com.bigtion.bikee.lister.sidemenu.bicycle.register.RegisterBicycleINF;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -43,9 +42,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.IOException;
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -53,21 +49,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RegisterBicycleLocationFragment extends Fragment implements TextWatcher, OnMapReadyCallback {
+public class RegisterBicycleLocationFragment extends Fragment implements TextWatcher, OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
     @Bind(R.id.fragment_register_bicycle_location_address_edit_text)
     EditText addressEditText;
     @Bind(R.id.fragment_register_bicycle_location_address_search_button)
     Button addressSearchButton;
 
     private View view;
-    private Geocoder geocoder;
-    private List<Address> listAddress;
-    private Address addr;
-    private double latitude;
-    private double longitude;
+    private GoogleMap mGoogleMap;
+    private Marker mMarker;
+    private double mLatitude;
+    private double mLongitude;
+    private boolean hasLatLng;
     private RegisterBicycleINF registerBicycleINF;
-    private GoogleMap googleMap;
-    private Marker preMarker;
 
     private static final int PERMISSION_REQUEST_CODE = 104;
     private static final String TAG = "REGISTER_BICYCLE_L_F";
@@ -79,34 +73,21 @@ public class RegisterBicycleLocationFragment extends Fragment implements TextWat
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        geocoder = new Geocoder(getContext());
 
-        latitude = Double.parseDouble(
+        view = null;
+        mGoogleMap = null;
+        mMarker = null;
+        mLatitude = Double.parseDouble(
                 PropertyManager
                         .getInstance()
                         .getLatitude()
         );
-        longitude = Double.parseDouble(
+        mLongitude = Double.parseDouble(
                 PropertyManager
                         .getInstance()
                         .getLongitude()
         );
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        if (Build.VERSION.SDK_INT >= 23) {
-            if ((googleMap != null)
-                    && !googleMap.isMyLocationEnabled()
-                    && (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED))
-                googleMap.setMyLocationEnabled(true);
-            else if ((googleMap != null)
-                    && !googleMap.isMyLocationEnabled()
-                    && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-                googleMap.setMyLocationEnabled(false);
-        }
+        hasLatLng = false;
     }
 
     @Override
@@ -116,18 +97,18 @@ public class RegisterBicycleLocationFragment extends Fragment implements TextWat
             if (parent != null)
                 parent.removeView(view);
         }
+
         try {
             view = inflater.inflate(R.layout.fragment_register_bicycle_location, container, false);
-            SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+            SupportMapFragment mapFragment =
+                    (SupportMapFragment) getChildFragmentManager()
+                            .findFragmentById(R.id.fragment_register_bicycle_location_small_map);
             mapFragment.getMapAsync(this);
         } catch (Exception e) {
             // e.printStackTrace();
         }
-        ButterKnife.bind(this, view);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
-                .findFragmentById(R.id.fragment_register_bicycle_location_small_map);
-        mapFragment.getMapAsync(this);
+        ButterKnife.bind(this, view);
 
         addressEditText.addTextChangedListener(this);
 
@@ -135,33 +116,32 @@ public class RegisterBicycleLocationFragment extends Fragment implements TextWat
     }
 
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    public void onResume() {
+        super.onResume();
 
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-//        if (s.toString().matches(CheckUtil.REGEX_HANGUL))
-//            findGeoPoint(s.toString());
-        if ((latitude != 0) && (longitude != 0)) {
-            if ((null != registerBicycleINF) && (!registerBicycleINF.getEnable())) {
-                registerBicycleINF.setEnable(true);
-            }
-        } else {
-            if ((null != registerBicycleINF) && (registerBicycleINF.getEnable())) {
-                registerBicycleINF.setEnable(false);
-            }
+        if (Build.VERSION.SDK_INT >= 23) {
+            if ((mGoogleMap != null)
+                    && !mGoogleMap.isMyLocationEnabled()
+                    && (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED))
+                mGoogleMap.setMyLocationEnabled(true);
+            else if ((mGoogleMap != null)
+                    && !mGoogleMap.isMyLocationEnabled()
+                    && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                mGoogleMap.setMyLocationEnabled(false);
         }
     }
 
     @Override
-    public void afterTextChanged(Editable s) {
+    public void onMapReady(GoogleMap googleMap) {
+        mGoogleMap = googleMap;
 
-    }
-
-    @Override
-    public void onMapReady(GoogleMap gm) {
-        this.googleMap = gm;
+        mGoogleMap.setIndoorEnabled(true);
+        mGoogleMap.setTrafficEnabled(false);
+        mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
+        mGoogleMap.getUiSettings().setCompassEnabled(false);
+        mGoogleMap.getUiSettings().setRotateGesturesEnabled(false);
+        mGoogleMap.getUiSettings().setTiltGesturesEnabled(false);
         if (Build.VERSION.SDK_INT >= 23) {
             if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED) {
@@ -201,26 +181,16 @@ public class RegisterBicycleLocationFragment extends Fragment implements TextWat
                     );
                 }
             } else {
-                this.googleMap.setMyLocationEnabled(true);
+                mGoogleMap.setMyLocationEnabled(true);
             }
         } else if (Build.VERSION.SDK_INT < 23) {
-            this.googleMap.setMyLocationEnabled(true);
+            mGoogleMap.setMyLocationEnabled(true);
         }
 
-        this.googleMap.setIndoorEnabled(true);
-        this.googleMap.setTrafficEnabled(false);
-        this.googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        this.googleMap.getUiSettings().setZoomControlsEnabled(true);
-        this.googleMap.getUiSettings().setCompassEnabled(false);
-        this.googleMap.getUiSettings().setRotateGesturesEnabled(false);
-        this.googleMap.getUiSettings().setTiltGesturesEnabled(false);
-
-        moveMap(latitude, longitude);
-
-        this.googleMap.setOnMapClickListener(
+        mGoogleMap.setOnMapClickListener(
                 new GoogleMap.OnMapClickListener() {
                     @Override
-                    public void onMapClick(LatLng latLng) {
+                    public void onMapClick(final LatLng latLng) {
                         DaumNetworkManager.getInstance().getAddress(
                                 latLng.longitude,
                                 latLng.latitude,
@@ -230,19 +200,25 @@ public class RegisterBicycleLocationFragment extends Fragment implements TextWat
                                     public void onResponse(Call<GetAddressReceiveObject> call, Response<GetAddressReceiveObject> response) {
                                         GetAddressReceiveObject receiveObject = response.body();
 
-                                        if (BuildConfig.DEBUG)
-                                            Log.d(TAG, "getAddress onResponse fullname : " + receiveObject.getFullName());
+                                        if (receiveObject != null) {
+                                            addressEditText.setText(receiveObject.getFullName());
 
-                                        addressEditText.setText(receiveObject.getFullName());
+                                            mLatitude = latLng.latitude;
+                                            mLongitude = latLng.longitude;
 
-                                        MarkerOptions options = new MarkerOptions();
-                                        options.position(new LatLng(latitude, longitude));
-                                        options.icon(BitmapDescriptorFactory.fromResource(R.drawable.rider_main_bike_b_icon));
-                                        options.anchor(0.5f, 0.5f);
-                                        Marker marker = googleMap.addMarker(options);
-                                        if (preMarker != null)
-                                            preMarker.remove();
-                                        preMarker = marker;
+                                            MarkerOptions options = new MarkerOptions();
+                                            options.position(latLng);
+                                            options.icon(BitmapDescriptorFactory.fromResource(R.drawable.rider_main_bike_b_icon));
+                                            options.anchor(0.5f, 0.5f);
+                                            if (mMarker != null)
+                                                mMarker.remove();
+                                            mMarker = mGoogleMap.addMarker(options);
+
+                                            hasLatLng = true;
+                                            if ((null != registerBicycleINF)
+                                                    && (!registerBicycleINF.getEnable()))
+                                                registerBicycleINF.setEnable(true);
+                                        }
                                     }
 
                                     @Override
@@ -255,6 +231,37 @@ public class RegisterBicycleLocationFragment extends Fragment implements TextWat
                     }
                 }
         );
+        mGoogleMap.setOnMarkerClickListener(this);
+
+        moveMap(mLatitude, mLongitude, false);
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if (s.length() > 0)
+            addressSearchButton.setEnabled(true);
+        else
+            addressSearchButton.setEnabled(false);
+
+        if (hasLatLng) {
+            if ((null != registerBicycleINF)
+                    && (!registerBicycleINF.getEnable()))
+                registerBicycleINF.setEnable(true);
+        } else {
+            if ((null != registerBicycleINF)
+                    && (registerBicycleINF.getEnable()))
+                registerBicycleINF.setEnable(false);
+        }
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 
     @OnClick(R.id.fragment_register_bicycle_location_address_search_button)
@@ -268,22 +275,27 @@ public class RegisterBicycleLocationFragment extends Fragment implements TextWat
                             @Override
                             public void onAddressDialogFragmentClick(
                                     View view,
-                                    String addr,
-                                    double lat,
-                                    double lng) {
-                                addressEditText.setText(addr);
-                                latitude = lat;
-                                longitude = lng;
-                                moveMap(latitude, longitude);
+                                    String address,
+                                    double latitude,
+                                    double longitude) {
+                                addressEditText.setText(address);
+
+                                mLatitude = latitude;
+                                mLongitude = longitude;
+                                moveMap(mLatitude, mLongitude, true);
 
                                 MarkerOptions options = new MarkerOptions();
-                                options.position(new LatLng(latitude, longitude));
+                                options.position(new LatLng(mLatitude, mLongitude));
                                 options.icon(BitmapDescriptorFactory.fromResource(R.drawable.rider_main_bike_b_icon));
                                 options.anchor(0.5f, 0.5f);
-                                Marker marker = googleMap.addMarker(options);
-                                if (preMarker != null)
-                                    preMarker.remove();
-                                preMarker = marker;
+                                if (mMarker != null)
+                                    mMarker.remove();
+                                mMarker = mGoogleMap.addMarker(options);
+
+                                hasLatLng = true;
+                                if ((null != registerBicycleINF)
+                                        && (!registerBicycleINF.getEnable()))
+                                    registerBicycleINF.setEnable(true);
                             }
                         }
                 );
@@ -292,36 +304,30 @@ public class RegisterBicycleLocationFragment extends Fragment implements TextWat
         }
     }
 
-    private void moveMap(double lat, double lng) {
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        return true;
+    }
+
+    private void moveMap(double latitude, double longitude, boolean smooth) {
         CameraPosition.Builder builder = new CameraPosition.Builder();
-        builder.target(new LatLng(lat, lng));
-        builder.zoom(15);
+        builder
+                .target(new LatLng(latitude, longitude))
+                .zoom(15);
         CameraPosition position = builder.build();
         CameraUpdate update = CameraUpdateFactory.newCameraPosition(position);
-        googleMap.moveCamera(update);
+        if (smooth)
+            mGoogleMap.animateCamera(update);
+        else
+            mGoogleMap.moveCamera(update);
     }
 
     public double getLatitude() {
-        return latitude;
+        return mLatitude;
     }
 
     public double getLongitude() {
-        return longitude;
-    }
-
-    private void findGeoPoint(String address) {
-        if (!TextUtils.isEmpty(address)) {
-            try {
-                listAddress = geocoder.getFromLocationName(address, 1);
-                if (listAddress.size() > 0) {
-                    addr = listAddress.get(0);
-                    latitude = addr.getLatitude();
-                    longitude = addr.getLongitude();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        return mLongitude;
     }
 
     public void setRegisterBicycleINF(RegisterBicycleINF registerBicycleINF) {

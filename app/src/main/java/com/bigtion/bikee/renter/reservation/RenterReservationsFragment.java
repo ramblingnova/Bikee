@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bigtion.bikee.common.content.ContentActivity;
-import com.bigtion.bikee.common.interfaces.OnAdapterClickListener;
+import com.bigtion.bikee.etc.interfaces.OnAdapterClickListener;
 import com.bigtion.bikee.etc.dao.ReservationReceiveObject;
 import com.bigtion.bikee.etc.manager.NetworkManager;
 import com.bigtion.bikee.BuildConfig;

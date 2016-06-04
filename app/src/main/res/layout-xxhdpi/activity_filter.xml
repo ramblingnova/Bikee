@@ -39,14 +39,14 @@
                 <include
                     android:id="@+id/activity_filter_bicycle_location"
                     layout="@layout/bicycle_location"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp" />
 
                 <include
                     android:id="@+id/activity_filter_calendar"
                     layout="@layout/calendar"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/activity_filter_bicycle_location"
                     android:layout_marginBottom="5dp" />
@@ -54,7 +54,7 @@
                 <include
                     android:id="@+id/activity_filter_bicycle_type"
                     layout="@layout/bicycle_type"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/activity_filter_calendar"
                     android:layout_marginBottom="5dp" />
@@ -62,7 +62,7 @@
                 <include
                     android:id="@+id/activity_filter_bicycle_recommendation_height"
                     layout="@layout/bicycle_recommendation_height"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/activity_filter_bicycle_type"
                     android:layout_marginBottom="5dp" />
@@ -70,7 +70,7 @@
                 <include
                     android:id="@+id/activity_filter_bicycle_smart_lock"
                     layout="@layout/bicycle_smart_lock"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/activity_filter_bicycle_recommendation_height"
                     android:layout_marginBottom="5dp" />
@@ -78,7 +78,7 @@
                 <include
                     android:id="@+id/activity_filter_bicycle_order"
                     layout="@layout/bicycle_order"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/activity_filter_bicycle_smart_lock"
                     android:layout_marginBottom="5dp" />
@@ -94,7 +94,7 @@
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="25dp"
                     android:background="@drawable/bottom_button"
-                    android:text="@string/activity_filter_search_button_string"
+                    android:text="상세검색"
                     android:textColor="@color/bikeeWhite"
                     android:textSize="19sp" />
             </RelativeLayout>

@@ -39,8 +39,8 @@ import retrofit2.Response;
 public class FinallyPaymentActivity extends AppCompatActivity {
     @Bind(R.id.toolbar_layout)
     RelativeLayout toolbarLayout;
-    @Bind(R.id.toolbar_left_icon_back_image_view)
-    ImageView toolbarLeftIconBackImageView;
+    @Bind(R.id.toolbar_left_back_icon_image_view)
+    ImageView toolbarLeftBackIconImageView;
     @Bind(R.id.toolbar_center_text_view)
     TextView toolbarCenterTextView;
     @Bind(R.id.activity_finally_payment_bicycle_information_bicycle_picture_image_view)
@@ -96,8 +96,8 @@ public class FinallyPaymentActivity extends AppCompatActivity {
             toolbarLayout.setBackgroundColor(getResources().getColor(R.color.bikeeWhite, getTheme()));
 
         /* 툴바 왼쪽 */
-        toolbarLeftIconBackImageView.setVisibility(View.VISIBLE);
-        toolbarLeftIconBackImageView.setImageResource(R.drawable.icon_before);
+        toolbarLeftBackIconImageView.setVisibility(View.VISIBLE);
+        toolbarLeftBackIconImageView.setImageResource(R.drawable.icon_before);
 
         /* 툴바 가운데 */
         toolbarCenterTextView.setVisibility(View.VISIBLE);
@@ -201,12 +201,12 @@ public class FinallyPaymentActivity extends AppCompatActivity {
                 });
     }
 
-    @OnClick({R.id.toolbar_left_icon_layout,
+    @OnClick({R.id.toolbar_left_layout,
             R.id.activity_finally_payment_cancel_button,
             R.id.activity_finally_payment_payment_button})
     void onClick(View view) {
         switch (view.getId()) {
-            case R.id.toolbar_left_icon_layout:
+            case R.id.toolbar_left_layout:
             case R.id.activity_finally_payment_cancel_button:
                 onBackPressed();
                 break;

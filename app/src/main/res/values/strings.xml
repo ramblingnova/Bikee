@@ -20,12 +20,11 @@
     <string name="renter_side_menu_member_name_text_view_string">Bruno Mars</string>
     <string name="renter_side_menu_mail_address_text_view_string">bikee@email.com</string>
     <string name="renter_side_menu_register_card_text_view_string">결제관리</string>
-    <string name="renter_side_menu_evaluation_bicycle_script_text_view_string">내평가보기</string>
+    <string name="renter_side_menu_evaluation_bicycle_script_text_view_string">내 평가 보기</string>
     <string name="renter_side_menu_authentication_information_text_view_string">인증</string>
     <string name="renter_side_menu_push_alarm_text_view_string">푸시알림</string>
     <string name="renter_side_menu_input_inquiry_text_view_string">고객센터</string>
     <string name="renter_side_menu_version_information_text_view_string">버전정보</string>
-    <string name="renter_side_menu_change_mode_button_string">Lister모드 전환</string>
 
     <!-- activity_sign_in.xml -->
     <string name="activity_sign_in_user_email_edit_text_string">bikee@email.com</string>
@@ -56,95 +55,6 @@
     <string name="activity_sign_up_terms_information_gathering_agreement_check_box_string">개인정보 수집 이용에 동의합니다.</string>
     <string name="activity_sign_up_sign_up_button_string">가입하기</string>
 
-    <!-- activity_credit_cards.xml-->
-    <string name="activity_card_management_add_button_string">+</string>
-
-    <!-- view_credit_card.xml -->
-    <string name="view_card_item_delete_button_string">삭제하기</string>
-    <string name="view_card_item_card_number_text_view_string">카드번호</string>
-
-    <!-- activity_register_credit_card.xml -->
-    <string name="activity_register_card_card_sort_text_view_string">카드종류</string>
-    <string name="activity_register_card_card_number_text_view_string">카드번호</string>
-    <string name="activity_register_card_valid_date_text_view_string">유효기간</string>
-    <string name="activity_register_card_birth_date_text_view_string">생년월일</string>
-    <string name="activity_register_card_password_text_view_string">비밀번호</string>
-    <string name="activity_register_check_box_string">아래 약관 내용에 모두 동의합니다.</string>
-    <string name="activity_register_card_register_button">등록하기</string>
-
-    <!-- activity_input_inquiry.xml -->
-    <string name="activity_input_inquiry_title_text_view_string">제목</string>
-    <string name="activity_input_inquiry_title_edit_text_string">제목</string>
-    <string name="activity_input_inquiry_description_text_view_string">문의입력</string>
-    <string name="activity_input_inquiry_description_edit_text_string">200자 이내</string>
-    <string name="activity_input_inquiry_button_string">등록</string>
-
-    <!-- view_holder_search_result -->
-    <string name="view_search_result_item_bicycle_name_text_view_string">자전거 이름</string>
-    <string name="view_search_result_item_height_text_view_string">신장</string>
-    <string name="view_search_result_item_height_real_text_view_string">신장</string>
-    <string name="view_search_result_item_type_text_view_string">종류</string>
-    <string name="view_search_result_item_type_real_text_view_string">종류</string>
-    <string name="view_search_result_item_payment_real_text_view_string">3000원</string>
-    <string name="view_search_result_item_per_duration_text_view_string">일당</string>
-    <string name="view_search_result_item_distance_text_view_string">0.5km</string>
-
-    <!-- view_bicycle_info_window,xml -->
-    <string name="view_bicycle_info_window_bicycle_name_text_view_string">2015 아메리칸이글 브라이튼...</string>
-    <string name="view_bicycle_info_window_bicycle_type_text_view_string">종류</string>
-    <string name="view_bicycle_info_window_bicycle_type_real_text_view_string">픽시자전거</string>
-    <string name="view_bicycle_info_window_bicycle_height_text_view_string">신장</string>
-    <string name="view_bicycle_info_window_bicycle_height_real_text_view_string">160~165cm</string>
-    <string name="view_bicycle_info_window_bicycle_payment_text_view1_string">가격</string>
-    <string name="view_bicycle_info_window_bicycle_payment_real_text_view_string">3000원</string>
-    <string name="view_bicycle_info_window_bicycle_payment_text_view2_string">일당</string>
-
-    <!-- activity_filter.xml -->
-    <string name="activity_filter_reservation_date_text_view_string">예약날짜</string>
-    <string name="activity_filter_bicycle_component_text_view_string">자전거 물품</string>
-    <string name="activity_filter_smart_lock_interlock_check_box_string">0.5km</string>
-    <string name="activity_filter_price_order_check_box_string">가격순</string>
-    <string name="activity_filter_distance_order_check_box_string">가까운 거리순</string>
-    <string name="activity_filter_search_button_string">상세검색</string>
-
-    <!-- bicycle_type.xml -->
-    <string name="bicycle_type_icon_text_view_string">자전거 종류</string>
-
-    <!-- bicycle_recommendation_height.xml -->
-    <string name="bicycle_recommendation_height_text_view1_string">~145cm</string>
-    <string name="bicycle_recommendation_height_text_view2_string">~155cm</string>
-    <string name="bicycle_recommendation_height_text_view3_string">~165cm</string>
-    <string name="bicycle_recommendation_height_text_view4_string">~175cm</string>
-    <string name="bicycle_recommendation_height_text_view5_string">~185cm</string>
-
-    <!-- view_holder_renter_reservation.xml-->
-    <string name="view_renter_reservation_bicycle_item_bicycle_name_text_view_string">자전거 이름</string>
-    <string name="view_renter_reservation_bicycle_item_payment_type_height_text_view_string">3000원 / 종류 / 신장</string>
-    <string name="view_renter_reservation_bicycle_item_distance_tex_view_string">3시간</string>
-
-    <string name="activity_renter_reservation_bicycle_detail_information_bicycle_title_text_view_string">여성이 타기 좋은 픽시 자전거</string>
-    <string name="activity_renter_reservation_bicycle_detail_information_small_map_button_string">지도보기</string>
-    <string name="activity_renter_reservation_bicycle_detail_information_cancel_button_string">취소하기</string>
-    <string name="activity_renter_reservation_bicycle_detail_information_pay_button_string">결제하기</string>
-    <string name="activity_renter_reservation_bicycle_detail_information_cancel_button2_string">취소하기</string>
-    <string name="activity_renter_reservation_bicycle_detail_information_input_post_scription_button_string">후기입력</string>
-
-    <!-- activity_input_bicycle_post_script.xml -->
-    <string name="activity_input_bicycle_post_script_rating_bar_text_view_string">별점</string>
-    <string name="activity_input_bicycle_post_script_input_post_script_text_view_string">후기입력</string>
-    <string name="activity_input_bicycle_post_script_input_button_string">입력하기</string>
-
-    <!-- activity_chatting_room.xml -->
-    <string name="activity_chatting_room_chatting_input_bar_transfer_button_string">전송</string>
-    <string name="activity_chatting_room_chatting_input_bar_add_button_string">+</string>
-
-    <!-- view_holder_chatting_room.xmlml -->
-    <string name="view_chatting_room_item_bicycle_name_text_view_string">자전거 이름</string>
-    <string name="view_chatting_room_item_payment_text_view_string">3000원</string>
-    <string name="view_chatting_room_item_type_text_view_string">종류</string>
-    <string name="view_chatting_room_item_height_text_view_string">신장</string>
-    <string name="view_chatting_room_item_distance_text_view_string">0.5km</string>
-
     <!-- lister_side_menu.xml -->
     <string name="lister_side_menu_member_name_text_view_string">Bruno Mars</string>
     <string name="lister_side_menu_mail_address_text_view_string">bikee@email.com</string>
@@ -156,12 +66,4 @@
     <string name="lister_side_menu_push_alarm_text_view_string">푸시알림</string>
     <string name="lister_side_menu_input_inquiry_text_view_string">고객센터</string>
     <string name="lister_side_menu_version_information_text_view_string">버전정보</string>
-    <string name="lister_side_menu_change_mode_button_string">Renter모드 전환</string>
-
-    <!-- view_evaluated_bicycle_post_script_item.xml -->
-    <string name="view_evaluated_bicycle_post_script_item_email_text_view_string">bike@naver.com</string>
-    <string name="view_evaluated_bicycle_post_script_item_bicycle_name_text_view_string">자전거이름</string>
-    <string name="view_evaluated_bicycle_post_script_item_mail_address_text_view_string">메일주소</string>
-    <string name="view_evaluated_bicycle_post_script_item_post_script_text_view_string">멋진 자전거에요. 다음에 또 이용하겠습니다.</string>
-    <string name="view_evaluated_bicycle_post_script_item_date_time_text_view_string">11.03 00:05</string>
 </resources>

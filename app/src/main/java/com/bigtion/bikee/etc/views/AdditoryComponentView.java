@@ -1,4 +1,4 @@
-package com.bigtion.bikee.common.views;
+package com.bigtion.bikee.etc.views;
 
 import android.content.Context;
 import android.widget.FrameLayout;

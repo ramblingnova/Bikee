@@ -60,8 +60,8 @@ import retrofit2.Response;
 public class ConversationActivity extends AppCompatActivity {
     @Bind(R.id.toolbar_layout)
     RelativeLayout toolbarLayout;
-    @Bind(R.id.toolbar_left_icon_back_image_view)
-    ImageView toolbarLeftIconBackImageView;
+    @Bind(R.id.toolbar_left_back_icon_image_view)
+    ImageView toolbarLeftBackIconImageView;
     @Bind(R.id.toolbar_center_text_view)
     TextView toolbarCenterTextView;
     @Bind(R.id.activity_conversation_bicycle_image_image_view)
@@ -132,7 +132,7 @@ public class ConversationActivity extends AppCompatActivity {
             toolbarLayout.setBackgroundColor(getResources().getColor(R.color.bikeeBlue, getTheme()));
 
         /* 툴바 왼쪽 */
-        toolbarLeftIconBackImageView.setVisibility(View.VISIBLE);
+        toolbarLeftBackIconImageView.setVisibility(View.VISIBLE);
 
         /* 툴바 가운데 */
         toolbarCenterTextView.setVisibility(View.VISIBLE);
@@ -515,7 +515,7 @@ public class ConversationActivity extends AppCompatActivity {
         }
     };
 
-    @OnClick(R.id.toolbar_left_icon_layout)
+    @OnClick(R.id.toolbar_left_layout)
     void back(View view) {
         super.onBackPressed();
     }

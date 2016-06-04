@@ -20,7 +20,7 @@
         android:layout_alignBottom="@id/bicycle_type_icon_image_view"
         android:layout_marginLeft="14dp"
         android:layout_toRightOf="@id/bicycle_type_icon_image_view"
-        android:text="@string/bicycle_type_icon_text_view_string"
+        android:text="자전거 종류"
         android:textColor="@color/bikeeBlue"
         android:textSize="17sp" />
 

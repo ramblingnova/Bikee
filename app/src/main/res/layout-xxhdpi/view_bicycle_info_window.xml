@@ -40,7 +40,7 @@
             android:layout_below="@+id/view_bicycle_info_window_bicycle_name_text_view"
             android:layout_marginTop="26dp"
             android:layout_toRightOf="@id/view_bicycle_info_window_bicycle_picture_image_view"
-            android:text="@string/view_bicycle_info_window_bicycle_type_text_view_string"
+            android:text="종류"
             android:textColor="@color/bikeeBlue"
             android:textSize="11sp" />
 
@@ -62,7 +62,7 @@
             android:layout_alignTop="@id/view_bicycle_info_window_bicycle_type_text_view"
             android:layout_marginLeft="11dp"
             android:layout_toRightOf="@id/view_bicycle_info_window_bicycle_type_real_text_view"
-            android:text="@string/view_bicycle_info_window_bicycle_height_text_view_string"
+            android:text="신장"
             android:textColor="@color/bikeeBlue"
             android:textSize="11sp" />
 
@@ -84,7 +84,7 @@
             android:layout_alignBottom="@id/view_bicycle_info_window_bicycle_picture_image_view"
             android:layout_alignLeft="@id/view_bicycle_info_window_bicycle_name_text_view"
             android:layout_toRightOf="@id/view_bicycle_info_window_bicycle_picture_image_view"
-            android:text="@string/view_bicycle_info_window_bicycle_payment_text_view1_string"
+            android:text="가격"
             android:textColor="@color/bikeeBlue"
             android:textSize="11sp" />
 
@@ -105,7 +105,7 @@
             android:layout_alignBottom="@id/view_bicycle_info_window_bicycle_payment_text_view1"
             android:layout_marginLeft="2dp"
             android:layout_toRightOf="@id/view_bicycle_info_window_bicycle_payment_real_text_view"
-            android:text="@string/view_bicycle_info_window_bicycle_payment_text_view2_string"
+            android:text="일당"
             android:textColor="@color/bikeeWhite"
             android:textSize="8sp" />
     </RelativeLayout>

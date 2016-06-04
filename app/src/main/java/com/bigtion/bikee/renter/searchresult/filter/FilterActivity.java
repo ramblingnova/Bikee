@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +41,14 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 public class FilterActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
+    @Bind(R.id.toolbar_layout)
+    RelativeLayout toolbarLayout;
+    @Bind(R.id.toolbar_left_back_icon_image_view)
+    ImageView toolbarLeftBackIconImageView;
+    @Bind(R.id.toolbar_center_text_view)
+    TextView toolbarCenterTextView;
+    @Bind(R.id.toolbar_right_text_view)
+    TextView toolbarRightTextView;
     @Bind(R.id.bicycle_location_address_text_view)
     TextView address;
     @Bind(R.id.calendar_summary_start_date_text_view)
@@ -111,9 +121,30 @@ public class FilterActivity extends AppCompatActivity implements TimePickerDialo
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setCustomView(R.layout.filter_backable_toolbar);
+        getSupportActionBar().setCustomView(R.layout.toolbar);
 
         ButterKnife.bind(this);
+
+        /* 툴바 배경 */
+        if (Build.VERSION.SDK_INT < 23)
+            toolbarLayout.setBackgroundColor(getResources().getColor(R.color.bikeeWhite));
+        else
+            toolbarLayout.setBackgroundColor(getResources().getColor(R.color.bikeeWhite, getTheme()));
+
+        /* 툴바 왼쪽 */
+        toolbarLeftBackIconImageView.setImageResource(R.drawable.icon_before);
+        toolbarLeftBackIconImageView.setVisibility(View.VISIBLE);
+
+        /* 툴바 가운데 */
+        toolbarCenterTextView.setText("필터링");
+        if (Build.VERSION.SDK_INT < 23)
+            toolbarCenterTextView.setTextColor(getResources().getColor(R.color.bikeeDarkGray));
+        else
+            toolbarCenterTextView.setTextColor(getResources().getColor(R.color.bikeeDarkGray, getTheme()));
+        toolbarCenterTextView.setVisibility(View.VISIBLE);
+
+        /* 툴바 오른쪽 */
+        toolbarRightTextView.setVisibility(View.VISIBLE);
 
         intent = getIntent();
         String addressString = intent.getStringExtra("ADDRESS");
@@ -139,8 +170,8 @@ public class FilterActivity extends AppCompatActivity implements TimePickerDialo
         if (dpd != null) dpd.setOnDateSetListener(this);
     }
 
-    @OnClick({R.id.filter_backable_toolbar_back_button_layout,
-            R.id.filter_backable_toolbar_reset_text_view,
+    @OnClick({R.id.toolbar_left_layout,
+            R.id.toolbar_right_layout,
             R.id.bicycle_type_check_box1,
             R.id.bicycle_type_check_box2,
             R.id.bicycle_type_check_box3,
@@ -159,10 +190,10 @@ public class FilterActivity extends AppCompatActivity implements TimePickerDialo
             R.id.activity_filter_search_button})
     void onClick(View view) {
         switch (view.getId()) {
-            case R.id.filter_backable_toolbar_back_button_layout:
-                finish();
+            case R.id.toolbar_left_layout:
+                onBackPressed();
                 break;
-            case R.id.filter_backable_toolbar_reset_text_view:
+            case R.id.toolbar_right_layout:
                 // TODO : 재설정 적용
                 Toast.makeText(FilterActivity.this, "RESET!", Toast.LENGTH_SHORT).show();
                 break;

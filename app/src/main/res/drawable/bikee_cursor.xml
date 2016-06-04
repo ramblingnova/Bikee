@@ -4,6 +4,6 @@
     <size android:width="2dp" />
     <solid android:color="@color/bikeeBlue" />
     <padding
-        android:bottom="-30dp"
+        android:bottom="-2dp"
         android:top="2dp" />
 </shape>

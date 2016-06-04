@@ -33,8 +33,8 @@ import butterknife.OnEditorAction;
 public class RegisterCreditCardActivity extends AppCompatActivity implements GetDialogResultListener {
     @Bind(R.id.toolbar_layout)
     RelativeLayout toolbarLayout;
-    @Bind(R.id.toolbar_left_icon_back_image_view)
-    ImageView toolbarLeftIconBackImageView;
+    @Bind(R.id.toolbar_left_back_icon_image_view)
+    ImageView toolbarLeftBackIconImageView;
     @Bind(R.id.toolbar_center_text_view)
     TextView toolbarCenterTextView;
     @Bind(R.id.activity_register_credit_card_number_edit_layout)
@@ -131,8 +131,8 @@ public class RegisterCreditCardActivity extends AppCompatActivity implements Get
             toolbarLayout.setBackgroundColor(getResources().getColor(R.color.bikeeWhite, getTheme()));
 
         /* 툴바 왼쪽 */
-        toolbarLeftIconBackImageView.setVisibility(View.VISIBLE);
-        toolbarLeftIconBackImageView.setImageResource(R.drawable.icon_before);
+        toolbarLeftBackIconImageView.setVisibility(View.VISIBLE);
+        toolbarLeftBackIconImageView.setImageResource(R.drawable.icon_before);
 
         /* 툴바 가운데 */
         toolbarCenterTextView.setVisibility(View.VISIBLE);
@@ -201,7 +201,7 @@ public class RegisterCreditCardActivity extends AppCompatActivity implements Get
         }
     }
 
-    @OnClick({R.id.toolbar_left_icon_layout,
+    @OnClick({R.id.toolbar_left_layout,
             R.id.activity_register_credit_card_expiration_date_month_layout,
             R.id.activity_register_credit_card_expiration_date_month_edit_text,
             R.id.activity_register_credit_card_expiration_date_month_extension_image_view,
@@ -220,7 +220,7 @@ public class RegisterCreditCardActivity extends AppCompatActivity implements Get
             R.id.activity_register_credit_card_register_card_button})
     void onClick(View view) {
         switch (view.getId()) {
-            case R.id.toolbar_left_icon_layout:
+            case R.id.toolbar_left_layout:
                 super.onBackPressed();
                 break;
             case R.id.activity_register_credit_card_expiration_date_month_layout:
@@ -375,7 +375,6 @@ public class RegisterCreditCardActivity extends AppCompatActivity implements Get
 
     public void init() {
         conditions = new boolean[MAX_CONDITION];
-
         for (int i = 0; i < MAX_CONDITION; i++)
             conditions[i] = false;
 
@@ -569,7 +568,7 @@ public class RegisterCreditCardActivity extends AppCompatActivity implements Get
         }
     }
 
-    public void enableButton() {
+    private void enableButton() {
         for (int i = MAX_CONDITION - 1; i >= 0; i--)
             if (!conditions[i]) {
                 registerCardButton.setEnabled(false);

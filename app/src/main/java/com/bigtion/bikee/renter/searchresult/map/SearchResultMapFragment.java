@@ -60,9 +60,9 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
         GoogleApiClient.OnConnectionFailedListener {
     private final Map<POI, Marker> mMarkerResolver = new HashMap<POI, Marker>();
     private final Map<Marker, POI> mPOIResolver = new HashMap<Marker, POI>();
-    private GoogleMap googleMap;
-    private LocationManager locationManager;
     private View view;
+    private GoogleMap mGoogleMap;
+    private LocationManager locationManager;
     private BicycleInfoWindowView bicycleInfoWindowView;
     private String userLatitude = null;
     private String userLongitude = null;
@@ -74,24 +74,30 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     private static final String TAG = "SEARCH_R_M_ACTIVITY";
 
     public SearchResultMapFragment() {
+
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        for (Marker marker : mPOIResolver.keySet())
+            marker.remove();
+        mMarkerResolver.clear();
+        mPOIResolver.clear();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        for (Marker marker : mPOIResolver.keySet()) {
-            marker.remove();
-        }
-        mMarkerResolver.clear();
-        mPOIResolver.clear();
-
         if (view != null) {
             ViewGroup parent = (ViewGroup) view.getParent();
             if (parent != null)
                 parent.removeView(view);
         }
+
         try {
             view = inflater.inflate(R.layout.fragment_search_result_map, container, false);
-            SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+            SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.fragment_search_result_map_small_map);
             mapFragment.getMapAsync(this);
         } catch (Exception e) {
             // e.printStackTrace();
@@ -121,14 +127,14 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
 //        mPOIResolver.clear();
 
         if (Build.VERSION.SDK_INT >= 23) {
-            if ((googleMap != null)
-                    && !googleMap.isMyLocationEnabled()
+            if ((mGoogleMap != null)
+                    && !mGoogleMap.isMyLocationEnabled()
                     && (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED))
-                googleMap.setMyLocationEnabled(true);
-            else if ((googleMap != null)
-                    && !googleMap.isMyLocationEnabled()
+                mGoogleMap.setMyLocationEnabled(true);
+            else if ((mGoogleMap != null)
+                    && !mGoogleMap.isMyLocationEnabled()
                     && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-                googleMap.setMyLocationEnabled(false);
+                mGoogleMap.setMyLocationEnabled(false);
         }
 
         requestData();
@@ -172,8 +178,15 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        this.googleMap = googleMap;
+        mGoogleMap = googleMap;
 
+        mGoogleMap.setIndoorEnabled(true);
+        mGoogleMap.setTrafficEnabled(true);
+        mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
+        mGoogleMap.getUiSettings().setCompassEnabled(false);
+        mGoogleMap.getUiSettings().setRotateGesturesEnabled(false);
+        mGoogleMap.getUiSettings().setTiltGesturesEnabled(false);
         if (Build.VERSION.SDK_INT >= 23) {
             if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED) {
@@ -213,41 +226,44 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
                     );
                 }
             } else {
-                this.googleMap.setMyLocationEnabled(true);
+                mGoogleMap.setMyLocationEnabled(true);
             }
         } else if (Build.VERSION.SDK_INT < 23) {
-            this.googleMap.setMyLocationEnabled(true);
+            mGoogleMap.setMyLocationEnabled(true);
         }
 
-        this.googleMap.setIndoorEnabled(true);
-        this.googleMap.setTrafficEnabled(true);
-        this.googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        this.googleMap.getUiSettings().setZoomControlsEnabled(true);
-        this.googleMap.getUiSettings().setCompassEnabled(false);
-        this.googleMap.getUiSettings().setRotateGesturesEnabled(false);
-        this.googleMap.getUiSettings().setTiltGesturesEnabled(false);
-
-        this.googleMap.setOnInfoWindowClickListener(this);
-        this.googleMap.setInfoWindowAdapter(bicycleInfoWindowView = BicycleInfoWindowView.getInstance(MyApplication.getmContext(), mPOIResolver));
+        mGoogleMap.setOnInfoWindowClickListener(this);
+        mGoogleMap.setOnMapClickListener(this);
+        mGoogleMap.setOnMarkerClickListener(this);
+        mGoogleMap.setInfoWindowAdapter(
+                bicycleInfoWindowView
+                        = BicycleInfoWindowView.getInstance(MyApplication.getmContext(), mPOIResolver)
+        );
         bicycleInfoWindowView.setOnImageLoadListener(onImageLoadListener);
-
-        this.googleMap.setOnMapClickListener(this);
-        this.googleMap.setOnMarkerClickListener(this);
 
         if ((null == userLatitude) || (null == userLongitude)) {
             userLatitude = PropertyManager.getInstance().getLatitude();
             userLongitude = PropertyManager.getInstance().getLongitude();
         }
-        moveMap(Double.parseDouble(userLatitude), Double.parseDouble(userLongitude));
+
+        moveMap(
+                Double.parseDouble(userLatitude),
+                Double.parseDouble(userLongitude),
+                false
+        );
     }
 
-    private void moveMap(double lat, double lng) {
+    private void moveMap(double lat, double lng, boolean smooth) {
         CameraPosition.Builder builder = new CameraPosition.Builder();
-        builder.target(new LatLng(lat, lng));
-        builder.zoom(15);
+        builder
+                .target(new LatLng(lat, lng))
+                .zoom(15);
         CameraPosition position = builder.build();
         CameraUpdate update = CameraUpdateFactory.newCameraPosition(position);
-        googleMap.moveCamera(update);
+        if (smooth)
+            mGoogleMap.animateCamera(update);
+        else
+            mGoogleMap.moveCamera(update);
     }
 
     private LocationListener mListener = new LocationListener() {
@@ -314,10 +330,17 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
         SearchResultItem searchResultItem = poi.getItem();
         current_marker = marker;
         bicycleInfoWindowView.setImageView(getActivity(), searchResultItem.getImageURL());
+
+        moveMap(
+                searchResultItem.getLatitude(),
+                searchResultItem.getLongitude(),
+                true
+        );
+
         return true;
     }
 
-    BicycleInfoWindowView.OnImageLoadListener onImageLoadListener = new BicycleInfoWindowView.OnImageLoadListener() {
+    private BicycleInfoWindowView.OnImageLoadListener onImageLoadListener = new BicycleInfoWindowView.OnImageLoadListener() {
         @Override
         public void onImageLoad() {
             current_marker.showInfoWindow();
@@ -373,7 +396,7 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
                             } else {
                                 imageURL = result.getImage().getCdnUri() + result.getImage().getFiles().get(0);
                             }
-                            Log.i("result", "onResponse : " + result.get_id()
+                            Log.d(TAG, "onResponse : " + result.get_id()
                                             + ", ImageURL : " + imageURL
                                             + ", Name : " + result.getTitle()
                                             + ", Type : " + result.getType()
@@ -412,10 +435,10 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
 
                             options.draggable(true);
 
-                            Marker m = googleMap.addMarker(options);
+                            Marker mMarker = mGoogleMap.addMarker(options);
 
-                            mMarkerResolver.put(poi, m);
-                            mPOIResolver.put(m, poi);
+                            mMarkerResolver.put(poi, mMarker);
+                            mPOIResolver.put(mMarker, poi);
                         }
                     }
 
