@@ -1,1 +1,1 @@
-include ':app', ':RefreshLibrary', ':ArsenalCalendarLibrary'
+include ':app', ':RefreshLibrary'

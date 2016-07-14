@@ -479,7 +479,7 @@ public class SignUpActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(Call<ReceiveObject> call, Throwable t) {
                             if (BuildConfig.DEBUG)
-                                Log.d(TAG, "onFailure Error : " + t.toString());
+                                Log.d(TAG, "onFailure Error", t);
                         }
                     });
         }

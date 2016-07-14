@@ -5,8 +5,8 @@
     tools:context="com.bigtion.bikee.lister.reservation.ListerReservationsFragment">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/fragment_lister_requested_bicycle_list_list_view"
+        android:id="@+id/fragment_lister_reservation_recycler_view"
         android:background="@color/bikeeBackground"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </FrameLayout>

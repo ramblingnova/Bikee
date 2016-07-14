@@ -13,6 +13,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -72,6 +73,10 @@ public class SignInActivity extends AppCompatActivity {
     Button signButton;
     @Bind(R.id.activity_sign_in_facebook_button)
     Button facebookButton;
+    @Bind(R.id.activity_sign_in_naver_button)
+    Button naverButton;
+    @Bind(R.id.activity_sign_in_kakaotalk_button)
+    Button kakaotalkButton;
     @Bind(R.id.activity_sign_in_sign_up_string)
     TextView signUpTextView;
 
@@ -331,31 +336,63 @@ public class SignInActivity extends AppCompatActivity {
 
     @OnClick(R.id.activity_sign_in_find_password_text_view)
     void findPassword(View view) {
-        FindPasswordSendObject findPasswordSendObject = new FindPasswordSendObject();
-        findPasswordSendObject.setEmail(emailEditText.getText().toString());
-        NetworkManager.getInstance().findPassword(
-                findPasswordSendObject,
-                null,
-                new Callback<ReceiveObject>() {
-                    @Override
-                    public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
-                        ReceiveObject receiveObject = response.body();
+        if (emailEditText.getText().toString().equals("")) {
+            Toast.makeText(SignInActivity.this, "찾고자 하는 이메일 주소를 입력해주세요.", Toast.LENGTH_SHORT).show();
+//        } else if (!CheckUtil.REGEX_EMAIL.matches(emailEditText.getText().toString())) {
+//            Toast.makeText(SignInActivity.this, "이메일 주소 형식이 잘못됐습니다.", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(SignInActivity.this, "이메일 주소를 다시 확인해주세요.", Toast.LENGTH_LONG).show();
+        } else if (!emailEditText.getText().toString().equals("")) {
+            FindPasswordSendObject findPasswordSendObject = new FindPasswordSendObject();
+            findPasswordSendObject.setEmail(emailEditText.getText().toString());
+            NetworkManager.getInstance().findPassword(
+                    findPasswordSendObject,
+                    null,
+                    new Callback<ReceiveObject>() {
+                        @Override
+                        public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
+                            ReceiveObject receiveObject = response.body();
 
-                        if (BuildConfig.DEBUG)
-                            Log.d(TAG, "findPassword onResponse isSuccess : " + receiveObject.isSuccess());
-                    }
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "findPassword onResponse isSuccess : " + receiveObject.isSuccess()
+                                                + "\n getMsg : " + receiveObject.getMsg()
+                                                + "\n getCode : " + receiveObject.getCode()
+                                );
+                            if (receiveObject != null)
+                                switch (receiveObject.getCode()) {
+                                    case 200:
+                                        Toast.makeText(SignInActivity.this, "해당 메일에 임시 비밀 번호를 전송하였습니다.", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(SignInActivity.this, "한 시간 이내에 변경해주세요.", Toast.LENGTH_LONG).show();
+                                        break;
+                                    case 408:
+                                        Toast.makeText(SignInActivity.this, "없는 이메일 주소입니다.", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(SignInActivity.this, "이메일 주소를 다시 확인해주세요.", Toast.LENGTH_LONG).show();
+                                        break;
+                                }
+                        }
 
-                    @Override
-                    public void onFailure(Call<ReceiveObject> call, Throwable t) {
-                        if (BuildConfig.DEBUG)
-                            Log.d(TAG, "findPassword onFailure", t);
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<ReceiveObject> call, Throwable t) {
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "findPassword onFailure", t);
+                        }
+                    });
+        }
     }
 
-    @OnClick(R.id.activity_sign_in_facebook_button)
-    void signInFacebookButton(View view) {
-        signInFacebook();
+    @OnClick({R.id.activity_sign_in_facebook_button,
+            R.id.activity_sign_in_naver_button,
+            R.id.activity_sign_in_kakaotalk_button})
+    void signInNonLocalButton(View view) {
+        switch(view.getId()) {
+            case R.id.activity_sign_in_facebook_button:
+                signInFacebook();
+                break;
+            case R.id.activity_sign_in_naver_button:
+            case R.id.activity_sign_in_kakaotalk_button:
+                Toast.makeText(SignInActivity.this, "준비중입니다", Toast.LENGTH_SHORT).show();
+                break;
+
+        }
     }
 
     private void signInFacebook() {

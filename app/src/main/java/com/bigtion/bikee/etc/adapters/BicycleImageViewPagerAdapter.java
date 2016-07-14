@@ -28,7 +28,7 @@ public class BicycleImageViewPagerAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return (URLList.size() > 0) ? URLList.size() : fileList.size();
+        return (URLList.size() > 0) ? URLList.size() : fileList.size() >0 ? fileList.size() :1;
     }
 
     @Override
@@ -56,6 +56,8 @@ public class BicycleImageViewPagerAdapter extends PagerAdapter {
                     R.drawable.detailpage_bike_image_noneimage,
                     imageVIew
             );
+        else
+            imageVIew.setImageResource(R.drawable.detailpage_bike_image_noneimage);
 
         container.addView(view);
 

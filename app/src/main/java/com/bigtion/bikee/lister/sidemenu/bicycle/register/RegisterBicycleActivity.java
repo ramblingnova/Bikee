@@ -95,7 +95,7 @@ public class RegisterBicycleActivity extends AppCompatActivity {
         registerBicyclePictureFragment.setRegisterBicycleINF(registerBicycleINF);
         registerBicycleFeeFragment.setRegisterBicycleINF(registerBicycleINF);
 
-        refreshTopPageNumber(0);
+        refreshToolbarPageNumber(0);
     }
 
     @OnClick(R.id.register_bicycle_toolbar_back_button_layout)
@@ -103,7 +103,7 @@ public class RegisterBicycleActivity extends AppCompatActivity {
         hideKeyboard(this);
         int page = getSupportFragmentManager().getBackStackEntryCount();
         if (page > 0) {
-            refreshTopPageNumber(page - 1);
+            refreshToolbarPageNumber(page - 1);
         }
         super.onBackPressed();
     }
@@ -113,7 +113,7 @@ public class RegisterBicycleActivity extends AppCompatActivity {
         hideKeyboard(this);
         int page = getSupportFragmentManager().getBackStackEntryCount();
         if (page > 0) {
-            refreshTopPageNumber(page - 1);
+            refreshToolbarPageNumber(page - 1);
         }
         super.onBackPressed();
     }
@@ -138,8 +138,15 @@ public class RegisterBicycleActivity extends AppCompatActivity {
 
                 int page = getSupportFragmentManager().getBackStackEntryCount();
                 if (page < list.length - 1) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_register_bicycle_information_container, list[page + 1]).addToBackStack(null).commit();
-                    refreshTopPageNumber(page + 1);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(
+                                    R.id.fragment_register_bicycle_information_container,
+                                    list[page + 1]
+                            )
+                            .addToBackStack(null)
+                            .commit();
+                    refreshToolbarPageNumber(page + 1);
                 } else {
                     item = new RegisterBicycleItem();
                     item.setType(((RegisterBicycleInformationFragment) list[0]).getType());
@@ -166,7 +173,7 @@ public class RegisterBicycleActivity extends AppCompatActivity {
         }
     }
 
-    private void refreshTopPageNumber(int page) {
+    private void refreshToolbarPageNumber(int page) {
         page0.setImageResource(R.drawable.topnum_1);
         page1.setImageResource(R.drawable.topnum_2);
         page2.setImageResource(R.drawable.topnum_3);

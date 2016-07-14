@@ -59,7 +59,11 @@
                 android:layout_toLeftOf="@id/fragment_search_result_filter_image_view"
                 android:layout_toRightOf="@id/fragment_search_result_search_image_view"
                 android:background="@null"
-                android:singleLine="true" />
+                android:hint="지번 혹은 도로명 주소"
+                android:singleLine="true"
+                android:textColor="@color/bikeeBlack"
+                android:textColorHint="@color/bikeeLightGray"
+                android:textSize="15dp" />
         </RelativeLayout>
 
         <com.bigtion.bikee.renter.searchresult.SearchSwitchView

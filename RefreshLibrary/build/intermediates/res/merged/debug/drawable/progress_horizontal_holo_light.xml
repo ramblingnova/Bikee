@@ -29,4 +29,4 @@
                android:drawable="@drawable/progress_primary_holo_light" />
     </item>
 
-</layer-list><!-- From: file:/C:/Users/User/AndroidStudioProjects/Bikee/RefreshLibrary/src/main/res/drawable/progress_horizontal_holo_light.xml -->
+</layer-list>

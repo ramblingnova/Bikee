@@ -84,6 +84,7 @@ public class NetworkManager {
 //        String baseUrl = "http://bikee.kr.pe";
 //        String baseUrl = "http://1.255.51.120";
 //        String baseUrl = "http://192.168.0.8:9000";
+//        String baseUrl = "http://192.168.102.60:9000";
 
         // 회원 정보 조회하기
         @GET("/users/{userId}")

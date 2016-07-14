@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -19,20 +18,14 @@ import android.widget.Toast;
 
 import com.bigtion.bikee.BuildConfig;
 import com.bigtion.bikee.R;
-import com.bigtion.bikee.etc.MyApplication;
-import com.bigtion.bikee.etc.utils.RefinementUtil;
-import com.google.android.gms.maps.model.LatLng;
 import com.tsengvn.typekit.TypekitContextWrapper;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-import com.wdullaer.materialdatetimepicker.date.OnDateSelectedListener;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.Timepoint;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -41,6 +34,7 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 public class FilterActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
+    // TODO : 날짜 시작 값 시작 -> 현재 시간, 종료 -> 현재시간 + 1시간
     @Bind(R.id.toolbar_layout)
     RelativeLayout toolbarLayout;
     @Bind(R.id.toolbar_left_back_icon_image_view)
@@ -49,6 +43,8 @@ public class FilterActivity extends AppCompatActivity implements TimePickerDialo
     TextView toolbarCenterTextView;
     @Bind(R.id.toolbar_right_text_view)
     TextView toolbarRightTextView;
+    @Bind(R.id.activity_filter_bicycle_location)
+    View bicycleLocationView;
     @Bind(R.id.bicycle_location_address_text_view)
     TextView address;
     @Bind(R.id.calendar_summary_start_date_text_view)
@@ -97,16 +93,16 @@ public class FilterActivity extends AppCompatActivity implements TimePickerDialo
     private String height;
     private boolean smartLock;
     private String order;
-    private String startDateTime;
-    private String endDateTime;
-    private boolean isStartDate;
-    private List<Calendar> abledates;
-    private List<Timepoint> abletime;
-    TimePickerDialog tpd;
-    DatePickerDialog dpd;
-    Calendar start_cal;
-    Calendar end_cal;
-    Date start_day;
+    private DatePickerDialog startDatePickerDialog;
+    private DatePickerDialog endDatePickerDialog;
+    private TimePickerDialog startTimePickerDialog;
+    private TimePickerDialog endTimePickerDialog;
+    private List<Calendar> ableDates;
+    private List<Timepoint> ableTimes;
+    private Calendar currentDateTime;
+    private Calendar selectedStartDateTime;
+    private Calendar selectedEndDateTime;
+    private String currentTimeTag;
 
     public static final int FILTER_ACTIVITY = 2;
     private static final String TAG = "FILTER_ACTIVITY";
@@ -147,27 +143,179 @@ public class FilterActivity extends AppCompatActivity implements TimePickerDialo
         toolbarRightTextView.setVisibility(View.VISIBLE);
 
         intent = getIntent();
-        String addressString = intent.getStringExtra("ADDRESS");
-        if (addressString.equals("")) {
-            View view = findViewById(R.id.activity_filter_bicycle_location);
-            view.setVisibility(View.GONE);
-        } else {
+        if (intent.getBooleanExtra("HAS_LAT_LNG", false)) {
+            String addressString = intent.getStringExtra("ADDRESS");
             address.setText(addressString);
-            Toast.makeText(FilterActivity.this, "address : " +
-                    "" + RefinementUtil.findGeoPoint(MyApplication.getmContext(), addressString),
-                    Toast.LENGTH_SHORT).show();
-            LatLng latLng = RefinementUtil.findGeoPoint(MyApplication.getmContext(), addressString);
-            latitude = "" + latLng.latitude;
-            longitude = "" + latLng.longitude;
+            latitude = "" + intent.getDoubleExtra("LATITUDE", -1.0);
+            longitude = "" + intent.getDoubleExtra("LONGITUDE", -1.0);
+            if (BuildConfig.DEBUG)
+                Log.d(TAG, "onCreate latitude : " + latitude + ", longitude : " + longitude);
+        } else {
+            bicycleLocationView.setVisibility(View.GONE);
         }
+
+        currentDateTime = Calendar.getInstance();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        DatePickerDialog dpd = (DatePickerDialog) getFragmentManager().findFragmentByTag("Datepickerdialog");
 
-        if (dpd != null) dpd.setOnDateSetListener(this);
+        if (ableDates == null) {
+            ableDates = new ArrayList<>();
+
+            int nowDay = currentDateTime.get(Calendar.DAY_OF_YEAR);
+            int nowHour = currentDateTime.get(Calendar.HOUR_OF_DAY);
+            int nowMinute = (int) (Math.ceil(currentDateTime.get(Calendar.MINUTE) / 10.0) * 10);
+
+            for (int i = nowDay; i < nowDay + 60; i++) {
+                Calendar ableDate = Calendar.getInstance();
+                ableDate.set(Calendar.DAY_OF_YEAR, i);
+                ableDates.add(ableDate);
+            }
+
+            if ((nowHour < 7) || (nowMinute > 21)) {
+                currentDateTime.set(Calendar.HOUR_OF_DAY, 7);
+                currentDateTime.set(Calendar.MINUTE, 0);
+            }
+        }
+
+        if (startDatePickerDialog == null) {
+            startDatePickerDialog = DatePickerDialog.newInstance(
+                    FilterActivity.this,
+                    currentDateTime.get(Calendar.YEAR),
+                    currentDateTime.get(Calendar.MONTH),
+                    currentDateTime.get(Calendar.DAY_OF_MONTH)
+            );
+
+            startDatePickerDialog.setOnDateSetListener(this);
+            startDatePickerDialog.dismissOnPause(true);
+            startDatePickerDialog.setThemeDark(true);
+            startDatePickerDialog.vibrate(true);
+            startDatePickerDialog.showYearPickerFirst(false);
+            startDatePickerDialog.setAccentColor(Color.parseColor("#1993F7"));
+            startDatePickerDialog.setSelectableDays(ableDates.toArray(new Calendar[ableDates.size()]));
+
+            if (selectedStartDateTime == null) {
+                selectedStartDateTime = Calendar.getInstance();
+                selectedStartDateTime.set(
+                        currentDateTime.get(Calendar.YEAR),
+                        currentDateTime.get(Calendar.MONTH),
+                        currentDateTime.get(Calendar.DAY_OF_MONTH)
+                );
+            }
+        }
+
+        if (endDatePickerDialog == null) {
+            endDatePickerDialog = DatePickerDialog.newInstance(
+                    FilterActivity.this,
+                    currentDateTime.get(Calendar.YEAR),
+                    currentDateTime.get(Calendar.MONTH),
+                    currentDateTime.get(Calendar.DAY_OF_MONTH)
+            );
+
+            endDatePickerDialog.setOnDateSetListener(this);
+            endDatePickerDialog.dismissOnPause(true);
+            endDatePickerDialog.setThemeDark(true);
+            endDatePickerDialog.vibrate(true);
+            endDatePickerDialog.dismissOnPause(true);
+            endDatePickerDialog.showYearPickerFirst(false);
+            endDatePickerDialog.setAccentColor(Color.parseColor("#1993F7"));
+            endDatePickerDialog.setSelectableDays(ableDates.toArray(new Calendar[ableDates.size()]));
+
+            if (selectedEndDateTime == null) {
+                selectedEndDateTime = Calendar.getInstance();
+                selectedEndDateTime.set(
+                        currentDateTime.get(Calendar.YEAR),
+                        currentDateTime.get(Calendar.MONTH),
+                        currentDateTime.get(Calendar.DAY_OF_MONTH)
+                );
+            }
+        }
+
+        if (startTimePickerDialog == null) {
+            int nowHour = currentDateTime.get(Calendar.HOUR_OF_DAY);
+            int nowMinute = currentDateTime.get(Calendar.MINUTE);
+            ableTimes = new ArrayList<>();
+            startTimePickerDialog = TimePickerDialog.newInstance(
+                    FilterActivity.this,
+                    nowHour,
+                    nowMinute,
+                    true
+            );
+
+            startTimePickerDialog.setOnTimeSetListener(this);
+            startTimePickerDialog.dismissOnPause(true);
+            startTimePickerDialog.enableSeconds(false);
+            startTimePickerDialog.setThemeDark(true);
+            startTimePickerDialog.setAccentColor(Color.parseColor("#1993F7"));
+            startTimePickerDialog.vibrate(true);
+            startTimePickerDialog.setTitle("시작일");
+
+            if (currentDateTime.get(Calendar.DAY_OF_YEAR) == selectedStartDateTime.get(Calendar.DAY_OF_YEAR)) {
+                if (nowMinute >= 50) {
+                    for (int h = nowHour + 1; h <= 21; h++)
+                        for (int m = 0; m <= 50; m += 10)
+                            ableTimes.add(new Timepoint(h, m));
+                } else {
+                    for (int h = nowHour; h <= 21; h++)
+                        if (h == nowHour)
+                            for (int m = nowMinute; m <= 50; m += 10)
+                                ableTimes.add(new Timepoint(h, m));
+                        else
+                            for (int m = 0; m <= 50; m += 10)
+                                ableTimes.add(new Timepoint(h, m));
+                }
+            } else {
+                for (int h = 7; h <= 21; h++)
+                    for (int m = 0; m <= 50; m += 10)
+                        ableTimes.add(new Timepoint(h, m));
+            }
+
+            startTimePickerDialog.setSelectableTimes(ableTimes.toArray(new Timepoint[ableTimes.size()]));
+        }
+
+        if (endTimePickerDialog == null) {
+            int nowHour = currentDateTime.get(Calendar.HOUR_OF_DAY);
+            int nowMinute = currentDateTime.get(Calendar.MINUTE);
+            ableTimes = new ArrayList<>();
+            endTimePickerDialog = TimePickerDialog.newInstance(
+                    FilterActivity.this,
+                    nowHour,
+                    nowMinute,
+                    true
+            );
+
+            endTimePickerDialog.dismissOnPause(true);
+            endTimePickerDialog.setOnTimeSetListener(this);
+            endTimePickerDialog.enableSeconds(false);
+            endTimePickerDialog.setThemeDark(true);
+            endTimePickerDialog.setAccentColor(Color.parseColor("#1993F7"));
+            endTimePickerDialog.vibrate(true);
+            endTimePickerDialog.setTitle("종료일");
+
+            if (currentDateTime.get(Calendar.DAY_OF_YEAR) == selectedEndDateTime.get(Calendar.DAY_OF_YEAR)) {
+                if (nowMinute >= 50) {
+                    for (int h = nowHour + 1; h <= 21; h++)
+                        for (int m = 0; m <= 50; m += 10)
+                            ableTimes.add(new Timepoint(h, m));
+                } else {
+                    for (int h = nowHour; h <= 21; h++)
+                        if (h == nowHour)
+                            for (int m = nowMinute; m <= 50; m += 10)
+                                ableTimes.add(new Timepoint(h, m));
+                        else
+                            for (int m = 0; m <= 50; m += 10)
+                                ableTimes.add(new Timepoint(h, m));
+                }
+            } else {
+                for (int h = 7; h <= 21; h++)
+                    for (int m = 0; m <= 50; m += 10)
+                        ableTimes.add(new Timepoint(h, m));
+            }
+
+            endTimePickerDialog.setSelectableTimes(ableTimes.toArray(new Timepoint[ableTimes.size()]));
+        }
     }
 
     @OnClick({R.id.toolbar_left_layout,
@@ -296,8 +444,8 @@ public class FilterActivity extends AppCompatActivity implements TimePickerDialo
                 intent.putExtra("HEIGHT", height);
                 intent.putExtra("SMART_LOCK", smartLock);
                 intent.putExtra("ORDER", order);
-                intent.putExtra("START_DATE", startDateTime);
-                intent.putExtra("END_DATE", endDateTime);
+//                intent.putExtra("START_DATE", startDateTime);
+//                intent.putExtra("END_DATE", endDateTime);
                 setResult(RESULT_OK, intent);
                 finish();
                 break;
@@ -326,220 +474,160 @@ public class FilterActivity extends AppCompatActivity implements TimePickerDialo
     @OnClick({R.id.calendar_start_date_summary,
             R.id.calendar_end_date_summary})
     void onClickCalendar(View view) {
-        final Calendar now = Calendar.getInstance();
+        String tag = TAG;
 
         switch (view.getId()) {
-            case R.id.calendar_end_date_summary: {
-                now.setTime(start_day);
-            }
-        }
-
-        dpd = DatePickerDialog.newInstance(
-                FilterActivity.this,
-                now.get(Calendar.YEAR),
-                now.get(Calendar.MONTH),
-                now.get(Calendar.DAY_OF_MONTH)
-        );
-        abledates = new ArrayList<>();
-        int now_days = now.get(Calendar.DAY_OF_YEAR);
-        for (int i = now_days; i < now_days + 60; i++) {
-            Calendar ableday = Calendar.getInstance();
-            ableday.set(Calendar.DAY_OF_YEAR, i);
-            abledates.add(ableday);
-        }
-
-        dpd.setThemeDark(true);
-        dpd.vibrate(true);
-        dpd.dismissOnPause(true);
-        dpd.showYearPickerFirst(false);
-        dpd.setAccentColor(Color.parseColor("#1993F7"));
-        dpd.setSelectableDays(abledates.toArray(new Calendar[abledates.size()]));
-        dpd.show(getFragmentManager(), "Datepickerdialog");
-
-        final TimePickerDialog tpd = TimePickerDialog.newInstance(
-                FilterActivity.this,
-                now.get(Calendar.HOUR_OF_DAY),
-                now.get(Calendar.MINUTE),
-                true
-        );
-
-        switch (view.getId()) {
-            case R.id.calendar_start_date_summary: {
-                dpd.setOnDateSelectedListener(new OnDateSelectedListener() {
-                    @Override
-                    public void onDateSelected(View view, Date date) {
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd", java.util.Locale.getDefault());
-                        startDateTime = simpleDateFormat.format(date.getTime());
-                        startDateTextView.setText(startDateTime);
-                        if (Build.VERSION.SDK_INT < 23) {
-                            startDateTextView.setTextColor(getResources().getColor(R.color.bikeeBlue));
-                        } else {
-                            startDateTextView.setTextColor(getResources().getColor(R.color.bikeeBlue, getTheme()));
-                        }
-                        start_day = date;
-                        openTimePicker(now, date, true);
-                        isStartDate = true;
-                    }
-                });
+            case R.id.calendar_start_date_summary:
+                tag += "_START_DATE";
+                startDatePickerDialog.show(getFragmentManager(), tag);
                 break;
-            }
-            case R.id.calendar_end_date_summary: {
-                dpd.setOnDateSelectedListener(new OnDateSelectedListener() {
-                    @Override
-                    public void onDateSelected(View view, Date date) {
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd", java.util.Locale.getDefault());
-                        endDateTime = simpleDateFormat.format(date.getTime());
-                        endDateTextView.setText(endDateTime);
-
-                        if (Build.VERSION.SDK_INT < 23)
-                            endDateTextView.setTextColor(getResources().getColor(R.color.bikeeBlue));
-                        else
-                            endDateTextView.setTextColor(getResources().getColor(R.color.bikeeBlue, getTheme()));
-
-                        openTimePicker(now, date, false);
-
-                        isStartDate = false;
-                    }
-                });
+            case R.id.calendar_end_date_summary:
+                tag += "_END_DATE";
+                endDatePickerDialog.show(getFragmentManager(), tag);
                 break;
-            }
         }
-    }
-
-    public void openTimePicker(Calendar now, Date date, Boolean flag) {
-        Calendar selDay = Calendar.getInstance();
-        int now_min, now_hour;
-        if (!flag) {
-            now.setTime(start_day);
-            now.add(Calendar.MINUTE, 30);
-            if (now.get(Calendar.AM_PM) == 0) {
-                now_min = now.get(Calendar.MINUTE);
-                now_hour = now.get(Calendar.HOUR_OF_DAY) + 12;
-            } else {
-                now_min = now.get(Calendar.MINUTE);
-                now_hour = now.get(Calendar.HOUR_OF_DAY);
-            }
-        } else {
-            now_min = now.get(Calendar.MINUTE);
-            now_hour = now.get(Calendar.HOUR_OF_DAY);
-        }
-
-
-        now_min = (int) Math.ceil((double) now_min / 10) * 10;
-        selDay.setTime(date);
-        if (!(now.get(Calendar.DAY_OF_YEAR) == selDay.get(Calendar.DAY_OF_YEAR))) {
-            now_hour = 7;
-            now_min = 0;
-        }
-
-        if (now_hour > 21 || now_hour < 7) {
-            now_hour = 7;
-            now_min = 0;
-        }
-        tpd = TimePickerDialog.newInstance(
-                FilterActivity.this,
-                now_hour,
-                now_min,
-                true
-        );
-        tpd.setThemeDark(true);
-        tpd.setAccentColor(Color.parseColor("#1993F7"));
-        tpd.vibrate(true);
-        tpd.dismissOnPause(true);
-        tpd.setTitle("시작일");
-        tpd.enableSeconds(false);
-
-        abletime = new ArrayList<>();
-
-        if (now.get(Calendar.DAY_OF_YEAR) == selDay.get(Calendar.DAY_OF_YEAR)) {
-            if (now_min >= 50) {
-                for (int h = now_hour + 1; h <= 21; h++)
-                    for (int m = 0; m <= 50; m += 10)
-                        abletime.add(new Timepoint(h, m));
-            } else {
-                for (int h = now_hour; h <= 21; h++)
-                    if (h == now_hour)
-                        for (int m = now_min; m <= 50; m += 10)
-                            abletime.add(new Timepoint(h, m));
-                    else
-                        for (int m = 0; m <= 50; m += 10)
-                            abletime.add(new Timepoint(h, m));
-            }
-        } else {
-            for (int h = 7; h <= 21; h++)
-                for (int m = 0; m <= 50; m += 10)
-                    abletime.add(new Timepoint(h, m));
-        }
-        tpd.setSelectableTimes(abletime.toArray(new Timepoint[abletime.size()]));
-
-        tpd.show(getFragmentManager(), "Timepickerdialog");
     }
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        String tag = TAG;
+        int nowHour = currentDateTime.get(Calendar.HOUR_OF_DAY);
+        int nowMinute = currentDateTime.get(Calendar.MINUTE);
 
+        switch (view.getTag()) {
+            case TAG + "_START_DATE":
+                tag += "_START_TIME";
+                currentTimeTag = tag;
+                ableTimes = new ArrayList<>();
+                selectedStartDateTime.set(year, monthOfYear, dayOfMonth);
+
+                if (currentDateTime.get(Calendar.DAY_OF_YEAR) == selectedStartDateTime.get(Calendar.DAY_OF_YEAR)) {
+                    if (nowMinute >= 50) {
+                        for (int h = nowHour + 1; h <= 21; h++)
+                            for (int m = 0; m <= 50; m += 10)
+                                ableTimes.add(new Timepoint(h, m));
+                    } else {
+                        for (int h = nowHour; h <= 21; h++)
+                            if (h == nowHour)
+                                for (int m = nowMinute; m <= 50; m += 10)
+                                    ableTimes.add(new Timepoint(h, m));
+                            else
+                                for (int m = 0; m <= 50; m += 10)
+                                    ableTimes.add(new Timepoint(h, m));
+                    }
+                } else {
+                    for (int h = 7; h <= 21; h++)
+                        for (int m = 0; m <= 50; m += 10)
+                            ableTimes.add(new Timepoint(h, m));
+                }
+
+                startTimePickerDialog.setSelectableTimes(ableTimes.toArray(new Timepoint[ableTimes.size()]));
+                startTimePickerDialog.show(getFragmentManager(), tag);
+                break;
+            case TAG + "_END_DATE":
+                tag += "_END_TIME";
+                currentTimeTag = tag;
+                ableTimes = new ArrayList<>();
+                selectedEndDateTime.set(year, monthOfYear, dayOfMonth);
+
+                if (currentDateTime.get(Calendar.DAY_OF_YEAR) == selectedEndDateTime.get(Calendar.DAY_OF_YEAR)) {
+                    if (nowMinute >= 50) {
+                        for (int h = nowHour + 1; h <= 21; h++)
+                            for (int m = 0; m <= 50; m += 10)
+                                ableTimes.add(new Timepoint(h, m));
+                    } else {
+                        for (int h = nowHour; h <= 21; h++)
+                            if (h == nowHour)
+                                for (int m = nowMinute; m <= 50; m += 10)
+                                    ableTimes.add(new Timepoint(h, m));
+                            else
+                                for (int m = 0; m <= 50; m += 10)
+                                    ableTimes.add(new Timepoint(h, m));
+                    }
+                } else {
+                    for (int h = 7; h <= 21; h++)
+                        for (int m = 0; m <= 50; m += 10)
+                            ableTimes.add(new Timepoint(h, m));
+                }
+
+                endTimePickerDialog.setSelectableTimes(ableTimes.toArray(new Timepoint[ableTimes.size()]));
+                endTimePickerDialog.show(getFragmentManager(), tag);
+                break;
+        }
     }
 
     @Override
     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
-        if (isStartDate) {
-            startDateTime += " " + hourOfDay + ":" + minute;
-            if (BuildConfig.DEBUG)
-                Log.d(TAG, "startDateTime yyyy/MM/dd hh:mm : " + startDateTime);
+        switch (currentTimeTag) {
+            case TAG + "_START_TIME":
+                selectedStartDateTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                selectedStartDateTime.set(Calendar.MINUTE, minute);
 
-            if (Build.VERSION.SDK_INT < 23) {
-                startTimeTextView.setTextColor(getResources().getColor(R.color.bikeeBlue));
-            } else {
-                startTimeTextView.setTextColor(getResources().getColor(R.color.bikeeBlue, getTheme()));
-            }
+                startTimePickerDialog.setStartTime(
+                        hourOfDay,
+                        minute
+                );
+                break;
+            case TAG + "_END_TIME":
+                selectedEndDateTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                selectedEndDateTime.set(Calendar.MINUTE, minute);
 
-            startTimeTextView.setText(hourOfDay + ":" + minute);
-            SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd hh:mm");
-            try {
-                start_cal = Calendar.getInstance();
-                start_cal.setTime(format.parse(startDateTime));
-                start_day = format.parse(startDateTime);
-            } catch (Exception e) {
-            }
-        } else {
-            endDateTime += " " + hourOfDay + ":" + minute;
-            if (BuildConfig.DEBUG)
-                Log.d(TAG, "endDateTime yyyy/MM/dd hh:mm : " + endDateTime);
-            if (Build.VERSION.SDK_INT < 23) {
-                endTimeTextView.setTextColor(getResources().getColor(R.color.bikeeBlue));
-            } else {
-                endTimeTextView.setTextColor(getResources().getColor(R.color.bikeeBlue, getTheme()));
-            }
-            endTimeTextView.setText(hourOfDay + ":" + minute);
-            SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd hh:mm", java.util.Locale.getDefault());
-            try {
-                end_cal = Calendar.getInstance();
-                end_cal.setTime(format.parse(endDateTime));
-                if (start_cal.after(end_cal)) {
-                    // 지나친것
-                    dpd.show(getFragmentManager(), "Datepickerdialog");
-                    Toast.makeText(FilterActivity.this, "날짜가 선택이 잘못됐습니다.", Toast.LENGTH_SHORT).show();
-                } else {
-                    // 정상
-                }
-            } catch (Exception e) {
-            }
+                endTimePickerDialog.setStartTime(
+                        hourOfDay,
+                        minute
+                );
+                break;
         }
+
+//        if (isStartDate) {
+//            startDateTime += " " + hourOfDay + ":" + minute;
+//            if (BuildConfig.DEBUG)
+//                Log.d(TAG, "startDateTime yyyy/MM/dd hh:mm : " + startDateTime);
+//
+//            if (Build.VERSION.SDK_INT < 23) {
+//                startTimeTextView.setTextColor(getResources().getColor(R.color.bikeeBlue));
+//            } else {
+//                startTimeTextView.setTextColor(getResources().getColor(R.color.bikeeBlue, getTheme()));
+//            }
+//
+//            startTimeTextView.setText(hourOfDay + ":" + minute);
+//            SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd hh:mm");
+//            try {
+//                start_cal = Calendar.getInstance();
+//                start_cal.setTime(format.parse(startDateTime));
+//                start_day = format.parse(startDateTime);
+//            } catch (Exception e) {
+//            }
+//        } else {
+//            endDateTime += " " + hourOfDay + ":" + minute;
+//            if (BuildConfig.DEBUG)
+//                Log.d(TAG, "endDateTime yyyy/MM/dd hh:mm : " + endDateTime);
+//            if (Build.VERSION.SDK_INT < 23) {
+//                endTimeTextView.setTextColor(getResources().getColor(R.color.bikeeBlue));
+//            } else {
+//                endTimeTextView.setTextColor(getResources().getColor(R.color.bikeeBlue, getTheme()));
+//            }
+//            endTimeTextView.setText(hourOfDay + ":" + minute);
+//            SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd hh:mm", java.util.Locale.getDefault());
+//            try {
+//                end_cal = Calendar.getInstance();
+//                end_cal.setTime(format.parse(endDateTime));
+//                if (start_cal.after(end_cal)) {
+//                    // 지나친것
+//                    dpd.show(getFragmentManager(), "Datepickerdialog");
+//                    Toast.makeText(FilterActivity.this, "날짜가 선택이 잘못됐습니다.", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    // 정상
+//                }
+//            } catch (Exception e) {
+//            }
+//        }
     }
 
     @Override
     public void onBackPressed() {
         setResult(RESULT_CANCELED);
         super.onBackPressed();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

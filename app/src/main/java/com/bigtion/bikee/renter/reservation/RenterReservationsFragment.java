@@ -18,6 +18,7 @@ import com.bigtion.bikee.BuildConfig;
 import com.bigtion.bikee.R;
 
 import java.util.List;
+import java.util.Stack;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -30,6 +31,7 @@ public class RenterReservationsFragment extends Fragment implements OnAdapterCli
     RecyclerView recyclerView;
 
     private Intent intent;
+    private Stack<Call> callStack;
     private RenterReservationAdapter adapter;
 
     public static final int from = 5;
@@ -54,9 +56,23 @@ public class RenterReservationsFragment extends Fragment implements OnAdapterCli
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new RenterReservationDecoration());
 
+        callStack = new Stack<>();
+
         init();
 
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        if (!callStack.isEmpty())
+            for (Call call : callStack)
+                if (!call.isCanceled())
+                    call.cancel();
+
+        android.os.Debug.stopMethodTracing();
     }
 
     @Override
@@ -75,7 +91,7 @@ public class RenterReservationsFragment extends Fragment implements OnAdapterCli
 
     private void init() {
         NetworkManager.getInstance().selectReservationBicycle(
-                null,
+                callStack,
                 new Callback<ReservationReceiveObject>() {
                     @Override
                     public void onResponse(Call<ReservationReceiveObject> call, Response<ReservationReceiveObject> response) {
@@ -110,8 +126,13 @@ public class RenterReservationsFragment extends Fragment implements OnAdapterCli
 
                     @Override
                     public void onFailure(Call<ReservationReceiveObject> call, Throwable t) {
-                        if (BuildConfig.DEBUG)
-                            Log.d(TAG, "selectReservationBicycle onFailure", t);
+                        if (call.isCanceled()) {
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "selectReservationBicycle isCanceled");
+                        } else {
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "selectReservationBicycle onFailure", t);
+                        }
                     }
                 });
     }

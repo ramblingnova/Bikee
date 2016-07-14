@@ -29,8 +29,9 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/activity_comments_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/bikeeLine" />
+            android:layout_height="match_parent"
+            android:background="@color/bikeeBackground" />
+        <!-- TODO : 각 아이템 당 하단에 bikeeLine을 부여해야 함 -->
 
         <View
             android:layout_width="match_parent"

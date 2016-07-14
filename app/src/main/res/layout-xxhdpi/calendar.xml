@@ -30,19 +30,19 @@
     <RelativeLayout
         android:id="@+id/calendar_start_date_summary"
         android:layout_width="141dp"
-        android:layout_height="55dp"
+        android:layout_height="60dp"
         android:layout_below="@id/calendar_icon_text_view"
         android:layout_marginLeft="36dp"
         android:layout_marginStart="36dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/date_roundbox2">
+        android:background="@drawable/xml_border">
 
         <TextView
             android:id="@+id/calendar_summary_start_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="22dp"
-            android:layout_marginStart="22dp"
+            android:layout_marginLeft="18dp"
+            android:layout_marginStart="18dp"
             android:layout_marginTop="13dp"
             android:text="시작"
             android:textColor="@color/bikeeLightGray"
@@ -79,20 +79,20 @@
     <RelativeLayout
         android:id="@+id/calendar_end_date_summary"
         android:layout_width="141dp"
-        android:layout_height="55dp"
+        android:layout_height="60dp"
         android:layout_alignTop="@id/calendar_start_date_summary"
         android:layout_marginLeft="9dp"
         android:layout_marginStart="9dp"
         android:layout_toEndOf="@id/calendar_start_date_summary"
         android:layout_toRightOf="@id/calendar_start_date_summary"
-        android:background="@drawable/date_roundbox2">
+        android:background="@drawable/xml_border">
 
         <TextView
             android:id="@+id/calendar_summary_end_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="22dp"
-            android:layout_marginStart="22dp"
+            android:layout_marginLeft="18dp"
+            android:layout_marginStart="18dp"
             android:layout_marginTop="13dp"
             android:text="종료"
             android:textColor="@color/bikeeLightGray"

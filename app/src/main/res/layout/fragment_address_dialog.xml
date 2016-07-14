@@ -13,7 +13,7 @@
         android:layout_width="284dp"
         android:layout_height="259dp"
         android:layout_centerInParent="true"
-        android:background="@color/bikeeWhite"
+        android:background="@drawable/inputbox_before"
         android:clickable="true"
         android:focusable="true">
 

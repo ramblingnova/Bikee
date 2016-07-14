@@ -59,7 +59,7 @@
                 android:layout_toEndOf="@id/activity_conversation_bicycle_image_image_view"
                 android:layout_toRightOf="@id/activity_conversation_bicycle_image_image_view"
                 android:textColor="@color/bikeeBlack"
-                android:textSize="13sp" />
+                android:textSize="13dp" />
 
             <ImageView
                 android:id="@+id/activity_conversation_clock_image_image_view"
@@ -69,8 +69,8 @@
                 android:layout_alignStart="@id/activity_conversation_bicycle_name_text_view"
                 android:layout_below="@id/activity_conversation_bicycle_name_text_view"
                 android:layout_marginTop="19dp"
-                android:visibility="invisible"
-                android:src="@drawable/icon_time" />
+                android:src="@drawable/icon_time"
+                android:visibility="invisible" />
 
             <TextView
                 android:id="@+id/activity_conversation_reservation_period_text_view"
@@ -93,7 +93,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
-                android:textSize="11sp" />
+                android:textSize="11dp" />
 
             <ImageView
                 android:id="@+id/activity_conversation_reservation_state_image_view"
@@ -123,26 +123,29 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="18dp"
                 android:layout_marginRight="18dp"
-                android:enabled="false"
-                android:background="@drawable/send_message_button_selector" />
+                android:layout_marginTop="4dp"
+                android:background="@drawable/send_message_button_selector"
+                android:enabled="false" />
 
             <EditText
                 android:id="@+id/activity_conversation_writing_bar_message_edit_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="13dp"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="13dp"
-                android:layout_marginStart="25dp"
+                android:layout_marginTop="4dp"
                 android:layout_toLeftOf="@id/activity_conversation_writing_bar_send_message_button"
                 android:layout_toStartOf="@id/activity_conversation_writing_bar_send_message_button"
+                android:background="@null"
                 android:hint="메세지를 입력하세요."
+                android:paddingEnd="13dp"
+                android:paddingLeft="25dp"
+                android:paddingRight="13dp"
+                android:paddingStart="25dp"
                 android:textColor="@color/bikeeBlack"
                 android:textColorHint="@color/bikeeLightGray"
-                android:textSize="14sp" />
+                android:textSize="14dp" />
         </RelativeLayout>
 
         <View

@@ -7,12 +7,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -22,6 +20,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bigtion.bikee.common.content.ContentActivity;
+import com.bigtion.bikee.etc.dao.GetAddressReceiveObject;
+import com.bigtion.bikee.etc.manager.DaumNetworkManager;
 import com.bigtion.bikee.etc.manager.PropertyManager;
 import com.bigtion.bikee.renter.searchresult.SearchResultItem;
 import com.bigtion.bikee.renter.searchresult.filter.FilterActivity;
@@ -32,8 +32,6 @@ import com.bigtion.bikee.etc.MyApplication;
 import com.bigtion.bikee.etc.dao.ReceiveObject;
 import com.bigtion.bikee.etc.dao.Result;
 import com.bigtion.bikee.etc.manager.NetworkManager;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -49,28 +47,33 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SearchResultMapFragment extends Fragment implements OnMapReadyCallback,
-        GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMapClickListener,
-        GoogleMap.OnMarkerDragListener, GoogleMap.OnCameraChangeListener, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
-    private final Map<POI, Marker> mMarkerResolver = new HashMap<POI, Marker>();
-    private final Map<Marker, POI> mPOIResolver = new HashMap<Marker, POI>();
+        GoogleMap.OnMapClickListener, GoogleMap.OnMarkerClickListener,
+        GoogleMap.OnMarkerDragListener, GoogleMap.OnInfoWindowClickListener {
+    private Stack<Call> callStack;
     private View view;
     private GoogleMap mGoogleMap;
-    private LocationManager locationManager;
+    private Marker mMarker;
+    private Marker bicycleMarker;
+    private MarkerOptions mMarkerOptions;
+    private MarkerOptions bicycleMarkerOptions;
+    private final Map<Marker, SearchResultItem> bicycleMarkers = new HashMap<>();
     private BicycleInfoWindowView bicycleInfoWindowView;
     private String userLatitude = null;
     private String userLongitude = null;
+    private double mLatitude;
+    private double mLongitude;
     private String filter;
-    private Marker current_marker;
+    private OnSearchResultMapFragmentListener onSearchResultMapFragmentListener;
 
-    public static int from = 2;
-    private static final int PERMISSION_REQUEST_CODE = 101;
+    public static final int from = 2;
+    private static final int PERMISSION_REQUEST_CODE = 2303;
     private static final String TAG = "SEARCH_R_M_ACTIVITY";
 
     public SearchResultMapFragment() {
@@ -81,10 +84,15 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        for (Marker marker : mPOIResolver.keySet())
+        for (Marker marker : bicycleMarkers.keySet())
             marker.remove();
-        mMarkerResolver.clear();
-        mPOIResolver.clear();
+        bicycleMarkers.clear();
+
+        if ((userLatitude == null)
+                || (userLongitude == null)) {
+            userLatitude = PropertyManager.getInstance().getLatitude();
+            userLongitude = PropertyManager.getInstance().getLongitude();
+        }
     }
 
     @Override
@@ -103,28 +111,48 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
             // e.printStackTrace();
         }
 
+        callStack = new Stack<>();
+
         return view;
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        String provider = LocationManager.NETWORK_PROVIDER;
-        try {
-            locationManager.requestLocationUpdates(provider, 1000, 1, mListener);
-        } catch (SecurityException e) {
-            e.printStackTrace();
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK && requestCode == FilterActivity.FILTER_ACTIVITY) {
+            if (BuildConfig.DEBUG)
+                Log.d(TAG, "onActivityResult");
+
+            for (Marker marker : bicycleMarkers.keySet())
+                marker.remove();
+            bicycleMarkers.clear();
+
+            // TODO : 필터 결과가 적용되려면 changeUserPosition을 더 이상 호출하지 못하도록 막아야 함
+            if ((data.getStringExtra("LATITUDE") != null)
+                    && (data.getStringExtra("LONGITUDE") != null)) {
+                userLatitude = data.getStringExtra("LATITUDE");
+                userLongitude = data.getStringExtra("LONGITUDE");
+            }
+
+            List<String> f = new ArrayList<>();
+            filter = "{";
+            if (data.getStringExtra("START_DATE") != null)
+                f.add("\"start\":\"" + data.getStringExtra("START_DATE") + "\"");
+            if (data.getStringExtra("END_DATE") != null)
+                f.add("\"end\":\"" + data.getStringExtra("END_DATE") + "\"");
+            if (data.getStringExtra("TYPE") != null)
+                f.add("\"type\":\"" + data.getStringExtra("TYPE") + "\"");
+            if (data.getStringExtra("HEIGHT") != null)
+                f.add("\"height\":\"" + data.getStringExtra("HEIGHT") + "\"");
+            f.add("\"smartlock\":" + data.getBooleanExtra("SMART_LOCK", false));
+            for (int i = 0; i < f.size(); i++)
+                filter += (i == 0 ? "" : ",") + f.get(i);
+            filter += "}";
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
-//        googleMap.clear();
-//        mMarkerResolver.clear();
-//        mPOIResolver.clear();
 
         if (Build.VERSION.SDK_INT >= 23) {
             if ((mGoogleMap != null)
@@ -141,39 +169,15 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-    }
+    public void onDestroyView() {
+        super.onDestroyView();
 
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
+        if (!callStack.isEmpty())
+            for (Call call : callStack)
+                if (!call.isCanceled())
+                    call.cancel();
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK && requestCode == FilterActivity.FILTER_ACTIVITY) {
-            Log.d(TAG, "onActivityResult");
-            // TODO : 필터 적용해서 마커 그릴 것
-
-            List<String> f = new ArrayList<String>();
-            userLatitude = data.getStringExtra("LATITUDE");
-            userLongitude = data.getStringExtra("LONGITUDE");
-
-            filter = "{";
-            if (data.getStringExtra("START_DATE") != null)
-                f.add("\"start\":\"" + data.getStringExtra("START_DATE") + "\"");
-            if (data.getStringExtra("END_DATE") != null)
-                f.add("\"end\":\"" + data.getStringExtra("END_DATE") + "\"");
-            if (data.getStringExtra("TYPE") != null)
-                f.add("\"type\":\"" + data.getStringExtra("TYPE") + "\"");
-            if (data.getStringExtra("HEIGHT") != null)
-                f.add("\"height\":\"" + data.getStringExtra("HEIGHT") + "\"");
-            f.add("\"smartlock\":" + data.getBooleanExtra("SMART_LOCK", false));
-            for (int i = 0; i < f.size(); i++)
-                filter += (i == 0 ? "" : ",") + f.get(i);
-            filter += "}";
-        }
+        android.os.Debug.stopMethodTracing();
     }
 
     @Override
@@ -232,19 +236,33 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
             mGoogleMap.setMyLocationEnabled(true);
         }
 
-        mGoogleMap.setOnInfoWindowClickListener(this);
         mGoogleMap.setOnMapClickListener(this);
         mGoogleMap.setOnMarkerClickListener(this);
+        mGoogleMap.setOnMarkerDragListener(this);
+        mGoogleMap.setOnInfoWindowClickListener(this);
         mGoogleMap.setInfoWindowAdapter(
                 bicycleInfoWindowView
-                        = BicycleInfoWindowView.getInstance(MyApplication.getmContext(), mPOIResolver)
+                        = BicycleInfoWindowView.getInstance(MyApplication.getmContext(), bicycleMarkers)
         );
-        bicycleInfoWindowView.setOnImageLoadListener(onImageLoadListener);
 
-        if ((null == userLatitude) || (null == userLongitude)) {
-            userLatitude = PropertyManager.getInstance().getLatitude();
-            userLongitude = PropertyManager.getInstance().getLongitude();
-        }
+        bicycleInfoWindowView.setOnImageLoadListener(
+                new BicycleInfoWindowView.OnImageLoadListener() {
+                    @Override
+                    public void onImageLoad() {
+                        bicycleMarker.showInfoWindow();
+                    }
+                }
+        );
+
+        mMarkerOptions = new MarkerOptions();
+        mMarkerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_bicon));
+        mMarkerOptions.anchor(0.5f, 1.0f);
+        mMarkerOptions.draggable(true);
+
+        bicycleMarkerOptions = new MarkerOptions();
+        bicycleMarkerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.rider_main_bike_b_icon));
+        bicycleMarkerOptions.anchor(0.5f, 1.0f);
+        bicycleMarkerOptions.draggable(false);
 
         moveMap(
                 Double.parseDouble(userLatitude),
@@ -253,103 +271,76 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
         );
     }
 
-    private void moveMap(double lat, double lng, boolean smooth) {
-        CameraPosition.Builder builder = new CameraPosition.Builder();
-        builder
-                .target(new LatLng(lat, lng))
-                .zoom(15);
-        CameraPosition position = builder.build();
-        CameraUpdate update = CameraUpdateFactory.newCameraPosition(position);
-        if (smooth)
-            mGoogleMap.animateCamera(update);
-        else
-            mGoogleMap.moveCamera(update);
-    }
+    @Override
+    public void onMapClick(final LatLng latLng) {
+        DaumNetworkManager.getInstance().getAddress(
+                latLng.longitude,
+                latLng.latitude,
+                callStack,
+                new Callback<GetAddressReceiveObject>() {
+                    @Override
+                    public void onResponse(Call<GetAddressReceiveObject> call, Response<GetAddressReceiveObject> response) {
+                        GetAddressReceiveObject receiveObject = response.body();
 
-    private LocationListener mListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(Location location) {
-            if (location != null) {
-                if ((null == userLatitude) || (null == userLongitude)) {
-                    userLatitude = PropertyManager.getInstance().getLatitude();
-                    userLongitude = PropertyManager.getInstance().getLongitude();
-                } else {
-                    userLatitude = "" + location.getLatitude();
-                    userLongitude = "" + location.getLongitude();
-                    PropertyManager.getInstance().setLatitude(userLatitude);
-                    PropertyManager.getInstance().setLongitude(userLongitude);
+                        if (receiveObject != null) {
+                            if (onSearchResultMapFragmentListener != null) {
+                                onSearchResultMapFragmentListener.setAddress(
+                                        receiveObject.getFullName(),
+                                        latLng.latitude,
+                                        latLng.longitude
+                                );
+                                onSearchResultMapFragmentListener.setHasLatLng(true);
+                            }
+
+                            mLatitude = latLng.latitude;
+                            mLongitude = latLng.longitude;
+
+                            mMarkerOptions.position(latLng);
+                            if (mMarker != null)
+                                mMarker.remove();
+                            mMarker = mGoogleMap.addMarker(mMarkerOptions);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<GetAddressReceiveObject> call, Throwable t) {
+                        if (call.isCanceled()) {
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "getAddress isCanceled");
+                        } else {
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "getAddress onFailure", t);
+                        }
+                    }
                 }
-                try {
-                    locationManager.removeUpdates(mListener);
-                } catch (SecurityException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-
-        }
-    };
-
-    @Override
-    public void onCameraChange(CameraPosition cameraPosition) {
-
-    }
-
-    @Override
-    public void onInfoWindowClick(Marker marker) {
-        marker.hideInfoWindow();
-        Intent intent = new Intent(getActivity(), ContentActivity.class);
-        intent.putExtra("FROM", from);
-        intent.putExtra("BICYCLE_ID", mPOIResolver.get(marker).getItem().getBicycleId());
-        intent.putExtra("BICYCLE_LATITUDE", mPOIResolver.get(marker).getItem().getLatitude());
-        intent.putExtra("BICYCLE_LONGITUDE", mPOIResolver.get(marker).getItem().getLongitude());
-        getActivity().startActivity(intent);
-    }
-
-    @Override
-    public void onMapClick(LatLng latLng) {
-
+        );
     }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        POI poi = mPOIResolver.get(marker);
-        SearchResultItem searchResultItem = poi.getItem();
-        current_marker = marker;
-        bicycleInfoWindowView.setImageView(getActivity(), searchResultItem.getImageURL());
+        if (!marker.isDraggable()) {
+            SearchResultItem searchResultItem = bicycleMarkers.get(marker);
+            bicycleMarker = marker;
+            bicycleInfoWindowView.setImageView(getActivity(), searchResultItem.getImageURL());
 
-        moveMap(
-                searchResultItem.getLatitude(),
-                searchResultItem.getLongitude(),
-                true
-        );
+            moveMap(
+                    searchResultItem.getLatitude(),
+                    searchResultItem.getLongitude(),
+                    true
+            );
+        } else {
+            mMarker.remove();
+            if (onSearchResultMapFragmentListener != null)
+                onSearchResultMapFragmentListener.setHasLatLng(false);
+        }
 
         return true;
     }
 
-    private BicycleInfoWindowView.OnImageLoadListener onImageLoadListener = new BicycleInfoWindowView.OnImageLoadListener() {
-        @Override
-        public void onImageLoad() {
-            current_marker.showInfoWindow();
-        }
-    };
-
     @Override
     public void onMarkerDragStart(Marker marker) {
-
+        Vibrator vibe = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+        vibe.vibrate(100);
     }
 
     @Override
@@ -359,35 +350,102 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
 
     @Override
     public void onMarkerDragEnd(Marker marker) {
+        final LatLng latLng = marker.getPosition();
+        DaumNetworkManager.getInstance().getAddress(
+                latLng.longitude,
+                latLng.latitude,
+                callStack,
+                new Callback<GetAddressReceiveObject>() {
+                    @Override
+                    public void onResponse(Call<GetAddressReceiveObject> call, Response<GetAddressReceiveObject> response) {
+                        GetAddressReceiveObject receiveObject = response.body();
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "getAddress onResponse Code : " + receiveObject.getCode());
 
+                        if (receiveObject != null) {
+                            if (onSearchResultMapFragmentListener != null) {
+                                onSearchResultMapFragmentListener.setAddress(
+                                        receiveObject.getFullName(),
+                                        latLng.latitude,
+                                        latLng.longitude
+                                );
+                                onSearchResultMapFragmentListener.setHasLatLng(true);
+                            }
+
+                            mLatitude = latLng.latitude;
+                            mLongitude = latLng.longitude;
+
+                            mMarkerOptions.position(latLng);
+                            if (mMarker != null)
+                                mMarker.remove();
+                            mMarker = mGoogleMap.addMarker(mMarkerOptions);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<GetAddressReceiveObject> call, Throwable t) {
+                        if (call.isCanceled()) {
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "getAddress isCanceled");
+                        } else {
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "getAddress onFailure", t);
+                        }
+                    }
+                }
+        );
     }
 
-    public void onResponseLocation(String latitude, String longitude) {
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        marker.hideInfoWindow();
+        Intent intent = new Intent(getActivity(), ContentActivity.class);
+        intent.putExtra("FROM", from);
+        intent.putExtra("BICYCLE_ID", bicycleMarkers.get(marker).getBicycleId());
+        intent.putExtra("BICYCLE_LATITUDE", bicycleMarkers.get(marker).getLatitude());
+        intent.putExtra("BICYCLE_LONGITUDE", bicycleMarkers.get(marker).getLongitude());
+        getActivity().startActivity(intent);
+    }
+
+    public void changeMarkerPosition(double latitude, double longitude) {
+        mLatitude = latitude;
+        mLongitude = longitude;
+        moveMap(mLatitude, mLongitude, true);
+
+        mMarkerOptions.position(new LatLng(mLatitude, mLongitude));
+        if (mMarker != null)
+            mMarker.remove();
+        mMarker = mGoogleMap.addMarker(mMarkerOptions);
+    }
+
+    public void removeMarker() {
+        if (mMarker != null)
+            mMarker.remove();
+    }
+
+    public void changeUserPosition(String latitude, String longitude) {
         this.userLatitude = latitude;
         this.userLongitude = longitude;
     }
 
     private void requestData() {
-        if ((null == userLatitude) || (null == userLongitude)) {
-            userLatitude = PropertyManager.getInstance().getLatitude();
-            userLongitude = PropertyManager.getInstance().getLongitude();
-        }
         String lat = userLatitude;
         String lon = userLongitude;
         NetworkManager.getInstance().selectAllMapBicycle(
                 lon,
                 lat,
                 filter,
-                null,
+                callStack,
                 new Callback<ReceiveObject>() {
                     @Override
                     public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
                         ReceiveObject receiveObject = response.body();
-                        Log.i("result", "Map!! onResponse Code : " + receiveObject.getCode()
-                                        + ", Success : " + receiveObject.isSuccess()
-                                        + ", Msg : " + receiveObject.getMsg()
-                                        + ", Error : "
-                        );
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "selectAllMapBicycle onResponse"
+                                            + ", Code : " + receiveObject.getCode()
+                                            + ", Success : " + receiveObject.isSuccess()
+                                            + ", Msg : " + receiveObject.getMsg()
+                            );
                         List<Result> results = receiveObject.getResult();
                         String imageURL;
                         for (Result result : results) {
@@ -396,72 +454,73 @@ public class SearchResultMapFragment extends Fragment implements OnMapReadyCallb
                             } else {
                                 imageURL = result.getImage().getCdnUri() + result.getImage().getFiles().get(0);
                             }
-                            Log.d(TAG, "onResponse : " + result.get_id()
-                                            + ", ImageURL : " + imageURL
-                                            + ", Name : " + result.getTitle()
-                                            + ", Type : " + result.getType()
-                                            + ", Height : " + result.getHeight()
-                                            + ", Price.month : " + result.getPrice().getMonth()
-                                            + ", lat : " + result.getLoc().getCoordinates().get(1)
-                                            + ", lon : " + result.getLoc().getCoordinates().get(0)
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "selectAllMapBicycle _id : " + result.get_id()
+                                                + ", imageURL : " + imageURL
+                                                + ", title : " + result.getTitle()
+                                                + ", type : " + result.getType()
+                                                + ", height : " + result.getHeight()
+                                                + ", price.hour : " + result.getPrice().getHour()
+                                                + ", price.day : " + result.getPrice().getDay()
+                                                + ", price.month : " + result.getPrice().getMonth()
+                                                + ", latitude : " + result.getLoc().getCoordinates().get(1)
+                                                + ", longitude : " + result.getLoc().getCoordinates().get(0)
+                                );
+
+                            SearchResultItem item = new SearchResultItem(
+                                    result.get_id(),
+                                    imageURL,
+                                    result.getTitle(),
+                                    result.getHeight(),
+                                    result.getType(),
+                                    "" + result.getPrice().getMonth(),
+                                    result.getDistance(),
+                                    result.getLoc().getCoordinates().get(1),
+                                    result.getLoc().getCoordinates().get(0)
                             );
 
-                            // 지도에 뿌리기
-                            MarkerOptions options = new MarkerOptions();
-                            options.position(new LatLng(result.getLoc().getCoordinates().get(1), result.getLoc().getCoordinates().get(0)));
-                            options.icon(BitmapDescriptorFactory.fromResource(R.drawable.rider_main_bike_b_icon));
-                            options.anchor(0.5f, 0.5f);
-
-                            POI poi = new POI();
-                            poi.setItem(
-                                    new SearchResultItem(
-                                            result.get_id(),
-                                            imageURL,
-                                            result.getTitle(),
-                                            result.getHeight(),
-                                            result.getType(),
-                                            "" + result.getPrice().getMonth(),
-                                            result.getDistance(),
+                            bicycleMarkerOptions.position(
+                                    new LatLng(
                                             result.getLoc().getCoordinates().get(1),
                                             result.getLoc().getCoordinates().get(0)
                                     )
                             );
 
-                            poi.setName("자전거 제목");
-                            poi.setUpperAddrName("가격|종류|신장");
+                            Marker mMarker = mGoogleMap.addMarker(bicycleMarkerOptions);
 
-                            options.title(poi.getName());
-                            options.snippet(poi.getAddress());
-
-                            options.draggable(true);
-
-                            Marker mMarker = mGoogleMap.addMarker(options);
-
-                            mMarkerResolver.put(poi, mMarker);
-                            mPOIResolver.put(mMarker, poi);
+                            bicycleMarkers.put(mMarker, item);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ReceiveObject> call, Throwable t) {
-                        if (BuildConfig.DEBUG)
-                            Log.d(TAG, "onFailure Error : " + t.toString());
+                        if (call.isCanceled()) {
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "selectAllMapBicycle isCanceled");
+                        } else {
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "selectAllMapBicycle onFailure", t);
+                        }
                     }
                 });
     }
 
-    @Override
-    public void onConnected(Bundle bundle) {
-
+    private void moveMap(double lat, double lng, boolean smooth) {
+        CameraPosition.Builder builder = new CameraPosition.Builder();
+        builder
+                .target(new LatLng(lat, lng))
+                .zoom(15);
+        CameraPosition position = builder.build();
+        CameraUpdate update = CameraUpdateFactory.newCameraPosition(position);
+        if (mGoogleMap != null) {
+            if (smooth)
+                mGoogleMap.animateCamera(update);
+            else
+                mGoogleMap.moveCamera(update);
+        }
     }
 
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-
+    public void setOnSearchResultMapFragmentListener(OnSearchResultMapFragmentListener onSearchResultMapFragmentListener) {
+        this.onSearchResultMapFragmentListener = onSearchResultMapFragmentListener;
     }
 }

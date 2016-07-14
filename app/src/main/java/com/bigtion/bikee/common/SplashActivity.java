@@ -57,7 +57,7 @@ public class SplashActivity extends AppCompatActivity {
     private String userName;
     private String gcmRegToken;
 
-    private static final int PERMISSION_REQUEST_CODE = 100;
+    private static final int PERMISSION_REQUEST_CODE = 2301;
     private static final String appId = "2E377FE1-E1AD-4484-A66F-696AF1306F58";
     private static final String TAG = "SPLASH_ACTIVITY";
 

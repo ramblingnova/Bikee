@@ -34,7 +34,6 @@ import com.bigtion.bikee.common.sidemenu.SignInActivity;
 import com.bigtion.bikee.common.smartkey.SmartKeyFragment;
 import com.bigtion.bikee.renter.reservation.RenterReservationsFragment;
 import com.bigtion.bikee.renter.searchresult.SearchResultFragment;
-import com.bigtion.bikee.common.sidemenu.AuthenticationInformationActivity;
 import com.bigtion.bikee.renter.searchresult.filter.FilterActivity;
 import com.bigtion.bikee.renter.sidemenu.creditcard.CreditCardsActivity;
 import com.bigtion.bikee.common.sidemenu.comment.CommentsActivity;
@@ -140,6 +139,13 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        android.os.Debug.stopMethodTracing();
+    }
+
+    @Override
     public void onDrawerSlide(View drawerView, float slideOffset) {
 
     }
@@ -217,8 +223,6 @@ public class RenterMainActivity extends AppCompatActivity implements DrawerLayou
                 startActivity(intent);
                 break;
             case R.id.renter_side_menu_authentication_information_text_view:
-                intent = new Intent(RenterMainActivity.this, AuthenticationInformationActivity.class);
-                startActivity(intent);
                 break;
             case R.id.renter_side_menu_push_alarm_text_view:
                 break;

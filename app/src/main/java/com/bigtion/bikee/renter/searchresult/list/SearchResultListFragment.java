@@ -25,21 +25,27 @@ import com.bigtion.bikee.etc.dao.Result;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SearchResultListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, OnAdapterClickListener {
-    private RecyclerView recyclerView;
+    @Bind(R.id.fragment_search_result_list_recycler_view)
+    RecyclerView recyclerView;
+    @Bind(R.id.fragment_search_result_list_swipe_refresh_layout)
+    SwipeRefreshLayout refreshLayout;
+
+    private Stack<Call> callStack;
     private LinearLayoutManager layoutManager;
     private SearchResultAdapter adapter;
-    private SwipeRefreshLayout refreshLayout;
-    private boolean lastItem = false;
     private String latitude = null;
     private String longitude = null;
     private int index;
+    private boolean lastItem = false;
     private String filter;
 
     public static final int from = 4;
@@ -50,37 +56,88 @@ public class SearchResultListFragment extends Fragment implements SwipeRefreshLa
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        adapter = new SearchResultAdapter();
+        adapter.setOnAdapterClickListener(this);
+
+        index = 0;
+
+        if ((null == latitude)
+                || (null == longitude)) {
+            latitude = PropertyManager.getInstance().getLatitude();
+            longitude = PropertyManager.getInstance().getLongitude();
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_result_list, container, false);
 
         ButterKnife.bind(this, view);
 
-        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.view_search_result_item_refresh_list_view);
         refreshLayout.setOnRefreshListener(SearchResultListFragment.this);
-
-        recyclerView = (RecyclerView) view.findViewById(R.id.view_search_result_item_list_view);
 
         layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
 
         recyclerView.setLayoutManager(layoutManager);
-
-        adapter = new SearchResultAdapter();
-        adapter.setOnAdapterClickListener(this);
-
         recyclerView.setAdapter(adapter);
         recyclerView.addOnScrollListener(onScrollListener);
 
-        index = 0;
+        callStack = new Stack<>();
 
         return view;
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK && requestCode == FilterActivity.FILTER_ACTIVITY) {
+            if (BuildConfig.DEBUG)
+                Log.d(TAG, "onActivityResult");
+
+            // TODO : 필터 결과가 적용되려면 changeUserPosition을 더 이상 호출하지 못하도록 막아야 함
+            latitude = data.getStringExtra("LATITUDE");
+            longitude = data.getStringExtra("LONGITUDE");
+
+            List<String> f = new ArrayList<>();
+            filter = "{";
+            if (data.getStringExtra("START_DATE") != null)
+                f.add("\"start\":\"" + data.getStringExtra("START_DATE") + "\"");
+            if (data.getStringExtra("END_DATE") != null)
+                f.add("\"end\":\"" + data.getStringExtra("END_DATE") + "\"");
+            if (data.getStringExtra("TYPE") != null)
+                f.add("\"type\":\"" + data.getStringExtra("TYPE") + "\"");
+            if (data.getStringExtra("HEIGHT") != null)
+                f.add("\"height\":\"" + data.getStringExtra("HEIGHT") + "\"");
+            f.add("\"smartlock\":" + data.getBooleanExtra("SMART_LOCK", false));
+            for (int i = 0; i < f.size(); i++)
+                filter += (i == 0 ? "" : ",") + f.get(i);
+            filter += "}";
+
+            index = 0;
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
+
         adapter.clear();
         index = 0;
         requestData();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        if (!callStack.isEmpty())
+            for (Call call : callStack)
+                if (!call.isCanceled())
+                    call.cancel();
+
+        android.os.Debug.stopMethodTracing();
     }
 
     @Override
@@ -101,42 +158,14 @@ public class SearchResultListFragment extends Fragment implements SwipeRefreshLa
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
-            if ((layoutManager.findLastVisibleItemPosition() == adapter.getItemCount() - 1)
-                    && recyclerView.getChildCount() > 0) {
+            if ((layoutManager.findLastVisibleItemPosition()
+                    == adapter.getItemCount() - 1)
+                    && (recyclerView.getChildCount() > 0))
                 lastItem = true;
-            } else {
+            else
                 lastItem = false;
-            }
         }
     };
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK && requestCode == FilterActivity.FILTER_ACTIVITY) {
-            Log.d(TAG, "onActivityResult");
-
-            List<String> f = new ArrayList<String>();
-            latitude = data.getStringExtra("LATITUDE");
-            longitude = data.getStringExtra("LONGITUDE");
-
-            filter = "{";
-            if (data.getStringExtra("START_DATE") != null) {
-                f.add("\"start\":\"" + data.getStringExtra("START_DATE") + "\"");
-            }
-            if (data.getStringExtra("END_DATE") != null)
-                f.add("\"end\":\"" + data.getStringExtra("END_DATE") + "\"");
-            if (data.getStringExtra("TYPE") != null)
-                f.add("\"type\":\"" + data.getStringExtra("TYPE") + "\"");
-            if (data.getStringExtra("HEIGHT") != null)
-                f.add("\"height\":\"" + data.getStringExtra("HEIGHT") + "\"");
-            f.add("\"smartlock\":" + data.getBooleanExtra("SMART_LOCK", false));
-            for (int i = 0; i < f.size(); i++)
-                filter += (i == 0 ? "" : ",") + f.get(i);
-            filter += "}";
-
-            index = 0;
-        }
-    }
 
     @Override
     public void onAdapterClick(View view, Object item) {
@@ -148,17 +177,13 @@ public class SearchResultListFragment extends Fragment implements SwipeRefreshLa
         getActivity().startActivity(intent);
     }
 
-    public void onResponseLocation(String latitude, String longitude) {
+    public void changeUserPosition(String latitude, String longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
     private void requestData() {
         // 전체자전거조회
-        if ((null == latitude) || (null == longitude)) {
-            latitude = PropertyManager.getInstance().getLatitude();
-            longitude = PropertyManager.getInstance().getLongitude();
-        }
         String lat = latitude;
         String lon = longitude;
         NetworkManager.getInstance().selectAllListBicycle(
@@ -166,17 +191,16 @@ public class SearchResultListFragment extends Fragment implements SwipeRefreshLa
                 lat,
                 "" + index,
                 filter,
-                null,
+                callStack,
                 new Callback<ReceiveObject>() {
                     @Override
                     public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
                         ReceiveObject receiveObject = response.body();
                         if (BuildConfig.DEBUG)
-                            Log.d(TAG, "onResponse Index : " + receiveObject.getLastindex()
+                            Log.d(TAG, "selectAllListBicycle onResponse Index : " + receiveObject.getLastindex()
                                             + ", Code : " + receiveObject.getCode()
                                             + ", Success : " + receiveObject.isSuccess()
                                             + ", Msg : " + receiveObject.getMsg()
-                                            + ", Error : "
                             );
                         List<Result> results = receiveObject.getResult();
                         String imageURL;
@@ -189,15 +213,16 @@ public class SearchResultListFragment extends Fragment implements SwipeRefreshLa
                                 imageURL = result.getImage().getCdnUri() + result.getImage().getFiles().get(0);
                             }
                             if (BuildConfig.DEBUG)
-                                Log.d(TAG, "List!! onResponse Id : " + result.get_id()
-                                                + ", ImageURL : " + imageURL
-                                                + ", Name : " + result.getTitle()
-                                                + ", Type : " + result.getType()
-                                                + ", Height : " + result.getHeight()
-                                                + ", Price.day : " + result.getPrice().getDay()
-                                                + ", lat : " + result.getLoc().getCoordinates().get(1)
-                                                + ", lon : " + result.getLoc().getCoordinates().get(0)
-                                                + ", distance : " + result.getDistance()
+                                Log.d(TAG, "selectAllListBicycle _id : " + result.get_id()
+                                                + ", imageURL : " + imageURL
+                                                + ", title : " + result.getTitle()
+                                                + ", type : " + result.getType()
+                                                + ", height : " + result.getHeight()
+                                                + ", price.hour : " + result.getPrice().getHour()
+                                                + ", price.day : " + result.getPrice().getDay()
+                                                + ", price.month : " + result.getPrice().getMonth()
+                                                + ", latitude : " + result.getLoc().getCoordinates().get(1)
+                                                + ", longitude : " + result.getLoc().getCoordinates().get(0)
                                 );
                             adapter.add(
                                     new SearchResultItem(
@@ -224,8 +249,13 @@ public class SearchResultListFragment extends Fragment implements SwipeRefreshLa
 
                     @Override
                     public void onFailure(Call<ReceiveObject> call, Throwable t) {
-                        if (BuildConfig.DEBUG)
-                            Log.d(TAG, "onFailure Error : " + t.toString());
+                        if (call.isCanceled()) {
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "selectAllListBicycle isCanceled");
+                        } else {
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "selectAllListBicycle onFailure Error", t);
+                        }
                     }
                 });
     }

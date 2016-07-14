@@ -29,7 +29,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ListerReservationsFragment extends Fragment implements OnAdapterClickListener {
-    @Bind(R.id.fragment_lister_requested_bicycle_list_list_view)
+    @Bind(R.id.fragment_lister_reservation_recycler_view)
     RecyclerView recyclerView;
 
     private Intent intent;

@@ -74,6 +74,8 @@ public class RegisterBicycleFeeFragment extends Fragment implements TextWatcher 
 
     @Override
     public void onResume() {
+        super.onResume();
+
         if (!hour.getText().toString().equals("")) {
             hourHint1.setVisibility(View.GONE);
             hourHint2.setVisibility(View.GONE);
@@ -87,7 +89,19 @@ public class RegisterBicycleFeeFragment extends Fragment implements TextWatcher 
             monthHint2.setVisibility(View.GONE);
         }
 
-        super.onResume();
+        if ((hour.getText().length() > 0)
+                && (day.getText().length() > 0)
+                && (month.getText().length() > 0)) {
+            if ((null != registerBicycleINF)
+                    && (!registerBicycleINF.getEnable())) {
+                registerBicycleINF.setEnable(true);
+            }
+        } else {
+            if ((null != registerBicycleINF)
+                    && (registerBicycleINF.getEnable())) {
+                registerBicycleINF.setEnable(false);
+            }
+        }
     }
 
     @Override
@@ -98,7 +112,7 @@ public class RegisterBicycleFeeFragment extends Fragment implements TextWatcher 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         if (!s.toString().equals(result)) {
-            if(s.length() > 0)
+            if (s.length() > 0)
                 result = decimalFormat.format(Long.parseLong(s.toString().replaceAll(",", "")));
             if (s.hashCode() == hour.getText().hashCode()) {
                 hour.setText(result);

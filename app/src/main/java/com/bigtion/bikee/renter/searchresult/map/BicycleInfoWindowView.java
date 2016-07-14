@@ -55,10 +55,10 @@ public class BicycleInfoWindowView extends FrameLayout implements GoogleMap.Info
 
     private OnImageLoadListener onImageLoadListener;
     private View infoWindow;
-    private Map<Marker, POI> mPOIResolver;
+    private Map<Marker, SearchResultItem> bicycleMarkers;
     private DecimalFormat decimalFormat = new DecimalFormat("###,###.####");
 
-    public BicycleInfoWindowView(Context context, Map<Marker, POI> poiResolver) {
+    public BicycleInfoWindowView(Context context, Map<Marker, SearchResultItem> bicycleMarkers) {
         super(context);
         infoWindow = inflate(getContext(), R.layout.view_bicycle_info_window, this);
         ButterKnife.bind(this);
@@ -73,17 +73,16 @@ public class BicycleInfoWindowView extends FrameLayout implements GoogleMap.Info
                 payment,
                 perDuration
         );
-        mPOIResolver = poiResolver;
+        this.bicycleMarkers = bicycleMarkers;
     }
 
-    public static BicycleInfoWindowView getInstance(Context context, Map<Marker, POI> poiResolver) {
-        return new BicycleInfoWindowView(context, poiResolver);
+    public static BicycleInfoWindowView getInstance(Context context, Map<Marker, SearchResultItem> bicycleMarkers) {
+        return new BicycleInfoWindowView(context, bicycleMarkers);
     }
 
     @Override
     public View getInfoWindow(Marker marker) {
-        POI poi = mPOIResolver.get(marker);
-        setView(poi.getItem());
+        setView(bicycleMarkers.get(marker));
         return infoWindow;
     }
 

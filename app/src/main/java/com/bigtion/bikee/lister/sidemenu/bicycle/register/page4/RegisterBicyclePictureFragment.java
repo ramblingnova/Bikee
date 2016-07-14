@@ -63,7 +63,7 @@ public class RegisterBicyclePictureFragment extends Fragment {
     private RegisterBicycleINF registerBicycleINF;
     private ArrayList<File> list;
 
-    private static final int PERMISSION_REQUEST_CODE = 102;
+    private static final int PERMISSION_REQUEST_CODE = 2304;
     private static final int MAXIMUM_LIST_SIZE = 5;
 
     public static RegisterBicyclePictureFragment newInstance() {

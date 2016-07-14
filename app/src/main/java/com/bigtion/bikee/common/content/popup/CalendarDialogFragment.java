@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,12 +19,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.bigtion.bikee.common.popup.ChoiceDialogFragment;
+import com.bigtion.bikee.etc.MyApplication;
 import com.bigtion.bikee.etc.dao.SelectReservationReceiveObject;
 import com.bigtion.bikee.etc.manager.NetworkManager;
 import com.bigtion.bikee.BuildConfig;
 import com.bigtion.bikee.R;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-import com.wdullaer.materialdatetimepicker.date.OnDateSelectedListener;
+//import com.wdullaer.materialdatetimepicker.date.OnDateSelectedListener;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.Timepoint;
@@ -73,6 +75,7 @@ public class CalendarDialogFragment extends DialogFragment implements TimePicker
     Calendar start_cal;
     Calendar end_cal;
     Date start_day;
+    Calendar calendar;
 
     private static final String TAG = "CALENDAR_DIALOG_F";
 
@@ -92,6 +95,8 @@ public class CalendarDialogFragment extends DialogFragment implements TimePicker
         setStyle(DialogFragment.STYLE_NO_TITLE, R.style.AppTheme);
 
         bicycleId = getArguments().getString("BICYCLE_ID");
+
+        start_day = new Date();
     }
 
     @Nullable
@@ -101,6 +106,21 @@ public class CalendarDialogFragment extends DialogFragment implements TimePicker
 
         ButterKnife.bind(this, view);
 
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
+        SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("HH:mm", java.util.Locale.getDefault());
+        Calendar now = Calendar.getInstance();
+        now.setTime(start_day);
+        int min = now.get(Calendar.MINUTE);
+        int hour = now.get(Calendar.HOUR_OF_DAY);
+        min = (int) Math.ceil((double) min / 10) * 10;
+        now.set(Calendar.MINUTE, min);
+        startDateTextView.setText(simpleDateFormat.format(now.getTime()));
+        startTimeTextView.setText(simpleDateFormat2.format(now.getTime()));
+        now.set(Calendar.HOUR_OF_DAY, hour + 1);
+        endDateTextView.setText(simpleDateFormat.format(now.getTime()));
+        endTimeTextView.setText(simpleDateFormat2.format(now.getTime()));
+
+        //startTimeTextView.setText();
         return view;
     }
 
@@ -108,7 +128,20 @@ public class CalendarDialogFragment extends DialogFragment implements TimePicker
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Dialog d = getDialog();
-        d.getWindow().setLayout(800, 400);
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+
+        // TODO : 팝업 사이즈
+        int width = display.getWidth();
+        int height = display.getHeight();
+        Log.d(TAG, "width : " + width
+                + "\nheight : " + height
+                + "\ntemp_width : " + MyApplication.getmContext().getResources().getDimensionPixelSize(R.dimen.temp_width)
+                + "\ntemp_height : " + MyApplication.getmContext().getResources().getDimensionPixelSize(R.dimen.temp_height)
+        );
+        d.getWindow().setLayout(
+                width,
+                (int)(height / 3.0)
+        );
         WindowManager.LayoutParams params = d.getWindow().getAttributes();
         params.gravity = Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL;
         DisplayMetrics metrics = new DisplayMetrics();
@@ -162,42 +195,42 @@ public class CalendarDialogFragment extends DialogFragment implements TimePicker
 
         switch (view.getId()) {
             case R.id.calendar_start_date_summary: {
-                dpd.setOnDateSelectedListener(new OnDateSelectedListener() {
-                    @Override
-                    public void onDateSelected(View view, Date date) {
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd", java.util.Locale.getDefault());
-                        startDateTime = simpleDateFormat.format(date.getTime());
-                        startDateTextView.setText(startDateTime);
-                        if (Build.VERSION.SDK_INT < 23) {
-                            startDateTextView.setTextColor(getResources().getColor(R.color.bikeeBlue));
-                        } else {
-                            startDateTextView.setTextColor(getResources().getColor(R.color.bikeeBlue, getActivity().getTheme()));
-                        }
-
-                        start_day = date;
-                        openTimePicker(now, date, true);
-                        isStartDate = true;
-                    }
-                });
+//                dpd.setOnDateSelectedListener(new OnDateSelectedListener() {
+//                    @Override
+//                    public void onDateSelected(View view, Date date) {
+//                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd", java.util.Locale.getDefault());
+//                        startDateTime = simpleDateFormat.format(date.getTime());
+//                        startDateTextView.setText(startDateTime);
+//                        if (Build.VERSION.SDK_INT < 23) {
+//                            startDateTextView.setTextColor(getResources().getColor(R.color.bikeeBlue));
+//                        } else {
+//                            startDateTextView.setTextColor(getResources().getColor(R.color.bikeeBlue, getActivity().getTheme()));
+//                        }
+//
+//                        start_day = date;
+//                        openTimePicker(now, date, true);
+//                        isStartDate = true;
+//                    }
+//                });
                 break;
             }
             case R.id.calendar_end_date_summary: {
-                dpd.setOnDateSelectedListener(new OnDateSelectedListener() {
-                    @Override
-                    public void onDateSelected(View view, Date date) {
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd", java.util.Locale.getDefault());
-                        endDateTime = simpleDateFormat.format(date.getTime());
-                        endDateTextView.setText(endDateTime);
-                        if (Build.VERSION.SDK_INT < 23) {
-                            endDateTextView.setTextColor(getResources().getColor(R.color.bikeeBlue));
-                        } else {
-                            endDateTextView.setTextColor(getResources().getColor(R.color.bikeeBlue, getActivity().getTheme()));
-                        }
-
-                        openTimePicker(now, date, false);
-                        isStartDate = false;
-                    }
-                });
+//                dpd.setOnDateSelectedListener(new OnDateSelectedListener() {
+//                    @Override
+//                    public void onDateSelected(View view, Date date) {
+//                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd", java.util.Locale.getDefault());
+//                        endDateTime = simpleDateFormat.format(date.getTime());
+//                        endDateTextView.setText(endDateTime);
+//                        if (Build.VERSION.SDK_INT < 23) {
+//                            endDateTextView.setTextColor(getResources().getColor(R.color.bikeeBlue));
+//                        } else {
+//                            endDateTextView.setTextColor(getResources().getColor(R.color.bikeeBlue, getActivity().getTheme()));
+//                        }
+//
+//                        openTimePicker(now, date, false);
+//                        isStartDate = false;
+//                    }
+//                });
                 break;
             }
         }

@@ -28,6 +28,7 @@ import com.sendbird.android.model.Mention;
 import com.sendbird.android.model.MessagingChannel;
 
 import java.util.List;
+import java.util.Stack;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -42,6 +43,7 @@ public class ChattingRoomsFragment extends Fragment implements OnAdapterClickLis
     @Bind(R.id.fragment_chatting_rooms_recycler_view)
     RecyclerView recyclerView;
 
+    private Stack<Call> callStack;
     private MessagingChannelListQuery mMessagingChannelListQuery;
     private LinearLayoutManager linearLayoutManager;
     private ChattingRoomAdapter chattingRoomAdapter;
@@ -73,6 +75,8 @@ public class ChattingRoomsFragment extends Fragment implements OnAdapterClickLis
                         getResources().getDimensionPixelSize(R.dimen.view_holder_chatting_room_item_space)
                 )
         );
+
+        callStack = new Stack<>();
 
         return view;
     }
@@ -154,6 +158,18 @@ public class ChattingRoomsFragment extends Fragment implements OnAdapterClickLis
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        if (!callStack.isEmpty())
+            for (Call call : callStack)
+                if (!call.isCanceled())
+                    call.cancel();
+
+        android.os.Debug.stopMethodTracing();
+    }
+
+    @Override
     public void onAdapterClick(View view, Object item) {
         Intent intent = new Intent(getActivity(), ConversationActivity.class);
         intent.putExtra("APP_ID", appId);
@@ -221,7 +237,7 @@ public class ChattingRoomsFragment extends Fragment implements OnAdapterClickLis
             final MessagingChannel messagingChannel = list.get(i);
             NetworkManager.getInstance().getChannelInfo(
                     messagingChannel.getUrl(),
-                    null,
+                    callStack,
                     new Callback<GetChannelInfoReceiveObject>() {
                         @Override
                         public void onResponse(Call<GetChannelInfoReceiveObject> call, Response<GetChannelInfoReceiveObject> response) {
@@ -252,7 +268,7 @@ public class ChattingRoomsFragment extends Fragment implements OnAdapterClickLis
 
                             NetworkManager.getInstance().getChannelResInfo(
                                     sendBirdSendObject,
-                                    null,
+                                    callStack,
                                     new Callback<GetChannelResInfoReceiveObject>() {
                                         @Override
                                         public void onResponse(Call<GetChannelResInfoReceiveObject> call, Response<GetChannelResInfoReceiveObject> response) {
@@ -261,7 +277,7 @@ public class ChattingRoomsFragment extends Fragment implements OnAdapterClickLis
                                             if (receiveObject.getResult().size() == 0) {
                                                 NetworkManager.getInstance().selectBicycleDetail(
                                                         bicycleId,
-                                                        null,
+                                                        callStack,
                                                         new Callback<ReceiveObject>() {
                                                             @Override
                                                             public void onResponse(Call<ReceiveObject> call, Response<ReceiveObject> response) {
@@ -282,8 +298,13 @@ public class ChattingRoomsFragment extends Fragment implements OnAdapterClickLis
 
                                                             @Override
                                                             public void onFailure(Call<ReceiveObject> call, Throwable t) {
-                                                                if (BuildConfig.DEBUG)
-                                                                    Log.d(TAG, "onFailure Error : " + t.toString());
+                                                                if (call.isCanceled()) {
+                                                                    if (BuildConfig.DEBUG)
+                                                                        Log.d(TAG, "selectBicycleDetail isCanceled");
+                                                                } else {
+                                                                    if (BuildConfig.DEBUG)
+                                                                        Log.d(TAG, "selectBicycleDetail onFailure", t);
+                                                                }
                                                             }
                                                         });
                                             } else {
@@ -304,16 +325,26 @@ public class ChattingRoomsFragment extends Fragment implements OnAdapterClickLis
 
                                         @Override
                                         public void onFailure(Call<GetChannelResInfoReceiveObject> call, Throwable t) {
-                                            if (BuildConfig.DEBUG)
-                                                Log.d(TAG, "onFailure Error : " + t.toString());
+                                            if (call.isCanceled()) {
+                                                if (BuildConfig.DEBUG)
+                                                    Log.d(TAG, "getChannelResInfo isCanceled");
+                                            } else {
+                                                if (BuildConfig.DEBUG)
+                                                    Log.d(TAG, "getChannelResInfo onFailure", t);
+                                            }
                                         }
                                     });
                         }
 
                         @Override
                         public void onFailure(Call<GetChannelInfoReceiveObject> call, Throwable t) {
-                            if (BuildConfig.DEBUG)
-                                Log.d(TAG, "onFailure Error : " + t.toString());
+                            if (call.isCanceled()) {
+                                if (BuildConfig.DEBUG)
+                                    Log.d(TAG, "getChannelInfo isCanceled");
+                            } else {
+                                if (BuildConfig.DEBUG)
+                                    Log.d(TAG, "getChannelInfo onFailure", t);
+                            }
                         }
                     });
         }
